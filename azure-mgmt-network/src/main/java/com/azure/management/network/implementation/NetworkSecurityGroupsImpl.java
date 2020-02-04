@@ -5,34 +5,34 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.NetworkSecurityGroups;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import rx.Completable;
+import com.azure.management.network.models.NetworkSecurityGroupInner;
+import com.azure.management.network.models.NetworkSecurityGroupsInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.Set;
 
 /**
- *  Implementation for NetworkSecurityGroups.
+ * Implementation for NetworkSecurityGroups.
  */
-@LangDefinition
 class NetworkSecurityGroupsImpl
-    extends TopLevelModifiableResourcesImpl<
+        extends TopLevelModifiableResourcesImpl<
         NetworkSecurityGroup,
         NetworkSecurityGroupImpl,
         NetworkSecurityGroupInner,
         NetworkSecurityGroupsInner,
         NetworkManager>
-    implements NetworkSecurityGroups {
+        implements NetworkSecurityGroups {
 
     NetworkSecurityGroupsImpl(final NetworkManager networkManager) {
         super(networkManager.inner().networkSecurityGroups(), networkManager);
     }
 
     @Override
-    public Completable deleteByResourceGroupAsync(String groupName, String name) {
+    public Mono<?> deleteByResourceGroupAsync(String groupName, String name) {
         // Clear NIC references if any
         NetworkSecurityGroupImpl nsg = (NetworkSecurityGroupImpl) getByResourceGroup(groupName, name);
         if (nsg != null) {
@@ -72,6 +72,6 @@ class NetworkSecurityGroupsImpl
         if (inner == null) {
             return null;
         }
-        return new NetworkSecurityGroupImpl(inner.name(), inner, this.manager());
+        return new NetworkSecurityGroupImpl(inner.getName(), inner, this.manager());
     }
 }

@@ -5,6 +5,7 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayAuthenticationCertificate;
 import com.azure.management.network.ApplicationGatewayAutoscaleConfiguration;
@@ -16,11 +17,11 @@ import com.azure.management.network.ApplicationGatewayBackendHttpConfiguration;
 import com.azure.management.network.ApplicationGatewayBackendHttpSettings;
 import com.azure.management.network.ApplicationGatewayFirewallMode;
 import com.azure.management.network.ApplicationGatewayFrontend;
+import com.azure.management.network.ApplicationGatewayFrontendIPConfiguration;
 import com.azure.management.network.ApplicationGatewayFrontendPort;
 import com.azure.management.network.ApplicationGatewayHttpListener;
-import com.azure.management.network.ApplicationGatewayListener;
 import com.azure.management.network.ApplicationGatewayIPConfiguration;
-import com.azure.management.network.ApplicationGatewayFrontendIPConfiguration;
+import com.azure.management.network.ApplicationGatewayListener;
 import com.azure.management.network.ApplicationGatewayOperationalState;
 import com.azure.management.network.ApplicationGatewayProbe;
 import com.azure.management.network.ApplicationGatewayRedirectConfiguration;
@@ -39,12 +40,24 @@ import com.azure.management.network.ManagedServiceIdentity;
 import com.azure.management.network.Network;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.Subnet;
-import com.azure.management.network.model.GroupableParentResourceWithTagsImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.network.models.ApplicationGatewayAuthenticationCertificateInner;
+import com.azure.management.network.models.ApplicationGatewayIPConfigurationInner;
+import com.azure.management.network.models.ApplicationGatewayInner;
+import com.azure.management.network.models.ApplicationGatewayProbeInner;
+import com.azure.management.network.models.ApplicationGatewayRedirectConfigurationInner;
+import com.azure.management.network.models.ApplicationGatewayRequestRoutingRuleInner;
+import com.azure.management.network.models.ApplicationGatewaySslCertificateInner;
+import com.azure.management.network.models.ApplicationGatewayUrlPathMapInner;
+import com.azure.management.network.models.ApplicationGatewaysInner;
+import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -53,31 +66,22 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 import java.util.TreeSet;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
 
 /**
  * Implementation of the ApplicationGateway interface.
  */
-@LangDefinition
 class ApplicationGatewayImpl
-    extends GroupableParentResourceWithTagsImpl<
+        extends GroupableParentResourceWithTagsImpl<
         ApplicationGateway,
         ApplicationGatewayInner,
         ApplicationGatewayImpl,
         NetworkManager>
-    implements
+        implements
         ApplicationGateway,
         ApplicationGateway.Definition,
         ApplicationGateway.Update {
@@ -110,24 +114,21 @@ class ApplicationGatewayImpl
     // Verbs
 
     @Override
-    public Observable<ApplicationGateway> refreshAsync() {
-        return super.refreshAsync().map(new Func1<ApplicationGateway, ApplicationGateway>() {
-            @Override
-            public ApplicationGateway call(ApplicationGateway applicationGateway) {
-                ApplicationGatewayImpl impl = (ApplicationGatewayImpl) applicationGateway;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+    public Mono<ApplicationGateway> refreshAsync() {
+        return super.refreshAsync().map(applicationGateway -> {
+            ApplicationGatewayImpl impl = (ApplicationGatewayImpl) applicationGateway;
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<ApplicationGatewayInner> getInnerAsync() {
+    protected Mono<ApplicationGatewayInner> getInnerAsync() {
         return this.manager().inner().applicationGateways().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    protected Observable<ApplicationGatewayInner> applyTagsToInnerAsync() {
+    protected Mono<ApplicationGatewayInner> applyTagsToInnerAsync() {
         return this.manager().inner().applicationGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
@@ -273,7 +274,7 @@ class ApplicationGatewayImpl
     }
 
     @Override
-    protected void beforeCreating()  {
+    protected void beforeCreating() {
         // Process created PIPs
         for (Entry<String, String> frontendPipPair : this.creatablePipsByFrontend.entrySet()) {
             Resource createdPip = this.<Resource>taskResult(frontendPipPair.getValue());
@@ -304,7 +305,6 @@ class ApplicationGatewayImpl
         this.inner().withUrlPathMaps(innersFromWrappers(this.urlPathMaps.values()));
 
 
-
         // Reset and update backend HTTP settings configs
         this.inner().withBackendHttpSettingsCollection(innersFromWrappers(this.backendConfigs.values()));
         for (ApplicationGatewayBackendHttpConfiguration config : this.backendConfigs.values()) {
@@ -312,7 +312,7 @@ class ApplicationGatewayImpl
 
             // Clear deleted probe references
             ref = config.inner().probe();
-            if (ref != null && !this.probes().containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
+            if (ref != null && !this.probes().containsKey(ResourceUtils.nameFromResourceId(ref.getId()))) {
                 config.inner().withProbe(null);
             }
 
@@ -322,7 +322,7 @@ class ApplicationGatewayImpl
                 // Make a copy of the cert refs, because we will be deleting in place
                 certRefs = new ArrayList<>(certRefs);
                 for (SubResource certRef : certRefs) {
-                    if (certRef != null && !this.authCertificates.containsKey(ResourceUtils.nameFromResourceId(certRef.id()))) {
+                    if (certRef != null && !this.authCertificates.containsKey(ResourceUtils.nameFromResourceId(certRef.getId()))) {
                         config.inner().authenticationCertificates().remove(certRef);
                     }
                 }
@@ -336,7 +336,7 @@ class ApplicationGatewayImpl
 
             // Clear deleted listener references
             ref = redirect.inner().targetListener();
-            if (ref != null && !this.listeners.containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
+            if (ref != null && !this.listeners.containsKey(ResourceUtils.nameFromResourceId(ref.getId()))) {
                 redirect.inner().withTargetListener(null);
             }
         }
@@ -348,19 +348,19 @@ class ApplicationGatewayImpl
 
             // Clear deleted frontend references
             ref = listener.inner().frontendIPConfiguration();
-            if (ref != null && !this.frontends().containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
+            if (ref != null && !this.frontends().containsKey(ResourceUtils.nameFromResourceId(ref.getId()))) {
                 listener.inner().withFrontendIPConfiguration(null);
             }
 
             // Clear deleted frontend port references
             ref = listener.inner().frontendPort();
-            if (ref != null && !this.frontendPorts().containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
+            if (ref != null && !this.frontendPorts().containsKey(ResourceUtils.nameFromResourceId(ref.getId()))) {
                 listener.inner().withFrontendPort(null);
             }
 
             // Clear deleted SSL certificate references
             ref = listener.inner().sslCertificate();
-            if (ref != null && !this.sslCertificates().containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
+            if (ref != null && !this.sslCertificates().containsKey(ResourceUtils.nameFromResourceId(ref.getId()))) {
                 listener.inner().withSslCertificate(null);
             }
         }
@@ -372,25 +372,25 @@ class ApplicationGatewayImpl
 
             // Clear deleted redirect configs
             ref = rule.inner().redirectConfiguration();
-            if (ref != null && !this.redirectConfigs.containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
+            if (ref != null && !this.redirectConfigs.containsKey(ResourceUtils.nameFromResourceId(ref.getId()))) {
                 rule.inner().withRedirectConfiguration(null);
             }
 
             // Clear deleted backends
             ref = rule.inner().backendAddressPool();
-            if (ref != null && !this.backends().containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
+            if (ref != null && !this.backends().containsKey(ResourceUtils.nameFromResourceId(ref.getId()))) {
                 rule.inner().withBackendAddressPool(null);
             }
 
             // Clear deleted backend HTTP configs
             ref = rule.inner().backendHttpSettings();
-            if (ref != null && !this.backendConfigs.containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
+            if (ref != null && !this.backendConfigs.containsKey(ResourceUtils.nameFromResourceId(ref.getId()))) {
                 rule.inner().withBackendHttpSettings(null);
             }
 
             // Clear deleted frontend HTTP listeners
             ref = rule.inner().httpListener();
-            if (ref != null && !this.listeners().containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
+            if (ref != null && !this.listeners().containsKey(ResourceUtils.nameFromResourceId(ref.getId()))) {
                 rule.inner().withHttpListener(null);
             }
         }
@@ -412,7 +412,7 @@ class ApplicationGatewayImpl
 
         // Return backend reference
         return new SubResource()
-                .withId(this.futureResourceId() + "/backendAddressPools/" + backend.name());
+                .setId(this.futureResourceId() + "/backendAddressPools/" + backend.name());
     }
 
     protected ApplicationGatewayBackendImpl ensureUniqueBackend() {
@@ -459,6 +459,7 @@ class ApplicationGatewayImpl
     }
 
     private Creatable<Network> creatableNetwork = null;
+
     private Creatable<Network> ensureDefaultNetworkDefinition() {
         if (this.creatableNetwork == null) {
             final String vnetName = SdkContext.randomResourceName("vnet", 10);
@@ -474,6 +475,7 @@ class ApplicationGatewayImpl
     }
 
     private Creatable<PublicIPAddress> creatablePip = null;
+
     private Creatable<PublicIPAddress> ensureDefaultPipDefinition() {
         if (this.creatablePip == null) {
             final String pipName = SdkContext.randomResourceName("pip", 9);
@@ -500,29 +502,26 @@ class ApplicationGatewayImpl
     }
 
     @Override
-    protected Observable<ApplicationGatewayInner> createInner() {
+    protected Mono<ApplicationGatewayInner> createInner() {
         // Determine if a default public frontend PIP should be created
         final ApplicationGatewayFrontendImpl defaultPublicFrontend = (ApplicationGatewayFrontendImpl) defaultPublicFrontend();
-        final Observable<Resource> pipObservable;
+        final Mono<Resource> pipObservable;
         if (defaultPublicFrontend != null && defaultPublicFrontend.publicIPAddressId() == null) {
             // If public frontend requested but no PIP specified, then create a default PIP
             pipObservable = Utils.<PublicIPAddress>rootResource(ensureDefaultPipDefinition()
-                    .createAsync()).map(new Func1<PublicIPAddress, Resource>() {
-                        @Override
-                        public Resource call(PublicIPAddress publicIPAddress) {
-                            defaultPublicFrontend.withExistingPublicIPAddress(publicIPAddress);
-                            return publicIPAddress;
-                        }
-                    });
+                    .createAsync().last()).map(publicIPAddress -> {
+                defaultPublicFrontend.withExistingPublicIPAddress(publicIPAddress);
+                return publicIPAddress;
+            });
         } else {
             // If no public frontend requested, skip creating the PIP
-            pipObservable = Observable.empty();
+            pipObservable = Mono.empty();
         }
 
         // Determine if default VNet should be created
         final ApplicationGatewayIPConfigurationImpl defaultIPConfig = ensureDefaultIPConfig();
         final ApplicationGatewayFrontendImpl defaultPrivateFrontend = (ApplicationGatewayFrontendImpl) defaultPrivateFrontend();
-        final Observable<Resource> networkObservable;
+        final Mono<Resource> networkObservable;
         if (defaultIPConfig.subnetName() != null) {
             // If default IP config already has a subnet assigned to it...
             if (defaultPrivateFrontend != null) {
@@ -530,47 +529,40 @@ class ApplicationGatewayImpl
                 useSubnetFromIPConfigForFrontend(defaultIPConfig, defaultPrivateFrontend);
             }
             // ...and no need to create a default VNet
-            networkObservable = Observable.empty(); // ...and don't create another VNet
+            networkObservable = Mono.empty(); // ...and don't create another VNet
         } else {
             // But if default IP config does not have a subnet specified, then create a default VNet
             networkObservable = Utils.<Network>rootResource(ensureDefaultNetworkDefinition()
-                .createAsync()).map(new Func1<Network, Resource>() {
-                    @Override
-                    public Resource call(Network network) {
-                        //... and assign the created VNet to the default IP config
-                        defaultIPConfig.withExistingSubnet(network, DEFAULT);
-                        if (defaultPrivateFrontend != null) {
-                            // If a private frontend is also requested, then use the same VNet for the private frontend as for the IP config
-                            /* TODO: Not sure if the assumption of the same subnet for the frontend and the IP config will hold in
-                             * the future, but the existing ARM template for App Gateway for some reason uses the same subnet for the
-                             * IP config and the private frontend. Also, trying to use different subnets results in server error today saying they
-                             * have to be the same. This may need to be revisited in the future however, as this is somewhat inconsistent
-                             * with what the documentation says.
-                             */
-                            useSubnetFromIPConfigForFrontend(defaultIPConfig, defaultPrivateFrontend);
-                        }
-                        return network;
-                    }
-                });
+                    .createAsync().last()).map(network -> {
+                //... and assign the created VNet to the default IP config
+                defaultIPConfig.withExistingSubnet(network, DEFAULT);
+                if (defaultPrivateFrontend != null) {
+                    // If a private frontend is also requested, then use the same VNet for the private frontend as for the IP config
+                    /* TODO: Not sure if the assumption of the same subnet for the frontend and the IP config will hold in
+                     * the future, but the existing ARM template for App Gateway for some reason uses the same subnet for the
+                     * IP config and the private frontend. Also, trying to use different subnets results in server error today saying they
+                     * have to be the same. This may need to be revisited in the future however, as this is somewhat inconsistent
+                     * with what the documentation says.
+                     */
+                    useSubnetFromIPConfigForFrontend(defaultIPConfig, defaultPrivateFrontend);
+                }
+                return network;
+            });
         }
 
         final ApplicationGatewaysInner innerCollection = this.manager().inner().applicationGateways();
-        return Observable.merge(networkObservable, pipObservable)
+        return Flux.merge(networkObservable, pipObservable)
                 .defaultIfEmpty(null)
-                .last().flatMap(new Func1<Resource, Observable<ApplicationGatewayInner>>() {
-                    @Override
-                    public Observable<ApplicationGatewayInner> call(Resource resource) {
-                        return innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner());
-                    }
-                });
+                .last().flatMap(resource -> innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner()));
     }
 
     /**
      * Determines whether the app gateway child that can be found using a name or a port number can be created,
      * or it already exists, or there is a clash.
+     *
      * @param byName object found by name
      * @param byPort object found by port
-     * @param name the desired name of the object
+     * @param name   the desired name of the object
      * @return true if already found, false if ok to create, null if conflict
      */
     <T> Boolean needToCreate(T byName, T byPort, String name) {
@@ -605,7 +597,7 @@ class ApplicationGatewayImpl
                 .append(this.name()).toString();
     }
 
-     // Withers (fluent)
+    // Withers (fluent)
 
     @Override
     public ApplicationGatewayImpl withDisabledSslProtocol(ApplicationGatewaySslProtocol protocol) {
@@ -641,7 +633,7 @@ class ApplicationGatewayImpl
     }
 
     @Override
-    public ApplicationGatewayImpl withoutDisabledSslProtocols(ApplicationGatewaySslProtocol...protocols) {
+    public ApplicationGatewayImpl withoutDisabledSslProtocols(ApplicationGatewaySslProtocol... protocols) {
         if (protocols != null) {
             for (ApplicationGatewaySslProtocol protocol : protocols) {
                 this.withoutDisabledSslProtocol(protocol);
@@ -839,7 +831,7 @@ class ApplicationGatewayImpl
     //TODO @Override - since app gateways don't support more than one today, no need to expose this
     private ApplicationGatewayFrontendImpl defineFrontend(String name) {
         return defineChild(name, this.frontends, ApplicationGatewayFrontendIPConfiguration.class, ApplicationGatewayFrontendImpl.class);
-        }
+    }
 
     @Override
     public ApplicationGatewayRedirectConfigurationImpl defineRedirectConfiguration(String name) {
@@ -869,7 +861,7 @@ class ApplicationGatewayImpl
     @Override
     public ApplicationGatewayUrlPathMapImpl definePathBasedRoutingRule(String name) {
         ApplicationGatewayUrlPathMapImpl urlPathMap = defineChild(name, this.urlPathMaps, ApplicationGatewayUrlPathMapInner.class, ApplicationGatewayUrlPathMapImpl.class);
-        SubResource ref = new SubResource().withId(futureResourceId() + "/urlPathMaps/" + name);
+        SubResource ref = new SubResource().setId(futureResourceId() + "/urlPathMaps/" + name);
         // create corresponding request routing rule
         ApplicationGatewayRequestRoutingRuleInner inner = new ApplicationGatewayRequestRoutingRuleInner()
                 .withName(name)
@@ -887,7 +879,7 @@ class ApplicationGatewayImpl
     @Override
     public ApplicationGatewayBackendHttpConfigurationImpl defineBackendHttpConfiguration(String name) {
         ApplicationGatewayBackendHttpConfigurationImpl config = defineChild(name, this.backendConfigs, ApplicationGatewayBackendHttpSettings.class, ApplicationGatewayBackendHttpConfigurationImpl.class);
-        if (config.inner().id() == null) {
+        if (config.inner().getId() == null) {
             return config.withPort(80); // Default port
         } else {
             return config;
@@ -1440,7 +1432,7 @@ class ApplicationGatewayImpl
         if (subnetRef == null) {
             return null;
         } else {
-            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.id());
+            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.getId());
         }
     }
 
@@ -1450,7 +1442,7 @@ class ApplicationGatewayImpl
         if (subnetRef == null) {
             return null;
         } else {
-            return ResourceUtils.nameFromResourceId(subnetRef.id());
+            return ResourceUtils.nameFromResourceId(subnetRef.getId());
         }
     }
 
@@ -1564,30 +1556,30 @@ class ApplicationGatewayImpl
 
     @Override
     public void start() {
-        this.startAsync().await();
+        this.startAsync().block();
     }
 
     @Override
     public void stop() {
-        this.stopAsync().await();
+        this.stopAsync().block();
     }
 
     @Override
-    public Completable startAsync() {
-        Observable<Void> startObservable = this.manager().inner().applicationGateways().startAsync(this.resourceGroupName(), this.name());
-        Observable<ApplicationGateway> refreshObservable = refreshAsync();
+    public Mono<Void> startAsync() {
+        Mono<Void> startObservable = this.manager().inner().applicationGateways().startAsync(this.resourceGroupName(), this.name());
+        Mono<ApplicationGateway> refreshObservable = refreshAsync();
 
         // Refresh after start to ensure the app gateway operational state is updated
-        return Observable.concat(startObservable, refreshObservable).toCompletable();
+        return Flux.concat(startObservable, refreshObservable).then();
     }
 
     @Override
-    public Completable stopAsync() {
-        Observable<Void> stopObservable = this.manager().inner().applicationGateways().stopAsync(this.resourceGroupName(), this.name());
-        Observable<ApplicationGateway> refreshObservable = refreshAsync();
+    public Mono<Void> stopAsync() {
+        Mono<Void> stopObservable = this.manager().inner().applicationGateways().stopAsync(this.resourceGroupName(), this.name());
+        Mono<ApplicationGateway> refreshObservable = refreshAsync();
 
         // Refresh after stop to ensure the app gateway operational state is updated
-        return Observable.concat(stopObservable, refreshObservable).toCompletable();
+        return Flux.concat(stopObservable, refreshObservable).then();
     }
 
     private ApplicationGatewaySslPolicy ensureSslPolicy() {
@@ -1608,25 +1600,23 @@ class ApplicationGatewayImpl
 
     @Override
     public Map<String, ApplicationGatewayBackendHealth> checkBackendHealth() {
-        return this.checkBackendHealthAsync().toBlocking().last();
+        return this.checkBackendHealthAsync().block();
     }
 
     @Override
-    public Observable<Map<String, ApplicationGatewayBackendHealth>> checkBackendHealthAsync() {
+    public Mono<Map<String, ApplicationGatewayBackendHealth>> checkBackendHealthAsync() {
         return this.manager().inner().applicationGateways()
-                .backendHealthAsync(this.resourceGroupName(), this.name())
-                .map(new Func1<ApplicationGatewayBackendHealthInner, Map<String, ApplicationGatewayBackendHealth>>() {
-                    @Override
-                    public Map<String, ApplicationGatewayBackendHealth> call(ApplicationGatewayBackendHealthInner inner) {
-                        Map<String, ApplicationGatewayBackendHealth> backendHealths = new TreeMap<>();
-                        if (inner != null) {
-                            for (ApplicationGatewayBackendHealthPool healthInner : inner.backendAddressPools()) {
-                                ApplicationGatewayBackendHealth backendHealth = new ApplicationGatewayBackendHealthImpl(healthInner, ApplicationGatewayImpl.this);
-                                backendHealths.put(backendHealth.name(), backendHealth);
-                            }
+                // FIXME: Last minutes
+                .backendHealthAsync(this.resourceGroupName(), this.name(), null)
+                .map(inner -> {
+                    Map<String, ApplicationGatewayBackendHealth> backendHealths = new TreeMap<>();
+                    if (inner != null) {
+                        for (ApplicationGatewayBackendHealthPool healthInner : inner.backendAddressPools()) {
+                            ApplicationGatewayBackendHealth backendHealth = new ApplicationGatewayBackendHealthImpl(healthInner, ApplicationGatewayImpl.this);
+                            backendHealths.put(backendHealth.name(), backendHealth);
                         }
-                        return Collections.unmodifiableMap(backendHealths);
                     }
+                    return Collections.unmodifiableMap(backendHealths);
                 });
     }
 }

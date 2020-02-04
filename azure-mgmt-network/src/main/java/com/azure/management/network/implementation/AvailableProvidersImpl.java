@@ -5,14 +5,13 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.network.models.AvailableProvidersListInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import com.azure.management.network.AvailableProviders;
 import com.azure.management.network.AvailableProvidersListCountry;
 import com.azure.management.network.AvailableProvidersListParameters;
 import com.azure.management.network.NetworkWatcher;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +23,6 @@ import java.util.TreeMap;
 /**
  * The implementation of AvailableProviders.
  */
-@LangDefinition
 class AvailableProvidersImpl extends ExecutableImpl<AvailableProviders>
         implements AvailableProviders,
         AvailableProviders.Definition {
@@ -68,16 +66,13 @@ class AvailableProvidersImpl extends ExecutableImpl<AvailableProviders>
     }
 
     @Override
-    public Observable<AvailableProviders> executeWorkAsync() {
+    public Mono<AvailableProviders> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .listAvailableProvidersAsync(parent().resourceGroupName(), parent().name(), parameters)
-                .map(new Func1<AvailableProvidersListInner, AvailableProviders>() {
-                    @Override
-                    public AvailableProviders call(AvailableProvidersListInner availableProvidersListInner) {
-                        AvailableProvidersImpl.this.inner = availableProvidersListInner;
-                        AvailableProvidersImpl.this.initializeResourcesFromInner();
-                        return AvailableProvidersImpl.this;
-                    }
+                .map(availableProvidersListInner -> {
+                    AvailableProvidersImpl.this.inner = availableProvidersListInner;
+                    AvailableProvidersImpl.this.initializeResourcesFromInner();
+                    return AvailableProvidersImpl.this;
                 });
     }
 

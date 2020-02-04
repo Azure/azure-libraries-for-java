@@ -8,20 +8,20 @@ package com.azure.management.network.implementation;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.PublicIPAddressDnsSettings;
 import com.azure.management.network.PublicIPAddresses;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.PublicIPAddressInner;
+import com.azure.management.network.models.PublicIPAddressesInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  *  Implementation for {@link PublicIPAddresses}.
  */
-@LangDefinition
 class PublicIPAddressesImpl
     extends TopLevelModifiableResourcesImpl<
-        PublicIPAddress,
-        PublicIPAddressImpl,
-        PublicIPAddressInner,
-        PublicIPAddressesInner,
-        NetworkManager>
+            PublicIPAddress,
+            PublicIPAddressImpl,
+            PublicIPAddressInner,
+            PublicIPAddressesInner,
+            NetworkManager>
     implements PublicIPAddresses {
 
     PublicIPAddressesImpl(final NetworkManager networkManager) {
@@ -51,6 +51,6 @@ class PublicIPAddressesImpl
         if (inner == null) {
             return null;
         }
-        return new PublicIPAddressImpl(inner.id(), inner, this.manager());
+        return new PublicIPAddressImpl(inner.getId(), inner, this.manager());
     }
 }

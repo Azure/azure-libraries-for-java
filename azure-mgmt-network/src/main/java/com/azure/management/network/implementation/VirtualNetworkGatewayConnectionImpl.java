@@ -5,6 +5,7 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ExpressRouteCircuit;
 import com.azure.management.network.IpsecPolicy;
 import com.azure.management.network.LocalNetworkGateway;
@@ -13,15 +14,11 @@ import com.azure.management.network.VirtualNetworkGateway;
 import com.azure.management.network.VirtualNetworkGatewayConnection;
 import com.azure.management.network.VirtualNetworkGatewayConnectionStatus;
 import com.azure.management.network.VirtualNetworkGatewayConnectionType;
-import com.azure.management.network.model.AppliableWithTags;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.AppliableWithTags;
+import com.azure.management.network.models.VirtualNetworkGatewayConnectionInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -30,18 +27,17 @@ import java.util.Collections;
 /**
  * Implementation for VirtualNetworkGatewayConnection and its create and update interfaces.
  */
-@LangDefinition
 public class VirtualNetworkGatewayConnectionImpl
         extends GroupableResourceImpl<VirtualNetworkGatewayConnection, VirtualNetworkGatewayConnectionInner, VirtualNetworkGatewayConnectionImpl, NetworkManager>
         implements VirtualNetworkGatewayConnection,
-            VirtualNetworkGatewayConnection.Definition,
-            VirtualNetworkGatewayConnection.Update,
+        VirtualNetworkGatewayConnection.Definition,
+        VirtualNetworkGatewayConnection.Update,
         AppliableWithTags<VirtualNetworkGatewayConnection> {
     private final VirtualNetworkGateway parent;
 
     VirtualNetworkGatewayConnectionImpl(String name,
-                                VirtualNetworkGatewayImpl parent,
-                                VirtualNetworkGatewayConnectionInner inner) {
+                                        VirtualNetworkGatewayImpl parent,
+                                        VirtualNetworkGatewayConnectionInner inner) {
         super(name, inner, parent.manager());
         this.parent = parent;
     }
@@ -61,7 +57,7 @@ public class VirtualNetworkGatewayConnectionImpl
         if (inner().virtualNetworkGateway1() == null) {
             return null;
         }
-        return inner().virtualNetworkGateway1().id();
+        return inner().virtualNetworkGateway1().getId();
     }
 
     @Override
@@ -69,7 +65,7 @@ public class VirtualNetworkGatewayConnectionImpl
         if (inner().virtualNetworkGateway2() == null) {
             return null;
         }
-        return inner().virtualNetworkGateway2().id();
+        return inner().virtualNetworkGateway2().getId();
     }
 
     @Override
@@ -77,7 +73,7 @@ public class VirtualNetworkGatewayConnectionImpl
         if (inner().localNetworkGateway2() == null) {
             return null;
         }
-        return inner().localNetworkGateway2().id();
+        return inner().localNetworkGateway2().getId();
     }
 
     @Override
@@ -117,7 +113,7 @@ public class VirtualNetworkGatewayConnectionImpl
 
     @Override
     public String peerId() {
-        return inner().peer() == null ? null : inner().peer().id();
+        return inner().peer() == null ? null : inner().peer().getId();
     }
 
     @Override
@@ -155,7 +151,7 @@ public class VirtualNetworkGatewayConnectionImpl
     @Override
     public VirtualNetworkGatewayConnectionImpl withExpressRoute(String circuitId) {
         inner().withConnectionType(VirtualNetworkGatewayConnectionType.EXPRESS_ROUTE);
-        inner().withPeer(new SubResource().withId(circuitId));
+        inner().withPeer(new SubResource().setId(circuitId));
         return this;
     }
 
@@ -201,12 +197,12 @@ public class VirtualNetworkGatewayConnectionImpl
     }
 
     @Override
-    protected Observable<VirtualNetworkGatewayConnectionInner> getInnerAsync() {
+    protected Mono<VirtualNetworkGatewayConnectionInner> getInnerAsync() {
         return myManager.inner().virtualNetworkGatewayConnections().getByResourceGroupAsync(resourceGroupName(), name());
     }
 
     @Override
-    public Observable<VirtualNetworkGatewayConnection> createResourceAsync() {
+    public Mono<VirtualNetworkGatewayConnection> createResourceAsync() {
         beforeCreating();
         return myManager.inner().virtualNetworkGatewayConnections().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner())
@@ -224,22 +220,12 @@ public class VirtualNetworkGatewayConnectionImpl
 
     @Override
     public VirtualNetworkGatewayConnection applyTags() {
-        return applyTagsAsync().toBlocking().last();
+        return applyTagsAsync().block();
     }
 
     @Override
-    public Observable<VirtualNetworkGatewayConnection> applyTagsAsync() {
+    public Mono<VirtualNetworkGatewayConnection> applyTagsAsync() {
         return this.manager().inner().virtualNetworkGatewayConnections().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
-                .flatMap(new Func1<VirtualNetworkGatewayConnectionInner, Observable<VirtualNetworkGatewayConnection>>() {
-                    @Override
-                    public Observable<VirtualNetworkGatewayConnection> call(VirtualNetworkGatewayConnectionInner inner) {
-                        return refreshAsync();
-                    }
-                });
-    }
-
-    @Override
-    public ServiceFuture<VirtualNetworkGatewayConnection> applyTagsAsync(ServiceCallback<VirtualNetworkGatewayConnection> callback) {
-        return ServiceFuture.fromBody(applyTagsAsync(), callback);
+                .flatMap(inner -> refreshAsync());
     }
 }

@@ -8,20 +8,19 @@ package com.azure.management.network.implementation;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Base64;
 
-import com.google.common.io.BaseEncoding;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.network.models.ApplicationGatewaySslCertificateInner;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewaySslCertificate;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 /**
- *  Implementation for ApplicationGatewaySslCertificate.
+ * Implementation for ApplicationGatewaySslCertificate.
  */
-@LangDefinition
 class ApplicationGatewaySslCertificateImpl
-    extends ChildResourceImpl<ApplicationGatewaySslCertificateInner, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewaySslCertificateInner, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewaySslCertificate,
         ApplicationGatewaySslCertificate.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewaySslCertificate.UpdateDefinition<ApplicationGateway.Update>,
@@ -62,7 +61,7 @@ class ApplicationGatewaySslCertificateImpl
 
     @Override
     public ApplicationGatewaySslCertificateImpl withPfxFromBytes(byte[] pfxData) {
-        String encoded = new String(BaseEncoding.base64().encode(pfxData));
+        String encoded = new String(Base64.getEncoder().encode(pfxData));
         this.inner().withData(encoded);
         return this;
     }

@@ -6,7 +6,6 @@
 
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayBackendAddressPool;
 import com.azure.management.network.IPAllocationMethod;
@@ -16,23 +15,28 @@ import com.azure.management.network.Network;
 import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.NicIPConfiguration;
 import com.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.network.models.BackendAddressPoolInner;
+import com.azure.management.network.models.InboundNatRuleInner;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.network.models.PublicIPAddressInner;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.resources.fluentcore.model.Creatable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 /**
- *  Implementation for NicIPConfiguration and its create and update interfaces.
+ * Implementation for NicIPConfiguration and its create and update interfaces.
  */
-@LangDefinition
 class NicIPConfigurationImpl
         extends
         NicIPConfigurationBaseImpl<NetworkInterfaceImpl, NetworkInterface>
         implements
-            NicIPConfiguration,
-            NicIPConfiguration.Definition<NetworkInterface.DefinitionStages.WithCreate>,
-            NicIPConfiguration.UpdateDefinition<NetworkInterface.Update>,
-            NicIPConfiguration.Update {
+        NicIPConfiguration,
+        NicIPConfiguration.Definition<NetworkInterface.DefinitionStages.WithCreate>,
+        NicIPConfiguration.UpdateDefinition<NetworkInterface.Update>,
+        NicIPConfiguration.Update {
     /**
      * the network client.
      */
@@ -92,7 +96,7 @@ class NicIPConfigurationImpl
         if (this.inner().publicIPAddress() == null) {
             return null;
         }
-        return this.inner().publicIPAddress().id();
+        return this.inner().publicIPAddress().getId();
     }
 
     @Override
@@ -280,8 +284,8 @@ class NicIPConfigurationImpl
     // Creates a creatable public IP address definition with the given name and DNS label.
     private Creatable<PublicIPAddress> prepareCreatablePublicIP(String name, String leafDnsLabel) {
         PublicIPAddress.DefinitionStages.WithGroup definitionWithGroup = this.networkManager.publicIPAddresses()
-                    .define(name)
-                    .withRegion(this.parent().regionName());
+                .define(name)
+                .withRegion(this.parent().regionName());
 
         PublicIPAddress.DefinitionStages.WithCreate definitionAfterGroup;
         if (this.parent().newGroup() != null) {
@@ -307,13 +311,13 @@ class NicIPConfigurationImpl
         if (this.isInCreateMode) {
             if (this.creatableVirtualNetworkKey != null) {
                 Network network = (Network) parent().createdDependencyResource(this.creatableVirtualNetworkKey);
-                subnetInner.withId(network.inner().subnets().get(0).id());
+                subnetInner.setId(network.inner().subnets().get(0).getId());
                 return subnetInner;
             }
 
             for (SubnetInner subnet : this.existingVirtualNetworkToAssociate.inner().subnets()) {
                 if (subnet.name().equalsIgnoreCase(this.subnetToAssociate)) {
-                    subnetInner.withId(subnet.id());
+                    subnetInner.setId(subnet.getId());
                     return subnetInner;
                 }
             }
@@ -322,10 +326,10 @@ class NicIPConfigurationImpl
 
         } else {
             if (subnetToAssociate != null) {
-                int idx = this.inner().subnet().id().lastIndexOf('/');
-                subnetInner.withId(this.inner().subnet().id().substring(0, idx + 1) + subnetToAssociate);
+                int idx = this.inner().subnet().getId().lastIndexOf('/');
+                subnetInner.setId(this.inner().subnet().getId().substring(0, idx + 1) + subnetToAssociate);
             } else {
-                subnetInner.withId(this.inner().subnet().id());
+                subnetInner.setId(this.inner().subnet().getId());
             }
             return subnetInner;
         }
@@ -338,6 +342,7 @@ class NicIPConfigurationImpl
      * null will be returned if withoutPublicIP() is specified in the update fluent chain or user did't
      * opt for public IP in create fluent chain. In case of update chain, if withoutPublicIP(..) is
      * not specified then existing associated (if any) public IP will be returned.
+     *
      * @return public IP SubResource
      */
     private PublicIPAddressInner publicIPToAssociate() {

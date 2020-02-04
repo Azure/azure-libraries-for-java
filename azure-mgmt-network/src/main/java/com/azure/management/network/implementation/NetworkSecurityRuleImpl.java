@@ -5,14 +5,15 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.NetworkSecurityRule;
 import com.azure.management.network.SecurityRuleAccess;
 import com.azure.management.network.SecurityRuleDirection;
 import com.azure.management.network.SecurityRuleProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.ApplicationSecurityGroupInner;
+import com.azure.management.network.models.SecurityRuleInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +24,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *  Implementation for {@link NetworkSecurityRule} and its create and update interfaces.
+ * Implementation for {@link NetworkSecurityRule} and its create and update interfaces.
  */
-@LangDefinition
 class NetworkSecurityRuleImpl
-    extends ChildResourceImpl<SecurityRuleInner, NetworkSecurityGroupImpl, NetworkSecurityGroup>
-    implements
+        extends ChildResourceImpl<SecurityRuleInner, NetworkSecurityGroupImpl, NetworkSecurityGroup>
+        implements
         NetworkSecurityRule,
         NetworkSecurityRule.Definition<NetworkSecurityGroup.DefinitionStages.WithCreate>,
         NetworkSecurityRule.UpdateDefinition<NetworkSecurityGroup.Update>,
@@ -40,12 +40,12 @@ class NetworkSecurityRuleImpl
         super(inner, parent);
         if (inner.sourceApplicationSecurityGroups() != null) {
             for (ApplicationSecurityGroupInner asg : inner.sourceApplicationSecurityGroups()) {
-                sourceAsgs.put(asg.id(), asg);
+                sourceAsgs.put(asg.getId(), asg);
             }
         }
         if (inner.destinationApplicationSecurityGroups() != null) {
             for (ApplicationSecurityGroupInner asg : inner.destinationApplicationSecurityGroups()) {
-                destinationAsgs.put(asg.id(), asg);
+                destinationAsgs.put(asg.getId(), asg);
             }
         }
     }
@@ -165,7 +165,7 @@ class NetworkSecurityRuleImpl
 
     @Override
     public NetworkSecurityRuleImpl withAnyProtocol() {
-        return this.withProtocol(SecurityRuleProtocol.ASTERISK);
+        return this.withProtocol(SecurityRuleProtocol._);
     }
 
     @Override
@@ -273,7 +273,7 @@ class NetworkSecurityRuleImpl
     }
 
     @Override
-    public NetworkSecurityRuleImpl  withPriority(int priority) {
+    public NetworkSecurityRuleImpl withPriority(int priority) {
         if (priority < 100 || priority > 4096) {
             throw new IllegalArgumentException("The priority number of a network security rule must be between 100 and 4096.");
         }

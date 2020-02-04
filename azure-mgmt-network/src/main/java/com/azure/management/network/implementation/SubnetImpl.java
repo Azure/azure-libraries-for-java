@@ -5,7 +5,6 @@
  */
 package com.azure.management.network.implementation;
 
-import com.azure.management.network.IPConfiguration;
 import com.azure.management.network.Network;
 import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.NetworkSecurityGroup;
@@ -14,10 +13,14 @@ import com.azure.management.network.RouteTable;
 import com.azure.management.network.ServiceEndpointPropertiesFormat;
 import com.azure.management.network.ServiceEndpointType;
 import com.azure.management.network.Subnet;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.IPAddressAvailabilityResultInner;
+import com.azure.management.network.models.IPConfigurationInner;
+import com.azure.management.network.models.NetworkSecurityGroupInner;
+import com.azure.management.network.models.RouteTableInner;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,12 +33,11 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- *  Implementation for Subnet and its create and update interfaces.
+ * Implementation for Subnet and its create and update interfaces.
  */
-@LangDefinition
 class SubnetImpl
-    extends ChildResourceImpl<SubnetInner, NetworkImpl, Network>
-    implements
+        extends ChildResourceImpl<SubnetInner, NetworkImpl, Network>
+        implements
         Subnet,
         Subnet.Definition<Network.DefinitionStages.WithCreateAndSubnet>,
         Subnet.UpdateDefinition<Network.Update>,
@@ -48,7 +50,7 @@ class SubnetImpl
     // Getters
     @Override
     public int networkInterfaceIPConfigurationCount() {
-        List<IPConfiguration> ipConfigRefs = this.inner().ipConfigurations();
+        List<IPConfigurationInner> ipConfigRefs = this.inner().ipConfigurations();
         if (ipConfigRefs != null) {
             return ipConfigRefs.size();
         } else {
@@ -68,12 +70,12 @@ class SubnetImpl
 
     @Override
     public String networkSecurityGroupId() {
-        return (this.inner().networkSecurityGroup() != null) ? this.inner().networkSecurityGroup().id() : null;
+        return (this.inner().networkSecurityGroup() != null) ? this.inner().networkSecurityGroup().getId() : null;
     }
 
     @Override
     public String routeTableId() {
-        return (this.inner().routeTable() != null) ? this.inner().routeTable().id() : null;
+        return (this.inner().routeTable() != null) ? this.inner().routeTable().getId() : null;
     }
 
     @Override
@@ -195,7 +197,7 @@ class SubnetImpl
     public RouteTable getRouteTable() {
         return (this.routeTableId() != null)
                 ? this.parent().manager().routeTables().getById(this.routeTableId())
-                        : null;
+                : null;
     }
 
     @Override
@@ -215,14 +217,14 @@ class SubnetImpl
     public Collection<NicIPConfiguration> listNetworkInterfaceIPConfigurations() {
         Collection<NicIPConfiguration> ipConfigs = new ArrayList<>();
         Map<String, NetworkInterface> nics = new TreeMap<>();
-        List<IPConfiguration> ipConfigRefs = this.inner().ipConfigurations();
+        List<IPConfigurationInner> ipConfigRefs = this.inner().ipConfigurations();
         if (ipConfigRefs == null) {
             return ipConfigs;
         }
 
-        for (IPConfiguration ipConfigRef : ipConfigRefs) {
-            String nicID = ResourceUtils.parentResourceIdFromResourceId(ipConfigRef.id());
-            String ipConfigName = ResourceUtils.nameFromResourceId(ipConfigRef.id());
+        for (IPConfigurationInner ipConfigRef : ipConfigRefs) {
+            String nicID = ResourceUtils.parentResourceIdFromResourceId(ipConfigRef.getId());
+            String ipConfigName = ResourceUtils.nameFromResourceId(ipConfigRef.getId());
             // Check if NIC already cached
             NetworkInterface nic = nics.get(nicID.toLowerCase());
             if (nic == null) {

@@ -5,21 +5,20 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ApplicationSecurityGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import com.azure.management.network.models.ApplicationSecurityGroupInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import reactor.core.publisher.Mono;
 
 /**
- *  Implementation for ApplicationSecurityGroup and its create and update interfaces.
+ * Implementation for ApplicationSecurityGroup and its create and update interfaces.
  */
-@LangDefinition
 class ApplicationSecurityGroupImpl
         extends GroupableResourceImpl<
-                ApplicationSecurityGroup,
-                ApplicationSecurityGroupInner,
-                ApplicationSecurityGroupImpl,
-                NetworkManager>
+        ApplicationSecurityGroup,
+        ApplicationSecurityGroupInner,
+        ApplicationSecurityGroupImpl,
+        NetworkManager>
         implements
         ApplicationSecurityGroup,
         ApplicationSecurityGroup.Definition,
@@ -33,12 +32,12 @@ class ApplicationSecurityGroupImpl
     }
 
     @Override
-    protected Observable<ApplicationSecurityGroupInner> getInnerAsync() {
+    protected Mono<ApplicationSecurityGroupInner> getInnerAsync() {
         return this.manager().inner().applicationSecurityGroups().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<ApplicationSecurityGroup> createResourceAsync() {
+    public Mono<ApplicationSecurityGroup> createResourceAsync() {
         return this.manager().inner().applicationSecurityGroups().createOrUpdateAsync(resourceGroupName(), name(), inner())
                 .map(innerToFluentMap(this));
     }

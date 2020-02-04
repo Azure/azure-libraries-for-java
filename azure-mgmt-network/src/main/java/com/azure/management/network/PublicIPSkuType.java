@@ -59,14 +59,14 @@ public final class PublicIPSkuType {
         if (pipSku == null) {
             return null;
         }
-        if (pipSku.getName() == null) {
+        if (pipSku.name() == null) {
             return null;
         }
-        PublicIPSkuType result = VALUES_BY_NAME.get(pipSku.getName().toString().toLowerCase());
+        PublicIPSkuType result = VALUES_BY_NAME.get(pipSku.name().toString().toLowerCase());
         if (result != null) {
             return result;
         } else {
-            return new PublicIPSkuType(pipSku.getName());
+            return new PublicIPSkuType(pipSku.name());
         }
     }
 

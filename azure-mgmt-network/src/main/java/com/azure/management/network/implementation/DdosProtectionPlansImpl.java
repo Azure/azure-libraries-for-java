@@ -5,22 +5,22 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.DdosProtectionPlan;
 import com.azure.management.network.DdosProtectionPlans;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.DdosProtectionPlanInner;
+import com.azure.management.network.models.DdosProtectionPlansInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  * Implementation for DdosProtectionPlans.
  */
-@LangDefinition
 class DdosProtectionPlansImpl
         extends TopLevelModifiableResourcesImpl<
-                DdosProtectionPlan,
-                DdosProtectionPlanImpl,
-                DdosProtectionPlanInner,
-                DdosProtectionPlansInner,
-                NetworkManager>
+        DdosProtectionPlan,
+        DdosProtectionPlanImpl,
+        DdosProtectionPlanInner,
+        DdosProtectionPlansInner,
+        NetworkManager>
         implements DdosProtectionPlans {
 
     DdosProtectionPlansImpl(final NetworkManager networkManager) {

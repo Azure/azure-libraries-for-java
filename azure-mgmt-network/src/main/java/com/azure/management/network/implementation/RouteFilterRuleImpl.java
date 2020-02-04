@@ -8,8 +8,8 @@ package com.azure.management.network.implementation;
 import com.azure.management.network.Access;
 import com.azure.management.network.RouteFilter;
 import com.azure.management.network.RouteFilterRule;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.RouteFilterRuleInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,9 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *  Implementation for {@link RouteFilterRule} and its create and update interfaces.
+ * Implementation for {@link RouteFilterRule} and its create and update interfaces.
  */
-@LangDefinition
 class RouteFilterRuleImpl
         extends ChildResourceImpl<RouteFilterRuleInner, RouteFilterImpl, RouteFilter>
         implements

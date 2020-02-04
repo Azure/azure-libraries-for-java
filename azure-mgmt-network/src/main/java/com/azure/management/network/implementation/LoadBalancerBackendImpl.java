@@ -5,6 +5,18 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.management.CloudException;
+import com.azure.core.management.SubResource;
+import com.azure.management.network.LoadBalancer;
+import com.azure.management.network.LoadBalancerBackend;
+import com.azure.management.network.LoadBalancingRule;
+import com.azure.management.network.NetworkInterface;
+import com.azure.management.network.models.BackendAddressPoolInner;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,24 +25,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.LoadBalancerBackend;
-import com.azure.management.network.LoadBalancer;
-import com.azure.management.network.LoadBalancingRule;
-import com.azure.management.network.NetworkInterface;
-import com.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-
 /**
- *  Implementation for LoadBalancerBackend.
+ * Implementation for LoadBalancerBackend.
  */
-@LangDefinition
 class LoadBalancerBackendImpl
-    extends ChildResourceImpl<BackendAddressPoolInner, LoadBalancerImpl, LoadBalancer>
-    implements
+        extends ChildResourceImpl<BackendAddressPoolInner, LoadBalancerImpl, LoadBalancer>
+        implements
         LoadBalancerBackend,
         LoadBalancerBackend.Definition<LoadBalancer.DefinitionStages.WithCreate>,
         LoadBalancerBackend.UpdateDefinition<LoadBalancer.Update>,
@@ -49,8 +49,8 @@ class LoadBalancerBackendImpl
         final Map<String, String> ipConfigNames = new TreeMap<>();
         if (this.inner().backendIPConfigurations() != null) {
             for (NetworkInterfaceIPConfigurationInner inner : this.inner().backendIPConfigurations()) {
-                String nicId = ResourceUtils.parentResourceIdFromResourceId(inner.id());
-                String ipConfigName = ResourceUtils.nameFromResourceId(inner.id());
+                String nicId = ResourceUtils.parentResourceIdFromResourceId(inner.getId());
+                String ipConfigName = ResourceUtils.nameFromResourceId(inner.getId());
                 ipConfigNames.put(nicId, ipConfigName);
             }
         }
@@ -63,7 +63,7 @@ class LoadBalancerBackendImpl
         final Map<String, LoadBalancingRule> rules = new TreeMap<>();
         if (this.inner().loadBalancingRules() != null) {
             for (SubResource inner : this.inner().loadBalancingRules()) {
-                String name = ResourceUtils.nameFromResourceId(inner.id());
+                String name = ResourceUtils.nameFromResourceId(inner.getId());
                 LoadBalancingRule rule = this.parent().loadBalancingRules().get(name);
                 if (rule != null) {
                     rules.put(name, rule);

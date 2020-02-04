@@ -5,28 +5,27 @@
  */
 package com.azure.management.network.implementation;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
-
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayListener;
 import com.azure.management.network.ApplicationGatewayRedirectConfiguration;
 import com.azure.management.network.ApplicationGatewayRedirectType;
 import com.azure.management.network.ApplicationGatewayRequestRoutingRule;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.ApplicationGatewayRedirectConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
- *  Implementation for ApplicationGatewayRedirectConfiguration.
+ * Implementation for ApplicationGatewayRedirectConfiguration.
  */
-@LangDefinition
 class ApplicationGatewayRedirectConfigurationImpl
-    extends ChildResourceImpl<ApplicationGatewayRedirectConfigurationInner, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewayRedirectConfigurationInner, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewayRedirectConfiguration,
         ApplicationGatewayRedirectConfiguration.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayRedirectConfiguration.UpdateDefinition<ApplicationGateway.Update>,
@@ -54,7 +53,7 @@ class ApplicationGatewayRedirectConfigurationImpl
             return null;
         }
 
-        String name = ResourceUtils.nameFromResourceId(ref.id());
+        String name = ResourceUtils.nameFromResourceId(ref.getId());
         return this.parent().listeners().get(name);
     }
 
@@ -68,7 +67,7 @@ class ApplicationGatewayRedirectConfigurationImpl
         Map<String, ApplicationGatewayRequestRoutingRule> rules = new TreeMap<>();
         if (null != this.inner().requestRoutingRules()) {
             for (SubResource ruleRef : this.inner().requestRoutingRules()) {
-                String ruleName = ResourceUtils.nameFromResourceId(ruleRef.id());
+                String ruleName = ResourceUtils.nameFromResourceId(ruleRef.getId());
                 ApplicationGatewayRequestRoutingRule rule = this.parent().requestRoutingRules().get(ruleName);
                 if (null != rule) {
                     rules.put(ruleName, rule);
@@ -103,9 +102,9 @@ class ApplicationGatewayRedirectConfigurationImpl
     @Override
     public ApplicationGatewayRedirectConfigurationImpl withTargetUrl(String url) {
         this.inner()
-            .withTargetUrl(url)
-            .withTargetListener(null)
-            .withIncludePath(null);
+                .withTargetUrl(url)
+                .withTargetListener(null)
+                .withIncludePath(null);
         return this;
     }
 
@@ -114,10 +113,10 @@ class ApplicationGatewayRedirectConfigurationImpl
         if (name == null) {
             this.inner().withTargetListener(null);
         } else {
-            SubResource ref = new SubResource().withId(this.parent().futureResourceId() + "/httpListeners/" + name);
+            SubResource ref = new SubResource().setId(this.parent().futureResourceId() + "/httpListeners/" + name);
             this.inner()
-                .withTargetListener(ref)
-                .withTargetUrl(null);
+                    .withTargetListener(ref)
+                    .withTargetUrl(null);
         }
 
         return this;

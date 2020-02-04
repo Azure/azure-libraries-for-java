@@ -5,39 +5,35 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.NetworkPeeringGatewayUse;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.Network;
 import com.azure.management.network.NetworkPeering;
 import com.azure.management.network.NetworkPeering.DefinitionStages.WithCreate;
+import com.azure.management.network.NetworkPeeringGatewayUse;
 import com.azure.management.network.VirtualNetworkPeeringState;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChild;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.IndependentChildImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import com.azure.management.network.models.VirtualNetworkPeeringInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.IndependentChild;
+import com.azure.management.resources.fluentcore.arm.models.implementation.IndependentChildImpl;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
 
 /**
- *  Implementation for network peering.
+ * Implementation for network peering.
  */
-@LangDefinition
 class NetworkPeeringImpl
-    extends IndependentChildImpl<
+        extends IndependentChildImpl<
         NetworkPeering,
         Network,
         VirtualNetworkPeeringInner,
         NetworkPeeringImpl,
         NetworkManager>
-    implements
+        implements
         NetworkPeering,
         NetworkPeering.Definition,
         NetworkPeering.Update,
@@ -81,7 +77,7 @@ class NetworkPeeringImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -99,7 +95,7 @@ class NetworkPeeringImpl
 
     @Override
     public String remoteNetworkId() {
-        return (this.inner().remoteVirtualNetwork() != null) ? this.inner().remoteVirtualNetwork().id() : null;
+        return (this.inner().remoteVirtualNetwork() != null) ? this.inner().remoteVirtualNetwork().getId() : null;
     }
 
     @Override
@@ -135,7 +131,7 @@ class NetworkPeeringImpl
 
     @Override
     public NetworkPeeringImpl withRemoteNetwork(String resourceId) {
-        SubResource networkRef = new SubResource().withId(resourceId);
+        SubResource networkRef = new SubResource().setId(resourceId);
         this.inner().withRemoteVirtualNetwork(networkRef);
         return this;
     }
@@ -196,8 +192,8 @@ class NetworkPeeringImpl
     @Override
     public NetworkPeeringImpl withGatewayUseByRemoteNetworkAllowed() {
         this.inner()
-            .withAllowGatewayTransit(true)
-            .withUseRemoteGateways(false);
+                .withAllowGatewayTransit(true)
+                .withUseRemoteGateways(false);
         this.startGatewayUseByRemoteNetwork = null;
         this.allowGatewayUseOnRemoteNetwork = false;
         return this;
@@ -213,8 +209,8 @@ class NetworkPeeringImpl
     @Override
     public NetworkPeeringImpl withGatewayUseOnRemoteNetworkStarted() {
         this.inner()
-            .withAllowGatewayTransit(false)
-            .withUseRemoteGateways(true);
+                .withAllowGatewayTransit(false)
+                .withUseRemoteGateways(true);
         this.startGatewayUseByRemoteNetwork = false;
         this.allowGatewayUseOnRemoteNetwork = true;
         return this;
@@ -223,10 +219,10 @@ class NetworkPeeringImpl
     @Override
     public NetworkPeeringImpl withoutAnyGatewayUse() {
         this.inner()
-            .withAllowGatewayTransit(false);
+                .withAllowGatewayTransit(false);
         return this
-            .withoutGatewayUseOnRemoteNetwork()
-            .withoutGatewayUseByRemoteNetwork();
+                .withoutGatewayUseOnRemoteNetwork()
+                .withoutGatewayUseByRemoteNetwork();
     }
 
     @Override
@@ -262,56 +258,44 @@ class NetworkPeeringImpl
     }
 
     @Override
-    protected Observable<NetworkPeering> createChildResourceAsync() {
+    protected Mono<NetworkPeering> createChildResourceAsync() {
         final NetworkPeeringImpl localPeering = this;
         final String networkName = ResourceUtils.nameFromResourceId(this.networkId());
         return this.manager().inner().virtualNetworkPeerings()
                 .createOrUpdateAsync(this.parent.resourceGroupName(), networkName, this.name(), this.inner())
                 // After successful creation, update the inner
-                .doOnNext(new Action1<VirtualNetworkPeeringInner>() {
-                    @Override
-                    public void call(VirtualNetworkPeeringInner inner) {
-                        if (inner != null) {
-                            setInner(inner);
-                        }
+                .doOnNext(inner -> {
+                    if (inner != null) {
+                        setInner(inner);
                     }
                 })
 
                 // Then get the remote network to update it if needed and in the same subscription
-                .flatMap(new Func1<VirtualNetworkPeeringInner, Observable<Network>>() {
-                    @Override
-                    public Observable<Network> call(VirtualNetworkPeeringInner inner) {
-                        SubResource networkRef = inner.remoteVirtualNetwork();
-                        if (localPeering.isSameSubscription()) {
-                            // Update the remote network only if it is in the same subscription
-                            return localPeering.manager().networks().getByIdAsync(networkRef.id());
-                        } else {
-                            // Otherwise, skip this
-                            return Observable.just(null);
-                        }
+                .flatMap(inner -> {
+                    SubResource networkRef = inner.remoteVirtualNetwork();
+                    if (localPeering.isSameSubscription()) {
+                        // Update the remote network only if it is in the same subscription
+                        return localPeering.manager().networks().getByIdAsync(networkRef.getId());
+                    } else {
+                        // Otherwise, skip this
+                        return Mono.empty();
                     }
                 })
 
                 // Then update the existing remote network if needed
-                .flatMap(new Func1<Network, Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call(final Network remoteNetwork) {
-                        if (remoteNetwork == null) {
-                            // If no remote network to update, then skip this
-                            return Observable.just(null);
-                        }
-                        // Check if any peering is already pointing at this network
-                        return remoteNetwork.peerings().listAsync().firstOrDefault(null, new Func1<NetworkPeering, Boolean>() {
-                            @Override
-                            public Boolean call(NetworkPeering remotePeering) {
-                                return (remotePeering != null && remotePeering.remoteNetworkId() != null && remotePeering.remoteNetworkId().equalsIgnoreCase(localPeering.parent.id()));
-                            }
-                        })
+                .flatMap(remoteNetwork -> {
+                    if (remoteNetwork == null) {
+                        // If no remote network to update, then skip this
+                        return Mono.empty();
+                    }
+                    // Check if any peering is already pointing at this network
+                    return remoteNetwork.peerings().listAsync().filter(remotePeering ->
+                            (remotePeering != null && remotePeering.remoteNetworkId() != null
+                                    && remotePeering.remoteNetworkId().equalsIgnoreCase(localPeering.parent.id())))
+                            .last()
 
-                        // Depending on the existence of a matching remote peering, create one or update existing
-                        .flatMap(new Func1<NetworkPeering, Observable<Indexable>>() {
-                            @Override
-                            public Observable<Indexable> call(NetworkPeering remotePeering) {
+                            // Depending on the existence of a matching remote peering, create one or update existing
+                            .flatMap(remotePeering -> {
                                 if (remotePeering != null) {
                                     // Matching peering exists, so update as needed
                                     Update remotePeeringUpdate = remotePeering.update();
@@ -368,9 +352,9 @@ class NetworkPeeringImpl
                                         localPeering.remoteAccess = null;
                                         localPeering.startGatewayUseByRemoteNetwork = null;
                                         localPeering.allowGatewayUseOnRemoteNetwork = null;
-                                        return remotePeeringUpdate.applyAsync().last().cast(Indexable.class);
+                                        return remotePeeringUpdate.applyAsync();
                                     } else {
-                                        return Observable.just((Indexable) localPeering);
+                                        return Mono.just((Indexable) localPeering);
                                     }
 
                                 } else {
@@ -409,45 +393,30 @@ class NetworkPeeringImpl
                                     localPeering.startGatewayUseByRemoteNetwork = null;
                                     localPeering.allowGatewayUseOnRemoteNetwork = null;
                                     return remotePeeringDefinition
-                                        .createAsync()
-                                        .last();
+                                            .createAsync()
+                                            .last();
                                 }
-                            }
-                        });
-                    }
+                            });
                 })
 
                 // Then refresh the parent local network, if available
-                .flatMap(new Func1<Indexable, Observable<Network>>() {
-                    @Override
-                    public Observable<Network> call(Indexable remotePeering) {
-                        return (localPeering.parent != null) ? localPeering.parent.refreshAsync() : Observable.just((Network) null);
-                    }
-                })
+                .flatMap(remotePeering -> (localPeering.parent != null) ? localPeering.parent.refreshAsync() : Mono.empty())
 
                 // Then refresh the remote network, if available and in the same subscription
-                .flatMap(new Func1<Network, Observable<Network>>() {
-                    @Override
-                    public Observable<Network> call(Network t) {
-                        if (localPeering.remoteNetwork != null && localPeering.isSameSubscription()) {
-                            return localPeering.remoteNetwork.refreshAsync();
-                        } else {
-                            return Observable.just(null);
-                        }
+                .flatMap(t -> {
+                    if (localPeering.remoteNetwork != null && localPeering.isSameSubscription()) {
+                        return localPeering.remoteNetwork.refreshAsync();
+                    } else {
+                        return Mono.just(null);
                     }
                 })
 
                 // Then return the created local peering
-                .map(new Func1<Network, NetworkPeering>() {
-                    @Override
-                    public NetworkPeering call(Network n) {
-                        return localPeering;
-                    }
-                });
+                .map(n -> localPeering);
     }
 
     @Override
-    protected Observable<VirtualNetworkPeeringInner> getInnerAsync() {
+    protected Mono<VirtualNetworkPeeringInner> getInnerAsync() {
         this.remoteNetwork = null;
         return this.manager().inner().virtualNetworkPeerings().getAsync(
                 this.resourceGroupName(),
@@ -456,27 +425,24 @@ class NetworkPeeringImpl
 
     @Override
     public Network getRemoteNetwork() {
-        return this.getRemoteNetworkAsync().toBlocking().last();
+        return this.getRemoteNetworkAsync().block();
     }
 
     @Override
-    public Observable<Network> getRemoteNetworkAsync() {
+    public Mono<Network> getRemoteNetworkAsync() {
         final NetworkPeeringImpl self = this;
         if (self.remoteNetwork != null) {
-            return Observable.just(self.remoteNetwork);
+            return Mono.just(self.remoteNetwork);
         } else if (this.isSameSubscription()) {
             // Fetch the remote network if within the same subscription
             return this.manager().networks().getByIdAsync(this.remoteNetworkId())
-                .doOnNext(new Action1<Network>() {
-                    @Override
-                    public void call(Network network) {
+                    .doOnNext(network -> {
                         self.remoteNetwork = network;
-                    }
-                });
+                    });
         } else {
             // Otherwise bail out
             self.remoteNetwork = null;
-            return Observable.just(null);
+            return Mono.empty();
         }
     }
 
@@ -487,19 +453,16 @@ class NetworkPeeringImpl
     }
 
     @Override
-    public Observable<NetworkPeering> getRemotePeeringAsync() {
+    public Mono<NetworkPeering> getRemotePeeringAsync() {
         final NetworkPeeringImpl self = this;
         return this.getRemoteNetworkAsync()
-            .flatMap(new Func1<Network, Observable<NetworkPeering>>() {
-                @Override
-                public Observable<NetworkPeering> call(Network remoteNetwork) {
+                .flatMap(remoteNetwork -> {
                     if (remoteNetwork == null) {
-                        return Observable.just(null);
+                        return Mono.empty();
                     } else {
                         return remoteNetwork.peerings().getByRemoteNetworkAsync(self.networkId());
                     }
-                }
-            });
+                });
     }
 
     @Override

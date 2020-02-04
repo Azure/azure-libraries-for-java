@@ -5,8 +5,7 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.InboundNatPool;
 import com.azure.management.network.LoadBalancerFrontend;
 import com.azure.management.network.LoadBalancerInboundNatPool;
@@ -15,19 +14,18 @@ import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.Subnet;
 import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.TransportProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
- *  Implementation for LoadBalancerInboundNatRule.
+ * Implementation for LoadBalancerInboundNatRule.
  */
-@LangDefinition
 class LoadBalancerInboundNatPoolImpl
-    extends ChildResourceImpl<InboundNatPool, LoadBalancerImpl, LoadBalancer>
-    implements
+        extends ChildResourceImpl<InboundNatPool, LoadBalancerImpl, LoadBalancer>
+        implements
         LoadBalancerInboundNatPool,
         LoadBalancerInboundNatPool.Definition<LoadBalancer.DefinitionStages.WithCreateAndInboundNatPool>,
         LoadBalancerInboundNatPool.UpdateDefinition<LoadBalancer.Update>,
@@ -58,7 +56,7 @@ class LoadBalancerInboundNatPoolImpl
     public LoadBalancerFrontend frontend() {
         return this.parent().frontends().get(
                 ResourceUtils.nameFromResourceId(
-                        this.inner().frontendIPConfiguration().id()));
+                        this.inner().frontendIPConfiguration().getId()));
     }
 
     @Override

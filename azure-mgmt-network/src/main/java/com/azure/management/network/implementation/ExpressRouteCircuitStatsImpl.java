@@ -5,15 +5,14 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ExpressRouteCircuitStats;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.ExpressRouteCircuitStatsInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
  * Implementation for {@link ExpressRouteCircuitStats}.
  */
-@LangDefinition
 public class ExpressRouteCircuitStatsImpl extends WrapperImpl<ExpressRouteCircuitStatsInner>
         implements ExpressRouteCircuitStats {
     ExpressRouteCircuitStatsImpl(ExpressRouteCircuitStatsInner innerObject) {

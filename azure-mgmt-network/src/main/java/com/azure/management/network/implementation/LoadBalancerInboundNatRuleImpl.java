@@ -5,8 +5,7 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.LoadBalancerFrontend;
 import com.azure.management.network.LoadBalancerInboundNatRule;
 import com.azure.management.network.Network;
@@ -14,19 +13,19 @@ import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.Subnet;
 import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.TransportProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.InboundNatRuleInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
- *  Implementation for LoadBalancerInboundNatRule.
+ * Implementation for LoadBalancerInboundNatRule.
  */
-@LangDefinition
 class LoadBalancerInboundNatRuleImpl
-    extends ChildResourceImpl<InboundNatRuleInner, LoadBalancerImpl, LoadBalancer>
-    implements
+        extends ChildResourceImpl<InboundNatRuleInner, LoadBalancerImpl, LoadBalancer>
+        implements
         LoadBalancerInboundNatRule,
         LoadBalancerInboundNatRule.Definition<LoadBalancer.DefinitionStages.WithCreateAndInboundNatRule>,
         LoadBalancerInboundNatRule.UpdateDefinition<LoadBalancer.Update>,
@@ -48,7 +47,7 @@ class LoadBalancerInboundNatRuleImpl
         if (this.inner().backendIPConfiguration() == null) {
             return null;
         } else {
-            return ResourceUtils.nameFromResourceId(this.inner().backendIPConfiguration().id());
+            return ResourceUtils.nameFromResourceId(this.inner().backendIPConfiguration().getId());
         }
     }
 
@@ -62,7 +61,7 @@ class LoadBalancerInboundNatRuleImpl
         if (this.inner().backendIPConfiguration() == null) {
             return null;
         } else {
-            return ResourceUtils.parentResourceIdFromResourceId(this.inner().backendIPConfiguration().id());
+            return ResourceUtils.parentResourceIdFromResourceId(this.inner().backendIPConfiguration().getId());
         }
     }
 
@@ -85,7 +84,7 @@ class LoadBalancerInboundNatRuleImpl
     public LoadBalancerFrontend frontend() {
         return this.parent().frontends().get(
                 ResourceUtils.nameFromResourceId(
-                        this.inner().frontendIPConfiguration().id()));
+                        this.inner().frontendIPConfiguration().getId()));
     }
 
     @Override

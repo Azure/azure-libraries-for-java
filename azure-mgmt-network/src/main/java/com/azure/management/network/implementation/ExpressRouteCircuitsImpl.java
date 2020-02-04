@@ -5,12 +5,12 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ExpressRouteCircuit;
 import com.azure.management.network.ExpressRouteCircuits;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.ExpressRouteCircuitInner;
+import com.azure.management.network.models.ExpressRouteCircuitsInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
-@LangDefinition
 class ExpressRouteCircuitsImpl extends TopLevelModifiableResourcesImpl<
         ExpressRouteCircuit,
         ExpressRouteCircuitImpl,
@@ -35,7 +35,7 @@ class ExpressRouteCircuitsImpl extends TopLevelModifiableResourcesImpl<
         if (inner == null) {
             return null;
         }
-        return new ExpressRouteCircuitImpl(inner.name(), inner, this.manager());
+        return new ExpressRouteCircuitImpl(inner.getName(), inner, this.manager());
     }
 
     @Override

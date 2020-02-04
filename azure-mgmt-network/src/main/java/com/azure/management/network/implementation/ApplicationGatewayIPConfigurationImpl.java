@@ -5,22 +5,21 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayIPConfiguration;
 import com.azure.management.network.Network;
 import com.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.ApplicationGatewayIPConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 /**
- *  Implementation for ApplicationGatewayIPConfiguration.
+ * Implementation for ApplicationGatewayIPConfiguration.
  */
-@LangDefinition
 class ApplicationGatewayIPConfigurationImpl
-    extends ChildResourceImpl<ApplicationGatewayIPConfigurationInner, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewayIPConfigurationInner, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewayIPConfiguration,
         ApplicationGatewayIPConfiguration.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayIPConfiguration.UpdateDefinition<ApplicationGateway.Update>,
@@ -50,7 +49,7 @@ class ApplicationGatewayIPConfigurationImpl
 
     @Override
     public ApplicationGatewayIPConfigurationImpl withExistingSubnet(String networkId, String subnetName) {
-        SubResource subnetRef = new SubResource().withId(networkId + "/subnets/" + subnetName);
+        SubResource subnetRef = new SubResource().setId(networkId + "/subnets/" + subnetName);
         this.inner().withSubnet(subnetRef);
         return this;
     }
@@ -66,7 +65,7 @@ class ApplicationGatewayIPConfigurationImpl
     public String networkId() {
         SubResource subnetRef = this.inner().subnet();
         if (subnetRef != null) {
-            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.id());
+            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.getId());
         } else {
             return null;
         }
@@ -76,7 +75,7 @@ class ApplicationGatewayIPConfigurationImpl
     public String subnetName() {
         SubResource subnetRef = this.inner().subnet();
         if (subnetRef != null) {
-            return ResourceUtils.nameFromResourceId(subnetRef.id());
+            return ResourceUtils.nameFromResourceId(subnetRef.getId());
         } else {
             return null;
         }

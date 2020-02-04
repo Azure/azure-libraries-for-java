@@ -5,16 +5,13 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.AddressSpace;
 import com.azure.management.network.BgpSettings;
 import com.azure.management.network.LocalNetworkGateway;
-import com.azure.management.network.model.AppliableWithTags;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.AppliableWithTags;
+import com.azure.management.network.models.LocalNetworkGatewayInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,13 +21,12 @@ import java.util.Set;
 /**
  * Implementation for LocalNetworkGateway and its create and update interfaces.
  */
-@LangDefinition
 class LocalNetworkGatewayImpl
         extends GroupableResourceImpl<
-                LocalNetworkGateway,
-                LocalNetworkGatewayInner,
-                LocalNetworkGatewayImpl,
-                NetworkManager>
+        LocalNetworkGateway,
+        LocalNetworkGatewayInner,
+        LocalNetworkGatewayImpl,
+        NetworkManager>
         implements
         LocalNetworkGateway,
         LocalNetworkGateway.Definition,
@@ -38,8 +34,8 @@ class LocalNetworkGatewayImpl
         AppliableWithTags<LocalNetworkGateway> {
 
     LocalNetworkGatewayImpl(String name,
-                              final LocalNetworkGatewayInner innerModel,
-                              final NetworkManager networkManager) {
+                            final LocalNetworkGatewayInner innerModel,
+                            final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
     }
 
@@ -108,12 +104,12 @@ class LocalNetworkGatewayImpl
     }
 
     @Override
-    protected Observable<LocalNetworkGatewayInner> getInnerAsync() {
+    protected Mono<LocalNetworkGatewayInner> getInnerAsync() {
         return this.manager().inner().localNetworkGateways().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<LocalNetworkGateway> createResourceAsync() {
+    public Mono<LocalNetworkGateway> createResourceAsync() {
         return this.manager().inner().localNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner())
                 .map(innerToFluentMap(this));
     }
@@ -132,22 +128,16 @@ class LocalNetworkGatewayImpl
 
     @Override
     public LocalNetworkGateway applyTags() {
-        return applyTagsAsync().toBlocking().last();
+        return applyTagsAsync().block();
     }
 
     @Override
-    public Observable<LocalNetworkGateway> applyTagsAsync() {
+    public Mono<LocalNetworkGateway> applyTagsAsync() {
         return this.manager().inner().localNetworkGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
-                .flatMap(new Func1<LocalNetworkGatewayInner, Observable<LocalNetworkGateway>>() {
-                    @Override
-                    public Observable<LocalNetworkGateway> call(LocalNetworkGatewayInner inner) {
-                        setInner(inner);
-                        return Observable.just((LocalNetworkGateway) LocalNetworkGatewayImpl.this);                    }
+                .flatMap(inner -> {
+                    setInner(inner);
+                    return Mono.just((LocalNetworkGateway) LocalNetworkGatewayImpl.this);
                 });
     }
 
-    @Override
-    public ServiceFuture<LocalNetworkGateway> applyTagsAsync(ServiceCallback<LocalNetworkGateway> callback) {
-        return ServiceFuture.fromBody(applyTagsAsync(), callback);
-    }
 }

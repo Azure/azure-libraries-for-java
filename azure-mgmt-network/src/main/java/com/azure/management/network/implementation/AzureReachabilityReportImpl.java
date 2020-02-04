@@ -5,17 +5,16 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.AzureReachabilityReport;
 import com.azure.management.network.AzureReachabilityReportItem;
 import com.azure.management.network.AzureReachabilityReportLocation;
 import com.azure.management.network.AzureReachabilityReportParameters;
 import com.azure.management.network.NetworkWatcher;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.AzureReachabilityReportInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.List;
 /**
  * The implementation of AzureReachabilityReport.
  */
-@LangDefinition
 class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport>
         implements AzureReachabilityReport,
         AzureReachabilityReport.Definition {
@@ -66,15 +64,12 @@ class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport
     }
 
     @Override
-    public Observable<AzureReachabilityReport> executeWorkAsync() {
+    public Mono<AzureReachabilityReport> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getAzureReachabilityReportAsync(parent().resourceGroupName(), parent().name(), parameters)
-                .map(new Func1<AzureReachabilityReportInner, AzureReachabilityReport>() {
-                    @Override
-                    public AzureReachabilityReport call(AzureReachabilityReportInner azureReachabilityReportListInner) {
-                        AzureReachabilityReportImpl.this.inner = azureReachabilityReportListInner;
-                        return AzureReachabilityReportImpl.this;
-                    }
+                .map(azureReachabilityReportListInner -> {
+                    AzureReachabilityReportImpl.this.inner = azureReachabilityReportListInner;
+                    return AzureReachabilityReportImpl.this;
                 });
     }
 
@@ -97,13 +92,13 @@ class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport
     }
 
     @Override
-    public AzureReachabilityReportImpl withStartTime(DateTime startTime) {
+    public AzureReachabilityReportImpl withStartTime(OffsetDateTime startTime) {
         parameters.withStartTime(startTime);
         return this;
     }
 
     @Override
-    public AzureReachabilityReportImpl withEndTime(DateTime endTime) {
+    public AzureReachabilityReportImpl withEndTime(OffsetDateTime endTime) {
         parameters.withEndTime(endTime);
         return this;
     }

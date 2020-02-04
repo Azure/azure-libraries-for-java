@@ -9,15 +9,13 @@ import com.azure.management.network.PCFilter;
 import com.azure.management.network.PacketCapture;
 import com.azure.management.network.PacketCaptureFilter;
 import com.azure.management.network.PcProtocol;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.util.List;
 
 /**
  * Represents Packet Capture filter.
  */
-@LangDefinition
 class PCFilterImpl extends IndexableWrapperImpl<PacketCaptureFilter>
         implements
         PCFilter,

@@ -9,19 +9,17 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ApplicationGatewayBackendHealth;
 import com.azure.management.network.ApplicationGatewayBackendHealthHttpSettings;
-import com.azure.management.network.ApplicationGatewayBackendHealthServer;
 import com.azure.management.network.ApplicationGatewayBackendHttpConfiguration;
 import com.azure.management.network.ApplicationGatewayBackendHttpConfigurationHealth;
 import com.azure.management.network.ApplicationGatewayBackendServerHealth;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.network.models.ApplicationGatewayBackendHealthServerInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 
 /**
  * Implementation of application gateway backend HTTP configuration health information.
  */
-@LangDefinition
 public class ApplicationGatewayBackendHttpConfigurationHealthImpl implements ApplicationGatewayBackendHttpConfigurationHealth {
 
     private final ApplicationGatewayBackendHealthHttpSettings inner;
@@ -33,7 +31,7 @@ public class ApplicationGatewayBackendHttpConfigurationHealthImpl implements App
         this.backendHealth = backendHealth;
 
         if (inner.servers() != null) {
-            for (ApplicationGatewayBackendHealthServer serverHealthInner : this.inner().servers()) {
+            for (ApplicationGatewayBackendHealthServerInner serverHealthInner : this.inner().servers()) {
                 ApplicationGatewayBackendServerHealth serverHealth = new ApplicationGatewayBackendServerHealthImpl(serverHealthInner, this);
                 this.serverHealths.put(serverHealth.ipAddress(), serverHealth);
             }
@@ -48,7 +46,7 @@ public class ApplicationGatewayBackendHttpConfigurationHealthImpl implements App
     @Override
     public String name() {
         if (this.inner.backendHttpSettings() != null) {
-            return ResourceUtils.nameFromResourceId(this.inner.backendHttpSettings().id());
+            return ResourceUtils.nameFromResourceId(this.inner.backendHttpSettings().getId());
         } else {
             return null;
         }
@@ -60,7 +58,7 @@ public class ApplicationGatewayBackendHttpConfigurationHealthImpl implements App
             return null;
         }
 
-        String name = ResourceUtils.nameFromResourceId(this.inner.backendHttpSettings().id());
+        String name = ResourceUtils.nameFromResourceId(this.inner.backendHttpSettings().getId());
         return this.parent().parent().backendHttpConfigurations().get(name);
     }
 

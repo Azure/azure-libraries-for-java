@@ -6,7 +6,6 @@
 
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.IPAllocationMethod;
 import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.Network;
@@ -14,16 +13,18 @@ import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.NicIPConfiguration;
 import com.azure.management.network.PublicIPAddress;
-import com.azure.management.network.model.GroupableParentResourceWithTagsImpl;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceNamer;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.network.models.NetworkInterfaceInner;
+import com.azure.management.network.models.NetworkSecurityGroupInner;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.ResourceNamer;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,15 +33,14 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- *  Implementation for NetworkInterface and its create and update interfaces.
+ * Implementation for NetworkInterface and its create and update interfaces.
  */
-@LangDefinition
 class NetworkInterfaceImpl
         extends GroupableParentResourceWithTagsImpl<
-            NetworkInterface,
-            NetworkInterfaceInner,
-            NetworkInterfaceImpl,
-            NetworkManager>
+        NetworkInterface,
+        NetworkInterfaceInner,
+        NetworkInterfaceImpl,
+        NetworkManager>
         implements
         NetworkInterface,
         NetworkInterface.Definition,
@@ -82,25 +82,23 @@ class NetworkInterfaceImpl
     // Verbs
 
     @Override
-    public Observable<NetworkInterface> refreshAsync() {
-        return super.refreshAsync().map(new Func1<NetworkInterface, NetworkInterface>() {
-            @Override
-            public NetworkInterface call(NetworkInterface networkInterface) {
-                NetworkInterfaceImpl impl = (NetworkInterfaceImpl) networkInterface;
-                impl.clearCachedRelatedResources();
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+    public Mono<NetworkInterface> refreshAsync() {
+        return super.refreshAsync().map(networkInterface -> {
+            NetworkInterfaceImpl impl = (NetworkInterfaceImpl) networkInterface;
+            impl.clearCachedRelatedResources();
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<NetworkInterfaceInner> getInnerAsync() {
-        return this.manager().inner().networkInterfaces().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    protected Mono<NetworkInterfaceInner> getInnerAsync() {
+        //FIXME: 3rd parameter
+        return this.manager().inner().networkInterfaces().getByResourceGroupAsync(this.resourceGroupName(), this.name(), null);
     }
 
     @Override
-    protected Observable<NetworkInterfaceInner> applyTagsToInnerAsync() {
+    protected Mono<NetworkInterfaceInner> applyTagsToInnerAsync() {
         return this.manager().inner().networkInterfaces().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
@@ -176,7 +174,7 @@ class NetworkInterfaceImpl
     public Update withoutLoadBalancerBackends() {
         for (NicIPConfiguration ipConfig : this.ipConfigurations().values()) {
             this.updateIPConfiguration(ipConfig.name())
-                .withoutLoadBalancerBackends();
+                    .withoutLoadBalancerBackends();
         }
         return this;
     }
@@ -185,7 +183,7 @@ class NetworkInterfaceImpl
     public Update withoutLoadBalancerInboundNatRules() {
         for (NicIPConfiguration ipConfig : this.ipConfigurations().values()) {
             this.updateIPConfiguration(ipConfig.name())
-                .withoutLoadBalancerInboundNatRules();
+                    .withoutLoadBalancerInboundNatRules();
         }
         return this;
     }
@@ -302,7 +300,7 @@ class NetworkInterfaceImpl
     @Override
     public String virtualMachineId() {
         if (this.inner().virtualMachine() != null) {
-            return this.inner().virtualMachine().id();
+            return this.inner().virtualMachine().getId();
         } else {
             return null;
         }
@@ -367,7 +365,7 @@ class NetworkInterfaceImpl
 
     @Override
     public String networkSecurityGroupId() {
-        return (this.inner().networkSecurityGroup() != null) ? this.inner().networkSecurityGroup().id() : null;
+        return (this.inner().networkSecurityGroup() != null) ? this.inner().networkSecurityGroup().getId() : null;
     }
 
     @Override
@@ -377,7 +375,7 @@ class NetworkInterfaceImpl
             this.networkSecurityGroup = super.myManager
                     .networkSecurityGroups()
                     .getByResourceGroup(ResourceUtils.groupFromResourceId(id),
-                    ResourceUtils.nameFromResourceId(id));
+                            ResourceUtils.nameFromResourceId(id));
         }
         return this.networkSecurityGroup;
     }
@@ -431,7 +429,7 @@ class NetworkInterfaceImpl
         List<NetworkInterfaceIPConfigurationInner> inners = this.inner().ipConfigurations();
         if (inners != null) {
             for (NetworkInterfaceIPConfigurationInner inner : inners) {
-                NicIPConfigurationImpl  nicIPConfiguration = new NicIPConfigurationImpl(inner, this, super.myManager, false);
+                NicIPConfigurationImpl nicIPConfiguration = new NicIPConfigurationImpl(inner, this, super.myManager, false);
                 this.nicIPConfigurations.put(nicIPConfiguration.name(), nicIPConfiguration);
             }
         }
@@ -474,7 +472,7 @@ class NetworkInterfaceImpl
     }
 
     @Override
-    protected Observable<NetworkInterfaceInner> createInner() {
+    protected Mono<NetworkInterfaceInner> createInner() {
         return this.manager().inner().networkInterfaces().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
     }
 

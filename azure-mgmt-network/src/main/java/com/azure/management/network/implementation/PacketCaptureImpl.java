@@ -12,12 +12,12 @@ import com.azure.management.network.PacketCaptureFilter;
 import com.azure.management.network.PacketCaptureStatus;
 import com.azure.management.network.PacketCaptureStorageLocation;
 import com.azure.management.network.ProvisioningState;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.PacketCaptureInner;
+import com.azure.management.network.models.PacketCaptureResultInner;
+import com.azure.management.network.models.PacketCapturesInner;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +25,9 @@ import java.util.List;
 /**
  * Implementation for Packet Capture and its create and update interfaces.
  */
-@LangDefinition
 public class PacketCaptureImpl extends
         CreatableUpdatableImpl<PacketCapture, PacketCaptureResultInner, PacketCaptureImpl>
-    implements
+        implements
         PacketCapture,
         PacketCapture.Definition {
     private final PacketCapturesInner client;
@@ -36,7 +35,7 @@ public class PacketCaptureImpl extends
     private final NetworkWatcher parent;
 
     PacketCaptureImpl(String name, NetworkWatcherImpl parent, PacketCaptureResultInner innerObject,
-                                PacketCapturesInner client) {
+                      PacketCapturesInner client) {
         super(name, innerObject);
         this.client = client;
         this.parent = parent;
@@ -44,34 +43,29 @@ public class PacketCaptureImpl extends
     }
 
     @Override
-    protected Observable<PacketCaptureResultInner> getInnerAsync() {
+    protected Mono<PacketCaptureResultInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
     @Override
     public void stop() {
-        stopAsync().await();
+        stopAsync().block();
     }
 
     @Override
-    public Completable stopAsync() {
-        return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name()).toCompletable();
+    public Mono<Void> stopAsync() {
+        return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
     @Override
     public PacketCaptureStatus getStatus() {
-        return getStatusAsync().toBlocking().last();
+        return getStatusAsync().block();
     }
 
     @Override
-    public Observable<PacketCaptureStatus> getStatusAsync() {
+    public Mono<PacketCaptureStatus> getStatusAsync() {
         return this.client.getStatusAsync(parent.resourceGroupName(), parent.name(), name())
-                .map(new Func1<PacketCaptureQueryStatusResultInner, PacketCaptureStatus>() {
-                    @Override
-                    public PacketCaptureStatus call(PacketCaptureQueryStatusResultInner inner) {
-                        return new PacketCaptureStatusImpl(inner);
-                    }
-                });
+                .map(inner -> new PacketCaptureStatusImpl(inner));
     }
 
     @Override
@@ -126,7 +120,7 @@ public class PacketCaptureImpl extends
 
     @Override
     public PCFilter.Definition<DefinitionStages.WithCreate> definePacketCaptureFilter() {
-        return new PCFilterImpl(new PacketCaptureFilter(),  this);
+        return new PCFilterImpl(new PacketCaptureFilter(), this);
     }
 
     void attachPCFilter(PCFilterImpl pcFilter) {
@@ -142,7 +136,7 @@ public class PacketCaptureImpl extends
     }
 
     @Override
-    public Observable<PacketCapture> createResourceAsync() {
+    public Mono<PacketCapture> createResourceAsync() {
         return this.client.createAsync(parent.resourceGroupName(), parent.name(), this.name(), createParameters)
                 .map(innerToFluentMap(this));
     }

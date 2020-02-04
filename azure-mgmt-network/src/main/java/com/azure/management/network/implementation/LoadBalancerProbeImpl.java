@@ -9,24 +9,23 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
+import com.azure.management.network.models.ProbeInner;
 import com.azure.management.network.LoadBalancerHttpProbe;
 import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.LoadBalancingRule;
 import com.azure.management.network.ProbeProtocol;
 import com.azure.management.network.LoadBalancerTcpProbe;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
- *  Implementation for LoadBalancerTcpProbe and its create and update interfaces.
+ * Implementation for LoadBalancerTcpProbe and its create and update interfaces.
  */
-@LangDefinition
 class LoadBalancerProbeImpl
-    extends ChildResourceImpl<ProbeInner, LoadBalancerImpl, LoadBalancer>
-    implements
+        extends ChildResourceImpl<ProbeInner, LoadBalancerImpl, LoadBalancer>
+        implements
         LoadBalancerTcpProbe,
         LoadBalancerTcpProbe.Definition<LoadBalancer.DefinitionStages.WithCreate>,
         LoadBalancerTcpProbe.UpdateDefinition<LoadBalancer.Update>,
@@ -77,7 +76,7 @@ class LoadBalancerProbeImpl
         final Map<String, LoadBalancingRule> rules = new TreeMap<>();
         if (this.inner().loadBalancingRules() != null) {
             for (SubResource inner : this.inner().loadBalancingRules()) {
-                String name = ResourceUtils.nameFromResourceId(inner.id());
+                String name = ResourceUtils.nameFromResourceId(inner.getId());
                 LoadBalancingRule rule = this.parent().loadBalancingRules().get(name);
                 if (rule != null) {
                     rules.put(name, rule);

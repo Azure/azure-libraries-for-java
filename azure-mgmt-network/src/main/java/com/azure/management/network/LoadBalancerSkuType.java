@@ -64,14 +64,14 @@ public final class LoadBalancerSkuType {
         if (lbSku == null) {
             return null;
         }
-        if (lbSku.getName() == null) {
+        if (lbSku.name() == null) {
             return null;
         }
-        LoadBalancerSkuType result = VALUES_BY_NAME.get(lbSku.getName().toString().toLowerCase());
+        LoadBalancerSkuType result = VALUES_BY_NAME.get(lbSku.name().toString().toLowerCase());
         if (result != null) {
             return result;
         } else {
-            return new LoadBalancerSkuType(lbSku.getName());
+            return new LoadBalancerSkuType(lbSku.name());
         }
     }
 
@@ -79,7 +79,7 @@ public final class LoadBalancerSkuType {
      * @return the LoadBalancerSku associated with the LoadBalancerSkuType.
      */
     public LoadBalancerSku sku() {
-        return (new LoadBalancerSku()).setName(this.skuName);
+        return (new LoadBalancerSku()).withName(this.skuName);
     }
 
     @Override

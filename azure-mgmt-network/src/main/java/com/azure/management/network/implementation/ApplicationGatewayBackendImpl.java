@@ -5,6 +5,14 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.management.network.ApplicationGateway;
+import com.azure.management.network.ApplicationGatewayBackend;
+import com.azure.management.network.ApplicationGatewayBackendAddress;
+import com.azure.management.network.ApplicationGatewayBackendAddressPool;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,21 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.ApplicationGateway;
-import com.azure.management.network.ApplicationGatewayBackend;
-import com.azure.management.network.ApplicationGatewayBackendAddress;
-import com.azure.management.network.ApplicationGatewayBackendAddressPool;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-
 /**
- *  Implementation for ApplicationGatewayBackend.
+ * Implementation for ApplicationGatewayBackend.
  */
-@LangDefinition
 class ApplicationGatewayBackendImpl
-    extends ChildResourceImpl<ApplicationGatewayBackendAddressPool, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewayBackendAddressPool, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewayBackend,
         ApplicationGatewayBackend.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayBackend.UpdateDefinition<ApplicationGateway.Update>,
@@ -61,8 +60,8 @@ class ApplicationGatewayBackendImpl
         final Map<String, String> ipConfigNames = new TreeMap<>();
         if (this.inner().backendIPConfigurations() != null) {
             for (NetworkInterfaceIPConfigurationInner inner : this.inner().backendIPConfigurations()) {
-                String nicId = ResourceUtils.parentResourceIdFromResourceId(inner.id());
-                String ipConfigName = ResourceUtils.nameFromResourceId(inner.id());
+                String nicId = ResourceUtils.parentResourceIdFromResourceId(inner.getId());
+                String ipConfigName = ResourceUtils.nameFromResourceId(inner.getId());
                 ipConfigNames.put(nicId, ipConfigName);
             }
         }

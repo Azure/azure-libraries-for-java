@@ -5,24 +5,24 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ExpressRouteCircuit;
 import com.azure.management.network.ExpressRouteCircuitPeering;
 import com.azure.management.network.ExpressRouteCircuitPeerings;
 import com.azure.management.network.ExpressRouteCircuitServiceProviderProperties;
 import com.azure.management.network.ExpressRouteCircuitSkuType;
 import com.azure.management.network.ServiceProviderProvisioningState;
-import com.azure.management.network.model.GroupableParentResourceWithTagsImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.ExpressRouteCircuitAuthorizationInner;
+import com.azure.management.network.models.ExpressRouteCircuitInner;
+import com.azure.management.network.models.ExpressRouteCircuitPeeringInner;
+import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@LangDefinition
 class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
         ExpressRouteCircuit,
         ExpressRouteCircuitInner,
@@ -105,7 +105,7 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
     }
 
     @Override
-    protected Observable<ExpressRouteCircuitInner> createInner() {
+    protected Mono<ExpressRouteCircuitInner> createInner() {
         return this.manager().inner().expressRouteCircuits().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner());
     }
@@ -122,24 +122,21 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
     }
 
     @Override
-    protected Observable<ExpressRouteCircuitInner> getInnerAsync() {
+    protected Mono<ExpressRouteCircuitInner> getInnerAsync() {
         return this.manager().inner().expressRouteCircuits().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<ExpressRouteCircuit> refreshAsync() {
-        return super.refreshAsync().map(new Func1<ExpressRouteCircuit, ExpressRouteCircuit>() {
-            @Override
-            public ExpressRouteCircuit call(ExpressRouteCircuit expressRouteCircuit) {
-                ExpressRouteCircuitImpl impl = (ExpressRouteCircuitImpl) expressRouteCircuit;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+    public Mono<ExpressRouteCircuit> refreshAsync() {
+        return super.refreshAsync().map(expressRouteCircuit -> {
+            ExpressRouteCircuitImpl impl = (ExpressRouteCircuitImpl) expressRouteCircuit;
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<ExpressRouteCircuitInner> applyTagsToInnerAsync() {
+    protected Mono<ExpressRouteCircuitInner> applyTagsToInnerAsync() {
         return this.manager().inner().expressRouteCircuits().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 

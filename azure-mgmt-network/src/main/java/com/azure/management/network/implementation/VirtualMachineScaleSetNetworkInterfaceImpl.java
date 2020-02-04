@@ -10,11 +10,12 @@ import com.azure.management.network.IPAllocationMethod;
 import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.azure.management.network.VirtualMachineScaleSetNicIPConfiguration;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.network.models.NetworkInterfaceInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,14 +26,13 @@ import java.util.TreeMap;
 /**
  * The implementation for VirtualMachineScaleSetNetworkInterface.
  */
-@LangDefinition
 class VirtualMachineScaleSetNetworkInterfaceImpl
         extends
         ResourceImpl<VirtualMachineScaleSetNetworkInterface,
                 NetworkInterfaceInner,
                 VirtualMachineScaleSetNetworkInterfaceImpl>
         implements
-            VirtualMachineScaleSetNetworkInterface {
+        VirtualMachineScaleSetNetworkInterface {
     /**
      * the network client.
      */
@@ -47,10 +47,10 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
     private final String resourceGroupName;
 
     VirtualMachineScaleSetNetworkInterfaceImpl(String name,
-                                                      String scaleSetName,
-                                                      String resourceGroupName,
-                                                      NetworkInterfaceInner innerObject,
-                                                      NetworkManager networkManager) {
+                                               String scaleSetName,
+                                               String resourceGroupName,
+                                               NetworkInterfaceInner innerObject,
+                                               NetworkManager networkManager) {
         super(name, innerObject);
         this.scaleSetName = scaleSetName;
         this.resourceGroupName = resourceGroupName;
@@ -155,7 +155,7 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
         if (this.inner().networkSecurityGroup() == null) {
             return null;
         }
-        return this.inner().networkSecurityGroup().id();
+        return this.inner().networkSecurityGroup().getId();
     }
 
     @Override
@@ -165,9 +165,9 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
             return null;
         }
         return this.manager()
-            .networkSecurityGroups()
-            .getByResourceGroup(ResourceUtils.groupFromResourceId(nsgId),
-                ResourceUtils.nameFromResourceId(nsgId));
+                .networkSecurityGroups()
+                .getByResourceGroup(ResourceUtils.groupFromResourceId(nsgId),
+                        ResourceUtils.nameFromResourceId(nsgId));
     }
 
     @Override
@@ -175,22 +175,23 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
         if (this.inner().virtualMachine() == null) {
             return null;
         }
-        return this.inner().virtualMachine().id();
+        return this.inner().virtualMachine().getId();
     }
 
     @Override
-    public Observable<VirtualMachineScaleSetNetworkInterface> createResourceAsync() {
+    public Mono<VirtualMachineScaleSetNetworkInterface> createResourceAsync() {
         // VMSS NIC is a read-only resource hence this operation is not supported.
         throw new UnsupportedOperationException();
     }
 
     @Override
-    protected Observable<NetworkInterfaceInner> getInnerAsync() {
+    protected Mono<NetworkInterfaceInner> getInnerAsync() {
+        // FIXME: parameter - expand
         return this.manager().inner().networkInterfaces().getVirtualMachineScaleSetNetworkInterfaceAsync(
                 this.resourceGroupName,
                 this.scaleSetName,
                 ResourceUtils.nameFromResourceId(this.virtualMachineId()),
-                this.name());
+                this.name(), null);
     }
 
     @Override

@@ -11,20 +11,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayProbe;
 import com.azure.management.network.ApplicationGatewayProbeHealthResponseMatch;
 import com.azure.management.network.ApplicationGatewayProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.ApplicationGatewayProbeInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 /**
- *  Implementation for ApplicationGatewayProbe.
+ * Implementation for ApplicationGatewayProbe.
  */
-@LangDefinition
 class ApplicationGatewayProbeImpl
-    extends ChildResourceImpl<ApplicationGatewayProbeInner, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewayProbeInner, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewayProbe,
         ApplicationGatewayProbe.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayProbe.UpdateDefinition<ApplicationGateway.Update>,

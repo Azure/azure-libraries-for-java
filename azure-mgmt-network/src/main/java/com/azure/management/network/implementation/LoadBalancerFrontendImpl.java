@@ -5,6 +5,27 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.management.SubResource;
+import com.azure.management.network.IPAllocationMethod;
+import com.azure.management.network.LoadBalancer;
+import com.azure.management.network.LoadBalancerFrontend;
+import com.azure.management.network.LoadBalancerInboundNatPool;
+import com.azure.management.network.LoadBalancerInboundNatRule;
+import com.azure.management.network.LoadBalancerPrivateFrontend;
+import com.azure.management.network.LoadBalancerPublicFrontend;
+import com.azure.management.network.LoadBalancingRule;
+import com.azure.management.network.Network;
+import com.azure.management.network.PublicIPAddress;
+import com.azure.management.network.Subnet;
+import com.azure.management.network.models.FrontendIPConfigurationInner;
+import com.azure.management.network.models.PublicIPAddressInner;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,32 +33,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.LoadBalancerFrontend;
-import com.azure.management.network.IPAllocationMethod;
-import com.azure.management.network.LoadBalancerInboundNatPool;
-import com.azure.management.network.LoadBalancerInboundNatRule;
-import com.azure.management.network.LoadBalancerPrivateFrontend;
-import com.azure.management.network.LoadBalancerPublicFrontend;
-import com.azure.management.network.LoadBalancer;
-import com.azure.management.network.LoadBalancingRule;
-import com.azure.management.network.Network;
-import com.azure.management.network.PublicIPAddress;
-import com.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-
 /**
- *  Implementation for LoadBalancerPublicFrontend.
+ * Implementation for LoadBalancerPublicFrontend.
  */
-@LangDefinition
 class LoadBalancerFrontendImpl
-    extends ChildResourceImpl<FrontendIPConfigurationInner, LoadBalancerImpl, LoadBalancer>
-    implements
+        extends ChildResourceImpl<FrontendIPConfigurationInner, LoadBalancerImpl, LoadBalancer>
+        implements
         LoadBalancerFrontend,
         LoadBalancerPrivateFrontend,
         LoadBalancerPrivateFrontend.Definition<LoadBalancer.DefinitionStages.WithCreate>,
@@ -58,7 +59,7 @@ class LoadBalancerFrontendImpl
     public String networkId() {
         SubResource subnetRef = this.inner().subnet();
         if (subnetRef != null) {
-            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.id());
+            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.getId());
         } else {
             return null;
         }
@@ -68,7 +69,7 @@ class LoadBalancerFrontendImpl
     public String subnetName() {
         SubResource subnetRef = this.inner().subnet();
         if (subnetRef != null) {
-            return ResourceUtils.nameFromResourceId(subnetRef.id());
+            return ResourceUtils.nameFromResourceId(subnetRef.getId());
         } else {
             return null;
         }
@@ -91,7 +92,7 @@ class LoadBalancerFrontendImpl
 
     @Override
     public String publicIPAddressId() {
-        return this.inner().publicIPAddress().id();
+        return this.inner().publicIPAddress().getId();
     }
 
     @Override
@@ -104,7 +105,7 @@ class LoadBalancerFrontendImpl
         final Map<String, LoadBalancingRule> rules = new TreeMap<>();
         if (this.inner().loadBalancingRules() != null) {
             for (SubResource innerRef : this.inner().loadBalancingRules()) {
-                String name = ResourceUtils.nameFromResourceId(innerRef.id());
+                String name = ResourceUtils.nameFromResourceId(innerRef.getId());
                 LoadBalancingRule rule = this.parent().loadBalancingRules().get(name);
                 if (rule != null) {
                     rules.put(name, rule);
@@ -120,7 +121,7 @@ class LoadBalancerFrontendImpl
         final Map<String, LoadBalancerInboundNatPool> pools = new TreeMap<>();
         if (this.inner().inboundNatPools() != null) {
             for (SubResource innerRef : this.inner().inboundNatPools()) {
-                String name = ResourceUtils.nameFromResourceId(innerRef.id());
+                String name = ResourceUtils.nameFromResourceId(innerRef.getId());
                 LoadBalancerInboundNatPool pool = this.parent().inboundNatPools().get(name);
                 if (pool != null) {
                     pools.put(name, pool);
@@ -136,7 +137,7 @@ class LoadBalancerFrontendImpl
         final Map<String, LoadBalancerInboundNatRule> rules = new TreeMap<>();
         if (this.inner().inboundNatRules() != null) {
             for (SubResource innerRef : this.inner().inboundNatRules()) {
-                String name = ResourceUtils.nameFromResourceId(innerRef.id());
+                String name = ResourceUtils.nameFromResourceId(innerRef.getId());
                 LoadBalancerInboundNatRule rule = this.parent().inboundNatRules().get(name);
                 if (rule != null) {
                     rules.put(name, rule);
@@ -157,7 +158,7 @@ class LoadBalancerFrontendImpl
     @Override
     public LoadBalancerFrontendImpl withExistingSubnet(String parentNetworkResourceId, String subnetName) {
         SubnetInner subnetRef = (SubnetInner) new SubnetInner()
-                .withId(parentNetworkResourceId + "/subnets/" + subnetName);
+                .setId(parentNetworkResourceId + "/subnets/" + subnetName);
         this.inner()
                 .withSubnet(subnetRef)
                 .withPublicIPAddress(null); // Ensure no conflicting public and private settings

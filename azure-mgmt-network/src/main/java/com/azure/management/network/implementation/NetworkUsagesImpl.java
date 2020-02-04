@@ -5,12 +5,14 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.NetworkUsage;
 import com.azure.management.network.NetworkUsages;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import com.azure.management.network.models.NetworkManagementClientImpl;
+import com.azure.management.network.models.UsageInner;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 
 /**
  * The implementation of NetworkUsages.
@@ -24,22 +26,22 @@ class NetworkUsagesImpl extends ReadableWrappersImpl<NetworkUsage, NetworkUsageI
     }
 
     @Override
-    public PagedList<NetworkUsage> listByRegion(Region region) {
+    public PagedIterable<NetworkUsage> listByRegion(Region region) {
         return listByRegion(region.name());
     }
 
     @Override
-    public PagedList<NetworkUsage> listByRegion(String regionName) {
+    public PagedIterable<NetworkUsage> listByRegion(String regionName) {
         return wrapList(client.usages().list(regionName));
     }
 
     @Override
-    public Observable<NetworkUsage> listByRegionAsync(Region region) {
+    public PagedFlux<NetworkUsage> listByRegionAsync(Region region) {
         return listByRegionAsync(region.name());
     }
 
     @Override
-    public Observable<NetworkUsage> listByRegionAsync(String regionName) {
+    public PagedFlux<NetworkUsage> listByRegionAsync(String regionName) {
         return wrapPageAsync(client.usages().listAsync(regionName));
     }
 

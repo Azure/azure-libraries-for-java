@@ -7,20 +7,20 @@ package com.azure.management.network.implementation;
 
 import com.azure.management.network.RouteTable;
 import com.azure.management.network.RouteTables;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.RouteTableInner;
+import com.azure.management.network.models.RouteTablesInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  *  Implementation for RouteTables.
  */
-@LangDefinition
 class RouteTablesImpl
     extends TopLevelModifiableResourcesImpl<
-        RouteTable,
-        RouteTableImpl,
-        RouteTableInner,
-        RouteTablesInner,
-        NetworkManager>
+            RouteTable,
+            RouteTableImpl,
+            RouteTableInner,
+            RouteTablesInner,
+            NetworkManager>
     implements RouteTables {
 
     RouteTablesImpl(final NetworkManager networkManager) {
@@ -43,6 +43,6 @@ class RouteTablesImpl
 
     @Override
     protected RouteTableImpl wrapModel(RouteTableInner inner) {
-        return new RouteTableImpl(inner.name(), inner, this.manager());
+        return new RouteTableImpl(inner.getName(), inner, this.manager());
     }
 }

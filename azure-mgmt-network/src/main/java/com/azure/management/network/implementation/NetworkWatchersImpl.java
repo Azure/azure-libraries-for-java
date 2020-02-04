@@ -5,15 +5,15 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.NetworkWatcher;
 import com.azure.management.network.NetworkWatchers;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.NetworkWatcherInner;
+import com.azure.management.network.models.NetworkWatchersInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
- *  Implementation for Network Watchers.
+ * Implementation for Network Watchers.
  */
-@LangDefinition
 class NetworkWatchersImpl
         extends TopLevelModifiableResourcesImpl<
         NetworkWatcher,
@@ -44,7 +44,7 @@ class NetworkWatchersImpl
         if (inner == null) {
             return null;
         }
-        return new NetworkWatcherImpl(inner.name(), inner, this.manager());
+        return new NetworkWatcherImpl(inner.getName(), inner, this.manager());
     }
 }
 

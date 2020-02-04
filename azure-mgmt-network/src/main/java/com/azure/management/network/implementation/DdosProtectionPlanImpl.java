@@ -5,19 +5,18 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.DdosProtectionPlan;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import com.azure.management.network.models.DdosProtectionPlanInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
 
 /**
- *  Implementation for DdosProtectionPlan and its create and update interfaces.
+ * Implementation for DdosProtectionPlan and its create and update interfaces.
  */
-@LangDefinition
 class DdosProtectionPlanImpl
         extends GroupableResourceImpl<
         DdosProtectionPlan,
@@ -37,12 +36,12 @@ class DdosProtectionPlanImpl
     }
 
     @Override
-    protected Observable<DdosProtectionPlanInner> getInnerAsync() {
+    protected Mono<DdosProtectionPlanInner> getInnerAsync() {
         return this.manager().inner().ddosProtectionPlans().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<DdosProtectionPlan> createResourceAsync() {
+    public Mono<DdosProtectionPlan> createResourceAsync() {
         return this.manager().inner().ddosProtectionPlans().createOrUpdateAsync(resourceGroupName(), name(), inner())
                 .map(innerToFluentMap(this));
     }

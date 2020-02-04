@@ -5,16 +5,16 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayBackend;
 import com.azure.management.network.ApplicationGatewayBackendHttpConfiguration;
 import com.azure.management.network.ApplicationGatewayPathRule;
 import com.azure.management.network.ApplicationGatewayRedirectConfiguration;
 import com.azure.management.network.ApplicationGatewayUrlPathMap;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.ApplicationGatewayPathRuleInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +24,6 @@ import java.util.List;
 /**
  * Implementation for application gateway path rule.
  */
-@LangDefinition
 class ApplicationGatewayPathRuleImpl
         extends ChildResourceImpl<ApplicationGatewayPathRuleInner, ApplicationGatewayUrlPathMapImpl, ApplicationGatewayUrlPathMap>
         implements
@@ -50,7 +49,7 @@ class ApplicationGatewayPathRuleImpl
     @Override
     public ApplicationGatewayPathRuleImpl toBackendHttpConfiguration(String name) {
         SubResource httpConfigRef = new SubResource()
-                .withId(this.parent().parent().futureResourceId() + "/backendHttpSettingsCollection/" + name);
+                .setId(this.parent().parent().futureResourceId() + "/backendHttpSettingsCollection/" + name);
         this.inner().withBackendHttpSettings(httpConfigRef);
         return this;
     }
@@ -66,7 +65,7 @@ class ApplicationGatewayPathRuleImpl
         if (name == null) {
             this.inner().withRedirectConfiguration(null);
         } else {
-            SubResource ref = new SubResource().withId(this.parent().parent().futureResourceId() + "/redirectConfigurations/" + name);
+            SubResource ref = new SubResource().setId(this.parent().parent().futureResourceId() + "/redirectConfigurations/" + name);
             this.inner().withRedirectConfiguration(ref);
         }
         return this;
@@ -76,7 +75,7 @@ class ApplicationGatewayPathRuleImpl
     public ApplicationGatewayBackend backend() {
         SubResource backendRef = this.inner().backendAddressPool();
         if (backendRef != null) {
-            String backendName = ResourceUtils.nameFromResourceId(backendRef.id());
+            String backendName = ResourceUtils.nameFromResourceId(backendRef.getId());
             return this.parent().parent().backends().get(backendName);
         } else {
             return null;
@@ -87,7 +86,7 @@ class ApplicationGatewayPathRuleImpl
     public ApplicationGatewayBackendHttpConfiguration backendHttpConfiguration() {
         SubResource configRef = this.inner().backendHttpSettings();
         if (configRef != null) {
-            String configName = ResourceUtils.nameFromResourceId(configRef.id());
+            String configName = ResourceUtils.nameFromResourceId(configRef.getId());
             return this.parent().parent().backendHttpConfigurations().get(configName);
         } else {
             return null;
@@ -100,7 +99,7 @@ class ApplicationGatewayPathRuleImpl
         if (ref == null) {
             return null;
         } else {
-            return this.parent().parent().redirectConfigurations().get(ResourceUtils.nameFromResourceId(ref.id()));
+            return this.parent().parent().redirectConfigurations().get(ResourceUtils.nameFromResourceId(ref.getId()));
         }
     }
 

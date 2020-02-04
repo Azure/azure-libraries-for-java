@@ -5,29 +5,27 @@
  */
 package com.azure.management.network.implementation;
 
-import java.io.File;
-import java.io.IOException;
-
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayFrontend;
-import com.azure.management.network.ApplicationGatewayListener;
 import com.azure.management.network.ApplicationGatewayHttpListener;
+import com.azure.management.network.ApplicationGatewayListener;
 import com.azure.management.network.ApplicationGatewayProtocol;
 import com.azure.management.network.ApplicationGatewaySslCertificate;
 import com.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
- *  Implementation for ApplicationGatewayListener.
+ * Implementation for ApplicationGatewayListener.
  */
-@LangDefinition
 class ApplicationGatewayListenerImpl
-    extends ChildResourceImpl<ApplicationGatewayHttpListener, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewayHttpListener, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewayListener,
         ApplicationGatewayListener.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayListener.UpdateDefinition<ApplicationGateway.Update>,
@@ -104,7 +102,7 @@ class ApplicationGatewayListenerImpl
             return null;
         }
 
-        String name = ResourceUtils.nameFromResourceId(certRef.id());
+        String name = ResourceUtils.nameFromResourceId(certRef.getId());
         return this.parent().sslCertificates().get(name);
     }
 
@@ -128,7 +126,7 @@ class ApplicationGatewayListenerImpl
     @Override
     public String frontendPortName() {
         if (this.inner().frontendPort() != null) {
-            return ResourceUtils.nameFromResourceId(this.inner().frontendPort().id());
+            return ResourceUtils.nameFromResourceId(this.inner().frontendPort().getId());
         } else {
             return null;
         }
@@ -140,7 +138,7 @@ class ApplicationGatewayListenerImpl
         if (frontendInner == null) {
             return null;
         } else {
-            final String frontendName = ResourceUtils.nameFromResourceId(frontendInner.id());
+            final String frontendName = ResourceUtils.nameFromResourceId(frontendInner.getId());
             return this.parent().frontends().get(frontendName);
         }
     }
@@ -157,7 +155,7 @@ class ApplicationGatewayListenerImpl
 
     private ApplicationGatewayListenerImpl withFrontend(String name) {
         SubResource frontendRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/frontendIPConfigurations/" + name);
+                .setId(this.parent().futureResourceId() + "/frontendIPConfigurations/" + name);
         this.inner().withFrontendIPConfiguration(frontendRef);
         return this;
     }
@@ -167,7 +165,7 @@ class ApplicationGatewayListenerImpl
     @Override
     public ApplicationGatewayListenerImpl withFrontendPort(String name) {
         SubResource portRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/frontendPorts/" + name);
+                .setId(this.parent().futureResourceId() + "/frontendPorts/" + name);
         this.inner().withFrontendPort(portRef);
         return this;
     }
@@ -188,7 +186,7 @@ class ApplicationGatewayListenerImpl
     @Override
     public ApplicationGatewayListenerImpl withSslCertificate(String name) {
         SubResource certRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/sslCertificates/" + name);
+                .setId(this.parent().futureResourceId() + "/sslCertificates/" + name);
         this.inner().withSslCertificate(certRef);
         return this;
     }
@@ -203,8 +201,8 @@ class ApplicationGatewayListenerImpl
             name = SdkContext.randomResourceName("cert", 10);
         }
         this.parent().defineSslCertificate(name)
-            .withKeyVaultSecretId(keyVaultSecretId)
-            .attach();
+                .withKeyVaultSecretId(keyVaultSecretId)
+                .attach();
         return this;
     }
 
@@ -218,8 +216,8 @@ class ApplicationGatewayListenerImpl
             name = SdkContext.randomResourceName("cert", 10);
         }
         this.parent().defineSslCertificate(name)
-            .withPfxFromFile(pfxFile)
-            .attach();
+                .withPfxFromFile(pfxFile)
+                .attach();
         return this.withSslCertificate(name);
     }
 

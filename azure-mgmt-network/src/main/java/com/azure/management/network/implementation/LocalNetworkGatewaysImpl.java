@@ -5,23 +5,25 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.http.rest.PagedResponse;
 import com.azure.management.network.LocalNetworkGateway;
 import com.azure.management.network.LocalNetworkGateways;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.LocalNetworkGatewayInner;
+import com.azure.management.network.models.LocalNetworkGatewaysInner;
+import com.azure.management.network.models.VirtualNetworkGatewayInner;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Mono;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 /**
- *  Implementation for LocalNetworkGateways.
+ * Implementation for LocalNetworkGateways.
  */
-@LangDefinition
 class LocalNetworkGatewaysImpl
         extends GroupableResourcesImpl<
         LocalNetworkGateway,
@@ -41,44 +43,48 @@ class LocalNetworkGatewaysImpl
     }
 
     @Override
-    public PagedList<LocalNetworkGateway> list() {
-        return new GroupPagedList<LocalNetworkGateway>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<LocalNetworkGateway> listNextGroup(String resourceGroupName) {
-                return wrapList(LocalNetworkGatewaysImpl.this.inner().listByResourceGroup(resourceGroupName));
+    public PagedIterable<LocalNetworkGateway> list() {
+        return new PagedIterable<>(this.listAsync());
+    }
+
+    @Override
+    public PagedFlux<LocalNetworkGateway> listAsync() {
+        PagedIterable<ResourceGroup> resources = new PagedIterable<>(this.manager().getResourceManager().resourceGroups().listAsync());
+        Iterator<ResourceGroup> iterator = resources.iterator();
+
+        Function<String, Mono<PagedResponse<LocalNetworkGatewayInner>>> fetcher = (continuation) -> {
+            if (continuation == null) {
+                if (iterator.hasNext()) {
+                    return inner().listByResourceGroupSinglePageAsync(iterator.next().name());
+                } else {
+                    return Mono.empty();
+                }
+            } else {
+                return inner().listByResourceGroupSinglePageAsync(continuation);
             }
         };
+
+        return new PagedFlux<>(() -> fetcher.apply(null), (continuation) -> fetcher.apply(continuation)).mapPage(inner -> wrapModel(inner));
     }
 
     @Override
-    public Observable<LocalNetworkGateway> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<LocalNetworkGateway>>() {
-                    @Override
-                    public Observable<LocalNetworkGateway> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
-    }
-
-    @Override
-    public PagedList<LocalNetworkGateway> listByResourceGroup(String groupName) {
+    public PagedIterable<LocalNetworkGateway> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
     }
 
     @Override
-    public Observable<LocalNetworkGateway> listByResourceGroupAsync(String groupName) {
+    public PagedFlux<LocalNetworkGateway> listByResourceGroupAsync(String groupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(groupName));
     }
 
     @Override
-    protected Observable<LocalNetworkGatewayInner> getInnerAsync(String groupName, String name) {
+    protected Mono<LocalNetworkGatewayInner> getInnerAsync(String groupName, String name) {
         return this.inner().getByResourceGroupAsync(groupName, name);
     }
 
     @Override
-    protected Completable deleteInnerAsync(String groupName, String name) {
-        return this.inner().deleteAsync(groupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String groupName, String name) {
+        return this.inner().deleteAsync(groupName, name);
     }
 
     // Fluent model create helpers
@@ -95,7 +101,7 @@ class LocalNetworkGatewaysImpl
         if (inner == null) {
             return null;
         }
-        return new LocalNetworkGatewayImpl(inner.name(), inner, this.manager());
+        return new LocalNetworkGatewayImpl(inner.getName(), inner, this.manager());
     }
 }
 

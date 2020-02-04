@@ -5,13 +5,12 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ExpressRouteCircuitPeeringConfig;
 import com.azure.management.network.ExpressRouteCrossConnectionPeering;
 import com.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
 import com.azure.management.network.Ipv6PeeringConfig;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,7 @@ import java.util.List;
 /**
  *  Implementation for Ipv6PeeringConfig.
  */
-@LangDefinition
-class Ipv6PeeringConfigImpl
+ class Ipv6PeeringConfigImpl
         extends IndexableWrapperImpl<Ipv6ExpressRouteCircuitPeeringConfig>
         implements
         Ipv6PeeringConfig,
@@ -70,7 +68,7 @@ class Ipv6PeeringConfigImpl
 
     @Override
     public Ipv6PeeringConfigImpl withRouteFilter(String routeFilterId) {
-        inner().withRouteFilter(new SubResource().withId(routeFilterId));
+        inner().withRouteFilter(new SubResource().setId(routeFilterId));
         return this;
     }
 

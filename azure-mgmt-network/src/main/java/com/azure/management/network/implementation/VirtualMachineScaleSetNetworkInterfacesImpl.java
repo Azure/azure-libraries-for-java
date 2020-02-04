@@ -6,17 +6,17 @@
 
 package com.azure.management.network.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.azure.management.network.VirtualMachineScaleSetNetworkInterfaces;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import com.azure.management.network.models.NetworkInterfaceInner;
+import com.azure.management.network.models.NetworkInterfacesInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 
 /**
  * Implementation for VirtualMachineScaleSetNetworkInterfaces.
  */
-@LangDefinition
 class VirtualMachineScaleSetNetworkInterfacesImpl
         extends
         ReadableWrappersImpl<VirtualMachineScaleSetNetworkInterface,
@@ -52,7 +52,7 @@ class VirtualMachineScaleSetNetworkInterfacesImpl
         if (inner == null) {
             return null;
         }
-        return new VirtualMachineScaleSetNetworkInterfaceImpl(inner.name(),
+        return new VirtualMachineScaleSetNetworkInterfaceImpl(inner.getName(),
                 this.scaleSetName,
                 this.resourceGroupName,
                 inner,
@@ -61,10 +61,11 @@ class VirtualMachineScaleSetNetworkInterfacesImpl
 
     @Override
     public VirtualMachineScaleSetNetworkInterface getByVirtualMachineInstanceId(String instanceId, String name) {
+        // FIXME: parameter - expand
         NetworkInterfaceInner networkInterfaceInner = this.inner().getVirtualMachineScaleSetNetworkInterface(this.resourceGroupName,
                 this.scaleSetName,
                 instanceId,
-                name);
+                name, null);
         if (networkInterfaceInner == null) {
             return null;
         }
@@ -72,18 +73,18 @@ class VirtualMachineScaleSetNetworkInterfacesImpl
     }
 
     @Override
-    public PagedList<VirtualMachineScaleSetNetworkInterface> list() {
+    public PagedIterable<VirtualMachineScaleSetNetworkInterface> list() {
         return super.wrapList(this.inner().listVirtualMachineScaleSetNetworkInterfaces(this.resourceGroupName,
                 this.scaleSetName));
     }
 
     @Override
-    public Observable<VirtualMachineScaleSetNetworkInterface> listAsync() {
+    public PagedFlux<VirtualMachineScaleSetNetworkInterface> listAsync() {
         return wrapPageAsync(this.inner().listAsync());
     }
 
     @Override
-    public PagedList<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineInstanceId(String instanceId) {
+    public PagedIterable<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineInstanceId(String instanceId) {
         return super.wrapList(this.inner().listVirtualMachineScaleSetVMNetworkInterfaces(this.resourceGroupName,
                 this.scaleSetName,
                 instanceId));

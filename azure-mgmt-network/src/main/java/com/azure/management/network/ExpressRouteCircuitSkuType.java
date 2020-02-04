@@ -59,9 +59,9 @@ public class ExpressRouteCircuitSkuType {
      */
     public ExpressRouteCircuitSkuType(ExpressRouteCircuitSkuTier skuTier, ExpressRouteCircuitSkuFamily skuFamily) {
         this(new ExpressRouteCircuitSku()
-                .setName((skuTier == null ? "" : skuTier.toString()) + "_" + (skuFamily == null ? "" : skuFamily.toString()))
-                .setTier(skuTier)
-                .setFamily(skuFamily));
+                .withName((skuTier == null ? "" : skuTier.toString()) + "_" + (skuFamily == null ? "" : skuFamily.toString()))
+                .withTier(skuTier)
+                .withFamily(skuFamily));
     }
 
     /**
@@ -75,7 +75,7 @@ public class ExpressRouteCircuitSkuType {
         //
         this.sku = createCopy(sku);
 
-        this.value = this.sku.getName();
+        this.value = this.sku.name();
         VALUES_BY_NAME.put(this.value.toLowerCase(), this);
     }
 
@@ -90,7 +90,7 @@ public class ExpressRouteCircuitSkuType {
             return null;
         }
 
-        String nameToLookFor = sku.getName();
+        String nameToLookFor = sku.name();
 
         ExpressRouteCircuitSkuType result = VALUES_BY_NAME.get(nameToLookFor.toLowerCase());
         if (result != null) {
@@ -142,8 +142,8 @@ public class ExpressRouteCircuitSkuType {
      */
     private static ExpressRouteCircuitSku createCopy(ExpressRouteCircuitSku sku) {
         return new ExpressRouteCircuitSku()
-                .setName(sku.getName())
-                .setTier(sku.getTier())
-                .setFamily(sku.getFamily());
+                .withName(sku.name())
+                .withTier(sku.tier())
+                .withFamily(sku.family());
     }
 }

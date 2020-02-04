@@ -6,26 +6,26 @@
 
 package com.azure.management.network.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.http.rest.PagedResponse;
 import com.azure.management.network.VirtualNetworkGateway;
 import com.azure.management.network.VirtualNetworkGatewayConnection;
 import com.azure.management.network.VirtualNetworkGatewayConnections;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.VirtualNetworkGatewayConnectionInner;
+import com.azure.management.network.models.VirtualNetworkGatewayConnectionsInner;
+import com.azure.management.network.models.VirtualNetworkGatewayInner;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Mono;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * The implementation of VirtualNetworkGatewayConnections.
  */
-@LangDefinition
 class VirtualNetworkGatewayConnectionsImpl
         extends GroupableResourcesImpl<
         VirtualNetworkGatewayConnection,
@@ -55,7 +55,7 @@ class VirtualNetworkGatewayConnectionsImpl
         if (inner == null) {
             return null;
         }
-        return new VirtualNetworkGatewayConnectionImpl(inner.name(), parent, inner);
+        return new VirtualNetworkGatewayConnectionImpl(inner.getName(), parent, inner);
     }
 
     @Override
@@ -65,27 +65,17 @@ class VirtualNetworkGatewayConnectionsImpl
 
     @Override
     public void deleteByName(String name) {
-        deleteByNameAsync(name).await();
+        deleteByNameAsync(name).block();
     }
 
     @Override
-    public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
-        return this.inner().deleteAsync(parent.resourceGroupName(), name, callback);
+    public Mono<Void> deleteByNameAsync(String name) {
+        return this.inner().deleteAsync(parent.resourceGroupName(), name);
     }
 
     @Override
-    public Completable deleteByNameAsync(String name) {
-        return this.inner().deleteAsync(parent.resourceGroupName(), name).toCompletable();
-    }
-
-    @Override
-    public PagedList<VirtualNetworkGatewayConnection> list() {
-        return new GroupPagedList<VirtualNetworkGatewayConnection>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<VirtualNetworkGatewayConnection> listNextGroup(String resourceGroupName) {
-                return wrapList(VirtualNetworkGatewayConnectionsImpl.this.inner().listByResourceGroup(resourceGroupName));
-            }
-        };
+    public PagedIterable<VirtualNetworkGatewayConnection> list() {
+        return new PagedIterable<>(this.listAsync());
     }
 
     @Override
@@ -101,34 +91,38 @@ class VirtualNetworkGatewayConnectionsImpl
     }
 
     @Override
-    public Observable<VirtualNetworkGatewayConnection> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<VirtualNetworkGatewayConnection>>() {
-                    @Override
-                    public Observable<VirtualNetworkGatewayConnection> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+    public PagedFlux<VirtualNetworkGatewayConnection> listAsync() {
+        PagedIterable<ResourceGroup> resources = new PagedIterable<>(this.manager().getResourceManager().resourceGroups().listAsync());
+        Iterator<ResourceGroup> iterator = resources.iterator();
+
+        Function<String, Mono<PagedResponse<VirtualNetworkGatewayConnectionInner>>> fetcher = (continuation) -> {
+            if (continuation == null) {
+                if (iterator.hasNext()) {
+                    return inner().listByResourceGroupSinglePageAsync(iterator.next().name());
+                } else {
+                    return Mono.empty();
+                }
+            } else {
+                return inner().listByResourceGroupSinglePageAsync(continuation);
+            }
+        };
+
+        return new PagedFlux<>(() -> fetcher.apply(null), (continuation) -> fetcher.apply(continuation)).mapPage(inner -> wrapModel(inner));
     }
 
     @Override
-    protected Observable<VirtualNetworkGatewayConnectionInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Mono<VirtualNetworkGatewayConnectionInner> getInnerAsync(String resourceGroupName, String name) {
         return inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
-    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-        return inner().deleteAsync(resourceGroupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String resourceGroupName, String name) {
+        return inner().deleteAsync(resourceGroupName, name);
     }
 
     @Override
-    public Observable<VirtualNetworkGatewayConnection> getByNameAsync(String name) {
+    public Mono<VirtualNetworkGatewayConnection> getByNameAsync(String name) {
         return inner().getByResourceGroupAsync(parent.resourceGroupName(), name)
-                .map(new Func1<VirtualNetworkGatewayConnectionInner, VirtualNetworkGatewayConnection>() {
-                    @Override
-                    public VirtualNetworkGatewayConnection call(VirtualNetworkGatewayConnectionInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .map(inner -> wrapModel(inner));
     }
 }

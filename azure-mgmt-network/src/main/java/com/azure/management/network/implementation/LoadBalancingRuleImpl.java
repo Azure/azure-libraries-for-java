@@ -8,8 +8,7 @@ package com.azure.management.network.implementation;
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.LoadBalancerBackend;
 import com.azure.management.network.LoadBalancerFrontend;
 import com.azure.management.network.LoadBalancer;
@@ -20,20 +19,20 @@ import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.Subnet;
 import com.azure.management.network.LoadBalancerProbe;
 import com.azure.management.network.TransportProtocol;
-import com.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import com.azure.management.network.models.LoadBalancingRuleInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
- *  Implementation for LoadBalancingRule.
+ * Implementation for LoadBalancingRule.
  */
-@LangDefinition
 class LoadBalancingRuleImpl
-    extends ChildResourceImpl<LoadBalancingRuleInner, LoadBalancerImpl, LoadBalancer>
-    implements
+        extends ChildResourceImpl<LoadBalancingRuleInner, LoadBalancerImpl, LoadBalancer>
+        implements
         LoadBalancingRule,
         LoadBalancingRule.Definition<LoadBalancer.DefinitionStages.WithLBRuleOrNatOrCreate>,
         LoadBalancingRule.UpdateDefinition<LoadBalancer.Update>,
@@ -86,7 +85,7 @@ class LoadBalancingRuleImpl
         if (frontendRef == null) {
             return null;
         } else {
-            String frontendName = ResourceUtils.nameFromResourceId(frontendRef.id());
+            String frontendName = ResourceUtils.nameFromResourceId(frontendRef.getId());
             return this.parent().frontends().get(frontendName);
         }
     }
@@ -97,7 +96,7 @@ class LoadBalancingRuleImpl
         if (backendRef == null) {
             return null;
         } else {
-            String backendName = ResourceUtils.nameFromResourceId(backendRef.id());
+            String backendName = ResourceUtils.nameFromResourceId(backendRef.getId());
             return this.parent().backends().get(backendName);
         }
     }
@@ -108,7 +107,7 @@ class LoadBalancingRuleImpl
         if (probeRef == null) {
             return null;
         } else {
-            String probeName = ResourceUtils.nameFromResourceId(probeRef.id());
+            String probeName = ResourceUtils.nameFromResourceId(probeRef.getId());
             if (this.parent().httpProbes().containsKey(probeName)) {
                 return this.parent().httpProbes().get(probeName);
             } else if (this.parent().tcpProbes().containsKey(probeName)) {
@@ -253,7 +252,7 @@ class LoadBalancingRuleImpl
         this.parent().defineBackend(backendName).attach();
 
         SubResource backendRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/backendAddressPools/" + backendName);
+                .setId(this.parent().futureResourceId() + "/backendAddressPools/" + backendName);
         this.inner().withBackendAddressPool(backendRef);
         return this;
     }
@@ -261,7 +260,7 @@ class LoadBalancingRuleImpl
     @Override
     public LoadBalancingRuleImpl withProbe(String name) {
         SubResource probeRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/probes/" + name);
+                .setId(this.parent().futureResourceId() + "/probes/" + name);
         this.inner().withProbe(probeRef);
         return this;
     }

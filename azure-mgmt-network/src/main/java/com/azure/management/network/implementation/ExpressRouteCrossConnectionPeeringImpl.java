@@ -5,21 +5,20 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.network.models.ExpressRouteCrossConnectionPeeringInner;
+import com.azure.management.network.models.ExpressRouteCrossConnectionPeeringsInner;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.network.ExpressRouteCircuitPeeringConfig;
 import com.azure.management.network.ExpressRouteCrossConnection;
 import com.azure.management.network.ExpressRouteCrossConnectionPeering;
 import com.azure.management.network.ExpressRoutePeeringState;
 import com.azure.management.network.ExpressRoutePeeringType;
 import com.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 
-@LangDefinition
 class ExpressRouteCrossConnectionPeeringImpl extends
         CreatableUpdatableImpl<ExpressRouteCrossConnectionPeering, ExpressRouteCrossConnectionPeeringInner, ExpressRouteCrossConnectionPeeringImpl>
         implements
@@ -115,25 +114,22 @@ class ExpressRouteCrossConnectionPeeringImpl extends
     }
 
     @Override
-    protected Observable<ExpressRouteCrossConnectionPeeringInner> getInnerAsync() {
+    protected Mono<ExpressRouteCrossConnectionPeeringInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnectionPeering> createResourceAsync() {
+    public Mono<ExpressRouteCrossConnectionPeering> createResourceAsync() {
         return this.client.createOrUpdateAsync(parent.resourceGroupName(), parent.name(), this.name(), inner())
-                .map(new Func1<ExpressRouteCrossConnectionPeeringInner, ExpressRouteCrossConnectionPeering>() {
-                    @Override
-                    public ExpressRouteCrossConnectionPeering call(ExpressRouteCrossConnectionPeeringInner innerModel) {
-                        ExpressRouteCrossConnectionPeeringImpl.this.setInner(innerModel);
-                        parent.refresh();
-                        return ExpressRouteCrossConnectionPeeringImpl.this;
-                    }
+                .map(innerModel -> {
+                    ExpressRouteCrossConnectionPeeringImpl.this.setInner(innerModel);
+                    parent.refresh();
+                    return ExpressRouteCrossConnectionPeeringImpl.this;
                 });
     }
 
@@ -141,7 +137,7 @@ class ExpressRouteCrossConnectionPeeringImpl extends
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override

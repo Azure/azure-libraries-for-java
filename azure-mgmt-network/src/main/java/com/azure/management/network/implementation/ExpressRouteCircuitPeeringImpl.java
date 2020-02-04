@@ -5,21 +5,20 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ExpressRouteCircuit;
 import com.azure.management.network.ExpressRouteCircuitPeering;
 import com.azure.management.network.ExpressRouteCircuitPeeringConfig;
 import com.azure.management.network.ExpressRoutePeeringState;
 import com.azure.management.network.ExpressRoutePeeringType;
 import com.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.ExpressRouteCircuitPeeringInner;
+import com.azure.management.network.models.ExpressRouteCircuitPeeringsInner;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 
-@LangDefinition
 class ExpressRouteCircuitPeeringImpl extends
         CreatableUpdatableImpl<ExpressRouteCircuitPeering, ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeeringImpl>
         implements
@@ -77,26 +76,23 @@ class ExpressRouteCircuitPeeringImpl extends
     }
 
     @Override
-    protected Observable<ExpressRouteCircuitPeeringInner> getInnerAsync() {
+    protected Mono<ExpressRouteCircuitPeeringInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
-    public Observable<ExpressRouteCircuitPeering> createResourceAsync() {
+    public Mono<ExpressRouteCircuitPeering> createResourceAsync() {
         return this.client.createOrUpdateAsync(parent.resourceGroupName(), parent.name(), this.name(), inner())
-                .map(new Func1<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeering>() {
-                    @Override
-                    public ExpressRouteCircuitPeering call(ExpressRouteCircuitPeeringInner innerModel) {
-                        ExpressRouteCircuitPeeringImpl.this.setInner(innerModel);
-                        stats = new ExpressRouteCircuitStatsImpl(innerModel.stats());
-                        parent.refresh();
-                        return ExpressRouteCircuitPeeringImpl.this;
-                    }
+                .map(innerModel -> {
+                    ExpressRouteCircuitPeeringImpl.this.setInner(innerModel);
+                    stats = new ExpressRouteCircuitStatsImpl(innerModel.stats());
+                    parent.refresh();
+                    return ExpressRouteCircuitPeeringImpl.this;
                 });
     }
 
@@ -104,7 +100,7 @@ class ExpressRouteCircuitPeeringImpl extends
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override
@@ -124,7 +120,7 @@ class ExpressRouteCircuitPeeringImpl extends
 
     @Override
     public long peerAsn() {
-        return Utils.toPrimitiveInt(inner().peerASN());
+        return Utils.toPrimitiveLong(inner().peerASN());
     }
 
     @Override

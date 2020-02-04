@@ -5,27 +5,25 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.FlowLogSettings;
 import com.azure.management.network.NetworkWatcher;
 import com.azure.management.network.SecurityGroupView;
-import com.azure.management.network.model.AppliableWithTags;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.AppliableWithTags;
+import com.azure.management.network.models.FlowLogInformationInner;
+import com.azure.management.network.models.NetworkWatcherInner;
+import com.azure.management.network.models.SecurityGroupViewResultInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation for Network Watcher and its create and update interfaces.
  */
-@LangDefinition
 class NetworkWatcherImpl
         extends GroupableResourceImpl<
         NetworkWatcher,
-                NetworkWatcherInner,
-                NetworkWatcherImpl,
-                NetworkManager>
+        NetworkWatcherInner,
+        NetworkWatcherImpl,
+        NetworkManager>
         implements
         NetworkWatcher,
         NetworkWatcher.Definition,
@@ -36,8 +34,8 @@ class NetworkWatcherImpl
     private ConnectionMonitorsImpl connectionMonitors;
 
     NetworkWatcherImpl(String name,
-                final NetworkWatcherInner innerModel,
-                final NetworkManager networkManager) {
+                       final NetworkWatcherInner innerModel,
+                       final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
         this.packetCaptures = new PacketCapturesImpl(networkManager.inner().packetCaptures(), this);
         this.connectionMonitors = new ConnectionMonitorsImpl(networkManager.inner().connectionMonitors(), this);
@@ -67,15 +65,10 @@ class NetworkWatcherImpl
     }
 
     @Override
-    public Observable<SecurityGroupView> getSecurityGroupViewAsync(final String vmId) {
+    public Mono<SecurityGroupView> getSecurityGroupViewAsync(final String vmId) {
         return this.manager().inner().networkWatchers()
                 .getVMSecurityRulesAsync(this.resourceGroupName(), this.name(), vmId)
-                .map(new Func1<SecurityGroupViewResultInner, SecurityGroupView>() {
-                    @Override
-                    public SecurityGroupView call(SecurityGroupViewResultInner inner) {
-                        return new SecurityGroupViewImpl(NetworkWatcherImpl.this, inner, vmId);
-                    }
-                });
+                .map(inner -> new SecurityGroupViewImpl(NetworkWatcherImpl.this, inner, vmId));
     }
 
     public FlowLogSettings getFlowLogSettings(String nsgId) {
@@ -85,15 +78,10 @@ class NetworkWatcherImpl
     }
 
     @Override
-    public Observable<FlowLogSettings> getFlowLogSettingsAsync(final String nsgId) {
+    public Mono<FlowLogSettings> getFlowLogSettingsAsync(final String nsgId) {
         return this.manager().inner().networkWatchers()
                 .getFlowLogStatusAsync(this.resourceGroupName(), this.name(), nsgId)
-                .map(new Func1<FlowLogInformationInner, FlowLogSettings>() {
-                    @Override
-                    public FlowLogSettings call(FlowLogInformationInner inner) {
-                        return new FlowLogSettingsImpl(NetworkWatcherImpl.this, inner, nsgId);
-                    }
-                });
+                .map(inner -> new FlowLogSettingsImpl(NetworkWatcherImpl.this, inner, nsgId));
     }
 
     public NextHopImpl nextHop() {
@@ -126,14 +114,14 @@ class NetworkWatcherImpl
     }
 
     @Override
-    public Observable<NetworkWatcher> createResourceAsync() {
+    public Mono<NetworkWatcher> createResourceAsync() {
         return this.manager().inner().networkWatchers().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<NetworkWatcherInner> getInnerAsync() {
+    protected Mono<NetworkWatcherInner> getInnerAsync() {
         return this.manager().inner().networkWatchers().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -144,22 +132,16 @@ class NetworkWatcherImpl
 
     @Override
     public NetworkWatcher applyTags() {
-        return applyTagsAsync().toBlocking().last();
+        return applyTagsAsync().block();
     }
 
     @Override
-    public Observable<NetworkWatcher> applyTagsAsync() {
+    public Mono<NetworkWatcher> applyTagsAsync() {
         return this.manager().inner().networkWatchers().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
-                .flatMap(new Func1<NetworkWatcherInner, Observable<NetworkWatcher>>() {
-                    @Override
-                    public Observable<NetworkWatcher> call(NetworkWatcherInner inner) {
-                        setInner(inner);
-                        return Observable.just((NetworkWatcher) NetworkWatcherImpl.this);                    }
+                .flatMap(inner -> {
+                    setInner(inner);
+                    return Mono.just((NetworkWatcher) NetworkWatcherImpl.this);
                 });
     }
 
-    @Override
-    public ServiceFuture<NetworkWatcher> applyTagsAsync(ServiceCallback<NetworkWatcher> callback) {
-        return ServiceFuture.fromBody(applyTagsAsync(), callback);
-    }
 }

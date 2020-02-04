@@ -5,27 +5,28 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.AddressSpace;
 import com.azure.management.network.DhcpOptions;
 import com.azure.management.network.Network;
 import com.azure.management.network.Networks;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.network.models.VirtualNetworkInner;
+import com.azure.management.network.models.VirtualNetworksInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 import java.util.ArrayList;
 
 /**
- *  Implementation for Networks.
+ * Implementation for Networks.
  */
-@LangDefinition
 class NetworksImpl
-    extends TopLevelModifiableResourcesImpl<
+        extends TopLevelModifiableResourcesImpl<
         Network,
         NetworkImpl,
         VirtualNetworkInner,
         VirtualNetworksInner,
         NetworkManager>
-    implements Networks {
+        implements Networks {
 
     NetworksImpl(final NetworkManager networkManager) {
         super(networkManager.inner().virtualNetworks(), networkManager);
@@ -77,6 +78,6 @@ class NetworksImpl
         if (inner == null) {
             return null;
         }
-        return new NetworkImpl(inner.name(), inner, this.manager());
+        return new NetworkImpl(inner.getName(), inner, this.manager());
     }
 }

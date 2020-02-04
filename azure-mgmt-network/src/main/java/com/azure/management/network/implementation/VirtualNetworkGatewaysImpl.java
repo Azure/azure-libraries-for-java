@@ -5,23 +5,24 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.http.rest.PagedResponse;
 import com.azure.management.network.VirtualNetworkGateway;
 import com.azure.management.network.VirtualNetworkGateways;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.VirtualNetworkGatewayInner;
+import com.azure.management.network.models.VirtualNetworkGatewaysInner;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Mono;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 /**
- *  Implementation for VirtualNetworkGateways.
+ * Implementation for VirtualNetworkGateways.
  */
-@LangDefinition
 class VirtualNetworkGatewaysImpl
         extends GroupableResourcesImpl<
         VirtualNetworkGateway,
@@ -41,45 +42,49 @@ class VirtualNetworkGatewaysImpl
     }
 
     @Override
-    public PagedList<VirtualNetworkGateway> list() {
-        final VirtualNetworkGatewaysImpl self = this;
-        return new GroupPagedList<VirtualNetworkGateway>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<VirtualNetworkGateway> listNextGroup(String resourceGroupName) {
-                return wrapList(self.inner().listByResourceGroup(resourceGroupName));
+    public PagedIterable<VirtualNetworkGateway> list() {
+        return new PagedIterable<>(this.listAsync());
+    }
+
+    // TODO: Test this
+    @Override
+    public PagedFlux<VirtualNetworkGateway> listAsync() {
+        PagedIterable<ResourceGroup> resources = new PagedIterable<>(this.manager().getResourceManager().resourceGroups().listAsync());
+        Iterator<ResourceGroup> iterator = resources.iterator();
+
+        Function<String, Mono<PagedResponse<VirtualNetworkGatewayInner>>> fetcher = (continuation) -> {
+            if (continuation == null) {
+                if (iterator.hasNext()) {
+                    return inner().listByResourceGroupSinglePageAsync(iterator.next().name());
+                } else {
+                    return Mono.empty();
+                }
+            } else {
+                return inner().listByResourceGroupSinglePageAsync(continuation);
             }
         };
+
+        return new PagedFlux<>(() -> fetcher.apply(null), (continuation) -> fetcher.apply(continuation)).mapPage(inner -> wrapModel(inner));
     }
 
     @Override
-    public Observable<VirtualNetworkGateway> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<VirtualNetworkGateway>>() {
-                    @Override
-                    public Observable<VirtualNetworkGateway> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
-    }
-
-    @Override
-    public PagedList<VirtualNetworkGateway> listByResourceGroup(String groupName) {
+    public PagedIterable<VirtualNetworkGateway> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
     }
 
     @Override
-    public Observable<VirtualNetworkGateway> listByResourceGroupAsync(String groupName) {
+    public PagedFlux<VirtualNetworkGateway> listByResourceGroupAsync(String groupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(groupName));
     }
 
     @Override
-    protected Observable<VirtualNetworkGatewayInner> getInnerAsync(String groupName, String name) {
+    protected Mono<VirtualNetworkGatewayInner> getInnerAsync(String groupName, String name) {
         return this.inner().getByResourceGroupAsync(groupName, name);
     }
 
     @Override
-    protected Completable deleteInnerAsync(String groupName, String name) {
-        return this.inner().deleteAsync(groupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String groupName, String name) {
+        return this.inner().deleteAsync(groupName, name);
     }
 
     // Fluent model create helpers
@@ -96,7 +101,7 @@ class VirtualNetworkGatewaysImpl
         if (inner == null) {
             return null;
         }
-        return new VirtualNetworkGatewayImpl(inner.name(), inner, this.manager());
+        return new VirtualNetworkGatewayImpl(inner.getName(), inner, this.manager());
     }
 }
 

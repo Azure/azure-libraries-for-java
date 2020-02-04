@@ -5,21 +5,21 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ConnectionMonitor;
 import com.azure.management.network.ConnectionMonitorDestination;
 import com.azure.management.network.ConnectionMonitorQueryResult;
 import com.azure.management.network.ConnectionMonitorSource;
 import com.azure.management.network.NetworkWatcher;
 import com.azure.management.network.ProvisioningState;
-import com.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.ConnectionMonitorInner;
+import com.azure.management.network.models.ConnectionMonitorResultInner;
+import com.azure.management.network.models.ConnectionMonitorsInner;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,6 @@ import java.util.TreeMap;
 /**
  * Implementation for Connection Monitor and its create and update interfaces.
  */
-@LangDefinition
 public class ConnectionMonitorImpl extends
         CreatableUpdatableImpl<ConnectionMonitor, ConnectionMonitorResultInner, ConnectionMonitorImpl>
         implements
@@ -47,7 +46,7 @@ public class ConnectionMonitorImpl extends
     }
 
     @Override
-    protected Observable<ConnectionMonitorResultInner> getInnerAsync() {
+    protected Mono<ConnectionMonitorResultInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
@@ -58,7 +57,7 @@ public class ConnectionMonitorImpl extends
 
     @Override
     public Map<String, String> tags() {
-        Map<String, String> tags = this.inner().getTags();
+        Map<String, String> tags = this.inner().tags();
         if (tags == null) {
             tags = new TreeMap<>();
         }
@@ -86,7 +85,7 @@ public class ConnectionMonitorImpl extends
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return inner().startTime();
     }
 
@@ -102,50 +101,37 @@ public class ConnectionMonitorImpl extends
 
     @Override
     public void stop() {
-        stopAsync().await();
+        stopAsync().block();
     }
 
     @Override
-    public Completable stopAsync() {
+    public Mono<Void> stopAsync() {
         return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .flatMap(aVoid -> refreshAsync())
+                .then();
     }
 
     @Override
     public void start() {
-        startAsync().await();
+        startAsync().block();
     }
 
     @Override
-    public Completable startAsync() {
+    public Mono<Void> startAsync() {
         return this.client.startAsync(parent.resourceGroupName(), parent.name(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .flatMap(aVoid -> refreshAsync())
+                .then();
     }
 
     @Override
     public ConnectionMonitorQueryResult query() {
-        return queryAsync().toBlocking().last();
+        return queryAsync().block();
     }
 
     @Override
-    public Observable<ConnectionMonitorQueryResult> queryAsync() {
+    public Mono<ConnectionMonitorQueryResult> queryAsync() {
         return this.client.queryAsync(parent.resourceGroupName(), parent.name(), name())
-                .map(new Func1<ConnectionMonitorQueryResultInner, ConnectionMonitorQueryResult>() {
-                    @Override
-                    public ConnectionMonitorQueryResult call(ConnectionMonitorQueryResultInner inner) {
-                        return new ConnectionMonitorQueryResultImpl(inner);
-                    }
-                });
+                .map(inner -> new ConnectionMonitorQueryResultImpl(inner));
     }
 
     @Override
@@ -154,7 +140,7 @@ public class ConnectionMonitorImpl extends
     }
 
     @Override
-    public Observable<ConnectionMonitor> createResourceAsync() {
+    public Mono<ConnectionMonitor> createResourceAsync() {
         return this.client.createOrUpdateAsync(parent.resourceGroupName(), parent.name(), this.name(), createParameters)
                 .map(innerToFluentMap(this));
     }

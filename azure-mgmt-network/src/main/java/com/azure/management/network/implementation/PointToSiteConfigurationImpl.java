@@ -12,8 +12,7 @@ import com.azure.management.network.VpnClientConfiguration;
 import com.azure.management.network.VpnClientProtocol;
 import com.azure.management.network.VpnClientRevokedCertificate;
 import com.azure.management.network.VpnClientRootCertificate;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +24,6 @@ import java.util.List;
 /**
  * Implementation for PointToSiteConfiguration and its create and update interfaces.
  */
-@LangDefinition
 class PointToSiteConfigurationImpl
         extends IndexableWrapperImpl<VpnClientConfiguration>
         implements

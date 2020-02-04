@@ -5,18 +5,16 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.NextHop;
 import com.azure.management.network.NextHopParameters;
 import com.azure.management.network.NextHopType;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.NextHopResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation of NextHop.
  */
-@LangDefinition
 public class NextHopImpl extends ExecutableImpl<NextHop>
         implements NextHop, NextHop.Definition {
     private final NetworkWatcherImpl parent;
@@ -92,15 +90,12 @@ public class NextHopImpl extends ExecutableImpl<NextHop>
     }
 
     @Override
-    public Observable<NextHop> executeWorkAsync() {
+    public Mono<NextHop> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getNextHopAsync(parent.resourceGroupName(), parent.name(), parameters)
-                .map(new Func1<NextHopResultInner, NextHop>() {
-                    @Override
-                    public NextHop call(NextHopResultInner nextHopResultInner) {
-                        NextHopImpl.this.result = nextHopResultInner;
-                        return NextHopImpl.this;
-                    }
+                .map(nextHopResultInner -> {
+                    NextHopImpl.this.result = nextHopResultInner;
+                    return NextHopImpl.this;
                 });
     }
 }

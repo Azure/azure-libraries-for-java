@@ -6,7 +6,6 @@
 package com.azure.management.network.implementation;
 
 import com.azure.management.network.IPAllocationMethod;
-import com.azure.management.network.IPConfiguration;
 import com.azure.management.network.IPVersion;
 import com.azure.management.network.IpTag;
 import com.azure.management.network.LoadBalancer;
@@ -16,16 +15,15 @@ import com.azure.management.network.NicIPConfiguration;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.PublicIPAddressDnsSettings;
 import com.azure.management.network.PublicIPSkuType;
-import com.azure.management.network.model.AppliableWithTags;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.AppliableWithTags;
+import com.azure.management.network.models.IPConfigurationInner;
+import com.azure.management.network.models.PublicIPAddressInner;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,32 +32,31 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *  Implementation for PublicIPAddress and its create and update interfaces.
+ * Implementation for PublicIPAddress and its create and update interfaces.
  */
-@LangDefinition
 class PublicIPAddressImpl
-    extends GroupableResourceImpl<
+        extends GroupableResourceImpl<
         PublicIPAddress,
         PublicIPAddressInner,
         PublicIPAddressImpl,
         NetworkManager>
-    implements
+        implements
         PublicIPAddress,
         PublicIPAddress.Definition,
         PublicIPAddress.Update,
         AppliableWithTags<PublicIPAddress> {
 
     PublicIPAddressImpl(String name,
-            PublicIPAddressInner innerModel,
-            final NetworkManager networkManager) {
+                        PublicIPAddressInner innerModel,
+                        final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
     }
 
     // Verbs
 
     @Override
-    protected Observable<PublicIPAddressInner> getInnerAsync() {
-        return this.manager().inner().publicIPAddresses().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    protected Mono<PublicIPAddressInner> getInnerAsync() {
+        return this.manager().inner().publicIPAddresses().getByResourceGroupAsync(this.resourceGroupName(), this.name(), null);
     }
 
     // Setters (fluent)
@@ -179,7 +176,7 @@ class PublicIPAddressImpl
 
     // CreateUpdateTaskGroup.ResourceCreator implementation
     @Override
-    public Observable<PublicIPAddress> createResourceAsync() {
+    public Mono<PublicIPAddress> createResourceAsync() {
         // Clean up empty DNS settings
         final PublicIPAddressDnsSettings dnsSettings = this.inner().dnsSettings();
         if (dnsSettings != null) {
@@ -196,11 +193,11 @@ class PublicIPAddressImpl
     }
 
     private boolean equalsResourceType(String resourceType) {
-        IPConfiguration ipConfig = this.inner().ipConfiguration();
+        IPConfigurationInner ipConfig = this.inner().ipConfiguration();
         if (ipConfig == null || resourceType == null) {
             return false;
         } else {
-            final String refId = this.inner().ipConfiguration().id();
+            final String refId = this.inner().ipConfiguration().getId();
             final String resourceType2 = ResourceUtils.resourceTypeFromResourceId(refId);
             return resourceType.equalsIgnoreCase(resourceType2);
         }
@@ -214,7 +211,7 @@ class PublicIPAddressImpl
     @Override
     public LoadBalancerPublicFrontend getAssignedLoadBalancerFrontend() {
         if (this.hasAssignedLoadBalancer()) {
-            final String refId = this.inner().ipConfiguration().id();
+            final String refId = this.inner().ipConfiguration().getId();
             final String loadBalancerId = ResourceUtils.parentResourceIdFromResourceId(refId);
             final LoadBalancer lb = this.myManager.loadBalancers().getById(loadBalancerId);
             final String frontendName = ResourceUtils.nameFromResourceId(refId);
@@ -253,7 +250,7 @@ class PublicIPAddressImpl
     @Override
     public NicIPConfiguration getAssignedNetworkInterfaceIPConfiguration() {
         if (this.hasAssignedNetworkInterface()) {
-            final String refId = this.inner().ipConfiguration().id();
+            final String refId = this.inner().ipConfiguration().getId();
             final String parentId = ResourceUtils.parentResourceIdFromResourceId(refId);
             final NetworkInterface nic = this.myManager.networkInterfaces().getById(parentId);
             final String childName = ResourceUtils.nameFromResourceId(refId);
@@ -270,23 +267,16 @@ class PublicIPAddressImpl
 
     @Override
     public PublicIPAddress applyTags() {
-        return applyTagsAsync().toBlocking().last();
+        return applyTagsAsync().block();
     }
 
     @Override
-    public Observable<PublicIPAddress> applyTagsAsync() {
+    public Mono<PublicIPAddress> applyTagsAsync() {
         return this.manager().inner().publicIPAddresses().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
-                .flatMap(new Func1<PublicIPAddressInner, Observable<PublicIPAddress>>() {
-                    @Override
-                    public Observable<PublicIPAddress> call(PublicIPAddressInner inner) {
-                        setInner(inner);
-                        return Observable.just((PublicIPAddress) PublicIPAddressImpl.this);                    }
+                .flatMap(inner -> {
+                    setInner(inner);
+                    return Mono.just((PublicIPAddress) PublicIPAddressImpl.this);
                 });
-    }
-
-    @Override
-    public ServiceFuture<PublicIPAddress> applyTagsAsync(ServiceCallback<PublicIPAddress> callback) {
-        return ServiceFuture.fromBody(applyTagsAsync(), callback);
     }
 
     @Override

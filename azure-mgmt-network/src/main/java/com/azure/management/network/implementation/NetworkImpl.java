@@ -5,22 +5,22 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.CloudException;
+import com.azure.core.management.SubResource;
+import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
+import com.azure.management.network.models.IPAddressAvailabilityResultInner;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.network.models.VirtualNetworkInner;
 import com.azure.management.network.AddressSpace;
 import com.azure.management.network.DdosProtectionPlan;
 import com.azure.management.network.DhcpOptions;
 import com.azure.management.network.Network;
 import com.azure.management.network.NetworkPeerings;
 import com.azure.management.network.Subnet;
-import com.azure.management.network.model.GroupableParentResourceWithTagsImpl;
-
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,14 +32,13 @@ import java.util.TreeMap;
 /**
  * Implementation for Network and its create and update interfaces.
  */
-@LangDefinition
 class NetworkImpl
-    extends GroupableParentResourceWithTagsImpl<
+        extends GroupableParentResourceWithTagsImpl<
         Network,
         VirtualNetworkInner,
         NetworkImpl,
         NetworkManager>
-    implements
+        implements
         Network,
         Network.Definition,
         Network.Update {
@@ -49,8 +48,8 @@ class NetworkImpl
     private Creatable<DdosProtectionPlan> ddosProtectionPlanCreatable;
 
     NetworkImpl(String name,
-            final VirtualNetworkInner innerModel,
-            final NetworkManager networkManager) {
+                final VirtualNetworkInner innerModel,
+                final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
     }
 
@@ -72,24 +71,22 @@ class NetworkImpl
     // Verbs
 
     @Override
-    public Observable<Network> refreshAsync() {
-        return super.refreshAsync().map(new Func1<Network, Network>() {
-            @Override
-            public Network call(Network network) {
-                NetworkImpl impl = (NetworkImpl) network;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+    public Mono<Network> refreshAsync() {
+        return super.refreshAsync().map(network -> {
+            NetworkImpl impl = (NetworkImpl) network;
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<VirtualNetworkInner> getInnerAsync() {
-        return this.manager().inner().virtualNetworks().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    protected Mono<VirtualNetworkInner> getInnerAsync() {
+        // FIXME: parameter - expand
+        return this.manager().inner().virtualNetworks().getByResourceGroupAsync(this.resourceGroupName(), this.name(), null);
     }
 
     @Override
-    protected Observable<VirtualNetworkInner> applyTagsToInnerAsync() {
+    protected Mono<VirtualNetworkInner> applyTagsToInnerAsync() {
         return this.manager().inner().virtualNetworks().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
@@ -149,8 +146,8 @@ class NetworkImpl
     @Override
     public NetworkImpl withSubnet(String name, String cidr) {
         return this.defineSubnet(name)
-            .withAddressPrefix(cidr)
-            .attach();
+                .withAddressPrefix(cidr)
+                .attach();
     }
 
     @Override
@@ -263,18 +260,15 @@ class NetworkImpl
     }
 
     @Override
-    protected Observable<VirtualNetworkInner> createInner() {
+    protected Mono<VirtualNetworkInner> createInner() {
         if (ddosProtectionPlanCreatable != null && this.taskResult(ddosProtectionPlanCreatable.key()) != null) {
             DdosProtectionPlan ddosProtectionPlan = this.<DdosProtectionPlan>taskResult(ddosProtectionPlanCreatable.key());
             withExistingDdosProtectionPlan(ddosProtectionPlan.id());
         }
         return this.manager().inner().virtualNetworks().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
-                .map(new Func1<VirtualNetworkInner, VirtualNetworkInner>() {
-                    @Override
-                    public VirtualNetworkInner call(VirtualNetworkInner virtualNetworkInner) {
-                        NetworkImpl.this.ddosProtectionPlanCreatable = null;
-                        return virtualNetworkInner;
-                    }
+                .map(virtualNetworkInner -> {
+                    NetworkImpl.this.ddosProtectionPlanCreatable = null;
+                    return virtualNetworkInner;
                 });
     }
 
@@ -295,7 +289,7 @@ class NetworkImpl
 
     @Override
     public String ddosProtectionPlanId() {
-        return inner().ddosProtectionPlan() == null ? null : inner().ddosProtectionPlan().id();
+        return inner().ddosProtectionPlan() == null ? null : inner().ddosProtectionPlan().getId();
     }
 
     @Override
@@ -315,7 +309,7 @@ class NetworkImpl
 
     @Override
     public NetworkImpl withExistingDdosProtectionPlan(String planId) {
-        inner().withEnableDdosProtection(true).withDdosProtectionPlan(new SubResource().withId(planId));
+        inner().withEnableDdosProtection(true).withDdosProtectionPlan(new SubResource().setId(planId));
         return this;
     }
 

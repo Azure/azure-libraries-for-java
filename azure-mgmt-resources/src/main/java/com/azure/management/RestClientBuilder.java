@@ -8,7 +8,6 @@ import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
-import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
@@ -41,9 +40,6 @@ public final class RestClientBuilder {
     private Configuration configuration;
     private SerializerAdapter serializerAdapter;
     private List<String> scopes;
-
-    // TODO: add AzureEnvironment parameter for different default scopes
-    private static final String[] defaultScopes = new String[] { AzureEnvironment.AZURE.getResourceManagerEndpoint() + "/.default" };
 
     private final RetryPolicy retryPolicy;
 
@@ -156,7 +152,7 @@ public final class RestClientBuilder {
     }
 
     public String[] getScopes() {
-        return this.scopes.isEmpty() ? defaultScopes : this.scopes.toArray(new String[0]);
+        return this.scopes.isEmpty() ? null : this.scopes.toArray(new String[0]);
     }
 
     public SerializerAdapter getSerializerAdapter() {
@@ -168,5 +164,19 @@ public final class RestClientBuilder {
      */
     public TokenCredential getCredential() {
         return this.credential;
+    }
+
+    public RestClientBuilder clone() {
+        RestClientBuilder builder = new RestClientBuilder();
+        builder.baseUrl = this.baseUrl;
+        builder.credential = this.credential;
+        builder.pipeline = this.pipeline;
+        builder.policies.addAll(this.policies);
+        builder.httpClient = this.httpClient;
+        builder.httpLogOptions = this.httpLogOptions;
+        builder.configuration = this.configuration;
+        builder.serializerAdapter = this.serializerAdapter;
+        builder.scopes.addAll(this.scopes);
+        return builder;
     }
 }

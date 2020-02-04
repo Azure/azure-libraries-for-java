@@ -16,8 +16,10 @@ public abstract class ManagerBase {
 
     private ResourceManager resourceManager;
     private final String subscriptionId;
+    protected final RestClient restClient;
 
     protected ManagerBase(RestClient restClient, String subscriptionId) {
+        this.restClient = restClient;
         if (restClient != null) {
             this.resourceManager = ResourceManager.authenticate(restClient).withSubscription(subscriptionId);
         }

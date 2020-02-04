@@ -67,7 +67,7 @@ var autoRestExe;
 gulp.task('codegen', function(cb) {
     if (autoRestVersion.match(/[0-9]+\.[0-9]+\.[0-9]+.*/) ||
         autoRestVersion == 'latest') {
-            autoRestExe = 'autorest-beta ---version=' + autoRestVersion;
+            autoRestExe = 'autorest-beta --version=' + autoRestVersion;
             handleInput(projects, cb);
     } else {
         autoRestExe = "node " + path.join(autoRestVersion, "src/autorest-core/dist/app.js");
@@ -129,7 +129,7 @@ var codegen = function(project, cb) {
     cmd = autoRestExe + ' ' + transcodedReadmeFile +
                         ' --java ' +
                         ' --azure-arm=true ' +
-                        ' --generate-client-as-impl=true --implementation-subpackage=models --sync-methods=all ' + 
+                        ' --generate-client-as-impl=true --implementation-subpackage=models --sync-methods=all ' +
                         generator +
                         ` --namespace=${mappings[project].package} ` +
                         ` --java.output-folder=${outDir} ` +
@@ -143,7 +143,7 @@ var codegen = function(project, cb) {
     }
 
     if (debug) {
-        cmd += ' --debugger';
+        cmd += ' --java.debugger';
     }
 
     console.log('Command: ' + cmd);

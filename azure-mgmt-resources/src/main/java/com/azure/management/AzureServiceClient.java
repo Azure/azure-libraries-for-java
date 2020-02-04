@@ -11,6 +11,8 @@ import com.azure.core.management.implementation.polling.PollingState;
 import com.azure.core.management.polling.PollResult;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.azure.core.util.FluxUtil;
+import com.azure.core.util.polling.LongRunningOperationStatus;
+import com.azure.core.util.polling.PollResponse;
 import com.azure.core.util.polling.PollerFlux;
 import com.azure.core.util.polling.PollingContext;
 import com.azure.core.util.serializer.SerializerAdapter;
@@ -117,24 +119,25 @@ public abstract class AzureServiceClient {
                 activationOperation(lroInit, pollResultType));
     }
 
-    private <T> Function<PollingContext<PollResult<T>>, Mono<PollResult<T>>> activationOperation(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit, Type type) {
+    private <T> Function<PollingContext<PollResult<T>>, Mono<PollResponse<PollResult<T>>>> activationOperation(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit, Type type) {
         return (pollingContext) -> withContext(context -> lroInit
                 .flatMap(response -> {
                     Mono<String> bodyAsString = FluxUtil.collectBytesInByteBufferStream(response.getValue().map(ByteBuffer::duplicate)).map(bytes -> bytes == null ? null : new String(bytes, StandardCharsets.UTF_8));
-                    return bodyAsString.map(body -> {
-                        PollingState state = PollingState.create(getSerializerAdapter(), response.getRequest(), response.getStatusCode(), response.getHeaders(), body);
-                        if (response.getStatusCode() == 200) {
-                            // pollingContext.setData("INIT_STATUS", LongRunningOperationStatus.SUCCESSFULLY_COMPLETED.toString());
-                        }
-                        state.store(pollingContext);
+                    return bodyAsString.flatMap(body -> {
                         try {
+                            PollingState state = PollingState.create(getSerializerAdapter(), response.getRequest(), response.getStatusCode(), response.getHeaders(), body);
+                            state.store(pollingContext);
                             T result = getSerializerAdapter().deserialize(body, type, SerializerEncoding.JSON);
-                            return Optional.ofNullable(result);
+
+                            if (response.getStatusCode() == 200) {
+                                return Mono.just(new PollResponse<>(state.getOperationStatus(), new PollResult<>(result)));
+                            }
+                            return Mono.just(new PollResponse<>(LongRunningOperationStatus.NOT_STARTED, new PollResult<>(result)));
                         } catch (IOException e) {
                             e.printStackTrace();
-                            return Optional.<T>empty();
+                            return Mono.just(new PollResponse<>(LongRunningOperationStatus.NOT_STARTED, new PollResult<>((T) null)));
                         }
-                    }).map(result -> result.map(PollResult::new).orElseGet(() -> new PollResult<T>((T) null)));
+                    });
                 }));
         // TODO: onErrorMap(error -> Mono.just(new PollResult<T>((PollResult.Error) error)));
     }

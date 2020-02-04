@@ -82,14 +82,14 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
         ManagementPolicy managementPolicy = managementPolicies.define("management-test")
                 .withExistingStorageAccount(RG_NAME, SA_NAME)
                 .defineRule("rule1")
-                    .withLifecycleRuleType()
-                    .withBlobTypeToFilterFor(BlobTypes.BLOCK_BLOB)
-                    .withPrefixToFilterFor("container1/foo")
-                    .withTierToCoolActionOnBaseBlob(30)
-                    .withTierToArchiveActionOnBaseBlob(90)
-                    .withDeleteActionOnBaseBlob(2555)
-                    .withDeleteActionOnSnapShot(90)
-                    .attach()
+	                .withLifecycleRuleType()
+	                .withBlobTypeToFilterFor(BlobTypes.BLOCK_BLOB)
+	                .withPrefixToFilterFor("container1/foo")
+	                .withTierToCoolActionOnBaseBlob(30)
+	                .withTierToArchiveActionOnBaseBlob(90)
+	                .withDeleteActionOnBaseBlob(2555)
+	                .withDeleteActionOnSnapShot(90)
+	                .attach()
                 .create();
 
         List<BlobTypes> blobTypesToFilterFor = new ArrayList<>();

@@ -20,13 +20,13 @@
   "arm-keyvault": {
     "dir": "azure-mgmt-keyvault",
     "source": "specification/keyvault/resource-manager/readme.md",
-    "package": "com.microsoft.azure.management.keyvault",
+    "package": "com.azure.management.keyvault",
     "args": "--payload-flattening-threshold=1 --tag=package-2018-02"
   },
   "authorization": {
     "dir": "azure-mgmt-graph-rbac",
     "source": "specification/authorization/resource-manager/readme.md",
-    "package": "com.microsoft.azure.management.graphrbac",
+    "package": "com.azure.management.graphrbac",
     "args": "--payload-flattening-threshold=1 --tag=package-2018-01-01-preview"
   },
   "automation": {
@@ -168,7 +168,7 @@
   "graphrbac": {
     "dir": "azure-mgmt-graph-rbac",
     "source": "specification/graphrbac/data-plane/readme.md",
-    "package": "com.microsoft.azure.management.graphrbac",
+    "package": "com.azure.management.graphrbac",
     "args": "--payload-flattening-threshold=1 --tag=1.6"
   },
   "iothub": {
@@ -265,7 +265,7 @@
     "dir": "azure-mgmt-resources",
     "source": "specification/resources/resource-manager/readme.md",
     "package": "com.azure.management.resources --tag=package-resources-2019-08",
-    "args": "--add-inner=Deployment --add-client-flatten=WhatIfOperationResult"
+    "args": "--add-inner=Deployment"
   },
   "scheduler": {
     "dir": "azure-mgmt-scheduler",
@@ -307,7 +307,7 @@
     "dir": "azure-mgmt-storage",
     "source": "specification/storage/resource-manager/readme.md",
     "package": "com.azure.management.storage",
-    "args": "--payload-flattening-threshold=2 --tag=package-2018-11 --add-client-flatten=BlobContainer,ImmutabilityPolicyProperties,ImmutabilityPolicy,ListContainerItem,BlobServiceProperties,Operation,StorageAccountCreateParameters,StorageAccount,StorageAccountUpdateParameters,ManagementPolicy,PrivateEndpointConnection,PrivateLinkResource"
+    "args": "--payload-flattening-threshold=2 --tag=package-2018-11"
   },
   "storsimple8000series": {
     "dir": "azure-mgmt-storsimple8000series",
@@ -336,7 +336,7 @@
   "msi": {
     "dir": "azure-mgmt-msi",
     "source": "specification/msi/resource-manager/readme.md",
-    "package": "com.microsoft.azure.management.msi",
-    "args": "--payload-flattening-threshold=1 --tag=package-2018-11-30"
+    "package": "com.azure.management.msi",
+    "args": "--payload-flattening-threshold=1 --tag=package-2018-11-30 --add-client-flatten=Identity"
   }
 }

@@ -5,20 +5,20 @@
  */
 package com.azure.management.network;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.network.implementation.VirtualNetworksInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.network.models.VirtualNetworksInner;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 
 /**
@@ -26,15 +26,15 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  */
 @Fluent()
 public interface Networks extends
-    SupportsCreating<Network.DefinitionStages.Blank>,
-    SupportsListing<Network>,
-    SupportsListingByResourceGroup<Network>,
-    SupportsGettingByResourceGroup<Network>,
-    SupportsGettingById<Network>,
-    SupportsDeletingById,
-    SupportsDeletingByResourceGroup,
-    SupportsBatchCreation<Network>,
-    SupportsBatchDeletion,
-    HasManager<NetworkManager>,
-    HasInner<VirtualNetworksInner> {
+        SupportsCreating<Network.DefinitionStages.Blank>,
+        SupportsListing<Network>,
+        SupportsListingByResourceGroup<Network>,
+        SupportsGettingByResourceGroup<Network>,
+        SupportsGettingById<Network>,
+        SupportsDeletingById,
+        SupportsDeletingByResourceGroup,
+        SupportsBatchCreation<Network>,
+        SupportsBatchDeletion,
+        HasManager<NetworkManager>,
+        HasInner<VirtualNetworksInner> {
 }

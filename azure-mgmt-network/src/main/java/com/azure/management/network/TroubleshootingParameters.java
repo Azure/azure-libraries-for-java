@@ -39,7 +39,7 @@ public class TroubleshootingParameters {
      * 
      * @return the targetResourceId value.
      */
-    public String getTargetResourceId() {
+    public String targetResourceId() {
         return this.targetResourceId;
     }
 
@@ -49,7 +49,7 @@ public class TroubleshootingParameters {
      * @param targetResourceId the targetResourceId value to set.
      * @return the TroubleshootingParameters object itself.
      */
-    public TroubleshootingParameters setTargetResourceId(String targetResourceId) {
+    public TroubleshootingParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }
@@ -60,7 +60,7 @@ public class TroubleshootingParameters {
      * 
      * @return the storageId value.
      */
-    public String getStorageId() {
+    public String storageId() {
         return this.storageId;
     }
 
@@ -71,7 +71,7 @@ public class TroubleshootingParameters {
      * @param storageId the storageId value to set.
      * @return the TroubleshootingParameters object itself.
      */
-    public TroubleshootingParameters setStorageId(String storageId) {
+    public TroubleshootingParameters withStorageId(String storageId) {
         this.storageId = storageId;
         return this;
     }
@@ -82,7 +82,7 @@ public class TroubleshootingParameters {
      * 
      * @return the storagePath value.
      */
-    public String getStoragePath() {
+    public String storagePath() {
         return this.storagePath;
     }
 
@@ -93,7 +93,7 @@ public class TroubleshootingParameters {
      * @param storagePath the storagePath value to set.
      * @return the TroubleshootingParameters object itself.
      */
-    public TroubleshootingParameters setStoragePath(String storagePath) {
+    public TroubleshootingParameters withStoragePath(String storagePath) {
         this.storagePath = storagePath;
         return this;
     }

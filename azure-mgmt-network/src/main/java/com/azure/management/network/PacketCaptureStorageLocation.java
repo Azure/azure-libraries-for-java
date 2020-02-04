@@ -43,7 +43,7 @@ public final class PacketCaptureStorageLocation {
      * 
      * @return the storageId value.
      */
-    public String getStorageId() {
+    public String storageId() {
         return this.storageId;
     }
 
@@ -54,7 +54,7 @@ public final class PacketCaptureStorageLocation {
      * @param storageId the storageId value to set.
      * @return the PacketCaptureStorageLocation object itself.
      */
-    public PacketCaptureStorageLocation setStorageId(String storageId) {
+    public PacketCaptureStorageLocation withStorageId(String storageId) {
         this.storageId = storageId;
         return this;
     }
@@ -66,7 +66,7 @@ public final class PacketCaptureStorageLocation {
      * 
      * @return the storagePath value.
      */
-    public String getStoragePath() {
+    public String storagePath() {
         return this.storagePath;
     }
 
@@ -78,7 +78,7 @@ public final class PacketCaptureStorageLocation {
      * @param storagePath the storagePath value to set.
      * @return the PacketCaptureStorageLocation object itself.
      */
-    public PacketCaptureStorageLocation setStoragePath(String storagePath) {
+    public PacketCaptureStorageLocation withStoragePath(String storagePath) {
         this.storagePath = storagePath;
         return this;
     }
@@ -91,7 +91,7 @@ public final class PacketCaptureStorageLocation {
      * 
      * @return the filePath value.
      */
-    public String getFilePath() {
+    public String filePath() {
         return this.filePath;
     }
 
@@ -104,7 +104,7 @@ public final class PacketCaptureStorageLocation {
      * @param filePath the filePath value to set.
      * @return the PacketCaptureStorageLocation object itself.
      */
-    public PacketCaptureStorageLocation setFilePath(String filePath) {
+    public PacketCaptureStorageLocation withFilePath(String filePath) {
         this.filePath = filePath;
         return this;
     }

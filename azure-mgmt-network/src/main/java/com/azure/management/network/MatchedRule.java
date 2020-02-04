@@ -32,7 +32,7 @@ public final class MatchedRule {
      * 
      * @return the ruleName value.
      */
-    public String getRuleName() {
+    public String ruleName() {
         return this.ruleName;
     }
 
@@ -42,7 +42,7 @@ public final class MatchedRule {
      * @param ruleName the ruleName value to set.
      * @return the MatchedRule object itself.
      */
-    public MatchedRule setRuleName(String ruleName) {
+    public MatchedRule withRuleName(String ruleName) {
         this.ruleName = ruleName;
         return this;
     }
@@ -53,7 +53,7 @@ public final class MatchedRule {
      * 
      * @return the action value.
      */
-    public String getAction() {
+    public String action() {
         return this.action;
     }
 
@@ -64,7 +64,7 @@ public final class MatchedRule {
      * @param action the action value to set.
      * @return the MatchedRule object itself.
      */
-    public MatchedRule setAction(String action) {
+    public MatchedRule withAction(String action) {
         this.action = action;
         return this;
     }

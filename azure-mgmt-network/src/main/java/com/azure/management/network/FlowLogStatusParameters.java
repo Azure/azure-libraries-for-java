@@ -27,7 +27,7 @@ public final class FlowLogStatusParameters {
      * 
      * @return the targetResourceId value.
      */
-    public String getTargetResourceId() {
+    public String targetResourceId() {
         return this.targetResourceId;
     }
 
@@ -38,7 +38,7 @@ public final class FlowLogStatusParameters {
      * @param targetResourceId the targetResourceId value to set.
      * @return the FlowLogStatusParameters object itself.
      */
-    public FlowLogStatusParameters setTargetResourceId(String targetResourceId) {
+    public FlowLogStatusParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }

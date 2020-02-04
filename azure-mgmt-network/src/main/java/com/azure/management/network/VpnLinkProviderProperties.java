@@ -31,7 +31,7 @@ public final class VpnLinkProviderProperties {
      * 
      * @return the linkProviderName value.
      */
-    public String getLinkProviderName() {
+    public String linkProviderName() {
         return this.linkProviderName;
     }
 
@@ -41,7 +41,7 @@ public final class VpnLinkProviderProperties {
      * @param linkProviderName the linkProviderName value to set.
      * @return the VpnLinkProviderProperties object itself.
      */
-    public VpnLinkProviderProperties setLinkProviderName(String linkProviderName) {
+    public VpnLinkProviderProperties withLinkProviderName(String linkProviderName) {
         this.linkProviderName = linkProviderName;
         return this;
     }
@@ -51,7 +51,7 @@ public final class VpnLinkProviderProperties {
      * 
      * @return the linkSpeedInMbps value.
      */
-    public Integer getLinkSpeedInMbps() {
+    public Integer linkSpeedInMbps() {
         return this.linkSpeedInMbps;
     }
 
@@ -61,7 +61,7 @@ public final class VpnLinkProviderProperties {
      * @param linkSpeedInMbps the linkSpeedInMbps value to set.
      * @return the VpnLinkProviderProperties object itself.
      */
-    public VpnLinkProviderProperties setLinkSpeedInMbps(Integer linkSpeedInMbps) {
+    public VpnLinkProviderProperties withLinkSpeedInMbps(Integer linkSpeedInMbps) {
         this.linkSpeedInMbps = linkSpeedInMbps;
         return this;
     }

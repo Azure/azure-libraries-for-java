@@ -45,7 +45,7 @@ public final class TopologyResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -55,7 +55,7 @@ public final class TopologyResource {
      * @param name the name value to set.
      * @return the TopologyResource object itself.
      */
-    public TopologyResource setName(String name) {
+    public TopologyResource withName(String name) {
         this.name = name;
         return this;
     }
@@ -65,7 +65,7 @@ public final class TopologyResource {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -75,7 +75,7 @@ public final class TopologyResource {
      * @param id the id value to set.
      * @return the TopologyResource object itself.
      */
-    public TopologyResource setId(String id) {
+    public TopologyResource withId(String id) {
         this.id = id;
         return this;
     }
@@ -85,7 +85,7 @@ public final class TopologyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -95,7 +95,7 @@ public final class TopologyResource {
      * @param location the location value to set.
      * @return the TopologyResource object itself.
      */
-    public TopologyResource setLocation(String location) {
+    public TopologyResource withLocation(String location) {
         this.location = location;
         return this;
     }
@@ -106,7 +106,7 @@ public final class TopologyResource {
      * 
      * @return the associations value.
      */
-    public List<TopologyAssociation> getAssociations() {
+    public List<TopologyAssociation> associations() {
         return this.associations;
     }
 
@@ -117,7 +117,7 @@ public final class TopologyResource {
      * @param associations the associations value to set.
      * @return the TopologyResource object itself.
      */
-    public TopologyResource setAssociations(List<TopologyAssociation> associations) {
+    public TopologyResource withAssociations(List<TopologyAssociation> associations) {
         this.associations = associations;
         return this;
     }

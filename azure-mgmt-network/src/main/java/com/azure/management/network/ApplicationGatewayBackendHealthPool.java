@@ -33,7 +33,7 @@ public final class ApplicationGatewayBackendHealthPool {
      * 
      * @return the backendAddressPool value.
      */
-    public ApplicationGatewayBackendAddressPool getBackendAddressPool() {
+    public ApplicationGatewayBackendAddressPool backendAddressPool() {
         return this.backendAddressPool;
     }
 
@@ -44,7 +44,7 @@ public final class ApplicationGatewayBackendHealthPool {
      * @param backendAddressPool the backendAddressPool value to set.
      * @return the ApplicationGatewayBackendHealthPool object itself.
      */
-    public ApplicationGatewayBackendHealthPool setBackendAddressPool(ApplicationGatewayBackendAddressPool backendAddressPool) {
+    public ApplicationGatewayBackendHealthPool withBackendAddressPool(ApplicationGatewayBackendAddressPool backendAddressPool) {
         this.backendAddressPool = backendAddressPool;
         return this;
     }
@@ -55,7 +55,7 @@ public final class ApplicationGatewayBackendHealthPool {
      * 
      * @return the backendHttpSettingsCollection value.
      */
-    public List<ApplicationGatewayBackendHealthHttpSettings> getBackendHttpSettingsCollection() {
+    public List<ApplicationGatewayBackendHealthHttpSettings> backendHttpSettingsCollection() {
         return this.backendHttpSettingsCollection;
     }
 
@@ -67,7 +67,7 @@ public final class ApplicationGatewayBackendHealthPool {
      * value to set.
      * @return the ApplicationGatewayBackendHealthPool object itself.
      */
-    public ApplicationGatewayBackendHealthPool setBackendHttpSettingsCollection(List<ApplicationGatewayBackendHealthHttpSettings> backendHttpSettingsCollection) {
+    public ApplicationGatewayBackendHealthPool withBackendHttpSettingsCollection(List<ApplicationGatewayBackendHealthHttpSettings> backendHttpSettingsCollection) {
         this.backendHttpSettingsCollection = backendHttpSettingsCollection;
         return this;
     }

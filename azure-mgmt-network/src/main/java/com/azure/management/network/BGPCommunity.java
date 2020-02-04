@@ -58,7 +58,7 @@ public final class BGPCommunity {
      * 
      * @return the serviceSupportedRegion value.
      */
-    public String getServiceSupportedRegion() {
+    public String serviceSupportedRegion() {
         return this.serviceSupportedRegion;
     }
 
@@ -69,7 +69,7 @@ public final class BGPCommunity {
      * @param serviceSupportedRegion the serviceSupportedRegion value to set.
      * @return the BGPCommunity object itself.
      */
-    public BGPCommunity setServiceSupportedRegion(String serviceSupportedRegion) {
+    public BGPCommunity withServiceSupportedRegion(String serviceSupportedRegion) {
         this.serviceSupportedRegion = serviceSupportedRegion;
         return this;
     }
@@ -80,7 +80,7 @@ public final class BGPCommunity {
      * 
      * @return the communityName value.
      */
-    public String getCommunityName() {
+    public String communityName() {
         return this.communityName;
     }
 
@@ -91,7 +91,7 @@ public final class BGPCommunity {
      * @param communityName the communityName value to set.
      * @return the BGPCommunity object itself.
      */
-    public BGPCommunity setCommunityName(String communityName) {
+    public BGPCommunity withCommunityName(String communityName) {
         this.communityName = communityName;
         return this;
     }
@@ -103,7 +103,7 @@ public final class BGPCommunity {
      * 
      * @return the communityValue value.
      */
-    public String getCommunityValue() {
+    public String communityValue() {
         return this.communityValue;
     }
 
@@ -115,7 +115,7 @@ public final class BGPCommunity {
      * @param communityValue the communityValue value to set.
      * @return the BGPCommunity object itself.
      */
-    public BGPCommunity setCommunityValue(String communityValue) {
+    public BGPCommunity withCommunityValue(String communityValue) {
         this.communityValue = communityValue;
         return this;
     }
@@ -126,7 +126,7 @@ public final class BGPCommunity {
      * 
      * @return the communityPrefixes value.
      */
-    public List<String> getCommunityPrefixes() {
+    public List<String> communityPrefixes() {
         return this.communityPrefixes;
     }
 
@@ -137,7 +137,7 @@ public final class BGPCommunity {
      * @param communityPrefixes the communityPrefixes value to set.
      * @return the BGPCommunity object itself.
      */
-    public BGPCommunity setCommunityPrefixes(List<String> communityPrefixes) {
+    public BGPCommunity withCommunityPrefixes(List<String> communityPrefixes) {
         this.communityPrefixes = communityPrefixes;
         return this;
     }
@@ -159,7 +159,7 @@ public final class BGPCommunity {
      * @param isAuthorizedToUse the isAuthorizedToUse value to set.
      * @return the BGPCommunity object itself.
      */
-    public BGPCommunity setIsAuthorizedToUse(Boolean isAuthorizedToUse) {
+    public BGPCommunity withIsAuthorizedToUse(Boolean isAuthorizedToUse) {
         this.isAuthorizedToUse = isAuthorizedToUse;
         return this;
     }
@@ -170,7 +170,7 @@ public final class BGPCommunity {
      * 
      * @return the serviceGroup value.
      */
-    public String getServiceGroup() {
+    public String serviceGroup() {
         return this.serviceGroup;
     }
 
@@ -181,7 +181,7 @@ public final class BGPCommunity {
      * @param serviceGroup the serviceGroup value to set.
      * @return the BGPCommunity object itself.
      */
-    public BGPCommunity setServiceGroup(String serviceGroup) {
+    public BGPCommunity withServiceGroup(String serviceGroup) {
         this.serviceGroup = serviceGroup;
         return this;
     }

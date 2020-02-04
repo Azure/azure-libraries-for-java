@@ -25,7 +25,7 @@ public final class PublicIPAddressSku {
      * 
      * @return the name value.
      */
-    public PublicIPAddressSkuName getName() {
+    public PublicIPAddressSkuName name() {
         return this.name;
     }
 
@@ -35,7 +35,7 @@ public final class PublicIPAddressSku {
      * @param name the name value to set.
      * @return the PublicIPAddressSku object itself.
      */
-    public PublicIPAddressSku setName(PublicIPAddressSkuName name) {
+    public PublicIPAddressSku withName(PublicIPAddressSkuName name) {
         this.name = name;
         return this;
     }

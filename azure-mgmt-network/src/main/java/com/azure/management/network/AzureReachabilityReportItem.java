@@ -38,7 +38,7 @@ public final class AzureReachabilityReportItem {
      * 
      * @return the provider value.
      */
-    public String getProvider() {
+    public String provider() {
         return this.provider;
     }
 
@@ -48,7 +48,7 @@ public final class AzureReachabilityReportItem {
      * @param provider the provider value to set.
      * @return the AzureReachabilityReportItem object itself.
      */
-    public AzureReachabilityReportItem setProvider(String provider) {
+    public AzureReachabilityReportItem withProvider(String provider) {
         this.provider = provider;
         return this;
     }
@@ -58,7 +58,7 @@ public final class AzureReachabilityReportItem {
      * 
      * @return the azureLocation value.
      */
-    public String getAzureLocation() {
+    public String azureLocation() {
         return this.azureLocation;
     }
 
@@ -68,7 +68,7 @@ public final class AzureReachabilityReportItem {
      * @param azureLocation the azureLocation value to set.
      * @return the AzureReachabilityReportItem object itself.
      */
-    public AzureReachabilityReportItem setAzureLocation(String azureLocation) {
+    public AzureReachabilityReportItem withAzureLocation(String azureLocation) {
         this.azureLocation = azureLocation;
         return this;
     }
@@ -79,7 +79,7 @@ public final class AzureReachabilityReportItem {
      * 
      * @return the latencies value.
      */
-    public List<AzureReachabilityReportLatencyInfo> getLatencies() {
+    public List<AzureReachabilityReportLatencyInfo> latencies() {
         return this.latencies;
     }
 
@@ -90,7 +90,7 @@ public final class AzureReachabilityReportItem {
      * @param latencies the latencies value to set.
      * @return the AzureReachabilityReportItem object itself.
      */
-    public AzureReachabilityReportItem setLatencies(List<AzureReachabilityReportLatencyInfo> latencies) {
+    public AzureReachabilityReportItem withLatencies(List<AzureReachabilityReportLatencyInfo> latencies) {
         this.latencies = latencies;
         return this;
     }

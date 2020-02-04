@@ -48,7 +48,7 @@ public final class ProtocolCustomSettingsFormat {
      * 
      * @return the protocol value.
      */
-    public DdosCustomPolicyProtocol getProtocol() {
+    public DdosCustomPolicyProtocol protocol() {
         return this.protocol;
     }
 
@@ -59,7 +59,7 @@ public final class ProtocolCustomSettingsFormat {
      * @param protocol the protocol value to set.
      * @return the ProtocolCustomSettingsFormat object itself.
      */
-    public ProtocolCustomSettingsFormat setProtocol(DdosCustomPolicyProtocol protocol) {
+    public ProtocolCustomSettingsFormat withProtocol(DdosCustomPolicyProtocol protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -70,7 +70,7 @@ public final class ProtocolCustomSettingsFormat {
      * 
      * @return the triggerRateOverride value.
      */
-    public String getTriggerRateOverride() {
+    public String triggerRateOverride() {
         return this.triggerRateOverride;
     }
 
@@ -81,7 +81,7 @@ public final class ProtocolCustomSettingsFormat {
      * @param triggerRateOverride the triggerRateOverride value to set.
      * @return the ProtocolCustomSettingsFormat object itself.
      */
-    public ProtocolCustomSettingsFormat setTriggerRateOverride(String triggerRateOverride) {
+    public ProtocolCustomSettingsFormat withTriggerRateOverride(String triggerRateOverride) {
         this.triggerRateOverride = triggerRateOverride;
         return this;
     }
@@ -92,7 +92,7 @@ public final class ProtocolCustomSettingsFormat {
      * 
      * @return the sourceRateOverride value.
      */
-    public String getSourceRateOverride() {
+    public String sourceRateOverride() {
         return this.sourceRateOverride;
     }
 
@@ -103,7 +103,7 @@ public final class ProtocolCustomSettingsFormat {
      * @param sourceRateOverride the sourceRateOverride value to set.
      * @return the ProtocolCustomSettingsFormat object itself.
      */
-    public ProtocolCustomSettingsFormat setSourceRateOverride(String sourceRateOverride) {
+    public ProtocolCustomSettingsFormat withSourceRateOverride(String sourceRateOverride) {
         this.sourceRateOverride = sourceRateOverride;
         return this;
     }
@@ -118,7 +118,7 @@ public final class ProtocolCustomSettingsFormat {
      * 
      * @return the triggerSensitivityOverride value.
      */
-    public DdosCustomPolicyTriggerSensitivityOverride getTriggerSensitivityOverride() {
+    public DdosCustomPolicyTriggerSensitivityOverride triggerSensitivityOverride() {
         return this.triggerSensitivityOverride;
     }
 
@@ -134,7 +134,7 @@ public final class ProtocolCustomSettingsFormat {
      * to set.
      * @return the ProtocolCustomSettingsFormat object itself.
      */
-    public ProtocolCustomSettingsFormat setTriggerSensitivityOverride(DdosCustomPolicyTriggerSensitivityOverride triggerSensitivityOverride) {
+    public ProtocolCustomSettingsFormat withTriggerSensitivityOverride(DdosCustomPolicyTriggerSensitivityOverride triggerSensitivityOverride) {
         this.triggerSensitivityOverride = triggerSensitivityOverride;
         return this;
     }

@@ -26,7 +26,7 @@ public class ResourceSet {
      * 
      * @return the subscriptions value.
      */
-    public List<String> getSubscriptions() {
+    public List<String> subscriptions() {
         return this.subscriptions;
     }
 
@@ -36,7 +36,7 @@ public class ResourceSet {
      * @param subscriptions the subscriptions value to set.
      * @return the ResourceSet object itself.
      */
-    public ResourceSet setSubscriptions(List<String> subscriptions) {
+    public ResourceSet withSubscriptions(List<String> subscriptions) {
         this.subscriptions = subscriptions;
         return this;
     }

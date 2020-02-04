@@ -37,7 +37,7 @@ public final class DeviceProperties {
      * 
      * @return the deviceVendor value.
      */
-    public String getDeviceVendor() {
+    public String deviceVendor() {
         return this.deviceVendor;
     }
 
@@ -47,7 +47,7 @@ public final class DeviceProperties {
      * @param deviceVendor the deviceVendor value to set.
      * @return the DeviceProperties object itself.
      */
-    public DeviceProperties setDeviceVendor(String deviceVendor) {
+    public DeviceProperties withDeviceVendor(String deviceVendor) {
         this.deviceVendor = deviceVendor;
         return this;
     }
@@ -57,7 +57,7 @@ public final class DeviceProperties {
      * 
      * @return the deviceModel value.
      */
-    public String getDeviceModel() {
+    public String deviceModel() {
         return this.deviceModel;
     }
 
@@ -67,7 +67,7 @@ public final class DeviceProperties {
      * @param deviceModel the deviceModel value to set.
      * @return the DeviceProperties object itself.
      */
-    public DeviceProperties setDeviceModel(String deviceModel) {
+    public DeviceProperties withDeviceModel(String deviceModel) {
         this.deviceModel = deviceModel;
         return this;
     }
@@ -77,7 +77,7 @@ public final class DeviceProperties {
      * 
      * @return the linkSpeedInMbps value.
      */
-    public Integer getLinkSpeedInMbps() {
+    public Integer linkSpeedInMbps() {
         return this.linkSpeedInMbps;
     }
 
@@ -87,7 +87,7 @@ public final class DeviceProperties {
      * @param linkSpeedInMbps the linkSpeedInMbps value to set.
      * @return the DeviceProperties object itself.
      */
-    public DeviceProperties setLinkSpeedInMbps(Integer linkSpeedInMbps) {
+    public DeviceProperties withLinkSpeedInMbps(Integer linkSpeedInMbps) {
         this.linkSpeedInMbps = linkSpeedInMbps;
         return this;
     }

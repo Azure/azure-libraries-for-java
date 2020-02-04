@@ -61,7 +61,7 @@ public final class PacketCaptureFilter {
      * 
      * @return the protocol value.
      */
-    public PcProtocol getProtocol() {
+    public PcProtocol protocol() {
         return this.protocol;
     }
 
@@ -71,7 +71,7 @@ public final class PacketCaptureFilter {
      * @param protocol the protocol value to set.
      * @return the PacketCaptureFilter object itself.
      */
-    public PacketCaptureFilter setProtocol(PcProtocol protocol) {
+    public PacketCaptureFilter withProtocol(PcProtocol protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -85,7 +85,7 @@ public final class PacketCaptureFilter {
      * 
      * @return the localIPAddress value.
      */
-    public String getLocalIPAddress() {
+    public String localIPAddress() {
         return this.localIPAddress;
     }
 
@@ -99,7 +99,7 @@ public final class PacketCaptureFilter {
      * @param localIPAddress the localIPAddress value to set.
      * @return the PacketCaptureFilter object itself.
      */
-    public PacketCaptureFilter setLocalIPAddress(String localIPAddress) {
+    public PacketCaptureFilter withLocalIPAddress(String localIPAddress) {
         this.localIPAddress = localIPAddress;
         return this;
     }
@@ -113,7 +113,7 @@ public final class PacketCaptureFilter {
      * 
      * @return the remoteIPAddress value.
      */
-    public String getRemoteIPAddress() {
+    public String remoteIPAddress() {
         return this.remoteIPAddress;
     }
 
@@ -127,7 +127,7 @@ public final class PacketCaptureFilter {
      * @param remoteIPAddress the remoteIPAddress value to set.
      * @return the PacketCaptureFilter object itself.
      */
-    public PacketCaptureFilter setRemoteIPAddress(String remoteIPAddress) {
+    public PacketCaptureFilter withRemoteIPAddress(String remoteIPAddress) {
         this.remoteIPAddress = remoteIPAddress;
         return this;
     }
@@ -140,7 +140,7 @@ public final class PacketCaptureFilter {
      * 
      * @return the localPort value.
      */
-    public String getLocalPort() {
+    public String localPort() {
         return this.localPort;
     }
 
@@ -153,7 +153,7 @@ public final class PacketCaptureFilter {
      * @param localPort the localPort value to set.
      * @return the PacketCaptureFilter object itself.
      */
-    public PacketCaptureFilter setLocalPort(String localPort) {
+    public PacketCaptureFilter withLocalPort(String localPort) {
         this.localPort = localPort;
         return this;
     }
@@ -166,7 +166,7 @@ public final class PacketCaptureFilter {
      * 
      * @return the remotePort value.
      */
-    public String getRemotePort() {
+    public String remotePort() {
         return this.remotePort;
     }
 
@@ -179,7 +179,7 @@ public final class PacketCaptureFilter {
      * @param remotePort the remotePort value to set.
      * @return the PacketCaptureFilter object itself.
      */
-    public PacketCaptureFilter setRemotePort(String remotePort) {
+    public PacketCaptureFilter withRemotePort(String remotePort) {
         this.remotePort = remotePort;
         return this;
     }

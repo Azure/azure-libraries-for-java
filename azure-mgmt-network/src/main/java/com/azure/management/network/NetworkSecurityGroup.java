@@ -8,18 +8,18 @@ package com.azure.management.network;
 import java.util.Map;
 import java.util.Set;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.implementation.NetworkSecurityGroupInner;
-import com.azure.management.network.model.HasAssociatedSubnets;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.HasAssociatedSubnets;
+import com.azure.management.network.models.NetworkSecurityGroupInner;
+import com.azure.management.network.models.UpdatableWithTags;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+
 
 /**
  * Network security group.
@@ -99,7 +99,7 @@ public interface NetworkSecurityGroup extends
          * for any other optional settings to be specified.
          */
         interface WithCreate extends
-            Creatable<NetworkSecurityGroup>,
+                Creatable<NetworkSecurityGroup>,
             Resource.DefinitionWithTags<WithCreate>,
             DefinitionStages.WithRule {
         }
@@ -143,7 +143,7 @@ public interface NetworkSecurityGroup extends
      * Call {@link Update#apply()} to apply the changes to the resource in Azure.
      */
     interface Update extends
-        Appliable<NetworkSecurityGroup>,
+            Appliable<NetworkSecurityGroup>,
         Resource.UpdateWithTags<Update>,
         UpdateStages.WithRule {
     }

@@ -50,7 +50,7 @@ public final class TroubleshootingDetails {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -60,7 +60,7 @@ public final class TroubleshootingDetails {
      * @param id the id value to set.
      * @return the TroubleshootingDetails object itself.
      */
-    public TroubleshootingDetails setId(String id) {
+    public TroubleshootingDetails withId(String id) {
         this.id = id;
         return this;
     }
@@ -70,7 +70,7 @@ public final class TroubleshootingDetails {
      * 
      * @return the reasonType value.
      */
-    public String getReasonType() {
+    public String reasonType() {
         return this.reasonType;
     }
 
@@ -80,7 +80,7 @@ public final class TroubleshootingDetails {
      * @param reasonType the reasonType value to set.
      * @return the TroubleshootingDetails object itself.
      */
-    public TroubleshootingDetails setReasonType(String reasonType) {
+    public TroubleshootingDetails withReasonType(String reasonType) {
         this.reasonType = reasonType;
         return this;
     }
@@ -90,7 +90,7 @@ public final class TroubleshootingDetails {
      * 
      * @return the summary value.
      */
-    public String getSummary() {
+    public String summary() {
         return this.summary;
     }
 
@@ -100,7 +100,7 @@ public final class TroubleshootingDetails {
      * @param summary the summary value to set.
      * @return the TroubleshootingDetails object itself.
      */
-    public TroubleshootingDetails setSummary(String summary) {
+    public TroubleshootingDetails withSummary(String summary) {
         this.summary = summary;
         return this;
     }
@@ -110,7 +110,7 @@ public final class TroubleshootingDetails {
      * 
      * @return the detail value.
      */
-    public String getDetail() {
+    public String detail() {
         return this.detail;
     }
 
@@ -120,7 +120,7 @@ public final class TroubleshootingDetails {
      * @param detail the detail value to set.
      * @return the TroubleshootingDetails object itself.
      */
-    public TroubleshootingDetails setDetail(String detail) {
+    public TroubleshootingDetails withDetail(String detail) {
         this.detail = detail;
         return this;
     }
@@ -130,7 +130,7 @@ public final class TroubleshootingDetails {
      * 
      * @return the recommendedActions value.
      */
-    public List<TroubleshootingRecommendedActions> getRecommendedActions() {
+    public List<TroubleshootingRecommendedActions> recommendedActions() {
         return this.recommendedActions;
     }
 
@@ -140,7 +140,7 @@ public final class TroubleshootingDetails {
      * @param recommendedActions the recommendedActions value to set.
      * @return the TroubleshootingDetails object itself.
      */
-    public TroubleshootingDetails setRecommendedActions(List<TroubleshootingRecommendedActions> recommendedActions) {
+    public TroubleshootingDetails withRecommendedActions(List<TroubleshootingRecommendedActions> recommendedActions) {
         this.recommendedActions = recommendedActions;
         return this;
     }

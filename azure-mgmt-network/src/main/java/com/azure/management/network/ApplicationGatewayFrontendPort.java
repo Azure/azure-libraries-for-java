@@ -54,7 +54,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -65,7 +65,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * @param name the name value to set.
      * @return the ApplicationGatewayFrontendPort object itself.
      */
-    public ApplicationGatewayFrontendPort setName(String name) {
+    public ApplicationGatewayFrontendPort withName(String name) {
         this.name = name;
         return this;
     }
@@ -76,7 +76,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -87,7 +87,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * @param etag the etag value to set.
      * @return the ApplicationGatewayFrontendPort object itself.
      */
-    public ApplicationGatewayFrontendPort setEtag(String etag) {
+    public ApplicationGatewayFrontendPort withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -97,7 +97,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -107,7 +107,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * @param type the type value to set.
      * @return the ApplicationGatewayFrontendPort object itself.
      */
-    public ApplicationGatewayFrontendPort setType(String type) {
+    public ApplicationGatewayFrontendPort withType(String type) {
         this.type = type;
         return this;
     }
@@ -117,7 +117,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * 
      * @return the port value.
      */
-    public Integer getPort() {
+    public Integer port() {
         return this.port;
     }
 
@@ -127,7 +127,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * @param port the port value to set.
      * @return the ApplicationGatewayFrontendPort object itself.
      */
-    public ApplicationGatewayFrontendPort setPort(Integer port) {
+    public ApplicationGatewayFrontendPort withPort(Integer port) {
         this.port = port;
         return this;
     }
@@ -139,7 +139,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 
@@ -151,7 +151,7 @@ public class ApplicationGatewayFrontendPort extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayFrontendPort object itself.
      */
-    public ApplicationGatewayFrontendPort setProvisioningState(String provisioningState) {
+    public ApplicationGatewayFrontendPort withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

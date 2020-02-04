@@ -44,7 +44,7 @@ public final class ServiceTagInformationPropertiesFormat {
      * 
      * @return the changeNumber value.
      */
-    public String getChangeNumber() {
+    public String changeNumber() {
         return this.changeNumber;
     }
 
@@ -53,7 +53,7 @@ public final class ServiceTagInformationPropertiesFormat {
      * 
      * @return the region value.
      */
-    public String getRegion() {
+    public String region() {
         return this.region;
     }
 
@@ -62,7 +62,7 @@ public final class ServiceTagInformationPropertiesFormat {
      * 
      * @return the systemService value.
      */
-    public String getSystemService() {
+    public String systemService() {
         return this.systemService;
     }
 
@@ -71,7 +71,7 @@ public final class ServiceTagInformationPropertiesFormat {
      * 
      * @return the addressPrefixes value.
      */
-    public List<String> getAddressPrefixes() {
+    public List<String> addressPrefixes() {
         return this.addressPrefixes;
     }
 }

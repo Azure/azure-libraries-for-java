@@ -55,7 +55,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -65,7 +65,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * @param name the name value to set.
      * @return the NetworkSecurityRulesEvaluationResult object itself.
      */
-    public NetworkSecurityRulesEvaluationResult setName(String name) {
+    public NetworkSecurityRulesEvaluationResult withName(String name) {
         this.name = name;
         return this;
     }
@@ -76,7 +76,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * 
      * @return the protocolMatched value.
      */
-    public Boolean isProtocolMatched() {
+    public Boolean protocolMatched() {
         return this.protocolMatched;
     }
 
@@ -87,7 +87,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * @param protocolMatched the protocolMatched value to set.
      * @return the NetworkSecurityRulesEvaluationResult object itself.
      */
-    public NetworkSecurityRulesEvaluationResult setProtocolMatched(Boolean protocolMatched) {
+    public NetworkSecurityRulesEvaluationResult withProtocolMatched(Boolean protocolMatched) {
         this.protocolMatched = protocolMatched;
         return this;
     }
@@ -98,7 +98,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * 
      * @return the sourceMatched value.
      */
-    public Boolean isSourceMatched() {
+    public Boolean sourceMatched() {
         return this.sourceMatched;
     }
 
@@ -109,7 +109,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * @param sourceMatched the sourceMatched value to set.
      * @return the NetworkSecurityRulesEvaluationResult object itself.
      */
-    public NetworkSecurityRulesEvaluationResult setSourceMatched(Boolean sourceMatched) {
+    public NetworkSecurityRulesEvaluationResult withSourceMatched(Boolean sourceMatched) {
         this.sourceMatched = sourceMatched;
         return this;
     }
@@ -120,7 +120,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * 
      * @return the sourcePortMatched value.
      */
-    public Boolean isSourcePortMatched() {
+    public Boolean sourcePortMatched() {
         return this.sourcePortMatched;
     }
 
@@ -131,7 +131,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * @param sourcePortMatched the sourcePortMatched value to set.
      * @return the NetworkSecurityRulesEvaluationResult object itself.
      */
-    public NetworkSecurityRulesEvaluationResult setSourcePortMatched(Boolean sourcePortMatched) {
+    public NetworkSecurityRulesEvaluationResult withSourcePortMatched(Boolean sourcePortMatched) {
         this.sourcePortMatched = sourcePortMatched;
         return this;
     }
@@ -142,7 +142,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * 
      * @return the destinationMatched value.
      */
-    public Boolean isDestinationMatched() {
+    public Boolean destinationMatched() {
         return this.destinationMatched;
     }
 
@@ -153,7 +153,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * @param destinationMatched the destinationMatched value to set.
      * @return the NetworkSecurityRulesEvaluationResult object itself.
      */
-    public NetworkSecurityRulesEvaluationResult setDestinationMatched(Boolean destinationMatched) {
+    public NetworkSecurityRulesEvaluationResult withDestinationMatched(Boolean destinationMatched) {
         this.destinationMatched = destinationMatched;
         return this;
     }
@@ -164,7 +164,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * 
      * @return the destinationPortMatched value.
      */
-    public Boolean isDestinationPortMatched() {
+    public Boolean destinationPortMatched() {
         return this.destinationPortMatched;
     }
 
@@ -175,7 +175,7 @@ public final class NetworkSecurityRulesEvaluationResult {
      * @param destinationPortMatched the destinationPortMatched value to set.
      * @return the NetworkSecurityRulesEvaluationResult object itself.
      */
-    public NetworkSecurityRulesEvaluationResult setDestinationPortMatched(Boolean destinationPortMatched) {
+    public NetworkSecurityRulesEvaluationResult withDestinationPortMatched(Boolean destinationPortMatched) {
         this.destinationPortMatched = destinationPortMatched;
         return this;
     }

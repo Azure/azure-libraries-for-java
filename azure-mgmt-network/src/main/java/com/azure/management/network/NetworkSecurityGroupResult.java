@@ -33,7 +33,7 @@ public final class NetworkSecurityGroupResult {
      * 
      * @return the securityRuleAccessResult value.
      */
-    public SecurityRuleAccess getSecurityRuleAccessResult() {
+    public SecurityRuleAccess securityRuleAccessResult() {
         return this.securityRuleAccessResult;
     }
 
@@ -45,7 +45,7 @@ public final class NetworkSecurityGroupResult {
      * set.
      * @return the NetworkSecurityGroupResult object itself.
      */
-    public NetworkSecurityGroupResult setSecurityRuleAccessResult(SecurityRuleAccess securityRuleAccessResult) {
+    public NetworkSecurityGroupResult withSecurityRuleAccessResult(SecurityRuleAccess securityRuleAccessResult) {
         this.securityRuleAccessResult = securityRuleAccessResult;
         return this;
     }
@@ -56,7 +56,7 @@ public final class NetworkSecurityGroupResult {
      * 
      * @return the evaluatedNetworkSecurityGroups value.
      */
-    public List<EvaluatedNetworkSecurityGroup> getEvaluatedNetworkSecurityGroups() {
+    public List<EvaluatedNetworkSecurityGroup> evaluatedNetworkSecurityGroups() {
         return this.evaluatedNetworkSecurityGroups;
     }
 }

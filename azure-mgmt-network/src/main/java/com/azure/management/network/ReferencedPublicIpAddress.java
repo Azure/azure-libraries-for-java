@@ -25,7 +25,7 @@ public final class ReferencedPublicIpAddress {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -35,7 +35,7 @@ public final class ReferencedPublicIpAddress {
      * @param id the id value to set.
      * @return the ReferencedPublicIpAddress object itself.
      */
-    public ReferencedPublicIpAddress setId(String id) {
+    public ReferencedPublicIpAddress withId(String id) {
         this.id = id;
         return this;
     }

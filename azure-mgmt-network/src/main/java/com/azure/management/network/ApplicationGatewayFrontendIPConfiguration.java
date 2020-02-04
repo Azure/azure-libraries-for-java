@@ -73,7 +73,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -84,7 +84,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param name the name value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration setName(String name) {
+    public ApplicationGatewayFrontendIPConfiguration withName(String name) {
         this.name = name;
         return this;
     }
@@ -95,7 +95,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -106,7 +106,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param etag the etag value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration setEtag(String etag) {
+    public ApplicationGatewayFrontendIPConfiguration withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -116,7 +116,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -126,7 +126,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param type the type value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration setType(String type) {
+    public ApplicationGatewayFrontendIPConfiguration withType(String type) {
         this.type = type;
         return this;
     }
@@ -137,7 +137,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * 
      * @return the privateIPAddress value.
      */
-    public String getPrivateIPAddress() {
+    public String privateIPAddress() {
         return this.privateIPAddress;
     }
 
@@ -148,7 +148,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param privateIPAddress the privateIPAddress value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration setPrivateIPAddress(String privateIPAddress) {
+    public ApplicationGatewayFrontendIPConfiguration withPrivateIPAddress(String privateIPAddress) {
         this.privateIPAddress = privateIPAddress;
         return this;
     }
@@ -159,7 +159,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * 
      * @return the privateIPAllocationMethod value.
      */
-    public IPAllocationMethod getPrivateIPAllocationMethod() {
+    public IPAllocationMethod privateIPAllocationMethod() {
         return this.privateIPAllocationMethod;
     }
 
@@ -171,7 +171,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration setPrivateIPAllocationMethod(IPAllocationMethod privateIPAllocationMethod) {
+    public ApplicationGatewayFrontendIPConfiguration withPrivateIPAllocationMethod(IPAllocationMethod privateIPAllocationMethod) {
         this.privateIPAllocationMethod = privateIPAllocationMethod;
         return this;
     }
@@ -181,7 +181,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * 
      * @return the subnet value.
      */
-    public SubResource getSubnet() {
+    public SubResource subnet() {
         return this.subnet;
     }
 
@@ -191,7 +191,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param subnet the subnet value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration setSubnet(SubResource subnet) {
+    public ApplicationGatewayFrontendIPConfiguration withSubnet(SubResource subnet) {
         this.subnet = subnet;
         return this;
     }
@@ -201,7 +201,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * 
      * @return the publicIPAddress value.
      */
-    public SubResource getPublicIPAddress() {
+    public SubResource publicIPAddress() {
         return this.publicIPAddress;
     }
 
@@ -211,7 +211,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param publicIPAddress the publicIPAddress value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration setPublicIPAddress(SubResource publicIPAddress) {
+    public ApplicationGatewayFrontendIPConfiguration withPublicIPAddress(SubResource publicIPAddress) {
         this.publicIPAddress = publicIPAddress;
         return this;
     }
@@ -222,7 +222,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 
@@ -233,7 +233,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
-    public ApplicationGatewayFrontendIPConfiguration setProvisioningState(String provisioningState) {
+    public ApplicationGatewayFrontendIPConfiguration withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

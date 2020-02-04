@@ -70,7 +70,7 @@ public class PatchRouteFilterRule extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -80,7 +80,7 @@ public class PatchRouteFilterRule extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -89,7 +89,7 @@ public class PatchRouteFilterRule extends SubResource {
      * 
      * @return the access value.
      */
-    public Access getAccess() {
+    public Access access() {
         return this.access;
     }
 
@@ -99,7 +99,7 @@ public class PatchRouteFilterRule extends SubResource {
      * @param access the access value to set.
      * @return the PatchRouteFilterRule object itself.
      */
-    public PatchRouteFilterRule setAccess(Access access) {
+    public PatchRouteFilterRule withAccess(Access access) {
         this.access = access;
         return this;
     }
@@ -109,7 +109,7 @@ public class PatchRouteFilterRule extends SubResource {
      * 
      * @return the routeFilterRuleType value.
      */
-    public String getRouteFilterRuleType() {
+    public String routeFilterRuleType() {
         return this.routeFilterRuleType;
     }
 
@@ -119,7 +119,7 @@ public class PatchRouteFilterRule extends SubResource {
      * @param routeFilterRuleType the routeFilterRuleType value to set.
      * @return the PatchRouteFilterRule object itself.
      */
-    public PatchRouteFilterRule setRouteFilterRuleType(String routeFilterRuleType) {
+    public PatchRouteFilterRule withRouteFilterRuleType(String routeFilterRuleType) {
         this.routeFilterRuleType = routeFilterRuleType;
         return this;
     }
@@ -130,7 +130,7 @@ public class PatchRouteFilterRule extends SubResource {
      * 
      * @return the communities value.
      */
-    public List<String> getCommunities() {
+    public List<String> communities() {
         return this.communities;
     }
 
@@ -141,7 +141,7 @@ public class PatchRouteFilterRule extends SubResource {
      * @param communities the communities value to set.
      * @return the PatchRouteFilterRule object itself.
      */
-    public PatchRouteFilterRule setCommunities(List<String> communities) {
+    public PatchRouteFilterRule withCommunities(List<String> communities) {
         this.communities = communities;
         return this;
     }
@@ -153,7 +153,7 @@ public class PatchRouteFilterRule extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

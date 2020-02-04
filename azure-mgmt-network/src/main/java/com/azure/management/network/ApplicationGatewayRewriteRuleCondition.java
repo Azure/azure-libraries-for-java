@@ -47,7 +47,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
      * 
      * @return the variable value.
      */
-    public String getVariable() {
+    public String variable() {
         return this.variable;
     }
 
@@ -58,7 +58,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
      * @param variable the variable value to set.
      * @return the ApplicationGatewayRewriteRuleCondition object itself.
      */
-    public ApplicationGatewayRewriteRuleCondition setVariable(String variable) {
+    public ApplicationGatewayRewriteRuleCondition withVariable(String variable) {
         this.variable = variable;
         return this;
     }
@@ -69,7 +69,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
      * 
      * @return the pattern value.
      */
-    public String getPattern() {
+    public String pattern() {
         return this.pattern;
     }
 
@@ -80,7 +80,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
      * @param pattern the pattern value to set.
      * @return the ApplicationGatewayRewriteRuleCondition object itself.
      */
-    public ApplicationGatewayRewriteRuleCondition setPattern(String pattern) {
+    public ApplicationGatewayRewriteRuleCondition withPattern(String pattern) {
         this.pattern = pattern;
         return this;
     }
@@ -91,7 +91,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
      * 
      * @return the ignoreCase value.
      */
-    public Boolean isIgnoreCase() {
+    public Boolean ignoreCase() {
         return this.ignoreCase;
     }
 
@@ -102,7 +102,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
      * @param ignoreCase the ignoreCase value to set.
      * @return the ApplicationGatewayRewriteRuleCondition object itself.
      */
-    public ApplicationGatewayRewriteRuleCondition setIgnoreCase(Boolean ignoreCase) {
+    public ApplicationGatewayRewriteRuleCondition withIgnoreCase(Boolean ignoreCase) {
         this.ignoreCase = ignoreCase;
         return this;
     }
@@ -113,7 +113,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
      * 
      * @return the negate value.
      */
-    public Boolean isNegate() {
+    public Boolean negate() {
         return this.negate;
     }
 
@@ -124,7 +124,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
      * @param negate the negate value to set.
      * @return the ApplicationGatewayRewriteRuleCondition object itself.
      */
-    public ApplicationGatewayRewriteRuleCondition setNegate(Boolean negate) {
+    public ApplicationGatewayRewriteRuleCondition withNegate(Boolean negate) {
         this.negate = negate;
         return this;
     }

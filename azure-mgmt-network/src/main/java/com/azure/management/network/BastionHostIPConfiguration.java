@@ -66,7 +66,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -77,7 +77,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * @param name the name value to set.
      * @return the BastionHostIPConfiguration object itself.
      */
-    public BastionHostIPConfiguration setName(String name) {
+    public BastionHostIPConfiguration withName(String name) {
         this.name = name;
         return this;
     }
@@ -88,7 +88,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -97,7 +97,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -106,7 +106,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * 
      * @return the subnet value.
      */
-    public SubResource getSubnet() {
+    public SubResource subnet() {
         return this.subnet;
     }
 
@@ -116,7 +116,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * @param subnet the subnet value to set.
      * @return the BastionHostIPConfiguration object itself.
      */
-    public BastionHostIPConfiguration setSubnet(SubResource subnet) {
+    public BastionHostIPConfiguration withSubnet(SubResource subnet) {
         this.subnet = subnet;
         return this;
     }
@@ -126,7 +126,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * 
      * @return the publicIPAddress value.
      */
-    public SubResource getPublicIPAddress() {
+    public SubResource publicIPAddress() {
         return this.publicIPAddress;
     }
 
@@ -136,7 +136,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * @param publicIPAddress the publicIPAddress value to set.
      * @return the BastionHostIPConfiguration object itself.
      */
-    public BastionHostIPConfiguration setPublicIPAddress(SubResource publicIPAddress) {
+    public BastionHostIPConfiguration withPublicIPAddress(SubResource publicIPAddress) {
         this.publicIPAddress = publicIPAddress;
         return this;
     }
@@ -146,7 +146,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public ProvisioningState getProvisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -156,7 +156,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the BastionHostIPConfiguration object itself.
      */
-    public BastionHostIPConfiguration setProvisioningState(ProvisioningState provisioningState) {
+    public BastionHostIPConfiguration withProvisioningState(ProvisioningState provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -167,7 +167,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * 
      * @return the privateIPAllocationMethod value.
      */
-    public IPAllocationMethod getPrivateIPAllocationMethod() {
+    public IPAllocationMethod privateIPAllocationMethod() {
         return this.privateIPAllocationMethod;
     }
 
@@ -179,7 +179,7 @@ public class BastionHostIPConfiguration extends SubResource {
      * set.
      * @return the BastionHostIPConfiguration object itself.
      */
-    public BastionHostIPConfiguration setPrivateIPAllocationMethod(IPAllocationMethod privateIPAllocationMethod) {
+    public BastionHostIPConfiguration withPrivateIPAllocationMethod(IPAllocationMethod privateIPAllocationMethod) {
         this.privateIPAllocationMethod = privateIPAllocationMethod;
         return this;
     }

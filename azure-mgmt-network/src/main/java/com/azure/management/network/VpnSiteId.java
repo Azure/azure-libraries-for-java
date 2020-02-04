@@ -26,7 +26,7 @@ public final class VpnSiteId {
      * 
      * @return the vpnSite value.
      */
-    public String getVpnSite() {
+    public String vpnSite() {
         return this.vpnSite;
     }
 }

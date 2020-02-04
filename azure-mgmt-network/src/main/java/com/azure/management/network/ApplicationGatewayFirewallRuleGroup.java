@@ -39,7 +39,7 @@ public final class ApplicationGatewayFirewallRuleGroup {
      * 
      * @return the ruleGroupName value.
      */
-    public String getRuleGroupName() {
+    public String ruleGroupName() {
         return this.ruleGroupName;
     }
 
@@ -50,7 +50,7 @@ public final class ApplicationGatewayFirewallRuleGroup {
      * @param ruleGroupName the ruleGroupName value to set.
      * @return the ApplicationGatewayFirewallRuleGroup object itself.
      */
-    public ApplicationGatewayFirewallRuleGroup setRuleGroupName(String ruleGroupName) {
+    public ApplicationGatewayFirewallRuleGroup withRuleGroupName(String ruleGroupName) {
         this.ruleGroupName = ruleGroupName;
         return this;
     }
@@ -61,7 +61,7 @@ public final class ApplicationGatewayFirewallRuleGroup {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -72,7 +72,7 @@ public final class ApplicationGatewayFirewallRuleGroup {
      * @param description the description value to set.
      * @return the ApplicationGatewayFirewallRuleGroup object itself.
      */
-    public ApplicationGatewayFirewallRuleGroup setDescription(String description) {
+    public ApplicationGatewayFirewallRuleGroup withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -83,7 +83,7 @@ public final class ApplicationGatewayFirewallRuleGroup {
      * 
      * @return the rules value.
      */
-    public List<ApplicationGatewayFirewallRule> getRules() {
+    public List<ApplicationGatewayFirewallRule> rules() {
         return this.rules;
     }
 
@@ -94,7 +94,7 @@ public final class ApplicationGatewayFirewallRuleGroup {
      * @param rules the rules value to set.
      * @return the ApplicationGatewayFirewallRuleGroup object itself.
      */
-    public ApplicationGatewayFirewallRuleGroup setRules(List<ApplicationGatewayFirewallRule> rules) {
+    public ApplicationGatewayFirewallRuleGroup withRules(List<ApplicationGatewayFirewallRule> rules) {
         this.rules = rules;
         return this;
     }

@@ -9,7 +9,7 @@ package com.azure.management.network;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.SubResource;
-import com.azure.management.network.model.IPConfigurationProfileInner;
+import com.azure.management.network.models.IPConfigurationProfileInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -74,7 +74,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * @param name the name value to set.
      * @return the ContainerNetworkInterfaceConfiguration object itself.
      */
-    public ContainerNetworkInterfaceConfiguration setName(String name) {
+    public ContainerNetworkInterfaceConfiguration withName(String name) {
         this.name = name;
         return this;
     }
@@ -84,7 +84,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -94,7 +94,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -105,7 +105,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * @param etag the etag value to set.
      * @return the ContainerNetworkInterfaceConfiguration object itself.
      */
-    public ContainerNetworkInterfaceConfiguration setEtag(String etag) {
+    public ContainerNetworkInterfaceConfiguration withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -116,7 +116,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * 
      * @return the ipConfigurations value.
      */
-    public List<IPConfigurationProfileInner> getIpConfigurations() {
+    public List<IPConfigurationProfileInner> ipConfigurations() {
         return this.ipConfigurations;
     }
 
@@ -127,7 +127,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * @param ipConfigurations the ipConfigurations value to set.
      * @return the ContainerNetworkInterfaceConfiguration object itself.
      */
-    public ContainerNetworkInterfaceConfiguration setIpConfigurations(List<IPConfigurationProfileInner> ipConfigurations) {
+    public ContainerNetworkInterfaceConfiguration withIpConfigurations(List<IPConfigurationProfileInner> ipConfigurations) {
         this.ipConfigurations = ipConfigurations;
         return this;
     }
@@ -138,7 +138,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * 
      * @return the containerNetworkInterfaces value.
      */
-    public List<SubResource> getContainerNetworkInterfaces() {
+    public List<SubResource> containerNetworkInterfaces() {
         return this.containerNetworkInterfaces;
     }
 
@@ -150,7 +150,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * to set.
      * @return the ContainerNetworkInterfaceConfiguration object itself.
      */
-    public ContainerNetworkInterfaceConfiguration setContainerNetworkInterfaces(List<SubResource> containerNetworkInterfaces) {
+    public ContainerNetworkInterfaceConfiguration withContainerNetworkInterfaces(List<SubResource> containerNetworkInterfaces) {
         this.containerNetworkInterfaces = containerNetworkInterfaces;
         return this;
     }
@@ -161,7 +161,7 @@ public class ContainerNetworkInterfaceConfiguration extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

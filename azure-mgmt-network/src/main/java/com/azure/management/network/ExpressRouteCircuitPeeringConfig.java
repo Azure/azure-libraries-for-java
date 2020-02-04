@@ -57,7 +57,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * 
      * @return the advertisedPublicPrefixes value.
      */
-    public List<String> getAdvertisedPublicPrefixes() {
+    public List<String> advertisedPublicPrefixes() {
         return this.advertisedPublicPrefixes;
     }
 
@@ -69,7 +69,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
-    public ExpressRouteCircuitPeeringConfig setAdvertisedPublicPrefixes(List<String> advertisedPublicPrefixes) {
+    public ExpressRouteCircuitPeeringConfig withAdvertisedPublicPrefixes(List<String> advertisedPublicPrefixes) {
         this.advertisedPublicPrefixes = advertisedPublicPrefixes;
         return this;
     }
@@ -80,7 +80,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * 
      * @return the advertisedCommunities value.
      */
-    public List<String> getAdvertisedCommunities() {
+    public List<String> advertisedCommunities() {
         return this.advertisedCommunities;
     }
 
@@ -91,7 +91,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * @param advertisedCommunities the advertisedCommunities value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
-    public ExpressRouteCircuitPeeringConfig setAdvertisedCommunities(List<String> advertisedCommunities) {
+    public ExpressRouteCircuitPeeringConfig withAdvertisedCommunities(List<String> advertisedCommunities) {
         this.advertisedCommunities = advertisedCommunities;
         return this;
     }
@@ -102,7 +102,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * 
      * @return the advertisedPublicPrefixesState value.
      */
-    public ExpressRouteCircuitPeeringAdvertisedPublicPrefixState getAdvertisedPublicPrefixesState() {
+    public ExpressRouteCircuitPeeringAdvertisedPublicPrefixState advertisedPublicPrefixesState() {
         return this.advertisedPublicPrefixesState;
     }
 
@@ -114,7 +114,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
-    public ExpressRouteCircuitPeeringConfig setAdvertisedPublicPrefixesState(ExpressRouteCircuitPeeringAdvertisedPublicPrefixState advertisedPublicPrefixesState) {
+    public ExpressRouteCircuitPeeringConfig withAdvertisedPublicPrefixesState(ExpressRouteCircuitPeeringAdvertisedPublicPrefixState advertisedPublicPrefixesState) {
         this.advertisedPublicPrefixesState = advertisedPublicPrefixesState;
         return this;
     }
@@ -124,7 +124,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * 
      * @return the legacyMode value.
      */
-    public Integer getLegacyMode() {
+    public Integer legacyMode() {
         return this.legacyMode;
     }
 
@@ -134,7 +134,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * @param legacyMode the legacyMode value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
-    public ExpressRouteCircuitPeeringConfig setLegacyMode(Integer legacyMode) {
+    public ExpressRouteCircuitPeeringConfig withLegacyMode(Integer legacyMode) {
         this.legacyMode = legacyMode;
         return this;
     }
@@ -144,7 +144,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * 
      * @return the customerASN value.
      */
-    public Integer getCustomerASN() {
+    public Integer customerASN() {
         return this.customerASN;
     }
 
@@ -154,7 +154,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * @param customerASN the customerASN value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
-    public ExpressRouteCircuitPeeringConfig setCustomerASN(Integer customerASN) {
+    public ExpressRouteCircuitPeeringConfig withCustomerASN(Integer customerASN) {
         this.customerASN = customerASN;
         return this;
     }
@@ -165,7 +165,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * 
      * @return the routingRegistryName value.
      */
-    public String getRoutingRegistryName() {
+    public String routingRegistryName() {
         return this.routingRegistryName;
     }
 
@@ -176,7 +176,7 @@ public final class ExpressRouteCircuitPeeringConfig {
      * @param routingRegistryName the routingRegistryName value to set.
      * @return the ExpressRouteCircuitPeeringConfig object itself.
      */
-    public ExpressRouteCircuitPeeringConfig setRoutingRegistryName(String routingRegistryName) {
+    public ExpressRouteCircuitPeeringConfig withRoutingRegistryName(String routingRegistryName) {
         this.routingRegistryName = routingRegistryName;
         return this;
     }

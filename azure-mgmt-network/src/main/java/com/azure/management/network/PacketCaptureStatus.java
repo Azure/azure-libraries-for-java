@@ -5,19 +5,17 @@
  */
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.network.implementation.PacketCaptureQueryStatusResultInner;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.PacketCaptureQueryStatusResultInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
  * Status of packet capture session.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_2_0)
 public interface PacketCaptureStatus extends HasInner<PacketCaptureQueryStatusResultInner> {
     /**
      * @return the name of the packet capture resource
@@ -32,7 +30,7 @@ public interface PacketCaptureStatus extends HasInner<PacketCaptureQueryStatusRe
     /**
      * @return the start time of the packet capture session
      */
-    DateTime captureStartTime();
+    OffsetDateTime captureStartTime();
 
     /**
      * Get the status of the packet capture session.

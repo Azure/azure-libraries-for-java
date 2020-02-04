@@ -49,7 +49,7 @@ public final class TunnelConnectionHealth {
      * 
      * @return the tunnel value.
      */
-    public String getTunnel() {
+    public String tunnel() {
         return this.tunnel;
     }
 
@@ -59,7 +59,7 @@ public final class TunnelConnectionHealth {
      * 
      * @return the connectionStatus value.
      */
-    public VirtualNetworkGatewayConnectionStatus getConnectionStatus() {
+    public VirtualNetworkGatewayConnectionStatus connectionStatus() {
         return this.connectionStatus;
     }
 
@@ -69,7 +69,7 @@ public final class TunnelConnectionHealth {
      * 
      * @return the ingressBytesTransferred value.
      */
-    public Long getIngressBytesTransferred() {
+    public Long ingressBytesTransferred() {
         return this.ingressBytesTransferred;
     }
 
@@ -79,7 +79,7 @@ public final class TunnelConnectionHealth {
      * 
      * @return the egressBytesTransferred value.
      */
-    public Long getEgressBytesTransferred() {
+    public Long egressBytesTransferred() {
         return this.egressBytesTransferred;
     }
 
@@ -89,7 +89,7 @@ public final class TunnelConnectionHealth {
      * 
      * @return the lastConnectionEstablishedUtcTime value.
      */
-    public String getLastConnectionEstablishedUtcTime() {
+    public String lastConnectionEstablishedUtcTime() {
         return this.lastConnectionEstablishedUtcTime;
     }
 }

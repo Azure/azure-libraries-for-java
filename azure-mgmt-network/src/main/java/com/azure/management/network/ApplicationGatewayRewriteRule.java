@@ -46,7 +46,7 @@ public final class ApplicationGatewayRewriteRule {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -57,7 +57,7 @@ public final class ApplicationGatewayRewriteRule {
      * @param name the name value to set.
      * @return the ApplicationGatewayRewriteRule object itself.
      */
-    public ApplicationGatewayRewriteRule setName(String name) {
+    public ApplicationGatewayRewriteRule withName(String name) {
         this.name = name;
         return this;
     }
@@ -69,7 +69,7 @@ public final class ApplicationGatewayRewriteRule {
      * 
      * @return the ruleSequence value.
      */
-    public Integer getRuleSequence() {
+    public Integer ruleSequence() {
         return this.ruleSequence;
     }
 
@@ -81,7 +81,7 @@ public final class ApplicationGatewayRewriteRule {
      * @param ruleSequence the ruleSequence value to set.
      * @return the ApplicationGatewayRewriteRule object itself.
      */
-    public ApplicationGatewayRewriteRule setRuleSequence(Integer ruleSequence) {
+    public ApplicationGatewayRewriteRule withRuleSequence(Integer ruleSequence) {
         this.ruleSequence = ruleSequence;
         return this;
     }
@@ -92,7 +92,7 @@ public final class ApplicationGatewayRewriteRule {
      * 
      * @return the conditions value.
      */
-    public List<ApplicationGatewayRewriteRuleCondition> getConditions() {
+    public List<ApplicationGatewayRewriteRuleCondition> conditions() {
         return this.conditions;
     }
 
@@ -103,7 +103,7 @@ public final class ApplicationGatewayRewriteRule {
      * @param conditions the conditions value to set.
      * @return the ApplicationGatewayRewriteRule object itself.
      */
-    public ApplicationGatewayRewriteRule setConditions(List<ApplicationGatewayRewriteRuleCondition> conditions) {
+    public ApplicationGatewayRewriteRule withConditions(List<ApplicationGatewayRewriteRuleCondition> conditions) {
         this.conditions = conditions;
         return this;
     }
@@ -114,7 +114,7 @@ public final class ApplicationGatewayRewriteRule {
      * 
      * @return the actionSet value.
      */
-    public ApplicationGatewayRewriteRuleActionSet getActionSet() {
+    public ApplicationGatewayRewriteRuleActionSet actionSet() {
         return this.actionSet;
     }
 
@@ -125,7 +125,7 @@ public final class ApplicationGatewayRewriteRule {
      * @param actionSet the actionSet value to set.
      * @return the ApplicationGatewayRewriteRule object itself.
      */
-    public ApplicationGatewayRewriteRule setActionSet(ApplicationGatewayRewriteRuleActionSet actionSet) {
+    public ApplicationGatewayRewriteRule withActionSet(ApplicationGatewayRewriteRuleActionSet actionSet) {
         this.actionSet = actionSet;
         return this;
     }

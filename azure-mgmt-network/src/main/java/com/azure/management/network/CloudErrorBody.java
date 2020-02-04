@@ -48,7 +48,7 @@ public final class CloudErrorBody {
      * 
      * @return the code value.
      */
-    public String getCode() {
+    public String code() {
         return this.code;
     }
 
@@ -59,7 +59,7 @@ public final class CloudErrorBody {
      * @param code the code value to set.
      * @return the CloudErrorBody object itself.
      */
-    public CloudErrorBody setCode(String code) {
+    public CloudErrorBody withCode(String code) {
         this.code = code;
         return this;
     }
@@ -70,7 +70,7 @@ public final class CloudErrorBody {
      * 
      * @return the message value.
      */
-    public String getMessage() {
+    public String message() {
         return this.message;
     }
 
@@ -81,7 +81,7 @@ public final class CloudErrorBody {
      * @param message the message value to set.
      * @return the CloudErrorBody object itself.
      */
-    public CloudErrorBody setMessage(String message) {
+    public CloudErrorBody withMessage(String message) {
         this.message = message;
         return this;
     }
@@ -92,7 +92,7 @@ public final class CloudErrorBody {
      * 
      * @return the target value.
      */
-    public String getTarget() {
+    public String target() {
         return this.target;
     }
 
@@ -103,7 +103,7 @@ public final class CloudErrorBody {
      * @param target the target value to set.
      * @return the CloudErrorBody object itself.
      */
-    public CloudErrorBody setTarget(String target) {
+    public CloudErrorBody withTarget(String target) {
         this.target = target;
         return this;
     }
@@ -113,7 +113,7 @@ public final class CloudErrorBody {
      * 
      * @return the details value.
      */
-    public List<CloudErrorBody> getDetails() {
+    public List<CloudErrorBody> details() {
         return this.details;
     }
 
@@ -123,7 +123,7 @@ public final class CloudErrorBody {
      * @param details the details value to set.
      * @return the CloudErrorBody object itself.
      */
-    public CloudErrorBody setDetails(List<CloudErrorBody> details) {
+    public CloudErrorBody withDetails(List<CloudErrorBody> details) {
         this.details = details;
         return this;
     }

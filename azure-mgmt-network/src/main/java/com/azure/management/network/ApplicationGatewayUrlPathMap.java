@@ -5,14 +5,13 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.ApplicationGatewayUrlPathMapInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.ApplicationGatewayUrlPathMapInner;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.Map;
 
@@ -20,10 +19,9 @@ import java.util.Map;
  * A client-side representation of an application gateway's URL path map.
  */
 @Fluent
-@Beta(SinceVersion.V1_10_0)
 public interface ApplicationGatewayUrlPathMap extends
-    HasInner<ApplicationGatewayUrlPathMapInner>,
-    ChildResource<ApplicationGateway> {
+        HasInner<ApplicationGatewayUrlPathMapInner>,
+        ChildResource<ApplicationGateway> {
 
     /**
      * @return default backend address pool
@@ -51,6 +49,7 @@ public interface ApplicationGatewayUrlPathMap extends
     interface DefinitionStages {
         /**
          * The first stage of an application gateway URL path map definition.
+         *
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
         interface Blank<ReturnT> extends WithListener<ReturnT> {
@@ -59,6 +58,7 @@ public interface ApplicationGatewayUrlPathMap extends
         /**
          * The stage of an application gateway URL path map definition allowing to specify an existing listener to
          * associate the URL path map with.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithListener<ParentT> {
@@ -69,6 +69,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * of the application gateway definition. This only adds a reference to the listener by its name.
              * <p>
              * Also, note that a given listener can be used by no more than one request routing rule at a time.
+             *
              * @param name the name of a listener to reference
              * @return the next stage of the definition
              */
@@ -78,6 +79,7 @@ public interface ApplicationGatewayUrlPathMap extends
         /**
          * The stage of an application gateway URL path map definition allowing to specify the backend HTTP settings configuration
          * to associate the routing rule with.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithBackendHttpConfiguration<ParentT> {
@@ -86,6 +88,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * <p>
              * If the backend configuration does not exist yet, it must be defined in the optional part of the application gateway
              * definition. The request routing rule references it only by name.
+             *
              * @param name the name of a backend HTTP settings configuration
              * @return the next stage of the definition
              */
@@ -96,6 +99,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * URL path map.
              * <p>
              * An auto-generated name will be used for this newly created configuration.
+             *
              * @param portNumber the port number for a new backend HTTP settings configuration
              * @return the next stage of the definition
              */
@@ -105,6 +109,7 @@ public interface ApplicationGatewayUrlPathMap extends
 
         /**
          * The stage of an application gateway URL path map definition allowing to specify the backend to associate the URL path map with.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithBackend<ParentT> {
@@ -112,6 +117,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * Associates the URL path map with a backend on this application gateway.
              * <p>
              * If the backend does not yet exist, it will be automatically created.
+             *
              * @param name the name of an existing backend
              * @return the next stage of the definition
              */
@@ -120,11 +126,13 @@ public interface ApplicationGatewayUrlPathMap extends
 
         /**
          * The stage of an application gateway URL path map definition allowing to associate the URL path map with a redirect configuration.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithRedirectConfig<ParentT> {
             /**
              * Associates the specified redirect configuration with this URL path map.
+             *
              * @param name the name of a redirect configuration on this application gateway
              * @return the next stage of the definition
              */
@@ -133,11 +141,13 @@ public interface ApplicationGatewayUrlPathMap extends
 
         /**
          * The stage of an application gateway URL path map definition allowing to specify path rules.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithPathRule<ParentT> {
             /**
              * Begins the definition of path rule.
+             *
              * @param name name of the path rule
              * @return next stage of the path rule definition
              */
@@ -149,31 +159,34 @@ public interface ApplicationGatewayUrlPathMap extends
          * <p>
          * At this stage, any remaining optional settings can be specified, or the definition
          * can be attached to the parent application gateway definition.
+         *
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
         interface WithAttach<ReturnT> extends
-            Attachable.InDefinition<ReturnT>,
-            WithPathRule<ReturnT>,
-            WithRedirectConfig<ReturnT> {
+                Attachable.InDefinition<ReturnT>,
+                WithPathRule<ReturnT>,
+                WithRedirectConfig<ReturnT> {
         }
     }
 
-    /** The entirety of an application gateway URL path map definition.
+    /**
+     * The entirety of an application gateway URL path map definition.
+     *
      * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
      */
     interface Definition<ReturnT> extends
-        DefinitionStages.Blank<ReturnT>,
-        DefinitionStages.WithBackendHttpConfiguration<ReturnT>,
-        DefinitionStages.WithBackend<ReturnT>,
-        DefinitionStages.WithPathRule<ReturnT>,
-        DefinitionStages.WithAttach<ReturnT> {
+            DefinitionStages.Blank<ReturnT>,
+            DefinitionStages.WithBackendHttpConfiguration<ReturnT>,
+            DefinitionStages.WithBackend<ReturnT>,
+            DefinitionStages.WithPathRule<ReturnT>,
+            DefinitionStages.WithAttach<ReturnT> {
     }
 
     /**
      * The entirety of an application gateway URL path map update as part of an application gateway update.
      */
     interface Update extends
-        Settable<ApplicationGateway.Update> {
+            Settable<ApplicationGateway.Update> {
     }
 
     /**
@@ -182,6 +195,7 @@ public interface ApplicationGatewayUrlPathMap extends
     interface UpdateDefinitionStages {
         /**
          * The first stage of an application gateway URL path map definition.
+         *
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
         interface Blank<ReturnT> extends WithListener<ReturnT> {
@@ -190,6 +204,7 @@ public interface ApplicationGatewayUrlPathMap extends
         /**
          * The stage of an application gateway URL path map definition allowing to specify an existing listener to
          * associate the URL path map with.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithListener<ParentT> {
@@ -200,6 +215,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * of the application gateway definition. This only adds a reference to the listener by its name.
              * <p>
              * Also, note that a given listener can be used by no more than one request routing rule at a time.
+             *
              * @param name the name of a listener to reference
              * @return the next stage of the definition
              */
@@ -209,6 +225,7 @@ public interface ApplicationGatewayUrlPathMap extends
         /**
          * The stage of an application gateway URL path map definition allowing to specify the backend HTTP settings configuration
          * to associate the URL path map with.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithBackendHttpConfiguration<ParentT> {
@@ -217,6 +234,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * <p>
              * If the backend configuration does not exist yet, it must be defined in the optional part of the application gateway
              * definition. The URL path map references it only by name.
+             *
              * @param name the name of a backend HTTP settings configuration
              * @return the next stage of the definition
              */
@@ -227,6 +245,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * URL path map.
              * <p>
              * An auto-generated name will be used for this newly created configuration.
+             *
              * @param portNumber the port number for a new backend HTTP settings configuration
              * @return the next stage of the definition
              */
@@ -236,6 +255,7 @@ public interface ApplicationGatewayUrlPathMap extends
         /**
          * The stage of an application gateway URL path map definition allowing to add an address to specify an existing
          * backend to associate with this URL path map or create a new backend with an auto-generated name and addresses to it.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithBackendOrAddress<ParentT> extends WithBackend<ParentT>, WithBackendAddress<ParentT> {
@@ -245,6 +265,7 @@ public interface ApplicationGatewayUrlPathMap extends
          * The stage of an application gateway URL path map definition allowing to add an address to the backend used by this URL path map.
          * <p>
          * A new backend will be created if none is associated with this rule yet.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithBackendAddress<ParentT> {
@@ -254,6 +275,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * If no backend has been associated with this URL path map yet, a new one will be created with an auto-generated name.
              * <p>
              * This call can be used in a sequence to add multiple IP addresses.
+             *
              * @param ipAddress an IP address
              * @return the next stage of the definition
              */
@@ -261,10 +283,11 @@ public interface ApplicationGatewayUrlPathMap extends
 
             /**
              * Adds the specified IP addresses to the backend associated with this URL path map.
+             *
              * @param ipAddresses IP addresses to add
              * @return the next stage of the definition
              */
-            WithBackendAddressOrPath<ParentT> toBackendIPAddresses(String...ipAddresses);
+            WithBackendAddressOrPath<ParentT> toBackendIPAddresses(String... ipAddresses);
 
             /**
              * Adds an FQDN (fully qualified domain name) to the backend associated with this URL path map.
@@ -272,6 +295,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * If no backend has been associated with this URL path map yet, a new one will be created with an auto-generated name.
              * <p>
              * This call can be used in a sequence to add multiple FQDNs.
+             *
              * @param fqdn a fully qualified domain name
              * @return the next stage of the definition
              */
@@ -281,6 +305,7 @@ public interface ApplicationGatewayUrlPathMap extends
         /**
          * The stage of an application gateway URL path map definition allowing to add more backend addresses,
          * start specifying optional settings, or finish the definition by attaching it to the parent application gateway.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithBackendAddressOrPath<ParentT> extends WithBackendAddress<ParentT>, WithPathRule<ParentT> {
@@ -288,6 +313,7 @@ public interface ApplicationGatewayUrlPathMap extends
 
         /**
          * The stage of an application gateway URL path map definition allowing to specify the backend to associate the URL path map with.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithBackend<ParentT> {
@@ -295,6 +321,7 @@ public interface ApplicationGatewayUrlPathMap extends
              * Associates the URL path map with a backend on this application gateway.
              * <p>
              * If the backend does not yet exist, it will be automatically created.
+             *
              * @param name the name of an existing backend
              * @return the next stage of the definition
              */
@@ -307,11 +334,13 @@ public interface ApplicationGatewayUrlPathMap extends
 
         /**
          * The stage of an application gateway URL path map definition allowing to associate the URL path map with a redirect configuration.
+         *
          * @param <ParentT> the stage of the application gateway definition to return to after attaching this definition
          */
         interface WithRedirectConfig<ParentT> {
             /**
              * Associates the specified redirect configuration with this request routing rule.
+             *
              * @param name the name of a redirect configuration on this application gateway
              * @return the next stage of the definition
              */
@@ -319,28 +348,32 @@ public interface ApplicationGatewayUrlPathMap extends
         }
 
 
-        /** The final stage of an application gateway URL path map definition.
+        /**
+         * The final stage of an application gateway URL path map definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the definition
          * can be attached to the parent application gateway definition.
+         *
          * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
          */
         interface WithAttach<ReturnT> extends
-            Attachable.InDefinitionAlt<ReturnT>,
-            WithPathRule<ReturnT>,
-            WithRedirectConfig<ReturnT> {
+                Attachable.InDefinitionAlt<ReturnT>,
+                WithPathRule<ReturnT>,
+                WithRedirectConfig<ReturnT> {
         }
     }
 
-    /** The entirety of an application gateway URL path map definition as part of an application gateway update.
+    /**
+     * The entirety of an application gateway URL path map definition as part of an application gateway update.
+     *
      * @param <ReturnT> the stage of the parent application gateway definition to return to after attaching this definition
      */
     interface UpdateDefinition<ReturnT> extends
-        UpdateDefinitionStages.Blank<ReturnT>,
-        UpdateDefinitionStages.WithBackendOrAddress<ReturnT>,
-        UpdateDefinitionStages.WithBackendHttpConfiguration<ReturnT>,
-        UpdateDefinitionStages.WithBackendAddressOrPath<ReturnT>,
-        UpdateDefinitionStages.WithPathRule<ReturnT>,
-        UpdateDefinitionStages.WithAttach<ReturnT> {
+            UpdateDefinitionStages.Blank<ReturnT>,
+            UpdateDefinitionStages.WithBackendOrAddress<ReturnT>,
+            UpdateDefinitionStages.WithBackendHttpConfiguration<ReturnT>,
+            UpdateDefinitionStages.WithBackendAddressOrPath<ReturnT>,
+            UpdateDefinitionStages.WithPathRule<ReturnT>,
+            UpdateDefinitionStages.WithAttach<ReturnT> {
     }
 }

@@ -73,7 +73,7 @@ public final class VerificationIPFlowParameters {
      * 
      * @return the targetResourceId value.
      */
-    public String getTargetResourceId() {
+    public String targetResourceId() {
         return this.targetResourceId;
     }
 
@@ -84,7 +84,7 @@ public final class VerificationIPFlowParameters {
      * @param targetResourceId the targetResourceId value to set.
      * @return the VerificationIPFlowParameters object itself.
      */
-    public VerificationIPFlowParameters setTargetResourceId(String targetResourceId) {
+    public VerificationIPFlowParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }
@@ -94,7 +94,7 @@ public final class VerificationIPFlowParameters {
      * 
      * @return the direction value.
      */
-    public Direction getDirection() {
+    public Direction direction() {
         return this.direction;
     }
 
@@ -104,7 +104,7 @@ public final class VerificationIPFlowParameters {
      * @param direction the direction value to set.
      * @return the VerificationIPFlowParameters object itself.
      */
-    public VerificationIPFlowParameters setDirection(Direction direction) {
+    public VerificationIPFlowParameters withDirection(Direction direction) {
         this.direction = direction;
         return this;
     }
@@ -114,7 +114,7 @@ public final class VerificationIPFlowParameters {
      * 
      * @return the protocol value.
      */
-    public IpFlowProtocol getProtocol() {
+    public IpFlowProtocol protocol() {
         return this.protocol;
     }
 
@@ -124,7 +124,7 @@ public final class VerificationIPFlowParameters {
      * @param protocol the protocol value to set.
      * @return the VerificationIPFlowParameters object itself.
      */
-    public VerificationIPFlowParameters setProtocol(IpFlowProtocol protocol) {
+    public VerificationIPFlowParameters withProtocol(IpFlowProtocol protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -136,7 +136,7 @@ public final class VerificationIPFlowParameters {
      * 
      * @return the localPort value.
      */
-    public String getLocalPort() {
+    public String localPort() {
         return this.localPort;
     }
 
@@ -148,7 +148,7 @@ public final class VerificationIPFlowParameters {
      * @param localPort the localPort value to set.
      * @return the VerificationIPFlowParameters object itself.
      */
-    public VerificationIPFlowParameters setLocalPort(String localPort) {
+    public VerificationIPFlowParameters withLocalPort(String localPort) {
         this.localPort = localPort;
         return this;
     }
@@ -160,7 +160,7 @@ public final class VerificationIPFlowParameters {
      * 
      * @return the remotePort value.
      */
-    public String getRemotePort() {
+    public String remotePort() {
         return this.remotePort;
     }
 
@@ -172,7 +172,7 @@ public final class VerificationIPFlowParameters {
      * @param remotePort the remotePort value to set.
      * @return the VerificationIPFlowParameters object itself.
      */
-    public VerificationIPFlowParameters setRemotePort(String remotePort) {
+    public VerificationIPFlowParameters withRemotePort(String remotePort) {
         this.remotePort = remotePort;
         return this;
     }
@@ -183,7 +183,7 @@ public final class VerificationIPFlowParameters {
      * 
      * @return the localIPAddress value.
      */
-    public String getLocalIPAddress() {
+    public String localIPAddress() {
         return this.localIPAddress;
     }
 
@@ -194,7 +194,7 @@ public final class VerificationIPFlowParameters {
      * @param localIPAddress the localIPAddress value to set.
      * @return the VerificationIPFlowParameters object itself.
      */
-    public VerificationIPFlowParameters setLocalIPAddress(String localIPAddress) {
+    public VerificationIPFlowParameters withLocalIPAddress(String localIPAddress) {
         this.localIPAddress = localIPAddress;
         return this;
     }
@@ -205,7 +205,7 @@ public final class VerificationIPFlowParameters {
      * 
      * @return the remoteIPAddress value.
      */
-    public String getRemoteIPAddress() {
+    public String remoteIPAddress() {
         return this.remoteIPAddress;
     }
 
@@ -216,7 +216,7 @@ public final class VerificationIPFlowParameters {
      * @param remoteIPAddress the remoteIPAddress value to set.
      * @return the VerificationIPFlowParameters object itself.
      */
-    public VerificationIPFlowParameters setRemoteIPAddress(String remoteIPAddress) {
+    public VerificationIPFlowParameters withRemoteIPAddress(String remoteIPAddress) {
         this.remoteIPAddress = remoteIPAddress;
         return this;
     }
@@ -228,7 +228,7 @@ public final class VerificationIPFlowParameters {
      * 
      * @return the targetNicResourceId value.
      */
-    public String getTargetNicResourceId() {
+    public String targetNicResourceId() {
         return this.targetNicResourceId;
     }
 
@@ -240,7 +240,7 @@ public final class VerificationIPFlowParameters {
      * @param targetNicResourceId the targetNicResourceId value to set.
      * @return the VerificationIPFlowParameters object itself.
      */
-    public VerificationIPFlowParameters setTargetNicResourceId(String targetNicResourceId) {
+    public VerificationIPFlowParameters withTargetNicResourceId(String targetNicResourceId) {
         this.targetNicResourceId = targetNicResourceId;
         return this;
     }

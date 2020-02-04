@@ -33,7 +33,7 @@ public final class DdosSettings {
      * 
      * @return the ddosCustomPolicy value.
      */
-    public SubResource getDdosCustomPolicy() {
+    public SubResource ddosCustomPolicy() {
         return this.ddosCustomPolicy;
     }
 
@@ -43,7 +43,7 @@ public final class DdosSettings {
      * @param ddosCustomPolicy the ddosCustomPolicy value to set.
      * @return the DdosSettings object itself.
      */
-    public DdosSettings setDdosCustomPolicy(SubResource ddosCustomPolicy) {
+    public DdosSettings withDdosCustomPolicy(SubResource ddosCustomPolicy) {
         this.ddosCustomPolicy = ddosCustomPolicy;
         return this;
     }
@@ -55,7 +55,7 @@ public final class DdosSettings {
      * 
      * @return the protectionCoverage value.
      */
-    public DdosSettingsProtectionCoverage getProtectionCoverage() {
+    public DdosSettingsProtectionCoverage protectionCoverage() {
         return this.protectionCoverage;
     }
 
@@ -67,7 +67,7 @@ public final class DdosSettings {
      * @param protectionCoverage the protectionCoverage value to set.
      * @return the DdosSettings object itself.
      */
-    public DdosSettings setProtectionCoverage(DdosSettingsProtectionCoverage protectionCoverage) {
+    public DdosSettings withProtectionCoverage(DdosSettingsProtectionCoverage protectionCoverage) {
         this.protectionCoverage = protectionCoverage;
         return this;
     }

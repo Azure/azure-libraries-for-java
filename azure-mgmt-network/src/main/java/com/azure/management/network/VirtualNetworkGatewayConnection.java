@@ -5,19 +5,17 @@
  */
 package com.azure.management.network;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.network.implementation.VirtualNetworkGatewayConnectionInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.UpdatableWithTags;
+import com.azure.management.network.models.VirtualNetworkGatewayConnectionInner;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 import java.util.Collection;
 
@@ -25,7 +23,6 @@ import java.util.Collection;
  * Client-side representation of Virtual Network Gateway Connection object, associated with Virtual Network Gateway.
  */
 @Fluent
-@Beta(SinceVersion.V1_3_0)
 public interface VirtualNetworkGatewayConnection extends
         IndependentChildResource<NetworkManager, VirtualNetworkGatewayConnectionInner>,
         Refreshable<VirtualNetworkGatewayConnection>,
@@ -74,6 +71,7 @@ public interface VirtualNetworkGatewayConnection extends
 
     /**
      * Get the Virtual Network Gateway connection status.
+     *
      * @return the connectionStatus value
      */
     VirtualNetworkGatewayConnectionStatus connectionStatus();
@@ -149,18 +147,21 @@ public interface VirtualNetworkGatewayConnection extends
         interface WithConnectionType {
             /**
              * Create Site-to-Site connection.
+             *
              * @return next stage of definition, allowing to specify local network gateway
              */
             WithLocalNetworkGateway withSiteToSite();
 
             /**
              * Create VNet-to-VNet connection.
+             *
              * @return the next stage of the definition, allowing to specify virtual network gateway to connect to.
              */
             WithSecondVirtualNetworkGateway withVNetToVNet();
 
             /**
              * Create Express Route connection.
+             *
              * @param circuitId id of Express Route circuit used for connection
              * @return next stage of definition
              */
@@ -168,6 +169,7 @@ public interface VirtualNetworkGatewayConnection extends
 
             /**
              * Create Express Route connection.
+             *
              * @param circuit Express Route circuit used for connection
              * @return the next stage of the definition
              */
@@ -202,6 +204,7 @@ public interface VirtualNetworkGatewayConnection extends
         interface WithSharedKey {
             /**
              * Specify shared key.
+             *
              * @param sharedKey shared key
              * @return the next stage of the definition
              */
@@ -214,6 +217,7 @@ public interface VirtualNetworkGatewayConnection extends
         interface WithBgp {
             /**
              * Enable BGP for the connection.
+             *
              * @return the next stage of the definition
              */
             WithCreate withBgp();
@@ -226,6 +230,7 @@ public interface VirtualNetworkGatewayConnection extends
             /**
              * Specify authorization key.
              * This is required in case of Express Route connection if Express Route circuit and virtual network gateway reside in different subscriptions.
+             *
              * @param authorizationKey authorization key to use
              * @return the next stage of the definition
              */
@@ -265,12 +270,14 @@ public interface VirtualNetworkGatewayConnection extends
         interface WithBgp {
             /**
              * Enable BGP for the connection.
+             *
              * @return the next stage of the update
              */
             Update withBgp();
 
             /**
              * Disable BGP for the connection.
+             *
              * @return the next stage of the update
              */
             Update withoutBgp();
@@ -282,6 +289,7 @@ public interface VirtualNetworkGatewayConnection extends
         interface WithSharedKey {
             /**
              * Specify shared key.
+             *
              * @param sharedKey shared key
              * @return the next stage of the update
              */
@@ -295,6 +303,7 @@ public interface VirtualNetworkGatewayConnection extends
             /**
              * Specify authorization key.
              * This is required in case of Express Route connection if Express Route circuit and virtual network gateway reside in different subscriptions.
+             *
              * @param authorizationKey authorization key to use
              * @return the next stage of the update
              */

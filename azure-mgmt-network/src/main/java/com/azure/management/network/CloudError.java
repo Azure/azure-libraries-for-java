@@ -25,7 +25,7 @@ public final class CloudError {
      * 
      * @return the error value.
      */
-    public CloudErrorBody getError() {
+    public CloudErrorBody error() {
         return this.error;
     }
 
@@ -35,7 +35,7 @@ public final class CloudError {
      * @param error the error value to set.
      * @return the CloudError object itself.
      */
-    public CloudError setError(CloudErrorBody error) {
+    public CloudError withError(CloudErrorBody error) {
         this.error = error;
         return this;
     }

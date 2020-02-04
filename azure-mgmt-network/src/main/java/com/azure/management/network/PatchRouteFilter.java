@@ -9,8 +9,8 @@ package com.azure.management.network;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.SubResource;
-import com.azure.management.network.model.ExpressRouteCircuitPeeringInner;
-import com.azure.management.network.model.RouteFilterRuleInner;
+import com.azure.management.network.models.ExpressRouteCircuitPeeringInner;
+import com.azure.management.network.models.RouteFilterRuleInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +77,7 @@ public class PatchRouteFilter extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -87,7 +87,7 @@ public class PatchRouteFilter extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -96,7 +96,7 @@ public class PatchRouteFilter extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -105,7 +105,7 @@ public class PatchRouteFilter extends SubResource {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -115,7 +115,7 @@ public class PatchRouteFilter extends SubResource {
      * @param tags the tags value to set.
      * @return the PatchRouteFilter object itself.
      */
-    public PatchRouteFilter setTags(Map<String, String> tags) {
+    public PatchRouteFilter withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -126,7 +126,7 @@ public class PatchRouteFilter extends SubResource {
      * 
      * @return the rules value.
      */
-    public List<RouteFilterRuleInner> getRules() {
+    public List<RouteFilterRuleInner> rules() {
         return this.rules;
     }
 
@@ -137,7 +137,7 @@ public class PatchRouteFilter extends SubResource {
      * @param rules the rules value to set.
      * @return the PatchRouteFilter object itself.
      */
-    public PatchRouteFilter setRules(List<RouteFilterRuleInner> rules) {
+    public PatchRouteFilter withRules(List<RouteFilterRuleInner> rules) {
         this.rules = rules;
         return this;
     }
@@ -148,7 +148,7 @@ public class PatchRouteFilter extends SubResource {
      * 
      * @return the peerings value.
      */
-    public List<ExpressRouteCircuitPeeringInner> getPeerings() {
+    public List<ExpressRouteCircuitPeeringInner> peerings() {
         return this.peerings;
     }
 
@@ -159,7 +159,7 @@ public class PatchRouteFilter extends SubResource {
      * @param peerings the peerings value to set.
      * @return the PatchRouteFilter object itself.
      */
-    public PatchRouteFilter setPeerings(List<ExpressRouteCircuitPeeringInner> peerings) {
+    public PatchRouteFilter withPeerings(List<ExpressRouteCircuitPeeringInner> peerings) {
         this.peerings = peerings;
         return this;
     }
@@ -170,7 +170,7 @@ public class PatchRouteFilter extends SubResource {
      * 
      * @return the ipv6Peerings value.
      */
-    public List<ExpressRouteCircuitPeeringInner> getIpv6Peerings() {
+    public List<ExpressRouteCircuitPeeringInner> ipv6Peerings() {
         return this.ipv6Peerings;
     }
 
@@ -181,7 +181,7 @@ public class PatchRouteFilter extends SubResource {
      * @param ipv6Peerings the ipv6Peerings value to set.
      * @return the PatchRouteFilter object itself.
      */
-    public PatchRouteFilter setIpv6Peerings(List<ExpressRouteCircuitPeeringInner> ipv6Peerings) {
+    public PatchRouteFilter withIpv6Peerings(List<ExpressRouteCircuitPeeringInner> ipv6Peerings) {
         this.ipv6Peerings = ipv6Peerings;
         return this;
     }
@@ -193,7 +193,7 @@ public class PatchRouteFilter extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

@@ -34,7 +34,7 @@ public final class GetVpnSitesConfigurationRequest {
      * 
      * @return the vpnSites value.
      */
-    public List<String> getVpnSites() {
+    public List<String> vpnSites() {
         return this.vpnSites;
     }
 
@@ -45,7 +45,7 @@ public final class GetVpnSitesConfigurationRequest {
      * @param vpnSites the vpnSites value to set.
      * @return the GetVpnSitesConfigurationRequest object itself.
      */
-    public GetVpnSitesConfigurationRequest setVpnSites(List<String> vpnSites) {
+    public GetVpnSitesConfigurationRequest withVpnSites(List<String> vpnSites) {
         this.vpnSites = vpnSites;
         return this;
     }
@@ -56,7 +56,7 @@ public final class GetVpnSitesConfigurationRequest {
      * 
      * @return the outputBlobSasUrl value.
      */
-    public String getOutputBlobSasUrl() {
+    public String outputBlobSasUrl() {
         return this.outputBlobSasUrl;
     }
 
@@ -67,7 +67,7 @@ public final class GetVpnSitesConfigurationRequest {
      * @param outputBlobSasUrl the outputBlobSasUrl value to set.
      * @return the GetVpnSitesConfigurationRequest object itself.
      */
-    public GetVpnSitesConfigurationRequest setOutputBlobSasUrl(String outputBlobSasUrl) {
+    public GetVpnSitesConfigurationRequest withOutputBlobSasUrl(String outputBlobSasUrl) {
         this.outputBlobSasUrl = outputBlobSasUrl;
         return this;
     }

@@ -111,7 +111,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -123,7 +123,7 @@ public class InboundNatPool extends SubResource {
      * @param name the name value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setName(String name) {
+    public InboundNatPool withName(String name) {
         this.name = name;
         return this;
     }
@@ -134,7 +134,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -145,7 +145,7 @@ public class InboundNatPool extends SubResource {
      * @param etag the etag value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setEtag(String etag) {
+    public InboundNatPool withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -155,7 +155,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -165,7 +165,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the frontendIPConfiguration value.
      */
-    public SubResource getFrontendIPConfiguration() {
+    public SubResource frontendIPConfiguration() {
         return this.frontendIPConfiguration;
     }
 
@@ -176,7 +176,7 @@ public class InboundNatPool extends SubResource {
      * @param frontendIPConfiguration the frontendIPConfiguration value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setFrontendIPConfiguration(SubResource frontendIPConfiguration) {
+    public InboundNatPool withFrontendIPConfiguration(SubResource frontendIPConfiguration) {
         this.frontendIPConfiguration = frontendIPConfiguration;
         return this;
     }
@@ -186,7 +186,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the protocol value.
      */
-    public TransportProtocol getProtocol() {
+    public TransportProtocol protocol() {
         return this.protocol;
     }
 
@@ -196,7 +196,7 @@ public class InboundNatPool extends SubResource {
      * @param protocol the protocol value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setProtocol(TransportProtocol protocol) {
+    public InboundNatPool withProtocol(TransportProtocol protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -209,7 +209,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the frontendPortRangeStart value.
      */
-    public Integer getFrontendPortRangeStart() {
+    public Integer frontendPortRangeStart() {
         return this.frontendPortRangeStart;
     }
 
@@ -222,7 +222,7 @@ public class InboundNatPool extends SubResource {
      * @param frontendPortRangeStart the frontendPortRangeStart value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setFrontendPortRangeStart(Integer frontendPortRangeStart) {
+    public InboundNatPool withFrontendPortRangeStart(Integer frontendPortRangeStart) {
         this.frontendPortRangeStart = frontendPortRangeStart;
         return this;
     }
@@ -235,7 +235,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the frontendPortRangeEnd value.
      */
-    public Integer getFrontendPortRangeEnd() {
+    public Integer frontendPortRangeEnd() {
         return this.frontendPortRangeEnd;
     }
 
@@ -248,7 +248,7 @@ public class InboundNatPool extends SubResource {
      * @param frontendPortRangeEnd the frontendPortRangeEnd value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setFrontendPortRangeEnd(Integer frontendPortRangeEnd) {
+    public InboundNatPool withFrontendPortRangeEnd(Integer frontendPortRangeEnd) {
         this.frontendPortRangeEnd = frontendPortRangeEnd;
         return this;
     }
@@ -259,7 +259,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the backendPort value.
      */
-    public Integer getBackendPort() {
+    public Integer backendPort() {
         return this.backendPort;
     }
 
@@ -270,7 +270,7 @@ public class InboundNatPool extends SubResource {
      * @param backendPort the backendPort value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setBackendPort(Integer backendPort) {
+    public InboundNatPool withBackendPort(Integer backendPort) {
         this.backendPort = backendPort;
         return this;
     }
@@ -283,7 +283,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the idleTimeoutInMinutes value.
      */
-    public Integer getIdleTimeoutInMinutes() {
+    public Integer idleTimeoutInMinutes() {
         return this.idleTimeoutInMinutes;
     }
 
@@ -296,7 +296,7 @@ public class InboundNatPool extends SubResource {
      * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
+    public InboundNatPool withIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
         this.idleTimeoutInMinutes = idleTimeoutInMinutes;
         return this;
     }
@@ -310,7 +310,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the enableFloatingIP value.
      */
-    public Boolean isEnableFloatingIP() {
+    public Boolean enableFloatingIP() {
         return this.enableFloatingIP;
     }
 
@@ -324,7 +324,7 @@ public class InboundNatPool extends SubResource {
      * @param enableFloatingIP the enableFloatingIP value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setEnableFloatingIP(Boolean enableFloatingIP) {
+    public InboundNatPool withEnableFloatingIP(Boolean enableFloatingIP) {
         this.enableFloatingIP = enableFloatingIP;
         return this;
     }
@@ -336,7 +336,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the enableTcpReset value.
      */
-    public Boolean isEnableTcpReset() {
+    public Boolean enableTcpReset() {
         return this.enableTcpReset;
     }
 
@@ -348,7 +348,7 @@ public class InboundNatPool extends SubResource {
      * @param enableTcpReset the enableTcpReset value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setEnableTcpReset(Boolean enableTcpReset) {
+    public InboundNatPool withEnableTcpReset(Boolean enableTcpReset) {
         this.enableTcpReset = enableTcpReset;
         return this;
     }
@@ -360,7 +360,7 @@ public class InboundNatPool extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 
@@ -372,7 +372,7 @@ public class InboundNatPool extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the InboundNatPool object itself.
      */
-    public InboundNatPool setProvisioningState(String provisioningState) {
+    public InboundNatPool withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

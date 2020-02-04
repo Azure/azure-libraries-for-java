@@ -38,7 +38,7 @@ public final class AvailableProvidersListState {
      * 
      * @return the stateName value.
      */
-    public String getStateName() {
+    public String stateName() {
         return this.stateName;
     }
 
@@ -48,7 +48,7 @@ public final class AvailableProvidersListState {
      * @param stateName the stateName value to set.
      * @return the AvailableProvidersListState object itself.
      */
-    public AvailableProvidersListState setStateName(String stateName) {
+    public AvailableProvidersListState withStateName(String stateName) {
         this.stateName = stateName;
         return this;
     }
@@ -58,7 +58,7 @@ public final class AvailableProvidersListState {
      * 
      * @return the providers value.
      */
-    public List<String> getProviders() {
+    public List<String> providers() {
         return this.providers;
     }
 
@@ -68,7 +68,7 @@ public final class AvailableProvidersListState {
      * @param providers the providers value to set.
      * @return the AvailableProvidersListState object itself.
      */
-    public AvailableProvidersListState setProviders(List<String> providers) {
+    public AvailableProvidersListState withProviders(List<String> providers) {
         this.providers = providers;
         return this;
     }
@@ -78,7 +78,7 @@ public final class AvailableProvidersListState {
      * 
      * @return the cities value.
      */
-    public List<AvailableProvidersListCity> getCities() {
+    public List<AvailableProvidersListCity> cities() {
         return this.cities;
     }
 
@@ -88,7 +88,7 @@ public final class AvailableProvidersListState {
      * @param cities the cities value to set.
      * @return the AvailableProvidersListState object itself.
      */
-    public AvailableProvidersListState setCities(List<AvailableProvidersListCity> cities) {
+    public AvailableProvidersListState withCities(List<AvailableProvidersListCity> cities) {
         this.cities = cities;
         return this;
     }

@@ -40,7 +40,7 @@ public class FirewallPolicyRuleCondition {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -50,7 +50,7 @@ public class FirewallPolicyRuleCondition {
      * @param name the name value to set.
      * @return the FirewallPolicyRuleCondition object itself.
      */
-    public FirewallPolicyRuleCondition setName(String name) {
+    public FirewallPolicyRuleCondition withName(String name) {
         this.name = name;
         return this;
     }
@@ -60,7 +60,7 @@ public class FirewallPolicyRuleCondition {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -70,7 +70,7 @@ public class FirewallPolicyRuleCondition {
      * @param description the description value to set.
      * @return the FirewallPolicyRuleCondition object itself.
      */
-    public FirewallPolicyRuleCondition setDescription(String description) {
+    public FirewallPolicyRuleCondition withDescription(String description) {
         this.description = description;
         return this;
     }

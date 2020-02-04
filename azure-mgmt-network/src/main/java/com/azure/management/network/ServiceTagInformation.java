@@ -37,7 +37,7 @@ public final class ServiceTagInformation {
      * 
      * @return the properties value.
      */
-    public ServiceTagInformationPropertiesFormat getProperties() {
+    public ServiceTagInformationPropertiesFormat properties() {
         return this.properties;
     }
 
@@ -46,7 +46,7 @@ public final class ServiceTagInformation {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -55,7 +55,7 @@ public final class ServiceTagInformation {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 }

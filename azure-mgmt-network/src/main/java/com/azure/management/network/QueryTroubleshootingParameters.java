@@ -26,7 +26,7 @@ public final class QueryTroubleshootingParameters {
      * 
      * @return the targetResourceId value.
      */
-    public String getTargetResourceId() {
+    public String targetResourceId() {
         return this.targetResourceId;
     }
 
@@ -37,7 +37,7 @@ public final class QueryTroubleshootingParameters {
      * @param targetResourceId the targetResourceId value to set.
      * @return the QueryTroubleshootingParameters object itself.
      */
-    public QueryTroubleshootingParameters setTargetResourceId(String targetResourceId) {
+    public QueryTroubleshootingParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }

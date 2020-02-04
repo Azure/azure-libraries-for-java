@@ -26,7 +26,7 @@ public final class TrafficAnalyticsProperties {
      * 
      * @return the networkWatcherFlowAnalyticsConfiguration value.
      */
-    public TrafficAnalyticsConfigurationProperties getNetworkWatcherFlowAnalyticsConfiguration() {
+    public TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration() {
         return this.networkWatcherFlowAnalyticsConfiguration;
     }
 
@@ -38,7 +38,7 @@ public final class TrafficAnalyticsProperties {
      * networkWatcherFlowAnalyticsConfiguration value to set.
      * @return the TrafficAnalyticsProperties object itself.
      */
-    public TrafficAnalyticsProperties setNetworkWatcherFlowAnalyticsConfiguration(TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration) {
+    public TrafficAnalyticsProperties withNetworkWatcherFlowAnalyticsConfiguration(TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration) {
         this.networkWatcherFlowAnalyticsConfiguration = networkWatcherFlowAnalyticsConfiguration;
         return this;
     }

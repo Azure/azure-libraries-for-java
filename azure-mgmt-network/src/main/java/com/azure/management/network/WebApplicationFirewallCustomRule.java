@@ -60,7 +60,7 @@ public final class WebApplicationFirewallCustomRule {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -71,7 +71,7 @@ public final class WebApplicationFirewallCustomRule {
      * @param name the name value to set.
      * @return the WebApplicationFirewallCustomRule object itself.
      */
-    public WebApplicationFirewallCustomRule setName(String name) {
+    public WebApplicationFirewallCustomRule withName(String name) {
         this.name = name;
         return this;
     }
@@ -82,7 +82,7 @@ public final class WebApplicationFirewallCustomRule {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -92,7 +92,7 @@ public final class WebApplicationFirewallCustomRule {
      * 
      * @return the priority value.
      */
-    public int getPriority() {
+    public int priority() {
         return this.priority;
     }
 
@@ -103,7 +103,7 @@ public final class WebApplicationFirewallCustomRule {
      * @param priority the priority value to set.
      * @return the WebApplicationFirewallCustomRule object itself.
      */
-    public WebApplicationFirewallCustomRule setPriority(int priority) {
+    public WebApplicationFirewallCustomRule withPriority(int priority) {
         this.priority = priority;
         return this;
     }
@@ -113,7 +113,7 @@ public final class WebApplicationFirewallCustomRule {
      * 
      * @return the ruleType value.
      */
-    public WebApplicationFirewallRuleType getRuleType() {
+    public WebApplicationFirewallRuleType ruleType() {
         return this.ruleType;
     }
 
@@ -123,7 +123,7 @@ public final class WebApplicationFirewallCustomRule {
      * @param ruleType the ruleType value to set.
      * @return the WebApplicationFirewallCustomRule object itself.
      */
-    public WebApplicationFirewallCustomRule setRuleType(WebApplicationFirewallRuleType ruleType) {
+    public WebApplicationFirewallCustomRule withRuleType(WebApplicationFirewallRuleType ruleType) {
         this.ruleType = ruleType;
         return this;
     }
@@ -133,7 +133,7 @@ public final class WebApplicationFirewallCustomRule {
      * 
      * @return the matchConditions value.
      */
-    public List<MatchCondition> getMatchConditions() {
+    public List<MatchCondition> matchConditions() {
         return this.matchConditions;
     }
 
@@ -143,7 +143,7 @@ public final class WebApplicationFirewallCustomRule {
      * @param matchConditions the matchConditions value to set.
      * @return the WebApplicationFirewallCustomRule object itself.
      */
-    public WebApplicationFirewallCustomRule setMatchConditions(List<MatchCondition> matchConditions) {
+    public WebApplicationFirewallCustomRule withMatchConditions(List<MatchCondition> matchConditions) {
         this.matchConditions = matchConditions;
         return this;
     }
@@ -153,7 +153,7 @@ public final class WebApplicationFirewallCustomRule {
      * 
      * @return the action value.
      */
-    public WebApplicationFirewallAction getAction() {
+    public WebApplicationFirewallAction action() {
         return this.action;
     }
 
@@ -163,7 +163,7 @@ public final class WebApplicationFirewallCustomRule {
      * @param action the action value to set.
      * @return the WebApplicationFirewallCustomRule object itself.
      */
-    public WebApplicationFirewallCustomRule setAction(WebApplicationFirewallAction action) {
+    public WebApplicationFirewallCustomRule withAction(WebApplicationFirewallAction action) {
         this.action = action;
         return this;
     }

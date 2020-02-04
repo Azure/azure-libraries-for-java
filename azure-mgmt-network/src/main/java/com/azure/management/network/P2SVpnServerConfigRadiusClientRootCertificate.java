@@ -49,7 +49,7 @@ public class P2SVpnServerConfigRadiusClientRootCertificate extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -60,7 +60,7 @@ public class P2SVpnServerConfigRadiusClientRootCertificate extends SubResource {
      * @param name the name value to set.
      * @return the P2SVpnServerConfigRadiusClientRootCertificate object itself.
      */
-    public P2SVpnServerConfigRadiusClientRootCertificate setName(String name) {
+    public P2SVpnServerConfigRadiusClientRootCertificate withName(String name) {
         this.name = name;
         return this;
     }
@@ -71,7 +71,7 @@ public class P2SVpnServerConfigRadiusClientRootCertificate extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -82,7 +82,7 @@ public class P2SVpnServerConfigRadiusClientRootCertificate extends SubResource {
      * @param etag the etag value to set.
      * @return the P2SVpnServerConfigRadiusClientRootCertificate object itself.
      */
-    public P2SVpnServerConfigRadiusClientRootCertificate setEtag(String etag) {
+    public P2SVpnServerConfigRadiusClientRootCertificate withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -93,7 +93,7 @@ public class P2SVpnServerConfigRadiusClientRootCertificate extends SubResource {
      * 
      * @return the thumbprint value.
      */
-    public String getThumbprint() {
+    public String thumbprint() {
         return this.thumbprint;
     }
 
@@ -104,7 +104,7 @@ public class P2SVpnServerConfigRadiusClientRootCertificate extends SubResource {
      * @param thumbprint the thumbprint value to set.
      * @return the P2SVpnServerConfigRadiusClientRootCertificate object itself.
      */
-    public P2SVpnServerConfigRadiusClientRootCertificate setThumbprint(String thumbprint) {
+    public P2SVpnServerConfigRadiusClientRootCertificate withThumbprint(String thumbprint) {
         this.thumbprint = thumbprint;
         return this;
     }
@@ -116,7 +116,7 @@ public class P2SVpnServerConfigRadiusClientRootCertificate extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

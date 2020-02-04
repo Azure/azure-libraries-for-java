@@ -33,7 +33,7 @@ public final class NetworkConfigurationDiagnosticResult {
      * 
      * @return the profile value.
      */
-    public NetworkConfigurationDiagnosticProfile getProfile() {
+    public NetworkConfigurationDiagnosticProfile profile() {
         return this.profile;
     }
 
@@ -44,7 +44,7 @@ public final class NetworkConfigurationDiagnosticResult {
      * @param profile the profile value to set.
      * @return the NetworkConfigurationDiagnosticResult object itself.
      */
-    public NetworkConfigurationDiagnosticResult setProfile(NetworkConfigurationDiagnosticProfile profile) {
+    public NetworkConfigurationDiagnosticResult withProfile(NetworkConfigurationDiagnosticProfile profile) {
         this.profile = profile;
         return this;
     }
@@ -55,7 +55,7 @@ public final class NetworkConfigurationDiagnosticResult {
      * 
      * @return the networkSecurityGroupResult value.
      */
-    public NetworkSecurityGroupResult getNetworkSecurityGroupResult() {
+    public NetworkSecurityGroupResult networkSecurityGroupResult() {
         return this.networkSecurityGroupResult;
     }
 
@@ -67,7 +67,7 @@ public final class NetworkConfigurationDiagnosticResult {
      * to set.
      * @return the NetworkConfigurationDiagnosticResult object itself.
      */
-    public NetworkConfigurationDiagnosticResult setNetworkSecurityGroupResult(NetworkSecurityGroupResult networkSecurityGroupResult) {
+    public NetworkConfigurationDiagnosticResult withNetworkSecurityGroupResult(NetworkSecurityGroupResult networkSecurityGroupResult) {
         this.networkSecurityGroupResult = networkSecurityGroupResult;
         return this;
     }

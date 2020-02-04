@@ -31,7 +31,7 @@ public final class MatchVariable {
      * 
      * @return the variableName value.
      */
-    public WebApplicationFirewallMatchVariable getVariableName() {
+    public WebApplicationFirewallMatchVariable variableName() {
         return this.variableName;
     }
 
@@ -41,7 +41,7 @@ public final class MatchVariable {
      * @param variableName the variableName value to set.
      * @return the MatchVariable object itself.
      */
-    public MatchVariable setVariableName(WebApplicationFirewallMatchVariable variableName) {
+    public MatchVariable withVariableName(WebApplicationFirewallMatchVariable variableName) {
         this.variableName = variableName;
         return this;
     }
@@ -52,7 +52,7 @@ public final class MatchVariable {
      * 
      * @return the selector value.
      */
-    public String getSelector() {
+    public String selector() {
         return this.selector;
     }
 
@@ -63,7 +63,7 @@ public final class MatchVariable {
      * @param selector the selector value to set.
      * @return the MatchVariable object itself.
      */
-    public MatchVariable setSelector(String selector) {
+    public MatchVariable withSelector(String selector) {
         this.selector = selector;
         return this;
     }

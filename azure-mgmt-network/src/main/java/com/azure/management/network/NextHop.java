@@ -5,16 +5,14 @@
  */
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Executable;
 
 /**
  * A client-side representation allowing user to get next hop for a packet from specific vm.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_2_0)
 public interface NextHop extends Executable<NextHop>,
         HasParent<NetworkWatcher> {
     /**

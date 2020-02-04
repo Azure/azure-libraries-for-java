@@ -50,7 +50,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * 
      * @return the primaryPeerAddressPrefix value.
      */
-    public String getPrimaryPeerAddressPrefix() {
+    public String primaryPeerAddressPrefix() {
         return this.primaryPeerAddressPrefix;
     }
 
@@ -61,7 +61,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * set.
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.
      */
-    public Ipv6ExpressRouteCircuitPeeringConfig setPrimaryPeerAddressPrefix(String primaryPeerAddressPrefix) {
+    public Ipv6ExpressRouteCircuitPeeringConfig withPrimaryPeerAddressPrefix(String primaryPeerAddressPrefix) {
         this.primaryPeerAddressPrefix = primaryPeerAddressPrefix;
         return this;
     }
@@ -72,7 +72,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * 
      * @return the secondaryPeerAddressPrefix value.
      */
-    public String getSecondaryPeerAddressPrefix() {
+    public String secondaryPeerAddressPrefix() {
         return this.secondaryPeerAddressPrefix;
     }
 
@@ -84,7 +84,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * to set.
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.
      */
-    public Ipv6ExpressRouteCircuitPeeringConfig setSecondaryPeerAddressPrefix(String secondaryPeerAddressPrefix) {
+    public Ipv6ExpressRouteCircuitPeeringConfig withSecondaryPeerAddressPrefix(String secondaryPeerAddressPrefix) {
         this.secondaryPeerAddressPrefix = secondaryPeerAddressPrefix;
         return this;
     }
@@ -95,7 +95,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * 
      * @return the microsoftPeeringConfig value.
      */
-    public ExpressRouteCircuitPeeringConfig getMicrosoftPeeringConfig() {
+    public ExpressRouteCircuitPeeringConfig microsoftPeeringConfig() {
         return this.microsoftPeeringConfig;
     }
 
@@ -106,7 +106,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * @param microsoftPeeringConfig the microsoftPeeringConfig value to set.
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.
      */
-    public Ipv6ExpressRouteCircuitPeeringConfig setMicrosoftPeeringConfig(ExpressRouteCircuitPeeringConfig microsoftPeeringConfig) {
+    public Ipv6ExpressRouteCircuitPeeringConfig withMicrosoftPeeringConfig(ExpressRouteCircuitPeeringConfig microsoftPeeringConfig) {
         this.microsoftPeeringConfig = microsoftPeeringConfig;
         return this;
     }
@@ -116,7 +116,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * 
      * @return the routeFilter value.
      */
-    public SubResource getRouteFilter() {
+    public SubResource routeFilter() {
         return this.routeFilter;
     }
 
@@ -126,7 +126,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * @param routeFilter the routeFilter value to set.
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.
      */
-    public Ipv6ExpressRouteCircuitPeeringConfig setRouteFilter(SubResource routeFilter) {
+    public Ipv6ExpressRouteCircuitPeeringConfig withRouteFilter(SubResource routeFilter) {
         this.routeFilter = routeFilter;
         return this;
     }
@@ -136,7 +136,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * 
      * @return the state value.
      */
-    public ExpressRouteCircuitPeeringState getState() {
+    public ExpressRouteCircuitPeeringState state() {
         return this.state;
     }
 
@@ -146,7 +146,7 @@ public final class Ipv6ExpressRouteCircuitPeeringConfig {
      * @param state the state value to set.
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.
      */
-    public Ipv6ExpressRouteCircuitPeeringConfig setState(ExpressRouteCircuitPeeringState state) {
+    public Ipv6ExpressRouteCircuitPeeringConfig withState(ExpressRouteCircuitPeeringState state) {
         this.state = state;
         return this;
     }

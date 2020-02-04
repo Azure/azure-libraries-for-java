@@ -32,7 +32,7 @@ public final class PublicIPPrefixSku {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -42,7 +42,7 @@ public final class PublicIPPrefixSku {
      * @param name the name value to set.
      * @return the PublicIPPrefixSku object itself.
      */
-    public PublicIPPrefixSku setName(String name) {
+    public PublicIPPrefixSku withName(String name) {
         this.name = name;
         return this;
     }

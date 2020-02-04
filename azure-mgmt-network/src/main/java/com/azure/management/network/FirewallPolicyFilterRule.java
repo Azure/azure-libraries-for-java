@@ -37,7 +37,7 @@ public final class FirewallPolicyFilterRule extends FirewallPolicyRule {
      * 
      * @return the action value.
      */
-    public FirewallPolicyFilterRuleAction getAction() {
+    public FirewallPolicyFilterRuleAction action() {
         return this.action;
     }
 
@@ -48,7 +48,7 @@ public final class FirewallPolicyFilterRule extends FirewallPolicyRule {
      * @param action the action value to set.
      * @return the FirewallPolicyFilterRule object itself.
      */
-    public FirewallPolicyFilterRule setAction(FirewallPolicyFilterRuleAction action) {
+    public FirewallPolicyFilterRule withAction(FirewallPolicyFilterRuleAction action) {
         this.action = action;
         return this;
     }
@@ -59,7 +59,7 @@ public final class FirewallPolicyFilterRule extends FirewallPolicyRule {
      * 
      * @return the ruleConditions value.
      */
-    public List<FirewallPolicyRuleCondition> getRuleConditions() {
+    public List<FirewallPolicyRuleCondition> ruleConditions() {
         return this.ruleConditions;
     }
 
@@ -70,7 +70,7 @@ public final class FirewallPolicyFilterRule extends FirewallPolicyRule {
      * @param ruleConditions the ruleConditions value to set.
      * @return the FirewallPolicyFilterRule object itself.
      */
-    public FirewallPolicyFilterRule setRuleConditions(List<FirewallPolicyRuleCondition> ruleConditions) {
+    public FirewallPolicyFilterRule withRuleConditions(List<FirewallPolicyRuleCondition> ruleConditions) {
         this.ruleConditions = ruleConditions;
         return this;
     }

@@ -32,7 +32,7 @@ public final class ApplicationGatewayConnectionDraining {
      * 
      * @return the enabled value.
      */
-    public boolean isEnabled() {
+    public boolean enabled() {
         return this.enabled;
     }
 
@@ -42,7 +42,7 @@ public final class ApplicationGatewayConnectionDraining {
      * @param enabled the enabled value to set.
      * @return the ApplicationGatewayConnectionDraining object itself.
      */
-    public ApplicationGatewayConnectionDraining setEnabled(boolean enabled) {
+    public ApplicationGatewayConnectionDraining withEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -53,7 +53,7 @@ public final class ApplicationGatewayConnectionDraining {
      * 
      * @return the drainTimeoutInSec value.
      */
-    public int getDrainTimeoutInSec() {
+    public int drainTimeoutInSec() {
         return this.drainTimeoutInSec;
     }
 
@@ -64,7 +64,7 @@ public final class ApplicationGatewayConnectionDraining {
      * @param drainTimeoutInSec the drainTimeoutInSec value to set.
      * @return the ApplicationGatewayConnectionDraining object itself.
      */
-    public ApplicationGatewayConnectionDraining setDrainTimeoutInSec(int drainTimeoutInSec) {
+    public ApplicationGatewayConnectionDraining withDrainTimeoutInSec(int drainTimeoutInSec) {
         this.drainTimeoutInSec = drainTimeoutInSec;
         return this;
     }

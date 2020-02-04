@@ -29,7 +29,7 @@ public final class VirtualHubId {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -41,7 +41,7 @@ public final class VirtualHubId {
      * @param id the id value to set.
      * @return the VirtualHubId object itself.
      */
-    public VirtualHubId setId(String id) {
+    public VirtualHubId withId(String id) {
         this.id = id;
         return this;
     }

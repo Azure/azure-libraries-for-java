@@ -7,7 +7,7 @@
 package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.network.model.SecurityRuleInner;
+import com.azure.management.network.models.SecurityRuleInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -46,7 +46,7 @@ public final class SecurityRuleAssociations {
      * 
      * @return the networkInterfaceAssociation value.
      */
-    public NetworkInterfaceAssociation getNetworkInterfaceAssociation() {
+    public NetworkInterfaceAssociation networkInterfaceAssociation() {
         return this.networkInterfaceAssociation;
     }
 
@@ -58,7 +58,7 @@ public final class SecurityRuleAssociations {
      * to set.
      * @return the SecurityRuleAssociations object itself.
      */
-    public SecurityRuleAssociations setNetworkInterfaceAssociation(NetworkInterfaceAssociation networkInterfaceAssociation) {
+    public SecurityRuleAssociations withNetworkInterfaceAssociation(NetworkInterfaceAssociation networkInterfaceAssociation) {
         this.networkInterfaceAssociation = networkInterfaceAssociation;
         return this;
     }
@@ -69,7 +69,7 @@ public final class SecurityRuleAssociations {
      * 
      * @return the subnetAssociation value.
      */
-    public SubnetAssociation getSubnetAssociation() {
+    public SubnetAssociation subnetAssociation() {
         return this.subnetAssociation;
     }
 
@@ -80,7 +80,7 @@ public final class SecurityRuleAssociations {
      * @param subnetAssociation the subnetAssociation value to set.
      * @return the SecurityRuleAssociations object itself.
      */
-    public SecurityRuleAssociations setSubnetAssociation(SubnetAssociation subnetAssociation) {
+    public SecurityRuleAssociations withSubnetAssociation(SubnetAssociation subnetAssociation) {
         this.subnetAssociation = subnetAssociation;
         return this;
     }
@@ -91,7 +91,7 @@ public final class SecurityRuleAssociations {
      * 
      * @return the defaultSecurityRules value.
      */
-    public List<SecurityRuleInner> getDefaultSecurityRules() {
+    public List<SecurityRuleInner> defaultSecurityRules() {
         return this.defaultSecurityRules;
     }
 
@@ -102,7 +102,7 @@ public final class SecurityRuleAssociations {
      * @param defaultSecurityRules the defaultSecurityRules value to set.
      * @return the SecurityRuleAssociations object itself.
      */
-    public SecurityRuleAssociations setDefaultSecurityRules(List<SecurityRuleInner> defaultSecurityRules) {
+    public SecurityRuleAssociations withDefaultSecurityRules(List<SecurityRuleInner> defaultSecurityRules) {
         this.defaultSecurityRules = defaultSecurityRules;
         return this;
     }
@@ -113,7 +113,7 @@ public final class SecurityRuleAssociations {
      * 
      * @return the effectiveSecurityRules value.
      */
-    public List<EffectiveNetworkSecurityRule> getEffectiveSecurityRules() {
+    public List<EffectiveNetworkSecurityRule> effectiveSecurityRules() {
         return this.effectiveSecurityRules;
     }
 
@@ -124,7 +124,7 @@ public final class SecurityRuleAssociations {
      * @param effectiveSecurityRules the effectiveSecurityRules value to set.
      * @return the SecurityRuleAssociations object itself.
      */
-    public SecurityRuleAssociations setEffectiveSecurityRules(List<EffectiveNetworkSecurityRule> effectiveSecurityRules) {
+    public SecurityRuleAssociations withEffectiveSecurityRules(List<EffectiveNetworkSecurityRule> effectiveSecurityRules) {
         this.effectiveSecurityRules = effectiveSecurityRules;
         return this;
     }

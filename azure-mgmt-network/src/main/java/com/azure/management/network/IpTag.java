@@ -33,7 +33,7 @@ public final class IpTag {
      * 
      * @return the ipTagType value.
      */
-    public String getIpTagType() {
+    public String ipTagType() {
         return this.ipTagType;
     }
 
@@ -44,7 +44,7 @@ public final class IpTag {
      * @param ipTagType the ipTagType value to set.
      * @return the IpTag object itself.
      */
-    public IpTag setIpTagType(String ipTagType) {
+    public IpTag withIpTagType(String ipTagType) {
         this.ipTagType = ipTagType;
         return this;
     }
@@ -55,7 +55,7 @@ public final class IpTag {
      * 
      * @return the tag value.
      */
-    public String getTag() {
+    public String tag() {
         return this.tag;
     }
 
@@ -66,7 +66,7 @@ public final class IpTag {
      * @param tag the tag value to set.
      * @return the IpTag object itself.
      */
-    public IpTag setTag(String tag) {
+    public IpTag withTag(String tag) {
         this.tag = tag;
         return this;
     }

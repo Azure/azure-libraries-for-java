@@ -32,7 +32,7 @@ public final class NatGatewaySku {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -42,7 +42,7 @@ public final class NatGatewaySku {
      * @param name the name value to set.
      * @return the NatGatewaySku object itself.
      */
-    public NatGatewaySku setName(String name) {
+    public NatGatewaySku withName(String name) {
         this.name = name;
         return this;
     }

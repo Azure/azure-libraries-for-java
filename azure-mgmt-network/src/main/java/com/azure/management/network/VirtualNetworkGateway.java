@@ -6,23 +6,20 @@
 package com.azure.management.network;
 
 
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.model.HasPublicIPAddress;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.network.implementation.VirtualNetworkGatewayInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.network.models.HasPublicIPAddress;
+import com.azure.management.network.models.UpdatableWithTags;
+import com.azure.management.network.models.VirtualNetworkGatewayInner;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 
@@ -30,7 +27,6 @@ import java.util.Collection;
  * Entry point for Virtual Network Gateway management API in Azure.
  */
 @Fluent
-@Beta(SinceVersion.V1_3_0)
 public interface VirtualNetworkGateway extends
         GroupableResource<NetworkManager, VirtualNetworkGatewayInner>,
         Refreshable<VirtualNetworkGateway>,
@@ -42,42 +38,40 @@ public interface VirtualNetworkGateway extends
     /**
      * Resets the primary of the virtual network gateway.
      */
-    @Method
     void reset();
 
     /**
      * Resets the primary of the virtual network gateway asynchronously.
+     *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable resetAsync();
+    Mono<Void> resetAsync();
 
     /**
      * @return all the connections associated with this virtual network gateway
      */
-    @Method
-    PagedList<VirtualNetworkGatewayConnection> listConnections();
+    PagedIterable<VirtualNetworkGatewayConnection> listConnections();
 
     /**
      * Get all the connections associated with this virtual network gateway asynchronously.
+     *
      * @return all the connections associated with this virtual network gateway
      */
-    @Method
-    Observable<VirtualNetworkGatewayConnection> listConnectionsAsync();
+    PagedFlux<VirtualNetworkGatewayConnection> listConnectionsAsync();
 
     /**
      * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
+     *
      * @return String object if successful
      */
-    @Method
     String generateVpnProfile();
 
     /**
      * Generates asynchronously VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
+     *
      * @return String object if successful
      */
-    @Method
-    Observable<String> generateVpnProfileAsync();
+    Mono<String> generateVpnProfileAsync();
 
     /**
      * @return the entry point to virtual network gateway connections management API for this virtual network gateway
@@ -167,16 +161,21 @@ public interface VirtualNetworkGateway extends
         interface WithGatewayType {
             /**
              * Use Express route gateway type.
+             *
              * @return the next stage of the definition
              */
             WithSku withExpressRoute();
+
             /**
              * Use Route-based VPN type.
+             *
              * @return the next stage of the definition
              */
             WithSku withRouteBasedVpn();
+
             /**
              * Use Policy-based VPN type. Note: this is available only for Basic SKU.
+             *
              * @return the next stage of the definition
              */
             WithCreate withPolicyBasedVpn();
@@ -200,8 +199,8 @@ public interface VirtualNetworkGateway extends
              * the virtual network will be created in the same resource group and region as of parent
              * virtual network gateway, it will be created with the specified address space and a subnet for virtual network gateway.
              *
-             * @param name the name of the new virtual network
-             * @param addressSpace the address space for the virtual network
+             * @param name                   the name of the new virtual network
+             * @param addressSpace           the address space for the virtual network
              * @param subnetAddressSpaceCidr the address space for the subnet
              * @return the next stage of the definition
              */
@@ -212,7 +211,7 @@ public interface VirtualNetworkGateway extends
              * the virtual network will be created in the same resource group and region as of parent virtual network gateway,
              * it will be created with the specified address space and a default subnet for virtual network gateway.
              *
-             * @param addressSpaceCidr the address space for the virtual network
+             * @param addressSpaceCidr       the address space for the virtual network
              * @param subnetAddressSpaceCidr the address space for the subnet
              * @return the next stage of the definition
              */
@@ -220,6 +219,7 @@ public interface VirtualNetworkGateway extends
 
             /**
              * Associate an existing virtual network with the virtual network gateway.
+             *
              * @param network an existing virtual network
              * @return the next stage of the definition
              */
@@ -245,7 +245,7 @@ public interface VirtualNetworkGateway extends
          */
         interface WithBgp {
             /**
-             * @param asn the BGP speaker's ASN
+             * @param asn               the BGP speaker's ASN
              * @param bgpPeeringAddress the BGP peering address and BGP identifier of this BGP speaker
              * @return the next stage of the definition
              */
@@ -283,7 +283,8 @@ public interface VirtualNetworkGateway extends
         interface WithBgp {
             /**
              * Enables BGP.
-             * @param asn the BGP speaker's ASN
+             *
+             * @param asn               the BGP speaker's ASN
              * @param bgpPeeringAddress the BGP peering address and BGP identifier of this BGP speaker
              * @return the next stage of the update
              */
@@ -291,9 +292,9 @@ public interface VirtualNetworkGateway extends
 
             /**
              * Disables BGP for this virtual network gateway.
+             *
              * @return the next stage of the update
              */
-            @Method
             Update withoutBgp();
         }
 
@@ -304,6 +305,7 @@ public interface VirtualNetworkGateway extends
 
             /**
              * Begins the definition of point-to-site configuration to be added to this virtual network gateway.
+             *
              * @return the first stage of the point-to-site configuration definition
              */
             PointToSiteConfiguration.DefinitionStages.Blank<Update> definePointToSiteConfiguration();

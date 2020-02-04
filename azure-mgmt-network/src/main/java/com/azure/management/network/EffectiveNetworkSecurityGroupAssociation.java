@@ -32,7 +32,7 @@ public final class EffectiveNetworkSecurityGroupAssociation {
      * 
      * @return the subnet value.
      */
-    public SubResource getSubnet() {
+    public SubResource subnet() {
         return this.subnet;
     }
 
@@ -42,7 +42,7 @@ public final class EffectiveNetworkSecurityGroupAssociation {
      * @param subnet the subnet value to set.
      * @return the EffectiveNetworkSecurityGroupAssociation object itself.
      */
-    public EffectiveNetworkSecurityGroupAssociation setSubnet(SubResource subnet) {
+    public EffectiveNetworkSecurityGroupAssociation withSubnet(SubResource subnet) {
         this.subnet = subnet;
         return this;
     }
@@ -52,7 +52,7 @@ public final class EffectiveNetworkSecurityGroupAssociation {
      * 
      * @return the networkInterface value.
      */
-    public SubResource getNetworkInterface() {
+    public SubResource networkInterface() {
         return this.networkInterface;
     }
 
@@ -62,7 +62,7 @@ public final class EffectiveNetworkSecurityGroupAssociation {
      * @param networkInterface the networkInterface value to set.
      * @return the EffectiveNetworkSecurityGroupAssociation object itself.
      */
-    public EffectiveNetworkSecurityGroupAssociation setNetworkInterface(SubResource networkInterface) {
+    public EffectiveNetworkSecurityGroupAssociation withNetworkInterface(SubResource networkInterface) {
         this.networkInterface = networkInterface;
         return this;
     }

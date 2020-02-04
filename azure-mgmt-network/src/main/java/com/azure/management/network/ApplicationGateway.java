@@ -9,31 +9,26 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import com.azure.management.network.implementation.ApplicationGatewayInner;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.network.model.HasPrivateIPAddress;
-import com.azure.management.network.model.HasPublicIPAddress;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasSubnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.ApplicationGatewayInner;
+import com.azure.management.network.models.UpdatableWithTags;
 
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.network.models.HasPrivateIPAddress;
+import com.azure.management.network.models.HasPublicIPAddress;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.HasSubnet;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import reactor.core.publisher.Mono;
+
 
 /**
  * Entry point for application gateway management API in Azure.
  */
-@Fluent
 public interface ApplicationGateway extends
         GroupableResource<NetworkManager, ApplicationGatewayInner>,
         Refreshable<ApplicationGateway>,
@@ -43,54 +38,50 @@ public interface ApplicationGateway extends
         HasPrivateIPAddress {
 
     // Actions
+
     /**
      * Starts the application gateway.
      */
-    @Method
     void start();
 
     /**
      * Checks the backend health.
+     *
      * @return backend healths indexed by backend name
      */
-    @Method
-    @Beta(SinceVersion.V1_4_0)
     Map<String, ApplicationGatewayBackendHealth> checkBackendHealth();
 
     /**
      * Checks the backend health asynchronously.
+     *
      * @return a representation of the future computation of this call
      */
-    @Method
-    @Beta(SinceVersion.V1_4_0)
-    Observable<Map<String, ApplicationGatewayBackendHealth>> checkBackendHealthAsync();
+    Mono<Map<String, ApplicationGatewayBackendHealth>> checkBackendHealthAsync();
 
     /**
      * Stops the application gateway.
      */
-    @Method
     void stop();
 
     /**
      * Starts the application gateway asynchronously.
+     *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable startAsync();
+    Mono<Void> startAsync();
 
     /**
      * Stops the application gateway asynchronously.
+     *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable stopAsync();
+    Mono<Void> stopAsync();
 
     // Getters
 
     /**
      * @return disabled SSL protocols
      */
-    @Beta(SinceVersion.V1_1_0)
     Collection<ApplicationGatewaySslProtocol> disabledSslProtocols();
 
     /**
@@ -206,13 +197,11 @@ public interface ApplicationGateway extends
     /**
      * @return redirect configurations, indexed by name
      */
-    @Beta(SinceVersion.V1_4_0)
     Map<String, ApplicationGatewayRedirectConfiguration> redirectConfigurations();
 
     /**
      * @return URL path maps, indexed by name (case sensitive)
      */
-    @Beta(SinceVersion.V1_11_0)
     Map<String, ApplicationGatewayUrlPathMap> urlPathMaps();
 
     /**
@@ -223,13 +212,11 @@ public interface ApplicationGateway extends
     /**
      * @return authentication certificates
      */
-    @Beta(SinceVersion.V1_4_0)
     Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates();
 
     /**
      * @return whether HTTP2 enabled for the application gateway
      */
-    @Beta(SinceVersion.V1_14_0)
     boolean isHttp2Enabled();
 
     /**
@@ -240,11 +227,11 @@ public interface ApplicationGateway extends
      *
      * @return the availability zones assigned to the application gateway.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
      * Returns the name of the existing port, if any, that is associated with the specified port number.
+     *
      * @param portNumber a port number
      * @return the existing port name for that port number, or null if none found
      */
@@ -252,6 +239,7 @@ public interface ApplicationGateway extends
 
     /**
      * Finds a front end listener associated with the specified front end port number, if any.
+     *
      * @param portNumber a used port number
      * @return a front end listener, or null if none found
      */
@@ -265,14 +253,14 @@ public interface ApplicationGateway extends
          * The first stage of an application gateway definition.
          */
         interface Blank
-            extends GroupableResource.DefinitionWithRegion<WithGroup> {
+                extends GroupableResource.DefinitionWithRegion<WithGroup> {
         }
 
         /**
          * The stage of an application gateway definition allowing to specify the resource group.
          */
         interface WithGroup
-            extends GroupableResource.DefinitionStages.WithGroup<WithRequestRoutingRule> {
+                extends GroupableResource.DefinitionStages.WithGroup<WithRequestRoutingRule> {
         }
 
         /**
@@ -287,9 +275,9 @@ public interface ApplicationGateway extends
         interface WithPublicFrontend extends WithPublicIPAddress {
             /**
              * Specifies that the application gateway should not be Internet-facing.
+             *
              * @return the next stage of the definition
              */
-            @Method
             WithCreate withoutPublicFrontend();
         }
 
@@ -302,16 +290,16 @@ public interface ApplicationGateway extends
              * Enables a private (internal) default frontend within the subnet containing the application gateway.
              * <p>
              * A frontend with an automatically generated name will be created if none exists.
+             *
              * @return the next stage of the definition
              */
-            @Method
             WithCreate withPrivateFrontend();
 
             /**
              * Specifies that no private (internal) frontend should be enabled.
+             *
              * @return the next stage of the definition
              */
-            @Method
             WithCreate withoutPrivateFrontend();
         }
 
@@ -321,6 +309,7 @@ public interface ApplicationGateway extends
         interface WithListener {
             /**
              * Begins the definition of a new application gateway listener to be attached to the gateway.
+             *
              * @param name a unique name for the listener
              * @return the first stage of the listener definition
              */
@@ -333,10 +322,10 @@ public interface ApplicationGateway extends
         interface WithRedirectConfiguration {
             /**
              * Begins the definition of a new application gateway redirect configuration to be attached to the gateway.
+             *
              * @param name a unique name for the redirect configuration
              * @return the first stage of the redirect configuration definition
              */
-            @Beta(SinceVersion.V1_4_0)
             ApplicationGatewayRedirectConfiguration.DefinitionStages.Blank<WithCreate> defineRedirectConfiguration(String name);
         }
 
@@ -346,6 +335,7 @@ public interface ApplicationGateway extends
         interface WithProbe {
             /**
              * Begins the definition of a new probe.
+             *
              * @param name a unique name for the probe
              * @return the first stage of a probe definition
              */
@@ -358,6 +348,7 @@ public interface ApplicationGateway extends
         interface WithFrontendPort {
             /**
              * Creates a frontend port with an auto-generated name and the specified port number, unless one already exists.
+             *
              * @param portNumber a port number
              * @return the next stage of the definition
              */
@@ -365,8 +356,9 @@ public interface ApplicationGateway extends
 
             /**
              * Creates a frontend port with the specified name and port number, unless a port matching this name and/or number already exists.
+             *
              * @param portNumber a port number
-             * @param name the name to assign to the port
+             * @param name       the name to assign to the port
              * @return the next stage of the definition, or null if a port matching either the name or the number, but not both, already exists.
              */
             WithCreate withFrontendPort(int portNumber, String name);
@@ -378,6 +370,7 @@ public interface ApplicationGateway extends
         interface WithSslCert {
             /**
              * Begins the definition of a new application gateway SSL certificate to be attached to the gateway for use in HTTPS listeners.
+             *
              * @param name a unique name for the certificate
              * @return the first stage of the certificate definition
              */
@@ -390,10 +383,10 @@ public interface ApplicationGateway extends
         interface WithAuthenticationCertificate {
             /**
              * Begins the definition of a new application gateway authentication certificate to be attached to the gateway for use by the backends.
+             *
              * @param name a unique name for the certificate
              * @return the first stage of the certificate definition
              */
-            @Beta(SinceVersion.V1_4_0)
             ApplicationGatewayAuthenticationCertificate.DefinitionStages.Blank<WithCreate> defineAuthenticationCertificate(String name);
         }
 
@@ -403,6 +396,7 @@ public interface ApplicationGateway extends
         interface WithBackend {
             /**
              * Begins the definition of a new application gateway backend to be attached to the gateway.
+             *
              * @param name a unique name for the backend
              * @return the first stage of the backend definition
              */
@@ -415,6 +409,7 @@ public interface ApplicationGateway extends
         interface WithBackendHttpConfig {
             /**
              * Begins the definition of a new application gateway backend HTTP configuration to be attached to the gateway.
+             *
              * @param name a unique name for the backend HTTP configuration
              * @return the first stage of the backend HTTP configuration definition
              */
@@ -427,6 +422,7 @@ public interface ApplicationGateway extends
         interface WithRequestRoutingRule {
             /**
              * Begins the definition of a request routing rule for this application gateway.
+             *
              * @param name a unique name for the request routing rule
              * @return the first stage of the request routing rule
              */
@@ -435,10 +431,10 @@ public interface ApplicationGateway extends
             /**
              * Begins the definition of a new application gateway path-based request routing rule and URL path map to be attached to the gateway.
              * Note: both will be created with the same name and attached to the gateway.
+             *
              * @param name a unique name for the URL path map
              * @return the first stage of the URL path map definition
              */
-            @Beta(SinceVersion.V1_11_0)
             ApplicationGatewayUrlPathMap.DefinitionStages.Blank<WithRequestRoutingRuleOrCreate> definePathBasedRoutingRule(String name);
         }
 
@@ -455,6 +451,7 @@ public interface ApplicationGateway extends
         interface WithSku {
             /**
              * Set tier of an application gateway. Possible values include: 'Standard', 'WAF', 'Standard_v2', 'WAF_v2'.
+             *
              * @param tier the tier value to set
              * @return the next stage of the definition
              */
@@ -464,13 +461,14 @@ public interface ApplicationGateway extends
              * Specifies the size of the application gateway to create within the context of the selected tier.
              * <p>
              * By default, the smallest size is used.
+             *
              * @param size an application gateway SKU name
              * @return the next stage of the definition
              */
-             /*
-              * The API refers to this as the "SKU"/"SkuName", the docs refer to this as the "size" (and docs call Standard vs WAF as the "SKU"),
-              * while the portal refers to this as the "SKU size"... The documentation naming sounds the most correct, so following that here.
-              */
+            /*
+             * The API refers to this as the "SKU"/"SkuName", the docs refer to this as the "size" (and docs call Standard vs WAF as the "SKU"),
+             * while the portal refers to this as the "SKU size"... The documentation naming sounds the most correct, so following that here.
+             */
             WithCreate withSize(ApplicationGatewaySkuName size);
         }
 
@@ -482,14 +480,16 @@ public interface ApplicationGateway extends
 
             /**
              * Specifies webApplicationFirewallConfiguration with default values.
+             *
              * @param enabled enable the firewall when created
-             * @param mode Web application firewall mode.
+             * @param mode    Web application firewall mode.
              * @return the next stage of the definition
              */
             WithCreate withWebApplicationFirewall(boolean enabled, ApplicationGatewayFirewallMode mode);
 
             /**
              * Specifies webApplicationFirewallConfiguration.
+             *
              * @param webApplicationFirewallConfiguration Web application firewall configuration
              * @return the next stage of the definition
              */
@@ -504,6 +504,7 @@ public interface ApplicationGateway extends
              * Specifies the capacity (number of instances) for the application gateway.
              * <p>
              * By default, 1 instance is used.
+             *
              * @param instanceCount the capacity as a number between 1 and 10 but also based on the limits imposed by the selected application gateway size
              * @return the next stage of the definition
              */
@@ -514,7 +515,8 @@ public interface ApplicationGateway extends
 
             /**
              * Specifies the min and max auto scale bound.
-             * @param minCapacity  Lower bound on number of Application Gateway capacity.
+             *
+             * @param minCapacity Lower bound on number of Application Gateway capacity.
              * @param maxCapacity Upper bound on number of Application Gateway capacity.
              * @return
              */
@@ -532,6 +534,7 @@ public interface ApplicationGateway extends
              * This will create a new IP configuration, if it does not already exist.
              * <p>
              * Private (internal) frontends, if any have been enabled, will be configured to use this subnet as well.
+             *
              * @param subnet an existing subnet
              * @return the next stage of the definition
              */
@@ -543,7 +546,8 @@ public interface ApplicationGateway extends
              * This will create a new IP configuration, if it does not already exist.
              * <p>
              * Private (internal) frontends, if any have been enabled, will be configured to use this subnet as well.
-             * @param network the virtual network the subnet is part of
+             *
+             * @param network    the virtual network the subnet is part of
              * @param subnetName the name of a subnet within the selected network
              * @return the next stage of the definition
              */
@@ -576,25 +580,24 @@ public interface ApplicationGateway extends
         interface WithDisabledSslProtocol {
             /**
              * Disables the specified SSL protocol.
+             *
              * @param protocol an SSL protocol
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_1_0)
             WithCreate withDisabledSslProtocol(ApplicationGatewaySslProtocol protocol);
 
             /**
              * Disables the specified SSL protocols.
+             *
              * @param protocols SSL protocols
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_1_0)
-            WithCreate withDisabledSslProtocols(ApplicationGatewaySslProtocol...protocols);
+            WithCreate withDisabledSslProtocols(ApplicationGatewaySslProtocol... protocols);
         }
 
         /**
          * The stage of the application gateway definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_4_0)
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the application gateway.
@@ -605,27 +608,25 @@ public interface ApplicationGateway extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             WithCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 
         /**
          * The stage of the application gateway definition allowing to specify whether HTTP2 is enabled on the application gateway.
          */
-        @Beta(SinceVersion.V1_14_0)
         interface WithHttp2 {
             /**
              * Enables HTTP2 for the application gateway.
+             *
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_14_0)
             WithCreate withHttp2();
 
             /**
              * Disables HTTP2 for the application gateway.
+             *
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_14_0)
             WithCreate withoutHttp2();
         }
 
@@ -635,28 +636,28 @@ public interface ApplicationGateway extends
          * for any other optional settings to be specified.
          */
         interface WithCreate extends
-            Creatable<ApplicationGateway>,
-            Resource.DefinitionWithTags<WithCreate>,
-            WithSku,
-            WithInstanceCount,
-            WithWebApplicationFirewall,
-            WithSslCert,
-            WithFrontendPort,
-            WithListener,
-            WithBackendHttpConfig,
-            WithBackend,
-            WithExistingSubnet,
-            WithPrivateIPAddress,
-            WithPrivateFrontend,
-            WithPublicFrontend,
-            WithPublicIPAddress,
-            WithProbe,
-            WithDisabledSslProtocol,
-            WithAuthenticationCertificate,
-            WithRedirectConfiguration,
-            WithAvailabilityZone,
-            WithManagedServiceIdentity,
-            WithHttp2 {
+                Creatable<ApplicationGateway>,
+                Resource.DefinitionWithTags<WithCreate>,
+                WithSku,
+                WithInstanceCount,
+                WithWebApplicationFirewall,
+                WithSslCert,
+                WithFrontendPort,
+                WithListener,
+                WithBackendHttpConfig,
+                WithBackend,
+                WithExistingSubnet,
+                WithPrivateIPAddress,
+                WithPrivateFrontend,
+                WithPublicFrontend,
+                WithPublicIPAddress,
+                WithProbe,
+                WithDisabledSslProtocol,
+                WithAuthenticationCertificate,
+                WithRedirectConfiguration,
+                WithAvailabilityZone,
+                WithManagedServiceIdentity,
+                WithHttp2 {
         }
     }
 
@@ -664,11 +665,11 @@ public interface ApplicationGateway extends
      * The entirety of the application gateway definition.
      */
     interface Definition extends
-        DefinitionStages.Blank,
-        DefinitionStages.WithGroup,
-        DefinitionStages.WithCreate,
-        DefinitionStages.WithRequestRoutingRule,
-        DefinitionStages.WithRequestRoutingRuleOrCreate {
+            DefinitionStages.Blank,
+            DefinitionStages.WithGroup,
+            DefinitionStages.WithCreate,
+            DefinitionStages.WithRequestRoutingRule,
+            DefinitionStages.WithRequestRoutingRuleOrCreate {
     }
 
     /**
@@ -681,18 +682,18 @@ public interface ApplicationGateway extends
         interface WithAuthenticationCertificate {
             /**
              * Begins the definition of a new application gateway authentication certificate to be attached to the gateway for use by the backends.
+             *
              * @param name a unique name for the certificate
              * @return the first stage of the certificate definition
              */
-            @Beta(SinceVersion.V1_4_0)
             ApplicationGatewayAuthenticationCertificate.UpdateDefinitionStages.Blank<Update> defineAuthenticationCertificate(String name);
 
             /**
              * Removes an existing application gateway authentication certificate.
+             *
              * @param name the name of an existing certificate
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
             Update withoutAuthenticationCertificate(String name);
         }
 
@@ -705,16 +706,16 @@ public interface ApplicationGateway extends
              * Enables a private (internal) default front end in the subnet containing the application gateway.
              * <p>
              * A front end with an automatically generated name will be created if none exists.
+             *
              * @return the next stage of the update
              */
-            @Method
             Update withPrivateFrontend();
 
             /**
              * Specifies that no private, or internal, front end should be enabled.
+             *
              * @return the next stage of the definition
              */
-            @Method
             Update withoutPrivateFrontend();
         }
 
@@ -729,6 +730,7 @@ public interface ApplicationGateway extends
              * This will create a new IP configuration, if it does not already exist.
              * <p>
              * Private (internal) frontends, if any have been enabled, will be configured to use this subnet as well.
+             *
              * @param subnet an existing subnet
              * @return the next stage of the update
              */
@@ -740,7 +742,8 @@ public interface ApplicationGateway extends
              * This will create a new IP configuration, if it does not already exist.
              * <p>
              * Private (internal) front ends, if any have been enabled, will be configured to use this subnet as well.
-             * @param network the virtual network the subnet is part of
+             *
+             * @param network    the virtual network the subnet is part of
              * @param subnetName the name of a subnet within the selected network
              * @return the next stage of the update
              */
@@ -756,6 +759,7 @@ public interface ApplicationGateway extends
              * <p>
              * Note that removing an IP configuration referenced by other settings may break the application gateway.
              * Also, there must be at least one IP configuration for the application gateway to function.
+             *
              * @param ipConfigurationName the name of the IP configuration to remove
              * @return the next stage of the update
              */
@@ -763,6 +767,7 @@ public interface ApplicationGateway extends
 
             /**
              * Begins the update of an existing IP configuration.
+             *
              * @param ipConfigurationName the name of an existing IP configuration
              * @return the first stage of an IP configuration update
              */
@@ -770,18 +775,18 @@ public interface ApplicationGateway extends
 
             /**
              * Begins the update of the default IP configuration i.e. the only one IP configuration that exists, assuming only one exists.
+             *
              * @return the first stage of an IP configuration update.
              */
-            @Method
             ApplicationGatewayIPConfiguration.Update updateDefaultIPConfiguration();
 
             /**
              * Begins the definition of the default IP configuration.
              * <p>
              * If a default IP configuration already exists, it will be this is equivalent to <code>updateDefaultIPConfiguration()</code>.
+             *
              * @return the first stage of an IP configuration update
              */
-            @Method
             ApplicationGatewayIPConfiguration.UpdateDefinitionStages.Blank<Update> defineDefaultIPConfiguration();
         }
 
@@ -791,6 +796,7 @@ public interface ApplicationGateway extends
         interface WithFrontendPort {
             /**
              * Creates a front end port with an auto-generated name and the specified port number, unless one already exists.
+             *
              * @param portNumber a port number
              * @return the next stage of the definition
              */
@@ -798,8 +804,9 @@ public interface ApplicationGateway extends
 
             /**
              * Creates a front end port with the specified name and port number, unless a port matching this name and/or number already exists.
+             *
              * @param portNumber a port number
-             * @param name the name to assign to the port
+             * @param name       the name to assign to the port
              * @return the next stage of the definition, or null if a port matching either the name or the number, but not both, already exists.
              */
             Update withFrontendPort(int portNumber, String name);
@@ -808,6 +815,7 @@ public interface ApplicationGateway extends
              * Removes the specified frontend port.
              * <p>
              * Note that removing a frontend port referenced by other settings may break the application gateway.
+             *
              * @param name the name of the frontend port to remove
              * @return the next stage of the update
              */
@@ -817,6 +825,7 @@ public interface ApplicationGateway extends
              * Removes the specified frontend port.
              * <p>
              * Note that removing a frontend port referenced by other settings may break the application gateway.
+             *
              * @param portNumber the port number of the frontend port to remove
              * @return the next stage of the update
              */
@@ -837,6 +846,7 @@ public interface ApplicationGateway extends
              * Removes the specified front end IP configuration.
              * <p>
              * Note that removing a front end referenced by other settings may break the application gateway.
+             *
              * @param frontendName the name of the front end IP configuration to remove
              * @return the next stage of the update
              */
@@ -844,6 +854,7 @@ public interface ApplicationGateway extends
 
             /**
              * Begins the update of an existing front end IP configuration.
+             *
              * @param frontendName the name of an existing front end IP configuration
              * @return the first stage of the front end IP configuration update
              */
@@ -853,9 +864,9 @@ public interface ApplicationGateway extends
              * Specifies that the application gateway should not be Internet-facing.
              * <p>
              * Note that if there are any other settings referencing the public front end, removing it may break the application gateway.
+             *
              * @return the next stage of the update
              */
-            @Method
             Update withoutPublicFrontend();
 
             /**
@@ -863,16 +874,16 @@ public interface ApplicationGateway extends
              * from within the virtual network.
              * <p>
              * Note that if there are any other settings referencing the private front end, removing it may break the application gateway.
+             *
              * @return the next stage of the update
              */
-            @Method
             Update withoutPrivateFrontend();
 
             /**
              * Begins the update of the public front end IP configuration, if it exists.
+             *
              * @return the first stage of a front end update or null if no public front end exists
              */
-            @Method
             ApplicationGatewayFrontend.Update updatePublicFrontend();
 
             /**
@@ -886,16 +897,16 @@ public interface ApplicationGateway extends
 
             /**
              * Begins the definition of the default public front end IP configuration, creating one if it does not already exist.
+             *
              * @return the first stage of a front end definition
              */
-            @Method
             ApplicationGatewayFrontend.UpdateDefinitionStages.Blank<Update> definePublicFrontend();
 
             /**
              * Begins the definition of the default private front end IP configuration, creating one if it does not already exist.
+             *
              * @return the first stage of a front end definition
              */
-            @Method
             ApplicationGatewayFrontend.UpdateDefinitionStages.Blank<Update> definePrivateFrontend();
         }
 
@@ -905,6 +916,7 @@ public interface ApplicationGateway extends
         interface WithBackend {
             /**
              * Begins the definition of a new application gateway backend to be attached to the gateway.
+             *
              * @param name a unique name for the backend
              * @return the first stage of the backend definition
              */
@@ -912,6 +924,7 @@ public interface ApplicationGateway extends
 
             /**
              * Ensures the specified fully qualified domain name (FQDN) is not associated with any backend.
+             *
              * @param fqdn a fully qualified domain name (FQDN)
              * @return the next stage of the update
              */
@@ -919,6 +932,7 @@ public interface ApplicationGateway extends
 
             /**
              * Ensures the specified IP address is not associated with any backend.
+             *
              * @param ipAddress an IP address
              * @return the next stage of the update
              */
@@ -928,6 +942,7 @@ public interface ApplicationGateway extends
              * Removes the specified backend.
              * <p>
              * Note that removing a backend referenced by other settings may break the application gateway.
+             *
              * @param backendName the name of an existing backend on this application gateway
              * @return the next stage of the update
              */
@@ -935,6 +950,7 @@ public interface ApplicationGateway extends
 
             /**
              * Begins the update of an existing backend on this application gateway.
+             *
              * @param name the name of the backend
              * @return the first stage of an update of the backend
              */
@@ -947,6 +963,7 @@ public interface ApplicationGateway extends
         interface WithProbe {
             /**
              * Begins the definition of a new probe.
+             *
              * @param name a unique name for the probe
              * @return the first stage of a probe definition
              */
@@ -954,6 +971,7 @@ public interface ApplicationGateway extends
 
             /**
              * Begins the update of an existing probe.
+             *
              * @param name the name of an existing probe
              * @return the first stage of a probe update
              */
@@ -963,6 +981,7 @@ public interface ApplicationGateway extends
              * Removes a probe from the application gateway.
              * <p>
              * Any references to this probe from backend HTTP configurations will be automatically removed.
+             *
              * @param name the name of an existing probe
              * @return the next stage of the update
              */
@@ -975,12 +994,15 @@ public interface ApplicationGateway extends
         interface WithSku {
             /**
              * Set tier of an application gateway. Possible values include: 'Standard', 'WAF', 'Standard_v2', 'WAF_v2'.
+             *
              * @param tier the tier value to set
              * @return the next stage of the update
              */
             Update withTier(ApplicationGatewayTier tier);
+
             /**
              * Specifies the size of the application gateway to use within the context of the selected tier.
+             *
              * @param size an application gateway size name
              * @return the next stage of the update
              */
@@ -993,6 +1015,7 @@ public interface ApplicationGateway extends
         interface WithWebApplicationFirewall {
             /**
              * Specifies webApplicationFirewallConfiguration.
+             *
              * @param config Web application firewall configuration
              * @return the next update stage
              */
@@ -1006,6 +1029,7 @@ public interface ApplicationGateway extends
         interface WithInstanceCount {
             /**
              * Specifies the capacity (number of instances) for the application gateway.
+             *
              * @param instanceCount the capacity as a number between 1 and 10 but also based on the limits imposed by the selected applicatiob gateway size
              * @return the next stage of the update
              */
@@ -1013,7 +1037,8 @@ public interface ApplicationGateway extends
 
             /**
              * Specifies the min and max auto scale bound.
-             * @param minCapacity  lower bound on number of Application Gateway capacity.
+             *
+             * @param minCapacity lower bound on number of Application Gateway capacity.
              * @param maxCapacity upper bound on number of Application Gateway capacity.
              * @return
              */
@@ -1026,6 +1051,7 @@ public interface ApplicationGateway extends
         interface WithSslCert {
             /**
              * Begins the definition of a new application gateway SSL certificate to be attached to the gateway for use in frontend HTTPS listeners.
+             *
              * @param name a unique name for the certificate
              * @return the first stage of the certificate definition
              */
@@ -1035,6 +1061,7 @@ public interface ApplicationGateway extends
              * Removes the specified SSL certificate from the application gateway.
              * <p>
              * Note that removing a certificate referenced by other settings may break the application gateway.
+             *
              * @param name the name of the certificate to remove
              * @return the next stage of the update
              * @deprecated Use {@link #withoutSslCertificate} instead
@@ -1046,6 +1073,7 @@ public interface ApplicationGateway extends
              * Removes the specified SSL certificate from the application gateway.
              * <p>
              * Note that removing a certificate referenced by other settings may break the application gateway.
+             *
              * @param name the name of the certificate to remove
              * @return the next stage of the update
              */
@@ -1058,6 +1086,7 @@ public interface ApplicationGateway extends
         interface WithListener {
             /**
              * Begins the definition of a new application gateway listener to be attached to the gateway.
+             *
              * @param name a unique name for the listener
              * @return the first stage of the listener definition
              */
@@ -1067,6 +1096,7 @@ public interface ApplicationGateway extends
              * Removes a frontend listener from the application gateway.
              * <p>
              * Note that removing a listener referenced by other settings may break the application gateway.
+             *
              * @param name the name of the listener to remove
              * @return the next stage of the update
              */
@@ -1074,6 +1104,7 @@ public interface ApplicationGateway extends
 
             /**
              * Begins the update of a listener.
+             *
              * @param name the name of an existing listener to update
              * @return the next stage of the definition or null if the requested listener does not exist
              */
@@ -1086,28 +1117,28 @@ public interface ApplicationGateway extends
         interface WithRedirectConfiguration {
             /**
              * Begins the definition of a new application gateway redirect configuration to be attached to the gateway.
+             *
              * @param name a unique name for the redirect configuration
              * @return the first stage of the redirect configuration definition
              */
-            @Beta(SinceVersion.V1_4_0)
             ApplicationGatewayRedirectConfiguration.UpdateDefinitionStages.Blank<Update> defineRedirectConfiguration(String name);
 
             /**
              * Removes a redirect configuration from the application gateway.
              * <p>
              * Note that removing a redirect configuration referenced by other settings may break the application gateway.
+             *
              * @param name the name of the redirect configuration to remove
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
             Update withoutRedirectConfiguration(String name);
 
             /**
              * Begins the update of a redirect configuration.
+             *
              * @param name the name of an existing redirect configuration to update
              * @return the next stage of the definition or null if the requested redirect configuration does not exist
              */
-            @Beta(SinceVersion.V1_4_0)
             ApplicationGatewayRedirectConfiguration.Update updateRedirectConfiguration(String name);
         }
 
@@ -1119,18 +1150,18 @@ public interface ApplicationGateway extends
              * Removes a URL path map from the application gateway.
              * <p>
              * Note that removing a URL path map referenced by other settings may break the application gateway.
+             *
              * @param name the name of the URL path map to remove (case sensitive)
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_11_0)
             Update withoutUrlPathMap(String name);
 
             /**
              * Begins the update of a URL path map.
+             *
              * @param name the name of an existing redirect configuration to update (case sensitive)
              * @return the next stage of the definition or null if the requested URL path map does not exist
              */
-            @Beta(SinceVersion.V1_11_0)
             ApplicationGatewayUrlPathMap.Update updateUrlPathMap(String name);
         }
 
@@ -1140,6 +1171,7 @@ public interface ApplicationGateway extends
         interface WithBackendHttpConfig {
             /**
              * Begins the definition of a new application gateway backend HTTP configuration to be attached to the gateway.
+             *
              * @param name a unique name for the backend HTTP configuration
              * @return the first stage of the backend HTTP configuration definition
              */
@@ -1149,6 +1181,7 @@ public interface ApplicationGateway extends
              * Removes the specified backend HTTP configuration from this application gateway.
              * <p>
              * Note that removing a backend HTTP configuration referenced by other settings may break the application gateway.
+             *
              * @param name the name of an existing backend HTTP configuration on this application gateway
              * @return the next stage of the update
              */
@@ -1156,6 +1189,7 @@ public interface ApplicationGateway extends
 
             /**
              * Begins the update of a backend HTTP configuration.
+             *
              * @param name the name of an existing backend HTTP configuration on this application gateway
              * @return the next stage of the update
              */
@@ -1168,6 +1202,7 @@ public interface ApplicationGateway extends
         interface WithRequestRoutingRule {
             /**
              * Begins the definition of a request routing rule for this application gateway.
+             *
              * @param name a unique name for the request routing rule
              * @return the first stage of the request routing rule
              */
@@ -1175,6 +1210,7 @@ public interface ApplicationGateway extends
 
             /**
              * Removes a request routing rule from the application gateway.
+             *
              * @param name the name of the request routing rule to remove
              * @return the next stage of the update
              */
@@ -1182,6 +1218,7 @@ public interface ApplicationGateway extends
 
             /**
              * Begins the update of a request routing rule.
+             *
              * @param name the name of an existing request routing rule
              * @return the first stage of a request routing rule update or null if the requested rule does not exist
              */
@@ -1190,10 +1227,10 @@ public interface ApplicationGateway extends
             /**
              * Begins the definition of a new application gateway path-based request routing rule and URL path map to be attached to the gateway.
              * Note: both will be created with the same name and attached to the gateway.
+             *
              * @param name a unique name for the URL path map
              * @return the first stage of the URL path map definition
              */
-            @Beta(SinceVersion.V1_11_0)
             ApplicationGatewayUrlPathMap.UpdateDefinitionStages.Blank<Update> definePathBasedRoutingRule(String name);
         }
 
@@ -1216,62 +1253,60 @@ public interface ApplicationGateway extends
         interface WithDisabledSslProtocol {
             /**
              * Disables the specified SSL protocol.
+             *
              * @param protocol an SSL protocol
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
             Update withDisabledSslProtocol(ApplicationGatewaySslProtocol protocol);
 
             /**
              * Disables the specified SSL protocols.
+             *
              * @param protocols SSL protocols
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
-            Update withDisabledSslProtocols(ApplicationGatewaySslProtocol...protocols);
+            Update withDisabledSslProtocols(ApplicationGatewaySslProtocol... protocols);
 
             /**
              * Enables the specified SSL protocol, if previously disabled.
+             *
              * @param protocol an SSL protocol
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
             Update withoutDisabledSslProtocol(ApplicationGatewaySslProtocol protocol);
 
             /**
              * Enables the specified SSL protocols, if previously disabled.
+             *
              * @param protocols SSL protocols
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
-            Update withoutDisabledSslProtocols(ApplicationGatewaySslProtocol...protocols);
+            Update withoutDisabledSslProtocols(ApplicationGatewaySslProtocol... protocols);
 
             /**
              * Enables all SSL protocols, if previously disabled.
+             *
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_1_0)
-            @Method
             Update withoutAnyDisabledSslProtocols();
         }
 
         /**
          * The stage of the application gateway update allowing to specify whether HTTP2 is enabled on the application gateway.
          */
-        @Beta(SinceVersion.V1_14_0)
         interface WithHttp2 {
             /**
              * Enables HTTP2 for the application gateway.
+             *
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_14_0)
             Update withHttp2();
 
             /**
              * Disables HTTP2 for the application gateway.
+             *
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_14_0)
             Update withoutHttp2();
         }
     }
@@ -1281,27 +1316,27 @@ public interface ApplicationGateway extends
      * can be modified.
      */
     interface Update extends
-        Appliable<ApplicationGateway>,
-        Resource.UpdateWithTags<Update>,
-        UpdateStages.WithSku,
-        UpdateStages.WithInstanceCount,
-        UpdateStages.WithWebApplicationFirewall,
-        UpdateStages.WithBackend,
-        UpdateStages.WithBackendHttpConfig,
-        UpdateStages.WithIPConfig,
-        UpdateStages.WithFrontend,
-        UpdateStages.WithPublicIPAddress,
-        UpdateStages.WithFrontendPort,
-        UpdateStages.WithSslCert,
-        UpdateStages.WithListener,
-        UpdateStages.WithRequestRoutingRule,
-        UpdateStages.WithExistingSubnet,
-        UpdateStages.WithProbe,
-        UpdateStages.WithDisabledSslProtocol,
-        UpdateStages.WithAuthenticationCertificate,
-        UpdateStages.WithRedirectConfiguration,
-        UpdateStages.WithUrlPathMap,
-        UpdateStages.WithManagedServiceIdentity,
-        UpdateStages.WithHttp2 {
+            Appliable<ApplicationGateway>,
+            Resource.UpdateWithTags<Update>,
+            UpdateStages.WithSku,
+            UpdateStages.WithInstanceCount,
+            UpdateStages.WithWebApplicationFirewall,
+            UpdateStages.WithBackend,
+            UpdateStages.WithBackendHttpConfig,
+            UpdateStages.WithIPConfig,
+            UpdateStages.WithFrontend,
+            UpdateStages.WithPublicIPAddress,
+            UpdateStages.WithFrontendPort,
+            UpdateStages.WithSslCert,
+            UpdateStages.WithListener,
+            UpdateStages.WithRequestRoutingRule,
+            UpdateStages.WithExistingSubnet,
+            UpdateStages.WithProbe,
+            UpdateStages.WithDisabledSslProtocol,
+            UpdateStages.WithAuthenticationCertificate,
+            UpdateStages.WithRedirectConfiguration,
+            UpdateStages.WithUrlPathMap,
+            UpdateStages.WithManagedServiceIdentity,
+            UpdateStages.WithHttp2 {
     }
 }

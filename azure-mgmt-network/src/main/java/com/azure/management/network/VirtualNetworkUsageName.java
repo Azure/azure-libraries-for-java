@@ -31,7 +31,7 @@ public final class VirtualNetworkUsageName {
      * 
      * @return the localizedValue value.
      */
-    public String getLocalizedValue() {
+    public String localizedValue() {
         return this.localizedValue;
     }
 
@@ -40,7 +40,7 @@ public final class VirtualNetworkUsageName {
      * 
      * @return the value value.
      */
-    public String getValue() {
+    public String value() {
         return this.value;
     }
 }

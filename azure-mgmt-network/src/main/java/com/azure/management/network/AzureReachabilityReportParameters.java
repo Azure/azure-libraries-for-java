@@ -52,7 +52,7 @@ public final class AzureReachabilityReportParameters {
      * 
      * @return the providerLocation value.
      */
-    public AzureReachabilityReportLocation getProviderLocation() {
+    public AzureReachabilityReportLocation providerLocation() {
         return this.providerLocation;
     }
 
@@ -63,7 +63,7 @@ public final class AzureReachabilityReportParameters {
      * @param providerLocation the providerLocation value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
-    public AzureReachabilityReportParameters setProviderLocation(AzureReachabilityReportLocation providerLocation) {
+    public AzureReachabilityReportParameters withProviderLocation(AzureReachabilityReportLocation providerLocation) {
         this.providerLocation = providerLocation;
         return this;
     }
@@ -73,7 +73,7 @@ public final class AzureReachabilityReportParameters {
      * 
      * @return the providers value.
      */
-    public List<String> getProviders() {
+    public List<String> providers() {
         return this.providers;
     }
 
@@ -83,7 +83,7 @@ public final class AzureReachabilityReportParameters {
      * @param providers the providers value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
-    public AzureReachabilityReportParameters setProviders(List<String> providers) {
+    public AzureReachabilityReportParameters withProviders(List<String> providers) {
         this.providers = providers;
         return this;
     }
@@ -94,7 +94,7 @@ public final class AzureReachabilityReportParameters {
      * 
      * @return the azureLocations value.
      */
-    public List<String> getAzureLocations() {
+    public List<String> azureLocations() {
         return this.azureLocations;
     }
 
@@ -105,7 +105,7 @@ public final class AzureReachabilityReportParameters {
      * @param azureLocations the azureLocations value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
-    public AzureReachabilityReportParameters setAzureLocations(List<String> azureLocations) {
+    public AzureReachabilityReportParameters withAzureLocations(List<String> azureLocations) {
         this.azureLocations = azureLocations;
         return this;
     }
@@ -116,7 +116,7 @@ public final class AzureReachabilityReportParameters {
      * 
      * @return the startTime value.
      */
-    public OffsetDateTime getStartTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
@@ -127,7 +127,7 @@ public final class AzureReachabilityReportParameters {
      * @param startTime the startTime value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
-    public AzureReachabilityReportParameters setStartTime(OffsetDateTime startTime) {
+    public AzureReachabilityReportParameters withStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -138,7 +138,7 @@ public final class AzureReachabilityReportParameters {
      * 
      * @return the endTime value.
      */
-    public OffsetDateTime getEndTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
@@ -149,7 +149,7 @@ public final class AzureReachabilityReportParameters {
      * @param endTime the endTime value to set.
      * @return the AzureReachabilityReportParameters object itself.
      */
-    public AzureReachabilityReportParameters setEndTime(OffsetDateTime endTime) {
+    public AzureReachabilityReportParameters withEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
         return this;
     }

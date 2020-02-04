@@ -45,7 +45,7 @@ public final class TroubleshootingRecommendedActions {
      * 
      * @return the actionId value.
      */
-    public String getActionId() {
+    public String actionId() {
         return this.actionId;
     }
 
@@ -55,7 +55,7 @@ public final class TroubleshootingRecommendedActions {
      * @param actionId the actionId value to set.
      * @return the TroubleshootingRecommendedActions object itself.
      */
-    public TroubleshootingRecommendedActions setActionId(String actionId) {
+    public TroubleshootingRecommendedActions withActionId(String actionId) {
         this.actionId = actionId;
         return this;
     }
@@ -65,7 +65,7 @@ public final class TroubleshootingRecommendedActions {
      * 
      * @return the actionText value.
      */
-    public String getActionText() {
+    public String actionText() {
         return this.actionText;
     }
 
@@ -75,7 +75,7 @@ public final class TroubleshootingRecommendedActions {
      * @param actionText the actionText value to set.
      * @return the TroubleshootingRecommendedActions object itself.
      */
-    public TroubleshootingRecommendedActions setActionText(String actionText) {
+    public TroubleshootingRecommendedActions withActionText(String actionText) {
         this.actionText = actionText;
         return this;
     }
@@ -86,7 +86,7 @@ public final class TroubleshootingRecommendedActions {
      * 
      * @return the actionUri value.
      */
-    public String getActionUri() {
+    public String actionUri() {
         return this.actionUri;
     }
 
@@ -97,7 +97,7 @@ public final class TroubleshootingRecommendedActions {
      * @param actionUri the actionUri value to set.
      * @return the TroubleshootingRecommendedActions object itself.
      */
-    public TroubleshootingRecommendedActions setActionUri(String actionUri) {
+    public TroubleshootingRecommendedActions withActionUri(String actionUri) {
         this.actionUri = actionUri;
         return this;
     }
@@ -108,7 +108,7 @@ public final class TroubleshootingRecommendedActions {
      * 
      * @return the actionUriText value.
      */
-    public String getActionUriText() {
+    public String actionUriText() {
         return this.actionUriText;
     }
 
@@ -119,7 +119,7 @@ public final class TroubleshootingRecommendedActions {
      * @param actionUriText the actionUriText value to set.
      * @return the TroubleshootingRecommendedActions object itself.
      */
-    public TroubleshootingRecommendedActions setActionUriText(String actionUriText) {
+    public TroubleshootingRecommendedActions withActionUriText(String actionUriText) {
         this.actionUriText = actionUriText;
         return this;
     }

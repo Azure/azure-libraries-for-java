@@ -33,7 +33,7 @@ public final class ComponentsSchemasManagedserviceidentityPropertiesUserassigned
      * 
      * @return the principalId value.
      */
-    public String getPrincipalId() {
+    public String principalId() {
         return this.principalId;
     }
 
@@ -42,7 +42,7 @@ public final class ComponentsSchemasManagedserviceidentityPropertiesUserassigned
      * 
      * @return the clientId value.
      */
-    public String getClientId() {
+    public String clientId() {
         return this.clientId;
     }
 }

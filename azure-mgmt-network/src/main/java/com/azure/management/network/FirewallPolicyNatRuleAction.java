@@ -25,7 +25,7 @@ public final class FirewallPolicyNatRuleAction {
      * 
      * @return the type value.
      */
-    public FirewallPolicyNatRuleActionType getType() {
+    public FirewallPolicyNatRuleActionType type() {
         return this.type;
     }
 
@@ -35,7 +35,7 @@ public final class FirewallPolicyNatRuleAction {
      * @param type the type value to set.
      * @return the FirewallPolicyNatRuleAction object itself.
      */
-    public FirewallPolicyNatRuleAction setType(FirewallPolicyNatRuleActionType type) {
+    public FirewallPolicyNatRuleAction withType(FirewallPolicyNatRuleActionType type) {
         this.type = type;
         return this;
     }

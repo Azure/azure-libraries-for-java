@@ -72,7 +72,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * 
      * @return the protocol value.
      */
-    public ApplicationGatewayProtocol getProtocol() {
+    public ApplicationGatewayProtocol protocol() {
         return this.protocol;
     }
 
@@ -82,7 +82,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * @param protocol the protocol value to set.
      * @return the ApplicationGatewayOnDemandProbe object itself.
      */
-    public ApplicationGatewayOnDemandProbe setProtocol(ApplicationGatewayProtocol protocol) {
+    public ApplicationGatewayOnDemandProbe withProtocol(ApplicationGatewayProtocol protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -92,7 +92,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * 
      * @return the host value.
      */
-    public String getHost() {
+    public String host() {
         return this.host;
     }
 
@@ -102,7 +102,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * @param host the host value to set.
      * @return the ApplicationGatewayOnDemandProbe object itself.
      */
-    public ApplicationGatewayOnDemandProbe setHost(String host) {
+    public ApplicationGatewayOnDemandProbe withHost(String host) {
         this.host = host;
         return this;
     }
@@ -114,7 +114,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * 
      * @return the path value.
      */
-    public String getPath() {
+    public String path() {
         return this.path;
     }
 
@@ -126,7 +126,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * @param path the path value to set.
      * @return the ApplicationGatewayOnDemandProbe object itself.
      */
-    public ApplicationGatewayOnDemandProbe setPath(String path) {
+    public ApplicationGatewayOnDemandProbe withPath(String path) {
         this.path = path;
         return this;
     }
@@ -138,7 +138,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * 
      * @return the timeout value.
      */
-    public Integer getTimeout() {
+    public Integer timeout() {
         return this.timeout;
     }
 
@@ -150,7 +150,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * @param timeout the timeout value to set.
      * @return the ApplicationGatewayOnDemandProbe object itself.
      */
-    public ApplicationGatewayOnDemandProbe setTimeout(Integer timeout) {
+    public ApplicationGatewayOnDemandProbe withTimeout(Integer timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -162,7 +162,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * 
      * @return the pickHostNameFromBackendHttpSettings value.
      */
-    public Boolean isPickHostNameFromBackendHttpSettings() {
+    public Boolean pickHostNameFromBackendHttpSettings() {
         return this.pickHostNameFromBackendHttpSettings;
     }
 
@@ -175,7 +175,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * pickHostNameFromBackendHttpSettings value to set.
      * @return the ApplicationGatewayOnDemandProbe object itself.
      */
-    public ApplicationGatewayOnDemandProbe setPickHostNameFromBackendHttpSettings(Boolean pickHostNameFromBackendHttpSettings) {
+    public ApplicationGatewayOnDemandProbe withPickHostNameFromBackendHttpSettings(Boolean pickHostNameFromBackendHttpSettings) {
         this.pickHostNameFromBackendHttpSettings = pickHostNameFromBackendHttpSettings;
         return this;
     }
@@ -185,7 +185,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * 
      * @return the match value.
      */
-    public ApplicationGatewayProbeHealthResponseMatch getMatch() {
+    public ApplicationGatewayProbeHealthResponseMatch match() {
         return this.match;
     }
 
@@ -195,7 +195,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * @param match the match value to set.
      * @return the ApplicationGatewayOnDemandProbe object itself.
      */
-    public ApplicationGatewayOnDemandProbe setMatch(ApplicationGatewayProbeHealthResponseMatch match) {
+    public ApplicationGatewayOnDemandProbe withMatch(ApplicationGatewayProbeHealthResponseMatch match) {
         this.match = match;
         return this;
     }
@@ -205,7 +205,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * 
      * @return the backendAddressPool value.
      */
-    public SubResource getBackendAddressPool() {
+    public SubResource backendAddressPool() {
         return this.backendAddressPool;
     }
 
@@ -215,7 +215,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * @param backendAddressPool the backendAddressPool value to set.
      * @return the ApplicationGatewayOnDemandProbe object itself.
      */
-    public ApplicationGatewayOnDemandProbe setBackendAddressPool(SubResource backendAddressPool) {
+    public ApplicationGatewayOnDemandProbe withBackendAddressPool(SubResource backendAddressPool) {
         this.backendAddressPool = backendAddressPool;
         return this;
     }
@@ -225,7 +225,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * 
      * @return the backendHttpSettings value.
      */
-    public SubResource getBackendHttpSettings() {
+    public SubResource backendHttpSettings() {
         return this.backendHttpSettings;
     }
 
@@ -235,7 +235,7 @@ public final class ApplicationGatewayOnDemandProbe {
      * @param backendHttpSettings the backendHttpSettings value to set.
      * @return the ApplicationGatewayOnDemandProbe object itself.
      */
-    public ApplicationGatewayOnDemandProbe setBackendHttpSettings(SubResource backendHttpSettings) {
+    public ApplicationGatewayOnDemandProbe withBackendHttpSettings(SubResource backendHttpSettings) {
         this.backendHttpSettings = backendHttpSettings;
         return this;
     }

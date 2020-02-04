@@ -37,7 +37,7 @@ public final class VirtualWanSecurityProvider {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -47,7 +47,7 @@ public final class VirtualWanSecurityProvider {
      * @param name the name value to set.
      * @return the VirtualWanSecurityProvider object itself.
      */
-    public VirtualWanSecurityProvider setName(String name) {
+    public VirtualWanSecurityProvider withName(String name) {
         this.name = name;
         return this;
     }
@@ -57,7 +57,7 @@ public final class VirtualWanSecurityProvider {
      * 
      * @return the url value.
      */
-    public String getUrl() {
+    public String url() {
         return this.url;
     }
 
@@ -67,7 +67,7 @@ public final class VirtualWanSecurityProvider {
      * @param url the url value to set.
      * @return the VirtualWanSecurityProvider object itself.
      */
-    public VirtualWanSecurityProvider setUrl(String url) {
+    public VirtualWanSecurityProvider withUrl(String url) {
         this.url = url;
         return this;
     }
@@ -77,7 +77,7 @@ public final class VirtualWanSecurityProvider {
      * 
      * @return the type value.
      */
-    public VirtualWanSecurityProviderType getType() {
+    public VirtualWanSecurityProviderType type() {
         return this.type;
     }
 
@@ -87,7 +87,7 @@ public final class VirtualWanSecurityProvider {
      * @param type the type value to set.
      * @return the VirtualWanSecurityProvider object itself.
      */
-    public VirtualWanSecurityProvider setType(VirtualWanSecurityProviderType type) {
+    public VirtualWanSecurityProvider withType(VirtualWanSecurityProviderType type) {
         this.type = type;
         return this;
     }

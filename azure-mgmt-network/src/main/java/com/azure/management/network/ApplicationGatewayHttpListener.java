@@ -91,7 +91,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -102,7 +102,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * @param name the name value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setName(String name) {
+    public ApplicationGatewayHttpListener withName(String name) {
         this.name = name;
         return this;
     }
@@ -113,7 +113,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -124,7 +124,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * @param etag the etag value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setEtag(String etag) {
+    public ApplicationGatewayHttpListener withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -134,7 +134,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -144,7 +144,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * @param type the type value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setType(String type) {
+    public ApplicationGatewayHttpListener withType(String type) {
         this.type = type;
         return this;
     }
@@ -155,7 +155,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the frontendIPConfiguration value.
      */
-    public SubResource getFrontendIPConfiguration() {
+    public SubResource frontendIPConfiguration() {
         return this.frontendIPConfiguration;
     }
 
@@ -166,7 +166,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * @param frontendIPConfiguration the frontendIPConfiguration value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setFrontendIPConfiguration(SubResource frontendIPConfiguration) {
+    public ApplicationGatewayHttpListener withFrontendIPConfiguration(SubResource frontendIPConfiguration) {
         this.frontendIPConfiguration = frontendIPConfiguration;
         return this;
     }
@@ -176,7 +176,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the frontendPort value.
      */
-    public SubResource getFrontendPort() {
+    public SubResource frontendPort() {
         return this.frontendPort;
     }
 
@@ -186,7 +186,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * @param frontendPort the frontendPort value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setFrontendPort(SubResource frontendPort) {
+    public ApplicationGatewayHttpListener withFrontendPort(SubResource frontendPort) {
         this.frontendPort = frontendPort;
         return this;
     }
@@ -196,7 +196,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the protocol value.
      */
-    public ApplicationGatewayProtocol getProtocol() {
+    public ApplicationGatewayProtocol protocol() {
         return this.protocol;
     }
 
@@ -206,7 +206,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * @param protocol the protocol value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setProtocol(ApplicationGatewayProtocol protocol) {
+    public ApplicationGatewayHttpListener withProtocol(ApplicationGatewayProtocol protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -216,7 +216,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the hostName value.
      */
-    public String getHostName() {
+    public String hostName() {
         return this.hostName;
     }
 
@@ -226,7 +226,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * @param hostName the hostName value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setHostName(String hostName) {
+    public ApplicationGatewayHttpListener withHostName(String hostName) {
         this.hostName = hostName;
         return this;
     }
@@ -236,7 +236,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the sslCertificate value.
      */
-    public SubResource getSslCertificate() {
+    public SubResource sslCertificate() {
         return this.sslCertificate;
     }
 
@@ -246,7 +246,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * @param sslCertificate the sslCertificate value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setSslCertificate(SubResource sslCertificate) {
+    public ApplicationGatewayHttpListener withSslCertificate(SubResource sslCertificate) {
         this.sslCertificate = sslCertificate;
         return this;
     }
@@ -257,7 +257,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the requireServerNameIndication value.
      */
-    public Boolean isRequireServerNameIndication() {
+    public Boolean requireServerNameIndication() {
         return this.requireServerNameIndication;
     }
 
@@ -269,7 +269,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setRequireServerNameIndication(Boolean requireServerNameIndication) {
+    public ApplicationGatewayHttpListener withRequireServerNameIndication(Boolean requireServerNameIndication) {
         this.requireServerNameIndication = requireServerNameIndication;
         return this;
     }
@@ -281,7 +281,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 
@@ -293,7 +293,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setProvisioningState(String provisioningState) {
+    public ApplicationGatewayHttpListener withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -304,7 +304,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * 
      * @return the customErrorConfigurations value.
      */
-    public List<ApplicationGatewayCustomError> getCustomErrorConfigurations() {
+    public List<ApplicationGatewayCustomError> customErrorConfigurations() {
         return this.customErrorConfigurations;
     }
 
@@ -316,7 +316,7 @@ public class ApplicationGatewayHttpListener extends SubResource {
      * set.
      * @return the ApplicationGatewayHttpListener object itself.
      */
-    public ApplicationGatewayHttpListener setCustomErrorConfigurations(List<ApplicationGatewayCustomError> customErrorConfigurations) {
+    public ApplicationGatewayHttpListener withCustomErrorConfigurations(List<ApplicationGatewayCustomError> customErrorConfigurations) {
         this.customErrorConfigurations = customErrorConfigurations;
         return this;
     }

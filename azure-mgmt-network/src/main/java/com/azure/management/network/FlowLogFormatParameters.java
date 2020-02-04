@@ -38,7 +38,7 @@ public final class FlowLogFormatParameters {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -48,7 +48,7 @@ public final class FlowLogFormatParameters {
      * @param type the type value to set.
      * @return the FlowLogFormatParameters object itself.
      */
-    public FlowLogFormatParameters setType(String type) {
+    public FlowLogFormatParameters withType(String type) {
         this.type = type;
         return this;
     }
@@ -58,7 +58,7 @@ public final class FlowLogFormatParameters {
      * 
      * @return the version value.
      */
-    public Integer getVersion() {
+    public Integer version() {
         return this.version;
     }
 
@@ -68,7 +68,7 @@ public final class FlowLogFormatParameters {
      * @param version the version value to set.
      * @return the FlowLogFormatParameters object itself.
      */
-    public FlowLogFormatParameters setVersion(Integer version) {
+    public FlowLogFormatParameters withVersion(Integer version) {
         this.version = version;
         return this;
     }

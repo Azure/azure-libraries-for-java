@@ -44,7 +44,7 @@ public final class AvailableProvidersListParameters {
      * 
      * @return the azureLocations value.
      */
-    public List<String> getAzureLocations() {
+    public List<String> azureLocations() {
         return this.azureLocations;
     }
 
@@ -54,7 +54,7 @@ public final class AvailableProvidersListParameters {
      * @param azureLocations the azureLocations value to set.
      * @return the AvailableProvidersListParameters object itself.
      */
-    public AvailableProvidersListParameters setAzureLocations(List<String> azureLocations) {
+    public AvailableProvidersListParameters withAzureLocations(List<String> azureLocations) {
         this.azureLocations = azureLocations;
         return this;
     }
@@ -64,7 +64,7 @@ public final class AvailableProvidersListParameters {
      * 
      * @return the country value.
      */
-    public String getCountry() {
+    public String country() {
         return this.country;
     }
 
@@ -74,7 +74,7 @@ public final class AvailableProvidersListParameters {
      * @param country the country value to set.
      * @return the AvailableProvidersListParameters object itself.
      */
-    public AvailableProvidersListParameters setCountry(String country) {
+    public AvailableProvidersListParameters withCountry(String country) {
         this.country = country;
         return this;
     }
@@ -84,7 +84,7 @@ public final class AvailableProvidersListParameters {
      * 
      * @return the state value.
      */
-    public String getState() {
+    public String state() {
         return this.state;
     }
 
@@ -94,7 +94,7 @@ public final class AvailableProvidersListParameters {
      * @param state the state value to set.
      * @return the AvailableProvidersListParameters object itself.
      */
-    public AvailableProvidersListParameters setState(String state) {
+    public AvailableProvidersListParameters withState(String state) {
         this.state = state;
         return this;
     }
@@ -104,7 +104,7 @@ public final class AvailableProvidersListParameters {
      * 
      * @return the city value.
      */
-    public String getCity() {
+    public String city() {
         return this.city;
     }
 
@@ -114,7 +114,7 @@ public final class AvailableProvidersListParameters {
      * @param city the city value to set.
      * @return the AvailableProvidersListParameters object itself.
      */
-    public AvailableProvidersListParameters setCity(String city) {
+    public AvailableProvidersListParameters withCity(String city) {
         this.city = city;
         return this;
     }

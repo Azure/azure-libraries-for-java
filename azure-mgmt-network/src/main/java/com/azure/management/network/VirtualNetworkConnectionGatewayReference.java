@@ -26,7 +26,7 @@ public final class VirtualNetworkConnectionGatewayReference {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -37,7 +37,7 @@ public final class VirtualNetworkConnectionGatewayReference {
      * @param id the id value to set.
      * @return the VirtualNetworkConnectionGatewayReference object itself.
      */
-    public VirtualNetworkConnectionGatewayReference setId(String id) {
+    public VirtualNetworkConnectionGatewayReference withId(String id) {
         this.id = id;
         return this;
     }

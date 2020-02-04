@@ -25,7 +25,7 @@ public final class P2SVpnProfileParameters {
      * 
      * @return the authenticationMethod value.
      */
-    public AuthenticationMethod getAuthenticationMethod() {
+    public AuthenticationMethod authenticationMethod() {
         return this.authenticationMethod;
     }
 
@@ -35,7 +35,7 @@ public final class P2SVpnProfileParameters {
      * @param authenticationMethod the authenticationMethod value to set.
      * @return the P2SVpnProfileParameters object itself.
      */
-    public P2SVpnProfileParameters setAuthenticationMethod(AuthenticationMethod authenticationMethod) {
+    public P2SVpnProfileParameters withAuthenticationMethod(AuthenticationMethod authenticationMethod) {
         this.authenticationMethod = authenticationMethod;
         return this;
     }

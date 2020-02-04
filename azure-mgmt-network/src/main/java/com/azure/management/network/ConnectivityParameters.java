@@ -44,7 +44,7 @@ public final class ConnectivityParameters {
      * 
      * @return the source value.
      */
-    public ConnectivitySource getSource() {
+    public ConnectivitySource source() {
         return this.source;
     }
 
@@ -55,7 +55,7 @@ public final class ConnectivityParameters {
      * @param source the source value to set.
      * @return the ConnectivityParameters object itself.
      */
-    public ConnectivityParameters setSource(ConnectivitySource source) {
+    public ConnectivityParameters withSource(ConnectivitySource source) {
         this.source = source;
         return this;
     }
@@ -66,7 +66,7 @@ public final class ConnectivityParameters {
      * 
      * @return the destination value.
      */
-    public ConnectivityDestination getDestination() {
+    public ConnectivityDestination destination() {
         return this.destination;
     }
 
@@ -77,7 +77,7 @@ public final class ConnectivityParameters {
      * @param destination the destination value to set.
      * @return the ConnectivityParameters object itself.
      */
-    public ConnectivityParameters setDestination(ConnectivityDestination destination) {
+    public ConnectivityParameters withDestination(ConnectivityDestination destination) {
         this.destination = destination;
         return this;
     }
@@ -87,7 +87,7 @@ public final class ConnectivityParameters {
      * 
      * @return the protocol value.
      */
-    public Protocol getProtocol() {
+    public Protocol protocol() {
         return this.protocol;
     }
 
@@ -97,7 +97,7 @@ public final class ConnectivityParameters {
      * @param protocol the protocol value to set.
      * @return the ConnectivityParameters object itself.
      */
-    public ConnectivityParameters setProtocol(Protocol protocol) {
+    public ConnectivityParameters withProtocol(Protocol protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -107,7 +107,7 @@ public final class ConnectivityParameters {
      * 
      * @return the protocolConfiguration value.
      */
-    public ProtocolConfiguration getProtocolConfiguration() {
+    public ProtocolConfiguration protocolConfiguration() {
         return this.protocolConfiguration;
     }
 
@@ -117,7 +117,7 @@ public final class ConnectivityParameters {
      * @param protocolConfiguration the protocolConfiguration value to set.
      * @return the ConnectivityParameters object itself.
      */
-    public ConnectivityParameters setProtocolConfiguration(ProtocolConfiguration protocolConfiguration) {
+    public ConnectivityParameters withProtocolConfiguration(ProtocolConfiguration protocolConfiguration) {
         this.protocolConfiguration = protocolConfiguration;
         return this;
     }

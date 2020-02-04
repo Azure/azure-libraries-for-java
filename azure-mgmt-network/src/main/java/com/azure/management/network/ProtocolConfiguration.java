@@ -26,7 +26,7 @@ public final class ProtocolConfiguration {
      * 
      * @return the hTTPConfiguration value.
      */
-    public HTTPConfiguration getHTTPConfiguration() {
+    public HTTPConfiguration hTTPConfiguration() {
         return this.hTTPConfiguration;
     }
 
@@ -37,7 +37,7 @@ public final class ProtocolConfiguration {
      * @param hTTPConfiguration the hTTPConfiguration value to set.
      * @return the ProtocolConfiguration object itself.
      */
-    public ProtocolConfiguration setHTTPConfiguration(HTTPConfiguration hTTPConfiguration) {
+    public ProtocolConfiguration withHTTPConfiguration(HTTPConfiguration hTTPConfiguration) {
         this.hTTPConfiguration = hTTPConfiguration;
         return this;
     }

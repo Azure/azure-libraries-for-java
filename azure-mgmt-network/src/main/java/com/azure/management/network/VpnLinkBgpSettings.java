@@ -31,7 +31,7 @@ public final class VpnLinkBgpSettings {
      * 
      * @return the asn value.
      */
-    public Long getAsn() {
+    public Long asn() {
         return this.asn;
     }
 
@@ -41,7 +41,7 @@ public final class VpnLinkBgpSettings {
      * @param asn the asn value to set.
      * @return the VpnLinkBgpSettings object itself.
      */
-    public VpnLinkBgpSettings setAsn(Long asn) {
+    public VpnLinkBgpSettings withAsn(Long asn) {
         this.asn = asn;
         return this;
     }
@@ -52,7 +52,7 @@ public final class VpnLinkBgpSettings {
      * 
      * @return the bgpPeeringAddress value.
      */
-    public String getBgpPeeringAddress() {
+    public String bgpPeeringAddress() {
         return this.bgpPeeringAddress;
     }
 
@@ -63,7 +63,7 @@ public final class VpnLinkBgpSettings {
      * @param bgpPeeringAddress the bgpPeeringAddress value to set.
      * @return the VpnLinkBgpSettings object itself.
      */
-    public VpnLinkBgpSettings setBgpPeeringAddress(String bgpPeeringAddress) {
+    public VpnLinkBgpSettings withBgpPeeringAddress(String bgpPeeringAddress) {
         this.bgpPeeringAddress = bgpPeeringAddress;
         return this;
     }

@@ -55,7 +55,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * 
      * @return the sourceAddresses value.
      */
-    public List<String> getSourceAddresses() {
+    public List<String> sourceAddresses() {
         return this.sourceAddresses;
     }
 
@@ -66,7 +66,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * @param sourceAddresses the sourceAddresses value to set.
      * @return the ApplicationRuleCondition object itself.
      */
-    public ApplicationRuleCondition setSourceAddresses(List<String> sourceAddresses) {
+    public ApplicationRuleCondition withSourceAddresses(List<String> sourceAddresses) {
         this.sourceAddresses = sourceAddresses;
         return this;
     }
@@ -77,7 +77,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * 
      * @return the destinationAddresses value.
      */
-    public List<String> getDestinationAddresses() {
+    public List<String> destinationAddresses() {
         return this.destinationAddresses;
     }
 
@@ -88,7 +88,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * @param destinationAddresses the destinationAddresses value to set.
      * @return the ApplicationRuleCondition object itself.
      */
-    public ApplicationRuleCondition setDestinationAddresses(List<String> destinationAddresses) {
+    public ApplicationRuleCondition withDestinationAddresses(List<String> destinationAddresses) {
         this.destinationAddresses = destinationAddresses;
         return this;
     }
@@ -98,7 +98,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * 
      * @return the protocols value.
      */
-    public List<FirewallPolicyRuleConditionApplicationProtocol> getProtocols() {
+    public List<FirewallPolicyRuleConditionApplicationProtocol> protocols() {
         return this.protocols;
     }
 
@@ -108,7 +108,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * @param protocols the protocols value to set.
      * @return the ApplicationRuleCondition object itself.
      */
-    public ApplicationRuleCondition setProtocols(List<FirewallPolicyRuleConditionApplicationProtocol> protocols) {
+    public ApplicationRuleCondition withProtocols(List<FirewallPolicyRuleConditionApplicationProtocol> protocols) {
         this.protocols = protocols;
         return this;
     }
@@ -118,7 +118,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * 
      * @return the targetFqdns value.
      */
-    public List<String> getTargetFqdns() {
+    public List<String> targetFqdns() {
         return this.targetFqdns;
     }
 
@@ -128,7 +128,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * @param targetFqdns the targetFqdns value to set.
      * @return the ApplicationRuleCondition object itself.
      */
-    public ApplicationRuleCondition setTargetFqdns(List<String> targetFqdns) {
+    public ApplicationRuleCondition withTargetFqdns(List<String> targetFqdns) {
         this.targetFqdns = targetFqdns;
         return this;
     }
@@ -138,7 +138,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * 
      * @return the fqdnTags value.
      */
-    public List<String> getFqdnTags() {
+    public List<String> fqdnTags() {
         return this.fqdnTags;
     }
 
@@ -148,7 +148,7 @@ public final class ApplicationRuleCondition extends FirewallPolicyRuleCondition 
      * @param fqdnTags the fqdnTags value to set.
      * @return the ApplicationRuleCondition object itself.
      */
-    public ApplicationRuleCondition setFqdnTags(List<String> fqdnTags) {
+    public ApplicationRuleCondition withFqdnTags(List<String> fqdnTags) {
         this.fqdnTags = fqdnTags;
         return this;
     }

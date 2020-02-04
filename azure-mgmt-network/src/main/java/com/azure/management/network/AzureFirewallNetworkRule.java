@@ -56,7 +56,7 @@ public final class AzureFirewallNetworkRule {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -66,7 +66,7 @@ public final class AzureFirewallNetworkRule {
      * @param name the name value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
-    public AzureFirewallNetworkRule setName(String name) {
+    public AzureFirewallNetworkRule withName(String name) {
         this.name = name;
         return this;
     }
@@ -76,7 +76,7 @@ public final class AzureFirewallNetworkRule {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -86,7 +86,7 @@ public final class AzureFirewallNetworkRule {
      * @param description the description value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
-    public AzureFirewallNetworkRule setDescription(String description) {
+    public AzureFirewallNetworkRule withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -96,7 +96,7 @@ public final class AzureFirewallNetworkRule {
      * 
      * @return the protocols value.
      */
-    public List<AzureFirewallNetworkRuleProtocol> getProtocols() {
+    public List<AzureFirewallNetworkRuleProtocol> protocols() {
         return this.protocols;
     }
 
@@ -106,7 +106,7 @@ public final class AzureFirewallNetworkRule {
      * @param protocols the protocols value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
-    public AzureFirewallNetworkRule setProtocols(List<AzureFirewallNetworkRuleProtocol> protocols) {
+    public AzureFirewallNetworkRule withProtocols(List<AzureFirewallNetworkRuleProtocol> protocols) {
         this.protocols = protocols;
         return this;
     }
@@ -117,7 +117,7 @@ public final class AzureFirewallNetworkRule {
      * 
      * @return the sourceAddresses value.
      */
-    public List<String> getSourceAddresses() {
+    public List<String> sourceAddresses() {
         return this.sourceAddresses;
     }
 
@@ -128,7 +128,7 @@ public final class AzureFirewallNetworkRule {
      * @param sourceAddresses the sourceAddresses value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
-    public AzureFirewallNetworkRule setSourceAddresses(List<String> sourceAddresses) {
+    public AzureFirewallNetworkRule withSourceAddresses(List<String> sourceAddresses) {
         this.sourceAddresses = sourceAddresses;
         return this;
     }
@@ -138,7 +138,7 @@ public final class AzureFirewallNetworkRule {
      * 
      * @return the destinationAddresses value.
      */
-    public List<String> getDestinationAddresses() {
+    public List<String> destinationAddresses() {
         return this.destinationAddresses;
     }
 
@@ -148,7 +148,7 @@ public final class AzureFirewallNetworkRule {
      * @param destinationAddresses the destinationAddresses value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
-    public AzureFirewallNetworkRule setDestinationAddresses(List<String> destinationAddresses) {
+    public AzureFirewallNetworkRule withDestinationAddresses(List<String> destinationAddresses) {
         this.destinationAddresses = destinationAddresses;
         return this;
     }
@@ -158,7 +158,7 @@ public final class AzureFirewallNetworkRule {
      * 
      * @return the destinationPorts value.
      */
-    public List<String> getDestinationPorts() {
+    public List<String> destinationPorts() {
         return this.destinationPorts;
     }
 
@@ -168,7 +168,7 @@ public final class AzureFirewallNetworkRule {
      * @param destinationPorts the destinationPorts value to set.
      * @return the AzureFirewallNetworkRule object itself.
      */
-    public AzureFirewallNetworkRule setDestinationPorts(List<String> destinationPorts) {
+    public AzureFirewallNetworkRule withDestinationPorts(List<String> destinationPorts) {
         this.destinationPorts = destinationPorts;
         return this;
     }

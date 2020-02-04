@@ -69,7 +69,7 @@ public final class AzureFirewallNatRule {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -79,7 +79,7 @@ public final class AzureFirewallNatRule {
      * @param name the name value to set.
      * @return the AzureFirewallNatRule object itself.
      */
-    public AzureFirewallNatRule setName(String name) {
+    public AzureFirewallNatRule withName(String name) {
         this.name = name;
         return this;
     }
@@ -89,7 +89,7 @@ public final class AzureFirewallNatRule {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -99,7 +99,7 @@ public final class AzureFirewallNatRule {
      * @param description the description value to set.
      * @return the AzureFirewallNatRule object itself.
      */
-    public AzureFirewallNatRule setDescription(String description) {
+    public AzureFirewallNatRule withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -110,7 +110,7 @@ public final class AzureFirewallNatRule {
      * 
      * @return the sourceAddresses value.
      */
-    public List<String> getSourceAddresses() {
+    public List<String> sourceAddresses() {
         return this.sourceAddresses;
     }
 
@@ -121,7 +121,7 @@ public final class AzureFirewallNatRule {
      * @param sourceAddresses the sourceAddresses value to set.
      * @return the AzureFirewallNatRule object itself.
      */
-    public AzureFirewallNatRule setSourceAddresses(List<String> sourceAddresses) {
+    public AzureFirewallNatRule withSourceAddresses(List<String> sourceAddresses) {
         this.sourceAddresses = sourceAddresses;
         return this;
     }
@@ -132,7 +132,7 @@ public final class AzureFirewallNatRule {
      * 
      * @return the destinationAddresses value.
      */
-    public List<String> getDestinationAddresses() {
+    public List<String> destinationAddresses() {
         return this.destinationAddresses;
     }
 
@@ -143,7 +143,7 @@ public final class AzureFirewallNatRule {
      * @param destinationAddresses the destinationAddresses value to set.
      * @return the AzureFirewallNatRule object itself.
      */
-    public AzureFirewallNatRule setDestinationAddresses(List<String> destinationAddresses) {
+    public AzureFirewallNatRule withDestinationAddresses(List<String> destinationAddresses) {
         this.destinationAddresses = destinationAddresses;
         return this;
     }
@@ -153,7 +153,7 @@ public final class AzureFirewallNatRule {
      * 
      * @return the destinationPorts value.
      */
-    public List<String> getDestinationPorts() {
+    public List<String> destinationPorts() {
         return this.destinationPorts;
     }
 
@@ -163,7 +163,7 @@ public final class AzureFirewallNatRule {
      * @param destinationPorts the destinationPorts value to set.
      * @return the AzureFirewallNatRule object itself.
      */
-    public AzureFirewallNatRule setDestinationPorts(List<String> destinationPorts) {
+    public AzureFirewallNatRule withDestinationPorts(List<String> destinationPorts) {
         this.destinationPorts = destinationPorts;
         return this;
     }
@@ -174,7 +174,7 @@ public final class AzureFirewallNatRule {
      * 
      * @return the protocols value.
      */
-    public List<AzureFirewallNetworkRuleProtocol> getProtocols() {
+    public List<AzureFirewallNetworkRuleProtocol> protocols() {
         return this.protocols;
     }
 
@@ -185,7 +185,7 @@ public final class AzureFirewallNatRule {
      * @param protocols the protocols value to set.
      * @return the AzureFirewallNatRule object itself.
      */
-    public AzureFirewallNatRule setProtocols(List<AzureFirewallNetworkRuleProtocol> protocols) {
+    public AzureFirewallNatRule withProtocols(List<AzureFirewallNetworkRuleProtocol> protocols) {
         this.protocols = protocols;
         return this;
     }
@@ -196,7 +196,7 @@ public final class AzureFirewallNatRule {
      * 
      * @return the translatedAddress value.
      */
-    public String getTranslatedAddress() {
+    public String translatedAddress() {
         return this.translatedAddress;
     }
 
@@ -207,7 +207,7 @@ public final class AzureFirewallNatRule {
      * @param translatedAddress the translatedAddress value to set.
      * @return the AzureFirewallNatRule object itself.
      */
-    public AzureFirewallNatRule setTranslatedAddress(String translatedAddress) {
+    public AzureFirewallNatRule withTranslatedAddress(String translatedAddress) {
         this.translatedAddress = translatedAddress;
         return this;
     }
@@ -217,7 +217,7 @@ public final class AzureFirewallNatRule {
      * 
      * @return the translatedPort value.
      */
-    public String getTranslatedPort() {
+    public String translatedPort() {
         return this.translatedPort;
     }
 
@@ -227,7 +227,7 @@ public final class AzureFirewallNatRule {
      * @param translatedPort the translatedPort value to set.
      * @return the AzureFirewallNatRule object itself.
      */
-    public AzureFirewallNatRule setTranslatedPort(String translatedPort) {
+    public AzureFirewallNatRule withTranslatedPort(String translatedPort) {
         this.translatedPort = translatedPort;
         return this;
     }

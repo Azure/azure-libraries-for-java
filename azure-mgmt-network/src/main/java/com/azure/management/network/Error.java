@@ -50,7 +50,7 @@ public final class Error {
      * 
      * @return the code value.
      */
-    public String getCode() {
+    public String code() {
         return this.code;
     }
 
@@ -60,7 +60,7 @@ public final class Error {
      * @param code the code value to set.
      * @return the Error object itself.
      */
-    public Error setCode(String code) {
+    public Error withCode(String code) {
         this.code = code;
         return this;
     }
@@ -70,7 +70,7 @@ public final class Error {
      * 
      * @return the message value.
      */
-    public String getMessage() {
+    public String message() {
         return this.message;
     }
 
@@ -80,7 +80,7 @@ public final class Error {
      * @param message the message value to set.
      * @return the Error object itself.
      */
-    public Error setMessage(String message) {
+    public Error withMessage(String message) {
         this.message = message;
         return this;
     }
@@ -90,7 +90,7 @@ public final class Error {
      * 
      * @return the target value.
      */
-    public String getTarget() {
+    public String target() {
         return this.target;
     }
 
@@ -100,7 +100,7 @@ public final class Error {
      * @param target the target value to set.
      * @return the Error object itself.
      */
-    public Error setTarget(String target) {
+    public Error withTarget(String target) {
         this.target = target;
         return this;
     }
@@ -110,7 +110,7 @@ public final class Error {
      * 
      * @return the details value.
      */
-    public List<ErrorDetails> getDetails() {
+    public List<ErrorDetails> details() {
         return this.details;
     }
 
@@ -120,7 +120,7 @@ public final class Error {
      * @param details the details value to set.
      * @return the Error object itself.
      */
-    public Error setDetails(List<ErrorDetails> details) {
+    public Error withDetails(List<ErrorDetails> details) {
         this.details = details;
         return this;
     }
@@ -130,7 +130,7 @@ public final class Error {
      * 
      * @return the innerError value.
      */
-    public String getInnerError() {
+    public String innerError() {
         return this.innerError;
     }
 
@@ -140,7 +140,7 @@ public final class Error {
      * @param innerError the innerError value to set.
      * @return the Error object itself.
      */
-    public Error setInnerError(String innerError) {
+    public Error withInnerError(String innerError) {
         this.innerError = innerError;
         return this;
     }

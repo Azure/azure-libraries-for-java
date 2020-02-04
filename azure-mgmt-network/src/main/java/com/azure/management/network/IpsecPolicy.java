@@ -71,7 +71,7 @@ public final class IpsecPolicy {
      * 
      * @return the saLifeTimeSeconds value.
      */
-    public int getSaLifeTimeSeconds() {
+    public int saLifeTimeSeconds() {
         return this.saLifeTimeSeconds;
     }
 
@@ -83,7 +83,7 @@ public final class IpsecPolicy {
      * @param saLifeTimeSeconds the saLifeTimeSeconds value to set.
      * @return the IpsecPolicy object itself.
      */
-    public IpsecPolicy setSaLifeTimeSeconds(int saLifeTimeSeconds) {
+    public IpsecPolicy withSaLifeTimeSeconds(int saLifeTimeSeconds) {
         this.saLifeTimeSeconds = saLifeTimeSeconds;
         return this;
     }
@@ -95,7 +95,7 @@ public final class IpsecPolicy {
      * 
      * @return the saDataSizeKilobytes value.
      */
-    public int getSaDataSizeKilobytes() {
+    public int saDataSizeKilobytes() {
         return this.saDataSizeKilobytes;
     }
 
@@ -107,7 +107,7 @@ public final class IpsecPolicy {
      * @param saDataSizeKilobytes the saDataSizeKilobytes value to set.
      * @return the IpsecPolicy object itself.
      */
-    public IpsecPolicy setSaDataSizeKilobytes(int saDataSizeKilobytes) {
+    public IpsecPolicy withSaDataSizeKilobytes(int saDataSizeKilobytes) {
         this.saDataSizeKilobytes = saDataSizeKilobytes;
         return this;
     }
@@ -118,7 +118,7 @@ public final class IpsecPolicy {
      * 
      * @return the ipsecEncryption value.
      */
-    public IpsecEncryption getIpsecEncryption() {
+    public IpsecEncryption ipsecEncryption() {
         return this.ipsecEncryption;
     }
 
@@ -129,7 +129,7 @@ public final class IpsecPolicy {
      * @param ipsecEncryption the ipsecEncryption value to set.
      * @return the IpsecPolicy object itself.
      */
-    public IpsecPolicy setIpsecEncryption(IpsecEncryption ipsecEncryption) {
+    public IpsecPolicy withIpsecEncryption(IpsecEncryption ipsecEncryption) {
         this.ipsecEncryption = ipsecEncryption;
         return this;
     }
@@ -140,7 +140,7 @@ public final class IpsecPolicy {
      * 
      * @return the ipsecIntegrity value.
      */
-    public IpsecIntegrity getIpsecIntegrity() {
+    public IpsecIntegrity ipsecIntegrity() {
         return this.ipsecIntegrity;
     }
 
@@ -151,7 +151,7 @@ public final class IpsecPolicy {
      * @param ipsecIntegrity the ipsecIntegrity value to set.
      * @return the IpsecPolicy object itself.
      */
-    public IpsecPolicy setIpsecIntegrity(IpsecIntegrity ipsecIntegrity) {
+    public IpsecPolicy withIpsecIntegrity(IpsecIntegrity ipsecIntegrity) {
         this.ipsecIntegrity = ipsecIntegrity;
         return this;
     }
@@ -162,7 +162,7 @@ public final class IpsecPolicy {
      * 
      * @return the ikeEncryption value.
      */
-    public IkeEncryption getIkeEncryption() {
+    public IkeEncryption ikeEncryption() {
         return this.ikeEncryption;
     }
 
@@ -173,7 +173,7 @@ public final class IpsecPolicy {
      * @param ikeEncryption the ikeEncryption value to set.
      * @return the IpsecPolicy object itself.
      */
-    public IpsecPolicy setIkeEncryption(IkeEncryption ikeEncryption) {
+    public IpsecPolicy withIkeEncryption(IkeEncryption ikeEncryption) {
         this.ikeEncryption = ikeEncryption;
         return this;
     }
@@ -184,7 +184,7 @@ public final class IpsecPolicy {
      * 
      * @return the ikeIntegrity value.
      */
-    public IkeIntegrity getIkeIntegrity() {
+    public IkeIntegrity ikeIntegrity() {
         return this.ikeIntegrity;
     }
 
@@ -195,7 +195,7 @@ public final class IpsecPolicy {
      * @param ikeIntegrity the ikeIntegrity value to set.
      * @return the IpsecPolicy object itself.
      */
-    public IpsecPolicy setIkeIntegrity(IkeIntegrity ikeIntegrity) {
+    public IpsecPolicy withIkeIntegrity(IkeIntegrity ikeIntegrity) {
         this.ikeIntegrity = ikeIntegrity;
         return this;
     }
@@ -206,7 +206,7 @@ public final class IpsecPolicy {
      * 
      * @return the dhGroup value.
      */
-    public DhGroup getDhGroup() {
+    public DhGroup dhGroup() {
         return this.dhGroup;
     }
 
@@ -217,7 +217,7 @@ public final class IpsecPolicy {
      * @param dhGroup the dhGroup value to set.
      * @return the IpsecPolicy object itself.
      */
-    public IpsecPolicy setDhGroup(DhGroup dhGroup) {
+    public IpsecPolicy withDhGroup(DhGroup dhGroup) {
         this.dhGroup = dhGroup;
         return this;
     }
@@ -228,7 +228,7 @@ public final class IpsecPolicy {
      * 
      * @return the pfsGroup value.
      */
-    public PfsGroup getPfsGroup() {
+    public PfsGroup pfsGroup() {
         return this.pfsGroup;
     }
 
@@ -239,7 +239,7 @@ public final class IpsecPolicy {
      * @param pfsGroup the pfsGroup value to set.
      * @return the IpsecPolicy object itself.
      */
-    public IpsecPolicy setPfsGroup(PfsGroup pfsGroup) {
+    public IpsecPolicy withPfsGroup(PfsGroup pfsGroup) {
         this.pfsGroup = pfsGroup;
         return this;
     }

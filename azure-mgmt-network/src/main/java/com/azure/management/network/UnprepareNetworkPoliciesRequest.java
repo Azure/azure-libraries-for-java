@@ -26,7 +26,7 @@ public final class UnprepareNetworkPoliciesRequest {
      * 
      * @return the serviceName value.
      */
-    public String getServiceName() {
+    public String serviceName() {
         return this.serviceName;
     }
 
@@ -37,7 +37,7 @@ public final class UnprepareNetworkPoliciesRequest {
      * @param serviceName the serviceName value to set.
      * @return the UnprepareNetworkPoliciesRequest object itself.
      */
-    public UnprepareNetworkPoliciesRequest setServiceName(String serviceName) {
+    public UnprepareNetworkPoliciesRequest withServiceName(String serviceName) {
         this.serviceName = serviceName;
         return this;
     }

@@ -5,22 +5,21 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.AzureReachabilityReportInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
 
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.AzureReachabilityReportInner;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Executable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
  * An immutable client-side representation of Azure reachability report details.
  */
 @Fluent
-@Beta(SinceVersion.V1_10_0)
 public interface AzureReachabilityReport extends Executable<AzureReachabilityReport>,
         HasInner<AzureReachabilityReportInner>,
         HasParent<NetworkWatcher> {
@@ -89,7 +88,7 @@ public interface AzureReachabilityReport extends Executable<AzureReachabilityRep
              * @param startTime the start time for the Azure reachability report
              * @return the next stage of the definition
              */
-            WithEndTime withStartTime(DateTime startTime);
+            WithEndTime withStartTime(OffsetDateTime startTime);
         }
 
         /**
@@ -100,7 +99,7 @@ public interface AzureReachabilityReport extends Executable<AzureReachabilityRep
              * @param endTime the start time for the Azure reachability report
              * @return the next stage of the definition
              */
-            WithExecute withEndTime(DateTime endTime);
+            WithExecute withEndTime(OffsetDateTime endTime);
         }
 
         /**

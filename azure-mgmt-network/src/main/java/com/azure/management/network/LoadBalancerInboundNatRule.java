@@ -5,17 +5,17 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.InboundNatRuleInner;
-import com.azure.management.network.model.HasBackendPort;
-import com.azure.management.network.model.HasFloatingIP;
-import com.azure.management.network.model.HasFrontend;
-import com.azure.management.network.model.HasFrontendPort;
-import com.azure.management.network.model.HasProtocol;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.HasBackendPort;
+import com.azure.management.network.models.HasFloatingIP;
+import com.azure.management.network.models.HasFrontend;
+import com.azure.management.network.models.HasFrontendPort;
+import com.azure.management.network.models.HasProtocol;
+import com.azure.management.network.models.InboundNatRuleInner;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 /**
  * An immutable client-side representation of an inbound NAT rule.
@@ -27,8 +27,8 @@ public interface LoadBalancerInboundNatRule extends
         HasProtocol<TransportProtocol>,
         HasFloatingIP,
         HasFrontendPort,
-    HasInner<InboundNatRuleInner>,
-    ChildResource<LoadBalancer> {
+        HasInner<InboundNatRuleInner>,
+        ChildResource<LoadBalancer> {
 
     /**
      * @return the name of the IP configuration within the network interface associated with this NAT rule
@@ -51,6 +51,7 @@ public interface LoadBalancerInboundNatRule extends
     interface DefinitionStages {
         /**
          * The first stage of the inbound NAT rule definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithProtocol<ParentT> {
@@ -61,41 +62,46 @@ public interface LoadBalancerInboundNatRule extends
          * <p>
          * At this stage, any remaining optional settings can be specified, or the inbound NAT rule definition
          * can be attached to the parent load balancer definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-            Attachable.InDefinition<ParentT>,
-            DefinitionStages.WithBackendPort<ParentT>,
-            DefinitionStages.WithFloatingIP<ParentT>,
-            DefinitionStages.WithIdleTimeout<ParentT> {
+                Attachable.InDefinition<ParentT>,
+                DefinitionStages.WithBackendPort<ParentT>,
+                DefinitionStages.WithFloatingIP<ParentT>,
+                DefinitionStages.WithIdleTimeout<ParentT> {
         }
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify the transport protocol.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProtocol<ParentT> extends
-            HasProtocol.DefinitionStages.WithProtocol<WithFrontend<ParentT>, TransportProtocol> {
+                HasProtocol.DefinitionStages.WithProtocol<WithFrontend<ParentT>, TransportProtocol> {
         }
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify a frontend for the rule to apply to.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontend<ParentT> extends
-            HasFrontend.DefinitionStages.WithFrontend<WithFrontendPort<ParentT>> {
+                HasFrontend.DefinitionStages.WithFrontend<WithFrontendPort<ParentT>> {
         }
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify the backend port.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackendPort<ParentT> extends
-            HasBackendPort.DefinitionStages.WithBackendPort<WithAttach<ParentT>> {
+                HasBackendPort.DefinitionStages.WithBackendPort<WithAttach<ParentT>> {
         }
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify whether floating IP should be enabled.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFloatingIP<ParentT> extends HasFloatingIP.DefinitionStages.WithFloatingIP<WithAttach<ParentT>> {
@@ -103,6 +109,7 @@ public interface LoadBalancerInboundNatRule extends
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify the frontend port.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontendPort<ParentT> extends HasFrontendPort.DefinitionStages.WithFrontendPort<WithAttach<ParentT>> {
@@ -110,11 +117,13 @@ public interface LoadBalancerInboundNatRule extends
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify the idle connection timeout for this inbound NAT rule.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithIdleTimeout<ParentT> {
             /**
              * Specifies the idle connection timeout in minutes.
+             *
              * @param minutes a number of minutes
              * @return the next stage of the definition
              */
@@ -124,14 +133,15 @@ public interface LoadBalancerInboundNatRule extends
 
     /**
      * The entirety of an inbound NAT rule definition.
+     *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface Definition<ParentT> extends
-        DefinitionStages.Blank<ParentT>,
-        DefinitionStages.WithProtocol<ParentT>,
-        DefinitionStages.WithFrontend<ParentT>,
-        DefinitionStages.WithFrontendPort<ParentT>,
-        DefinitionStages.WithAttach<ParentT> {
+            DefinitionStages.Blank<ParentT>,
+            DefinitionStages.WithProtocol<ParentT>,
+            DefinitionStages.WithFrontend<ParentT>,
+            DefinitionStages.WithFrontendPort<ParentT>,
+            DefinitionStages.WithAttach<ParentT> {
     }
 
     /**
@@ -142,21 +152,21 @@ public interface LoadBalancerInboundNatRule extends
          * The stage of an inbound NAT rule update allowing to specify the backend port.
          */
         interface WithBackendPort extends
-            HasBackendPort.UpdateStages.WithBackendPort<Update> {
+                HasBackendPort.UpdateStages.WithBackendPort<Update> {
         }
 
         /**
          * The stage of an inbound NAT rule update allowing to specify a frontend for the rule to apply to.
          */
         interface WithFrontend extends
-            HasFrontend.UpdateStages.WithFrontend<Update> {
+                HasFrontend.UpdateStages.WithFrontend<Update> {
         }
 
         /**
          * The stage of an inbound NAT rule update allowing to specify the transport protocol for the rule to apply to.
          */
         interface WithProtocol extends
-            HasProtocol.UpdateStages.WithProtocol<Update, TransportProtocol> {
+                HasProtocol.UpdateStages.WithProtocol<Update, TransportProtocol> {
         }
 
         /**
@@ -177,6 +187,7 @@ public interface LoadBalancerInboundNatRule extends
         interface WithIdleTimeout {
             /**
              * Specifies the idle connection timeout in minutes.
+             *
              * @param minutes a number of minutes
              * @return the next stage of the update
              */
@@ -188,13 +199,13 @@ public interface LoadBalancerInboundNatRule extends
      * The entirety of an inbound NAT rule update as part of a load balancer update.
      */
     interface Update extends
-        Settable<LoadBalancer.Update>,
-        UpdateStages.WithBackendPort,
-        UpdateStages.WithFloatingIP,
-        UpdateStages.WithFrontend,
-        UpdateStages.WithFrontendPort,
-        UpdateStages.WithIdleTimeout,
-        UpdateStages.WithProtocol {
+            Settable<LoadBalancer.Update>,
+            UpdateStages.WithBackendPort,
+            UpdateStages.WithFloatingIP,
+            UpdateStages.WithFrontend,
+            UpdateStages.WithFrontendPort,
+            UpdateStages.WithIdleTimeout,
+            UpdateStages.WithProtocol {
     }
 
     /**
@@ -203,6 +214,7 @@ public interface LoadBalancerInboundNatRule extends
     interface UpdateDefinitionStages {
         /**
          * The first stage of the inbound NAT rule definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithProtocol<ParentT> {
@@ -213,41 +225,46 @@ public interface LoadBalancerInboundNatRule extends
          * <p>
          * At this stage, any remaining optional settings can be specified, or the inbound NAT rule definition
          * can be attached to the parent load balancer definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-            Attachable.InUpdate<ParentT>,
-            UpdateDefinitionStages.WithBackendPort<ParentT>,
-            UpdateDefinitionStages.WithFloatingIP<ParentT>,
-            UpdateDefinitionStages.WithIdleTimeout<ParentT> {
+                Attachable.InUpdate<ParentT>,
+                UpdateDefinitionStages.WithBackendPort<ParentT>,
+                UpdateDefinitionStages.WithFloatingIP<ParentT>,
+                UpdateDefinitionStages.WithIdleTimeout<ParentT> {
         }
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify the transport protocol.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProtocol<ParentT> extends
-            HasProtocol.UpdateDefinitionStages.WithProtocol<WithFrontend<ParentT>, TransportProtocol> {
+                HasProtocol.UpdateDefinitionStages.WithProtocol<WithFrontend<ParentT>, TransportProtocol> {
         }
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify a frontend for the rule to apply to.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontend<ParentT> extends
-            HasFrontend.UpdateDefinitionStages.WithFrontend<WithFrontendPort<ParentT>> {
+                HasFrontend.UpdateDefinitionStages.WithFrontend<WithFrontendPort<ParentT>> {
         }
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify the backend port.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackendPort<ParentT> extends
-            HasBackendPort.UpdateDefinitionStages.WithBackendPort<WithAttach<ParentT>> {
+                HasBackendPort.UpdateDefinitionStages.WithBackendPort<WithAttach<ParentT>> {
         }
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify whether floating IP should be enabled.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFloatingIP<ParentT> extends HasFloatingIP.UpdateDefinitionStages.WithFloatingIP<WithAttach<ParentT>> {
@@ -255,6 +272,7 @@ public interface LoadBalancerInboundNatRule extends
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify the frontend port.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontendPort<ParentT> extends HasFrontendPort.UpdateDefinitionStages.WithFrontendPort<WithAttach<ParentT>> {
@@ -262,11 +280,13 @@ public interface LoadBalancerInboundNatRule extends
 
         /**
          * The stage of an inbound NAT rule definition allowing to specify the idle connection timeout for this inbound NAT rule.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithIdleTimeout<ParentT> {
             /**
              * Specifies the idle connection timeout in minutes.
+             *
              * @param minutes a number of minutes
              * @return the next stage of the definition
              */
@@ -276,13 +296,14 @@ public interface LoadBalancerInboundNatRule extends
 
     /**
      * The entirety of an inbound NAT rule definition.
+     *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface UpdateDefinition<ParentT> extends
-        UpdateDefinitionStages.Blank<ParentT>,
-        UpdateDefinitionStages.WithProtocol<ParentT>,
-        UpdateDefinitionStages.WithFrontend<ParentT>,
-        UpdateDefinitionStages.WithFrontendPort<ParentT>,
-        UpdateDefinitionStages.WithAttach<ParentT> {
+            UpdateDefinitionStages.Blank<ParentT>,
+            UpdateDefinitionStages.WithProtocol<ParentT>,
+            UpdateDefinitionStages.WithFrontend<ParentT>,
+            UpdateDefinitionStages.WithFrontendPort<ParentT>,
+            UpdateDefinitionStages.WithAttach<ParentT> {
     }
 }

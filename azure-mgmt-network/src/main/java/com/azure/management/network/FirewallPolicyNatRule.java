@@ -47,7 +47,7 @@ public final class FirewallPolicyNatRule extends FirewallPolicyRule {
      * 
      * @return the action value.
      */
-    public FirewallPolicyNatRuleAction getAction() {
+    public FirewallPolicyNatRuleAction action() {
         return this.action;
     }
 
@@ -57,7 +57,7 @@ public final class FirewallPolicyNatRule extends FirewallPolicyRule {
      * @param action the action value to set.
      * @return the FirewallPolicyNatRule object itself.
      */
-    public FirewallPolicyNatRule setAction(FirewallPolicyNatRuleAction action) {
+    public FirewallPolicyNatRule withAction(FirewallPolicyNatRuleAction action) {
         this.action = action;
         return this;
     }
@@ -68,7 +68,7 @@ public final class FirewallPolicyNatRule extends FirewallPolicyRule {
      * 
      * @return the translatedAddress value.
      */
-    public String getTranslatedAddress() {
+    public String translatedAddress() {
         return this.translatedAddress;
     }
 
@@ -79,7 +79,7 @@ public final class FirewallPolicyNatRule extends FirewallPolicyRule {
      * @param translatedAddress the translatedAddress value to set.
      * @return the FirewallPolicyNatRule object itself.
      */
-    public FirewallPolicyNatRule setTranslatedAddress(String translatedAddress) {
+    public FirewallPolicyNatRule withTranslatedAddress(String translatedAddress) {
         this.translatedAddress = translatedAddress;
         return this;
     }
@@ -89,7 +89,7 @@ public final class FirewallPolicyNatRule extends FirewallPolicyRule {
      * 
      * @return the translatedPort value.
      */
-    public String getTranslatedPort() {
+    public String translatedPort() {
         return this.translatedPort;
     }
 
@@ -99,7 +99,7 @@ public final class FirewallPolicyNatRule extends FirewallPolicyRule {
      * @param translatedPort the translatedPort value to set.
      * @return the FirewallPolicyNatRule object itself.
      */
-    public FirewallPolicyNatRule setTranslatedPort(String translatedPort) {
+    public FirewallPolicyNatRule withTranslatedPort(String translatedPort) {
         this.translatedPort = translatedPort;
         return this;
     }
@@ -109,7 +109,7 @@ public final class FirewallPolicyNatRule extends FirewallPolicyRule {
      * 
      * @return the ruleCondition value.
      */
-    public FirewallPolicyRuleCondition getRuleCondition() {
+    public FirewallPolicyRuleCondition ruleCondition() {
         return this.ruleCondition;
     }
 
@@ -119,7 +119,7 @@ public final class FirewallPolicyNatRule extends FirewallPolicyRule {
      * @param ruleCondition the ruleCondition value to set.
      * @return the FirewallPolicyNatRule object itself.
      */
-    public FirewallPolicyNatRule setRuleCondition(FirewallPolicyRuleCondition ruleCondition) {
+    public FirewallPolicyNatRule withRuleCondition(FirewallPolicyRuleCondition ruleCondition) {
         this.ruleCondition = ruleCondition;
         return this;
     }

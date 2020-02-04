@@ -34,7 +34,7 @@ public final class ApplicationGatewayFirewallDisabledRuleGroup {
      * 
      * @return the ruleGroupName value.
      */
-    public String getRuleGroupName() {
+    public String ruleGroupName() {
         return this.ruleGroupName;
     }
 
@@ -45,7 +45,7 @@ public final class ApplicationGatewayFirewallDisabledRuleGroup {
      * @param ruleGroupName the ruleGroupName value to set.
      * @return the ApplicationGatewayFirewallDisabledRuleGroup object itself.
      */
-    public ApplicationGatewayFirewallDisabledRuleGroup setRuleGroupName(String ruleGroupName) {
+    public ApplicationGatewayFirewallDisabledRuleGroup withRuleGroupName(String ruleGroupName) {
         this.ruleGroupName = ruleGroupName;
         return this;
     }
@@ -56,7 +56,7 @@ public final class ApplicationGatewayFirewallDisabledRuleGroup {
      * 
      * @return the rules value.
      */
-    public List<Integer> getRules() {
+    public List<Integer> rules() {
         return this.rules;
     }
 
@@ -67,7 +67,7 @@ public final class ApplicationGatewayFirewallDisabledRuleGroup {
      * @param rules the rules value to set.
      * @return the ApplicationGatewayFirewallDisabledRuleGroup object itself.
      */
-    public ApplicationGatewayFirewallDisabledRuleGroup setRules(List<Integer> rules) {
+    public ApplicationGatewayFirewallDisabledRuleGroup withRules(List<Integer> rules) {
         this.rules = rules;
         return this;
     }

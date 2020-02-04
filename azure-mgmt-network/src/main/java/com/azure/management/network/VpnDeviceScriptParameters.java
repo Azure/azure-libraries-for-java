@@ -37,7 +37,7 @@ public final class VpnDeviceScriptParameters {
      * 
      * @return the vendor value.
      */
-    public String getVendor() {
+    public String vendor() {
         return this.vendor;
     }
 
@@ -47,7 +47,7 @@ public final class VpnDeviceScriptParameters {
      * @param vendor the vendor value to set.
      * @return the VpnDeviceScriptParameters object itself.
      */
-    public VpnDeviceScriptParameters setVendor(String vendor) {
+    public VpnDeviceScriptParameters withVendor(String vendor) {
         this.vendor = vendor;
         return this;
     }
@@ -57,7 +57,7 @@ public final class VpnDeviceScriptParameters {
      * 
      * @return the deviceFamily value.
      */
-    public String getDeviceFamily() {
+    public String deviceFamily() {
         return this.deviceFamily;
     }
 
@@ -67,7 +67,7 @@ public final class VpnDeviceScriptParameters {
      * @param deviceFamily the deviceFamily value to set.
      * @return the VpnDeviceScriptParameters object itself.
      */
-    public VpnDeviceScriptParameters setDeviceFamily(String deviceFamily) {
+    public VpnDeviceScriptParameters withDeviceFamily(String deviceFamily) {
         this.deviceFamily = deviceFamily;
         return this;
     }
@@ -78,7 +78,7 @@ public final class VpnDeviceScriptParameters {
      * 
      * @return the firmwareVersion value.
      */
-    public String getFirmwareVersion() {
+    public String firmwareVersion() {
         return this.firmwareVersion;
     }
 
@@ -89,7 +89,7 @@ public final class VpnDeviceScriptParameters {
      * @param firmwareVersion the firmwareVersion value to set.
      * @return the VpnDeviceScriptParameters object itself.
      */
-    public VpnDeviceScriptParameters setFirmwareVersion(String firmwareVersion) {
+    public VpnDeviceScriptParameters withFirmwareVersion(String firmwareVersion) {
         this.firmwareVersion = firmwareVersion;
         return this;
     }

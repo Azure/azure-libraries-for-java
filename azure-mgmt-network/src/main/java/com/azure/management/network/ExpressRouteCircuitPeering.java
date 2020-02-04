@@ -5,22 +5,20 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.ExpressRouteCircuitPeeringInner;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChild;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.ExpressRouteCircuitPeeringInner;
+import com.azure.management.resources.fluentcore.arm.models.IndependentChild;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 /**
  * Client-side representation of express route circuit peering object, associated with express route circuit.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
 public interface ExpressRouteCircuitPeering extends
         IndependentChild<NetworkManager>,
         HasInner<ExpressRouteCircuitPeeringInner>,
@@ -36,6 +34,7 @@ public interface ExpressRouteCircuitPeering extends
 
     /**
      * Gets the state of peering.
+     *
      * @return peering state
      */
     ExpressRoutePeeringState state();
@@ -92,6 +91,7 @@ public interface ExpressRouteCircuitPeering extends
 
     /**
      * Gets the provisioning state of the resource.
+     *
      * @return provisioningState
      */
     String provisioningState();
@@ -110,13 +110,13 @@ public interface ExpressRouteCircuitPeering extends
      * The entirety of the express route circuit peering definition.
      */
     interface Definition extends
-        DefinitionStages.Blank,
-        DefinitionStages.WithAdvertisedPublicPrefixes,
-        DefinitionStages.WithPrimaryPeerAddressPrefix,
-        DefinitionStages.WithSecondaryPeerAddressPrefix,
-        DefinitionStages.WithVlanId,
-        DefinitionStages.WithPeerAsn,
-        DefinitionStages.WithCreate {
+            DefinitionStages.Blank,
+            DefinitionStages.WithAdvertisedPublicPrefixes,
+            DefinitionStages.WithPrimaryPeerAddressPrefix,
+            DefinitionStages.WithSecondaryPeerAddressPrefix,
+            DefinitionStages.WithVlanId,
+            DefinitionStages.WithPeerAsn,
+            DefinitionStages.WithCreate {
     }
 
     /**
@@ -134,6 +134,7 @@ public interface ExpressRouteCircuitPeering extends
              * Specify advertised prefixes: sets a list of all prefixes that are planned to advertise over the BGP session.
              * Only public IP address prefixes are accepted. A set of prefixes can be sent as a comma-separated list.
              * These prefixes must be registered to you in an RIR / IRR.
+             *
              * @param publicPrefixes advertised prefixes
              * @return next stage of definition
              */
@@ -159,7 +160,6 @@ public interface ExpressRouteCircuitPeering extends
          */
         interface WithVlanId {
             /**
-             *
              * @param vlanId a valid VLAN ID to establish this peering on. No other peering in the circuit can use the same VLAN ID
              * @return next stage of definition
              */
@@ -186,11 +186,11 @@ public interface ExpressRouteCircuitPeering extends
      * Grouping of express route circuit peering update stages.
      */
     interface Update extends Appliable<ExpressRouteCircuitPeering>,
-        UpdateStages.WithAdvertisedPublicPrefixes,
-        UpdateStages.WithPrimaryPeerAddressPrefix,
-        UpdateStages.WithSecondaryPeerAddressPrefix,
-        UpdateStages.WithVlanId,
-        UpdateStages.WithPeerAsn {
+            UpdateStages.WithAdvertisedPublicPrefixes,
+            UpdateStages.WithPrimaryPeerAddressPrefix,
+            UpdateStages.WithSecondaryPeerAddressPrefix,
+            UpdateStages.WithVlanId,
+            UpdateStages.WithPeerAsn {
     }
 
     /**

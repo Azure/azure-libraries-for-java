@@ -32,7 +32,7 @@ public final class ApplicationGatewayFirewallRule {
      * 
      * @return the ruleId value.
      */
-    public int getRuleId() {
+    public int ruleId() {
         return this.ruleId;
     }
 
@@ -43,7 +43,7 @@ public final class ApplicationGatewayFirewallRule {
      * @param ruleId the ruleId value to set.
      * @return the ApplicationGatewayFirewallRule object itself.
      */
-    public ApplicationGatewayFirewallRule setRuleId(int ruleId) {
+    public ApplicationGatewayFirewallRule withRuleId(int ruleId) {
         this.ruleId = ruleId;
         return this;
     }
@@ -54,7 +54,7 @@ public final class ApplicationGatewayFirewallRule {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -65,7 +65,7 @@ public final class ApplicationGatewayFirewallRule {
      * @param description the description value to set.
      * @return the ApplicationGatewayFirewallRule object itself.
      */
-    public ApplicationGatewayFirewallRule setDescription(String description) {
+    public ApplicationGatewayFirewallRule withDescription(String description) {
         this.description = description;
         return this;
     }

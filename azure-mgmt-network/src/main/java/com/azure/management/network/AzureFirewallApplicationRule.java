@@ -56,7 +56,7 @@ public final class AzureFirewallApplicationRule {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -66,7 +66,7 @@ public final class AzureFirewallApplicationRule {
      * @param name the name value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
-    public AzureFirewallApplicationRule setName(String name) {
+    public AzureFirewallApplicationRule withName(String name) {
         this.name = name;
         return this;
     }
@@ -76,7 +76,7 @@ public final class AzureFirewallApplicationRule {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -86,7 +86,7 @@ public final class AzureFirewallApplicationRule {
      * @param description the description value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
-    public AzureFirewallApplicationRule setDescription(String description) {
+    public AzureFirewallApplicationRule withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -97,7 +97,7 @@ public final class AzureFirewallApplicationRule {
      * 
      * @return the sourceAddresses value.
      */
-    public List<String> getSourceAddresses() {
+    public List<String> sourceAddresses() {
         return this.sourceAddresses;
     }
 
@@ -108,7 +108,7 @@ public final class AzureFirewallApplicationRule {
      * @param sourceAddresses the sourceAddresses value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
-    public AzureFirewallApplicationRule setSourceAddresses(List<String> sourceAddresses) {
+    public AzureFirewallApplicationRule withSourceAddresses(List<String> sourceAddresses) {
         this.sourceAddresses = sourceAddresses;
         return this;
     }
@@ -118,7 +118,7 @@ public final class AzureFirewallApplicationRule {
      * 
      * @return the protocols value.
      */
-    public List<AzureFirewallApplicationRuleProtocol> getProtocols() {
+    public List<AzureFirewallApplicationRuleProtocol> protocols() {
         return this.protocols;
     }
 
@@ -128,7 +128,7 @@ public final class AzureFirewallApplicationRule {
      * @param protocols the protocols value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
-    public AzureFirewallApplicationRule setProtocols(List<AzureFirewallApplicationRuleProtocol> protocols) {
+    public AzureFirewallApplicationRule withProtocols(List<AzureFirewallApplicationRuleProtocol> protocols) {
         this.protocols = protocols;
         return this;
     }
@@ -138,7 +138,7 @@ public final class AzureFirewallApplicationRule {
      * 
      * @return the targetFqdns value.
      */
-    public List<String> getTargetFqdns() {
+    public List<String> targetFqdns() {
         return this.targetFqdns;
     }
 
@@ -148,7 +148,7 @@ public final class AzureFirewallApplicationRule {
      * @param targetFqdns the targetFqdns value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
-    public AzureFirewallApplicationRule setTargetFqdns(List<String> targetFqdns) {
+    public AzureFirewallApplicationRule withTargetFqdns(List<String> targetFqdns) {
         this.targetFqdns = targetFqdns;
         return this;
     }
@@ -158,7 +158,7 @@ public final class AzureFirewallApplicationRule {
      * 
      * @return the fqdnTags value.
      */
-    public List<String> getFqdnTags() {
+    public List<String> fqdnTags() {
         return this.fqdnTags;
     }
 
@@ -168,7 +168,7 @@ public final class AzureFirewallApplicationRule {
      * @param fqdnTags the fqdnTags value to set.
      * @return the AzureFirewallApplicationRule object itself.
      */
-    public AzureFirewallApplicationRule setFqdnTags(List<String> fqdnTags) {
+    public AzureFirewallApplicationRule withFqdnTags(List<String> fqdnTags) {
         this.fqdnTags = fqdnTags;
         return this;
     }

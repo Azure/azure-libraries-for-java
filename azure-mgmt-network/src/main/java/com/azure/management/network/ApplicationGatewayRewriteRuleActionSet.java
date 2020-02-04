@@ -33,7 +33,7 @@ public final class ApplicationGatewayRewriteRuleActionSet {
      * 
      * @return the requestHeaderConfigurations value.
      */
-    public List<ApplicationGatewayHeaderConfiguration> getRequestHeaderConfigurations() {
+    public List<ApplicationGatewayHeaderConfiguration> requestHeaderConfigurations() {
         return this.requestHeaderConfigurations;
     }
 
@@ -45,7 +45,7 @@ public final class ApplicationGatewayRewriteRuleActionSet {
      * to set.
      * @return the ApplicationGatewayRewriteRuleActionSet object itself.
      */
-    public ApplicationGatewayRewriteRuleActionSet setRequestHeaderConfigurations(List<ApplicationGatewayHeaderConfiguration> requestHeaderConfigurations) {
+    public ApplicationGatewayRewriteRuleActionSet withRequestHeaderConfigurations(List<ApplicationGatewayHeaderConfiguration> requestHeaderConfigurations) {
         this.requestHeaderConfigurations = requestHeaderConfigurations;
         return this;
     }
@@ -56,7 +56,7 @@ public final class ApplicationGatewayRewriteRuleActionSet {
      * 
      * @return the responseHeaderConfigurations value.
      */
-    public List<ApplicationGatewayHeaderConfiguration> getResponseHeaderConfigurations() {
+    public List<ApplicationGatewayHeaderConfiguration> responseHeaderConfigurations() {
         return this.responseHeaderConfigurations;
     }
 
@@ -68,7 +68,7 @@ public final class ApplicationGatewayRewriteRuleActionSet {
      * value to set.
      * @return the ApplicationGatewayRewriteRuleActionSet object itself.
      */
-    public ApplicationGatewayRewriteRuleActionSet setResponseHeaderConfigurations(List<ApplicationGatewayHeaderConfiguration> responseHeaderConfigurations) {
+    public ApplicationGatewayRewriteRuleActionSet withResponseHeaderConfigurations(List<ApplicationGatewayHeaderConfiguration> responseHeaderConfigurations) {
         this.responseHeaderConfigurations = responseHeaderConfigurations;
         return this;
     }

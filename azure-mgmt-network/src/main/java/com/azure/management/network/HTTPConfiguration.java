@@ -45,7 +45,7 @@ public final class HTTPConfiguration {
      * 
      * @return the method value.
      */
-    public String getMethod() {
+    public String method() {
         return this.method;
     }
 
@@ -55,7 +55,7 @@ public final class HTTPConfiguration {
      * @param method the method value to set.
      * @return the HTTPConfiguration object itself.
      */
-    public HTTPConfiguration setMethod(String method) {
+    public HTTPConfiguration withMethod(String method) {
         this.method = method;
         return this;
     }
@@ -65,7 +65,7 @@ public final class HTTPConfiguration {
      * 
      * @return the headers value.
      */
-    public List<HTTPHeader> getHeaders() {
+    public List<HTTPHeader> headers() {
         return this.headers;
     }
 
@@ -75,7 +75,7 @@ public final class HTTPConfiguration {
      * @param headers the headers value to set.
      * @return the HTTPConfiguration object itself.
      */
-    public HTTPConfiguration setHeaders(List<HTTPHeader> headers) {
+    public HTTPConfiguration withHeaders(List<HTTPHeader> headers) {
         this.headers = headers;
         return this;
     }
@@ -85,7 +85,7 @@ public final class HTTPConfiguration {
      * 
      * @return the validStatusCodes value.
      */
-    public List<Integer> getValidStatusCodes() {
+    public List<Integer> validStatusCodes() {
         return this.validStatusCodes;
     }
 
@@ -95,7 +95,7 @@ public final class HTTPConfiguration {
      * @param validStatusCodes the validStatusCodes value to set.
      * @return the HTTPConfiguration object itself.
      */
-    public HTTPConfiguration setValidStatusCodes(List<Integer> validStatusCodes) {
+    public HTTPConfiguration withValidStatusCodes(List<Integer> validStatusCodes) {
         this.validStatusCodes = validStatusCodes;
         return this;
     }

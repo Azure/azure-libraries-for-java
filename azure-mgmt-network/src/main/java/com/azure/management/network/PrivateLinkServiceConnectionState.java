@@ -40,7 +40,7 @@ public final class PrivateLinkServiceConnectionState {
      * 
      * @return the status value.
      */
-    public String getStatus() {
+    public String status() {
         return this.status;
     }
 
@@ -51,7 +51,7 @@ public final class PrivateLinkServiceConnectionState {
      * @param status the status value to set.
      * @return the PrivateLinkServiceConnectionState object itself.
      */
-    public PrivateLinkServiceConnectionState setStatus(String status) {
+    public PrivateLinkServiceConnectionState withStatus(String status) {
         this.status = status;
         return this;
     }
@@ -62,7 +62,7 @@ public final class PrivateLinkServiceConnectionState {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -73,7 +73,7 @@ public final class PrivateLinkServiceConnectionState {
      * @param description the description value to set.
      * @return the PrivateLinkServiceConnectionState object itself.
      */
-    public PrivateLinkServiceConnectionState setDescription(String description) {
+    public PrivateLinkServiceConnectionState withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -84,7 +84,7 @@ public final class PrivateLinkServiceConnectionState {
      * 
      * @return the actionsRequired value.
      */
-    public String getActionsRequired() {
+    public String actionsRequired() {
         return this.actionsRequired;
     }
 
@@ -95,7 +95,7 @@ public final class PrivateLinkServiceConnectionState {
      * @param actionsRequired the actionsRequired value to set.
      * @return the PrivateLinkServiceConnectionState object itself.
      */
-    public PrivateLinkServiceConnectionState setActionsRequired(String actionsRequired) {
+    public PrivateLinkServiceConnectionState withActionsRequired(String actionsRequired) {
         this.actionsRequired = actionsRequired;
         return this;
     }

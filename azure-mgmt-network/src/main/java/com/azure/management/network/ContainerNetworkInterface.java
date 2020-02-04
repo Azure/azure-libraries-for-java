@@ -66,7 +66,7 @@ public class ContainerNetworkInterface extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -77,7 +77,7 @@ public class ContainerNetworkInterface extends SubResource {
      * @param name the name value to set.
      * @return the ContainerNetworkInterface object itself.
      */
-    public ContainerNetworkInterface setName(String name) {
+    public ContainerNetworkInterface withName(String name) {
         this.name = name;
         return this;
     }
@@ -87,7 +87,7 @@ public class ContainerNetworkInterface extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -97,7 +97,7 @@ public class ContainerNetworkInterface extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -108,7 +108,7 @@ public class ContainerNetworkInterface extends SubResource {
      * @param etag the etag value to set.
      * @return the ContainerNetworkInterface object itself.
      */
-    public ContainerNetworkInterface setEtag(String etag) {
+    public ContainerNetworkInterface withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -119,7 +119,7 @@ public class ContainerNetworkInterface extends SubResource {
      * 
      * @return the containerNetworkInterfaceConfiguration value.
      */
-    public ContainerNetworkInterfaceConfiguration getContainerNetworkInterfaceConfiguration() {
+    public ContainerNetworkInterfaceConfiguration containerNetworkInterfaceConfiguration() {
         return this.containerNetworkInterfaceConfiguration;
     }
 
@@ -131,7 +131,7 @@ public class ContainerNetworkInterface extends SubResource {
      * containerNetworkInterfaceConfiguration value to set.
      * @return the ContainerNetworkInterface object itself.
      */
-    public ContainerNetworkInterface setContainerNetworkInterfaceConfiguration(ContainerNetworkInterfaceConfiguration containerNetworkInterfaceConfiguration) {
+    public ContainerNetworkInterface withContainerNetworkInterfaceConfiguration(ContainerNetworkInterfaceConfiguration containerNetworkInterfaceConfiguration) {
         this.containerNetworkInterfaceConfiguration = containerNetworkInterfaceConfiguration;
         return this;
     }
@@ -142,7 +142,7 @@ public class ContainerNetworkInterface extends SubResource {
      * 
      * @return the container value.
      */
-    public Container getContainer() {
+    public Container container() {
         return this.container;
     }
 
@@ -153,7 +153,7 @@ public class ContainerNetworkInterface extends SubResource {
      * @param container the container value to set.
      * @return the ContainerNetworkInterface object itself.
      */
-    public ContainerNetworkInterface setContainer(Container container) {
+    public ContainerNetworkInterface withContainer(Container container) {
         this.container = container;
         return this;
     }
@@ -164,7 +164,7 @@ public class ContainerNetworkInterface extends SubResource {
      * 
      * @return the ipConfigurations value.
      */
-    public List<ContainerNetworkInterfaceIpConfiguration> getIpConfigurations() {
+    public List<ContainerNetworkInterfaceIpConfiguration> ipConfigurations() {
         return this.ipConfigurations;
     }
 
@@ -175,7 +175,7 @@ public class ContainerNetworkInterface extends SubResource {
      * @param ipConfigurations the ipConfigurations value to set.
      * @return the ContainerNetworkInterface object itself.
      */
-    public ContainerNetworkInterface setIpConfigurations(List<ContainerNetworkInterfaceIpConfiguration> ipConfigurations) {
+    public ContainerNetworkInterface withIpConfigurations(List<ContainerNetworkInterfaceIpConfiguration> ipConfigurations) {
         this.ipConfigurations = ipConfigurations;
         return this;
     }
@@ -186,7 +186,7 @@ public class ContainerNetworkInterface extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

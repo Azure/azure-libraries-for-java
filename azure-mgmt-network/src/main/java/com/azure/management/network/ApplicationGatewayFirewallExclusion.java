@@ -39,7 +39,7 @@ public final class ApplicationGatewayFirewallExclusion {
      * 
      * @return the matchVariable value.
      */
-    public String getMatchVariable() {
+    public String matchVariable() {
         return this.matchVariable;
     }
 
@@ -49,7 +49,7 @@ public final class ApplicationGatewayFirewallExclusion {
      * @param matchVariable the matchVariable value to set.
      * @return the ApplicationGatewayFirewallExclusion object itself.
      */
-    public ApplicationGatewayFirewallExclusion setMatchVariable(String matchVariable) {
+    public ApplicationGatewayFirewallExclusion withMatchVariable(String matchVariable) {
         this.matchVariable = matchVariable;
         return this;
     }
@@ -61,7 +61,7 @@ public final class ApplicationGatewayFirewallExclusion {
      * 
      * @return the selectorMatchOperator value.
      */
-    public String getSelectorMatchOperator() {
+    public String selectorMatchOperator() {
         return this.selectorMatchOperator;
     }
 
@@ -73,7 +73,7 @@ public final class ApplicationGatewayFirewallExclusion {
      * @param selectorMatchOperator the selectorMatchOperator value to set.
      * @return the ApplicationGatewayFirewallExclusion object itself.
      */
-    public ApplicationGatewayFirewallExclusion setSelectorMatchOperator(String selectorMatchOperator) {
+    public ApplicationGatewayFirewallExclusion withSelectorMatchOperator(String selectorMatchOperator) {
         this.selectorMatchOperator = selectorMatchOperator;
         return this;
     }
@@ -85,7 +85,7 @@ public final class ApplicationGatewayFirewallExclusion {
      * 
      * @return the selector value.
      */
-    public String getSelector() {
+    public String selector() {
         return this.selector;
     }
 
@@ -97,7 +97,7 @@ public final class ApplicationGatewayFirewallExclusion {
      * @param selector the selector value to set.
      * @return the ApplicationGatewayFirewallExclusion object itself.
      */
-    public ApplicationGatewayFirewallExclusion setSelector(String selector) {
+    public ApplicationGatewayFirewallExclusion withSelector(String selector) {
         this.selector = selector;
         return this;
     }

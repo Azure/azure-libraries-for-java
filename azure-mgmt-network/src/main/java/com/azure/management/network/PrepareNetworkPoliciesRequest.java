@@ -33,7 +33,7 @@ public final class PrepareNetworkPoliciesRequest {
      * 
      * @return the serviceName value.
      */
-    public String getServiceName() {
+    public String serviceName() {
         return this.serviceName;
     }
 
@@ -44,7 +44,7 @@ public final class PrepareNetworkPoliciesRequest {
      * @param serviceName the serviceName value to set.
      * @return the PrepareNetworkPoliciesRequest object itself.
      */
-    public PrepareNetworkPoliciesRequest setServiceName(String serviceName) {
+    public PrepareNetworkPoliciesRequest withServiceName(String serviceName) {
         this.serviceName = serviceName;
         return this;
     }
@@ -55,7 +55,7 @@ public final class PrepareNetworkPoliciesRequest {
      * 
      * @return the networkIntentPolicyConfigurations value.
      */
-    public List<NetworkIntentPolicyConfiguration> getNetworkIntentPolicyConfigurations() {
+    public List<NetworkIntentPolicyConfiguration> networkIntentPolicyConfigurations() {
         return this.networkIntentPolicyConfigurations;
     }
 
@@ -67,7 +67,7 @@ public final class PrepareNetworkPoliciesRequest {
      * networkIntentPolicyConfigurations value to set.
      * @return the PrepareNetworkPoliciesRequest object itself.
      */
-    public PrepareNetworkPoliciesRequest setNetworkIntentPolicyConfigurations(List<NetworkIntentPolicyConfiguration> networkIntentPolicyConfigurations) {
+    public PrepareNetworkPoliciesRequest withNetworkIntentPolicyConfigurations(List<NetworkIntentPolicyConfiguration> networkIntentPolicyConfigurations) {
         this.networkIntentPolicyConfigurations = networkIntentPolicyConfigurations;
         return this;
     }

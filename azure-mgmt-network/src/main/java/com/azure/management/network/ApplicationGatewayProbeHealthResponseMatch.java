@@ -35,7 +35,7 @@ public final class ApplicationGatewayProbeHealthResponseMatch {
      * 
      * @return the body value.
      */
-    public String getBody() {
+    public String body() {
         return this.body;
     }
 
@@ -46,7 +46,7 @@ public final class ApplicationGatewayProbeHealthResponseMatch {
      * @param body the body value to set.
      * @return the ApplicationGatewayProbeHealthResponseMatch object itself.
      */
-    public ApplicationGatewayProbeHealthResponseMatch setBody(String body) {
+    public ApplicationGatewayProbeHealthResponseMatch withBody(String body) {
         this.body = body;
         return this;
     }
@@ -57,7 +57,7 @@ public final class ApplicationGatewayProbeHealthResponseMatch {
      * 
      * @return the statusCodes value.
      */
-    public List<String> getStatusCodes() {
+    public List<String> statusCodes() {
         return this.statusCodes;
     }
 
@@ -68,7 +68,7 @@ public final class ApplicationGatewayProbeHealthResponseMatch {
      * @param statusCodes the statusCodes value to set.
      * @return the ApplicationGatewayProbeHealthResponseMatch object itself.
      */
-    public ApplicationGatewayProbeHealthResponseMatch setStatusCodes(List<String> statusCodes) {
+    public ApplicationGatewayProbeHealthResponseMatch withStatusCodes(List<String> statusCodes) {
         this.statusCodes = statusCodes;
         return this;
     }

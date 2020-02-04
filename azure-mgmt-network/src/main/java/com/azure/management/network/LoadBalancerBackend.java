@@ -5,26 +5,26 @@
  */
 package com.azure.management.network;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.BackendAddressPoolInner;
+import com.azure.management.network.models.HasBackendNics;
+import com.azure.management.network.models.HasLoadBalancingRules;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
+
 import java.util.Collection;
 import java.util.Set;
-
-import com.azure.management.network.implementation.BackendAddressPoolInner;
-import com.azure.management.network.model.HasBackendNics;
-import com.azure.management.network.model.HasLoadBalancingRules;
-import com.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * A client-side representation of a load balancer backend address pool.
  */
 @Fluent()
 public interface LoadBalancerBackend extends
-    HasInner<BackendAddressPoolInner>,
-    ChildResource<LoadBalancer>,
+        HasInner<BackendAddressPoolInner>,
+        ChildResource<LoadBalancer>,
         HasLoadBalancingRules,
         HasBackendNics {
 
@@ -39,6 +39,7 @@ public interface LoadBalancerBackend extends
     interface DefinitionStages {
         /**
          * The first stage of a load balancer backend definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithAttach<ParentT> {
@@ -47,6 +48,7 @@ public interface LoadBalancerBackend extends
         /**
          * The stage of a load balancer backend definition allowing to select a set of virtual machines to load balance
          * the network traffic among.
+         *
          * @param <ReturnT> the next stage of the definition
          */
         interface WithVirtualMachine<ReturnT> {
@@ -61,10 +63,11 @@ public interface LoadBalancerBackend extends
              * <p>
              * Only those virtual machines will be associated with the load balancer that already have an existing
              * network interface. Virtual machines without a network interface will be skipped.
+             *
              * @param vms existing virtual machines
              * @return the next stage of the definition
              */
-            WithAttach<ReturnT> withExistingVirtualMachines(HasNetworkInterfaces...vms);
+            WithAttach<ReturnT> withExistingVirtualMachines(HasNetworkInterfaces... vms);
 
             /**
              * Adds the specified set of virtual machines, assuming they are from the same
@@ -77,30 +80,35 @@ public interface LoadBalancerBackend extends
              * <p>
              * Only those virtual machines will be associated with the load balancer that already have an existing
              * network interface. Virtual machines without a network interface will be skipped.
+             *
              * @param vms existing virtual machines
              * @return the next stage of the definition
              */
             WithAttach<ReturnT> withExistingVirtualMachines(Collection<HasNetworkInterfaces> vms);
         }
 
-        /** The final stage of a load balancer backend definition.
+        /**
+         * The final stage of a load balancer backend definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the definition
          * can be attached to the parent load balancer definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-            Attachable.InDefinition<ParentT>,
-            WithVirtualMachine<ParentT> {
+                Attachable.InDefinition<ParentT>,
+                WithVirtualMachine<ParentT> {
         }
     }
 
-    /** The entirety of a load balancer backend definition.
+    /**
+     * The entirety of a load balancer backend definition.
+     *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface Definition<ParentT> extends
-        DefinitionStages.Blank<ParentT>,
-        DefinitionStages.WithAttach<ParentT> {
+            DefinitionStages.Blank<ParentT>,
+            DefinitionStages.WithAttach<ParentT> {
     }
 
     /**
@@ -113,7 +121,7 @@ public interface LoadBalancerBackend extends
      * The entirety of a load balancer backend update as part of a load balancer update.
      */
     interface Update extends
-        Settable<LoadBalancer.Update> {
+            Settable<LoadBalancer.Update> {
     }
 
     /**
@@ -122,6 +130,7 @@ public interface LoadBalancerBackend extends
     interface UpdateDefinitionStages {
         /**
          * The first stage of a load balancer backend definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithAttach<ParentT> {
@@ -130,6 +139,7 @@ public interface LoadBalancerBackend extends
         /**
          * The stage of a load balancer backend definition allowing to select a set of virtual machines to load balance
          * the network traffic among.
+         *
          * @param <ReturnT> the next stage of the definition
          */
         interface WithVirtualMachine<ReturnT> {
@@ -144,10 +154,11 @@ public interface LoadBalancerBackend extends
              * <p>
              * Only those virtual machines will be associated with the load balancer that already have an existing
              * network interface. Virtual machines without a network interface will be skipped.
+             *
              * @param vms existing virtual machines
              * @return the next stage of the definition
              */
-            WithAttach<ReturnT> withExistingVirtualMachines(HasNetworkInterfaces...vms);
+            WithAttach<ReturnT> withExistingVirtualMachines(HasNetworkInterfaces... vms);
 
             /**
              * Adds the specified set of virtual machines, assuming they are from the same
@@ -160,29 +171,34 @@ public interface LoadBalancerBackend extends
              * <p>
              * Only those virtual machines will be associated with the load balancer that already have an existing
              * network interface. Virtual machines without a network interface will be skipped.
+             *
              * @param vms existing virtual machines
              * @return the next stage of the definition
              */
             WithAttach<ReturnT> withExistingVirtualMachines(Collection<HasNetworkInterfaces> vms);
         }
 
-        /** The final stage of a load balancer backend definition.
+        /**
+         * The final stage of a load balancer backend definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the definition
          * can be attached to the parent load balancer definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-            Attachable.InUpdate<ParentT>,
-            WithVirtualMachine<ParentT> {
+                Attachable.InUpdate<ParentT>,
+                WithVirtualMachine<ParentT> {
         }
     }
 
-    /** The entirety of a load balancer backend definition as part of a load balancer update.
+    /**
+     * The entirety of a load balancer backend definition as part of a load balancer update.
+     *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface UpdateDefinition<ParentT> extends
-        UpdateDefinitionStages.Blank<ParentT>,
-        UpdateDefinitionStages.WithAttach<ParentT> {
+            UpdateDefinitionStages.Blank<ParentT>,
+            UpdateDefinitionStages.WithAttach<ParentT> {
     }
 }

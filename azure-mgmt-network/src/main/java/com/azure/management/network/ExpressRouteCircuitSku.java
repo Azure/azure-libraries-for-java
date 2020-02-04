@@ -37,7 +37,7 @@ public final class ExpressRouteCircuitSku {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -47,7 +47,7 @@ public final class ExpressRouteCircuitSku {
      * @param name the name value to set.
      * @return the ExpressRouteCircuitSku object itself.
      */
-    public ExpressRouteCircuitSku setName(String name) {
+    public ExpressRouteCircuitSku withName(String name) {
         this.name = name;
         return this;
     }
@@ -57,7 +57,7 @@ public final class ExpressRouteCircuitSku {
      * 
      * @return the tier value.
      */
-    public ExpressRouteCircuitSkuTier getTier() {
+    public ExpressRouteCircuitSkuTier tier() {
         return this.tier;
     }
 
@@ -67,7 +67,7 @@ public final class ExpressRouteCircuitSku {
      * @param tier the tier value to set.
      * @return the ExpressRouteCircuitSku object itself.
      */
-    public ExpressRouteCircuitSku setTier(ExpressRouteCircuitSkuTier tier) {
+    public ExpressRouteCircuitSku withTier(ExpressRouteCircuitSkuTier tier) {
         this.tier = tier;
         return this;
     }
@@ -77,7 +77,7 @@ public final class ExpressRouteCircuitSku {
      * 
      * @return the family value.
      */
-    public ExpressRouteCircuitSkuFamily getFamily() {
+    public ExpressRouteCircuitSkuFamily family() {
         return this.family;
     }
 
@@ -87,7 +87,7 @@ public final class ExpressRouteCircuitSku {
      * @param family the family value to set.
      * @return the ExpressRouteCircuitSku object itself.
      */
-    public ExpressRouteCircuitSku setFamily(ExpressRouteCircuitSkuFamily family) {
+    public ExpressRouteCircuitSku withFamily(ExpressRouteCircuitSkuFamily family) {
         this.family = family;
         return this;
     }

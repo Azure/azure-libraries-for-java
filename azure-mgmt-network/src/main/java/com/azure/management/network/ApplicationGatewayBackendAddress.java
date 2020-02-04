@@ -31,7 +31,7 @@ public final class ApplicationGatewayBackendAddress {
      * 
      * @return the fqdn value.
      */
-    public String getFqdn() {
+    public String fqdn() {
         return this.fqdn;
     }
 
@@ -41,7 +41,7 @@ public final class ApplicationGatewayBackendAddress {
      * @param fqdn the fqdn value to set.
      * @return the ApplicationGatewayBackendAddress object itself.
      */
-    public ApplicationGatewayBackendAddress setFqdn(String fqdn) {
+    public ApplicationGatewayBackendAddress withFqdn(String fqdn) {
         this.fqdn = fqdn;
         return this;
     }
@@ -51,7 +51,7 @@ public final class ApplicationGatewayBackendAddress {
      * 
      * @return the ipAddress value.
      */
-    public String getIpAddress() {
+    public String ipAddress() {
         return this.ipAddress;
     }
 
@@ -61,7 +61,7 @@ public final class ApplicationGatewayBackendAddress {
      * @param ipAddress the ipAddress value to set.
      * @return the ApplicationGatewayBackendAddress object itself.
      */
-    public ApplicationGatewayBackendAddress setIpAddress(String ipAddress) {
+    public ApplicationGatewayBackendAddress withIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
         return this;
     }

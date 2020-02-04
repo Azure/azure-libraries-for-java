@@ -31,7 +31,7 @@ public final class HTTPHeader {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -41,7 +41,7 @@ public final class HTTPHeader {
      * @param name the name value to set.
      * @return the HTTPHeader object itself.
      */
-    public HTTPHeader setName(String name) {
+    public HTTPHeader withName(String name) {
         this.name = name;
         return this;
     }
@@ -51,7 +51,7 @@ public final class HTTPHeader {
      * 
      * @return the value value.
      */
-    public String getValue() {
+    public String value() {
         return this.value;
     }
 
@@ -61,7 +61,7 @@ public final class HTTPHeader {
      * @param value the value value to set.
      * @return the HTTPHeader object itself.
      */
-    public HTTPHeader setValue(String value) {
+    public HTTPHeader withValue(String value) {
         this.value = value;
         return this;
     }

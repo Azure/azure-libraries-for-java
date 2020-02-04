@@ -37,7 +37,7 @@ public final class AzureReachabilityReportLocation {
      * 
      * @return the country value.
      */
-    public String getCountry() {
+    public String country() {
         return this.country;
     }
 
@@ -47,7 +47,7 @@ public final class AzureReachabilityReportLocation {
      * @param country the country value to set.
      * @return the AzureReachabilityReportLocation object itself.
      */
-    public AzureReachabilityReportLocation setCountry(String country) {
+    public AzureReachabilityReportLocation withCountry(String country) {
         this.country = country;
         return this;
     }
@@ -57,7 +57,7 @@ public final class AzureReachabilityReportLocation {
      * 
      * @return the state value.
      */
-    public String getState() {
+    public String state() {
         return this.state;
     }
 
@@ -67,7 +67,7 @@ public final class AzureReachabilityReportLocation {
      * @param state the state value to set.
      * @return the AzureReachabilityReportLocation object itself.
      */
-    public AzureReachabilityReportLocation setState(String state) {
+    public AzureReachabilityReportLocation withState(String state) {
         this.state = state;
         return this;
     }
@@ -77,7 +77,7 @@ public final class AzureReachabilityReportLocation {
      * 
      * @return the city value.
      */
-    public String getCity() {
+    public String city() {
         return this.city;
     }
 
@@ -87,7 +87,7 @@ public final class AzureReachabilityReportLocation {
      * @param city the city value to set.
      * @return the AzureReachabilityReportLocation object itself.
      */
-    public AzureReachabilityReportLocation setCity(String city) {
+    public AzureReachabilityReportLocation withCity(String city) {
         this.city = city;
         return this;
     }

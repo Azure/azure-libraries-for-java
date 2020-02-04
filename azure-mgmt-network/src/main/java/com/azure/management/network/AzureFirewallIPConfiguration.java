@@ -61,7 +61,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -72,7 +72,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * @param name the name value to set.
      * @return the AzureFirewallIPConfiguration object itself.
      */
-    public AzureFirewallIPConfiguration setName(String name) {
+    public AzureFirewallIPConfiguration withName(String name) {
         this.name = name;
         return this;
     }
@@ -83,7 +83,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -93,7 +93,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * 
      * @return the privateIPAddress value.
      */
-    public String getPrivateIPAddress() {
+    public String privateIPAddress() {
         return this.privateIPAddress;
     }
 
@@ -102,7 +102,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * 
      * @return the subnet value.
      */
-    public SubResource getSubnet() {
+    public SubResource subnet() {
         return this.subnet;
     }
 
@@ -112,7 +112,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * @param subnet the subnet value to set.
      * @return the AzureFirewallIPConfiguration object itself.
      */
-    public AzureFirewallIPConfiguration setSubnet(SubResource subnet) {
+    public AzureFirewallIPConfiguration withSubnet(SubResource subnet) {
         this.subnet = subnet;
         return this;
     }
@@ -122,7 +122,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * 
      * @return the publicIPAddress value.
      */
-    public SubResource getPublicIPAddress() {
+    public SubResource publicIPAddress() {
         return this.publicIPAddress;
     }
 
@@ -132,7 +132,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * @param publicIPAddress the publicIPAddress value to set.
      * @return the AzureFirewallIPConfiguration object itself.
      */
-    public AzureFirewallIPConfiguration setPublicIPAddress(SubResource publicIPAddress) {
+    public AzureFirewallIPConfiguration withPublicIPAddress(SubResource publicIPAddress) {
         this.publicIPAddress = publicIPAddress;
         return this;
     }
@@ -142,7 +142,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public ProvisioningState getProvisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -152,7 +152,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the AzureFirewallIPConfiguration object itself.
      */
-    public AzureFirewallIPConfiguration setProvisioningState(ProvisioningState provisioningState) {
+    public AzureFirewallIPConfiguration withProvisioningState(ProvisioningState provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

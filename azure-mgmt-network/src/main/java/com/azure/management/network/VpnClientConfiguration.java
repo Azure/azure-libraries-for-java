@@ -87,7 +87,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the vpnClientAddressPool value.
      */
-    public AddressSpace getVpnClientAddressPool() {
+    public AddressSpace vpnClientAddressPool() {
         return this.vpnClientAddressPool;
     }
 
@@ -98,7 +98,7 @@ public final class VpnClientConfiguration {
      * @param vpnClientAddressPool the vpnClientAddressPool value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setVpnClientAddressPool(AddressSpace vpnClientAddressPool) {
+    public VpnClientConfiguration withVpnClientAddressPool(AddressSpace vpnClientAddressPool) {
         this.vpnClientAddressPool = vpnClientAddressPool;
         return this;
     }
@@ -109,7 +109,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the vpnClientRootCertificates value.
      */
-    public List<VpnClientRootCertificate> getVpnClientRootCertificates() {
+    public List<VpnClientRootCertificate> vpnClientRootCertificates() {
         return this.vpnClientRootCertificates;
     }
 
@@ -121,7 +121,7 @@ public final class VpnClientConfiguration {
      * set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setVpnClientRootCertificates(List<VpnClientRootCertificate> vpnClientRootCertificates) {
+    public VpnClientConfiguration withVpnClientRootCertificates(List<VpnClientRootCertificate> vpnClientRootCertificates) {
         this.vpnClientRootCertificates = vpnClientRootCertificates;
         return this;
     }
@@ -132,7 +132,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the vpnClientRevokedCertificates value.
      */
-    public List<VpnClientRevokedCertificate> getVpnClientRevokedCertificates() {
+    public List<VpnClientRevokedCertificate> vpnClientRevokedCertificates() {
         return this.vpnClientRevokedCertificates;
     }
 
@@ -144,7 +144,7 @@ public final class VpnClientConfiguration {
      * value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setVpnClientRevokedCertificates(List<VpnClientRevokedCertificate> vpnClientRevokedCertificates) {
+    public VpnClientConfiguration withVpnClientRevokedCertificates(List<VpnClientRevokedCertificate> vpnClientRevokedCertificates) {
         this.vpnClientRevokedCertificates = vpnClientRevokedCertificates;
         return this;
     }
@@ -155,7 +155,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the vpnClientProtocols value.
      */
-    public List<VpnClientProtocol> getVpnClientProtocols() {
+    public List<VpnClientProtocol> vpnClientProtocols() {
         return this.vpnClientProtocols;
     }
 
@@ -166,7 +166,7 @@ public final class VpnClientConfiguration {
      * @param vpnClientProtocols the vpnClientProtocols value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setVpnClientProtocols(List<VpnClientProtocol> vpnClientProtocols) {
+    public VpnClientConfiguration withVpnClientProtocols(List<VpnClientProtocol> vpnClientProtocols) {
         this.vpnClientProtocols = vpnClientProtocols;
         return this;
     }
@@ -177,7 +177,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the vpnClientIpsecPolicies value.
      */
-    public List<IpsecPolicy> getVpnClientIpsecPolicies() {
+    public List<IpsecPolicy> vpnClientIpsecPolicies() {
         return this.vpnClientIpsecPolicies;
     }
 
@@ -188,7 +188,7 @@ public final class VpnClientConfiguration {
      * @param vpnClientIpsecPolicies the vpnClientIpsecPolicies value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setVpnClientIpsecPolicies(List<IpsecPolicy> vpnClientIpsecPolicies) {
+    public VpnClientConfiguration withVpnClientIpsecPolicies(List<IpsecPolicy> vpnClientIpsecPolicies) {
         this.vpnClientIpsecPolicies = vpnClientIpsecPolicies;
         return this;
     }
@@ -199,7 +199,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the radiusServerAddress value.
      */
-    public String getRadiusServerAddress() {
+    public String radiusServerAddress() {
         return this.radiusServerAddress;
     }
 
@@ -210,7 +210,7 @@ public final class VpnClientConfiguration {
      * @param radiusServerAddress the radiusServerAddress value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setRadiusServerAddress(String radiusServerAddress) {
+    public VpnClientConfiguration withRadiusServerAddress(String radiusServerAddress) {
         this.radiusServerAddress = radiusServerAddress;
         return this;
     }
@@ -221,7 +221,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the radiusServerSecret value.
      */
-    public String getRadiusServerSecret() {
+    public String radiusServerSecret() {
         return this.radiusServerSecret;
     }
 
@@ -232,7 +232,7 @@ public final class VpnClientConfiguration {
      * @param radiusServerSecret the radiusServerSecret value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setRadiusServerSecret(String radiusServerSecret) {
+    public VpnClientConfiguration withRadiusServerSecret(String radiusServerSecret) {
         this.radiusServerSecret = radiusServerSecret;
         return this;
     }
@@ -244,7 +244,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the aadTenant value.
      */
-    public String getAadTenant() {
+    public String aadTenant() {
         return this.aadTenant;
     }
 
@@ -256,7 +256,7 @@ public final class VpnClientConfiguration {
      * @param aadTenant the aadTenant value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setAadTenant(String aadTenant) {
+    public VpnClientConfiguration withAadTenant(String aadTenant) {
         this.aadTenant = aadTenant;
         return this;
     }
@@ -268,7 +268,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the aadAudience value.
      */
-    public String getAadAudience() {
+    public String aadAudience() {
         return this.aadAudience;
     }
 
@@ -280,7 +280,7 @@ public final class VpnClientConfiguration {
      * @param aadAudience the aadAudience value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setAadAudience(String aadAudience) {
+    public VpnClientConfiguration withAadAudience(String aadAudience) {
         this.aadAudience = aadAudience;
         return this;
     }
@@ -292,7 +292,7 @@ public final class VpnClientConfiguration {
      * 
      * @return the aadIssuer value.
      */
-    public String getAadIssuer() {
+    public String aadIssuer() {
         return this.aadIssuer;
     }
 
@@ -304,7 +304,7 @@ public final class VpnClientConfiguration {
      * @param aadIssuer the aadIssuer value to set.
      * @return the VpnClientConfiguration object itself.
      */
-    public VpnClientConfiguration setAadIssuer(String aadIssuer) {
+    public VpnClientConfiguration withAadIssuer(String aadIssuer) {
         this.aadIssuer = aadIssuer;
         return this;
     }

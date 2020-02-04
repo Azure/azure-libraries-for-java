@@ -33,7 +33,7 @@ public final class ConnectivitySource {
      * 
      * @return the resourceId value.
      */
-    public String getResourceId() {
+    public String resourceId() {
         return this.resourceId;
     }
 
@@ -44,7 +44,7 @@ public final class ConnectivitySource {
      * @param resourceId the resourceId value to set.
      * @return the ConnectivitySource object itself.
      */
-    public ConnectivitySource setResourceId(String resourceId) {
+    public ConnectivitySource withResourceId(String resourceId) {
         this.resourceId = resourceId;
         return this;
     }
@@ -55,7 +55,7 @@ public final class ConnectivitySource {
      * 
      * @return the port value.
      */
-    public Integer getPort() {
+    public Integer port() {
         return this.port;
     }
 
@@ -66,7 +66,7 @@ public final class ConnectivitySource {
      * @param port the port value to set.
      * @return the ConnectivitySource object itself.
      */
-    public ConnectivitySource setPort(Integer port) {
+    public ConnectivitySource withPort(Integer port) {
         this.port = port;
         return this;
     }

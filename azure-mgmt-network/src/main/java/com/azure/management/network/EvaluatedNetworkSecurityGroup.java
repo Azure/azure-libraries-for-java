@@ -44,7 +44,7 @@ public final class EvaluatedNetworkSecurityGroup {
      * 
      * @return the networkSecurityGroupId value.
      */
-    public String getNetworkSecurityGroupId() {
+    public String networkSecurityGroupId() {
         return this.networkSecurityGroupId;
     }
 
@@ -54,7 +54,7 @@ public final class EvaluatedNetworkSecurityGroup {
      * @param networkSecurityGroupId the networkSecurityGroupId value to set.
      * @return the EvaluatedNetworkSecurityGroup object itself.
      */
-    public EvaluatedNetworkSecurityGroup setNetworkSecurityGroupId(String networkSecurityGroupId) {
+    public EvaluatedNetworkSecurityGroup withNetworkSecurityGroupId(String networkSecurityGroupId) {
         this.networkSecurityGroupId = networkSecurityGroupId;
         return this;
     }
@@ -65,7 +65,7 @@ public final class EvaluatedNetworkSecurityGroup {
      * 
      * @return the appliedTo value.
      */
-    public String getAppliedTo() {
+    public String appliedTo() {
         return this.appliedTo;
     }
 
@@ -76,7 +76,7 @@ public final class EvaluatedNetworkSecurityGroup {
      * @param appliedTo the appliedTo value to set.
      * @return the EvaluatedNetworkSecurityGroup object itself.
      */
-    public EvaluatedNetworkSecurityGroup setAppliedTo(String appliedTo) {
+    public EvaluatedNetworkSecurityGroup withAppliedTo(String appliedTo) {
         this.appliedTo = appliedTo;
         return this;
     }
@@ -86,7 +86,7 @@ public final class EvaluatedNetworkSecurityGroup {
      * 
      * @return the matchedRule value.
      */
-    public MatchedRule getMatchedRule() {
+    public MatchedRule matchedRule() {
         return this.matchedRule;
     }
 
@@ -96,7 +96,7 @@ public final class EvaluatedNetworkSecurityGroup {
      * @param matchedRule the matchedRule value to set.
      * @return the EvaluatedNetworkSecurityGroup object itself.
      */
-    public EvaluatedNetworkSecurityGroup setMatchedRule(MatchedRule matchedRule) {
+    public EvaluatedNetworkSecurityGroup withMatchedRule(MatchedRule matchedRule) {
         this.matchedRule = matchedRule;
         return this;
     }
@@ -107,7 +107,7 @@ public final class EvaluatedNetworkSecurityGroup {
      * 
      * @return the rulesEvaluationResult value.
      */
-    public List<NetworkSecurityRulesEvaluationResult> getRulesEvaluationResult() {
+    public List<NetworkSecurityRulesEvaluationResult> rulesEvaluationResult() {
         return this.rulesEvaluationResult;
     }
 }

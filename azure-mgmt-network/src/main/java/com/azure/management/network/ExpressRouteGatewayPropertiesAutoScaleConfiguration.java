@@ -26,7 +26,7 @@ public final class ExpressRouteGatewayPropertiesAutoScaleConfiguration {
      * 
      * @return the bounds value.
      */
-    public ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds getBounds() {
+    public ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds bounds() {
         return this.bounds;
     }
 
@@ -38,7 +38,7 @@ public final class ExpressRouteGatewayPropertiesAutoScaleConfiguration {
      * @return the ExpressRouteGatewayPropertiesAutoScaleConfiguration object
      * itself.
      */
-    public ExpressRouteGatewayPropertiesAutoScaleConfiguration setBounds(ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds bounds) {
+    public ExpressRouteGatewayPropertiesAutoScaleConfiguration withBounds(ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds bounds) {
         this.bounds = bounds;
         return this;
     }

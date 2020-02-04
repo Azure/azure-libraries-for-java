@@ -32,7 +32,7 @@ public final class ApplicationGatewayCustomError {
      * 
      * @return the statusCode value.
      */
-    public ApplicationGatewayCustomErrorStatusCode getStatusCode() {
+    public ApplicationGatewayCustomErrorStatusCode statusCode() {
         return this.statusCode;
     }
 
@@ -43,7 +43,7 @@ public final class ApplicationGatewayCustomError {
      * @param statusCode the statusCode value to set.
      * @return the ApplicationGatewayCustomError object itself.
      */
-    public ApplicationGatewayCustomError setStatusCode(ApplicationGatewayCustomErrorStatusCode statusCode) {
+    public ApplicationGatewayCustomError withStatusCode(ApplicationGatewayCustomErrorStatusCode statusCode) {
         this.statusCode = statusCode;
         return this;
     }
@@ -54,7 +54,7 @@ public final class ApplicationGatewayCustomError {
      * 
      * @return the customErrorPageUrl value.
      */
-    public String getCustomErrorPageUrl() {
+    public String customErrorPageUrl() {
         return this.customErrorPageUrl;
     }
 
@@ -65,7 +65,7 @@ public final class ApplicationGatewayCustomError {
      * @param customErrorPageUrl the customErrorPageUrl value to set.
      * @return the ApplicationGatewayCustomError object itself.
      */
-    public ApplicationGatewayCustomError setCustomErrorPageUrl(String customErrorPageUrl) {
+    public ApplicationGatewayCustomError withCustomErrorPageUrl(String customErrorPageUrl) {
         this.customErrorPageUrl = customErrorPageUrl;
         return this;
     }

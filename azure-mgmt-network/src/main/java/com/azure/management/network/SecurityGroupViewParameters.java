@@ -25,7 +25,7 @@ public final class SecurityGroupViewParameters {
      * 
      * @return the targetResourceId value.
      */
-    public String getTargetResourceId() {
+    public String targetResourceId() {
         return this.targetResourceId;
     }
 
@@ -35,7 +35,7 @@ public final class SecurityGroupViewParameters {
      * @param targetResourceId the targetResourceId value to set.
      * @return the SecurityGroupViewParameters object itself.
      */
-    public SecurityGroupViewParameters setTargetResourceId(String targetResourceId) {
+    public SecurityGroupViewParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }

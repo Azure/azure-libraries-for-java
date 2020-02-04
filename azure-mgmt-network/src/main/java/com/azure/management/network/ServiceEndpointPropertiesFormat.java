@@ -38,7 +38,7 @@ public final class ServiceEndpointPropertiesFormat {
      * 
      * @return the service value.
      */
-    public String getService() {
+    public String service() {
         return this.service;
     }
 
@@ -48,7 +48,7 @@ public final class ServiceEndpointPropertiesFormat {
      * @param service the service value to set.
      * @return the ServiceEndpointPropertiesFormat object itself.
      */
-    public ServiceEndpointPropertiesFormat setService(String service) {
+    public ServiceEndpointPropertiesFormat withService(String service) {
         this.service = service;
         return this;
     }
@@ -58,7 +58,7 @@ public final class ServiceEndpointPropertiesFormat {
      * 
      * @return the locations value.
      */
-    public List<String> getLocations() {
+    public List<String> locations() {
         return this.locations;
     }
 
@@ -68,7 +68,7 @@ public final class ServiceEndpointPropertiesFormat {
      * @param locations the locations value to set.
      * @return the ServiceEndpointPropertiesFormat object itself.
      */
-    public ServiceEndpointPropertiesFormat setLocations(List<String> locations) {
+    public ServiceEndpointPropertiesFormat withLocations(List<String> locations) {
         this.locations = locations;
         return this;
     }
@@ -79,7 +79,7 @@ public final class ServiceEndpointPropertiesFormat {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 
@@ -90,7 +90,7 @@ public final class ServiceEndpointPropertiesFormat {
      * @param provisioningState the provisioningState value to set.
      * @return the ServiceEndpointPropertiesFormat object itself.
      */
-    public ServiceEndpointPropertiesFormat setProvisioningState(String provisioningState) {
+    public ServiceEndpointPropertiesFormat withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

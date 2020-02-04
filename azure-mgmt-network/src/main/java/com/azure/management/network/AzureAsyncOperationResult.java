@@ -31,7 +31,7 @@ public final class AzureAsyncOperationResult {
      * 
      * @return the status value.
      */
-    public NetworkOperationStatus getStatus() {
+    public NetworkOperationStatus status() {
         return this.status;
     }
 
@@ -41,7 +41,7 @@ public final class AzureAsyncOperationResult {
      * @param status the status value to set.
      * @return the AzureAsyncOperationResult object itself.
      */
-    public AzureAsyncOperationResult setStatus(NetworkOperationStatus status) {
+    public AzureAsyncOperationResult withStatus(NetworkOperationStatus status) {
         this.status = status;
         return this;
     }
@@ -51,7 +51,7 @@ public final class AzureAsyncOperationResult {
      * 
      * @return the error value.
      */
-    public Error getError() {
+    public Error error() {
         return this.error;
     }
 
@@ -61,7 +61,7 @@ public final class AzureAsyncOperationResult {
      * @param error the error value to set.
      * @return the AzureAsyncOperationResult object itself.
      */
-    public AzureAsyncOperationResult setError(Error error) {
+    public AzureAsyncOperationResult withError(Error error) {
         this.error = error;
         return this;
     }

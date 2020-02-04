@@ -50,7 +50,7 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -61,7 +61,7 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
      * @param name the name value to set.
      * @return the P2SVpnServerConfigVpnClientRootCertificate object itself.
      */
-    public P2SVpnServerConfigVpnClientRootCertificate setName(String name) {
+    public P2SVpnServerConfigVpnClientRootCertificate withName(String name) {
         this.name = name;
         return this;
     }
@@ -72,7 +72,7 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -83,7 +83,7 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
      * @param etag the etag value to set.
      * @return the P2SVpnServerConfigVpnClientRootCertificate object itself.
      */
-    public P2SVpnServerConfigVpnClientRootCertificate setEtag(String etag) {
+    public P2SVpnServerConfigVpnClientRootCertificate withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -93,7 +93,7 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
      * 
      * @return the publicCertData value.
      */
-    public String getPublicCertData() {
+    public String publicCertData() {
         return this.publicCertData;
     }
 
@@ -103,7 +103,7 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
      * @param publicCertData the publicCertData value to set.
      * @return the P2SVpnServerConfigVpnClientRootCertificate object itself.
      */
-    public P2SVpnServerConfigVpnClientRootCertificate setPublicCertData(String publicCertData) {
+    public P2SVpnServerConfigVpnClientRootCertificate withPublicCertData(String publicCertData) {
         this.publicCertData = publicCertData;
         return this;
     }
@@ -115,7 +115,7 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

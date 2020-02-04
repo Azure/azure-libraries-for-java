@@ -39,7 +39,7 @@ public final class TopologyParameters {
      * 
      * @return the targetResourceGroupName value.
      */
-    public String getTargetResourceGroupName() {
+    public String targetResourceGroupName() {
         return this.targetResourceGroupName;
     }
 
@@ -50,7 +50,7 @@ public final class TopologyParameters {
      * @param targetResourceGroupName the targetResourceGroupName value to set.
      * @return the TopologyParameters object itself.
      */
-    public TopologyParameters setTargetResourceGroupName(String targetResourceGroupName) {
+    public TopologyParameters withTargetResourceGroupName(String targetResourceGroupName) {
         this.targetResourceGroupName = targetResourceGroupName;
         return this;
     }
@@ -60,7 +60,7 @@ public final class TopologyParameters {
      * 
      * @return the targetVirtualNetwork value.
      */
-    public SubResource getTargetVirtualNetwork() {
+    public SubResource targetVirtualNetwork() {
         return this.targetVirtualNetwork;
     }
 
@@ -70,7 +70,7 @@ public final class TopologyParameters {
      * @param targetVirtualNetwork the targetVirtualNetwork value to set.
      * @return the TopologyParameters object itself.
      */
-    public TopologyParameters setTargetVirtualNetwork(SubResource targetVirtualNetwork) {
+    public TopologyParameters withTargetVirtualNetwork(SubResource targetVirtualNetwork) {
         this.targetVirtualNetwork = targetVirtualNetwork;
         return this;
     }
@@ -80,7 +80,7 @@ public final class TopologyParameters {
      * 
      * @return the targetSubnet value.
      */
-    public SubResource getTargetSubnet() {
+    public SubResource targetSubnet() {
         return this.targetSubnet;
     }
 
@@ -90,7 +90,7 @@ public final class TopologyParameters {
      * @param targetSubnet the targetSubnet value to set.
      * @return the TopologyParameters object itself.
      */
-    public TopologyParameters setTargetSubnet(SubResource targetSubnet) {
+    public TopologyParameters withTargetSubnet(SubResource targetSubnet) {
         this.targetSubnet = targetSubnet;
         return this;
     }

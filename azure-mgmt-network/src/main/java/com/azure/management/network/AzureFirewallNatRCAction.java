@@ -25,7 +25,7 @@ public final class AzureFirewallNatRCAction {
      * 
      * @return the type value.
      */
-    public AzureFirewallNatRCActionType getType() {
+    public AzureFirewallNatRCActionType type() {
         return this.type;
     }
 
@@ -35,7 +35,7 @@ public final class AzureFirewallNatRCAction {
      * @param type the type value to set.
      * @return the AzureFirewallNatRCAction object itself.
      */
-    public AzureFirewallNatRCAction setType(AzureFirewallNatRCActionType type) {
+    public AzureFirewallNatRCAction withType(AzureFirewallNatRCActionType type) {
         this.type = type;
         return this;
     }

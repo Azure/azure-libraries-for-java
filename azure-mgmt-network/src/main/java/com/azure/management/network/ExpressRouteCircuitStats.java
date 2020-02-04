@@ -5,16 +5,14 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.ExpressRouteCircuitStatsInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.ExpressRouteCircuitStatsInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * Contains stats associated with the peering.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
 public interface ExpressRouteCircuitStats extends HasInner<ExpressRouteCircuitStatsInner> {
     /**
      * @return inbound bytes through primary channel of the peering

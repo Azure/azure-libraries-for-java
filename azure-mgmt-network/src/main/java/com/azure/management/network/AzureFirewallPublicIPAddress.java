@@ -25,7 +25,7 @@ public final class AzureFirewallPublicIPAddress {
      * 
      * @return the address value.
      */
-    public String getAddress() {
+    public String address() {
         return this.address;
     }
 
@@ -35,7 +35,7 @@ public final class AzureFirewallPublicIPAddress {
      * @param address the address value to set.
      * @return the AzureFirewallPublicIPAddress object itself.
      */
-    public AzureFirewallPublicIPAddress setAddress(String address) {
+    public AzureFirewallPublicIPAddress withAddress(String address) {
         this.address = address;
         return this;
     }

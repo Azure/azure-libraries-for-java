@@ -81,7 +81,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the connectionState value.
      */
-    public ConnectionState getConnectionState() {
+    public ConnectionState connectionState() {
         return this.connectionState;
     }
 
@@ -91,7 +91,7 @@ public final class ConnectionStateSnapshot {
      * @param connectionState the connectionState value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot setConnectionState(ConnectionState connectionState) {
+    public ConnectionStateSnapshot withConnectionState(ConnectionState connectionState) {
         this.connectionState = connectionState;
         return this;
     }
@@ -101,7 +101,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the startTime value.
      */
-    public OffsetDateTime getStartTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
@@ -111,7 +111,7 @@ public final class ConnectionStateSnapshot {
      * @param startTime the startTime value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot setStartTime(OffsetDateTime startTime) {
+    public ConnectionStateSnapshot withStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -121,7 +121,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the endTime value.
      */
-    public OffsetDateTime getEndTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
@@ -131,7 +131,7 @@ public final class ConnectionStateSnapshot {
      * @param endTime the endTime value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot setEndTime(OffsetDateTime endTime) {
+    public ConnectionStateSnapshot withEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -142,7 +142,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the evaluationState value.
      */
-    public EvaluationState getEvaluationState() {
+    public EvaluationState evaluationState() {
         return this.evaluationState;
     }
 
@@ -153,7 +153,7 @@ public final class ConnectionStateSnapshot {
      * @param evaluationState the evaluationState value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot setEvaluationState(EvaluationState evaluationState) {
+    public ConnectionStateSnapshot withEvaluationState(EvaluationState evaluationState) {
         this.evaluationState = evaluationState;
         return this;
     }
@@ -163,7 +163,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the avgLatencyInMs value.
      */
-    public Integer getAvgLatencyInMs() {
+    public Integer avgLatencyInMs() {
         return this.avgLatencyInMs;
     }
 
@@ -173,7 +173,7 @@ public final class ConnectionStateSnapshot {
      * @param avgLatencyInMs the avgLatencyInMs value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot setAvgLatencyInMs(Integer avgLatencyInMs) {
+    public ConnectionStateSnapshot withAvgLatencyInMs(Integer avgLatencyInMs) {
         this.avgLatencyInMs = avgLatencyInMs;
         return this;
     }
@@ -183,7 +183,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the minLatencyInMs value.
      */
-    public Integer getMinLatencyInMs() {
+    public Integer minLatencyInMs() {
         return this.minLatencyInMs;
     }
 
@@ -193,7 +193,7 @@ public final class ConnectionStateSnapshot {
      * @param minLatencyInMs the minLatencyInMs value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot setMinLatencyInMs(Integer minLatencyInMs) {
+    public ConnectionStateSnapshot withMinLatencyInMs(Integer minLatencyInMs) {
         this.minLatencyInMs = minLatencyInMs;
         return this;
     }
@@ -203,7 +203,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the maxLatencyInMs value.
      */
-    public Integer getMaxLatencyInMs() {
+    public Integer maxLatencyInMs() {
         return this.maxLatencyInMs;
     }
 
@@ -213,7 +213,7 @@ public final class ConnectionStateSnapshot {
      * @param maxLatencyInMs the maxLatencyInMs value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot setMaxLatencyInMs(Integer maxLatencyInMs) {
+    public ConnectionStateSnapshot withMaxLatencyInMs(Integer maxLatencyInMs) {
         this.maxLatencyInMs = maxLatencyInMs;
         return this;
     }
@@ -223,7 +223,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the probesSent value.
      */
-    public Integer getProbesSent() {
+    public Integer probesSent() {
         return this.probesSent;
     }
 
@@ -233,7 +233,7 @@ public final class ConnectionStateSnapshot {
      * @param probesSent the probesSent value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot setProbesSent(Integer probesSent) {
+    public ConnectionStateSnapshot withProbesSent(Integer probesSent) {
         this.probesSent = probesSent;
         return this;
     }
@@ -243,7 +243,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the probesFailed value.
      */
-    public Integer getProbesFailed() {
+    public Integer probesFailed() {
         return this.probesFailed;
     }
 
@@ -253,7 +253,7 @@ public final class ConnectionStateSnapshot {
      * @param probesFailed the probesFailed value to set.
      * @return the ConnectionStateSnapshot object itself.
      */
-    public ConnectionStateSnapshot setProbesFailed(Integer probesFailed) {
+    public ConnectionStateSnapshot withProbesFailed(Integer probesFailed) {
         this.probesFailed = probesFailed;
         return this;
     }
@@ -264,7 +264,7 @@ public final class ConnectionStateSnapshot {
      * 
      * @return the hops value.
      */
-    public List<ConnectivityHop> getHops() {
+    public List<ConnectivityHop> hops() {
         return this.hops;
     }
 }

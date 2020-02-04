@@ -31,7 +31,7 @@ public final class UsageName {
      * 
      * @return the value value.
      */
-    public String getValue() {
+    public String value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class UsageName {
      * @param value the value value to set.
      * @return the UsageName object itself.
      */
-    public UsageName setValue(String value) {
+    public UsageName withValue(String value) {
         this.value = value;
         return this;
     }
@@ -52,7 +52,7 @@ public final class UsageName {
      * 
      * @return the localizedValue value.
      */
-    public String getLocalizedValue() {
+    public String localizedValue() {
         return this.localizedValue;
     }
 
@@ -63,7 +63,7 @@ public final class UsageName {
      * @param localizedValue the localizedValue value to set.
      * @return the UsageName object itself.
      */
-    public UsageName setLocalizedValue(String localizedValue) {
+    public UsageName withLocalizedValue(String localizedValue) {
         this.localizedValue = localizedValue;
         return this;
     }

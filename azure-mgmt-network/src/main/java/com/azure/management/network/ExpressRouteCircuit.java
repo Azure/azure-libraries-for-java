@@ -5,17 +5,16 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.ExpressRouteCircuitInner;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.ExpressRouteCircuitInner;
+import com.azure.management.network.models.UpdatableWithTags;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 import java.util.Map;
 
@@ -23,7 +22,6 @@ import java.util.Map;
  * Entry point for Express Route Circuit management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
 public interface ExpressRouteCircuit extends
         GroupableResource<NetworkManager, ExpressRouteCircuitInner>,
         Refreshable<ExpressRouteCircuit>,
@@ -56,6 +54,7 @@ public interface ExpressRouteCircuit extends
 
     /**
      * The ServiceProviderProvisioningState state of the resource.
+     *
      * @return serviceProviderProvisioningState
      */
     ServiceProviderProvisioningState serviceProviderProvisioningState();
@@ -82,6 +81,7 @@ public interface ExpressRouteCircuit extends
 
     /**
      * Gets the provisioning state of the express route circuit resource.
+     *
      * @return provisioningState
      */
     String provisioningState();

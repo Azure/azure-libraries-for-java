@@ -7,7 +7,7 @@
 package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.network.model.ApplicationGatewayBackendHealthServerInner;
+import com.azure.management.network.models.ApplicationGatewayBackendHealthServerInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public final class ApplicationGatewayBackendHealthHttpSettings {
      * 
      * @return the backendHttpSettings value.
      */
-    public ApplicationGatewayBackendHttpSettings getBackendHttpSettings() {
+    public ApplicationGatewayBackendHttpSettings backendHttpSettings() {
         return this.backendHttpSettings;
     }
 
@@ -45,7 +45,7 @@ public final class ApplicationGatewayBackendHealthHttpSettings {
      * @param backendHttpSettings the backendHttpSettings value to set.
      * @return the ApplicationGatewayBackendHealthHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHealthHttpSettings setBackendHttpSettings(ApplicationGatewayBackendHttpSettings backendHttpSettings) {
+    public ApplicationGatewayBackendHealthHttpSettings withBackendHttpSettings(ApplicationGatewayBackendHttpSettings backendHttpSettings) {
         this.backendHttpSettings = backendHttpSettings;
         return this;
     }
@@ -56,7 +56,7 @@ public final class ApplicationGatewayBackendHealthHttpSettings {
      * 
      * @return the servers value.
      */
-    public List<ApplicationGatewayBackendHealthServerInner> getServers() {
+    public List<ApplicationGatewayBackendHealthServerInner> servers() {
         return this.servers;
     }
 
@@ -67,7 +67,7 @@ public final class ApplicationGatewayBackendHealthHttpSettings {
      * @param servers the servers value to set.
      * @return the ApplicationGatewayBackendHealthHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHealthHttpSettings setServers(List<ApplicationGatewayBackendHealthServerInner> servers) {
+    public ApplicationGatewayBackendHealthHttpSettings withServers(List<ApplicationGatewayBackendHealthServerInner> servers) {
         this.servers = servers;
         return this;
     }

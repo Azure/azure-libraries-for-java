@@ -40,7 +40,7 @@ public class FirewallPolicyRule {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -50,7 +50,7 @@ public class FirewallPolicyRule {
      * @param name the name value to set.
      * @return the FirewallPolicyRule object itself.
      */
-    public FirewallPolicyRule setName(String name) {
+    public FirewallPolicyRule withName(String name) {
         this.name = name;
         return this;
     }
@@ -61,7 +61,7 @@ public class FirewallPolicyRule {
      * 
      * @return the priority value.
      */
-    public Integer getPriority() {
+    public Integer priority() {
         return this.priority;
     }
 
@@ -72,7 +72,7 @@ public class FirewallPolicyRule {
      * @param priority the priority value to set.
      * @return the FirewallPolicyRule object itself.
      */
-    public FirewallPolicyRule setPriority(Integer priority) {
+    public FirewallPolicyRule withPriority(Integer priority) {
         this.priority = priority;
         return this;
     }

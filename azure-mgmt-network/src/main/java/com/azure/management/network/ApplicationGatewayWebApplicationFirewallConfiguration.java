@@ -82,7 +82,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the enabled value.
      */
-    public boolean isEnabled() {
+    public boolean enabled() {
         return this.enabled;
     }
 
@@ -94,7 +94,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setEnabled(boolean enabled) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -104,7 +104,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the firewallMode value.
      */
-    public ApplicationGatewayFirewallMode getFirewallMode() {
+    public ApplicationGatewayFirewallMode firewallMode() {
         return this.firewallMode;
     }
 
@@ -115,7 +115,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setFirewallMode(ApplicationGatewayFirewallMode firewallMode) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withFirewallMode(ApplicationGatewayFirewallMode firewallMode) {
         this.firewallMode = firewallMode;
         return this;
     }
@@ -126,7 +126,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the ruleSetType value.
      */
-    public String getRuleSetType() {
+    public String ruleSetType() {
         return this.ruleSetType;
     }
 
@@ -138,7 +138,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setRuleSetType(String ruleSetType) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withRuleSetType(String ruleSetType) {
         this.ruleSetType = ruleSetType;
         return this;
     }
@@ -148,7 +148,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the ruleSetVersion value.
      */
-    public String getRuleSetVersion() {
+    public String ruleSetVersion() {
         return this.ruleSetVersion;
     }
 
@@ -159,7 +159,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setRuleSetVersion(String ruleSetVersion) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withRuleSetVersion(String ruleSetVersion) {
         this.ruleSetVersion = ruleSetVersion;
         return this;
     }
@@ -169,7 +169,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the disabledRuleGroups value.
      */
-    public List<ApplicationGatewayFirewallDisabledRuleGroup> getDisabledRuleGroups() {
+    public List<ApplicationGatewayFirewallDisabledRuleGroup> disabledRuleGroups() {
         return this.disabledRuleGroups;
     }
 
@@ -180,7 +180,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setDisabledRuleGroups(List<ApplicationGatewayFirewallDisabledRuleGroup> disabledRuleGroups) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withDisabledRuleGroups(List<ApplicationGatewayFirewallDisabledRuleGroup> disabledRuleGroups) {
         this.disabledRuleGroups = disabledRuleGroups;
         return this;
     }
@@ -191,7 +191,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the requestBodyCheck value.
      */
-    public Boolean isRequestBodyCheck() {
+    public Boolean requestBodyCheck() {
         return this.requestBodyCheck;
     }
 
@@ -203,7 +203,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setRequestBodyCheck(Boolean requestBodyCheck) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withRequestBodyCheck(Boolean requestBodyCheck) {
         this.requestBodyCheck = requestBodyCheck;
         return this;
     }
@@ -213,7 +213,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the maxRequestBodySize value.
      */
-    public Integer getMaxRequestBodySize() {
+    public Integer maxRequestBodySize() {
         return this.maxRequestBodySize;
     }
 
@@ -224,7 +224,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setMaxRequestBodySize(Integer maxRequestBodySize) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withMaxRequestBodySize(Integer maxRequestBodySize) {
         this.maxRequestBodySize = maxRequestBodySize;
         return this;
     }
@@ -235,7 +235,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the maxRequestBodySizeInKb value.
      */
-    public Integer getMaxRequestBodySizeInKb() {
+    public Integer maxRequestBodySizeInKb() {
         return this.maxRequestBodySizeInKb;
     }
 
@@ -247,7 +247,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setMaxRequestBodySizeInKb(Integer maxRequestBodySizeInKb) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withMaxRequestBodySizeInKb(Integer maxRequestBodySizeInKb) {
         this.maxRequestBodySizeInKb = maxRequestBodySizeInKb;
         return this;
     }
@@ -258,7 +258,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the fileUploadLimitInMb value.
      */
-    public Integer getFileUploadLimitInMb() {
+    public Integer fileUploadLimitInMb() {
         return this.fileUploadLimitInMb;
     }
 
@@ -270,7 +270,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setFileUploadLimitInMb(Integer fileUploadLimitInMb) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withFileUploadLimitInMb(Integer fileUploadLimitInMb) {
         this.fileUploadLimitInMb = fileUploadLimitInMb;
         return this;
     }
@@ -280,7 +280,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * 
      * @return the exclusions value.
      */
-    public List<ApplicationGatewayFirewallExclusion> getExclusions() {
+    public List<ApplicationGatewayFirewallExclusion> exclusions() {
         return this.exclusions;
     }
 
@@ -291,7 +291,7 @@ public final class ApplicationGatewayWebApplicationFirewallConfiguration {
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object
      * itself.
      */
-    public ApplicationGatewayWebApplicationFirewallConfiguration setExclusions(List<ApplicationGatewayFirewallExclusion> exclusions) {
+    public ApplicationGatewayWebApplicationFirewallConfiguration withExclusions(List<ApplicationGatewayFirewallExclusion> exclusions) {
         this.exclusions = exclusions;
         return this;
     }

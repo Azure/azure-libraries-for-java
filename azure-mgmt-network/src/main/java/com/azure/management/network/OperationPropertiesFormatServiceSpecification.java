@@ -32,7 +32,7 @@ public final class OperationPropertiesFormatServiceSpecification {
      * 
      * @return the metricSpecifications value.
      */
-    public List<MetricSpecification> getMetricSpecifications() {
+    public List<MetricSpecification> metricSpecifications() {
         return this.metricSpecifications;
     }
 
@@ -42,7 +42,7 @@ public final class OperationPropertiesFormatServiceSpecification {
      * @param metricSpecifications the metricSpecifications value to set.
      * @return the OperationPropertiesFormatServiceSpecification object itself.
      */
-    public OperationPropertiesFormatServiceSpecification setMetricSpecifications(List<MetricSpecification> metricSpecifications) {
+    public OperationPropertiesFormatServiceSpecification withMetricSpecifications(List<MetricSpecification> metricSpecifications) {
         this.metricSpecifications = metricSpecifications;
         return this;
     }
@@ -52,7 +52,7 @@ public final class OperationPropertiesFormatServiceSpecification {
      * 
      * @return the logSpecifications value.
      */
-    public List<LogSpecification> getLogSpecifications() {
+    public List<LogSpecification> logSpecifications() {
         return this.logSpecifications;
     }
 
@@ -62,7 +62,7 @@ public final class OperationPropertiesFormatServiceSpecification {
      * @param logSpecifications the logSpecifications value to set.
      * @return the OperationPropertiesFormatServiceSpecification object itself.
      */
-    public OperationPropertiesFormatServiceSpecification setLogSpecifications(List<LogSpecification> logSpecifications) {
+    public OperationPropertiesFormatServiceSpecification withLogSpecifications(List<LogSpecification> logSpecifications) {
         this.logSpecifications = logSpecifications;
         return this;
     }

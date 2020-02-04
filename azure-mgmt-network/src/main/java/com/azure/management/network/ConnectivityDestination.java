@@ -39,7 +39,7 @@ public final class ConnectivityDestination {
      * 
      * @return the resourceId value.
      */
-    public String getResourceId() {
+    public String resourceId() {
         return this.resourceId;
     }
 
@@ -50,7 +50,7 @@ public final class ConnectivityDestination {
      * @param resourceId the resourceId value to set.
      * @return the ConnectivityDestination object itself.
      */
-    public ConnectivityDestination setResourceId(String resourceId) {
+    public ConnectivityDestination withResourceId(String resourceId) {
         this.resourceId = resourceId;
         return this;
     }
@@ -61,7 +61,7 @@ public final class ConnectivityDestination {
      * 
      * @return the address value.
      */
-    public String getAddress() {
+    public String address() {
         return this.address;
     }
 
@@ -72,7 +72,7 @@ public final class ConnectivityDestination {
      * @param address the address value to set.
      * @return the ConnectivityDestination object itself.
      */
-    public ConnectivityDestination setAddress(String address) {
+    public ConnectivityDestination withAddress(String address) {
         this.address = address;
         return this;
     }
@@ -83,7 +83,7 @@ public final class ConnectivityDestination {
      * 
      * @return the port value.
      */
-    public Integer getPort() {
+    public Integer port() {
         return this.port;
     }
 
@@ -94,7 +94,7 @@ public final class ConnectivityDestination {
      * @param port the port value to set.
      * @return the ConnectivityDestination object itself.
      */
-    public ConnectivityDestination setPort(Integer port) {
+    public ConnectivityDestination withPort(Integer port) {
         this.port = port;
         return this;
     }

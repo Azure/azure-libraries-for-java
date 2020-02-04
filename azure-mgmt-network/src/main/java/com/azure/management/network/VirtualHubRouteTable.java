@@ -26,7 +26,7 @@ public final class VirtualHubRouteTable {
      * 
      * @return the routes value.
      */
-    public List<VirtualHubRoute> getRoutes() {
+    public List<VirtualHubRoute> routes() {
         return this.routes;
     }
 
@@ -36,7 +36,7 @@ public final class VirtualHubRouteTable {
      * @param routes the routes value to set.
      * @return the VirtualHubRouteTable object itself.
      */
-    public VirtualHubRouteTable setRoutes(List<VirtualHubRoute> routes) {
+    public VirtualHubRouteTable withRoutes(List<VirtualHubRoute> routes) {
         this.routes = routes;
         return this;
     }

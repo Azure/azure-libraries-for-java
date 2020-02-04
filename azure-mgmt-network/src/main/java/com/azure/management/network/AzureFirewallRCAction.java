@@ -25,7 +25,7 @@ public final class AzureFirewallRCAction {
      * 
      * @return the type value.
      */
-    public AzureFirewallRCActionType getType() {
+    public AzureFirewallRCActionType type() {
         return this.type;
     }
 
@@ -35,7 +35,7 @@ public final class AzureFirewallRCAction {
      * @param type the type value to set.
      * @return the AzureFirewallRCAction object itself.
      */
-    public AzureFirewallRCAction setType(AzureFirewallRCActionType type) {
+    public AzureFirewallRCAction withType(AzureFirewallRCActionType type) {
         this.type = type;
         return this;
     }

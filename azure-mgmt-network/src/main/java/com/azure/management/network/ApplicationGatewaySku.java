@@ -37,7 +37,7 @@ public final class ApplicationGatewaySku {
      * 
      * @return the name value.
      */
-    public ApplicationGatewaySkuName getName() {
+    public ApplicationGatewaySkuName name() {
         return this.name;
     }
 
@@ -47,7 +47,7 @@ public final class ApplicationGatewaySku {
      * @param name the name value to set.
      * @return the ApplicationGatewaySku object itself.
      */
-    public ApplicationGatewaySku setName(ApplicationGatewaySkuName name) {
+    public ApplicationGatewaySku withName(ApplicationGatewaySkuName name) {
         this.name = name;
         return this;
     }
@@ -57,7 +57,7 @@ public final class ApplicationGatewaySku {
      * 
      * @return the tier value.
      */
-    public ApplicationGatewayTier getTier() {
+    public ApplicationGatewayTier tier() {
         return this.tier;
     }
 
@@ -67,7 +67,7 @@ public final class ApplicationGatewaySku {
      * @param tier the tier value to set.
      * @return the ApplicationGatewaySku object itself.
      */
-    public ApplicationGatewaySku setTier(ApplicationGatewayTier tier) {
+    public ApplicationGatewaySku withTier(ApplicationGatewayTier tier) {
         this.tier = tier;
         return this;
     }
@@ -78,7 +78,7 @@ public final class ApplicationGatewaySku {
      * 
      * @return the capacity value.
      */
-    public Integer getCapacity() {
+    public Integer capacity() {
         return this.capacity;
     }
 
@@ -89,7 +89,7 @@ public final class ApplicationGatewaySku {
      * @param capacity the capacity value to set.
      * @return the ApplicationGatewaySku object itself.
      */
-    public ApplicationGatewaySku setCapacity(Integer capacity) {
+    public ApplicationGatewaySku withCapacity(Integer capacity) {
         this.capacity = capacity;
         return this;
     }

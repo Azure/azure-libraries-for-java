@@ -8,6 +8,7 @@ package com.azure.management.network.models;
 
 import com.azure.core.exception.HttpResponseException;
 import com.azure.core.http.HttpResponse;
+import com.azure.management.network.ErrorResponse;
 
 /**
  * Exception thrown for an invalid response with ErrorResponse information.
@@ -15,8 +16,8 @@ import com.azure.core.http.HttpResponse;
 public final class ErrorResponseException extends HttpResponseException {
     /**
      * Initializes a new instance of the ErrorResponseException class.
-     * 
-     * @param message the exception message or the response content if a message is not available.
+     *
+     * @param message  the exception message or the response content if a message is not available.
      * @param response the HTTP response.
      */
     public ErrorResponseException(String message, HttpResponse response) {
@@ -25,10 +26,10 @@ public final class ErrorResponseException extends HttpResponseException {
 
     /**
      * Initializes a new instance of the ErrorResponseException class.
-     * 
-     * @param message the exception message or the response content if a message is not available.
+     *
+     * @param message  the exception message or the response content if a message is not available.
      * @param response the HTTP response.
-     * @param value the deserialized response value.
+     * @param value    the deserialized response value.
      */
     public ErrorResponseException(String message, HttpResponse response, ErrorResponse value) {
         super(message, response, value);

@@ -25,7 +25,7 @@ public final class ErrorResponse {
      * 
      * @return the error value.
      */
-    public ErrorDetails getError() {
+    public ErrorDetails error() {
         return this.error;
     }
 
@@ -35,7 +35,7 @@ public final class ErrorResponse {
      * @param error the error value to set.
      * @return the ErrorResponse object itself.
      */
-    public ErrorResponse setError(ErrorDetails error) {
+    public ErrorResponse withError(ErrorDetails error) {
         this.error = error;
         return this;
     }

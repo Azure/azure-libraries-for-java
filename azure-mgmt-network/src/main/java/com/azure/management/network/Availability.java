@@ -37,7 +37,7 @@ public final class Availability {
      * 
      * @return the timeGrain value.
      */
-    public String getTimeGrain() {
+    public String timeGrain() {
         return this.timeGrain;
     }
 
@@ -47,7 +47,7 @@ public final class Availability {
      * @param timeGrain the timeGrain value to set.
      * @return the Availability object itself.
      */
-    public Availability setTimeGrain(String timeGrain) {
+    public Availability withTimeGrain(String timeGrain) {
         this.timeGrain = timeGrain;
         return this;
     }
@@ -57,7 +57,7 @@ public final class Availability {
      * 
      * @return the retention value.
      */
-    public String getRetention() {
+    public String retention() {
         return this.retention;
     }
 
@@ -67,7 +67,7 @@ public final class Availability {
      * @param retention the retention value to set.
      * @return the Availability object itself.
      */
-    public Availability setRetention(String retention) {
+    public Availability withRetention(String retention) {
         this.retention = retention;
         return this;
     }
@@ -77,7 +77,7 @@ public final class Availability {
      * 
      * @return the blobDuration value.
      */
-    public String getBlobDuration() {
+    public String blobDuration() {
         return this.blobDuration;
     }
 
@@ -87,7 +87,7 @@ public final class Availability {
      * @param blobDuration the blobDuration value to set.
      * @return the Availability object itself.
      */
-    public Availability setBlobDuration(String blobDuration) {
+    public Availability withBlobDuration(String blobDuration) {
         this.blobDuration = blobDuration;
         return this;
     }

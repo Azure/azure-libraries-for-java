@@ -52,7 +52,7 @@ public final class ApplicationGatewaySslPolicy {
      * 
      * @return the disabledSslProtocols value.
      */
-    public List<ApplicationGatewaySslProtocol> getDisabledSslProtocols() {
+    public List<ApplicationGatewaySslProtocol> disabledSslProtocols() {
         return this.disabledSslProtocols;
     }
 
@@ -63,7 +63,7 @@ public final class ApplicationGatewaySslPolicy {
      * @param disabledSslProtocols the disabledSslProtocols value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
-    public ApplicationGatewaySslPolicy setDisabledSslProtocols(List<ApplicationGatewaySslProtocol> disabledSslProtocols) {
+    public ApplicationGatewaySslPolicy withDisabledSslProtocols(List<ApplicationGatewaySslProtocol> disabledSslProtocols) {
         this.disabledSslProtocols = disabledSslProtocols;
         return this;
     }
@@ -73,7 +73,7 @@ public final class ApplicationGatewaySslPolicy {
      * 
      * @return the policyType value.
      */
-    public ApplicationGatewaySslPolicyType getPolicyType() {
+    public ApplicationGatewaySslPolicyType policyType() {
         return this.policyType;
     }
 
@@ -83,7 +83,7 @@ public final class ApplicationGatewaySslPolicy {
      * @param policyType the policyType value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
-    public ApplicationGatewaySslPolicy setPolicyType(ApplicationGatewaySslPolicyType policyType) {
+    public ApplicationGatewaySslPolicy withPolicyType(ApplicationGatewaySslPolicyType policyType) {
         this.policyType = policyType;
         return this;
     }
@@ -93,7 +93,7 @@ public final class ApplicationGatewaySslPolicy {
      * 
      * @return the policyName value.
      */
-    public ApplicationGatewaySslPolicyName getPolicyName() {
+    public ApplicationGatewaySslPolicyName policyName() {
         return this.policyName;
     }
 
@@ -103,7 +103,7 @@ public final class ApplicationGatewaySslPolicy {
      * @param policyName the policyName value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
-    public ApplicationGatewaySslPolicy setPolicyName(ApplicationGatewaySslPolicyName policyName) {
+    public ApplicationGatewaySslPolicy withPolicyName(ApplicationGatewaySslPolicyName policyName) {
         this.policyName = policyName;
         return this;
     }
@@ -114,7 +114,7 @@ public final class ApplicationGatewaySslPolicy {
      * 
      * @return the cipherSuites value.
      */
-    public List<ApplicationGatewaySslCipherSuite> getCipherSuites() {
+    public List<ApplicationGatewaySslCipherSuite> cipherSuites() {
         return this.cipherSuites;
     }
 
@@ -125,7 +125,7 @@ public final class ApplicationGatewaySslPolicy {
      * @param cipherSuites the cipherSuites value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
-    public ApplicationGatewaySslPolicy setCipherSuites(List<ApplicationGatewaySslCipherSuite> cipherSuites) {
+    public ApplicationGatewaySslPolicy withCipherSuites(List<ApplicationGatewaySslCipherSuite> cipherSuites) {
         this.cipherSuites = cipherSuites;
         return this;
     }
@@ -135,7 +135,7 @@ public final class ApplicationGatewaySslPolicy {
      * 
      * @return the minProtocolVersion value.
      */
-    public ApplicationGatewaySslProtocol getMinProtocolVersion() {
+    public ApplicationGatewaySslProtocol minProtocolVersion() {
         return this.minProtocolVersion;
     }
 
@@ -145,7 +145,7 @@ public final class ApplicationGatewaySslPolicy {
      * @param minProtocolVersion the minProtocolVersion value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
-    public ApplicationGatewaySslPolicy setMinProtocolVersion(ApplicationGatewaySslProtocol minProtocolVersion) {
+    public ApplicationGatewaySslPolicy withMinProtocolVersion(ApplicationGatewaySslProtocol minProtocolVersion) {
         this.minProtocolVersion = minProtocolVersion;
         return this;
     }

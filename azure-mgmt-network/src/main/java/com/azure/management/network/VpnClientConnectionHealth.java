@@ -46,7 +46,7 @@ public final class VpnClientConnectionHealth {
      * 
      * @return the totalIngressBytesTransferred value.
      */
-    public Long getTotalIngressBytesTransferred() {
+    public Long totalIngressBytesTransferred() {
         return this.totalIngressBytesTransferred;
     }
 
@@ -56,7 +56,7 @@ public final class VpnClientConnectionHealth {
      * 
      * @return the totalEgressBytesTransferred value.
      */
-    public Long getTotalEgressBytesTransferred() {
+    public Long totalEgressBytesTransferred() {
         return this.totalEgressBytesTransferred;
     }
 
@@ -66,7 +66,7 @@ public final class VpnClientConnectionHealth {
      * 
      * @return the vpnClientConnectionsCount value.
      */
-    public Integer getVpnClientConnectionsCount() {
+    public Integer vpnClientConnectionsCount() {
         return this.vpnClientConnectionsCount;
     }
 
@@ -78,7 +78,7 @@ public final class VpnClientConnectionHealth {
      * set.
      * @return the VpnClientConnectionHealth object itself.
      */
-    public VpnClientConnectionHealth setVpnClientConnectionsCount(Integer vpnClientConnectionsCount) {
+    public VpnClientConnectionHealth withVpnClientConnectionsCount(Integer vpnClientConnectionsCount) {
         this.vpnClientConnectionsCount = vpnClientConnectionsCount;
         return this;
     }
@@ -89,7 +89,7 @@ public final class VpnClientConnectionHealth {
      * 
      * @return the allocatedIpAddresses value.
      */
-    public List<String> getAllocatedIpAddresses() {
+    public List<String> allocatedIpAddresses() {
         return this.allocatedIpAddresses;
     }
 
@@ -100,7 +100,7 @@ public final class VpnClientConnectionHealth {
      * @param allocatedIpAddresses the allocatedIpAddresses value to set.
      * @return the VpnClientConnectionHealth object itself.
      */
-    public VpnClientConnectionHealth setAllocatedIpAddresses(List<String> allocatedIpAddresses) {
+    public VpnClientConnectionHealth withAllocatedIpAddresses(List<String> allocatedIpAddresses) {
         this.allocatedIpAddresses = allocatedIpAddresses;
         return this;
     }

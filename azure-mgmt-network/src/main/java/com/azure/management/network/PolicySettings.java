@@ -32,7 +32,7 @@ public final class PolicySettings {
      * 
      * @return the enabledState value.
      */
-    public WebApplicationFirewallEnabledState getEnabledState() {
+    public WebApplicationFirewallEnabledState enabledState() {
         return this.enabledState;
     }
 
@@ -43,7 +43,7 @@ public final class PolicySettings {
      * @param enabledState the enabledState value to set.
      * @return the PolicySettings object itself.
      */
-    public PolicySettings setEnabledState(WebApplicationFirewallEnabledState enabledState) {
+    public PolicySettings withEnabledState(WebApplicationFirewallEnabledState enabledState) {
         this.enabledState = enabledState;
         return this;
     }
@@ -54,7 +54,7 @@ public final class PolicySettings {
      * 
      * @return the mode value.
      */
-    public WebApplicationFirewallMode getMode() {
+    public WebApplicationFirewallMode mode() {
         return this.mode;
     }
 
@@ -65,7 +65,7 @@ public final class PolicySettings {
      * @param mode the mode value to set.
      * @return the PolicySettings object itself.
      */
-    public PolicySettings setMode(WebApplicationFirewallMode mode) {
+    public PolicySettings withMode(WebApplicationFirewallMode mode) {
         this.mode = mode;
         return this;
     }

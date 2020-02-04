@@ -32,7 +32,7 @@ public final class AvailableProvidersListCity {
      * 
      * @return the cityName value.
      */
-    public String getCityName() {
+    public String cityName() {
         return this.cityName;
     }
 
@@ -42,7 +42,7 @@ public final class AvailableProvidersListCity {
      * @param cityName the cityName value to set.
      * @return the AvailableProvidersListCity object itself.
      */
-    public AvailableProvidersListCity setCityName(String cityName) {
+    public AvailableProvidersListCity withCityName(String cityName) {
         this.cityName = cityName;
         return this;
     }
@@ -52,7 +52,7 @@ public final class AvailableProvidersListCity {
      * 
      * @return the providers value.
      */
-    public List<String> getProviders() {
+    public List<String> providers() {
         return this.providers;
     }
 
@@ -62,7 +62,7 @@ public final class AvailableProvidersListCity {
      * @param providers the providers value to set.
      * @return the AvailableProvidersListCity object itself.
      */
-    public AvailableProvidersListCity setProviders(List<String> providers) {
+    public AvailableProvidersListCity withProviders(List<String> providers) {
         this.providers = providers;
         return this;
     }

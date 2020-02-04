@@ -26,7 +26,7 @@ public final class CheckPrivateLinkServiceVisibilityRequest {
      * 
      * @return the privateLinkServiceAlias value.
      */
-    public String getPrivateLinkServiceAlias() {
+    public String privateLinkServiceAlias() {
         return this.privateLinkServiceAlias;
     }
 
@@ -37,7 +37,7 @@ public final class CheckPrivateLinkServiceVisibilityRequest {
      * @param privateLinkServiceAlias the privateLinkServiceAlias value to set.
      * @return the CheckPrivateLinkServiceVisibilityRequest object itself.
      */
-    public CheckPrivateLinkServiceVisibilityRequest setPrivateLinkServiceAlias(String privateLinkServiceAlias) {
+    public CheckPrivateLinkServiceVisibilityRequest withPrivateLinkServiceAlias(String privateLinkServiceAlias) {
         this.privateLinkServiceAlias = privateLinkServiceAlias;
         return this;
     }

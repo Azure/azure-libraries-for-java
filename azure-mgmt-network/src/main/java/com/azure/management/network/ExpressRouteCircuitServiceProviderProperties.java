@@ -37,7 +37,7 @@ public final class ExpressRouteCircuitServiceProviderProperties {
      * 
      * @return the serviceProviderName value.
      */
-    public String getServiceProviderName() {
+    public String serviceProviderName() {
         return this.serviceProviderName;
     }
 
@@ -47,7 +47,7 @@ public final class ExpressRouteCircuitServiceProviderProperties {
      * @param serviceProviderName the serviceProviderName value to set.
      * @return the ExpressRouteCircuitServiceProviderProperties object itself.
      */
-    public ExpressRouteCircuitServiceProviderProperties setServiceProviderName(String serviceProviderName) {
+    public ExpressRouteCircuitServiceProviderProperties withServiceProviderName(String serviceProviderName) {
         this.serviceProviderName = serviceProviderName;
         return this;
     }
@@ -57,7 +57,7 @@ public final class ExpressRouteCircuitServiceProviderProperties {
      * 
      * @return the peeringLocation value.
      */
-    public String getPeeringLocation() {
+    public String peeringLocation() {
         return this.peeringLocation;
     }
 
@@ -67,7 +67,7 @@ public final class ExpressRouteCircuitServiceProviderProperties {
      * @param peeringLocation the peeringLocation value to set.
      * @return the ExpressRouteCircuitServiceProviderProperties object itself.
      */
-    public ExpressRouteCircuitServiceProviderProperties setPeeringLocation(String peeringLocation) {
+    public ExpressRouteCircuitServiceProviderProperties withPeeringLocation(String peeringLocation) {
         this.peeringLocation = peeringLocation;
         return this;
     }
@@ -77,7 +77,7 @@ public final class ExpressRouteCircuitServiceProviderProperties {
      * 
      * @return the bandwidthInMbps value.
      */
-    public Integer getBandwidthInMbps() {
+    public Integer bandwidthInMbps() {
         return this.bandwidthInMbps;
     }
 
@@ -87,7 +87,7 @@ public final class ExpressRouteCircuitServiceProviderProperties {
      * @param bandwidthInMbps the bandwidthInMbps value to set.
      * @return the ExpressRouteCircuitServiceProviderProperties object itself.
      */
-    public ExpressRouteCircuitServiceProviderProperties setBandwidthInMbps(Integer bandwidthInMbps) {
+    public ExpressRouteCircuitServiceProviderProperties withBandwidthInMbps(Integer bandwidthInMbps) {
         this.bandwidthInMbps = bandwidthInMbps;
         return this;
     }

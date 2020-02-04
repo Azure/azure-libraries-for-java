@@ -25,7 +25,7 @@ public final class ExpressRouteCircuitPeeringId {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -35,7 +35,7 @@ public final class ExpressRouteCircuitPeeringId {
      * @param id the id value to set.
      * @return the ExpressRouteCircuitPeeringId object itself.
      */
-    public ExpressRouteCircuitPeeringId setId(String id) {
+    public ExpressRouteCircuitPeeringId withId(String id) {
         this.id = id;
         return this;
     }

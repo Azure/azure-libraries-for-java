@@ -50,7 +50,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -61,7 +61,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
      * @param name the name value to set.
      * @return the ApplicationGatewayRewriteRuleSet object itself.
      */
-    public ApplicationGatewayRewriteRuleSet setName(String name) {
+    public ApplicationGatewayRewriteRuleSet withName(String name) {
         this.name = name;
         return this;
     }
@@ -72,7 +72,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -81,7 +81,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
      * 
      * @return the rewriteRules value.
      */
-    public List<ApplicationGatewayRewriteRule> getRewriteRules() {
+    public List<ApplicationGatewayRewriteRule> rewriteRules() {
         return this.rewriteRules;
     }
 
@@ -91,7 +91,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
      * @param rewriteRules the rewriteRules value to set.
      * @return the ApplicationGatewayRewriteRuleSet object itself.
      */
-    public ApplicationGatewayRewriteRuleSet setRewriteRules(List<ApplicationGatewayRewriteRule> rewriteRules) {
+    public ApplicationGatewayRewriteRuleSet withRewriteRules(List<ApplicationGatewayRewriteRule> rewriteRules) {
         this.rewriteRules = rewriteRules;
         return this;
     }
@@ -103,7 +103,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

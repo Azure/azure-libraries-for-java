@@ -37,7 +37,7 @@ public final class VirtualNetworkGatewaySku {
      * 
      * @return the name value.
      */
-    public VirtualNetworkGatewaySkuName getName() {
+    public VirtualNetworkGatewaySkuName name() {
         return this.name;
     }
 
@@ -47,7 +47,7 @@ public final class VirtualNetworkGatewaySku {
      * @param name the name value to set.
      * @return the VirtualNetworkGatewaySku object itself.
      */
-    public VirtualNetworkGatewaySku setName(VirtualNetworkGatewaySkuName name) {
+    public VirtualNetworkGatewaySku withName(VirtualNetworkGatewaySkuName name) {
         this.name = name;
         return this;
     }
@@ -57,7 +57,7 @@ public final class VirtualNetworkGatewaySku {
      * 
      * @return the tier value.
      */
-    public VirtualNetworkGatewaySkuTier getTier() {
+    public VirtualNetworkGatewaySkuTier tier() {
         return this.tier;
     }
 
@@ -67,7 +67,7 @@ public final class VirtualNetworkGatewaySku {
      * @param tier the tier value to set.
      * @return the VirtualNetworkGatewaySku object itself.
      */
-    public VirtualNetworkGatewaySku setTier(VirtualNetworkGatewaySkuTier tier) {
+    public VirtualNetworkGatewaySku withTier(VirtualNetworkGatewaySkuTier tier) {
         this.tier = tier;
         return this;
     }
@@ -77,7 +77,7 @@ public final class VirtualNetworkGatewaySku {
      * 
      * @return the capacity value.
      */
-    public Integer getCapacity() {
+    public Integer capacity() {
         return this.capacity;
     }
 
@@ -87,7 +87,7 @@ public final class VirtualNetworkGatewaySku {
      * @param capacity the capacity value to set.
      * @return the VirtualNetworkGatewaySku object itself.
      */
-    public VirtualNetworkGatewaySku setCapacity(Integer capacity) {
+    public VirtualNetworkGatewaySku withCapacity(Integer capacity) {
         this.capacity = capacity;
         return this;
     }

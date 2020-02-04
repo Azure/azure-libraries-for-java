@@ -32,7 +32,7 @@ public final class ConnectionMonitorSource {
      * 
      * @return the resourceId value.
      */
-    public String getResourceId() {
+    public String resourceId() {
         return this.resourceId;
     }
 
@@ -43,7 +43,7 @@ public final class ConnectionMonitorSource {
      * @param resourceId the resourceId value to set.
      * @return the ConnectionMonitorSource object itself.
      */
-    public ConnectionMonitorSource setResourceId(String resourceId) {
+    public ConnectionMonitorSource withResourceId(String resourceId) {
         this.resourceId = resourceId;
         return this;
     }
@@ -53,7 +53,7 @@ public final class ConnectionMonitorSource {
      * 
      * @return the port value.
      */
-    public Integer getPort() {
+    public Integer port() {
         return this.port;
     }
 
@@ -63,7 +63,7 @@ public final class ConnectionMonitorSource {
      * @param port the port value to set.
      * @return the ConnectionMonitorSource object itself.
      */
-    public ConnectionMonitorSource setPort(Integer port) {
+    public ConnectionMonitorSource withPort(Integer port) {
         this.port = port;
         return this;
     }

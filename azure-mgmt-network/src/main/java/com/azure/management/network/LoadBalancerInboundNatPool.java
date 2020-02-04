@@ -5,14 +5,14 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.model.HasBackendPort;
-import com.azure.management.network.model.HasFrontend;
-import com.azure.management.network.model.HasProtocol;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.HasBackendPort;
+import com.azure.management.network.models.HasFrontend;
+import com.azure.management.network.models.HasProtocol;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 /**
  * A client-side representation of an inbound NAT pool.
@@ -22,8 +22,8 @@ public interface LoadBalancerInboundNatPool extends
         HasFrontend,
         HasBackendPort,
         HasProtocol<TransportProtocol>,
-    HasInner<InboundNatPool>,
-    ChildResource<LoadBalancer> {
+        HasInner<InboundNatPool>,
+        ChildResource<LoadBalancer> {
 
     /**
      * @return the starting frontend port number
@@ -41,6 +41,7 @@ public interface LoadBalancerInboundNatPool extends
     interface DefinitionStages {
         /**
          * The first stage of the inbound NAT pool definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithProtocol<ParentT> {
@@ -51,37 +52,42 @@ public interface LoadBalancerInboundNatPool extends
          * <p>
          * At this stage, any remaining optional settings can be specified, or the inbound NAT pool definition
          * can be attached to the parent load balancer definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-            Attachable.InDefinition<ParentT> {
+                Attachable.InDefinition<ParentT> {
         }
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the transport protocol for the pool to apply to.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProtocol<ParentT> extends
-            HasProtocol.DefinitionStages.WithProtocol<WithFrontend<ParentT>, TransportProtocol> {
+                HasProtocol.DefinitionStages.WithProtocol<WithFrontend<ParentT>, TransportProtocol> {
         }
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the frontend for the inbound NAT rules in the pool to apply to.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontend<ParentT> extends
-            HasFrontend.DefinitionStages.WithFrontend<WithFrontendPortRange<ParentT>> {
+                HasFrontend.DefinitionStages.WithFrontend<WithFrontendPortRange<ParentT>> {
         }
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the frontend port range.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontendPortRange<ParentT> {
             /**
              * Specifies the frontend port range to receive network traffic from.
+             *
              * @param from the starting port number, between 1 and 65534
-             * @param to the ending port number, greater than the starting port number and no more than 65534
+             * @param to   the ending port number, greater than the starting port number and no more than 65534
              * @return the next stage of the definition
              */
             WithBackendPort<ParentT> fromFrontendPortRange(int from, int to);
@@ -89,24 +95,26 @@ public interface LoadBalancerInboundNatPool extends
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the backend port.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackendPort<ParentT> extends
-            HasBackendPort.DefinitionStages.WithBackendPort<WithAttach<ParentT>> {
+                HasBackendPort.DefinitionStages.WithBackendPort<WithAttach<ParentT>> {
         }
     }
 
     /**
      * The entirety of an inbound NAT pool definition.
+     *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface Definition<ParentT> extends
-        DefinitionStages.Blank<ParentT>,
-        DefinitionStages.WithAttach<ParentT>,
-        DefinitionStages.WithProtocol<ParentT>,
-        DefinitionStages.WithFrontend<ParentT>,
-        DefinitionStages.WithFrontendPortRange<ParentT>,
-        DefinitionStages.WithBackendPort<ParentT> {
+            DefinitionStages.Blank<ParentT>,
+            DefinitionStages.WithAttach<ParentT>,
+            DefinitionStages.WithProtocol<ParentT>,
+            DefinitionStages.WithFrontend<ParentT>,
+            DefinitionStages.WithFrontendPortRange<ParentT>,
+            DefinitionStages.WithBackendPort<ParentT> {
     }
 
     /**
@@ -117,14 +125,14 @@ public interface LoadBalancerInboundNatPool extends
          * The stage of an inbound NAT pool update allowing to specify the transport protocol for the pool to apply to.
          */
         interface WithProtocol extends
-            HasProtocol.UpdateStages.WithProtocol<Update, TransportProtocol> {
+                HasProtocol.UpdateStages.WithProtocol<Update, TransportProtocol> {
         }
 
         /**
          * The stage of an inbound NAT pool update allowing to specify the frontend for the inbound NAT rules in the pool to apply to.
          */
         interface WithFrontend extends
-            HasFrontend.UpdateStages.WithFrontend<Update> {
+                HasFrontend.UpdateStages.WithFrontend<Update> {
         }
 
         /**
@@ -133,8 +141,9 @@ public interface LoadBalancerInboundNatPool extends
         interface WithFrontendPortRange {
             /**
              * Specifies the frontend port range.
+             *
              * @param from the starting port number, between 1 and 65534
-             * @param to the ending port number, greater than the starting port number and no more than 65534
+             * @param to   the ending port number, greater than the starting port number and no more than 65534
              * @return the next stage of the definition
              */
             Update fromFrontendPortRange(int from, int to);
@@ -144,7 +153,7 @@ public interface LoadBalancerInboundNatPool extends
          * The stage of an inbound NAT pool update allowing to specify the backend port.
          */
         interface WithBackendPort extends
-            HasBackendPort.UpdateStages.WithBackendPort<Update> {
+                HasBackendPort.UpdateStages.WithBackendPort<Update> {
         }
     }
 
@@ -152,11 +161,11 @@ public interface LoadBalancerInboundNatPool extends
      * The entirety of an inbound NAT pool update as part of a load balancer update.
      */
     interface Update extends
-        Settable<LoadBalancer.Update>,
-        UpdateStages.WithProtocol,
-        UpdateStages.WithFrontend,
-        UpdateStages.WithBackendPort,
-        UpdateStages.WithFrontendPortRange {
+            Settable<LoadBalancer.Update>,
+            UpdateStages.WithProtocol,
+            UpdateStages.WithFrontend,
+            UpdateStages.WithBackendPort,
+            UpdateStages.WithFrontendPortRange {
     }
 
     /**
@@ -165,6 +174,7 @@ public interface LoadBalancerInboundNatPool extends
     interface UpdateDefinitionStages {
         /**
          * The first stage of the inbound NAT pool definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithProtocol<ParentT> {
@@ -175,37 +185,42 @@ public interface LoadBalancerInboundNatPool extends
          * <p>
          * At this stage, any remaining optional settings can be specified, or the inbound NAT pool
          * definition can be attached to the parent load balancer definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-            Attachable.InUpdate<ParentT> {
+                Attachable.InUpdate<ParentT> {
         }
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the transport protocol for the pool to apply to.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProtocol<ParentT> extends
-            HasProtocol.UpdateDefinitionStages.WithProtocol<WithAttach<ParentT>, TransportProtocol> {
+                HasProtocol.UpdateDefinitionStages.WithProtocol<WithAttach<ParentT>, TransportProtocol> {
         }
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the frontend for the inbound NAT rules in the pool to apply to.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontend<ParentT> extends
-            HasFrontend.UpdateDefinitionStages.WithFrontend<WithAttach<ParentT>> {
+                HasFrontend.UpdateDefinitionStages.WithFrontend<WithAttach<ParentT>> {
         }
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the frontend port range.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontendPortRange<ParentT> {
             /**
              * Specified the frontend port range.
+             *
              * @param from the starting port number, between 1 and 65534
-             * @param to the ending port number, greater than the starting port number and no more than 65534
+             * @param to   the ending port number, greater than the starting port number and no more than 65534
              * @return the next stage of the definition
              */
             WithAttach<ParentT> fromFrontendPortRange(int from, int to);
@@ -213,22 +228,25 @@ public interface LoadBalancerInboundNatPool extends
 
         /**
          * The stage of an inbound NAT pool definition allowing to specify the backend port.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackendPort<ParentT> extends
-            HasBackendPort.UpdateDefinitionStages.WithBackendPort<WithAttach<ParentT>> {
+                HasBackendPort.UpdateDefinitionStages.WithBackendPort<WithAttach<ParentT>> {
         }
     }
 
-    /** The entirety of an inbound NAT pool definition as part of a load balancer update.
+    /**
+     * The entirety of an inbound NAT pool definition as part of a load balancer update.
+     *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface UpdateDefinition<ParentT> extends
-        UpdateDefinitionStages.Blank<ParentT>,
-        UpdateDefinitionStages.WithAttach<ParentT>,
-        UpdateDefinitionStages.WithProtocol<ParentT>,
-        UpdateDefinitionStages.WithFrontend<ParentT>,
-        UpdateDefinitionStages.WithFrontendPortRange<ParentT>,
-        UpdateDefinitionStages.WithBackendPort<ParentT> {
+            UpdateDefinitionStages.Blank<ParentT>,
+            UpdateDefinitionStages.WithAttach<ParentT>,
+            UpdateDefinitionStages.WithProtocol<ParentT>,
+            UpdateDefinitionStages.WithFrontend<ParentT>,
+            UpdateDefinitionStages.WithFrontendPortRange<ParentT>,
+            UpdateDefinitionStages.WithBackendPort<ParentT> {
     }
 }

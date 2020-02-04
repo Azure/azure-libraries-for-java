@@ -5,16 +5,15 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.ExpressRouteCrossConnectionInner;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.ExpressRouteCrossConnectionInner;
+import com.azure.management.network.models.UpdatableWithTags;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 import java.util.Map;
 
@@ -22,7 +21,6 @@ import java.util.Map;
  * Entry point for Express Route Cross Connection management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_11_0)
 public interface ExpressRouteCrossConnection extends
         GroupableResource<NetworkManager, ExpressRouteCrossConnectionInner>,
         Refreshable<ExpressRouteCrossConnection>,
@@ -33,6 +31,7 @@ public interface ExpressRouteCrossConnection extends
      * @return entry point to manage express route peerings associated with express route circuit
      */
     ExpressRouteCrossConnectionPeerings peerings();
+
     /**
      * @return the name of the primary  port
      */

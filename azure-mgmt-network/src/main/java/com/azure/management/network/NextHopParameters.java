@@ -46,7 +46,7 @@ public final class NextHopParameters {
      * 
      * @return the targetResourceId value.
      */
-    public String getTargetResourceId() {
+    public String targetResourceId() {
         return this.targetResourceId;
     }
 
@@ -57,7 +57,7 @@ public final class NextHopParameters {
      * @param targetResourceId the targetResourceId value to set.
      * @return the NextHopParameters object itself.
      */
-    public NextHopParameters setTargetResourceId(String targetResourceId) {
+    public NextHopParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }
@@ -67,7 +67,7 @@ public final class NextHopParameters {
      * 
      * @return the sourceIPAddress value.
      */
-    public String getSourceIPAddress() {
+    public String sourceIPAddress() {
         return this.sourceIPAddress;
     }
 
@@ -77,7 +77,7 @@ public final class NextHopParameters {
      * @param sourceIPAddress the sourceIPAddress value to set.
      * @return the NextHopParameters object itself.
      */
-    public NextHopParameters setSourceIPAddress(String sourceIPAddress) {
+    public NextHopParameters withSourceIPAddress(String sourceIPAddress) {
         this.sourceIPAddress = sourceIPAddress;
         return this;
     }
@@ -87,7 +87,7 @@ public final class NextHopParameters {
      * 
      * @return the destinationIPAddress value.
      */
-    public String getDestinationIPAddress() {
+    public String destinationIPAddress() {
         return this.destinationIPAddress;
     }
 
@@ -97,7 +97,7 @@ public final class NextHopParameters {
      * @param destinationIPAddress the destinationIPAddress value to set.
      * @return the NextHopParameters object itself.
      */
-    public NextHopParameters setDestinationIPAddress(String destinationIPAddress) {
+    public NextHopParameters withDestinationIPAddress(String destinationIPAddress) {
         this.destinationIPAddress = destinationIPAddress;
         return this;
     }
@@ -109,7 +109,7 @@ public final class NextHopParameters {
      * 
      * @return the targetNicResourceId value.
      */
-    public String getTargetNicResourceId() {
+    public String targetNicResourceId() {
         return this.targetNicResourceId;
     }
 
@@ -121,7 +121,7 @@ public final class NextHopParameters {
      * @param targetNicResourceId the targetNicResourceId value to set.
      * @return the NextHopParameters object itself.
      */
-    public NextHopParameters setTargetNicResourceId(String targetNicResourceId) {
+    public NextHopParameters withTargetNicResourceId(String targetNicResourceId) {
         this.targetNicResourceId = targetNicResourceId;
         return this;
     }

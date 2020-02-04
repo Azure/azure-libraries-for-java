@@ -33,7 +33,7 @@ public final class HubIPAddresses {
      * 
      * @return the publicIPAddresses value.
      */
-    public List<AzureFirewallPublicIPAddress> getPublicIPAddresses() {
+    public List<AzureFirewallPublicIPAddress> publicIPAddresses() {
         return this.publicIPAddresses;
     }
 
@@ -44,7 +44,7 @@ public final class HubIPAddresses {
      * @param publicIPAddresses the publicIPAddresses value to set.
      * @return the HubIPAddresses object itself.
      */
-    public HubIPAddresses setPublicIPAddresses(List<AzureFirewallPublicIPAddress> publicIPAddresses) {
+    public HubIPAddresses withPublicIPAddresses(List<AzureFirewallPublicIPAddress> publicIPAddresses) {
         this.publicIPAddresses = publicIPAddresses;
         return this;
     }
@@ -55,7 +55,7 @@ public final class HubIPAddresses {
      * 
      * @return the privateIPAddress value.
      */
-    public String getPrivateIPAddress() {
+    public String privateIPAddress() {
         return this.privateIPAddress;
     }
 
@@ -66,7 +66,7 @@ public final class HubIPAddresses {
      * @param privateIPAddress the privateIPAddress value to set.
      * @return the HubIPAddresses object itself.
      */
-    public HubIPAddresses setPrivateIPAddress(String privateIPAddress) {
+    public HubIPAddresses withPrivateIPAddress(String privateIPAddress) {
         this.privateIPAddress = privateIPAddress;
         return this;
     }

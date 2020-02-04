@@ -5,20 +5,19 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.FlowLogInformationInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.FlowLogInformationInner;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 /**
  * Client-side representation of the configuration of flow log, associated with network watcher and an Azure resource.
  */
 @Fluent
-@Beta
 public interface FlowLogSettings extends
         HasParent<NetworkWatcher>,
         HasInner<FlowLogInformationInner>,
@@ -85,6 +84,7 @@ public interface FlowLogSettings extends
         interface WithStorageAccount {
             /**
              * Specifies the storage account to use for storing log.
+             *
              * @param storageId id of the storage account
              * @return the next stage of the flow log information update
              */
@@ -97,18 +97,21 @@ public interface FlowLogSettings extends
         interface WithRetentionPolicy {
             /**
              * Enable retention policy.
+             *
              * @return the next stage of the flow log information update
              */
             Update withRetentionPolicyEnabled();
 
             /**
              * Disable retention policy.
+             *
              * @return the next stage of the flow log information update
              */
             Update withRetentionPolicyDisabled();
 
             /**
              * Set the number of days to store flow log.
+             *
              * @param days the number of days
              * @return the next stage of the flow log information update
              */

@@ -49,7 +49,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -60,7 +60,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * @param name the name value to set.
      * @return the VpnClientRevokedCertificate object itself.
      */
-    public VpnClientRevokedCertificate setName(String name) {
+    public VpnClientRevokedCertificate withName(String name) {
         this.name = name;
         return this;
     }
@@ -71,7 +71,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -82,7 +82,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * @param etag the etag value to set.
      * @return the VpnClientRevokedCertificate object itself.
      */
-    public VpnClientRevokedCertificate setEtag(String etag) {
+    public VpnClientRevokedCertificate withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -93,7 +93,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * 
      * @return the thumbprint value.
      */
-    public String getThumbprint() {
+    public String thumbprint() {
         return this.thumbprint;
     }
 
@@ -104,7 +104,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * @param thumbprint the thumbprint value to set.
      * @return the VpnClientRevokedCertificate object itself.
      */
-    public VpnClientRevokedCertificate setThumbprint(String thumbprint) {
+    public VpnClientRevokedCertificate withThumbprint(String thumbprint) {
         this.thumbprint = thumbprint;
         return this;
     }
@@ -116,7 +116,7 @@ public class VpnClientRevokedCertificate extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

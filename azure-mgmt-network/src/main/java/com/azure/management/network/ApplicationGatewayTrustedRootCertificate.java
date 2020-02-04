@@ -62,7 +62,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -73,7 +73,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * @param name the name value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
-    public ApplicationGatewayTrustedRootCertificate setName(String name) {
+    public ApplicationGatewayTrustedRootCertificate withName(String name) {
         this.name = name;
         return this;
     }
@@ -84,7 +84,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -95,7 +95,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * @param etag the etag value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
-    public ApplicationGatewayTrustedRootCertificate setEtag(String etag) {
+    public ApplicationGatewayTrustedRootCertificate withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -105,7 +105,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -115,7 +115,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * @param type the type value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
-    public ApplicationGatewayTrustedRootCertificate setType(String type) {
+    public ApplicationGatewayTrustedRootCertificate withType(String type) {
         this.type = type;
         return this;
     }
@@ -125,7 +125,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * 
      * @return the data value.
      */
-    public String getData() {
+    public String data() {
         return this.data;
     }
 
@@ -135,7 +135,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * @param data the data value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
-    public ApplicationGatewayTrustedRootCertificate setData(String data) {
+    public ApplicationGatewayTrustedRootCertificate withData(String data) {
         this.data = data;
         return this;
     }
@@ -146,7 +146,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * 
      * @return the keyVaultSecretId value.
      */
-    public String getKeyVaultSecretId() {
+    public String keyVaultSecretId() {
         return this.keyVaultSecretId;
     }
 
@@ -157,7 +157,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * @param keyVaultSecretId the keyVaultSecretId value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
-    public ApplicationGatewayTrustedRootCertificate setKeyVaultSecretId(String keyVaultSecretId) {
+    public ApplicationGatewayTrustedRootCertificate withKeyVaultSecretId(String keyVaultSecretId) {
         this.keyVaultSecretId = keyVaultSecretId;
         return this;
     }
@@ -169,7 +169,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 
@@ -181,7 +181,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
-    public ApplicationGatewayTrustedRootCertificate setProvisioningState(String provisioningState) {
+    public ApplicationGatewayTrustedRootCertificate withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

@@ -33,7 +33,7 @@ public final class NetworkIntentPolicyConfiguration {
      * 
      * @return the networkIntentPolicyName value.
      */
-    public String getNetworkIntentPolicyName() {
+    public String networkIntentPolicyName() {
         return this.networkIntentPolicyName;
     }
 
@@ -44,7 +44,7 @@ public final class NetworkIntentPolicyConfiguration {
      * @param networkIntentPolicyName the networkIntentPolicyName value to set.
      * @return the NetworkIntentPolicyConfiguration object itself.
      */
-    public NetworkIntentPolicyConfiguration setNetworkIntentPolicyName(String networkIntentPolicyName) {
+    public NetworkIntentPolicyConfiguration withNetworkIntentPolicyName(String networkIntentPolicyName) {
         this.networkIntentPolicyName = networkIntentPolicyName;
         return this;
     }
@@ -55,7 +55,7 @@ public final class NetworkIntentPolicyConfiguration {
      * 
      * @return the sourceNetworkIntentPolicy value.
      */
-    public NetworkIntentPolicy getSourceNetworkIntentPolicy() {
+    public NetworkIntentPolicy sourceNetworkIntentPolicy() {
         return this.sourceNetworkIntentPolicy;
     }
 
@@ -67,7 +67,7 @@ public final class NetworkIntentPolicyConfiguration {
      * set.
      * @return the NetworkIntentPolicyConfiguration object itself.
      */
-    public NetworkIntentPolicyConfiguration setSourceNetworkIntentPolicy(NetworkIntentPolicy sourceNetworkIntentPolicy) {
+    public NetworkIntentPolicyConfiguration withSourceNetworkIntentPolicy(NetworkIntentPolicy sourceNetworkIntentPolicy) {
         this.sourceNetworkIntentPolicy = sourceNetworkIntentPolicy;
         return this;
     }

@@ -50,7 +50,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * 
      * @return the enabled value.
      */
-    public boolean isEnabled() {
+    public boolean enabled() {
         return this.enabled;
     }
 
@@ -60,7 +60,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * @param enabled the enabled value to set.
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
-    public TrafficAnalyticsConfigurationProperties setEnabled(boolean enabled) {
+    public TrafficAnalyticsConfigurationProperties withEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -71,7 +71,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * 
      * @return the workspaceId value.
      */
-    public String getWorkspaceId() {
+    public String workspaceId() {
         return this.workspaceId;
     }
 
@@ -82,7 +82,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * @param workspaceId the workspaceId value to set.
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
-    public TrafficAnalyticsConfigurationProperties setWorkspaceId(String workspaceId) {
+    public TrafficAnalyticsConfigurationProperties withWorkspaceId(String workspaceId) {
         this.workspaceId = workspaceId;
         return this;
     }
@@ -93,7 +93,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * 
      * @return the workspaceRegion value.
      */
-    public String getWorkspaceRegion() {
+    public String workspaceRegion() {
         return this.workspaceRegion;
     }
 
@@ -104,7 +104,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * @param workspaceRegion the workspaceRegion value to set.
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
-    public TrafficAnalyticsConfigurationProperties setWorkspaceRegion(String workspaceRegion) {
+    public TrafficAnalyticsConfigurationProperties withWorkspaceRegion(String workspaceRegion) {
         this.workspaceRegion = workspaceRegion;
         return this;
     }
@@ -115,7 +115,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * 
      * @return the workspaceResourceId value.
      */
-    public String getWorkspaceResourceId() {
+    public String workspaceResourceId() {
         return this.workspaceResourceId;
     }
 
@@ -126,7 +126,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * @param workspaceResourceId the workspaceResourceId value to set.
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
-    public TrafficAnalyticsConfigurationProperties setWorkspaceResourceId(String workspaceResourceId) {
+    public TrafficAnalyticsConfigurationProperties withWorkspaceResourceId(String workspaceResourceId) {
         this.workspaceResourceId = workspaceResourceId;
         return this;
     }
@@ -137,7 +137,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * 
      * @return the trafficAnalyticsInterval value.
      */
-    public Integer getTrafficAnalyticsInterval() {
+    public Integer trafficAnalyticsInterval() {
         return this.trafficAnalyticsInterval;
     }
 
@@ -149,7 +149,7 @@ public final class TrafficAnalyticsConfigurationProperties {
      * set.
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
-    public TrafficAnalyticsConfigurationProperties setTrafficAnalyticsInterval(Integer trafficAnalyticsInterval) {
+    public TrafficAnalyticsConfigurationProperties withTrafficAnalyticsInterval(Integer trafficAnalyticsInterval) {
         this.trafficAnalyticsInterval = trafficAnalyticsInterval;
         return this;
     }

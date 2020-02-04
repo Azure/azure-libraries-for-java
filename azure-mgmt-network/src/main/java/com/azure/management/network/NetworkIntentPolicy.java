@@ -28,7 +28,7 @@ public final class NetworkIntentPolicy extends Resource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -39,7 +39,7 @@ public final class NetworkIntentPolicy extends Resource {
      * @param etag the etag value to set.
      * @return the NetworkIntentPolicy object itself.
      */
-    public NetworkIntentPolicy setEtag(String etag) {
+    public NetworkIntentPolicy withEtag(String etag) {
         this.etag = etag;
         return this;
     }

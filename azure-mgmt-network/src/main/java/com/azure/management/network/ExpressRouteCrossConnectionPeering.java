@@ -5,23 +5,21 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.ExpressRouteCrossConnectionPeeringInner;
+
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChild;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.ExpressRouteCrossConnectionPeeringInner;
+import com.azure.management.resources.fluentcore.arm.models.IndependentChild;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 /**
  * Client-side representation of express route cross connection peering object, associated with express route cross connection.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_11_0)
 public interface ExpressRouteCrossConnectionPeering extends
         IndependentChild<NetworkManager>,
         HasInner<ExpressRouteCrossConnectionPeeringInner>,
@@ -83,7 +81,7 @@ public interface ExpressRouteCrossConnectionPeering extends
     ExpressRouteCircuitPeeringConfig microsoftPeeringConfig();
 
     /**
-     * @return  the provisioning state of the public IP resource
+     * @return the provisioning state of the public IP resource
      */
     String provisioningState();
 
@@ -133,6 +131,7 @@ public interface ExpressRouteCrossConnectionPeering extends
              * Specify advertised prefixes: sets a list of all prefixes that are planned to advertise over the BGP session.
              * Only public IP address prefixes are accepted. A set of prefixes can be sent as a comma-separated list.
              * These prefixes must be registered to you in an RIR / IRR.
+             *
              * @param publicPrefixes advertised prefixes
              * @return next stage of definition
              */
@@ -145,6 +144,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithCustomerASN {
             /**
              * Specifies customer ASN.
+             *
              * @param customerASN customer ASN
              * @return the next satge of the definition
              */
@@ -157,6 +157,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithRoutingRegistryName {
             /**
              * Specifies routing registry name.
+             *
              * @param routingRegistryName routing registry name
              * @return the next stage of the definition
              */
@@ -182,7 +183,6 @@ public interface ExpressRouteCrossConnectionPeering extends
          */
         interface WithVlanId {
             /**
-             *
              * @param vlanId a valid VLAN ID to establish this peering on. No other peering in the circuit can use the same VLAN ID
              * @return next stage of definition
              */
@@ -216,6 +216,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithState {
             /**
              * Specifies the peering state.
+             *
              * @param state the peering state
              * @return the next stage of the definition
              */
@@ -263,6 +264,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithCustomerASN {
             /**
              * Specifies customer ASN.
+             *
              * @param customerASN customer ASN
              * @return the next stage of the definition
              */
@@ -275,6 +277,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithRoutingRegistryName {
             /**
              * Specifies routing registry name.
+             *
              * @param routingRegistryName routing registry name
              * @return the next stage of the definition
              */
@@ -305,6 +308,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithVlanId {
             /**
              * Sets the VLAN ID.
+             *
              * @param vlanId VLAN ID
              * @return the next stage of the update
              */
@@ -317,6 +321,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithPeerAsn {
             /**
              * Sets peer ASN.
+             *
              * @param peerAsn the AS number for peering
              * @return the next stage of the update
              */
@@ -329,16 +334,16 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithIpv6PeeringConfig {
             /**
              * Begins the definition of IPv6 configuration.
+             *
              * @return next stage of Ipv6 configuration definition
              */
-            @Method
             Ipv6PeeringConfig.UpdateDefinitionStages.Blank<Update> defineIpv6Config();
 
             /**
              * Removes IPv6 configuration from peering.
+             *
              * @return the next stage of the update
              */
-            @Method
             Update withoutIpv6Config();
         }
 
@@ -348,6 +353,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithState {
             /**
              * Specifies the peering state.
+             *
              * @param state the peering state
              * @return the next stage of the update
              */

@@ -56,7 +56,7 @@ public class Delegation extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -67,7 +67,7 @@ public class Delegation extends SubResource {
      * @param name the name value to set.
      * @return the Delegation object itself.
      */
-    public Delegation setName(String name) {
+    public Delegation withName(String name) {
         this.name = name;
         return this;
     }
@@ -78,7 +78,7 @@ public class Delegation extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -89,7 +89,7 @@ public class Delegation extends SubResource {
      * @param etag the etag value to set.
      * @return the Delegation object itself.
      */
-    public Delegation setEtag(String etag) {
+    public Delegation withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -100,7 +100,7 @@ public class Delegation extends SubResource {
      * 
      * @return the serviceName value.
      */
-    public String getServiceName() {
+    public String serviceName() {
         return this.serviceName;
     }
 
@@ -111,7 +111,7 @@ public class Delegation extends SubResource {
      * @param serviceName the serviceName value to set.
      * @return the Delegation object itself.
      */
-    public Delegation setServiceName(String serviceName) {
+    public Delegation withServiceName(String serviceName) {
         this.serviceName = serviceName;
         return this;
     }
@@ -122,7 +122,7 @@ public class Delegation extends SubResource {
      * 
      * @return the actions value.
      */
-    public List<String> getActions() {
+    public List<String> actions() {
         return this.actions;
     }
 
@@ -133,7 +133,7 @@ public class Delegation extends SubResource {
      * @param actions the actions value to set.
      * @return the Delegation object itself.
      */
-    public Delegation setActions(List<String> actions) {
+    public Delegation withActions(List<String> actions) {
         this.actions = actions;
         return this;
     }
@@ -144,7 +144,7 @@ public class Delegation extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

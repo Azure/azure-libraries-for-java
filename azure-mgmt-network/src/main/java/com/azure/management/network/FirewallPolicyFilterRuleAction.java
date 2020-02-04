@@ -25,7 +25,7 @@ public final class FirewallPolicyFilterRuleAction {
      * 
      * @return the type value.
      */
-    public FirewallPolicyFilterRuleActionType getType() {
+    public FirewallPolicyFilterRuleActionType type() {
         return this.type;
     }
 
@@ -35,7 +35,7 @@ public final class FirewallPolicyFilterRuleAction {
      * @param type the type value to set.
      * @return the FirewallPolicyFilterRuleAction object itself.
      */
-    public FirewallPolicyFilterRuleAction setType(FirewallPolicyFilterRuleActionType type) {
+    public FirewallPolicyFilterRuleAction withType(FirewallPolicyFilterRuleActionType type) {
         this.type = type;
         return this;
     }

@@ -76,7 +76,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -87,7 +87,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * @param name the name value to set.
      * @return the PrivateLinkServiceConnection object itself.
      */
-    public PrivateLinkServiceConnection setName(String name) {
+    public PrivateLinkServiceConnection withName(String name) {
         this.name = name;
         return this;
     }
@@ -97,7 +97,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -107,7 +107,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -116,7 +116,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public ProvisioningState getProvisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -126,7 +126,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the PrivateLinkServiceConnection object itself.
      */
-    public PrivateLinkServiceConnection setProvisioningState(ProvisioningState provisioningState) {
+    public PrivateLinkServiceConnection withProvisioningState(ProvisioningState provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }
@@ -137,7 +137,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * 
      * @return the privateLinkServiceId value.
      */
-    public String getPrivateLinkServiceId() {
+    public String privateLinkServiceId() {
         return this.privateLinkServiceId;
     }
 
@@ -148,7 +148,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * @param privateLinkServiceId the privateLinkServiceId value to set.
      * @return the PrivateLinkServiceConnection object itself.
      */
-    public PrivateLinkServiceConnection setPrivateLinkServiceId(String privateLinkServiceId) {
+    public PrivateLinkServiceConnection withPrivateLinkServiceId(String privateLinkServiceId) {
         this.privateLinkServiceId = privateLinkServiceId;
         return this;
     }
@@ -159,7 +159,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * 
      * @return the groupIds value.
      */
-    public List<String> getGroupIds() {
+    public List<String> groupIds() {
         return this.groupIds;
     }
 
@@ -170,7 +170,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * @param groupIds the groupIds value to set.
      * @return the PrivateLinkServiceConnection object itself.
      */
-    public PrivateLinkServiceConnection setGroupIds(List<String> groupIds) {
+    public PrivateLinkServiceConnection withGroupIds(List<String> groupIds) {
         this.groupIds = groupIds;
         return this;
     }
@@ -181,7 +181,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * 
      * @return the requestMessage value.
      */
-    public String getRequestMessage() {
+    public String requestMessage() {
         return this.requestMessage;
     }
 
@@ -192,7 +192,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * @param requestMessage the requestMessage value to set.
      * @return the PrivateLinkServiceConnection object itself.
      */
-    public PrivateLinkServiceConnection setRequestMessage(String requestMessage) {
+    public PrivateLinkServiceConnection withRequestMessage(String requestMessage) {
         this.requestMessage = requestMessage;
         return this;
     }
@@ -204,7 +204,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * 
      * @return the privateLinkServiceConnectionState value.
      */
-    public PrivateLinkServiceConnectionState getPrivateLinkServiceConnectionState() {
+    public PrivateLinkServiceConnectionState privateLinkServiceConnectionState() {
         return this.privateLinkServiceConnectionState;
     }
 
@@ -217,7 +217,7 @@ public class PrivateLinkServiceConnection extends SubResource {
      * privateLinkServiceConnectionState value to set.
      * @return the PrivateLinkServiceConnection object itself.
      */
-    public PrivateLinkServiceConnection setPrivateLinkServiceConnectionState(PrivateLinkServiceConnectionState privateLinkServiceConnectionState) {
+    public PrivateLinkServiceConnection withPrivateLinkServiceConnectionState(PrivateLinkServiceConnectionState privateLinkServiceConnectionState) {
         this.privateLinkServiceConnectionState = privateLinkServiceConnectionState;
         return this;
     }

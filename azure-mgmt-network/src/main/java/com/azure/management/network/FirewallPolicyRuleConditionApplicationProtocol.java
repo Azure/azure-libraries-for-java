@@ -32,7 +32,7 @@ public final class FirewallPolicyRuleConditionApplicationProtocol {
      * 
      * @return the protocolType value.
      */
-    public FirewallPolicyRuleConditionApplicationProtocolType getProtocolType() {
+    public FirewallPolicyRuleConditionApplicationProtocolType protocolType() {
         return this.protocolType;
     }
 
@@ -44,7 +44,7 @@ public final class FirewallPolicyRuleConditionApplicationProtocol {
      * @return the FirewallPolicyRuleConditionApplicationProtocol object
      * itself.
      */
-    public FirewallPolicyRuleConditionApplicationProtocol setProtocolType(FirewallPolicyRuleConditionApplicationProtocolType protocolType) {
+    public FirewallPolicyRuleConditionApplicationProtocol withProtocolType(FirewallPolicyRuleConditionApplicationProtocolType protocolType) {
         this.protocolType = protocolType;
         return this;
     }
@@ -55,7 +55,7 @@ public final class FirewallPolicyRuleConditionApplicationProtocol {
      * 
      * @return the port value.
      */
-    public Integer getPort() {
+    public Integer port() {
         return this.port;
     }
 
@@ -67,7 +67,7 @@ public final class FirewallPolicyRuleConditionApplicationProtocol {
      * @return the FirewallPolicyRuleConditionApplicationProtocol object
      * itself.
      */
-    public FirewallPolicyRuleConditionApplicationProtocol setPort(Integer port) {
+    public FirewallPolicyRuleConditionApplicationProtocol withPort(Integer port) {
         this.port = port;
         return this;
     }

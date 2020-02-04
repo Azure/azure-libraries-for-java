@@ -134,7 +134,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -145,7 +145,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param name the name value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setName(String name) {
+    public ApplicationGatewayBackendHttpSettings withName(String name) {
         this.name = name;
         return this;
     }
@@ -156,7 +156,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -167,7 +167,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param etag the etag value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setEtag(String etag) {
+    public ApplicationGatewayBackendHttpSettings withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -177,7 +177,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -187,7 +187,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param type the type value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setType(String type) {
+    public ApplicationGatewayBackendHttpSettings withType(String type) {
         this.type = type;
         return this;
     }
@@ -197,7 +197,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the port value.
      */
-    public Integer getPort() {
+    public Integer port() {
         return this.port;
     }
 
@@ -207,7 +207,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param port the port value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setPort(Integer port) {
+    public ApplicationGatewayBackendHttpSettings withPort(Integer port) {
         this.port = port;
         return this;
     }
@@ -217,7 +217,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the protocol value.
      */
-    public ApplicationGatewayProtocol getProtocol() {
+    public ApplicationGatewayProtocol protocol() {
         return this.protocol;
     }
 
@@ -227,7 +227,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param protocol the protocol value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setProtocol(ApplicationGatewayProtocol protocol) {
+    public ApplicationGatewayBackendHttpSettings withProtocol(ApplicationGatewayProtocol protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -237,7 +237,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the cookieBasedAffinity value.
      */
-    public ApplicationGatewayCookieBasedAffinity getCookieBasedAffinity() {
+    public ApplicationGatewayCookieBasedAffinity cookieBasedAffinity() {
         return this.cookieBasedAffinity;
     }
 
@@ -247,7 +247,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param cookieBasedAffinity the cookieBasedAffinity value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setCookieBasedAffinity(ApplicationGatewayCookieBasedAffinity cookieBasedAffinity) {
+    public ApplicationGatewayBackendHttpSettings withCookieBasedAffinity(ApplicationGatewayCookieBasedAffinity cookieBasedAffinity) {
         this.cookieBasedAffinity = cookieBasedAffinity;
         return this;
     }
@@ -259,7 +259,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the requestTimeout value.
      */
-    public Integer getRequestTimeout() {
+    public Integer requestTimeout() {
         return this.requestTimeout;
     }
 
@@ -271,7 +271,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param requestTimeout the requestTimeout value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setRequestTimeout(Integer requestTimeout) {
+    public ApplicationGatewayBackendHttpSettings withRequestTimeout(Integer requestTimeout) {
         this.requestTimeout = requestTimeout;
         return this;
     }
@@ -281,7 +281,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the probe value.
      */
-    public SubResource getProbe() {
+    public SubResource probe() {
         return this.probe;
     }
 
@@ -291,7 +291,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param probe the probe value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setProbe(SubResource probe) {
+    public ApplicationGatewayBackendHttpSettings withProbe(SubResource probe) {
         this.probe = probe;
         return this;
     }
@@ -302,7 +302,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the authenticationCertificates value.
      */
-    public List<SubResource> getAuthenticationCertificates() {
+    public List<SubResource> authenticationCertificates() {
         return this.authenticationCertificates;
     }
 
@@ -314,7 +314,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setAuthenticationCertificates(List<SubResource> authenticationCertificates) {
+    public ApplicationGatewayBackendHttpSettings withAuthenticationCertificates(List<SubResource> authenticationCertificates) {
         this.authenticationCertificates = authenticationCertificates;
         return this;
     }
@@ -325,7 +325,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the trustedRootCertificates value.
      */
-    public List<SubResource> getTrustedRootCertificates() {
+    public List<SubResource> trustedRootCertificates() {
         return this.trustedRootCertificates;
     }
 
@@ -336,7 +336,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param trustedRootCertificates the trustedRootCertificates value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setTrustedRootCertificates(List<SubResource> trustedRootCertificates) {
+    public ApplicationGatewayBackendHttpSettings withTrustedRootCertificates(List<SubResource> trustedRootCertificates) {
         this.trustedRootCertificates = trustedRootCertificates;
         return this;
     }
@@ -348,7 +348,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the connectionDraining value.
      */
-    public ApplicationGatewayConnectionDraining getConnectionDraining() {
+    public ApplicationGatewayConnectionDraining connectionDraining() {
         return this.connectionDraining;
     }
 
@@ -360,7 +360,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param connectionDraining the connectionDraining value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setConnectionDraining(ApplicationGatewayConnectionDraining connectionDraining) {
+    public ApplicationGatewayBackendHttpSettings withConnectionDraining(ApplicationGatewayConnectionDraining connectionDraining) {
         this.connectionDraining = connectionDraining;
         return this;
     }
@@ -371,7 +371,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the hostName value.
      */
-    public String getHostName() {
+    public String hostName() {
         return this.hostName;
     }
 
@@ -382,7 +382,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param hostName the hostName value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setHostName(String hostName) {
+    public ApplicationGatewayBackendHttpSettings withHostName(String hostName) {
         this.hostName = hostName;
         return this;
     }
@@ -394,7 +394,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the pickHostNameFromBackendAddress value.
      */
-    public Boolean isPickHostNameFromBackendAddress() {
+    public Boolean pickHostNameFromBackendAddress() {
         return this.pickHostNameFromBackendAddress;
     }
 
@@ -407,7 +407,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setPickHostNameFromBackendAddress(Boolean pickHostNameFromBackendAddress) {
+    public ApplicationGatewayBackendHttpSettings withPickHostNameFromBackendAddress(Boolean pickHostNameFromBackendAddress) {
         this.pickHostNameFromBackendAddress = pickHostNameFromBackendAddress;
         return this;
     }
@@ -418,7 +418,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the affinityCookieName value.
      */
-    public String getAffinityCookieName() {
+    public String affinityCookieName() {
         return this.affinityCookieName;
     }
 
@@ -429,7 +429,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param affinityCookieName the affinityCookieName value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setAffinityCookieName(String affinityCookieName) {
+    public ApplicationGatewayBackendHttpSettings withAffinityCookieName(String affinityCookieName) {
         this.affinityCookieName = affinityCookieName;
         return this;
     }
@@ -440,7 +440,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the probeEnabled value.
      */
-    public Boolean isProbeEnabled() {
+    public Boolean probeEnabled() {
         return this.probeEnabled;
     }
 
@@ -451,7 +451,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param probeEnabled the probeEnabled value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setProbeEnabled(Boolean probeEnabled) {
+    public ApplicationGatewayBackendHttpSettings withProbeEnabled(Boolean probeEnabled) {
         this.probeEnabled = probeEnabled;
         return this;
     }
@@ -463,7 +463,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the path value.
      */
-    public String getPath() {
+    public String path() {
         return this.path;
     }
 
@@ -475,7 +475,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param path the path value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setPath(String path) {
+    public ApplicationGatewayBackendHttpSettings withPath(String path) {
         this.path = path;
         return this;
     }
@@ -487,7 +487,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 
@@ -499,7 +499,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHttpSettings setProvisioningState(String provisioningState) {
+    public ApplicationGatewayBackendHttpSettings withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

@@ -5,26 +5,22 @@
  */
 package com.azure.management.network;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.implementation.NetworkWatcherInner;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import rx.Observable;
+import com.azure.management.network.models.NetworkWatcherInner;
+import com.azure.management.network.models.UpdatableWithTags;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import reactor.core.publisher.Mono;
 
 /**
  * Entry point for Network Watcher API in Azure.
  */
 @Fluent
-@Beta(SinceVersion.V1_2_0)
 public interface NetworkWatcher extends
         GroupableResource<NetworkManager, NetworkWatcherInner>,
         Refreshable<NetworkWatcher>,
@@ -39,19 +35,18 @@ public interface NetworkWatcher extends
     /**
      * @return entry point to manage connection monitors associated with network watcher
      */
-    @Beta(SinceVersion.V1_10_0)
-    @Method
     ConnectionMonitors connectionMonitors();
 
     /**
      * First step specifying parameters to get topology of a resource group.
+     *
      * @return current network topology by resource group
      */
-    @Method
     Topology.DefinitionStages.WithTargetResourceGroup topology();
 
     /**
      * Gets the configured and effective security group rules on the specified VM.
+     *
      * @param vmId ID of the target VM
      * @return the configured and effective security group rules on the specified VM
      */
@@ -59,13 +54,15 @@ public interface NetworkWatcher extends
 
     /**
      * Gets the configured and effective security group rules on the specified VM asynchronously.
+     *
      * @param vmId ID of the target VM
      * @return the configured and effective security group rules on the specified VM
      */
-    Observable<SecurityGroupView> getSecurityGroupViewAsync(String vmId);
+    Mono<SecurityGroupView> getSecurityGroupViewAsync(String vmId);
 
     /**
      * Gets the information on the configuration of flow log.
+     *
      * @param nsgId the name of the target resource group to get flow log status for
      * @return information on the configuration of flow log
      */
@@ -73,55 +70,53 @@ public interface NetworkWatcher extends
 
     /**
      * Gets the information on the configuration of flow log asynchronously.
+     *
      * @param nsgId the name of the target resource group to get flow log status for
      * @return information on the configuration of flow log
      */
-    Observable<FlowLogSettings> getFlowLogSettingsAsync(String nsgId);
+    Mono<FlowLogSettings> getFlowLogSettingsAsync(String nsgId);
 
     /**
      * First step specifying the parameters to get next hop for the VM.
+     *
      * @return a stage to specify parameters for next hop
      */
-    @Method
     NextHop.DefinitionStages.WithTargetResource nextHop();
 
     /**
      * Verify IP flow from the specified VM to a location given the currently configured NSG rules.
+     *
      * @return a stage to specify parameters for ip flow verification
      */
-    @Method
     VerificationIPFlow.DefinitionStages.WithTargetResource verifyIPFlow();
 
     /**
      * Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint
      * including another virtual machine or an arbitrary remote server.
+     *
      * @return a stage to specify parameters for connectivity check
      */
-    @Method
     ConnectivityCheck.DefinitionStages.ToDestination checkConnectivity();
 
     /**
      * Initiate troubleshooting on a specified resource (virtual network gateway or virtual network gateway connection).
+     *
      * @return troubleshooting result information
      */
-    @Beta(SinceVersion.V1_4_0)
-    @Method
     Troubleshooting.DefinitionStages.WithTargetResource troubleshoot();
 
     /**
      * Lists all available internet service providers for a specified Azure region.
+     *
      * @return a stage to specify parameters for internet providers list
      */
-    @Beta(SinceVersion.V1_10_0)
-    @Method
     AvailableProviders.DefinitionStages.WithExecute availableProviders();
 
     /**
      * Gets the relative latency score for internet service providers from a specified location to Azure regions.
+     *
      * @return a stage to specify parameters for internet providers list
      */
-    @Beta(SinceVersion.V1_10_0)
-    @Method
     AzureReachabilityReport.DefinitionStages.WithProviderLocation azureReachabilityReport();
 
     /**

@@ -32,7 +32,7 @@ public final class ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds {
      * 
      * @return the min value.
      */
-    public Integer getMin() {
+    public Integer min() {
         return this.min;
     }
 
@@ -44,7 +44,7 @@ public final class ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds {
      * @return the ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds
      * object itself.
      */
-    public ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds setMin(Integer min) {
+    public ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds withMin(Integer min) {
         this.min = min;
         return this;
     }
@@ -55,7 +55,7 @@ public final class ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds {
      * 
      * @return the max value.
      */
-    public Integer getMax() {
+    public Integer max() {
         return this.max;
     }
 
@@ -67,7 +67,7 @@ public final class ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds {
      * @return the ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds
      * object itself.
      */
-    public ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds setMax(Integer max) {
+    public ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds withMax(Integer max) {
         this.max = max;
         return this;
     }

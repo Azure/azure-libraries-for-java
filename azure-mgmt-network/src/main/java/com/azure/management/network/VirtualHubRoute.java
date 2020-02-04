@@ -32,7 +32,7 @@ public final class VirtualHubRoute {
      * 
      * @return the addressPrefixes value.
      */
-    public List<String> getAddressPrefixes() {
+    public List<String> addressPrefixes() {
         return this.addressPrefixes;
     }
 
@@ -42,7 +42,7 @@ public final class VirtualHubRoute {
      * @param addressPrefixes the addressPrefixes value to set.
      * @return the VirtualHubRoute object itself.
      */
-    public VirtualHubRoute setAddressPrefixes(List<String> addressPrefixes) {
+    public VirtualHubRoute withAddressPrefixes(List<String> addressPrefixes) {
         this.addressPrefixes = addressPrefixes;
         return this;
     }
@@ -52,7 +52,7 @@ public final class VirtualHubRoute {
      * 
      * @return the nextHopIpAddress value.
      */
-    public String getNextHopIpAddress() {
+    public String nextHopIpAddress() {
         return this.nextHopIpAddress;
     }
 
@@ -62,7 +62,7 @@ public final class VirtualHubRoute {
      * @param nextHopIpAddress the nextHopIpAddress value to set.
      * @return the VirtualHubRoute object itself.
      */
-    public VirtualHubRoute setNextHopIpAddress(String nextHopIpAddress) {
+    public VirtualHubRoute withNextHopIpAddress(String nextHopIpAddress) {
         this.nextHopIpAddress = nextHopIpAddress;
         return this;
     }

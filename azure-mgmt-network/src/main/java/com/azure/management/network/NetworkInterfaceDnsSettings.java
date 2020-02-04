@@ -63,7 +63,7 @@ public final class NetworkInterfaceDnsSettings {
      * 
      * @return the dnsServers value.
      */
-    public List<String> getDnsServers() {
+    public List<String> dnsServers() {
         return this.dnsServers;
     }
 
@@ -76,7 +76,7 @@ public final class NetworkInterfaceDnsSettings {
      * @param dnsServers the dnsServers value to set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
-    public NetworkInterfaceDnsSettings setDnsServers(List<String> dnsServers) {
+    public NetworkInterfaceDnsSettings withDnsServers(List<String> dnsServers) {
         this.dnsServers = dnsServers;
         return this;
     }
@@ -89,7 +89,7 @@ public final class NetworkInterfaceDnsSettings {
      * 
      * @return the appliedDnsServers value.
      */
-    public List<String> getAppliedDnsServers() {
+    public List<String> appliedDnsServers() {
         return this.appliedDnsServers;
     }
 
@@ -102,7 +102,7 @@ public final class NetworkInterfaceDnsSettings {
      * @param appliedDnsServers the appliedDnsServers value to set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
-    public NetworkInterfaceDnsSettings setAppliedDnsServers(List<String> appliedDnsServers) {
+    public NetworkInterfaceDnsSettings withAppliedDnsServers(List<String> appliedDnsServers) {
         this.appliedDnsServers = appliedDnsServers;
         return this;
     }
@@ -114,7 +114,7 @@ public final class NetworkInterfaceDnsSettings {
      * 
      * @return the internalDnsNameLabel value.
      */
-    public String getInternalDnsNameLabel() {
+    public String internalDnsNameLabel() {
         return this.internalDnsNameLabel;
     }
 
@@ -126,7 +126,7 @@ public final class NetworkInterfaceDnsSettings {
      * @param internalDnsNameLabel the internalDnsNameLabel value to set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
-    public NetworkInterfaceDnsSettings setInternalDnsNameLabel(String internalDnsNameLabel) {
+    public NetworkInterfaceDnsSettings withInternalDnsNameLabel(String internalDnsNameLabel) {
         this.internalDnsNameLabel = internalDnsNameLabel;
         return this;
     }
@@ -137,7 +137,7 @@ public final class NetworkInterfaceDnsSettings {
      * 
      * @return the internalFqdn value.
      */
-    public String getInternalFqdn() {
+    public String internalFqdn() {
         return this.internalFqdn;
     }
 
@@ -148,7 +148,7 @@ public final class NetworkInterfaceDnsSettings {
      * @param internalFqdn the internalFqdn value to set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
-    public NetworkInterfaceDnsSettings setInternalFqdn(String internalFqdn) {
+    public NetworkInterfaceDnsSettings withInternalFqdn(String internalFqdn) {
         this.internalFqdn = internalFqdn;
         return this;
     }
@@ -161,7 +161,7 @@ public final class NetworkInterfaceDnsSettings {
      * 
      * @return the internalDomainNameSuffix value.
      */
-    public String getInternalDomainNameSuffix() {
+    public String internalDomainNameSuffix() {
         return this.internalDomainNameSuffix;
     }
 
@@ -175,7 +175,7 @@ public final class NetworkInterfaceDnsSettings {
      * set.
      * @return the NetworkInterfaceDnsSettings object itself.
      */
-    public NetworkInterfaceDnsSettings setInternalDomainNameSuffix(String internalDomainNameSuffix) {
+    public NetworkInterfaceDnsSettings withInternalDomainNameSuffix(String internalDomainNameSuffix) {
         this.internalDomainNameSuffix = internalDomainNameSuffix;
         return this;
     }

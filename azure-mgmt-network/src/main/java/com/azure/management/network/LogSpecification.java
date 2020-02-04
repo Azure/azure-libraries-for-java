@@ -37,7 +37,7 @@ public final class LogSpecification {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -47,7 +47,7 @@ public final class LogSpecification {
      * @param name the name value to set.
      * @return the LogSpecification object itself.
      */
-    public LogSpecification setName(String name) {
+    public LogSpecification withName(String name) {
         this.name = name;
         return this;
     }
@@ -57,7 +57,7 @@ public final class LogSpecification {
      * 
      * @return the displayName value.
      */
-    public String getDisplayName() {
+    public String displayName() {
         return this.displayName;
     }
 
@@ -67,7 +67,7 @@ public final class LogSpecification {
      * @param displayName the displayName value to set.
      * @return the LogSpecification object itself.
      */
-    public LogSpecification setDisplayName(String displayName) {
+    public LogSpecification withDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -77,7 +77,7 @@ public final class LogSpecification {
      * 
      * @return the blobDuration value.
      */
-    public String getBlobDuration() {
+    public String blobDuration() {
         return this.blobDuration;
     }
 
@@ -87,7 +87,7 @@ public final class LogSpecification {
      * @param blobDuration the blobDuration value to set.
      * @return the LogSpecification object itself.
      */
-    public LogSpecification setBlobDuration(String blobDuration) {
+    public LogSpecification withBlobDuration(String blobDuration) {
         this.blobDuration = blobDuration;
         return this;
     }

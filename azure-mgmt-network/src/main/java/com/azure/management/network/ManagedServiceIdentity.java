@@ -53,7 +53,7 @@ public final class ManagedServiceIdentity {
      * 
      * @return the principalId value.
      */
-    public String getPrincipalId() {
+    public String principalId() {
         return this.principalId;
     }
 
@@ -64,7 +64,7 @@ public final class ManagedServiceIdentity {
      * 
      * @return the tenantId value.
      */
-    public String getTenantId() {
+    public String tenantId() {
         return this.tenantId;
     }
 
@@ -76,7 +76,7 @@ public final class ManagedServiceIdentity {
      * 
      * @return the type value.
      */
-    public ResourceIdentityType getType() {
+    public ResourceIdentityType type() {
         return this.type;
     }
 
@@ -89,7 +89,7 @@ public final class ManagedServiceIdentity {
      * @param type the type value to set.
      * @return the ManagedServiceIdentity object itself.
      */
-    public ManagedServiceIdentity setType(ResourceIdentityType type) {
+    public ManagedServiceIdentity withType(ResourceIdentityType type) {
         this.type = type;
         return this;
     }
@@ -102,7 +102,7 @@ public final class ManagedServiceIdentity {
      * 
      * @return the userAssignedIdentities value.
      */
-    public Map<String, ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties> getUserAssignedIdentities() {
+    public Map<String, ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties> userAssignedIdentities() {
         return this.userAssignedIdentities;
     }
 
@@ -115,7 +115,7 @@ public final class ManagedServiceIdentity {
      * @param userAssignedIdentities the userAssignedIdentities value to set.
      * @return the ManagedServiceIdentity object itself.
      */
-    public ManagedServiceIdentity setUserAssignedIdentities(Map<String, ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties> userAssignedIdentities) {
+    public ManagedServiceIdentity withUserAssignedIdentities(Map<String, ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties> userAssignedIdentities) {
         this.userAssignedIdentities = userAssignedIdentities;
         return this;
     }

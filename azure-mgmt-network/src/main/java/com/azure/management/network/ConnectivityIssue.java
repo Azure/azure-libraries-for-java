@@ -45,7 +45,7 @@ public final class ConnectivityIssue {
      * 
      * @return the origin value.
      */
-    public Origin getOrigin() {
+    public Origin origin() {
         return this.origin;
     }
 
@@ -54,7 +54,7 @@ public final class ConnectivityIssue {
      * 
      * @return the severity value.
      */
-    public Severity getSeverity() {
+    public Severity severity() {
         return this.severity;
     }
 
@@ -63,7 +63,7 @@ public final class ConnectivityIssue {
      * 
      * @return the type value.
      */
-    public IssueType getType() {
+    public IssueType type() {
         return this.type;
     }
 
@@ -72,7 +72,7 @@ public final class ConnectivityIssue {
      * 
      * @return the context value.
      */
-    public List<Map<String, String>> getContext() {
+    public List<Map<String, String>> context() {
         return this.context;
     }
 }

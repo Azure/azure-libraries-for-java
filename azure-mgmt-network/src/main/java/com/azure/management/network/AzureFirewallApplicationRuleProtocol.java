@@ -33,7 +33,7 @@ public final class AzureFirewallApplicationRuleProtocol {
      * 
      * @return the protocolType value.
      */
-    public AzureFirewallApplicationRuleProtocolType getProtocolType() {
+    public AzureFirewallApplicationRuleProtocolType protocolType() {
         return this.protocolType;
     }
 
@@ -44,7 +44,7 @@ public final class AzureFirewallApplicationRuleProtocol {
      * @param protocolType the protocolType value to set.
      * @return the AzureFirewallApplicationRuleProtocol object itself.
      */
-    public AzureFirewallApplicationRuleProtocol setProtocolType(AzureFirewallApplicationRuleProtocolType protocolType) {
+    public AzureFirewallApplicationRuleProtocol withProtocolType(AzureFirewallApplicationRuleProtocolType protocolType) {
         this.protocolType = protocolType;
         return this;
     }
@@ -55,7 +55,7 @@ public final class AzureFirewallApplicationRuleProtocol {
      * 
      * @return the port value.
      */
-    public Integer getPort() {
+    public Integer port() {
         return this.port;
     }
 
@@ -66,7 +66,7 @@ public final class AzureFirewallApplicationRuleProtocol {
      * @param port the port value to set.
      * @return the AzureFirewallApplicationRuleProtocol object itself.
      */
-    public AzureFirewallApplicationRuleProtocol setPort(Integer port) {
+    public AzureFirewallApplicationRuleProtocol withPort(Integer port) {
         this.port = port;
         return this;
     }

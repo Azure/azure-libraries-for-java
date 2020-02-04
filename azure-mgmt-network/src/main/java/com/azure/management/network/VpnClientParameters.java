@@ -49,7 +49,7 @@ public final class VpnClientParameters {
      * 
      * @return the processorArchitecture value.
      */
-    public ProcessorArchitecture getProcessorArchitecture() {
+    public ProcessorArchitecture processorArchitecture() {
         return this.processorArchitecture;
     }
 
@@ -60,7 +60,7 @@ public final class VpnClientParameters {
      * @param processorArchitecture the processorArchitecture value to set.
      * @return the VpnClientParameters object itself.
      */
-    public VpnClientParameters setProcessorArchitecture(ProcessorArchitecture processorArchitecture) {
+    public VpnClientParameters withProcessorArchitecture(ProcessorArchitecture processorArchitecture) {
         this.processorArchitecture = processorArchitecture;
         return this;
     }
@@ -70,7 +70,7 @@ public final class VpnClientParameters {
      * 
      * @return the authenticationMethod value.
      */
-    public AuthenticationMethod getAuthenticationMethod() {
+    public AuthenticationMethod authenticationMethod() {
         return this.authenticationMethod;
     }
 
@@ -80,7 +80,7 @@ public final class VpnClientParameters {
      * @param authenticationMethod the authenticationMethod value to set.
      * @return the VpnClientParameters object itself.
      */
-    public VpnClientParameters setAuthenticationMethod(AuthenticationMethod authenticationMethod) {
+    public VpnClientParameters withAuthenticationMethod(AuthenticationMethod authenticationMethod) {
         this.authenticationMethod = authenticationMethod;
         return this;
     }
@@ -93,7 +93,7 @@ public final class VpnClientParameters {
      * 
      * @return the radiusServerAuthCertificate value.
      */
-    public String getRadiusServerAuthCertificate() {
+    public String radiusServerAuthCertificate() {
         return this.radiusServerAuthCertificate;
     }
 
@@ -107,7 +107,7 @@ public final class VpnClientParameters {
      * to set.
      * @return the VpnClientParameters object itself.
      */
-    public VpnClientParameters setRadiusServerAuthCertificate(String radiusServerAuthCertificate) {
+    public VpnClientParameters withRadiusServerAuthCertificate(String radiusServerAuthCertificate) {
         this.radiusServerAuthCertificate = radiusServerAuthCertificate;
         return this;
     }
@@ -119,7 +119,7 @@ public final class VpnClientParameters {
      * 
      * @return the clientRootCertificates value.
      */
-    public List<String> getClientRootCertificates() {
+    public List<String> clientRootCertificates() {
         return this.clientRootCertificates;
     }
 
@@ -131,7 +131,7 @@ public final class VpnClientParameters {
      * @param clientRootCertificates the clientRootCertificates value to set.
      * @return the VpnClientParameters object itself.
      */
-    public VpnClientParameters setClientRootCertificates(List<String> clientRootCertificates) {
+    public VpnClientParameters withClientRootCertificates(List<String> clientRootCertificates) {
         this.clientRootCertificates = clientRootCertificates;
         return this;
     }

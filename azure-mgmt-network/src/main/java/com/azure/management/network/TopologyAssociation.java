@@ -38,7 +38,7 @@ public final class TopologyAssociation {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -49,7 +49,7 @@ public final class TopologyAssociation {
      * @param name the name value to set.
      * @return the TopologyAssociation object itself.
      */
-    public TopologyAssociation setName(String name) {
+    public TopologyAssociation withName(String name) {
         this.name = name;
         return this;
     }
@@ -60,7 +60,7 @@ public final class TopologyAssociation {
      * 
      * @return the resourceId value.
      */
-    public String getResourceId() {
+    public String resourceId() {
         return this.resourceId;
     }
 
@@ -71,7 +71,7 @@ public final class TopologyAssociation {
      * @param resourceId the resourceId value to set.
      * @return the TopologyAssociation object itself.
      */
-    public TopologyAssociation setResourceId(String resourceId) {
+    public TopologyAssociation withResourceId(String resourceId) {
         this.resourceId = resourceId;
         return this;
     }
@@ -82,7 +82,7 @@ public final class TopologyAssociation {
      * 
      * @return the associationType value.
      */
-    public AssociationType getAssociationType() {
+    public AssociationType associationType() {
         return this.associationType;
     }
 
@@ -93,7 +93,7 @@ public final class TopologyAssociation {
      * @param associationType the associationType value to set.
      * @return the TopologyAssociation object itself.
      */
-    public TopologyAssociation setAssociationType(AssociationType associationType) {
+    public TopologyAssociation withAssociationType(AssociationType associationType) {
         this.associationType = associationType;
         return this;
     }

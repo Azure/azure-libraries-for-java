@@ -31,7 +31,7 @@ public final class ApplicationGatewayHeaderConfiguration {
      * 
      * @return the headerName value.
      */
-    public String getHeaderName() {
+    public String headerName() {
         return this.headerName;
     }
 
@@ -41,7 +41,7 @@ public final class ApplicationGatewayHeaderConfiguration {
      * @param headerName the headerName value to set.
      * @return the ApplicationGatewayHeaderConfiguration object itself.
      */
-    public ApplicationGatewayHeaderConfiguration setHeaderName(String headerName) {
+    public ApplicationGatewayHeaderConfiguration withHeaderName(String headerName) {
         this.headerName = headerName;
         return this;
     }
@@ -51,7 +51,7 @@ public final class ApplicationGatewayHeaderConfiguration {
      * 
      * @return the headerValue value.
      */
-    public String getHeaderValue() {
+    public String headerValue() {
         return this.headerValue;
     }
 
@@ -61,7 +61,7 @@ public final class ApplicationGatewayHeaderConfiguration {
      * @param headerValue the headerValue value to set.
      * @return the ApplicationGatewayHeaderConfiguration object itself.
      */
-    public ApplicationGatewayHeaderConfiguration setHeaderValue(String headerValue) {
+    public ApplicationGatewayHeaderConfiguration withHeaderValue(String headerValue) {
         this.headerValue = headerValue;
         return this;
     }

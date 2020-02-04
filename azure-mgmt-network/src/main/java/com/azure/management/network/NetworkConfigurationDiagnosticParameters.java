@@ -42,7 +42,7 @@ public final class NetworkConfigurationDiagnosticParameters {
      * 
      * @return the targetResourceId value.
      */
-    public String getTargetResourceId() {
+    public String targetResourceId() {
         return this.targetResourceId;
     }
 
@@ -54,7 +54,7 @@ public final class NetworkConfigurationDiagnosticParameters {
      * @param targetResourceId the targetResourceId value to set.
      * @return the NetworkConfigurationDiagnosticParameters object itself.
      */
-    public NetworkConfigurationDiagnosticParameters setTargetResourceId(String targetResourceId) {
+    public NetworkConfigurationDiagnosticParameters withTargetResourceId(String targetResourceId) {
         this.targetResourceId = targetResourceId;
         return this;
     }
@@ -64,7 +64,7 @@ public final class NetworkConfigurationDiagnosticParameters {
      * 
      * @return the verbosityLevel value.
      */
-    public VerbosityLevel getVerbosityLevel() {
+    public VerbosityLevel verbosityLevel() {
         return this.verbosityLevel;
     }
 
@@ -74,7 +74,7 @@ public final class NetworkConfigurationDiagnosticParameters {
      * @param verbosityLevel the verbosityLevel value to set.
      * @return the NetworkConfigurationDiagnosticParameters object itself.
      */
-    public NetworkConfigurationDiagnosticParameters setVerbosityLevel(VerbosityLevel verbosityLevel) {
+    public NetworkConfigurationDiagnosticParameters withVerbosityLevel(VerbosityLevel verbosityLevel) {
         this.verbosityLevel = verbosityLevel;
         return this;
     }
@@ -85,7 +85,7 @@ public final class NetworkConfigurationDiagnosticParameters {
      * 
      * @return the profiles value.
      */
-    public List<NetworkConfigurationDiagnosticProfile> getProfiles() {
+    public List<NetworkConfigurationDiagnosticProfile> profiles() {
         return this.profiles;
     }
 
@@ -96,7 +96,7 @@ public final class NetworkConfigurationDiagnosticParameters {
      * @param profiles the profiles value to set.
      * @return the NetworkConfigurationDiagnosticParameters object itself.
      */
-    public NetworkConfigurationDiagnosticParameters setProfiles(List<NetworkConfigurationDiagnosticProfile> profiles) {
+    public NetworkConfigurationDiagnosticParameters withProfiles(List<NetworkConfigurationDiagnosticProfile> profiles) {
         this.profiles = profiles;
         return this;
     }

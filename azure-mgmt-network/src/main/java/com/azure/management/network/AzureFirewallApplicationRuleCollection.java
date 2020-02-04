@@ -62,7 +62,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -73,7 +73,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * @param name the name value to set.
      * @return the AzureFirewallApplicationRuleCollection object itself.
      */
-    public AzureFirewallApplicationRuleCollection setName(String name) {
+    public AzureFirewallApplicationRuleCollection withName(String name) {
         this.name = name;
         return this;
     }
@@ -84,7 +84,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -94,7 +94,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * 
      * @return the priority value.
      */
-    public Integer getPriority() {
+    public Integer priority() {
         return this.priority;
     }
 
@@ -105,7 +105,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * @param priority the priority value to set.
      * @return the AzureFirewallApplicationRuleCollection object itself.
      */
-    public AzureFirewallApplicationRuleCollection setPriority(Integer priority) {
+    public AzureFirewallApplicationRuleCollection withPriority(Integer priority) {
         this.priority = priority;
         return this;
     }
@@ -115,7 +115,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * 
      * @return the action value.
      */
-    public AzureFirewallRCAction getAction() {
+    public AzureFirewallRCAction action() {
         return this.action;
     }
 
@@ -125,7 +125,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * @param action the action value to set.
      * @return the AzureFirewallApplicationRuleCollection object itself.
      */
-    public AzureFirewallApplicationRuleCollection setAction(AzureFirewallRCAction action) {
+    public AzureFirewallApplicationRuleCollection withAction(AzureFirewallRCAction action) {
         this.action = action;
         return this;
     }
@@ -136,7 +136,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * 
      * @return the rules value.
      */
-    public List<AzureFirewallApplicationRule> getRules() {
+    public List<AzureFirewallApplicationRule> rules() {
         return this.rules;
     }
 
@@ -147,7 +147,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * @param rules the rules value to set.
      * @return the AzureFirewallApplicationRuleCollection object itself.
      */
-    public AzureFirewallApplicationRuleCollection setRules(List<AzureFirewallApplicationRule> rules) {
+    public AzureFirewallApplicationRuleCollection withRules(List<AzureFirewallApplicationRule> rules) {
         this.rules = rules;
         return this;
     }
@@ -157,7 +157,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public ProvisioningState getProvisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -167,7 +167,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the AzureFirewallApplicationRuleCollection object itself.
      */
-    public AzureFirewallApplicationRuleCollection setProvisioningState(ProvisioningState provisioningState) {
+    public AzureFirewallApplicationRuleCollection withProvisioningState(ProvisioningState provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

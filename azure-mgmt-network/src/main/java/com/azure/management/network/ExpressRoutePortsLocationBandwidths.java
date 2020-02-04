@@ -31,7 +31,7 @@ public final class ExpressRoutePortsLocationBandwidths {
      * 
      * @return the offerName value.
      */
-    public String getOfferName() {
+    public String offerName() {
         return this.offerName;
     }
 
@@ -40,7 +40,7 @@ public final class ExpressRoutePortsLocationBandwidths {
      * 
      * @return the valueInGbps value.
      */
-    public Integer getValueInGbps() {
+    public Integer valueInGbps() {
         return this.valueInGbps;
     }
 }

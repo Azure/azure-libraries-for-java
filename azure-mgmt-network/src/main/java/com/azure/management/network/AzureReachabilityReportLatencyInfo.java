@@ -33,7 +33,7 @@ public final class AzureReachabilityReportLatencyInfo {
      * 
      * @return the timeStamp value.
      */
-    public OffsetDateTime getTimeStamp() {
+    public OffsetDateTime timeStamp() {
         return this.timeStamp;
     }
 
@@ -43,7 +43,7 @@ public final class AzureReachabilityReportLatencyInfo {
      * @param timeStamp the timeStamp value to set.
      * @return the AzureReachabilityReportLatencyInfo object itself.
      */
-    public AzureReachabilityReportLatencyInfo setTimeStamp(OffsetDateTime timeStamp) {
+    public AzureReachabilityReportLatencyInfo withTimeStamp(OffsetDateTime timeStamp) {
         this.timeStamp = timeStamp;
         return this;
     }
@@ -54,7 +54,7 @@ public final class AzureReachabilityReportLatencyInfo {
      * 
      * @return the score value.
      */
-    public Integer getScore() {
+    public Integer score() {
         return this.score;
     }
 
@@ -65,7 +65,7 @@ public final class AzureReachabilityReportLatencyInfo {
      * @param score the score value to set.
      * @return the AzureReachabilityReportLatencyInfo object itself.
      */
-    public AzureReachabilityReportLatencyInfo setScore(Integer score) {
+    public AzureReachabilityReportLatencyInfo withScore(Integer score) {
         this.score = score;
         return this;
     }

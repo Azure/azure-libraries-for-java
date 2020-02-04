@@ -46,7 +46,7 @@ public class ContainerNetworkInterfaceIpConfiguration {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -57,7 +57,7 @@ public class ContainerNetworkInterfaceIpConfiguration {
      * @param name the name value to set.
      * @return the ContainerNetworkInterfaceIpConfiguration object itself.
      */
-    public ContainerNetworkInterfaceIpConfiguration setName(String name) {
+    public ContainerNetworkInterfaceIpConfiguration withName(String name) {
         this.name = name;
         return this;
     }
@@ -67,7 +67,7 @@ public class ContainerNetworkInterfaceIpConfiguration {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -77,7 +77,7 @@ public class ContainerNetworkInterfaceIpConfiguration {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -88,7 +88,7 @@ public class ContainerNetworkInterfaceIpConfiguration {
      * @param etag the etag value to set.
      * @return the ContainerNetworkInterfaceIpConfiguration object itself.
      */
-    public ContainerNetworkInterfaceIpConfiguration setEtag(String etag) {
+    public ContainerNetworkInterfaceIpConfiguration withEtag(String etag) {
         this.etag = etag;
         return this;
     }
@@ -99,7 +99,7 @@ public class ContainerNetworkInterfaceIpConfiguration {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

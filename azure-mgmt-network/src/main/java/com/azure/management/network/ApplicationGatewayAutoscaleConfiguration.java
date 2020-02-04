@@ -32,7 +32,7 @@ public final class ApplicationGatewayAutoscaleConfiguration {
      * 
      * @return the minCapacity value.
      */
-    public int getMinCapacity() {
+    public int minCapacity() {
         return this.minCapacity;
     }
 
@@ -43,7 +43,7 @@ public final class ApplicationGatewayAutoscaleConfiguration {
      * @param minCapacity the minCapacity value to set.
      * @return the ApplicationGatewayAutoscaleConfiguration object itself.
      */
-    public ApplicationGatewayAutoscaleConfiguration setMinCapacity(int minCapacity) {
+    public ApplicationGatewayAutoscaleConfiguration withMinCapacity(int minCapacity) {
         this.minCapacity = minCapacity;
         return this;
     }
@@ -54,7 +54,7 @@ public final class ApplicationGatewayAutoscaleConfiguration {
      * 
      * @return the maxCapacity value.
      */
-    public Integer getMaxCapacity() {
+    public Integer maxCapacity() {
         return this.maxCapacity;
     }
 
@@ -65,7 +65,7 @@ public final class ApplicationGatewayAutoscaleConfiguration {
      * @param maxCapacity the maxCapacity value to set.
      * @return the ApplicationGatewayAutoscaleConfiguration object itself.
      */
-    public ApplicationGatewayAutoscaleConfiguration setMaxCapacity(Integer maxCapacity) {
+    public ApplicationGatewayAutoscaleConfiguration withMaxCapacity(Integer maxCapacity) {
         this.maxCapacity = maxCapacity;
         return this;
     }

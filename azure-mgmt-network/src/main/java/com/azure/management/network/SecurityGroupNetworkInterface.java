@@ -31,7 +31,7 @@ public final class SecurityGroupNetworkInterface {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -41,7 +41,7 @@ public final class SecurityGroupNetworkInterface {
      * @param id the id value to set.
      * @return the SecurityGroupNetworkInterface object itself.
      */
-    public SecurityGroupNetworkInterface setId(String id) {
+    public SecurityGroupNetworkInterface withId(String id) {
         this.id = id;
         return this;
     }
@@ -52,7 +52,7 @@ public final class SecurityGroupNetworkInterface {
      * 
      * @return the securityRuleAssociations value.
      */
-    public SecurityRuleAssociations getSecurityRuleAssociations() {
+    public SecurityRuleAssociations securityRuleAssociations() {
         return this.securityRuleAssociations;
     }
 
@@ -64,7 +64,7 @@ public final class SecurityGroupNetworkInterface {
      * set.
      * @return the SecurityGroupNetworkInterface object itself.
      */
-    public SecurityGroupNetworkInterface setSecurityRuleAssociations(SecurityRuleAssociations securityRuleAssociations) {
+    public SecurityGroupNetworkInterface withSecurityRuleAssociations(SecurityRuleAssociations securityRuleAssociations) {
         this.securityRuleAssociations = securityRuleAssociations;
         return this;
     }

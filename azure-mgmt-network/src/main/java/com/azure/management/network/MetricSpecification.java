@@ -104,7 +104,7 @@ public final class MetricSpecification {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -114,7 +114,7 @@ public final class MetricSpecification {
      * @param name the name value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setName(String name) {
+    public MetricSpecification withName(String name) {
         this.name = name;
         return this;
     }
@@ -124,7 +124,7 @@ public final class MetricSpecification {
      * 
      * @return the displayName value.
      */
-    public String getDisplayName() {
+    public String displayName() {
         return this.displayName;
     }
 
@@ -134,7 +134,7 @@ public final class MetricSpecification {
      * @param displayName the displayName value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setDisplayName(String displayName) {
+    public MetricSpecification withDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -144,7 +144,7 @@ public final class MetricSpecification {
      * 
      * @return the displayDescription value.
      */
-    public String getDisplayDescription() {
+    public String displayDescription() {
         return this.displayDescription;
     }
 
@@ -154,7 +154,7 @@ public final class MetricSpecification {
      * @param displayDescription the displayDescription value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setDisplayDescription(String displayDescription) {
+    public MetricSpecification withDisplayDescription(String displayDescription) {
         this.displayDescription = displayDescription;
         return this;
     }
@@ -164,7 +164,7 @@ public final class MetricSpecification {
      * 
      * @return the unit value.
      */
-    public String getUnit() {
+    public String unit() {
         return this.unit;
     }
 
@@ -174,7 +174,7 @@ public final class MetricSpecification {
      * @param unit the unit value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setUnit(String unit) {
+    public MetricSpecification withUnit(String unit) {
         this.unit = unit;
         return this;
     }
@@ -184,7 +184,7 @@ public final class MetricSpecification {
      * 
      * @return the aggregationType value.
      */
-    public String getAggregationType() {
+    public String aggregationType() {
         return this.aggregationType;
     }
 
@@ -194,7 +194,7 @@ public final class MetricSpecification {
      * @param aggregationType the aggregationType value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setAggregationType(String aggregationType) {
+    public MetricSpecification withAggregationType(String aggregationType) {
         this.aggregationType = aggregationType;
         return this;
     }
@@ -204,7 +204,7 @@ public final class MetricSpecification {
      * 
      * @return the availabilities value.
      */
-    public List<Availability> getAvailabilities() {
+    public List<Availability> availabilities() {
         return this.availabilities;
     }
 
@@ -214,7 +214,7 @@ public final class MetricSpecification {
      * @param availabilities the availabilities value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setAvailabilities(List<Availability> availabilities) {
+    public MetricSpecification withAvailabilities(List<Availability> availabilities) {
         this.availabilities = availabilities;
         return this;
     }
@@ -225,7 +225,7 @@ public final class MetricSpecification {
      * 
      * @return the enableRegionalMdmAccount value.
      */
-    public Boolean isEnableRegionalMdmAccount() {
+    public Boolean enableRegionalMdmAccount() {
         return this.enableRegionalMdmAccount;
     }
 
@@ -237,7 +237,7 @@ public final class MetricSpecification {
      * set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setEnableRegionalMdmAccount(Boolean enableRegionalMdmAccount) {
+    public MetricSpecification withEnableRegionalMdmAccount(Boolean enableRegionalMdmAccount) {
         this.enableRegionalMdmAccount = enableRegionalMdmAccount;
         return this;
     }
@@ -248,7 +248,7 @@ public final class MetricSpecification {
      * 
      * @return the fillGapWithZero value.
      */
-    public Boolean isFillGapWithZero() {
+    public Boolean fillGapWithZero() {
         return this.fillGapWithZero;
     }
 
@@ -259,7 +259,7 @@ public final class MetricSpecification {
      * @param fillGapWithZero the fillGapWithZero value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setFillGapWithZero(Boolean fillGapWithZero) {
+    public MetricSpecification withFillGapWithZero(Boolean fillGapWithZero) {
         this.fillGapWithZero = fillGapWithZero;
         return this;
     }
@@ -270,7 +270,7 @@ public final class MetricSpecification {
      * 
      * @return the metricFilterPattern value.
      */
-    public String getMetricFilterPattern() {
+    public String metricFilterPattern() {
         return this.metricFilterPattern;
     }
 
@@ -281,7 +281,7 @@ public final class MetricSpecification {
      * @param metricFilterPattern the metricFilterPattern value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setMetricFilterPattern(String metricFilterPattern) {
+    public MetricSpecification withMetricFilterPattern(String metricFilterPattern) {
         this.metricFilterPattern = metricFilterPattern;
         return this;
     }
@@ -291,7 +291,7 @@ public final class MetricSpecification {
      * 
      * @return the dimensions value.
      */
-    public List<Dimension> getDimensions() {
+    public List<Dimension> dimensions() {
         return this.dimensions;
     }
 
@@ -301,7 +301,7 @@ public final class MetricSpecification {
      * @param dimensions the dimensions value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setDimensions(List<Dimension> dimensions) {
+    public MetricSpecification withDimensions(List<Dimension> dimensions) {
         this.dimensions = dimensions;
         return this;
     }
@@ -321,7 +321,7 @@ public final class MetricSpecification {
      * @param isInternal the isInternal value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setIsInternal(Boolean isInternal) {
+    public MetricSpecification withIsInternal(Boolean isInternal) {
         this.isInternal = isInternal;
         return this;
     }
@@ -331,7 +331,7 @@ public final class MetricSpecification {
      * 
      * @return the sourceMdmAccount value.
      */
-    public String getSourceMdmAccount() {
+    public String sourceMdmAccount() {
         return this.sourceMdmAccount;
     }
 
@@ -341,7 +341,7 @@ public final class MetricSpecification {
      * @param sourceMdmAccount the sourceMdmAccount value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setSourceMdmAccount(String sourceMdmAccount) {
+    public MetricSpecification withSourceMdmAccount(String sourceMdmAccount) {
         this.sourceMdmAccount = sourceMdmAccount;
         return this;
     }
@@ -351,7 +351,7 @@ public final class MetricSpecification {
      * 
      * @return the sourceMdmNamespace value.
      */
-    public String getSourceMdmNamespace() {
+    public String sourceMdmNamespace() {
         return this.sourceMdmNamespace;
     }
 
@@ -361,7 +361,7 @@ public final class MetricSpecification {
      * @param sourceMdmNamespace the sourceMdmNamespace value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setSourceMdmNamespace(String sourceMdmNamespace) {
+    public MetricSpecification withSourceMdmNamespace(String sourceMdmNamespace) {
         this.sourceMdmNamespace = sourceMdmNamespace;
         return this;
     }
@@ -372,7 +372,7 @@ public final class MetricSpecification {
      * 
      * @return the resourceIdDimensionNameOverride value.
      */
-    public String getResourceIdDimensionNameOverride() {
+    public String resourceIdDimensionNameOverride() {
         return this.resourceIdDimensionNameOverride;
     }
 
@@ -384,7 +384,7 @@ public final class MetricSpecification {
      * resourceIdDimensionNameOverride value to set.
      * @return the MetricSpecification object itself.
      */
-    public MetricSpecification setResourceIdDimensionNameOverride(String resourceIdDimensionNameOverride) {
+    public MetricSpecification withResourceIdDimensionNameOverride(String resourceIdDimensionNameOverride) {
         this.resourceIdDimensionNameOverride = resourceIdDimensionNameOverride;
         return this;
     }

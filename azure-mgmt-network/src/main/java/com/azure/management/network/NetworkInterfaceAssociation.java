@@ -7,7 +7,7 @@
 package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.network.model.SecurityRuleInner;
+import com.azure.management.network.models.SecurityRuleInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public final class NetworkInterfaceAssociation {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -42,7 +42,7 @@ public final class NetworkInterfaceAssociation {
      * 
      * @return the securityRules value.
      */
-    public List<SecurityRuleInner> getSecurityRules() {
+    public List<SecurityRuleInner> securityRules() {
         return this.securityRules;
     }
 
@@ -52,7 +52,7 @@ public final class NetworkInterfaceAssociation {
      * @param securityRules the securityRules value to set.
      * @return the NetworkInterfaceAssociation object itself.
      */
-    public NetworkInterfaceAssociation setSecurityRules(List<SecurityRuleInner> securityRules) {
+    public NetworkInterfaceAssociation withSecurityRules(List<SecurityRuleInner> securityRules) {
         this.securityRules = securityRules;
         return this;
     }

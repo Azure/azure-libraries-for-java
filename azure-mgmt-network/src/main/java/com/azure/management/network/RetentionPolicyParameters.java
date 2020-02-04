@@ -31,7 +31,7 @@ public final class RetentionPolicyParameters {
      * 
      * @return the days value.
      */
-    public Integer getDays() {
+    public Integer days() {
         return this.days;
     }
 
@@ -41,7 +41,7 @@ public final class RetentionPolicyParameters {
      * @param days the days value to set.
      * @return the RetentionPolicyParameters object itself.
      */
-    public RetentionPolicyParameters setDays(Integer days) {
+    public RetentionPolicyParameters withDays(Integer days) {
         this.days = days;
         return this;
     }
@@ -51,7 +51,7 @@ public final class RetentionPolicyParameters {
      * 
      * @return the enabled value.
      */
-    public Boolean isEnabled() {
+    public Boolean enabled() {
         return this.enabled;
     }
 
@@ -61,7 +61,7 @@ public final class RetentionPolicyParameters {
      * @param enabled the enabled value to set.
      * @return the RetentionPolicyParameters object itself.
      */
-    public RetentionPolicyParameters setEnabled(Boolean enabled) {
+    public RetentionPolicyParameters withEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }

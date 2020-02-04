@@ -62,7 +62,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -73,7 +73,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * @param name the name value to set.
      * @return the AzureFirewallNatRuleCollection object itself.
      */
-    public AzureFirewallNatRuleCollection setName(String name) {
+    public AzureFirewallNatRuleCollection withName(String name) {
         this.name = name;
         return this;
     }
@@ -84,7 +84,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * 
      * @return the etag value.
      */
-    public String getEtag() {
+    public String etag() {
         return this.etag;
     }
 
@@ -93,7 +93,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * 
      * @return the priority value.
      */
-    public Integer getPriority() {
+    public Integer priority() {
         return this.priority;
     }
 
@@ -103,7 +103,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * @param priority the priority value to set.
      * @return the AzureFirewallNatRuleCollection object itself.
      */
-    public AzureFirewallNatRuleCollection setPriority(Integer priority) {
+    public AzureFirewallNatRuleCollection withPriority(Integer priority) {
         this.priority = priority;
         return this;
     }
@@ -113,7 +113,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * 
      * @return the action value.
      */
-    public AzureFirewallNatRCAction getAction() {
+    public AzureFirewallNatRCAction action() {
         return this.action;
     }
 
@@ -123,7 +123,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * @param action the action value to set.
      * @return the AzureFirewallNatRuleCollection object itself.
      */
-    public AzureFirewallNatRuleCollection setAction(AzureFirewallNatRCAction action) {
+    public AzureFirewallNatRuleCollection withAction(AzureFirewallNatRCAction action) {
         this.action = action;
         return this;
     }
@@ -134,7 +134,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * 
      * @return the rules value.
      */
-    public List<AzureFirewallNatRule> getRules() {
+    public List<AzureFirewallNatRule> rules() {
         return this.rules;
     }
 
@@ -145,7 +145,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * @param rules the rules value to set.
      * @return the AzureFirewallNatRuleCollection object itself.
      */
-    public AzureFirewallNatRuleCollection setRules(List<AzureFirewallNatRule> rules) {
+    public AzureFirewallNatRuleCollection withRules(List<AzureFirewallNatRule> rules) {
         this.rules = rules;
         return this;
     }
@@ -155,7 +155,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * 
      * @return the provisioningState value.
      */
-    public ProvisioningState getProvisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -165,7 +165,7 @@ public class AzureFirewallNatRuleCollection extends SubResource {
      * @param provisioningState the provisioningState value to set.
      * @return the AzureFirewallNatRuleCollection object itself.
      */
-    public AzureFirewallNatRuleCollection setProvisioningState(ProvisioningState provisioningState) {
+    public AzureFirewallNatRuleCollection withProvisioningState(ProvisioningState provisioningState) {
         this.provisioningState = provisioningState;
         return this;
     }

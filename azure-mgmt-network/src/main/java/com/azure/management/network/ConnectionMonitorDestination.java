@@ -38,7 +38,7 @@ public final class ConnectionMonitorDestination {
      * 
      * @return the resourceId value.
      */
-    public String getResourceId() {
+    public String resourceId() {
         return this.resourceId;
     }
 
@@ -49,7 +49,7 @@ public final class ConnectionMonitorDestination {
      * @param resourceId the resourceId value to set.
      * @return the ConnectionMonitorDestination object itself.
      */
-    public ConnectionMonitorDestination setResourceId(String resourceId) {
+    public ConnectionMonitorDestination withResourceId(String resourceId) {
         this.resourceId = resourceId;
         return this;
     }
@@ -60,7 +60,7 @@ public final class ConnectionMonitorDestination {
      * 
      * @return the address value.
      */
-    public String getAddress() {
+    public String address() {
         return this.address;
     }
 
@@ -71,7 +71,7 @@ public final class ConnectionMonitorDestination {
      * @param address the address value to set.
      * @return the ConnectionMonitorDestination object itself.
      */
-    public ConnectionMonitorDestination setAddress(String address) {
+    public ConnectionMonitorDestination withAddress(String address) {
         this.address = address;
         return this;
     }
@@ -81,7 +81,7 @@ public final class ConnectionMonitorDestination {
      * 
      * @return the port value.
      */
-    public Integer getPort() {
+    public Integer port() {
         return this.port;
     }
 
@@ -91,7 +91,7 @@ public final class ConnectionMonitorDestination {
      * @param port the port value to set.
      * @return the ConnectionMonitorDestination object itself.
      */
-    public ConnectionMonitorDestination setPort(Integer port) {
+    public ConnectionMonitorDestination withPort(Integer port) {
         this.port = port;
         return this;
     }

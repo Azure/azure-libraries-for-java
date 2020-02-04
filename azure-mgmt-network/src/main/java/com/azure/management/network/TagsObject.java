@@ -26,7 +26,7 @@ public final class TagsObject {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -36,7 +36,7 @@ public final class TagsObject {
      * @param tags the tags value to set.
      * @return the TagsObject object itself.
      */
-    public TagsObject setTags(Map<String, String> tags) {
+    public TagsObject withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }

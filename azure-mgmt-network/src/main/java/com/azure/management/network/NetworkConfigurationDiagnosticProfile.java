@@ -51,7 +51,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * 
      * @return the direction value.
      */
-    public Direction getDirection() {
+    public Direction direction() {
         return this.direction;
     }
 
@@ -61,7 +61,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * @param direction the direction value to set.
      * @return the NetworkConfigurationDiagnosticProfile object itself.
      */
-    public NetworkConfigurationDiagnosticProfile setDirection(Direction direction) {
+    public NetworkConfigurationDiagnosticProfile withDirection(Direction direction) {
         this.direction = direction;
         return this;
     }
@@ -72,7 +72,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * 
      * @return the protocol value.
      */
-    public String getProtocol() {
+    public String protocol() {
         return this.protocol;
     }
 
@@ -83,7 +83,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * @param protocol the protocol value to set.
      * @return the NetworkConfigurationDiagnosticProfile object itself.
      */
-    public NetworkConfigurationDiagnosticProfile setProtocol(String protocol) {
+    public NetworkConfigurationDiagnosticProfile withProtocol(String protocol) {
         this.protocol = protocol;
         return this;
     }
@@ -94,7 +94,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * 
      * @return the source value.
      */
-    public String getSource() {
+    public String source() {
         return this.source;
     }
 
@@ -105,7 +105,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * @param source the source value to set.
      * @return the NetworkConfigurationDiagnosticProfile object itself.
      */
-    public NetworkConfigurationDiagnosticProfile setSource(String source) {
+    public NetworkConfigurationDiagnosticProfile withSource(String source) {
         this.source = source;
         return this;
     }
@@ -116,7 +116,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * 
      * @return the destination value.
      */
-    public String getDestination() {
+    public String destination() {
         return this.destination;
     }
 
@@ -127,7 +127,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * @param destination the destination value to set.
      * @return the NetworkConfigurationDiagnosticProfile object itself.
      */
-    public NetworkConfigurationDiagnosticProfile setDestination(String destination) {
+    public NetworkConfigurationDiagnosticProfile withDestination(String destination) {
         this.destination = destination;
         return this;
     }
@@ -139,7 +139,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * 
      * @return the destinationPort value.
      */
-    public String getDestinationPort() {
+    public String destinationPort() {
         return this.destinationPort;
     }
 
@@ -151,7 +151,7 @@ public final class NetworkConfigurationDiagnosticProfile {
      * @param destinationPort the destinationPort value to set.
      * @return the NetworkConfigurationDiagnosticProfile object itself.
      */
-    public NetworkConfigurationDiagnosticProfile setDestinationPort(String destinationPort) {
+    public NetworkConfigurationDiagnosticProfile withDestinationPort(String destinationPort) {
         this.destinationPort = destinationPort;
         return this;
     }

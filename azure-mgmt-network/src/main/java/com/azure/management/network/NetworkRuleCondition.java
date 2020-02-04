@@ -49,7 +49,7 @@ public final class NetworkRuleCondition extends FirewallPolicyRuleCondition {
      * 
      * @return the ipProtocols value.
      */
-    public List<FirewallPolicyRuleConditionNetworkProtocol> getIpProtocols() {
+    public List<FirewallPolicyRuleConditionNetworkProtocol> ipProtocols() {
         return this.ipProtocols;
     }
 
@@ -60,7 +60,7 @@ public final class NetworkRuleCondition extends FirewallPolicyRuleCondition {
      * @param ipProtocols the ipProtocols value to set.
      * @return the NetworkRuleCondition object itself.
      */
-    public NetworkRuleCondition setIpProtocols(List<FirewallPolicyRuleConditionNetworkProtocol> ipProtocols) {
+    public NetworkRuleCondition withIpProtocols(List<FirewallPolicyRuleConditionNetworkProtocol> ipProtocols) {
         this.ipProtocols = ipProtocols;
         return this;
     }
@@ -71,7 +71,7 @@ public final class NetworkRuleCondition extends FirewallPolicyRuleCondition {
      * 
      * @return the sourceAddresses value.
      */
-    public List<String> getSourceAddresses() {
+    public List<String> sourceAddresses() {
         return this.sourceAddresses;
     }
 
@@ -82,7 +82,7 @@ public final class NetworkRuleCondition extends FirewallPolicyRuleCondition {
      * @param sourceAddresses the sourceAddresses value to set.
      * @return the NetworkRuleCondition object itself.
      */
-    public NetworkRuleCondition setSourceAddresses(List<String> sourceAddresses) {
+    public NetworkRuleCondition withSourceAddresses(List<String> sourceAddresses) {
         this.sourceAddresses = sourceAddresses;
         return this;
     }
@@ -93,7 +93,7 @@ public final class NetworkRuleCondition extends FirewallPolicyRuleCondition {
      * 
      * @return the destinationAddresses value.
      */
-    public List<String> getDestinationAddresses() {
+    public List<String> destinationAddresses() {
         return this.destinationAddresses;
     }
 
@@ -104,7 +104,7 @@ public final class NetworkRuleCondition extends FirewallPolicyRuleCondition {
      * @param destinationAddresses the destinationAddresses value to set.
      * @return the NetworkRuleCondition object itself.
      */
-    public NetworkRuleCondition setDestinationAddresses(List<String> destinationAddresses) {
+    public NetworkRuleCondition withDestinationAddresses(List<String> destinationAddresses) {
         this.destinationAddresses = destinationAddresses;
         return this;
     }
@@ -114,7 +114,7 @@ public final class NetworkRuleCondition extends FirewallPolicyRuleCondition {
      * 
      * @return the destinationPorts value.
      */
-    public List<String> getDestinationPorts() {
+    public List<String> destinationPorts() {
         return this.destinationPorts;
     }
 
@@ -124,7 +124,7 @@ public final class NetworkRuleCondition extends FirewallPolicyRuleCondition {
      * @param destinationPorts the destinationPorts value to set.
      * @return the NetworkRuleCondition object itself.
      */
-    public NetworkRuleCondition setDestinationPorts(List<String> destinationPorts) {
+    public NetworkRuleCondition withDestinationPorts(List<String> destinationPorts) {
         this.destinationPorts = destinationPorts;
         return this;
     }

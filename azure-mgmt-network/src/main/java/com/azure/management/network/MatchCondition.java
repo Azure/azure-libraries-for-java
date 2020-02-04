@@ -50,7 +50,7 @@ public final class MatchCondition {
      * 
      * @return the matchVariables value.
      */
-    public List<MatchVariable> getMatchVariables() {
+    public List<MatchVariable> matchVariables() {
         return this.matchVariables;
     }
 
@@ -60,7 +60,7 @@ public final class MatchCondition {
      * @param matchVariables the matchVariables value to set.
      * @return the MatchCondition object itself.
      */
-    public MatchCondition setMatchVariables(List<MatchVariable> matchVariables) {
+    public MatchCondition withMatchVariables(List<MatchVariable> matchVariables) {
         this.matchVariables = matchVariables;
         return this;
     }
@@ -70,7 +70,7 @@ public final class MatchCondition {
      * 
      * @return the operator value.
      */
-    public WebApplicationFirewallOperator getOperator() {
+    public WebApplicationFirewallOperator operator() {
         return this.operator;
     }
 
@@ -80,7 +80,7 @@ public final class MatchCondition {
      * @param operator the operator value to set.
      * @return the MatchCondition object itself.
      */
-    public MatchCondition setOperator(WebApplicationFirewallOperator operator) {
+    public MatchCondition withOperator(WebApplicationFirewallOperator operator) {
         this.operator = operator;
         return this;
     }
@@ -91,7 +91,7 @@ public final class MatchCondition {
      * 
      * @return the negationConditon value.
      */
-    public Boolean isNegationConditon() {
+    public Boolean negationConditon() {
         return this.negationConditon;
     }
 
@@ -102,7 +102,7 @@ public final class MatchCondition {
      * @param negationConditon the negationConditon value to set.
      * @return the MatchCondition object itself.
      */
-    public MatchCondition setNegationConditon(Boolean negationConditon) {
+    public MatchCondition withNegationConditon(Boolean negationConditon) {
         this.negationConditon = negationConditon;
         return this;
     }
@@ -112,7 +112,7 @@ public final class MatchCondition {
      * 
      * @return the matchValues value.
      */
-    public List<String> getMatchValues() {
+    public List<String> matchValues() {
         return this.matchValues;
     }
 
@@ -122,7 +122,7 @@ public final class MatchCondition {
      * @param matchValues the matchValues value to set.
      * @return the MatchCondition object itself.
      */
-    public MatchCondition setMatchValues(List<String> matchValues) {
+    public MatchCondition withMatchValues(List<String> matchValues) {
         this.matchValues = matchValues;
         return this;
     }
@@ -132,7 +132,7 @@ public final class MatchCondition {
      * 
      * @return the transforms value.
      */
-    public List<WebApplicationFirewallTransform> getTransforms() {
+    public List<WebApplicationFirewallTransform> transforms() {
         return this.transforms;
     }
 
@@ -142,7 +142,7 @@ public final class MatchCondition {
      * @param transforms the transforms value to set.
      * @return the MatchCondition object itself.
      */
-    public MatchCondition setTransforms(List<WebApplicationFirewallTransform> transforms) {
+    public MatchCondition withTransforms(List<WebApplicationFirewallTransform> transforms) {
         this.transforms = transforms;
         return this;
     }

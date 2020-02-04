@@ -38,7 +38,7 @@ public final class AvailableProvidersListCountry {
      * 
      * @return the countryName value.
      */
-    public String getCountryName() {
+    public String countryName() {
         return this.countryName;
     }
 
@@ -48,7 +48,7 @@ public final class AvailableProvidersListCountry {
      * @param countryName the countryName value to set.
      * @return the AvailableProvidersListCountry object itself.
      */
-    public AvailableProvidersListCountry setCountryName(String countryName) {
+    public AvailableProvidersListCountry withCountryName(String countryName) {
         this.countryName = countryName;
         return this;
     }
@@ -58,7 +58,7 @@ public final class AvailableProvidersListCountry {
      * 
      * @return the providers value.
      */
-    public List<String> getProviders() {
+    public List<String> providers() {
         return this.providers;
     }
 
@@ -68,7 +68,7 @@ public final class AvailableProvidersListCountry {
      * @param providers the providers value to set.
      * @return the AvailableProvidersListCountry object itself.
      */
-    public AvailableProvidersListCountry setProviders(List<String> providers) {
+    public AvailableProvidersListCountry withProviders(List<String> providers) {
         this.providers = providers;
         return this;
     }
@@ -78,7 +78,7 @@ public final class AvailableProvidersListCountry {
      * 
      * @return the states value.
      */
-    public List<AvailableProvidersListState> getStates() {
+    public List<AvailableProvidersListState> states() {
         return this.states;
     }
 
@@ -88,7 +88,7 @@ public final class AvailableProvidersListCountry {
      * @param states the states value to set.
      * @return the AvailableProvidersListCountry object itself.
      */
-    public AvailableProvidersListCountry setStates(List<AvailableProvidersListState> states) {
+    public AvailableProvidersListCountry withStates(List<AvailableProvidersListState> states) {
         this.states = states;
         return this;
     }

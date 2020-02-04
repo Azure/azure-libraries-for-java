@@ -5,18 +5,17 @@
  */
 package com.azure.management.network;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.network.implementation.PublicIPAddressInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.network.models.PublicIPAddressInner;
+import com.azure.management.network.models.UpdatableWithTags;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 import java.util.List;
 import java.util.Set;
@@ -91,28 +90,25 @@ public interface PublicIPAddress extends
     /**
      * @return the availability zones assigned to the public IP address
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
      * @return public IP address sku.
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
     PublicIPSkuType sku();
 
     /**
      * @return read-only list of ipTags assosiated with public ip address
      */
-    @Beta(Beta.SinceVersion.V1_10_0)
     List<IpTag> ipTags();
 
     /**
      * Container interface for all the definitions.
      */
     interface Definition extends
-        DefinitionStages.Blank,
-        DefinitionStages.WithGroup,
-        DefinitionStages.WithCreate {
+            DefinitionStages.Blank,
+            DefinitionStages.WithGroup,
+            DefinitionStages.WithCreate {
     }
 
     /**
@@ -123,14 +119,14 @@ public interface PublicIPAddress extends
          * The first stage of a public IP address definition.
          */
         interface Blank
-            extends GroupableResource.DefinitionWithRegion<WithGroup> {
+                extends GroupableResource.DefinitionWithRegion<WithGroup> {
         }
 
         /**
          * The stage of the public IP address definition allowing to specify the resource group.
          */
         interface WithGroup
-            extends GroupableResource.DefinitionStages.WithGroup<WithCreate> {
+                extends GroupableResource.DefinitionStages.WithGroup<WithCreate> {
         }
 
         /**
@@ -164,6 +160,7 @@ public interface PublicIPAddress extends
              * <p>
              * The fully qualified domain name (FQDN)
              * will be constructed automatically by appending the rest of the domain to this label.
+             *
              * @param dnsName the leaf domain label to use. This must follow the required naming convention for leaf domain names.
              * @return the next stage of the definition
              */
@@ -173,6 +170,7 @@ public interface PublicIPAddress extends
              * Ensures that no leaf domain label will be used.
              * <p>
              * This means that this public IP address will not be associated with a domain name.
+             *
              * @return the next stage of the definition
              */
             WithCreate withoutLeafDomainLabel();
@@ -193,6 +191,7 @@ public interface PublicIPAddress extends
 
             /**
              * Ensures that no reverse FQDN will be used.
+             *
              * @return the next stage of the definition
              */
             WithCreate withoutReverseFqdn();
@@ -214,7 +213,6 @@ public interface PublicIPAddress extends
         /**
          * The stage of the IP address definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the IP address.
@@ -222,14 +220,12 @@ public interface PublicIPAddress extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
             WithCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 
         /**
          * The stage of the IP address definition allowing to specify SKU.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
         interface WithSku {
             /**
              * Specifies the SKU for the IP address.
@@ -243,10 +239,10 @@ public interface PublicIPAddress extends
         /**
          * The stage of the definition allowing to specify ipTags associated with the public IP address.
          */
-        @Beta(Beta.SinceVersion.V1_10_0)
         interface WithIpTag {
             /**
              * Sets an ipTag associated with the public IP address.
+             *
              * @param tag ip tag value
              * @return the next stage of the definition
              */
@@ -254,7 +250,8 @@ public interface PublicIPAddress extends
 
             /**
              * Sets an ipTag associated with the public IP address.
-             * @param tag ip tag value
+             *
+             * @param tag       ip tag value
              * @param ipTagType ipTagType
              * @return the next stage of the definition
              */
@@ -267,15 +264,15 @@ public interface PublicIPAddress extends
          * for any other optional settings to be specified.
          */
         interface WithCreate extends
-            Creatable<PublicIPAddress>,
-            DefinitionStages.WithLeafDomainLabel,
-            DefinitionStages.WithIPAddress,
-            DefinitionStages.WithReverseFQDN,
-            DefinitionStages.WithIdleTimeout,
-            DefinitionStages.WithAvailabilityZone,
-            DefinitionStages.WithSku,
-            DefinitionStages.WithIpTag,
-            Resource.DefinitionWithTags<WithCreate> {
+                Creatable<PublicIPAddress>,
+                DefinitionStages.WithLeafDomainLabel,
+                DefinitionStages.WithIPAddress,
+                DefinitionStages.WithReverseFQDN,
+                DefinitionStages.WithIdleTimeout,
+                DefinitionStages.WithAvailabilityZone,
+                DefinitionStages.WithSku,
+                DefinitionStages.WithIpTag,
+                Resource.DefinitionWithTags<WithCreate> {
         }
     }
 
@@ -285,13 +282,13 @@ public interface PublicIPAddress extends
      * Use {@link Update#apply()} to apply the changes to the resource in Azure.
      */
     interface Update extends
-        Appliable<PublicIPAddress>,
-        UpdateStages.WithIPAddress,
-        UpdateStages.WithLeafDomainLabel,
-        UpdateStages.WithReverseFQDN,
-        UpdateStages.WithIdleTimout,
-        UpdateStages.WithIpTag,
-        Resource.UpdateWithTags<Update> {
+            Appliable<PublicIPAddress>,
+            UpdateStages.WithIPAddress,
+            UpdateStages.WithLeafDomainLabel,
+            UpdateStages.WithReverseFQDN,
+            UpdateStages.WithIdleTimout,
+            UpdateStages.WithIpTag,
+            Resource.UpdateWithTags<Update> {
     }
 
     /**
@@ -329,6 +326,7 @@ public interface PublicIPAddress extends
              * <p>
              * The fully qualified domain name (FQDN)
              * will be constructed automatically by appending the rest of the domain to this label.
+             *
              * @param dnsName the leaf domain label to use. This must follow the required naming convention for leaf domain names.
              * @return the next stage of the resource update
              */
@@ -338,6 +336,7 @@ public interface PublicIPAddress extends
              * Ensures that no leaf domain label will be used.
              * <p>
              * This means that this public IP address will not be associated with a domain name.
+             *
              * @return the next stage of the resource update
              */
             Update withoutLeafDomainLabel();
@@ -379,10 +378,10 @@ public interface PublicIPAddress extends
         /**
          * The stage of the update allowing to specify ipTags associated with the public IP address.
          */
-        @Beta(Beta.SinceVersion.V1_10_0)
         interface WithIpTag {
             /**
              * Sets an ipTag associated with the public IP address.
+             *
              * @param tag ip tag value
              * @return the next stage of the update
              */
@@ -390,7 +389,8 @@ public interface PublicIPAddress extends
 
             /**
              * Sets an ipTag associated with the public IP address.
-             * @param tag ip tag value
+             *
+             * @param tag       ip tag value
              * @param ipTagType ipTagType
              * @return the next stage of the update
              */
@@ -398,6 +398,7 @@ public interface PublicIPAddress extends
 
             /**
              * Removes an ipTag associated with the public IP address.
+             *
              * @param tag ip tag value
              * @return the next stage of the update
              */

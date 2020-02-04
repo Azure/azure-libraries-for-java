@@ -25,7 +25,7 @@ public final class LoadBalancerSku {
      * 
      * @return the name value.
      */
-    public LoadBalancerSkuName getName() {
+    public LoadBalancerSkuName name() {
         return this.name;
     }
 
@@ -35,7 +35,7 @@ public final class LoadBalancerSku {
      * @param name the name value to set.
      * @return the LoadBalancerSku object itself.
      */
-    public LoadBalancerSku setName(LoadBalancerSkuName name) {
+    public LoadBalancerSku withName(LoadBalancerSkuName name) {
         this.name = name;
         return this;
     }

@@ -56,7 +56,7 @@ public final class ConnectivityHop {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -65,7 +65,7 @@ public final class ConnectivityHop {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -74,7 +74,7 @@ public final class ConnectivityHop {
      * 
      * @return the address value.
      */
-    public String getAddress() {
+    public String address() {
         return this.address;
     }
 
@@ -84,7 +84,7 @@ public final class ConnectivityHop {
      * 
      * @return the resourceId value.
      */
-    public String getResourceId() {
+    public String resourceId() {
         return this.resourceId;
     }
 
@@ -93,7 +93,7 @@ public final class ConnectivityHop {
      * 
      * @return the nextHopIds value.
      */
-    public List<String> getNextHopIds() {
+    public List<String> nextHopIds() {
         return this.nextHopIds;
     }
 
@@ -102,7 +102,7 @@ public final class ConnectivityHop {
      * 
      * @return the issues value.
      */
-    public List<ConnectivityIssue> getIssues() {
+    public List<ConnectivityIssue> issues() {
         return this.issues;
     }
 }

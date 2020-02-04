@@ -25,7 +25,7 @@ public final class ExpressRouteCircuitReference {
      * 
      * @return the id value.
      */
-    public String getId() {
+    public String id() {
         return this.id;
     }
 
@@ -35,7 +35,7 @@ public final class ExpressRouteCircuitReference {
      * @param id the id value to set.
      * @return the ExpressRouteCircuitReference object itself.
      */
-    public ExpressRouteCircuitReference setId(String id) {
+    public ExpressRouteCircuitReference withId(String id) {
         this.id = id;
         return this;
     }

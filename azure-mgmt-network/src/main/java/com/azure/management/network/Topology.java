@@ -5,22 +5,20 @@
  */
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.network.implementation.TopologyInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.TopologyInner;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Executable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 /**
  * An immutable client-side representation of an Azure Topology info object, associated with network watcher.
  */
 @Fluent
-@Beta(SinceVersion.V1_2_0)
 public interface Topology extends Executable<Topology>,
         HasInner<TopologyInner>,
         HasParent<NetworkWatcher> {
@@ -38,17 +36,18 @@ public interface Topology extends Executable<Topology>,
      * @return the datetime when the topology was initially created for the resource
      * group.
      */
-    DateTime createdTime();
+    OffsetDateTime createdTime();
 
     /**
      * @return the datetime when the topology was last modified
      */
-    DateTime lastModifiedTime();
+    OffsetDateTime lastModifiedTime();
 
     /**
      * @return The resources in this topology
      */
     Map<String, TopologyResource> resources();
+
     /**
      * The entirety of topology parameters definition.
      */

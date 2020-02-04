@@ -37,7 +37,7 @@ public class InterceptorManager {
 
     private final static String RECORD_FOLDER = "session-records/";
     private final static String BODY_LOGGING = "x-ms-body-logging";
-    private final static Integer HTTP_TEMPORARY_REDIRECT = 307; // HTTP Status Code
+    private final static int HTTP_TEMPORARY_REDIRECT = 307; // HTTP Status Code
 
     private Map<String, String> textReplacementRules = new HashMap<>();
     // Stores a map of all the HTTP properties in a session

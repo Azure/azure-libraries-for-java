@@ -98,10 +98,14 @@ class ServicePrincipalsImpl
                     ));
                 })
                 .map(result -> {
-                    if (result == null || result.toIterable() == null || !result.toIterable().iterator().hasNext()) {
+                    if (result == null) {
                         return null;
                     }
-                    return new ServicePrincipalImpl(result.toIterable().iterator().next(), getManager());
+                    ServicePrincipalInner servicePrincipalInner = result.blockFirst();
+                    if (servicePrincipalInner == null) {
+                        return null;
+                    }
+                    return new ServicePrincipalImpl(servicePrincipalInner, getManager());
                 })
                 .flatMap((Function<ServicePrincipalImpl, Mono<ServicePrincipal>>) servicePrincipal -> {
                     if (servicePrincipal == null) {

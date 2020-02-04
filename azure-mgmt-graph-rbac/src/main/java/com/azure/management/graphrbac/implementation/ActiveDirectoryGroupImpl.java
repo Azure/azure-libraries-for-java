@@ -15,10 +15,7 @@ import com.azure.management.graphrbac.ActiveDirectoryUser;
 import com.azure.management.graphrbac.GroupAddMemberParameters;
 import com.azure.management.graphrbac.GroupCreateParameters;
 import com.azure.management.graphrbac.ServicePrincipal;
-import com.azure.management.graphrbac.models.ADGroupInner;
-import com.azure.management.graphrbac.models.ApplicationInner;
-import com.azure.management.graphrbac.models.ServicePrincipalInner;
-import com.azure.management.graphrbac.models.UserInner;
+import com.azure.management.graphrbac.models.*;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import reactor.core.publisher.Mono;
 
@@ -74,22 +71,17 @@ class ActiveDirectoryGroupImpl
     public PagedFlux<ActiveDirectoryObject> listMembersAsync() {
         return getManager().getInner().groups().getGroupMembersAsync(getId())
                 .mapPage(directoryObjectInner -> {
-                    SerializerAdapter adapter = getManager().getInner().getSerializerAdapter();
-                    try {
-                        String serialized = adapter.serialize(directoryObjectInner, SerializerEncoding.JSON);
-                        if (serialized.contains("User")) {
-                            return new ActiveDirectoryUserImpl(adapter.deserialize(serialized, UserInner.class, SerializerEncoding.JSON), getManager());
-                        } else if (serialized.contains("Group")) {
-                            return new ActiveDirectoryGroupImpl(adapter.deserialize(serialized, ADGroupInner.class, SerializerEncoding.JSON), getManager());
-                        } else if (serialized.contains("ServicePrincipal")) {
-                            return new ServicePrincipalImpl(adapter.deserialize(serialized, ServicePrincipalInner.class, SerializerEncoding.JSON), getManager());
-                        } else if (serialized.contains("Application")) {
-                            return new ActiveDirectoryApplicationImpl(adapter.deserialize(serialized, ApplicationInner.class, SerializerEncoding.JSON), getManager());
-                        } else {
-                            return null;
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                    String objectType = directoryObjectInner.getClass().getName();
+                    if (UserInner.class.getName().equals(objectType)) {
+                        return new ActiveDirectoryUserImpl((UserInner) directoryObjectInner, getManager());
+                    } else if (ADGroupInner.class.getName().equals(objectType)) {
+                        return new ActiveDirectoryGroupImpl((ADGroupInner)directoryObjectInner, getManager());
+                    } else if (ServicePrincipalInner.class.getName().equals(objectType)) {
+                        return new ServicePrincipalImpl((ServicePrincipalInner)directoryObjectInner, getManager());
+                    } else if (ApplicationInner.class.getName().equals(objectType)) {
+                        return new ActiveDirectoryApplicationImpl((ApplicationInner)directoryObjectInner, getManager());
+                    } else {
+                        return null;
                     }
                 });
     }

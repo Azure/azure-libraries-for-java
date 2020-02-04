@@ -17,6 +17,7 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * The implementation of Users and its parent interfaces.
@@ -69,22 +70,18 @@ class ActiveDirectoryUsersImpl
     @Override
     public Mono<ActiveDirectoryUser> getByNameAsync(final String name) {
         return getManager().getInner().users().getAsync(name)
-                .flatMap((Function<UserInner, Mono<UserInner>>) userInner -> {
-                    // Exact match
-                    if (userInner != null) {
-                        return Mono.just(userInner);
-                    }
-                    // Search mail & mail nickname
+                .flatMap((Function<UserInner, Mono<UserInner>>) userInner -> Mono.just(userInner))
+                .switchIfEmpty(Mono.defer((Supplier<Mono<UserInner>>) () -> {
                     if (name.contains("@")) {
-                        return getManager().getInner().users().listAsync(String.format("mail eq '%s' or mailNickName eq '%s#EXT#'", name, name.replace("@", "_")))
-                                .last();
+                        return getManager().getInner().users().listAsync(
+                                String.format("mail eq '%s' or mailNickName eq '%s#EXT#'", name, name.replace("@", "_"))
+                        ).last();
+                    } else {
+                        return getManager().getInner().users().listAsync(
+                                String.format("displayName eq '%s'", name)
+                        ).last();
                     }
-                    // Search display name
-                    else {
-                        return getManager().getInner().users().listAsync(String.format("displayName eq '%s'", name))
-                                .last();
-                    }
-                })
+                }))
                 .map(userInnerServiceResponse -> {
                     if (userInnerServiceResponse == null) {
                         return null;

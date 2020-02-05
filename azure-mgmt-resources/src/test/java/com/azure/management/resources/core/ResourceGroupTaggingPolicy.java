@@ -1,5 +1,3 @@
-
-
 /**
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for
@@ -47,10 +45,10 @@ public class ResourceGroupTaggingPolicy implements HttpPipelinePolicy {
                     ResourceGroupInner resourceGroupInner;
                     try {
                         resourceGroupInner = adapter.deserialize(bodyStr, ResourceGroupInner.class, SerializerEncoding.JSON);
-                        if (resourceGroupInner == null) {
-                            throw new IOException();
-                        }
                     } catch (IOException e) {
+                        return Mono.error(e);
+                    }
+                    if (resourceGroupInner == null) {
                         return Mono.error(new RuntimeException("Failed to deserialize " + bodyStr));
                     }
 
@@ -68,11 +66,12 @@ public class ResourceGroupTaggingPolicy implements HttpPipelinePolicy {
                     String newBody;
                     try {
                         newBody = adapter.serialize(resourceGroupInner, SerializerEncoding.JSON);
-                        if (newBody == null) {
-                            throw new IOException();
-                        }
                     } catch (IOException e) {
-                        return Mono.error(new RuntimeException("Failed to serialize " + bodyStr));
+                        return Mono.error(e);
+                    }
+
+                    if (newBody == null) {
+                        return Mono.error(new RuntimeException("Failed to serialize after resource group tagging.\nOriginal body: " + bodyStr));
                     }
 
                     HttpRequest newRequest = context.getHttpRequest().copy()

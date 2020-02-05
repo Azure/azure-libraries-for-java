@@ -164,7 +164,6 @@ public abstract class TestBase {
             restClient = buildRestClient(new RestClientBuilder()
                     .withBaseUrl(playbackUri + "/")
                     .withSerializerAdapter(new AzureJacksonAdapter())
-                    .withCredential(credentials)
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .withPolicy(interceptorManager.initInterceptor())
                     .withPolicy(new HostPolicy(playbackUri + "/"))

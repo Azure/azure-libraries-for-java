@@ -72,8 +72,7 @@ public class BearerTokenAuthenticationPolicy implements HttpPipelinePolicy {
 
     @Override
     public Mono<HttpResponse> process(HttpPipelineCallContext context, HttpPipelineNextPolicy next) {
-        if ("http".equals(context.getHttpRequest().getUrl().getProtocol().toLowerCase()) &&
-            !"localhost".equals(context.getHttpRequest().getUrl().getHost().toLowerCase().split(":")[0])) {
+        if ("http".equals(context.getHttpRequest().getUrl().getProtocol().toLowerCase())) {
             return Mono.error(new RuntimeException("token credentials require a URL using the HTTPS protocol scheme"));
         }
 

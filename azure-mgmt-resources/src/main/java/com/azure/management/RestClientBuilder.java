@@ -58,22 +58,18 @@ public final class RestClientBuilder {
             return new RestClient(baseUrl, pipeline, this);
         }
 
-        if (credential == null) {
-            throw logger.logExceptionAsError(
-                    new IllegalStateException(
-                            RestErrorCodeStrings.getErrorString(RestErrorCodeStrings.CREDENTIAL_REQUIRED)));
-        }
-
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
         policies.add(new UserAgentPolicy(httpLogOptions, configuration));
-        policies.add(new BearerTokenAuthenticationPolicy(this.credential, this.getScopes()));
+        if (this.credential != null) {
+            policies.add(new BearerTokenAuthenticationPolicy(this.credential, this.getScopes()));
+        }
+        policies.add(new HttpLoggingPolicy(httpLogOptions));
 
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
         policies.add(retryPolicy);
         policies.addAll(this.policies);
         HttpPolicyProviders.addAfterRetryPolicies(policies);
-        policies.add(new HttpLoggingPolicy(httpLogOptions));
 
 //        httpClient = new NettyAsyncHttpClientBuilder()
 //                .build();

@@ -6,6 +6,7 @@ package com.azure.management;
 import com.azure.core.credential.AccessToken;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.credential.TokenRequestContext;
+import com.azure.core.http.HttpRequest;
 import com.azure.core.management.AzureEnvironment;
 import reactor.core.publisher.Mono;
 
@@ -43,42 +44,33 @@ public abstract class AzureTokenCredential implements TokenCredential {
      * @param request the details of the token request
      * @return a Publisher that emits a single access token
      */
-//    @Override
-//    public final Mono<AccessToken> getToken(TokenRequestContext request) {
-//        String host = request.toString().toLowerCase();
-//        String resource = getEnvironment().getManagementEndpoint();
-//        for (Map.Entry<String, String> endpoint : getEnvironment().endpoints().entrySet()) {
-//            if (host.contains(endpoint.getValue())) {
-//                if (endpoint.getKey().equals(AzureEnvironment.Endpoint.KEYVAULT.identifier())) {
-//                    resource = String.format("https://%s/", endpoint.getValue().replaceAll("^\\.*", ""));
-//                    break;
-//                } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.GRAPH.identifier())) {
-//                    resource = getEnvironment().getGraphEndpoint();
-//                    break;
-//                } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.LOG_ANALYTICS.identifier())) {
-//                    resource = getEnvironment().getLogAnalyticsEndpoint();
-//                    break;
-//                } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.APPLICATION_INSIGHTS.identifier())) {
-//                    resource = getEnvironment().getApplicationInsightsEndpoint();
-//                    break;
-//                } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.DATA_LAKE_STORE.identifier())
-//                        || endpoint.getKey().equals(AzureEnvironment.Endpoint.DATA_LAKE_ANALYTICS.identifier())) {
-//                    resource = getEnvironment().getDataLakeEndpointResourceId();
-//                    break;
-//                }
-//            }
-//        }
-//        return getToken(resource);
-//    }
-
-    /**
-     * Override this method to provide the mechanism to get a token.
-     *
-     * @param resource the resource the access token is for
-     * @return the token to access the resource
-     * @throws IOException exceptions from IO
-     */
-//    public abstract Mono<AccessToken> getToken(String resource);
+    public final Mono<AccessToken> getToken(HttpRequest request) {
+        String host = request.getUrl().getHost().toLowerCase();
+        String resource = getEnvironment().getManagementEndpoint();
+        for (Map.Entry<String, String> endpoint : getEnvironment().endpoints().entrySet()) {
+            if (host.contains(endpoint.getValue())) {
+                if (endpoint.getKey().equals(AzureEnvironment.Endpoint.KEYVAULT.identifier())) {
+                    resource = String.format("https://%s/", endpoint.getValue().replaceAll("^\\.*", ""));
+                    break;
+                } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.GRAPH.identifier())) {
+                    resource = getEnvironment().getGraphEndpoint();
+                    break;
+                } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.LOG_ANALYTICS.identifier())) {
+                    resource = getEnvironment().getLogAnalyticsEndpoint();
+                    break;
+                } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.APPLICATION_INSIGHTS.identifier())) {
+                    resource = getEnvironment().getApplicationInsightsEndpoint();
+                    break;
+                } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.DATA_LAKE_STORE.identifier())
+                        || endpoint.getKey().equals(AzureEnvironment.Endpoint.DATA_LAKE_ANALYTICS.identifier())) {
+                    resource = getEnvironment().getDataLakeEndpointResourceId();
+                    break;
+                }
+            }
+        }
+        String defaultScope = resource + "/.default";
+        return getToken(new TokenRequestContext().addScopes(defaultScope));
+    }
 
     /**
      * Set default subscription ID.

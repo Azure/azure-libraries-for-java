@@ -12,15 +12,17 @@ import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ApplicationTokenCredential extends AzureTokenCredential {
 
+    private Map<String, AccessToken> tokenCache = new HashMap<>();
+
     private String clientId;
-
     private String clientSecret;
-
     private byte[] clientCertificate;
-
     private String clientCertificatePassword;
 
     public ApplicationTokenCredential(String clientId, String domain, String secret, AzureEnvironment environment) {
@@ -28,7 +30,6 @@ public class ApplicationTokenCredential extends AzureTokenCredential {
         this.clientId = clientId;
         this.clientSecret = secret;
     }
-
 
     public ApplicationTokenCredential(String clientId, String domain, byte[] certificate, String password, AzureEnvironment environment) {
         super(environment, domain);
@@ -57,10 +58,15 @@ public class ApplicationTokenCredential extends AzureTokenCredential {
         return this.clientCertificatePassword;
     }
 
-
     @Override
     public synchronized Mono<AccessToken> getToken(TokenRequestContext request) {
         // TODO: Add client certificate token
+        List<String> scopes = request.getScopes();
+        AccessToken token = tokenCache.get(scopes.get(0));
+        if (token != null && !token.isExpired()) {
+            return Mono.just(token);
+        }
+
         ClientSecretCredential clientSecretCredential = new ClientSecretCredentialBuilder()
                 .clientId(this.getClientId())
                 .clientSecret(this.getClientSecret())

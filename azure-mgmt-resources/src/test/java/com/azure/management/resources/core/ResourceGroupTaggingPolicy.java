@@ -6,7 +6,6 @@
 
 package com.azure.management.resources.core;
 
-
 import com.azure.core.http.HttpPipelineCallContext;
 import com.azure.core.http.HttpPipelineNextPolicy;
 import com.azure.core.http.HttpRequest;

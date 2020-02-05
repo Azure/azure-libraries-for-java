@@ -167,6 +167,7 @@ public abstract class TestBase {
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .withPolicy(interceptorManager.initInterceptor())
                     .withPolicy(new HostPolicy(playbackUri + "/"))
+                    .withPolicy(new ResourceGroupTaggingPolicy())
                     .withPolicy(new CookiePolicy()), true);
 
             defaultSubscription = ZERO_SUBSCRIPTION;
@@ -197,10 +198,9 @@ public abstract class TestBase {
             RestClientBuilder builder = new RestClientBuilder()
                     .withBaseUrl(this.baseUri())
                     .withSerializerAdapter(new AzureJacksonAdapter())
-                    .withPolicy(new CookiePolicy())
-                    // .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
                     .withCredential(credentials)
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
+                    .withPolicy(new ResourceGroupTaggingPolicy())
                     .withPolicy(new CookiePolicy());
             if (!interceptorManager.isNoneMode()) {
                 builder.withPolicy(interceptorManager.initInterceptor());

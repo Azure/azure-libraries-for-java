@@ -4,7 +4,6 @@
 package com.azure.management;
 
 import com.azure.core.credential.AccessToken;
-import com.azure.core.credential.TokenCredential;
 import com.azure.core.credential.TokenRequestContext;
 import com.azure.core.http.HttpPipelineCallContext;
 import com.azure.core.http.HttpPipelineNextPolicy;
@@ -26,11 +25,11 @@ public class BearerTokenAuthenticationPolicy implements HttpPipelinePolicy {
     private static final String AUTHORIZATION_HEADER_VALUE_FORMAT = "Bearer %s";
 
     private final Map<String, AccessToken> tokenCache;
-    private final TokenCredential credential;
+    private final AzureTokenCredential credential;
     private final String[] scopes;
     private final AzureEnvironment environment;
 
-    public BearerTokenAuthenticationPolicy(TokenCredential credential, String... scopes) {
+    public BearerTokenAuthenticationPolicy(AzureTokenCredential credential, String... scopes) {
         Objects.requireNonNull(credential);
         this.credential = credential;
         this.scopes = scopes;

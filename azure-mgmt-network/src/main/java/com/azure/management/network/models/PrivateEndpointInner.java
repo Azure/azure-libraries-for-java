@@ -59,6 +59,12 @@ public class PrivateEndpointInner extends Resource {
     @JsonProperty(value = "properties.manualPrivateLinkServiceConnections")
     private List<PrivateLinkServiceConnection> manualPrivateLinkServiceConnections;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: A unique read-only string that changes whenever
      * the resource is updated.
@@ -178,6 +184,26 @@ public class PrivateEndpointInner extends Resource {
      */
     public PrivateEndpointInner withManualPrivateLinkServiceConnections(List<PrivateLinkServiceConnection> manualPrivateLinkServiceConnections) {
         this.manualPrivateLinkServiceConnections = manualPrivateLinkServiceConnections;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the PrivateEndpointInner object itself.
+     */
+    public PrivateEndpointInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

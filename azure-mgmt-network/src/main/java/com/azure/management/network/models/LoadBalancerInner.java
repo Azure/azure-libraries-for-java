@@ -100,6 +100,12 @@ public class LoadBalancerInner extends Resource {
     @JsonProperty(value = "properties.provisioningState")
     private String provisioningState;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the sku property: SKU of a load balancer.
      * 
@@ -360,6 +366,26 @@ public class LoadBalancerInner extends Resource {
      */
     public LoadBalancerInner withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the LoadBalancerInner object itself.
+     */
+    public LoadBalancerInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

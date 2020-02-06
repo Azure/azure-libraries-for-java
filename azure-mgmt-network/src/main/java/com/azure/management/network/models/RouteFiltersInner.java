@@ -30,6 +30,7 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.PatchRouteFilter;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import reactor.core.publisher.Mono;
 
@@ -37,7 +38,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * RouteFilters.
  */
-public final class RouteFiltersInner implements InnerSupportsListing<RouteFilterInner>, InnerSupportsDelete<Void> {
+public final class RouteFiltersInner implements InnerSupportsListing<RouteFilterInner>, InnerSupportsDelete<Void>, InnerSupportsGet<RouteFilterInner> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -56,6 +57,16 @@ public final class RouteFiltersInner implements InnerSupportsListing<RouteFilter
     public RouteFiltersInner(NetworkManagementClientImpl client) {
         this.service = RestProxy.create(RouteFiltersService.class, client.getHttpPipeline());
         this.client = client;
+    }
+
+    @Override
+    public RouteFilterInner getByResourceGroup(String resourceGroupName, String resourceName) {
+        return this.getByResourceGroup(resourceGroupName, resourceName, null);
+    }
+
+    @Override
+    public Mono<RouteFilterInner> getByResourceGroupAsync(String resourceGroupName, String resourceName) {
+        return this.getByResourceGroupAsync(resourceGroupName, resourceName, null);
     }
 
     /**

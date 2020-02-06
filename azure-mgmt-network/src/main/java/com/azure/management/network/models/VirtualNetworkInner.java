@@ -89,6 +89,12 @@ public class VirtualNetworkInner extends Resource {
     @JsonProperty(value = "properties.ddosProtectionPlan")
     private SubResource ddosProtectionPlan;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: Gets a unique read-only string that changes
      * whenever the resource is updated.
@@ -308,6 +314,26 @@ public class VirtualNetworkInner extends Resource {
      */
     public VirtualNetworkInner withDdosProtectionPlan(SubResource ddosProtectionPlan) {
         this.ddosProtectionPlan = ddosProtectionPlan;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

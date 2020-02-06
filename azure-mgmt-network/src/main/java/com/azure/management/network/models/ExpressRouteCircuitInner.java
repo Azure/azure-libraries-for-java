@@ -121,6 +121,12 @@ public class ExpressRouteCircuitInner extends Resource {
     @JsonProperty(value = "properties.globalReachEnabled")
     private Boolean globalReachEnabled;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the sku property: Contains SKU in an ExpressRouteCircuit.
      * 
@@ -433,6 +439,26 @@ public class ExpressRouteCircuitInner extends Resource {
      */
     public ExpressRouteCircuitInner withGlobalReachEnabled(Boolean globalReachEnabled) {
         this.globalReachEnabled = globalReachEnabled;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the ExpressRouteCircuitInner object itself.
+     */
+    public ExpressRouteCircuitInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

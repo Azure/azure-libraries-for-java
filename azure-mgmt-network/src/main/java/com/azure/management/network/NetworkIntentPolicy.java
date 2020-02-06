@@ -22,6 +22,12 @@ public final class NetworkIntentPolicy extends Resource {
     @JsonProperty(value = "etag")
     private String etag;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: Gets a unique read-only string that changes
      * whenever the resource is updated.
@@ -41,6 +47,26 @@ public final class NetworkIntentPolicy extends Resource {
      */
     public NetworkIntentPolicy withEtag(String etag) {
         this.etag = etag;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the NetworkIntentPolicy object itself.
+     */
+    public NetworkIntentPolicy withId(String id) {
+        this.id = id;
         return this;
     }
 }

@@ -21,6 +21,7 @@ import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
+import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.CloudException;
@@ -1356,7 +1357,7 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
         this.p2sVpnServerConfigurations = new P2sVpnServerConfigurationsInner(this);
         this.p2sVpnGateways = new P2sVpnGatewaysInner(this);
         this.webApplicationFirewallPolicies = new WebApplicationFirewallPoliciesInner(this);
-        this.service = AzureProxy.create(NetworkManagementClientService.class, httpPipeline);
+        this.service = RestProxy.create(NetworkManagementClientService.class, this.httpPipeline);
     }
 
     /**
@@ -1389,7 +1390,7 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DnsNameAvailabilityResultInner>> checkDnsNameAvailabilityWithResponseAsync(String location, String domainNameLabel) {
         final String apiVersion = "2019-06-01";
-        return service.checkDnsNameAvailability(this.client.getHost(), location, domainNameLabel, this.client.getSubscriptionId(), apiVersion);
+        return service.checkDnsNameAvailability(this.getHost(), location, domainNameLabel, this.getSubscriptionId(), apiVersion);
     }
 
     /**
@@ -1439,7 +1440,7 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<VirtualWanSecurityProvidersInner>> supportedSecurityProvidersWithResponseAsync(String resourceGroupName, String virtualWANName) {
         final String apiVersion = "2019-06-01";
-        return service.supportedSecurityProviders(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualWANName, apiVersion);
+        return service.supportedSecurityProviders(this.getHost(), this.getSubscriptionId(), resourceGroupName, virtualWANName, apiVersion);
     }
 
     /**

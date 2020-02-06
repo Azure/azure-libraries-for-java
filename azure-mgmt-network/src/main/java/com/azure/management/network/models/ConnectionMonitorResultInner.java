@@ -8,54 +8,24 @@ package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
+import com.azure.core.management.Resource;
 import com.azure.management.network.ConnectionMonitorDestination;
 import com.azure.management.network.ConnectionMonitorSource;
 import com.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
-import java.util.Map;
 
 /**
  * The ConnectionMonitorResult model.
  */
 @JsonFlatten
 @Fluent
-public class ConnectionMonitorResultInner {
-    /*
-     * Name of the connection monitor.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /*
-     * ID of the connection monitor.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
+public class ConnectionMonitorResultInner extends Resource {
     /*
      * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag")
     private String etag;
-
-    /*
-     * Connection monitor type.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /*
-     * Connection monitor location.
-     */
-    @JsonProperty(value = "location")
-    private String location;
-
-    /*
-     * Connection monitor tags.
-     */
-    @JsonProperty(value = "tags")
-    private Map<String, String> tags;
 
     /*
      * Describes the source of connection monitor.
@@ -101,24 +71,6 @@ public class ConnectionMonitorResultInner {
     private String monitoringStatus;
 
     /**
-     * Get the name property: Name of the connection monitor.
-     * 
-     * @return the name value.
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the id property: ID of the connection monitor.
-     * 
-     * @return the id value.
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
      * Get the etag property: A unique read-only string that changes whenever
      * the resource is updated.
      * 
@@ -137,55 +89,6 @@ public class ConnectionMonitorResultInner {
      */
     public ConnectionMonitorResultInner withEtag(String etag) {
         this.etag = etag;
-        return this;
-    }
-
-    /**
-     * Get the type property: Connection monitor type.
-     * 
-     * @return the type value.
-     */
-    public String type() {
-        return this.type;
-    }
-
-    /**
-     * Get the location property: Connection monitor location.
-     * 
-     * @return the location value.
-     */
-    public String location() {
-        return this.location;
-    }
-
-    /**
-     * Set the location property: Connection monitor location.
-     * 
-     * @param location the location value to set.
-     * @return the ConnectionMonitorResultInner object itself.
-     */
-    public ConnectionMonitorResultInner withLocation(String location) {
-        this.location = location;
-        return this;
-    }
-
-    /**
-     * Get the tags property: Connection monitor tags.
-     * 
-     * @return the tags value.
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags property: Connection monitor tags.
-     * 
-     * @param tags the tags value to set.
-     * @return the ConnectionMonitorResultInner object itself.
-     */
-    public ConnectionMonitorResultInner withTags(Map<String, String> tags) {
-        this.tags = tags;
         return this;
     }
 

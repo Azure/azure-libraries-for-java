@@ -30,6 +30,7 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import java.util.Map;
 import reactor.core.publisher.Mono;
@@ -38,7 +39,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * PublicIPAddresses.
  */
-public final class PublicIPAddressesInner implements InnerSupportsListing<PublicIPAddressInner>, InnerSupportsDelete<Void> {
+public final class PublicIPAddressesInner implements InnerSupportsListing<PublicIPAddressInner>, InnerSupportsDelete<Void>, InnerSupportsGet<PublicIPAddressInner> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -57,6 +58,16 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
     public PublicIPAddressesInner(NetworkManagementClientImpl client) {
         this.service = RestProxy.create(PublicIPAddressesService.class, client.getHttpPipeline());
         this.client = client;
+    }
+
+    @Override
+    public PublicIPAddressInner getByResourceGroup(String resourceGroupName, String resourceName) {
+        return this.getByResourceGroup(resourceGroupName, resourceName, null);
+    }
+
+    @Override
+    public Mono<PublicIPAddressInner> getByResourceGroupAsync(String resourceGroupName, String resourceName) {
+        return  this.getByResourceGroupAsync(resourceGroupName, resourceName, null);
     }
 
     /**

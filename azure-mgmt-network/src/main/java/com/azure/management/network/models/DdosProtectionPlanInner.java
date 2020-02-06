@@ -6,51 +6,19 @@
 
 package com.azure.management.network.models;
 
-import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.Immutable;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.Resource;
 import com.azure.core.management.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The DdosProtectionPlan model.
  */
 @JsonFlatten
-@Fluent
-// FIXME: Whey without extends Resource???
+@Immutable
 public class DdosProtectionPlanInner extends Resource {
-    /*
-     * Resource ID.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /*
-     * Resource name.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /*
-     * Resource type.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /*
-     * Resource location.
-     */
-    @JsonProperty(value = "location")
-    private String location;
-
-    /*
-     * Resource tags.
-     */
-    @JsonProperty(value = "tags")
-    private Map<String, String> tags;
-
     /*
      * A unique read-only string that changes whenever the resource is updated.
      */
@@ -78,73 +46,6 @@ public class DdosProtectionPlanInner extends Resource {
      */
     @JsonProperty(value = "properties.virtualNetworks", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> virtualNetworks;
-
-    /**
-     * Get the id property: Resource ID.
-     * 
-     * @return the id value.
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Get the name property: Resource name.
-     * 
-     * @return the name value.
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the type property: Resource type.
-     * 
-     * @return the type value.
-     */
-    public String type() {
-        return this.type;
-    }
-
-    /**
-     * Get the location property: Resource location.
-     * 
-     * @return the location value.
-     */
-    public String location() {
-        return this.location;
-    }
-
-    /**
-     * Set the location property: Resource location.
-     * 
-     * @param location the location value to set.
-     * @return the DdosProtectionPlanInner object itself.
-     */
-    public DdosProtectionPlanInner withLocation(String location) {
-        this.location = location;
-        return this;
-    }
-
-    /**
-     * Get the tags property: Resource tags.
-     * 
-     * @return the tags value.
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags property: Resource tags.
-     * 
-     * @param tags the tags value to set.
-     * @return the DdosProtectionPlanInner object itself.
-     */
-    public DdosProtectionPlanInner withTags(Map<String, String> tags) {
-        this.tags = tags;
-        return this;
-    }
 
     /**
      * Get the etag property: A unique read-only string that changes whenever

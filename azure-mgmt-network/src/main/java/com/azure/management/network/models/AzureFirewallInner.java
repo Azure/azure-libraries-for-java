@@ -94,6 +94,12 @@ public class AzureFirewallInner extends Resource {
     @JsonProperty(value = "properties.hubIpAddresses", access = JsonProperty.Access.WRITE_ONLY)
     private HubIPAddresses hubIpAddresses;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the zones property: A list of availability zones denoting where the
      * resource needs to come from.
@@ -303,5 +309,25 @@ public class AzureFirewallInner extends Resource {
      */
     public HubIPAddresses hubIpAddresses() {
         return this.hubIpAddresses;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the AzureFirewallInner object itself.
+     */
+    public AzureFirewallInner withId(String id) {
+        this.id = id;
+        return this;
     }
 }

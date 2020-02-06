@@ -58,6 +58,12 @@ public class VpnGatewayInner extends Resource {
     @JsonProperty(value = "properties.vpnGatewayScaleUnit")
     private Integer vpnGatewayScaleUnit;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: Gets a unique read-only string that changes
      * whenever the resource is updated.
@@ -169,6 +175,26 @@ public class VpnGatewayInner extends Resource {
      */
     public VpnGatewayInner withVpnGatewayScaleUnit(Integer vpnGatewayScaleUnit) {
         this.vpnGatewayScaleUnit = vpnGatewayScaleUnit;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the VpnGatewayInner object itself.
+     */
+    public VpnGatewayInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

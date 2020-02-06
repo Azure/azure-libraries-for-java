@@ -85,6 +85,12 @@ public class VpnSiteInner extends Resource {
     @JsonProperty(value = "properties.vpnSiteLinks")
     private List<VpnSiteLinkInner> vpnSiteLinks;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: Gets a unique read-only string that changes
      * whenever the resource is updated.
@@ -276,6 +282,26 @@ public class VpnSiteInner extends Resource {
      */
     public VpnSiteInner withVpnSiteLinks(List<VpnSiteLinkInner> vpnSiteLinks) {
         this.vpnSiteLinks = vpnSiteLinks;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the VpnSiteInner object itself.
+     */
+    public VpnSiteInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

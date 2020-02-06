@@ -30,6 +30,7 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import java.util.Map;
 import reactor.core.publisher.Mono;
@@ -38,7 +39,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * NetworkSecurityGroups.
  */
-public final class NetworkSecurityGroupsInner implements InnerSupportsListing<NetworkSecurityGroupInner>, InnerSupportsDelete<Void> {
+public final class NetworkSecurityGroupsInner implements InnerSupportsListing<NetworkSecurityGroupInner>, InnerSupportsDelete<Void>, InnerSupportsGet<NetworkSecurityGroupInner> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -57,6 +58,16 @@ public final class NetworkSecurityGroupsInner implements InnerSupportsListing<Ne
     public NetworkSecurityGroupsInner(NetworkManagementClientImpl client) {
         this.service = RestProxy.create(NetworkSecurityGroupsService.class, client.getHttpPipeline());
         this.client = client;
+    }
+
+    @Override
+    public NetworkSecurityGroupInner getByResourceGroup(String resourceGroupName, String resourceName) {
+        return this.getByResourceGroup(resourceGroupName, resourceName, null);
+    }
+
+    @Override
+    public Mono<NetworkSecurityGroupInner> getByResourceGroupAsync(String resourceGroupName, String resourceName) {
+        return  this.getByResourceGroupAsync(resourceGroupName, resourceName, null);
     }
 
     /**

@@ -6,7 +6,7 @@
 
 package com.azure.management.network.models;
 
-import com.azure.core.annotation.Immutable;
+import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.Resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The AzureFirewallFqdnTag model.
  */
 @JsonFlatten
-@Immutable
+@Fluent
 public class AzureFirewallFqdnTagInner extends Resource {
     /*
      * Gets a unique read-only string that changes whenever the resource is
@@ -35,6 +35,12 @@ public class AzureFirewallFqdnTagInner extends Resource {
      */
     @JsonProperty(value = "properties.fqdnTagName", access = JsonProperty.Access.WRITE_ONLY)
     private String fqdnTagName;
+
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
 
     /**
      * Get the etag property: Gets a unique read-only string that changes
@@ -63,5 +69,25 @@ public class AzureFirewallFqdnTagInner extends Resource {
      */
     public String fqdnTagName() {
         return this.fqdnTagName;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the AzureFirewallFqdnTagInner object itself.
+     */
+    public AzureFirewallFqdnTagInner withId(String id) {
+        this.id = id;
+        return this;
     }
 }

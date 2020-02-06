@@ -58,6 +58,12 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     @JsonProperty(value = "properties.resourceState", access = JsonProperty.Access.WRITE_ONLY)
     private WebApplicationFirewallPolicyResourceState resourceState;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: Gets a unique read-only string that changes
      * whenever the resource is updated.
@@ -149,5 +155,25 @@ public class WebApplicationFirewallPolicyInner extends Resource {
      */
     public WebApplicationFirewallPolicyResourceState resourceState() {
         return this.resourceState;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the WebApplicationFirewallPolicyInner object itself.
+     */
+    public WebApplicationFirewallPolicyInner withId(String id) {
+        this.id = id;
+        return this;
     }
 }

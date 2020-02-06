@@ -72,6 +72,12 @@ public class P2SVpnGatewayInner extends Resource {
     @JsonProperty(value = "properties.vpnClientConnectionHealth", access = JsonProperty.Access.WRITE_ONLY)
     private VpnClientConnectionHealth vpnClientConnectionHealth;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: Gets a unique read-only string that changes
      * whenever the resource is updated.
@@ -219,5 +225,25 @@ public class P2SVpnGatewayInner extends Resource {
      */
     public VpnClientConnectionHealth vpnClientConnectionHealth() {
         return this.vpnClientConnectionHealth;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the P2SVpnGatewayInner object itself.
+     */
+    public P2SVpnGatewayInner withId(String id) {
+        this.id = id;
+        return this;
     }
 }

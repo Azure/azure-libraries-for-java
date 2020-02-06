@@ -77,6 +77,12 @@ public class NatGatewayInner extends Resource {
     @JsonProperty(value = "properties.provisioningState")
     private String provisioningState;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the sku property: SKU of nat gateway.
      * 
@@ -260,6 +266,26 @@ public class NatGatewayInner extends Resource {
      */
     public NatGatewayInner withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the NatGatewayInner object itself.
+     */
+    public NatGatewayInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

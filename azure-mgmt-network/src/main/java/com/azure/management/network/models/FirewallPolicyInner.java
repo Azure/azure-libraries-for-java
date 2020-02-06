@@ -65,6 +65,12 @@ public class FirewallPolicyInner extends Resource {
     @JsonProperty(value = "properties.threatIntelMode")
     private AzureFirewallThreatIntelMode threatIntelMode;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: Gets a unique read-only string that changes
      * whenever the resource is updated.
@@ -162,6 +168,26 @@ public class FirewallPolicyInner extends Resource {
      */
     public FirewallPolicyInner withThreatIntelMode(AzureFirewallThreatIntelMode threatIntelMode) {
         this.threatIntelMode = threatIntelMode;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the FirewallPolicyInner object itself.
+     */
+    public FirewallPolicyInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

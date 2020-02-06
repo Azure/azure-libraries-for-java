@@ -46,6 +46,12 @@ public class ApplicationGatewayAvailableSslOptionsInner extends Resource {
     @JsonProperty(value = "properties.availableProtocols")
     private List<ApplicationGatewaySslProtocol> availableProtocols;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the predefinedPolicies property: List of available Ssl predefined
      * policy.
@@ -127,6 +133,26 @@ public class ApplicationGatewayAvailableSslOptionsInner extends Resource {
      */
     public ApplicationGatewayAvailableSslOptionsInner withAvailableProtocols(List<ApplicationGatewaySslProtocol> availableProtocols) {
         this.availableProtocols = availableProtocols;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the ApplicationGatewayAvailableSslOptionsInner object itself.
+     */
+    public ApplicationGatewayAvailableSslOptionsInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

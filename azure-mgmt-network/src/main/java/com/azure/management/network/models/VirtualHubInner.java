@@ -76,6 +76,12 @@ public class VirtualHubInner extends Resource {
     @JsonProperty(value = "properties.provisioningState")
     private ProvisioningState provisioningState;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: Gets a unique read-only string that changes
      * whenever the resource is updated.
@@ -246,6 +252,26 @@ public class VirtualHubInner extends Resource {
      */
     public VirtualHubInner withProvisioningState(ProvisioningState provisioningState) {
         this.provisioningState = provisioningState;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the VirtualHubInner object itself.
+     */
+    public VirtualHubInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

@@ -30,6 +30,7 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import java.util.Map;
 import reactor.core.publisher.Mono;
@@ -38,7 +39,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * LoadBalancers.
  */
-public final class LoadBalancersInner implements InnerSupportsListing<LoadBalancerInner>, InnerSupportsDelete<Void> {
+public final class LoadBalancersInner implements InnerSupportsListing<LoadBalancerInner>, InnerSupportsDelete<Void>, InnerSupportsGet<LoadBalancerInner> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -57,6 +58,16 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
     public LoadBalancersInner(NetworkManagementClientImpl client) {
         this.service = RestProxy.create(LoadBalancersService.class, client.getHttpPipeline());
         this.client = client;
+    }
+
+    @Override
+    public LoadBalancerInner getByResourceGroup(String resourceGroupName, String resourceName) {
+        return this.getByResourceGroup(resourceGroupName, resourceName, null);
+    }
+
+    @Override
+    public Mono<LoadBalancerInner> getByResourceGroupAsync(String resourceGroupName, String resourceName) {
+        return this.getByResourceGroupAsync(resourceGroupName, resourceName, null);
     }
 
     /**

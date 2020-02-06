@@ -91,6 +91,12 @@ public class PublicIPPrefixInner extends Resource {
     @JsonProperty(value = "properties.provisioningState")
     private String provisioningState;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the sku property: SKU of a public IP prefix.
      * 
@@ -312,6 +318,26 @@ public class PublicIPPrefixInner extends Resource {
      */
     public PublicIPPrefixInner withProvisioningState(String provisioningState) {
         this.provisioningState = provisioningState;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the PublicIPPrefixInner object itself.
+     */
+    public PublicIPPrefixInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

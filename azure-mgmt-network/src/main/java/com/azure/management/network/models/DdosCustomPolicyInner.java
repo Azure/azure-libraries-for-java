@@ -54,6 +54,12 @@ public class DdosCustomPolicyInner extends Resource {
     @JsonProperty(value = "properties.protocolCustomSettings")
     private List<ProtocolCustomSettingsFormat> protocolCustomSettings;
 
+    /*
+     * Resource ID.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
     /**
      * Get the etag property: A unique read-only string that changes whenever
      * the resource is updated.
@@ -116,6 +122,26 @@ public class DdosCustomPolicyInner extends Resource {
      */
     public DdosCustomPolicyInner withProtocolCustomSettings(List<ProtocolCustomSettingsFormat> protocolCustomSettings) {
         this.protocolCustomSettings = protocolCustomSettings;
+        return this;
+    }
+
+    /**
+     * Get the id property: Resource ID.
+     * 
+     * @return the id value.
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the id property: Resource ID.
+     * 
+     * @param id the id value to set.
+     * @return the DdosCustomPolicyInner object itself.
+     */
+    public DdosCustomPolicyInner withId(String id) {
+        this.id = id;
         return this;
     }
 }

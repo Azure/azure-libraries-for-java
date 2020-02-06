@@ -74,7 +74,7 @@ public final class PublicIPSkuType {
      * @return the PublicIPAddressSku associated with the PublicIPAddressSkuType.
      */
     public PublicIPAddressSku sku() {
-        return (new PublicIPAddressSku()).setName(this.skuName);
+        return (new PublicIPAddressSku()).withName(this.skuName);
     }
 
     @Override

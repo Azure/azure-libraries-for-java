@@ -71,7 +71,7 @@ public interface PointToSiteConfiguration extends
              * @param name name of certificate
              * @param certificateFile public Base64-encoded certificate file
              * @return the next stage of the definition
-             * @throws IOException
+             * @throws IOException IOException
              */
             WithAttachAndAzureCertificate<ParentT> withAzureCertificateFromFile(String name, File certificateFile) throws IOException;
         }
@@ -180,7 +180,7 @@ public interface PointToSiteConfiguration extends
              * @param name name of certificate
              * @param certificateFile public Base64-encoded certificate file
              * @return the next stage of the update
-             * @throws IOException
+             * @throws IOException IOException
              */
             Update withAzureCertificateFromFile(String name, File certificateFile) throws IOException;
 

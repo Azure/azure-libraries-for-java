@@ -89,6 +89,7 @@ public interface RouteFilterRule extends
             WithAttach<ParentT> withBgpCommunity(String community);
             /**
              * Remove the bgp community value to filter on. e.g. '12076:5010'
+             * @param  community service community
              * @return the next stage of the update
              */
             Update withoutBgpCommunity(String community);
@@ -159,6 +160,7 @@ public interface RouteFilterRule extends
             UpdateDefinitionStages.WithAttach<ParentT> withBgpCommunity(String community);
             /**
              * Remove the bgp community value to filter on. e.g. '12076:5010'
+             * @param community service community
              * @return the next stage of the update
              */
             Update withoutBgpCommunity(String community);
@@ -216,12 +218,14 @@ public interface RouteFilterRule extends
             Update withBgpCommunities(String... communities);
             /**
              * The bgp community values to filter on. e.g. '12076:5010'. This method has additive effect.
+             * @param community service community
              * @return the next stage of the update
              */
             Update withBgpCommunity(String community);
 
             /**
              * Remove the bgp community value to filter on. e.g. '12076:5010'
+             * @param community service community
              * @return the next stage of the update
              */
             Update withoutBgpCommunity(String community);

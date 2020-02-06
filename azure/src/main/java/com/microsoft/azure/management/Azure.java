@@ -45,17 +45,17 @@ import com.microsoft.azure.management.containerregistry.implementation.Container
 import com.microsoft.azure.management.containerservice.ContainerServices;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
-import com.microsoft.azure.management.dns.DnsZones;
-import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccounts;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
+import com.microsoft.azure.management.dns.DnsZones;
+import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
 import com.microsoft.azure.management.eventhub.EventHubDisasterRecoveryPairings;
 import com.microsoft.azure.management.eventhub.EventHubNamespaces;
 import com.microsoft.azure.management.eventhub.EventHubs;
 import com.microsoft.azure.management.eventhub.implementation.EventHubManager;
+import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroups;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUsers;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
 import com.microsoft.azure.management.graphrbac.RoleAssignments;
 import com.microsoft.azure.management.graphrbac.RoleDefinitions;
 import com.microsoft.azure.management.graphrbac.ServicePrincipals;
@@ -83,9 +83,10 @@ import com.microsoft.azure.management.network.LocalNetworkGateways;
 import com.microsoft.azure.management.network.NetworkInterfaces;
 import com.microsoft.azure.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.management.network.NetworkUsages;
-import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.network.NetworkWatchers;
+import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.network.PublicIPAddresses;
+import com.microsoft.azure.management.network.PublicIPPrefixes;
 import com.microsoft.azure.management.network.RouteFilters;
 import com.microsoft.azure.management.network.RouteTables;
 import com.microsoft.azure.management.network.VirtualNetworkGateways;
@@ -116,10 +117,10 @@ import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.management.storage.BlobContainers;
 import com.microsoft.azure.management.storage.BlobServices;
 import com.microsoft.azure.management.storage.ManagementPolicies;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.storage.StorageAccounts;
 import com.microsoft.azure.management.storage.StorageSkus;
 import com.microsoft.azure.management.storage.Usages;
+import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
 import com.microsoft.azure.management.trafficmanager.implementation.TrafficManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
@@ -305,6 +306,7 @@ public final class Azure {
          * Selects a specific subscription for the APIs to work with.
          * <p>
          * Most Azure APIs require a specific subscription to be selected.
+         *
          * @param subscriptionId the ID of the subscription
          * @return an authenticated Azure client configured to work with the specified subscription
          */
@@ -700,6 +702,13 @@ public final class Azure {
      */
     public PublicIPAddresses publicIPAddresses() {
         return this.networkManager.publicIPAddresses();
+    }
+
+    /**
+     * @return entry point to managing public IP prefixes
+     */
+    public PublicIPPrefixes publicIPPrefixes() {
+        return this.networkManager.publicIPPrefixes();
     }
 
     /**

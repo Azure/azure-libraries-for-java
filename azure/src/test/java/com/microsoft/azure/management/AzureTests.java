@@ -602,6 +602,15 @@ public class AzureTests extends TestBase {
     }
 
     /**
+     * Tests the public IP prefix implementation.
+     * @throws Exception
+     */
+    @Test
+    public void testPublicIPPrefixes() throws Exception {
+        new TestPublicIPPrefix().runTest(azure.publicIPPrefixes(), azure.resourceGroups());
+    }
+
+    /**
      * Tests the availability set implementation.
      * @throws Exception
      */

@@ -27,6 +27,7 @@ import com.microsoft.azure.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.management.network.NetworkUsages;
 import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.network.PublicIPAddresses;
+import com.microsoft.azure.management.network.PublicIPPrefixes;
 import com.microsoft.azure.management.network.RouteFilters;
 import com.microsoft.azure.management.network.RouteTables;
 import com.microsoft.azure.management.network.Subnet;
@@ -55,6 +56,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
 
     // Collections
     private PublicIPAddresses publicIPAddresses;
+    private PublicIPPrefixes publicIPPrefixes;
     private Networks networks;
     private NetworkSecurityGroups networkSecurityGroups;
     private NetworkInterfaces networkInterfaces;
@@ -181,6 +183,16 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
             this.publicIPAddresses = new PublicIPAddressesImpl(this);
         }
         return this.publicIPAddresses;
+    }
+
+    /**
+     * @return Entry point to manage PublicIPPrefixes.
+     */
+    public PublicIPPrefixes publicIPPrefixes() {
+        if (this.publicIPPrefixes == null) {
+            this.publicIPPrefixes = new PublicIPPrefixesImpl(this);
+        }
+        return this.publicIPPrefixes;
     }
 
     /**

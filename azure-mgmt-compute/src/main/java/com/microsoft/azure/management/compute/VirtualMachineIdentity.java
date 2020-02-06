@@ -9,6 +9,8 @@
 package com.microsoft.azure.management.compute;
 
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -40,13 +42,16 @@ public class VirtualMachineIdentity {
     @JsonProperty(value = "type")
     private ResourceIdentityType type;
 
-    /**
+     /**
      * The list of user identities associated with the Virtual Machine. The
      * user identity dictionary key references will be ARM resource ids in the
      * form:
      * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * You need to include "@JsonInclude(content = JsonInclude.Include.ALWAYS)" otherwise the call does not work properly
+     * Autogeneration generally reverts this. Comment for git diff only
      */
     @JsonProperty(value = "userAssignedIdentities")
+    @JsonInclude(content = JsonInclude.Include.ALWAYS)
     private Map<String, VirtualMachineIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
 
     /**

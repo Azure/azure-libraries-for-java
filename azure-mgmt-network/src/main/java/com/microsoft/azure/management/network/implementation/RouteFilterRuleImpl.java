@@ -7,6 +7,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.Access;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.network.RouteFilter;
 import com.microsoft.azure.management.network.RouteFilterRule;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
@@ -93,7 +94,7 @@ class RouteFilterRuleImpl
     }
 
     @Override
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return inner().provisioningState();
     }
 

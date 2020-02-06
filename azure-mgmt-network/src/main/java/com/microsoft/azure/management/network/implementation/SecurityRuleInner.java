@@ -12,6 +12,7 @@ import com.microsoft.azure.management.network.SecurityRuleProtocol;
 import java.util.List;
 import com.microsoft.azure.management.network.SecurityRuleAccess;
 import com.microsoft.azure.management.network.SecurityRuleDirection;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -29,7 +30,7 @@ public class SecurityRuleInner extends SubResource {
 
     /**
      * Network protocol this rule applies to. Possible values include: 'Tcp',
-     * 'Udp', 'Icmp', 'Esp', '*'.
+     * 'Udp', 'Icmp', 'Esp', '*', 'Ah'.
      */
     @JsonProperty(value = "properties.protocol", required = true)
     private SecurityRuleProtocol protocol;
@@ -125,11 +126,11 @@ public class SecurityRuleInner extends SubResource {
     private SecurityRuleDirection direction;
 
     /**
-     * The provisioning state of the public IP resource. Possible values are:
-     * 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the security rule resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -141,7 +142,7 @@ public class SecurityRuleInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -165,7 +166,7 @@ public class SecurityRuleInner extends SubResource {
     }
 
     /**
-     * Get network protocol this rule applies to. Possible values include: 'Tcp', 'Udp', 'Icmp', 'Esp', '*'.
+     * Get network protocol this rule applies to. Possible values include: 'Tcp', 'Udp', 'Icmp', 'Esp', '*', 'Ah'.
      *
      * @return the protocol value
      */
@@ -174,7 +175,7 @@ public class SecurityRuleInner extends SubResource {
     }
 
     /**
-     * Set network protocol this rule applies to. Possible values include: 'Tcp', 'Udp', 'Icmp', 'Esp', '*'.
+     * Set network protocol this rule applies to. Possible values include: 'Tcp', 'Udp', 'Icmp', 'Esp', '*', 'Ah'.
      *
      * @param protocol the protocol value to set
      * @return the SecurityRuleInner object itself.
@@ -445,23 +446,12 @@ public class SecurityRuleInner extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the security rule resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the SecurityRuleInner object itself.
-     */
-    public SecurityRuleInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -491,17 +481,6 @@ public class SecurityRuleInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the SecurityRuleInner object itself.
-     */
-    public SecurityRuleInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

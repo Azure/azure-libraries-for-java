@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ExpressRouteCircuit;
 import com.microsoft.azure.management.network.IpsecPolicy;
 import com.microsoft.azure.management.network.LocalNetworkGateway;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.network.TunnelConnectionHealth;
 import com.microsoft.azure.management.network.VirtualNetworkGateway;
 import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
@@ -136,7 +137,7 @@ public class VirtualNetworkGatewayConnectionImpl
     }
 
     @Override
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return inner().provisioningState();
     }
 

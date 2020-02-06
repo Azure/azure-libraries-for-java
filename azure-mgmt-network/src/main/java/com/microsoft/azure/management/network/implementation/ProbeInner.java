@@ -11,6 +11,7 @@ package com.microsoft.azure.management.network.implementation;
 import java.util.List;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.ProbeProtocol;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -69,15 +70,15 @@ public class ProbeInner extends SubResource {
     private String requestPath;
 
     /**
-     * Gets the provisioning state of the public IP resource. Possible values
-     * are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the probe resource. Possible values include:
+     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
-     * Gets name of the resource that is unique within the set of probes used
-     * by the load balancer. This name can be used to access the resource.
+     * The name of the resource that is unique within the set of probes used by
+     * the load balancer. This name can be used to access the resource.
      */
     @JsonProperty(value = "name")
     private String name;
@@ -85,7 +86,7 @@ public class ProbeInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -204,27 +205,16 @@ public class ProbeInner extends SubResource {
     }
 
     /**
-     * Get gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the probe resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
     /**
-     * Set gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the ProbeInner object itself.
-     */
-    public ProbeInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
-    }
-
-    /**
-     * Get gets name of the resource that is unique within the set of probes used by the load balancer. This name can be used to access the resource.
+     * Get the name of the resource that is unique within the set of probes used by the load balancer. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -233,7 +223,7 @@ public class ProbeInner extends SubResource {
     }
 
     /**
-     * Set gets name of the resource that is unique within the set of probes used by the load balancer. This name can be used to access the resource.
+     * Set the name of the resource that is unique within the set of probes used by the load balancer. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the ProbeInner object itself.
@@ -250,17 +240,6 @@ public class ProbeInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the ProbeInner object itself.
-     */
-    public ProbeInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

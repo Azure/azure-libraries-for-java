@@ -12,7 +12,7 @@ import com.microsoft.azure.management.network.UsageName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes network resource usage.
+ * The network resource usage.
  */
 public class UsageInner {
     /**

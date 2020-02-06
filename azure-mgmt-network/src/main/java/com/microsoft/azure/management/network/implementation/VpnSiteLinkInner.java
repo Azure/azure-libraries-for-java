@@ -39,15 +39,14 @@ public class VpnSiteLinkInner extends SubResource {
     private VpnLinkBgpSettings bgpProperties;
 
     /**
-     * The provisioning state of the resource. Possible values include:
-     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * The provisioning state of the VPN site link resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
@@ -126,7 +125,7 @@ public class VpnSiteLinkInner extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * Get the provisioning state of the VPN site link resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -135,18 +134,7 @@ public class VpnSiteLinkInner extends SubResource {
     }
 
     /**
-     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the VpnSiteLinkInner object itself.
-     */
-    public VpnSiteLinkInner withProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
-    }
-
-    /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

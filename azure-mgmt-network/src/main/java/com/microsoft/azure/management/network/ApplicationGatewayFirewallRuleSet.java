@@ -22,9 +22,10 @@ import com.microsoft.azure.Resource;
 public class ApplicationGatewayFirewallRuleSet extends Resource {
     /**
      * The provisioning state of the web application firewall rule set.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * The type of the web application firewall rule set.
@@ -51,23 +52,12 @@ public class ApplicationGatewayFirewallRuleSet extends Resource {
     private String id;
 
     /**
-     * Get the provisioning state of the web application firewall rule set.
+     * Get the provisioning state of the web application firewall rule set. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the web application firewall rule set.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the ApplicationGatewayFirewallRuleSet object itself.
-     */
-    public ApplicationGatewayFirewallRuleSet withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**

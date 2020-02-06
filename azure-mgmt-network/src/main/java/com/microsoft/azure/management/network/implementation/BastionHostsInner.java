@@ -163,7 +163,7 @@ public class BastionHostsInner implements InnerSupportsGet<BastionHostInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, bastionHostName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -229,7 +229,7 @@ public class BastionHostsInner implements InnerSupportsGet<BastionHostInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, bastionHostName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -315,7 +315,7 @@ public class BastionHostsInner implements InnerSupportsGet<BastionHostInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, bastionHostName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BastionHostInner>>>() {
                 @Override
@@ -407,7 +407,7 @@ public class BastionHostsInner implements InnerSupportsGet<BastionHostInner>, In
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, bastionHostName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<BastionHostInner>() { }.getType());
     }
@@ -482,7 +482,7 @@ public class BastionHostsInner implements InnerSupportsGet<BastionHostInner>, In
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, bastionHostName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BastionHostInner>>>() {
                 @Override
@@ -588,7 +588,7 @@ public class BastionHostsInner implements InnerSupportsGet<BastionHostInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<BastionHostInner>>>>() {
                 @Override
@@ -701,7 +701,7 @@ public class BastionHostsInner implements InnerSupportsGet<BastionHostInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<BastionHostInner>>>>() {
                 @Override

@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.management.network.ProvisioningState;
 import java.util.List;
 import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,10 +30,10 @@ public class DdosProtectionPlanInner extends Resource {
 
     /**
      * The provisioning state of the DDoS protection plan resource. Possible
-     * values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The list of virtual networks associated with the DDoS protection plan
@@ -57,11 +58,11 @@ public class DdosProtectionPlanInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the DDoS protection plan resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the DDoS protection plan resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 

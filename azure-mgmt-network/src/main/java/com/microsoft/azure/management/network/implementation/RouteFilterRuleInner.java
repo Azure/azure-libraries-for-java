@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.Access;
 import java.util.List;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -39,11 +40,11 @@ public class RouteFilterRuleInner extends SubResource {
     private List<String> communities;
 
     /**
-     * The provisioning state of the resource. Possible values are: 'Updating',
-     * 'Deleting', 'Succeeded' and 'Failed'.
+     * The provisioning state of the route filter rule resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -132,11 +133,11 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'.
+     * Get the provisioning state of the route filter rule resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 

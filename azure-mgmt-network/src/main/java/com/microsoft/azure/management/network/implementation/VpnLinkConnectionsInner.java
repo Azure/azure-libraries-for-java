@@ -11,8 +11,8 @@ package com.microsoft.azure.management.network.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.network.ErrorException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceFuture;
@@ -73,7 +73,7 @@ public class VpnLinkConnectionsInner {
      * @param gatewayName The name of the gateway.
      * @param connectionName The name of the vpn connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VpnSiteLinkConnectionInner&gt; object if successful.
      */
@@ -173,7 +173,7 @@ public class VpnLinkConnectionsInner {
         if (connectionName == null) {
             throw new IllegalArgumentException("Parameter connectionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByVpnConnection(this.client.subscriptionId(), resourceGroupName, gatewayName, connectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VpnSiteLinkConnectionInner>>>>() {
                 @Override
@@ -188,10 +188,10 @@ public class VpnLinkConnectionsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<VpnSiteLinkConnectionInner>> listByVpnConnectionDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VpnSiteLinkConnectionInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VpnSiteLinkConnectionInner>> listByVpnConnectionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VpnSiteLinkConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VpnSiteLinkConnectionInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -200,7 +200,7 @@ public class VpnLinkConnectionsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VpnSiteLinkConnectionInner&gt; object if successful.
      */
@@ -299,10 +299,10 @@ public class VpnLinkConnectionsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<VpnSiteLinkConnectionInner>> listByVpnConnectionNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VpnSiteLinkConnectionInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VpnSiteLinkConnectionInner>> listByVpnConnectionNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VpnSiteLinkConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VpnSiteLinkConnectionInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 

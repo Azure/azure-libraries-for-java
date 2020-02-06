@@ -23,7 +23,7 @@ public class MatchVariable {
     private WebApplicationFirewallMatchVariable variableName;
 
     /**
-     * Describes field of the matchVariable collection.
+     * The selector of match variable.
      */
     @JsonProperty(value = "selector")
     private String selector;
@@ -49,7 +49,7 @@ public class MatchVariable {
     }
 
     /**
-     * Get describes field of the matchVariable collection.
+     * Get the selector of match variable.
      *
      * @return the selector value
      */
@@ -58,7 +58,7 @@ public class MatchVariable {
     }
 
     /**
-     * Set describes field of the matchVariable collection.
+     * Set the selector of match variable.
      *
      * @param selector the selector value to set
      * @return the MatchVariable object itself.

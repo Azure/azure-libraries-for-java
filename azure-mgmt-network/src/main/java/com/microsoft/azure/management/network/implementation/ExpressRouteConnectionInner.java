@@ -20,10 +20,10 @@ import com.microsoft.azure.SubResource;
 @JsonFlatten
 public class ExpressRouteConnectionInner extends SubResource {
     /**
-     * The provisioning state of the resource. Possible values include:
-     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * The provisioning state of the express route connection resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
@@ -45,29 +45,24 @@ public class ExpressRouteConnectionInner extends SubResource {
     private Integer routingWeight;
 
     /**
+     * Enable internet security.
+     */
+    @JsonProperty(value = "properties.enableInternetSecurity")
+    private Boolean enableInternetSecurity;
+
+    /**
      * The name of the resource.
      */
     @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
-     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * Get the provisioning state of the express route connection resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the ExpressRouteConnectionInner object itself.
-     */
-    public ExpressRouteConnectionInner withProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -127,6 +122,26 @@ public class ExpressRouteConnectionInner extends SubResource {
      */
     public ExpressRouteConnectionInner withRoutingWeight(Integer routingWeight) {
         this.routingWeight = routingWeight;
+        return this;
+    }
+
+    /**
+     * Get enable internet security.
+     *
+     * @return the enableInternetSecurity value
+     */
+    public Boolean enableInternetSecurity() {
+        return this.enableInternetSecurity;
+    }
+
+    /**
+     * Set enable internet security.
+     *
+     * @param enableInternetSecurity the enableInternetSecurity value to set
+     * @return the ExpressRouteConnectionInner object itself.
+     */
+    public ExpressRouteConnectionInner withEnableInternetSecurity(Boolean enableInternetSecurity) {
+        this.enableInternetSecurity = enableInternetSecurity;
         return this;
     }
 

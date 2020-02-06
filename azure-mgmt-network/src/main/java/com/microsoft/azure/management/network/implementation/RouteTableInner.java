@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -33,24 +34,23 @@ public class RouteTableInner extends Resource {
     private List<SubnetInner> subnets;
 
     /**
-     * Gets or sets whether to disable the routes learned by BGP on that route
-     * table. True means disable.
+     * Whether to disable the routes learned by BGP on that route table. True
+     * means disable.
      */
     @JsonProperty(value = "properties.disableBgpRoutePropagation")
     private Boolean disableBgpRoutePropagation;
 
     /**
-     * The provisioning state of the resource. Possible values are: 'Updating',
-     * 'Deleting', and 'Failed'.
+     * The provisioning state of the route table resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -89,7 +89,7 @@ public class RouteTableInner extends Resource {
     }
 
     /**
-     * Get gets or sets whether to disable the routes learned by BGP on that route table. True means disable.
+     * Get whether to disable the routes learned by BGP on that route table. True means disable.
      *
      * @return the disableBgpRoutePropagation value
      */
@@ -98,7 +98,7 @@ public class RouteTableInner extends Resource {
     }
 
     /**
-     * Set gets or sets whether to disable the routes learned by BGP on that route table. True means disable.
+     * Set whether to disable the routes learned by BGP on that route table. True means disable.
      *
      * @param disableBgpRoutePropagation the disableBgpRoutePropagation value to set
      * @return the RouteTableInner object itself.
@@ -109,43 +109,21 @@ public class RouteTableInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the route table resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
     /**
-     * Set the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the RouteTableInner object itself.
-     */
-    public RouteTableInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
-    }
-
-    /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set gets a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the RouteTableInner object itself.
-     */
-    public RouteTableInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

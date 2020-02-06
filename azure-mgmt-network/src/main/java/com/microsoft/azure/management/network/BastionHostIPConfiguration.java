@@ -30,10 +30,10 @@ public class BastionHostIPConfiguration extends SubResource {
     private SubResource publicIPAddress;
 
     /**
-     * The provisioning state of the resource. Possible values include:
-     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * The provisioning state of the bastion host IP configuration resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
@@ -103,23 +103,12 @@ public class BastionHostIPConfiguration extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * Get the provisioning state of the bastion host IP configuration resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the BastionHostIPConfiguration object itself.
-     */
-    public BastionHostIPConfiguration withProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**

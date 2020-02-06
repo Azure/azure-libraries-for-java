@@ -22,15 +22,15 @@ public class MatchCondition {
     private List<MatchVariable> matchVariables;
 
     /**
-     * Describes operator to be matched. Possible values include: 'IPMatch',
-     * 'Equal', 'Contains', 'LessThan', 'GreaterThan', 'LessThanOrEqual',
-     * 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith', 'Regex'.
+     * The operator to be matched. Possible values include: 'IPMatch', 'Equal',
+     * 'Contains', 'LessThan', 'GreaterThan', 'LessThanOrEqual',
+     * 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith', 'Regex', 'GeoMatch'.
      */
     @JsonProperty(value = "operator", required = true)
     private WebApplicationFirewallOperator operator;
 
     /**
-     * Describes if this is negate condition or not.
+     * Whether this is negate condition or not.
      */
     @JsonProperty(value = "negationConditon")
     private Boolean negationConditon;
@@ -68,7 +68,7 @@ public class MatchCondition {
     }
 
     /**
-     * Get describes operator to be matched. Possible values include: 'IPMatch', 'Equal', 'Contains', 'LessThan', 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith', 'Regex'.
+     * Get the operator to be matched. Possible values include: 'IPMatch', 'Equal', 'Contains', 'LessThan', 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith', 'Regex', 'GeoMatch'.
      *
      * @return the operator value
      */
@@ -77,7 +77,7 @@ public class MatchCondition {
     }
 
     /**
-     * Set describes operator to be matched. Possible values include: 'IPMatch', 'Equal', 'Contains', 'LessThan', 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith', 'Regex'.
+     * Set the operator to be matched. Possible values include: 'IPMatch', 'Equal', 'Contains', 'LessThan', 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith', 'Regex', 'GeoMatch'.
      *
      * @param operator the operator value to set
      * @return the MatchCondition object itself.
@@ -88,7 +88,7 @@ public class MatchCondition {
     }
 
     /**
-     * Get describes if this is negate condition or not.
+     * Get whether this is negate condition or not.
      *
      * @return the negationConditon value
      */
@@ -97,7 +97,7 @@ public class MatchCondition {
     }
 
     /**
-     * Set describes if this is negate condition or not.
+     * Set whether this is negate condition or not.
      *
      * @param negationConditon the negationConditon value to set
      * @return the MatchCondition object itself.

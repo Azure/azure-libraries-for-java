@@ -26,16 +26,17 @@ public class Delegation extends SubResource {
     private String serviceName;
 
     /**
-     * Describes the actions permitted to the service upon delegation.
+     * The actions permitted to the service upon delegation.
      */
-    @JsonProperty(value = "properties.actions")
+    @JsonProperty(value = "properties.actions", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> actions;
 
     /**
-     * The provisioning state of the resource.
+     * The provisioning state of the service delegation resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a subnet. This name can
@@ -47,7 +48,7 @@ public class Delegation extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -71,7 +72,7 @@ public class Delegation extends SubResource {
     }
 
     /**
-     * Get describes the actions permitted to the service upon delegation.
+     * Get the actions permitted to the service upon delegation.
      *
      * @return the actions value
      */
@@ -80,22 +81,11 @@ public class Delegation extends SubResource {
     }
 
     /**
-     * Set describes the actions permitted to the service upon delegation.
-     *
-     * @param actions the actions value to set
-     * @return the Delegation object itself.
-     */
-    public Delegation withActions(List<String> actions) {
-        this.actions = actions;
-        return this;
-    }
-
-    /**
-     * Get the provisioning state of the resource.
+     * Get the provisioning state of the service delegation resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -126,17 +116,6 @@ public class Delegation extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the Delegation object itself.
-     */
-    public Delegation withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -30,10 +31,11 @@ public class ResourceNavigationLinkInner extends SubResource {
     private String link;
 
     /**
-     * Provisioning state of the ResourceNavigationLink resource.
+     * The provisioning state of the resource navigation link resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * Name of the resource that is unique within a resource group. This name
@@ -95,11 +97,11 @@ public class ResourceNavigationLinkInner extends SubResource {
     }
 
     /**
-     * Get provisioning state of the ResourceNavigationLink resource.
+     * Get the provisioning state of the resource navigation link resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 

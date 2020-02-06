@@ -76,7 +76,7 @@ public interface ExpressRouteCrossConnection extends
     /**
      * @return the provisioning state of the express route cross connection resource
      */
-    String provisioningState();
+    ProvisioningState provisioningState();
 
     /**
      * @return the peerings associated with this express route cross connection, indexed by name

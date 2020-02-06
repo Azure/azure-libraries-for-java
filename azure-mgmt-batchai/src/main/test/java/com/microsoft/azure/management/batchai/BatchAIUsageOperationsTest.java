@@ -32,6 +32,7 @@ public class BatchAIUsageOperationsTest extends TestBase {
     }
 
     @Test
+    @Ignore("Deprecated")
     public void canListBatchAIUsages() throws Exception {
         List<BatchAIUsage> usages = batchAIManager.usages().listByRegion(Region.EUROPE_WEST);
         Assert.assertTrue(usages.size() > 0);

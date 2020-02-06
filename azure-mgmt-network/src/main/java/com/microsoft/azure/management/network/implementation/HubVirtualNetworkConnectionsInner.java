@@ -11,8 +11,8 @@ package com.microsoft.azure.management.network.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.network.ErrorException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -78,7 +78,7 @@ public class HubVirtualNetworkConnectionsInner {
      * @param virtualHubName The name of the VirtualHub.
      * @param connectionName The name of the vpn connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the HubVirtualNetworkConnectionInner object if successful.
      */
@@ -140,7 +140,7 @@ public class HubVirtualNetworkConnectionsInner {
         if (connectionName == null) {
             throw new IllegalArgumentException("Parameter connectionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.get(this.client.subscriptionId(), resourceGroupName, virtualHubName, connectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<HubVirtualNetworkConnectionInner>>>() {
                 @Override
@@ -155,10 +155,10 @@ public class HubVirtualNetworkConnectionsInner {
             });
     }
 
-    private ServiceResponse<HubVirtualNetworkConnectionInner> getDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<HubVirtualNetworkConnectionInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<HubVirtualNetworkConnectionInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<HubVirtualNetworkConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<HubVirtualNetworkConnectionInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -168,7 +168,7 @@ public class HubVirtualNetworkConnectionsInner {
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object if successful.
      */
@@ -261,7 +261,7 @@ public class HubVirtualNetworkConnectionsInner {
         if (virtualHubName == null) {
             throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<HubVirtualNetworkConnectionInner>>>>() {
                 @Override
@@ -276,10 +276,10 @@ public class HubVirtualNetworkConnectionsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> listDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<HubVirtualNetworkConnectionInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<HubVirtualNetworkConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<HubVirtualNetworkConnectionInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -288,7 +288,7 @@ public class HubVirtualNetworkConnectionsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;HubVirtualNetworkConnectionInner&gt; object if successful.
      */
@@ -387,10 +387,10 @@ public class HubVirtualNetworkConnectionsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<HubVirtualNetworkConnectionInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<HubVirtualNetworkConnectionInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<HubVirtualNetworkConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<HubVirtualNetworkConnectionInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 

@@ -95,6 +95,10 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/privateLinkServices")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PrivateLinkServices getPrivateEndpointConnection" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}")
+        Observable<Response<ResponseBody>> getPrivateEndpointConnection(@Path("resourceGroupName") String resourceGroupName, @Path("serviceName") String serviceName, @Path("peConnectionName") String peConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("$expand") String expand, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PrivateLinkServices updatePrivateEndpointConnection" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}")
         Observable<Response<ResponseBody>> updatePrivateEndpointConnection(@Path("resourceGroupName") String resourceGroupName, @Path("serviceName") String serviceName, @Path("peConnectionName") String peConnectionName, @Path("subscriptionId") String subscriptionId, @Body PrivateEndpointConnectionInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -106,6 +110,10 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PrivateLinkServices beginDeletePrivateEndpointConnection" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> beginDeletePrivateEndpointConnection(@Path("resourceGroupName") String resourceGroupName, @Path("serviceName") String serviceName, @Path("peConnectionName") String peConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PrivateLinkServices listPrivateEndpointConnections" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections")
+        Observable<Response<ResponseBody>> listPrivateEndpointConnections(@Path("resourceGroupName") String resourceGroupName, @Path("serviceName") String serviceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PrivateLinkServices checkPrivateLinkServiceVisibility" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility")
@@ -130,6 +138,10 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PrivateLinkServices listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PrivateLinkServices listPrivateEndpointConnectionsNext" })
+        @GET
+        Observable<Response<ResponseBody>> listPrivateEndpointConnectionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PrivateLinkServices listAutoApprovedPrivateLinkServicesNext" })
         @GET
@@ -202,7 +214,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, serviceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -268,7 +280,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, serviceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -354,7 +366,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final String expand = null;
         return service.getByResourceGroup(resourceGroupName, serviceName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateLinkServiceInner>>>() {
@@ -436,7 +448,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, serviceName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateLinkServiceInner>>>() {
                 @Override
@@ -528,7 +540,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serviceName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<PrivateLinkServiceInner>() { }.getType());
     }
@@ -603,7 +615,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, serviceName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateLinkServiceInner>>>() {
                 @Override
@@ -717,7 +729,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PrivateLinkServiceInner>>>>() {
                 @Override
@@ -822,7 +834,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PrivateLinkServiceInner>>>>() {
                 @Override
@@ -840,6 +852,186 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     private ServiceResponse<PageImpl<PrivateLinkServiceInner>> listDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PrivateLinkServiceInner>, ErrorException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<PrivateLinkServiceInner>>() { }.getType())
+                .registerError(ErrorException.class)
+                .build(response);
+    }
+
+    /**
+     * Get the specific private end point connection by specific private link service in the resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @param peConnectionName The name of the private end point connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PrivateEndpointConnectionInner object if successful.
+     */
+    public PrivateEndpointConnectionInner getPrivateEndpointConnection(String resourceGroupName, String serviceName, String peConnectionName) {
+        return getPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, serviceName, peConnectionName).toBlocking().single().body();
+    }
+
+    /**
+     * Get the specific private end point connection by specific private link service in the resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @param peConnectionName The name of the private end point connection.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<PrivateEndpointConnectionInner> getPrivateEndpointConnectionAsync(String resourceGroupName, String serviceName, String peConnectionName, final ServiceCallback<PrivateEndpointConnectionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, serviceName, peConnectionName), serviceCallback);
+    }
+
+    /**
+     * Get the specific private end point connection by specific private link service in the resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @param peConnectionName The name of the private end point connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PrivateEndpointConnectionInner object
+     */
+    public Observable<PrivateEndpointConnectionInner> getPrivateEndpointConnectionAsync(String resourceGroupName, String serviceName, String peConnectionName) {
+        return getPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, serviceName, peConnectionName).map(new Func1<ServiceResponse<PrivateEndpointConnectionInner>, PrivateEndpointConnectionInner>() {
+            @Override
+            public PrivateEndpointConnectionInner call(ServiceResponse<PrivateEndpointConnectionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get the specific private end point connection by specific private link service in the resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @param peConnectionName The name of the private end point connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PrivateEndpointConnectionInner object
+     */
+    public Observable<ServiceResponse<PrivateEndpointConnectionInner>> getPrivateEndpointConnectionWithServiceResponseAsync(String resourceGroupName, String serviceName, String peConnectionName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serviceName == null) {
+            throw new IllegalArgumentException("Parameter serviceName is required and cannot be null.");
+        }
+        if (peConnectionName == null) {
+            throw new IllegalArgumentException("Parameter peConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        final String expand = null;
+        return service.getPrivateEndpointConnection(resourceGroupName, serviceName, peConnectionName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateEndpointConnectionInner>>>() {
+                @Override
+                public Observable<ServiceResponse<PrivateEndpointConnectionInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PrivateEndpointConnectionInner> clientResponse = getPrivateEndpointConnectionDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Get the specific private end point connection by specific private link service in the resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @param peConnectionName The name of the private end point connection.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PrivateEndpointConnectionInner object if successful.
+     */
+    public PrivateEndpointConnectionInner getPrivateEndpointConnection(String resourceGroupName, String serviceName, String peConnectionName, String expand) {
+        return getPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, serviceName, peConnectionName, expand).toBlocking().single().body();
+    }
+
+    /**
+     * Get the specific private end point connection by specific private link service in the resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @param peConnectionName The name of the private end point connection.
+     * @param expand Expands referenced resources.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<PrivateEndpointConnectionInner> getPrivateEndpointConnectionAsync(String resourceGroupName, String serviceName, String peConnectionName, String expand, final ServiceCallback<PrivateEndpointConnectionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, serviceName, peConnectionName, expand), serviceCallback);
+    }
+
+    /**
+     * Get the specific private end point connection by specific private link service in the resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @param peConnectionName The name of the private end point connection.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PrivateEndpointConnectionInner object
+     */
+    public Observable<PrivateEndpointConnectionInner> getPrivateEndpointConnectionAsync(String resourceGroupName, String serviceName, String peConnectionName, String expand) {
+        return getPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, serviceName, peConnectionName, expand).map(new Func1<ServiceResponse<PrivateEndpointConnectionInner>, PrivateEndpointConnectionInner>() {
+            @Override
+            public PrivateEndpointConnectionInner call(ServiceResponse<PrivateEndpointConnectionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get the specific private end point connection by specific private link service in the resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @param peConnectionName The name of the private end point connection.
+     * @param expand Expands referenced resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PrivateEndpointConnectionInner object
+     */
+    public Observable<ServiceResponse<PrivateEndpointConnectionInner>> getPrivateEndpointConnectionWithServiceResponseAsync(String resourceGroupName, String serviceName, String peConnectionName, String expand) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serviceName == null) {
+            throw new IllegalArgumentException("Parameter serviceName is required and cannot be null.");
+        }
+        if (peConnectionName == null) {
+            throw new IllegalArgumentException("Parameter peConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        return service.getPrivateEndpointConnection(resourceGroupName, serviceName, peConnectionName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateEndpointConnectionInner>>>() {
+                @Override
+                public Observable<ServiceResponse<PrivateEndpointConnectionInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PrivateEndpointConnectionInner> clientResponse = getPrivateEndpointConnectionDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PrivateEndpointConnectionInner> getPrivateEndpointConnectionDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PrivateEndpointConnectionInner, ErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PrivateEndpointConnectionInner>() { }.getType())
                 .registerError(ErrorException.class)
                 .build(response);
     }
@@ -921,7 +1113,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.updatePrivateEndpointConnection(resourceGroupName, serviceName, peConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateEndpointConnectionInner>>>() {
                 @Override
@@ -1011,7 +1203,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.deletePrivateEndpointConnection(resourceGroupName, serviceName, peConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -1084,7 +1276,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDeletePrivateEndpointConnection(resourceGroupName, serviceName, peConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -1109,7 +1301,128 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Gets all private end point connections for a specific private link service.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;PrivateEndpointConnectionInner&gt; object if successful.
+     */
+    public PagedList<PrivateEndpointConnectionInner> listPrivateEndpointConnections(final String resourceGroupName, final String serviceName) {
+        ServiceResponse<Page<PrivateEndpointConnectionInner>> response = listPrivateEndpointConnectionsSinglePageAsync(resourceGroupName, serviceName).toBlocking().single();
+        return new PagedList<PrivateEndpointConnectionInner>(response.body()) {
+            @Override
+            public Page<PrivateEndpointConnectionInner> nextPage(String nextPageLink) {
+                return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets all private end point connections for a specific private link service.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsAsync(final String resourceGroupName, final String serviceName, final ListOperationCallback<PrivateEndpointConnectionInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listPrivateEndpointConnectionsSinglePageAsync(resourceGroupName, serviceName),
+            new Func1<String, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(String nextPageLink) {
+                    return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets all private end point connections for a specific private link service.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;PrivateEndpointConnectionInner&gt; object
+     */
+    public Observable<Page<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsAsync(final String resourceGroupName, final String serviceName) {
+        return listPrivateEndpointConnectionsWithServiceResponseAsync(resourceGroupName, serviceName)
+            .map(new Func1<ServiceResponse<Page<PrivateEndpointConnectionInner>>, Page<PrivateEndpointConnectionInner>>() {
+                @Override
+                public Page<PrivateEndpointConnectionInner> call(ServiceResponse<Page<PrivateEndpointConnectionInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets all private end point connections for a specific private link service.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param serviceName The name of the private link service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;PrivateEndpointConnectionInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> listPrivateEndpointConnectionsWithServiceResponseAsync(final String resourceGroupName, final String serviceName) {
+        return listPrivateEndpointConnectionsSinglePageAsync(resourceGroupName, serviceName)
+            .concatMap(new Func1<ServiceResponse<Page<PrivateEndpointConnectionInner>>, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(ServiceResponse<Page<PrivateEndpointConnectionInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listPrivateEndpointConnectionsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets all private end point connections for a specific private link service.
+     *
+    ServiceResponse<PageImpl<PrivateEndpointConnectionInner>> * @param resourceGroupName The name of the resource group.
+    ServiceResponse<PageImpl<PrivateEndpointConnectionInner>> * @param serviceName The name of the private link service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;PrivateEndpointConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> listPrivateEndpointConnectionsSinglePageAsync(final String resourceGroupName, final String serviceName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serviceName == null) {
+            throw new IllegalArgumentException("Parameter serviceName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        return service.listPrivateEndpointConnections(resourceGroupName, serviceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<PrivateEndpointConnectionInner>> result = listPrivateEndpointConnectionsDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<PrivateEndpointConnectionInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<PrivateEndpointConnectionInner>, ErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<PrivateEndpointConnectionInner>>() { }.getType())
+                .registerError(ErrorException.class)
+                .build(response);
+    }
+
+    /**
+     * Checks whether the subscription is visible to private link service.
      *
      * @param location The location of the domain name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1122,7 +1435,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service.
      *
      * @param location The location of the domain name.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -1134,7 +1447,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service.
      *
      * @param location The location of the domain name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1150,7 +1463,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service.
      *
      * @param location The location of the domain name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1163,7 +1476,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final String privateLinkServiceAlias = null;
         CheckPrivateLinkServiceVisibilityRequest parameters = new CheckPrivateLinkServiceVisibilityRequest();
         parameters.withPrivateLinkServiceAlias(null);
@@ -1182,7 +1495,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service.
      *
      * @param location The location of the domain name.
      * @param privateLinkServiceAlias The alias of the private link service.
@@ -1196,7 +1509,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service.
      *
      * @param location The location of the domain name.
      * @param privateLinkServiceAlias The alias of the private link service.
@@ -1209,7 +1522,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service.
      *
      * @param location The location of the domain name.
      * @param privateLinkServiceAlias The alias of the private link service.
@@ -1226,7 +1539,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service.
      *
      * @param location The location of the domain name.
      * @param privateLinkServiceAlias The alias of the private link service.
@@ -1240,7 +1553,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         CheckPrivateLinkServiceVisibilityRequest parameters = new CheckPrivateLinkServiceVisibilityRequest();
         parameters.withPrivateLinkServiceAlias(privateLinkServiceAlias);
         return service.checkPrivateLinkServiceVisibility(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1265,7 +1578,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service in the specified resource group.
      *
      * @param location The location of the domain name.
      * @param resourceGroupName The name of the resource group.
@@ -1279,7 +1592,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service in the specified resource group.
      *
      * @param location The location of the domain name.
      * @param resourceGroupName The name of the resource group.
@@ -1292,7 +1605,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service in the specified resource group.
      *
      * @param location The location of the domain name.
      * @param resourceGroupName The name of the resource group.
@@ -1309,7 +1622,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service in the specified resource group.
      *
      * @param location The location of the domain name.
      * @param resourceGroupName The name of the resource group.
@@ -1326,7 +1639,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final String privateLinkServiceAlias = null;
         CheckPrivateLinkServiceVisibilityRequest parameters = new CheckPrivateLinkServiceVisibilityRequest();
         parameters.withPrivateLinkServiceAlias(null);
@@ -1345,7 +1658,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service in the specified resource group.
      *
      * @param location The location of the domain name.
      * @param resourceGroupName The name of the resource group.
@@ -1360,7 +1673,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service in the specified resource group.
      *
      * @param location The location of the domain name.
      * @param resourceGroupName The name of the resource group.
@@ -1374,7 +1687,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service in the specified resource group.
      *
      * @param location The location of the domain name.
      * @param resourceGroupName The name of the resource group.
@@ -1392,7 +1705,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     }
 
     /**
-     * Checks the subscription is visible to private link service.
+     * Checks whether the subscription is visible to private link service in the specified resource group.
      *
      * @param location The location of the domain name.
      * @param resourceGroupName The name of the resource group.
@@ -1410,7 +1723,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         CheckPrivateLinkServiceVisibilityRequest parameters = new CheckPrivateLinkServiceVisibilityRequest();
         parameters.withPrivateLinkServiceAlias(privateLinkServiceAlias);
         return service.checkPrivateLinkServiceVisibilityByResourceGroup(location, resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1525,7 +1838,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listAutoApprovedPrivateLinkServices(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AutoApprovedPrivateLinkServiceInner>>>>() {
                 @Override
@@ -1646,7 +1959,7 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listAutoApprovedPrivateLinkServicesByResourceGroup(location, resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AutoApprovedPrivateLinkServiceInner>>>>() {
                 @Override
@@ -1886,6 +2199,117 @@ public class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkSer
     private ServiceResponse<PageImpl<PrivateLinkServiceInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<PrivateLinkServiceInner>, ErrorException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<PrivateLinkServiceInner>>() { }.getType())
+                .registerError(ErrorException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets all private end point connections for a specific private link service.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;PrivateEndpointConnectionInner&gt; object if successful.
+     */
+    public PagedList<PrivateEndpointConnectionInner> listPrivateEndpointConnectionsNext(final String nextPageLink) {
+        ServiceResponse<Page<PrivateEndpointConnectionInner>> response = listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<PrivateEndpointConnectionInner>(response.body()) {
+            @Override
+            public Page<PrivateEndpointConnectionInner> nextPage(String nextPageLink) {
+                return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets all private end point connections for a specific private link service.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsNextAsync(final String nextPageLink, final ServiceFuture<List<PrivateEndpointConnectionInner>> serviceFuture, final ListOperationCallback<PrivateEndpointConnectionInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(String nextPageLink) {
+                    return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets all private end point connections for a specific private link service.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;PrivateEndpointConnectionInner&gt; object
+     */
+    public Observable<Page<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsNextAsync(final String nextPageLink) {
+        return listPrivateEndpointConnectionsNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<PrivateEndpointConnectionInner>>, Page<PrivateEndpointConnectionInner>>() {
+                @Override
+                public Page<PrivateEndpointConnectionInner> call(ServiceResponse<Page<PrivateEndpointConnectionInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets all private end point connections for a specific private link service.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;PrivateEndpointConnectionInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> listPrivateEndpointConnectionsNextWithServiceResponseAsync(final String nextPageLink) {
+        return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<PrivateEndpointConnectionInner>>, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(ServiceResponse<Page<PrivateEndpointConnectionInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listPrivateEndpointConnectionsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets all private end point connections for a specific private link service.
+     *
+    ServiceResponse<PageImpl<PrivateEndpointConnectionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;PrivateEndpointConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> listPrivateEndpointConnectionsNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listPrivateEndpointConnectionsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<PrivateEndpointConnectionInner>> result = listPrivateEndpointConnectionsNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<PrivateEndpointConnectionInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<PrivateEndpointConnectionInner>, ErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<PrivateEndpointConnectionInner>>() { }.getType())
                 .registerError(ErrorException.class)
                 .build(response);
     }

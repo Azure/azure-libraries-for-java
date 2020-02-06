@@ -37,22 +37,21 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
     private List<AzureFirewallApplicationRule> rules;
 
     /**
-     * The provisioning state of the resource. Possible values include:
-     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * The provisioning state of the application rule collection resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
-     * Gets name of the resource that is unique within a resource group. This
+     * The name of the resource that is unique within the Azure firewall. This
      * name can be used to access the resource.
      */
     @JsonProperty(value = "name")
     private String name;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
@@ -118,7 +117,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * Get the provisioning state of the application rule collection resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -127,18 +126,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
     }
 
     /**
-     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the AzureFirewallApplicationRuleCollection object itself.
-     */
-    public AzureFirewallApplicationRuleCollection withProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
-    }
-
-    /**
-     * Get gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+     * Get the name of the resource that is unique within the Azure firewall. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -147,7 +135,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
     }
 
     /**
-     * Set gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+     * Set the name of the resource that is unique within the Azure firewall. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the AzureFirewallApplicationRuleCollection object itself.
@@ -158,7 +146,7 @@ public class AzureFirewallApplicationRuleCollection extends SubResource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

@@ -14,8 +14,8 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.network.ErrorException;
 import com.microsoft.azure.management.network.TagsObject;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
@@ -83,10 +83,6 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}")
         Observable<Response<ResponseBody>> updateTags(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("virtualHubName") String virtualHubName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject virtualHubParameters, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualHubs beginUpdateTags" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("virtualHubName") String virtualHubName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject virtualHubParameters, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualHubs delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("virtualHubName") String virtualHubName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -119,7 +115,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualHubInner object if successful.
      */
@@ -175,7 +171,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
         if (virtualHubName == null) {
             throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualHubInner>>>() {
                 @Override
@@ -190,10 +186,10 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             });
     }
 
-    private ServiceResponse<VirtualHubInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualHubInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VirtualHubInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualHubInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualHubInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -204,7 +200,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param virtualHubName The name of the VirtualHub.
      * @param virtualHubParameters Parameters supplied to create or update VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualHubInner object if successful.
      */
@@ -267,7 +263,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             throw new IllegalArgumentException("Parameter virtualHubParameters is required and cannot be null.");
         }
         Validator.validate(virtualHubParameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, virtualHubParameters, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualHubInner>() { }.getType());
     }
@@ -279,7 +275,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param virtualHubName The name of the VirtualHub.
      * @param virtualHubParameters Parameters supplied to create or update VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualHubInner object if successful.
      */
@@ -342,7 +338,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             throw new IllegalArgumentException("Parameter virtualHubParameters is required and cannot be null.");
         }
         Validator.validate(virtualHubParameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, virtualHubParameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualHubInner>>>() {
                 @Override
@@ -357,11 +353,11 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             });
     }
 
-    private ServiceResponse<VirtualHubInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualHubInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VirtualHubInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualHubInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualHubInner>() { }.getType())
                 .register(201, new TypeToken<VirtualHubInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -371,12 +367,12 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualHubInner object if successful.
      */
     public VirtualHubInner updateTags(String resourceGroupName, String virtualHubName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName).toBlocking().single().body();
     }
 
     /**
@@ -398,7 +394,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualHubInner object
      */
     public Observable<VirtualHubInner> updateTagsAsync(String resourceGroupName, String virtualHubName) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName).map(new Func1<ServiceResponse<VirtualHubInner>, VirtualHubInner>() {
@@ -415,7 +411,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualHubInner object
      */
     public Observable<ServiceResponse<VirtualHubInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String virtualHubName) {
         if (this.client.subscriptionId() == null) {
@@ -427,13 +423,24 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
         if (virtualHubName == null) {
             throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject virtualHubParameters = new TagsObject();
         virtualHubParameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), virtualHubParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualHubInner>() { }.getType());
+        return service.updateTags(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), virtualHubParameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualHubInner>>>() {
+                @Override
+                public Observable<ServiceResponse<VirtualHubInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<VirtualHubInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Updates VirtualHub tags.
      *
@@ -441,12 +448,12 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param virtualHubName The name of the VirtualHub.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualHubInner object if successful.
      */
     public VirtualHubInner updateTags(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName, tags).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName, tags).toBlocking().single().body();
     }
 
     /**
@@ -470,7 +477,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param virtualHubName The name of the VirtualHub.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualHubInner object
      */
     public Observable<VirtualHubInner> updateTagsAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName, tags).map(new Func1<ServiceResponse<VirtualHubInner>, VirtualHubInner>() {
@@ -488,7 +495,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param virtualHubName The name of the VirtualHub.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualHubInner object
      */
     public Observable<ServiceResponse<VirtualHubInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
         if (this.client.subscriptionId() == null) {
@@ -501,85 +508,15 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject virtualHubParameters = new TagsObject();
         virtualHubParameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), virtualHubParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualHubInner>() { }.getType());
-    }
-
-    /**
-     * Updates VirtualHub tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the VirtualHubInner object if successful.
-     */
-    public VirtualHubInner beginUpdateTags(String resourceGroupName, String virtualHubName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName).toBlocking().single().body();
-    }
-
-    /**
-     * Updates VirtualHub tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<VirtualHubInner> beginUpdateTagsAsync(String resourceGroupName, String virtualHubName, final ServiceCallback<VirtualHubInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName), serviceCallback);
-    }
-
-    /**
-     * Updates VirtualHub tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualHubInner object
-     */
-    public Observable<VirtualHubInner> beginUpdateTagsAsync(String resourceGroupName, String virtualHubName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName).map(new Func1<ServiceResponse<VirtualHubInner>, VirtualHubInner>() {
-            @Override
-            public VirtualHubInner call(ServiceResponse<VirtualHubInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates VirtualHub tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualHubInner object
-     */
-    public Observable<ServiceResponse<VirtualHubInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String virtualHubName) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (virtualHubName == null) {
-            throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
-        }
-        final String apiVersion = "2019-06-01";
-        final Map<String, String> tags = null;
-        TagsObject virtualHubParameters = new TagsObject();
-        virtualHubParameters.withTags(null);
-        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), virtualHubParameters, this.client.userAgent())
+        return service.updateTags(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), virtualHubParameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualHubInner>>>() {
                 @Override
                 public Observable<ServiceResponse<VirtualHubInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<VirtualHubInner> clientResponse = beginUpdateTagsDelegate(response);
+                        ServiceResponse<VirtualHubInner> clientResponse = updateTagsDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -588,95 +525,10 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             });
     }
 
-    /**
-     * Updates VirtualHub tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the VirtualHubInner object if successful.
-     */
-    public VirtualHubInner beginUpdateTags(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName, tags).toBlocking().single().body();
-    }
-
-    /**
-     * Updates VirtualHub tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @param tags Resource tags.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<VirtualHubInner> beginUpdateTagsAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags, final ServiceCallback<VirtualHubInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName, tags), serviceCallback);
-    }
-
-    /**
-     * Updates VirtualHub tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualHubInner object
-     */
-    public Observable<VirtualHubInner> beginUpdateTagsAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualHubName, tags).map(new Func1<ServiceResponse<VirtualHubInner>, VirtualHubInner>() {
-            @Override
-            public VirtualHubInner call(ServiceResponse<VirtualHubInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates VirtualHub tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualHub.
-     * @param virtualHubName The name of the VirtualHub.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualHubInner object
-     */
-    public Observable<ServiceResponse<VirtualHubInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (virtualHubName == null) {
-            throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
-        }
-        Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
-        TagsObject virtualHubParameters = new TagsObject();
-        virtualHubParameters.withTags(tags);
-        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), virtualHubParameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualHubInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualHubInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualHubInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<VirtualHubInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualHubInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VirtualHubInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualHubInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualHubInner>() { }.getType())
-                .register(201, new TypeToken<VirtualHubInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -686,7 +538,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String virtualHubName) {
@@ -741,7 +593,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
         if (virtualHubName == null) {
             throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -752,7 +604,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @param virtualHubName The name of the VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginDelete(String resourceGroupName, String virtualHubName) {
@@ -807,7 +659,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
         if (virtualHubName == null) {
             throw new IllegalArgumentException("Parameter virtualHubName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, virtualHubName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -822,12 +674,12 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             });
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -836,7 +688,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VirtualHub.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualHubInner&gt; object if successful.
      */
@@ -922,7 +774,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualHubInner>>>>() {
                 @Override
@@ -937,10 +789,10 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<VirtualHubInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualHubInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VirtualHubInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualHubInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VirtualHubInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -948,7 +800,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      * Lists all the VirtualHubs in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualHubInner&gt; object if successful.
      */
@@ -1027,7 +879,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualHubInner>>>>() {
                 @Override
@@ -1042,10 +894,10 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<VirtualHubInner>> listDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualHubInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VirtualHubInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualHubInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VirtualHubInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1054,7 +906,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualHubInner&gt; object if successful.
      */
@@ -1153,10 +1005,10 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<VirtualHubInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualHubInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VirtualHubInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualHubInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VirtualHubInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1165,7 +1017,7 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualHubInner&gt; object if successful.
      */
@@ -1264,10 +1116,10 @@ public class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<VirtualHubInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualHubInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VirtualHubInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualHubInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VirtualHubInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 

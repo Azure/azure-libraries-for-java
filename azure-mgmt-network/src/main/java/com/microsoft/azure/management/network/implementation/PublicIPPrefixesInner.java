@@ -91,10 +91,6 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}")
         Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("publicIpPrefixName") String publicIpPrefixName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PublicIPPrefixes beginUpdateTags" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("resourceGroupName") String resourceGroupName, @Path("publicIpPrefixName") String publicIpPrefixName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.PublicIPPrefixes list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -174,7 +170,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -240,7 +236,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -326,7 +322,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final String expand = null;
         return service.getByResourceGroup(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PublicIPPrefixInner>>>() {
@@ -408,7 +404,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PublicIPPrefixInner>>>() {
                 @Override
@@ -500,7 +496,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<PublicIPPrefixInner>() { }.getType());
     }
@@ -575,7 +571,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PublicIPPrefixInner>>>() {
                 @Override
@@ -609,7 +605,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * @return the PublicIPPrefixInner object if successful.
      */
     public PublicIPPrefixInner updateTags(String resourceGroupName, String publicIpPrefixName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName).toBlocking().single().body();
     }
 
     /**
@@ -631,7 +627,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * @param resourceGroupName The name of the resource group.
      * @param publicIpPrefixName The name of the public IP prefix.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the PublicIPPrefixInner object
      */
     public Observable<PublicIPPrefixInner> updateTagsAsync(String resourceGroupName, String publicIpPrefixName) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName).map(new Func1<ServiceResponse<PublicIPPrefixInner>, PublicIPPrefixInner>() {
@@ -648,7 +644,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * @param resourceGroupName The name of the resource group.
      * @param publicIpPrefixName The name of the public IP prefix.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the PublicIPPrefixInner object
      */
     public Observable<ServiceResponse<PublicIPPrefixInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String publicIpPrefixName) {
         if (resourceGroupName == null) {
@@ -660,13 +656,24 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<PublicIPPrefixInner>() { }.getType());
+        return service.updateTags(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PublicIPPrefixInner>>>() {
+                @Override
+                public Observable<ServiceResponse<PublicIPPrefixInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PublicIPPrefixInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Updates public IP prefix tags.
      *
@@ -679,7 +686,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * @return the PublicIPPrefixInner object if successful.
      */
     public PublicIPPrefixInner updateTags(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName, tags).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName, tags).toBlocking().single().body();
     }
 
     /**
@@ -703,7 +710,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * @param publicIpPrefixName The name of the public IP prefix.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the PublicIPPrefixInner object
      */
     public Observable<PublicIPPrefixInner> updateTagsAsync(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName, tags).map(new Func1<ServiceResponse<PublicIPPrefixInner>, PublicIPPrefixInner>() {
@@ -721,7 +728,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
      * @param publicIpPrefixName The name of the public IP prefix.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the PublicIPPrefixInner object
      */
     public Observable<ServiceResponse<PublicIPPrefixInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
         if (resourceGroupName == null) {
@@ -734,85 +741,15 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<PublicIPPrefixInner>() { }.getType());
-    }
-
-    /**
-     * Updates public IP prefix tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PublicIPPrefixInner object if successful.
-     */
-    public PublicIPPrefixInner beginUpdateTags(String resourceGroupName, String publicIpPrefixName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName).toBlocking().single().body();
-    }
-
-    /**
-     * Updates public IP prefix tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<PublicIPPrefixInner> beginUpdateTagsAsync(String resourceGroupName, String publicIpPrefixName, final ServiceCallback<PublicIPPrefixInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName), serviceCallback);
-    }
-
-    /**
-     * Updates public IP prefix tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PublicIPPrefixInner object
-     */
-    public Observable<PublicIPPrefixInner> beginUpdateTagsAsync(String resourceGroupName, String publicIpPrefixName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName).map(new Func1<ServiceResponse<PublicIPPrefixInner>, PublicIPPrefixInner>() {
-            @Override
-            public PublicIPPrefixInner call(ServiceResponse<PublicIPPrefixInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates public IP prefix tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PublicIPPrefixInner object
-     */
-    public Observable<ServiceResponse<PublicIPPrefixInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String publicIpPrefixName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (publicIpPrefixName == null) {
-            throw new IllegalArgumentException("Parameter publicIpPrefixName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2019-06-01";
-        final Map<String, String> tags = null;
-        TagsObject parameters = new TagsObject();
-        parameters.withTags(null);
-        return service.beginUpdateTags(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.updateTags(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PublicIPPrefixInner>>>() {
                 @Override
                 public Observable<ServiceResponse<PublicIPPrefixInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PublicIPPrefixInner> clientResponse = beginUpdateTagsDelegate(response);
+                        ServiceResponse<PublicIPPrefixInner> clientResponse = updateTagsDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -821,91 +758,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
             });
     }
 
-    /**
-     * Updates public IP prefix tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PublicIPPrefixInner object if successful.
-     */
-    public PublicIPPrefixInner beginUpdateTags(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName, tags).toBlocking().single().body();
-    }
-
-    /**
-     * Updates public IP prefix tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @param tags Resource tags.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<PublicIPPrefixInner> beginUpdateTagsAsync(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags, final ServiceCallback<PublicIPPrefixInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName, tags), serviceCallback);
-    }
-
-    /**
-     * Updates public IP prefix tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PublicIPPrefixInner object
-     */
-    public Observable<PublicIPPrefixInner> beginUpdateTagsAsync(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, publicIpPrefixName, tags).map(new Func1<ServiceResponse<PublicIPPrefixInner>, PublicIPPrefixInner>() {
-            @Override
-            public PublicIPPrefixInner call(ServiceResponse<PublicIPPrefixInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates public IP prefix tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param publicIpPrefixName The name of the public IP prefix.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PublicIPPrefixInner object
-     */
-    public Observable<ServiceResponse<PublicIPPrefixInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (publicIpPrefixName == null) {
-            throw new IllegalArgumentException("Parameter publicIpPrefixName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
-        TagsObject parameters = new TagsObject();
-        parameters.withTags(tags);
-        return service.beginUpdateTags(resourceGroupName, publicIpPrefixName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PublicIPPrefixInner>>>() {
-                @Override
-                public Observable<ServiceResponse<PublicIPPrefixInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PublicIPPrefixInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PublicIPPrefixInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PublicIPPrefixInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PublicIPPrefixInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PublicIPPrefixInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -995,7 +848,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PublicIPPrefixInner>>>>() {
                 @Override
@@ -1108,7 +961,7 @@ public class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInn
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PublicIPPrefixInner>>>>() {
                 @Override

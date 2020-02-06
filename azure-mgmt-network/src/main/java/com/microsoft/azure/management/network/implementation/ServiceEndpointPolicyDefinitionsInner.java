@@ -159,7 +159,7 @@ public class ServiceEndpointPolicyDefinitionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, serviceEndpointPolicyName, serviceEndpointPolicyDefinitionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -232,7 +232,7 @@ public class ServiceEndpointPolicyDefinitionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, serviceEndpointPolicyName, serviceEndpointPolicyDefinitionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -325,7 +325,7 @@ public class ServiceEndpointPolicyDefinitionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.get(resourceGroupName, serviceEndpointPolicyName, serviceEndpointPolicyDefinitionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServiceEndpointPolicyDefinitionInner>>>() {
                 @Override
@@ -424,7 +424,7 @@ public class ServiceEndpointPolicyDefinitionsInner {
             throw new IllegalArgumentException("Parameter serviceEndpointPolicyDefinitions is required and cannot be null.");
         }
         Validator.validate(serviceEndpointPolicyDefinitions);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serviceEndpointPolicyName, serviceEndpointPolicyDefinitionName, this.client.subscriptionId(), serviceEndpointPolicyDefinitions, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServiceEndpointPolicyDefinitionInner>() { }.getType());
     }
@@ -506,7 +506,7 @@ public class ServiceEndpointPolicyDefinitionsInner {
             throw new IllegalArgumentException("Parameter serviceEndpointPolicyDefinitions is required and cannot be null.");
         }
         Validator.validate(serviceEndpointPolicyDefinitions);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, serviceEndpointPolicyName, serviceEndpointPolicyDefinitionName, this.client.subscriptionId(), serviceEndpointPolicyDefinitions, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServiceEndpointPolicyDefinitionInner>>>() {
                 @Override
@@ -628,7 +628,7 @@ public class ServiceEndpointPolicyDefinitionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServiceEndpointPolicyDefinitionInner>>>>() {
                 @Override

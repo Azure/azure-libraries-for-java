@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -28,17 +29,17 @@ public class VirtualNetworkTapInner extends Resource {
     private List<NetworkInterfaceTapConfigurationInner> networkInterfaceTapConfigurations;
 
     /**
-     * The resourceGuid property of the virtual network tap.
+     * The resource GUID property of the virtual network tap resource.
      */
     @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /**
-     * The provisioning state of the virtual network tap. Possible values are:
-     * 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the virtual network tap resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The reference to the private IP Address of the collector nic that will
@@ -61,10 +62,9 @@ public class VirtualNetworkTapInner extends Resource {
     private Integer destinationPort;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -83,7 +83,7 @@ public class VirtualNetworkTapInner extends Resource {
     }
 
     /**
-     * Get the resourceGuid property of the virtual network tap.
+     * Get the resource GUID property of the virtual network tap resource.
      *
      * @return the resourceGuid value
      */
@@ -92,11 +92,11 @@ public class VirtualNetworkTapInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the virtual network tap. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the virtual network tap resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -161,23 +161,12 @@ public class VirtualNetworkTapInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set gets a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the VirtualNetworkTapInner object itself.
-     */
-    public VirtualNetworkTapInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

@@ -11,11 +11,13 @@ package com.microsoft.azure.management.network.implementation;
 import java.util.List;
 import com.microsoft.azure.management.network.VirtualNetworkGatewayType;
 import com.microsoft.azure.management.network.VpnType;
+import com.microsoft.azure.management.network.VpnGatewayGeneration;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.VirtualNetworkGatewaySku;
 import com.microsoft.azure.management.network.VpnClientConfiguration;
 import com.microsoft.azure.management.network.BgpSettings;
 import com.microsoft.azure.management.network.AddressSpace;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -48,6 +50,14 @@ public class VirtualNetworkGatewayInner extends Resource {
     private VpnType vpnType;
 
     /**
+     * The generation for this VirtualNetworkGateway. Must be None if
+     * gatewayType is not VPN. Possible values include: 'None', 'Generation1',
+     * 'Generation2'.
+     */
+    @JsonProperty(value = "properties.vpnGatewayGeneration")
+    private VpnGatewayGeneration vpnGatewayGeneration;
+
+    /**
      * Whether BGP is enabled for this virtual network gateway or not.
      */
     @JsonProperty(value = "properties.enableBgp")
@@ -60,7 +70,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     private Boolean activeActive;
 
     /**
-     * The reference of the LocalNetworkGateway resource which represents local
+     * The reference to the LocalNetworkGateway resource which represents local
      * network site having default routes. Assign Null value in case of
      * removing existing default site setting.
      */
@@ -68,14 +78,14 @@ public class VirtualNetworkGatewayInner extends Resource {
     private SubResource gatewayDefaultSite;
 
     /**
-     * The reference of the VirtualNetworkGatewaySku resource which represents
+     * The reference to the VirtualNetworkGatewaySku resource which represents
      * the SKU selected for Virtual network gateway.
      */
     @JsonProperty(value = "properties.sku")
     private VirtualNetworkGatewaySku sku;
 
     /**
-     * The reference of the VpnClientConfiguration resource which represents
+     * The reference to the VpnClientConfiguration resource which represents
      * the P2S VpnClient configurations.
      */
     @JsonProperty(value = "properties.vpnClientConfiguration")
@@ -88,7 +98,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     private BgpSettings bgpSettings;
 
     /**
-     * The reference of the address space resource which represents the custom
+     * The reference to the address space resource which represents the custom
      * routes address space specified by the customer for virtual network
      * gateway and VpnClient.
      */
@@ -96,23 +106,35 @@ public class VirtualNetworkGatewayInner extends Resource {
     private AddressSpace customRoutes;
 
     /**
-     * The resource GUID property of the VirtualNetworkGateway resource.
+     * The resource GUID property of the virtual network gateway resource.
      */
-    @JsonProperty(value = "properties.resourceGuid")
+    @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /**
-     * The provisioning state of the VirtualNetworkGateway resource. Possible
-     * values are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the virtual network gateway resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * Whether dns forwarding is enabled or not.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "properties.enableDnsForwarding")
+    private Boolean enableDnsForwarding;
+
+    /**
+     * The IP address allocated by the gateway to which dns requests can be
+     * sent.
+     */
+    @JsonProperty(value = "properties.inboundDnsForwardingEndpoint", access = JsonProperty.Access.WRITE_ONLY)
+    private String inboundDnsForwardingEndpoint;
+
+    /**
+     * A unique read-only string that changes whenever the resource is updated.
+     */
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -182,6 +204,26 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
+     * Get the generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN. Possible values include: 'None', 'Generation1', 'Generation2'.
+     *
+     * @return the vpnGatewayGeneration value
+     */
+    public VpnGatewayGeneration vpnGatewayGeneration() {
+        return this.vpnGatewayGeneration;
+    }
+
+    /**
+     * Set the generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN. Possible values include: 'None', 'Generation1', 'Generation2'.
+     *
+     * @param vpnGatewayGeneration the vpnGatewayGeneration value to set
+     * @return the VirtualNetworkGatewayInner object itself.
+     */
+    public VirtualNetworkGatewayInner withVpnGatewayGeneration(VpnGatewayGeneration vpnGatewayGeneration) {
+        this.vpnGatewayGeneration = vpnGatewayGeneration;
+        return this;
+    }
+
+    /**
      * Get whether BGP is enabled for this virtual network gateway or not.
      *
      * @return the enableBgp value
@@ -222,7 +264,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Get the reference of the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting.
+     * Get the reference to the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting.
      *
      * @return the gatewayDefaultSite value
      */
@@ -231,7 +273,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Set the reference of the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting.
+     * Set the reference to the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting.
      *
      * @param gatewayDefaultSite the gatewayDefaultSite value to set
      * @return the VirtualNetworkGatewayInner object itself.
@@ -242,7 +284,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Get the reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
+     * Get the reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
      *
      * @return the sku value
      */
@@ -251,7 +293,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Set the reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
+     * Set the reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway.
      *
      * @param sku the sku value to set
      * @return the VirtualNetworkGatewayInner object itself.
@@ -262,7 +304,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Get the reference of the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
+     * Get the reference to the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
      *
      * @return the vpnClientConfiguration value
      */
@@ -271,7 +313,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Set the reference of the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
+     * Set the reference to the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
      *
      * @param vpnClientConfiguration the vpnClientConfiguration value to set
      * @return the VirtualNetworkGatewayInner object itself.
@@ -302,7 +344,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Get the reference of the address space resource which represents the custom routes address space specified by the customer for virtual network gateway and VpnClient.
+     * Get the reference to the address space resource which represents the custom routes address space specified by the customer for virtual network gateway and VpnClient.
      *
      * @return the customRoutes value
      */
@@ -311,7 +353,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Set the reference of the address space resource which represents the custom routes address space specified by the customer for virtual network gateway and VpnClient.
+     * Set the reference to the address space resource which represents the custom routes address space specified by the customer for virtual network gateway and VpnClient.
      *
      * @param customRoutes the customRoutes value to set
      * @return the VirtualNetworkGatewayInner object itself.
@@ -322,7 +364,7 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Get the resource GUID property of the VirtualNetworkGateway resource.
+     * Get the resource GUID property of the virtual network gateway resource.
      *
      * @return the resourceGuid value
      */
@@ -331,43 +373,50 @@ public class VirtualNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Set the resource GUID property of the VirtualNetworkGateway resource.
-     *
-     * @param resourceGuid the resourceGuid value to set
-     * @return the VirtualNetworkGatewayInner object itself.
-     */
-    public VirtualNetworkGatewayInner withResourceGuid(String resourceGuid) {
-        this.resourceGuid = resourceGuid;
-        return this;
-    }
-
-    /**
-     * Get the provisioning state of the VirtualNetworkGateway resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the virtual network gateway resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get whether dns forwarding is enabled or not.
+     *
+     * @return the enableDnsForwarding value
+     */
+    public Boolean enableDnsForwarding() {
+        return this.enableDnsForwarding;
+    }
+
+    /**
+     * Set whether dns forwarding is enabled or not.
+     *
+     * @param enableDnsForwarding the enableDnsForwarding value to set
+     * @return the VirtualNetworkGatewayInner object itself.
+     */
+    public VirtualNetworkGatewayInner withEnableDnsForwarding(Boolean enableDnsForwarding) {
+        this.enableDnsForwarding = enableDnsForwarding;
+        return this;
+    }
+
+    /**
+     * Get the IP address allocated by the gateway to which dns requests can be sent.
+     *
+     * @return the inboundDnsForwardingEndpoint value
+     */
+    public String inboundDnsForwardingEndpoint() {
+        return this.inboundDnsForwardingEndpoint;
+    }
+
+    /**
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set gets a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the VirtualNetworkGatewayInner object itself.
-     */
-    public VirtualNetworkGatewayInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

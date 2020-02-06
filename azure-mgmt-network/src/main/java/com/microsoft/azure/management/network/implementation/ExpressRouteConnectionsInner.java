@@ -158,7 +158,7 @@ public class ExpressRouteConnectionsInner {
             throw new IllegalArgumentException("Parameter putExpressRouteConnectionParameters is required and cannot be null.");
         }
         Validator.validate(putExpressRouteConnectionParameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, expressRouteGatewayName, connectionName, this.client.subscriptionId(), putExpressRouteConnectionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteConnectionInner>() { }.getType());
     }
@@ -240,7 +240,7 @@ public class ExpressRouteConnectionsInner {
             throw new IllegalArgumentException("Parameter putExpressRouteConnectionParameters is required and cannot be null.");
         }
         Validator.validate(putExpressRouteConnectionParameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, expressRouteGatewayName, connectionName, this.client.subscriptionId(), putExpressRouteConnectionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteConnectionInner>>>() {
                 @Override
@@ -332,7 +332,7 @@ public class ExpressRouteConnectionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.get(resourceGroupName, expressRouteGatewayName, connectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteConnectionInner>>>() {
                 @Override
@@ -422,7 +422,7 @@ public class ExpressRouteConnectionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, expressRouteGatewayName, connectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -495,7 +495,7 @@ public class ExpressRouteConnectionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, expressRouteGatewayName, connectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -581,7 +581,7 @@ public class ExpressRouteConnectionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(resourceGroupName, expressRouteGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteConnectionListInner>>>() {
                 @Override

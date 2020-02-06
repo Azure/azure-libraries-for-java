@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.management.network.ProvisioningState;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -31,10 +32,11 @@ public class ServiceAssociationLinkInner extends SubResource {
     private String link;
 
     /**
-     * Provisioning state of the ServiceAssociationLink resource.
+     * The provisioning state of the service association link resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * If true, the resource can be deleted.
@@ -64,7 +66,7 @@ public class ServiceAssociationLinkInner extends SubResource {
     /**
      * Resource type.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
     /**
@@ -108,11 +110,11 @@ public class ServiceAssociationLinkInner extends SubResource {
     }
 
     /**
-     * Get provisioning state of the ServiceAssociationLink resource.
+     * Get the provisioning state of the service association link resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -192,17 +194,6 @@ public class ServiceAssociationLinkInner extends SubResource {
      */
     public String type() {
         return this.type;
-    }
-
-    /**
-     * Set resource type.
-     *
-     * @param type the type value to set
-     * @return the ServiceAssociationLinkInner object itself.
-     */
-    public ServiceAssociationLinkInner withType(String type) {
-        this.type = type;
-        return this;
     }
 
 }

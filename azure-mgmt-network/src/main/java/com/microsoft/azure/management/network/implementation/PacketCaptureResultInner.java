@@ -35,7 +35,7 @@ public class PacketCaptureResultInner {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -63,7 +63,7 @@ public class PacketCaptureResultInner {
     private Integer timeLimitInSeconds;
 
     /**
-     * Describes the storage location for a packet capture session.
+     * The storage location for a packet capture session.
      */
     @JsonProperty(value = "properties.storageLocation", required = true)
     private PacketCaptureStorageLocation storageLocation;
@@ -78,7 +78,7 @@ public class PacketCaptureResultInner {
      * The provisioning state of the packet capture session. Possible values
      * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
@@ -106,17 +106,6 @@ public class PacketCaptureResultInner {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the PacketCaptureResultInner object itself.
-     */
-    public PacketCaptureResultInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**
@@ -200,7 +189,7 @@ public class PacketCaptureResultInner {
     }
 
     /**
-     * Get describes the storage location for a packet capture session.
+     * Get the storage location for a packet capture session.
      *
      * @return the storageLocation value
      */
@@ -209,7 +198,7 @@ public class PacketCaptureResultInner {
     }
 
     /**
-     * Set describes the storage location for a packet capture session.
+     * Set the storage location for a packet capture session.
      *
      * @param storageLocation the storageLocation value to set
      * @return the PacketCaptureResultInner object itself.
@@ -246,17 +235,6 @@ public class PacketCaptureResultInner {
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the packet capture session. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the PacketCaptureResultInner object itself.
-     */
-    public PacketCaptureResultInner withProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
 }

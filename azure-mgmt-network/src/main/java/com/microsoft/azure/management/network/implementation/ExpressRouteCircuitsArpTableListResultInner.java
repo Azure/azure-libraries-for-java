@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ExpressRouteCircuitsArpTableListResultInner {
     /**
-     * Gets list of the ARP table.
+     * A list of the ARP tables.
      */
     @JsonProperty(value = "value")
     private List<ExpressRouteCircuitArpTable> value;
@@ -29,7 +29,7 @@ public class ExpressRouteCircuitsArpTableListResultInner {
     private String nextLink;
 
     /**
-     * Get gets list of the ARP table.
+     * Get a list of the ARP tables.
      *
      * @return the value value
      */
@@ -38,7 +38,7 @@ public class ExpressRouteCircuitsArpTableListResultInner {
     }
 
     /**
-     * Set gets list of the ARP table.
+     * Set a list of the ARP tables.
      *
      * @param value the value value to set
      * @return the ExpressRouteCircuitsArpTableListResultInner object itself.

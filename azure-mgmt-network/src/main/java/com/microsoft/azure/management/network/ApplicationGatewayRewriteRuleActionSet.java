@@ -28,6 +28,12 @@ public class ApplicationGatewayRewriteRuleActionSet {
     private List<ApplicationGatewayHeaderConfiguration> responseHeaderConfigurations;
 
     /**
+     * Url Configuration Action in the Action Set.
+     */
+    @JsonProperty(value = "urlConfiguration")
+    private ApplicationGatewayUrlConfiguration urlConfiguration;
+
+    /**
      * Get request Header Actions in the Action Set.
      *
      * @return the requestHeaderConfigurations value
@@ -64,6 +70,26 @@ public class ApplicationGatewayRewriteRuleActionSet {
      */
     public ApplicationGatewayRewriteRuleActionSet withResponseHeaderConfigurations(List<ApplicationGatewayHeaderConfiguration> responseHeaderConfigurations) {
         this.responseHeaderConfigurations = responseHeaderConfigurations;
+        return this;
+    }
+
+    /**
+     * Get url Configuration Action in the Action Set.
+     *
+     * @return the urlConfiguration value
+     */
+    public ApplicationGatewayUrlConfiguration urlConfiguration() {
+        return this.urlConfiguration;
+    }
+
+    /**
+     * Set url Configuration Action in the Action Set.
+     *
+     * @param urlConfiguration the urlConfiguration value to set
+     * @return the ApplicationGatewayRewriteRuleActionSet object itself.
+     */
+    public ApplicationGatewayRewriteRuleActionSet withUrlConfiguration(ApplicationGatewayUrlConfiguration urlConfiguration) {
+        this.urlConfiguration = urlConfiguration;
         return this;
     }
 

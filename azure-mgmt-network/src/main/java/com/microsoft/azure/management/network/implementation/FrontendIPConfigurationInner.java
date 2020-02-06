@@ -12,6 +12,7 @@ import java.util.List;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.IPVersion;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -21,25 +22,26 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class FrontendIPConfigurationInner extends SubResource {
     /**
-     * Read only. Inbound rules URIs that use this frontend IP.
+     * An array of references to inbound rules that use this frontend IP.
      */
     @JsonProperty(value = "properties.inboundNatRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> inboundNatRules;
 
     /**
-     * Read only. Inbound pools URIs that use this frontend IP.
+     * An array of references to inbound pools that use this frontend IP.
      */
     @JsonProperty(value = "properties.inboundNatPools", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> inboundNatPools;
 
     /**
-     * Read only. Outbound rules URIs that use this frontend IP.
+     * An array of references to outbound rules that use this frontend IP.
      */
     @JsonProperty(value = "properties.outboundRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> outboundRules;
 
     /**
-     * Gets load balancing rules URIs that use this frontend IP.
+     * An array of references to load balancing rules that use this frontend
+     * IP.
      */
     @JsonProperty(value = "properties.loadBalancingRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> loadBalancingRules;
@@ -58,36 +60,36 @@ public class FrontendIPConfigurationInner extends SubResource {
     private IPAllocationMethod privateIPAllocationMethod;
 
     /**
-     * It represents whether the specific ipconfiguration is IPv4 or IPv6.
-     * Default is taken as IPv4. Possible values include: 'IPv4', 'IPv6'.
+     * Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken
+     * as IPv4. Possible values include: 'IPv4', 'IPv6'.
      */
     @JsonProperty(value = "properties.privateIPAddressVersion")
     private IPVersion privateIPAddressVersion;
 
     /**
-     * The reference of the subnet resource.
+     * The reference to the subnet resource.
      */
     @JsonProperty(value = "properties.subnet")
     private SubnetInner subnet;
 
     /**
-     * The reference of the Public IP resource.
+     * The reference to the Public IP resource.
      */
     @JsonProperty(value = "properties.publicIPAddress")
     private PublicIPAddressInner publicIPAddress;
 
     /**
-     * The reference of the Public IP Prefix resource.
+     * The reference to the Public IP Prefix resource.
      */
     @JsonProperty(value = "properties.publicIPPrefix")
     private SubResource publicIPPrefix;
 
     /**
-     * Gets the provisioning state of the public IP resource. Possible values
-     * are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the frontend IP configuration resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within the set of frontend IP
@@ -100,7 +102,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -117,7 +119,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     private List<String> zones;
 
     /**
-     * Get read only. Inbound rules URIs that use this frontend IP.
+     * Get an array of references to inbound rules that use this frontend IP.
      *
      * @return the inboundNatRules value
      */
@@ -126,7 +128,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get read only. Inbound pools URIs that use this frontend IP.
+     * Get an array of references to inbound pools that use this frontend IP.
      *
      * @return the inboundNatPools value
      */
@@ -135,7 +137,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get read only. Outbound rules URIs that use this frontend IP.
+     * Get an array of references to outbound rules that use this frontend IP.
      *
      * @return the outboundRules value
      */
@@ -144,7 +146,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get gets load balancing rules URIs that use this frontend IP.
+     * Get an array of references to load balancing rules that use this frontend IP.
      *
      * @return the loadBalancingRules value
      */
@@ -193,7 +195,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4', 'IPv6'.
+     * Get whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4', 'IPv6'.
      *
      * @return the privateIPAddressVersion value
      */
@@ -202,7 +204,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4', 'IPv6'.
+     * Set whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4', 'IPv6'.
      *
      * @param privateIPAddressVersion the privateIPAddressVersion value to set
      * @return the FrontendIPConfigurationInner object itself.
@@ -213,7 +215,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the reference of the subnet resource.
+     * Get the reference to the subnet resource.
      *
      * @return the subnet value
      */
@@ -222,7 +224,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the reference of the subnet resource.
+     * Set the reference to the subnet resource.
      *
      * @param subnet the subnet value to set
      * @return the FrontendIPConfigurationInner object itself.
@@ -233,7 +235,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the reference of the Public IP resource.
+     * Get the reference to the Public IP resource.
      *
      * @return the publicIPAddress value
      */
@@ -242,7 +244,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the reference of the Public IP resource.
+     * Set the reference to the Public IP resource.
      *
      * @param publicIPAddress the publicIPAddress value to set
      * @return the FrontendIPConfigurationInner object itself.
@@ -253,7 +255,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the reference of the Public IP Prefix resource.
+     * Get the reference to the Public IP Prefix resource.
      *
      * @return the publicIPPrefix value
      */
@@ -262,7 +264,7 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the reference of the Public IP Prefix resource.
+     * Set the reference to the Public IP Prefix resource.
      *
      * @param publicIPPrefix the publicIPPrefix value to set
      * @return the FrontendIPConfigurationInner object itself.
@@ -273,23 +275,12 @@ public class FrontendIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the frontend IP configuration resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the FrontendIPConfigurationInner object itself.
-     */
-    public FrontendIPConfigurationInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -319,17 +310,6 @@ public class FrontendIPConfigurationInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the FrontendIPConfigurationInner object itself.
-     */
-    public FrontendIPConfigurationInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

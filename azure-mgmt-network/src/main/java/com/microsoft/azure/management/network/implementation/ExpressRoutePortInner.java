@@ -11,6 +11,8 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.network.ExpressRoutePortsEncapsulation;
 import java.util.List;
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.network.ProvisioningState;
+import com.microsoft.azure.management.network.ManagedServiceIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -83,16 +85,16 @@ public class ExpressRoutePortInner extends Resource {
     private List<SubResource> circuits;
 
     /**
-     * The provisioning state of the ExpressRoutePort resource. Possible values
-     * are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the express route port resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
-     * The resource GUID property of the ExpressRoutePort resource.
+     * The resource GUID property of the express route port resource.
      */
-    @JsonProperty(value = "properties.resourceGuid")
+    @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /**
@@ -100,6 +102,12 @@ public class ExpressRoutePortInner extends Resource {
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
+
+    /**
+     * The identity of ExpressRoutePort, if configured.
+     */
+    @JsonProperty(value = "identity")
+    private ManagedServiceIdentity identity;
 
     /**
      * Resource ID.
@@ -233,32 +241,21 @@ public class ExpressRoutePortInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the ExpressRoutePort resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the express route port resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
     /**
-     * Get the resource GUID property of the ExpressRoutePort resource.
+     * Get the resource GUID property of the express route port resource.
      *
      * @return the resourceGuid value
      */
     public String resourceGuid() {
         return this.resourceGuid;
-    }
-
-    /**
-     * Set the resource GUID property of the ExpressRoutePort resource.
-     *
-     * @param resourceGuid the resourceGuid value to set
-     * @return the ExpressRoutePortInner object itself.
-     */
-    public ExpressRoutePortInner withResourceGuid(String resourceGuid) {
-        this.resourceGuid = resourceGuid;
-        return this;
     }
 
     /**
@@ -268,6 +265,26 @@ public class ExpressRoutePortInner extends Resource {
      */
     public String etag() {
         return this.etag;
+    }
+
+    /**
+     * Get the identity of ExpressRoutePort, if configured.
+     *
+     * @return the identity value
+     */
+    public ManagedServiceIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity of ExpressRoutePort, if configured.
+     *
+     * @param identity the identity value to set
+     * @return the ExpressRoutePortInner object itself.
+     */
+    public ExpressRoutePortInner withIdentity(ManagedServiceIdentity identity) {
+        this.identity = identity;
+        return this;
     }
 
     /**

@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.PrivateLinkServiceConnectionState;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -21,7 +22,7 @@ public class PrivateEndpointConnectionInner extends SubResource {
     /**
      * The resource of private end point.
      */
-    @JsonProperty(value = "properties.privateEndpoint")
+    @JsonProperty(value = "properties.privateEndpoint", access = JsonProperty.Access.WRITE_ONLY)
     private PrivateEndpointInner privateEndpoint;
 
     /**
@@ -32,11 +33,36 @@ public class PrivateEndpointConnectionInner extends SubResource {
     private PrivateLinkServiceConnectionState privateLinkServiceConnectionState;
 
     /**
+     * The provisioning state of the private endpoint connection resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     */
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
+
+    /**
+     * The consumer link id.
+     */
+    @JsonProperty(value = "properties.linkIdentifier", access = JsonProperty.Access.WRITE_ONLY)
+    private String linkIdentifier;
+
+    /**
      * The name of the resource that is unique within a resource group. This
      * name can be used to access the resource.
      */
     @JsonProperty(value = "name")
     private String name;
+
+    /**
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
+     * A unique read-only string that changes whenever the resource is updated.
+     */
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
+    private String etag;
 
     /**
      * Get the resource of private end point.
@@ -45,17 +71,6 @@ public class PrivateEndpointConnectionInner extends SubResource {
      */
     public PrivateEndpointInner privateEndpoint() {
         return this.privateEndpoint;
-    }
-
-    /**
-     * Set the resource of private end point.
-     *
-     * @param privateEndpoint the privateEndpoint value to set
-     * @return the PrivateEndpointConnectionInner object itself.
-     */
-    public PrivateEndpointConnectionInner withPrivateEndpoint(PrivateEndpointInner privateEndpoint) {
-        this.privateEndpoint = privateEndpoint;
-        return this;
     }
 
     /**
@@ -79,6 +94,24 @@ public class PrivateEndpointConnectionInner extends SubResource {
     }
 
     /**
+     * Get the provisioning state of the private endpoint connection resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     *
+     * @return the provisioningState value
+     */
+    public ProvisioningState provisioningState() {
+        return this.provisioningState;
+    }
+
+    /**
+     * Get the consumer link id.
+     *
+     * @return the linkIdentifier value
+     */
+    public String linkIdentifier() {
+        return this.linkIdentifier;
+    }
+
+    /**
      * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
@@ -96,6 +129,24 @@ public class PrivateEndpointConnectionInner extends SubResource {
     public PrivateEndpointConnectionInner withName(String name) {
         this.name = name;
         return this;
+    }
+
+    /**
+     * Get the resource type.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
+    }
+
+    /**
+     * Get a unique read-only string that changes whenever the resource is updated.
+     *
+     * @return the etag value
+     */
+    public String etag() {
+        return this.etag;
     }
 
 }

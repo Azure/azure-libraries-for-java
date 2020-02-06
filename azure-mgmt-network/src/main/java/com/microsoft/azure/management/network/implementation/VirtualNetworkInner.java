@@ -11,7 +11,9 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.DhcpOptions;
 import java.util.List;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.network.VirtualNetworkBgpCommunities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -52,15 +54,15 @@ public class VirtualNetworkInner extends Resource {
     /**
      * The resourceGuid property of the Virtual Network resource.
      */
-    @JsonProperty(value = "properties.resourceGuid")
+    @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /**
-     * The provisioning state of the PublicIP resource. Possible values are:
-     * 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the virtual network resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * Indicates if DDoS protection is enabled for all the protected resources
@@ -84,10 +86,16 @@ public class VirtualNetworkInner extends Resource {
     private SubResource ddosProtectionPlan;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * Bgp Communities sent over ExpressRoute with each route corresponding to
+     * a prefix in this VNET.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "properties.bgpCommunities")
+    private VirtualNetworkBgpCommunities bgpCommunities;
+
+    /**
+     * A unique read-only string that changes whenever the resource is updated.
+     */
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -186,34 +194,12 @@ public class VirtualNetworkInner extends Resource {
     }
 
     /**
-     * Set the resourceGuid property of the Virtual Network resource.
-     *
-     * @param resourceGuid the resourceGuid value to set
-     * @return the VirtualNetworkInner object itself.
-     */
-    public VirtualNetworkInner withResourceGuid(String resourceGuid) {
-        this.resourceGuid = resourceGuid;
-        return this;
-    }
-
-    /**
-     * Get the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the virtual network resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the VirtualNetworkInner object itself.
-     */
-    public VirtualNetworkInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -277,23 +263,32 @@ public class VirtualNetworkInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+     *
+     * @return the bgpCommunities value
+     */
+    public VirtualNetworkBgpCommunities bgpCommunities() {
+        return this.bgpCommunities;
+    }
+
+    /**
+     * Set bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+     *
+     * @param bgpCommunities the bgpCommunities value to set
+     * @return the VirtualNetworkInner object itself.
+     */
+    public VirtualNetworkInner withBgpCommunities(VirtualNetworkBgpCommunities bgpCommunities) {
+        this.bgpCommunities = bgpCommunities;
+        return this;
+    }
+
+    /**
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set gets a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the VirtualNetworkInner object itself.
-     */
-    public VirtualNetworkInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

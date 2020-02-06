@@ -15,7 +15,10 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.network.ErrorException;
 import com.microsoft.azure.management.network.TagsObject;
+import com.microsoft.azure.management.network.VpnPacketCaptureStartParameters;
+import com.microsoft.azure.management.network.VpnPacketCaptureStopParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -121,6 +124,22 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset")
         Observable<Response<ResponseBody>> beginResetSharedKey(@Path("resourceGroupName") String resourceGroupName, @Path("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ConnectionResetSharedKeyInner parameters, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualNetworkGatewayConnections startPacketCapture" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture")
+        Observable<Response<ResponseBody>> startPacketCapture(@Path("resourceGroupName") String resourceGroupName, @Path("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VpnPacketCaptureStartParameters parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualNetworkGatewayConnections beginStartPacketCapture" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture")
+        Observable<Response<ResponseBody>> beginStartPacketCapture(@Path("resourceGroupName") String resourceGroupName, @Path("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VpnPacketCaptureStartParameters parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualNetworkGatewayConnections stopPacketCapture" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/stopPacketCapture")
+        Observable<Response<ResponseBody>> stopPacketCapture(@Path("resourceGroupName") String resourceGroupName, @Path("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VpnPacketCaptureStopParameters parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualNetworkGatewayConnections beginStopPacketCapture" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/stopPacketCapture")
+        Observable<Response<ResponseBody>> beginStopPacketCapture(@Path("resourceGroupName") String resourceGroupName, @Path("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VpnPacketCaptureStopParameters parameters, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualNetworkGatewayConnections listByResourceGroupNext" })
         @GET
         Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -197,7 +216,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualNetworkGatewayConnectionInner>() { }.getType());
     }
@@ -272,7 +291,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkGatewayConnectionInner>>>() {
                 @Override
@@ -357,7 +376,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkGatewayConnectionInner>>>() {
                 @Override
@@ -440,7 +459,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -506,7 +525,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -592,7 +611,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -666,7 +685,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -735,7 +754,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -820,7 +839,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         return service.beginUpdateTags(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -840,6 +859,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
     private ServiceResponse<VirtualNetworkGatewayConnectionInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VirtualNetworkGatewayConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualNetworkGatewayConnectionInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -914,7 +934,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.setSharedKey(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ConnectionSharedKeyInner>() { }.getType());
     }
@@ -989,7 +1009,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginSetSharedKey(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConnectionSharedKeyInner>>>() {
                 @Override
@@ -1074,7 +1094,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getSharedKey(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ConnectionSharedKeyInner>>>() {
                 @Override
@@ -1187,7 +1207,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualNetworkGatewayConnectionInner>>>>() {
                 @Override
@@ -1275,7 +1295,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         ConnectionResetSharedKeyInner parameters = new ConnectionResetSharedKeyInner();
         parameters.withKeyLength(keyLength);
         Observable<Response<ResponseBody>> observable = service.resetSharedKey(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -1348,7 +1368,7 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         ConnectionResetSharedKeyInner parameters = new ConnectionResetSharedKeyInner();
         parameters.withKeyLength(keyLength);
         return service.beginResetSharedKey(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1370,6 +1390,638 @@ public class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<V
                 .register(200, new TypeToken<ConnectionResetSharedKeyInner>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String startPacketCapture(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        return startPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName).toBlocking().last().body();
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> startPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(startPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName), serviceCallback);
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<String> startPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        return startPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<String>> startPacketCaptureWithServiceResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkGatewayConnectionName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkGatewayConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        final String filterData = null;
+        VpnPacketCaptureStartParameters parameters = new VpnPacketCaptureStartParameters();
+        parameters.withFilterData(null);
+        Observable<Response<ResponseBody>> observable = service.startPacketCapture(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
+    }
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param filterData Start Packet capture parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String startPacketCapture(String resourceGroupName, String virtualNetworkGatewayConnectionName, String filterData) {
+        return startPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, filterData).toBlocking().last().body();
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param filterData Start Packet capture parameters.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> startPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String filterData, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(startPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, filterData), serviceCallback);
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param filterData Start Packet capture parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<String> startPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String filterData) {
+        return startPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, filterData).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param filterData Start Packet capture parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<String>> startPacketCaptureWithServiceResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String filterData) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkGatewayConnectionName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkGatewayConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        VpnPacketCaptureStartParameters parameters = null;
+        if (filterData != null) {
+            parameters = new VpnPacketCaptureStartParameters();
+            parameters.withFilterData(filterData);
+        }
+        Observable<Response<ResponseBody>> observable = service.startPacketCapture(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String beginStartPacketCapture(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        return beginStartPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName).toBlocking().single().body();
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> beginStartPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(beginStartPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName), serviceCallback);
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<String> beginStartPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        return beginStartPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<ServiceResponse<String>> beginStartPacketCaptureWithServiceResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkGatewayConnectionName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkGatewayConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        final String filterData = null;
+        VpnPacketCaptureStartParameters parameters = new VpnPacketCaptureStartParameters();
+        parameters.withFilterData(null);
+        return service.beginStartPacketCapture(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
+                @Override
+                public Observable<ServiceResponse<String>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<String> clientResponse = beginStartPacketCaptureDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param filterData Start Packet capture parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String beginStartPacketCapture(String resourceGroupName, String virtualNetworkGatewayConnectionName, String filterData) {
+        return beginStartPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, filterData).toBlocking().single().body();
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param filterData Start Packet capture parameters.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> beginStartPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String filterData, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(beginStartPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, filterData), serviceCallback);
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param filterData Start Packet capture parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<String> beginStartPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String filterData) {
+        return beginStartPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, filterData).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Starts packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
+     * @param filterData Start Packet capture parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<ServiceResponse<String>> beginStartPacketCaptureWithServiceResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String filterData) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkGatewayConnectionName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkGatewayConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        VpnPacketCaptureStartParameters parameters = null;
+        if (filterData != null) {
+            parameters = new VpnPacketCaptureStartParameters();
+            parameters.withFilterData(filterData);
+        }
+        return service.beginStartPacketCapture(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
+                @Override
+                public Observable<ServiceResponse<String>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<String> clientResponse = beginStartPacketCaptureDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<String> beginStartPacketCaptureDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<String, ErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<String>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(ErrorException.class)
+                .build(response);
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String stopPacketCapture(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        return stopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName).toBlocking().last().body();
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> stopPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(stopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName), serviceCallback);
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<String> stopPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        return stopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<String>> stopPacketCaptureWithServiceResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkGatewayConnectionName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkGatewayConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        final String sasUrl = null;
+        VpnPacketCaptureStopParameters parameters = new VpnPacketCaptureStopParameters();
+        parameters.withSasUrl(null);
+        Observable<Response<ResponseBody>> observable = service.stopPacketCapture(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
+    }
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param sasUrl SAS url for packet capture on virtual network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String stopPacketCapture(String resourceGroupName, String virtualNetworkGatewayConnectionName, String sasUrl) {
+        return stopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, sasUrl).toBlocking().last().body();
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param sasUrl SAS url for packet capture on virtual network gateway.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> stopPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String sasUrl, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(stopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, sasUrl), serviceCallback);
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param sasUrl SAS url for packet capture on virtual network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<String> stopPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String sasUrl) {
+        return stopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, sasUrl).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param sasUrl SAS url for packet capture on virtual network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<String>> stopPacketCaptureWithServiceResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String sasUrl) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkGatewayConnectionName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkGatewayConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        VpnPacketCaptureStopParameters parameters = new VpnPacketCaptureStopParameters();
+        parameters.withSasUrl(sasUrl);
+        Observable<Response<ResponseBody>> observable = service.stopPacketCapture(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<String>() { }.getType());
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String beginStopPacketCapture(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        return beginStopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName).toBlocking().single().body();
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> beginStopPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(beginStopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName), serviceCallback);
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<String> beginStopPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        return beginStopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<ServiceResponse<String>> beginStopPacketCaptureWithServiceResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkGatewayConnectionName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkGatewayConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        final String sasUrl = null;
+        VpnPacketCaptureStopParameters parameters = new VpnPacketCaptureStopParameters();
+        parameters.withSasUrl(null);
+        return service.beginStopPacketCapture(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
+                @Override
+                public Observable<ServiceResponse<String>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<String> clientResponse = beginStopPacketCaptureDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param sasUrl SAS url for packet capture on virtual network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the String object if successful.
+     */
+    public String beginStopPacketCapture(String resourceGroupName, String virtualNetworkGatewayConnectionName, String sasUrl) {
+        return beginStopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, sasUrl).toBlocking().single().body();
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param sasUrl SAS url for packet capture on virtual network gateway.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<String> beginStopPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String sasUrl, final ServiceCallback<String> serviceCallback) {
+        return ServiceFuture.fromResponse(beginStopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, sasUrl), serviceCallback);
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param sasUrl SAS url for packet capture on virtual network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<String> beginStopPacketCaptureAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String sasUrl) {
+        return beginStopPacketCaptureWithServiceResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, sasUrl).map(new Func1<ServiceResponse<String>, String>() {
+            @Override
+            public String call(ServiceResponse<String> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Stops packet capture on virtual network gateway connection in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+     * @param sasUrl SAS url for packet capture on virtual network gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the String object
+     */
+    public Observable<ServiceResponse<String>> beginStopPacketCaptureWithServiceResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, String sasUrl) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkGatewayConnectionName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkGatewayConnectionName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        VpnPacketCaptureStopParameters parameters = new VpnPacketCaptureStopParameters();
+        parameters.withSasUrl(sasUrl);
+        return service.beginStopPacketCapture(resourceGroupName, virtualNetworkGatewayConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<String>>>() {
+                @Override
+                public Observable<ServiceResponse<String>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<String> clientResponse = beginStopPacketCaptureDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<String> beginStopPacketCaptureDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<String, ErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<String>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(ErrorException.class)
                 .build(response);
     }
 

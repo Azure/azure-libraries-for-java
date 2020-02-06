@@ -140,7 +140,7 @@ public class ExpressRouteLinksInner {
         if (linkName == null) {
             throw new IllegalArgumentException("Parameter linkName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.get(this.client.subscriptionId(), resourceGroupName, expressRoutePortName, linkName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteLinkInner>>>() {
                 @Override
@@ -261,7 +261,7 @@ public class ExpressRouteLinksInner {
         if (expressRoutePortName == null) {
             throw new IllegalArgumentException("Parameter expressRoutePortName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), resourceGroupName, expressRoutePortName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteLinkInner>>>>() {
                 @Override

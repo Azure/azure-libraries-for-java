@@ -30,6 +30,12 @@ public class DdosSettings {
     private DdosSettingsProtectionCoverage protectionCoverage;
 
     /**
+     * Enables DDoS protection on the public IP.
+     */
+    @JsonProperty(value = "protectedIP")
+    private Boolean protectedIP;
+
+    /**
      * Get the DDoS custom policy associated with the public IP.
      *
      * @return the ddosCustomPolicy value
@@ -66,6 +72,26 @@ public class DdosSettings {
      */
     public DdosSettings withProtectionCoverage(DdosSettingsProtectionCoverage protectionCoverage) {
         this.protectionCoverage = protectionCoverage;
+        return this;
+    }
+
+    /**
+     * Get enables DDoS protection on the public IP.
+     *
+     * @return the protectedIP value
+     */
+    public Boolean protectedIP() {
+        return this.protectedIP;
+    }
+
+    /**
+     * Set enables DDoS protection on the public IP.
+     *
+     * @param protectedIP the protectedIP value to set
+     * @return the DdosSettings object itself.
+     */
+    public DdosSettings withProtectedIP(Boolean protectedIP) {
+        this.protectedIP = protectedIP;
         return this;
     }
 

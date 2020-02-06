@@ -48,6 +48,12 @@ public class VirtualHubInner extends Resource {
     private SubResource expressRouteGateway;
 
     /**
+     * The azureFirewall associated with this VirtualHub.
+     */
+    @JsonProperty(value = "properties.azureFirewall")
+    private SubResource azureFirewall;
+
+    /**
      * List of all vnet connections with this VirtualHub.
      */
     @JsonProperty(value = "properties.virtualNetworkConnections")
@@ -66,15 +72,32 @@ public class VirtualHubInner extends Resource {
     private VirtualHubRouteTable routeTable;
 
     /**
-     * The provisioning state of the resource. Possible values include:
-     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * The provisioning state of the virtual hub resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * The Security Provider name.
+     */
+    @JsonProperty(value = "properties.securityProviderName")
+    private String securityProviderName;
+
+    /**
+     * List of all virtual hub route table v2s associated with this VirtualHub.
+     */
+    @JsonProperty(value = "properties.virtualHubRouteTableV2s")
+    private List<VirtualHubRouteTableV2Inner> virtualHubRouteTableV2s;
+
+    /**
+     * The sku of this VirtualHub.
+     */
+    @JsonProperty(value = "properties.sku")
+    private String sku;
+
+    /**
+     * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
@@ -166,6 +189,26 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
+     * Get the azureFirewall associated with this VirtualHub.
+     *
+     * @return the azureFirewall value
+     */
+    public SubResource azureFirewall() {
+        return this.azureFirewall;
+    }
+
+    /**
+     * Set the azureFirewall associated with this VirtualHub.
+     *
+     * @param azureFirewall the azureFirewall value to set
+     * @return the VirtualHubInner object itself.
+     */
+    public VirtualHubInner withAzureFirewall(SubResource azureFirewall) {
+        this.azureFirewall = azureFirewall;
+        return this;
+    }
+
+    /**
      * Get list of all vnet connections with this VirtualHub.
      *
      * @return the virtualNetworkConnections value
@@ -226,7 +269,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * Get the provisioning state of the virtual hub resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -235,18 +278,67 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * Get the Security Provider name.
      *
-     * @param provisioningState the provisioningState value to set
+     * @return the securityProviderName value
+     */
+    public String securityProviderName() {
+        return this.securityProviderName;
+    }
+
+    /**
+     * Set the Security Provider name.
+     *
+     * @param securityProviderName the securityProviderName value to set
      * @return the VirtualHubInner object itself.
      */
-    public VirtualHubInner withProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState = provisioningState;
+    public VirtualHubInner withSecurityProviderName(String securityProviderName) {
+        this.securityProviderName = securityProviderName;
         return this;
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get list of all virtual hub route table v2s associated with this VirtualHub.
+     *
+     * @return the virtualHubRouteTableV2s value
+     */
+    public List<VirtualHubRouteTableV2Inner> virtualHubRouteTableV2s() {
+        return this.virtualHubRouteTableV2s;
+    }
+
+    /**
+     * Set list of all virtual hub route table v2s associated with this VirtualHub.
+     *
+     * @param virtualHubRouteTableV2s the virtualHubRouteTableV2s value to set
+     * @return the VirtualHubInner object itself.
+     */
+    public VirtualHubInner withVirtualHubRouteTableV2s(List<VirtualHubRouteTableV2Inner> virtualHubRouteTableV2s) {
+        this.virtualHubRouteTableV2s = virtualHubRouteTableV2s;
+        return this;
+    }
+
+    /**
+     * Get the sku of this VirtualHub.
+     *
+     * @return the sku value
+     */
+    public String sku() {
+        return this.sku;
+    }
+
+    /**
+     * Set the sku of this VirtualHub.
+     *
+     * @param sku the sku value to set
+     * @return the VirtualHubInner object itself.
+     */
+    public VirtualHubInner withSku(String sku) {
+        this.sku = sku;
+        return this;
+    }
+
+    /**
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

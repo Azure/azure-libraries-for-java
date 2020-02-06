@@ -9,15 +9,15 @@
 package com.microsoft.azure.management.network;
 
 import com.microsoft.azure.management.network.implementation.SubnetInner;
-import com.microsoft.azure.management.network.implementation.PublicIPAddressInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.SubResource;
 
 /**
  * The private link service ip configuration.
  */
 @JsonFlatten
-public class PrivateLinkServiceIpConfiguration {
+public class PrivateLinkServiceIpConfiguration extends SubResource {
     /**
      * The private IP address of the IP configuration.
      */
@@ -32,27 +32,27 @@ public class PrivateLinkServiceIpConfiguration {
     private IPAllocationMethod privateIPAllocationMethod;
 
     /**
-     * The reference of the subnet resource.
+     * The reference to the subnet resource.
      */
     @JsonProperty(value = "properties.subnet")
     private SubnetInner subnet;
 
     /**
-     * The reference of the public IP resource.
+     * Whether the ip configuration is primary or not.
      */
-    @JsonProperty(value = "properties.publicIPAddress")
-    private PublicIPAddressInner publicIPAddress;
+    @JsonProperty(value = "properties.primary")
+    private Boolean primary;
 
     /**
-     * Gets the provisioning state of the public IP resource. Possible values
-     * are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the private link service IP configuration
+     * resource. Possible values include: 'Succeeded', 'Updating', 'Deleting',
+     * 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
-     * Available from Api-Version 2016-03-30 onwards, it represents whether the
-     * specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
+     * Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
      * Possible values include: 'IPv4', 'IPv6'.
      */
     @JsonProperty(value = "properties.privateIPAddressVersion")
@@ -63,6 +63,18 @@ public class PrivateLinkServiceIpConfiguration {
      */
     @JsonProperty(value = "name")
     private String name;
+
+    /**
+     * A unique read-only string that changes whenever the resource is updated.
+     */
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
+    private String etag;
+
+    /**
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
 
     /**
      * Get the private IP address of the IP configuration.
@@ -105,7 +117,7 @@ public class PrivateLinkServiceIpConfiguration {
     }
 
     /**
-     * Get the reference of the subnet resource.
+     * Get the reference to the subnet resource.
      *
      * @return the subnet value
      */
@@ -114,7 +126,7 @@ public class PrivateLinkServiceIpConfiguration {
     }
 
     /**
-     * Set the reference of the subnet resource.
+     * Set the reference to the subnet resource.
      *
      * @param subnet the subnet value to set
      * @return the PrivateLinkServiceIpConfiguration object itself.
@@ -125,47 +137,36 @@ public class PrivateLinkServiceIpConfiguration {
     }
 
     /**
-     * Get the reference of the public IP resource.
+     * Get whether the ip configuration is primary or not.
      *
-     * @return the publicIPAddress value
+     * @return the primary value
      */
-    public PublicIPAddressInner publicIPAddress() {
-        return this.publicIPAddress;
+    public Boolean primary() {
+        return this.primary;
     }
 
     /**
-     * Set the reference of the public IP resource.
+     * Set whether the ip configuration is primary or not.
      *
-     * @param publicIPAddress the publicIPAddress value to set
+     * @param primary the primary value to set
      * @return the PrivateLinkServiceIpConfiguration object itself.
      */
-    public PrivateLinkServiceIpConfiguration withPublicIPAddress(PublicIPAddressInner publicIPAddress) {
-        this.publicIPAddress = publicIPAddress;
+    public PrivateLinkServiceIpConfiguration withPrimary(Boolean primary) {
+        this.primary = primary;
         return this;
     }
 
     /**
-     * Get gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the private link service IP configuration resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
     /**
-     * Set gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the PrivateLinkServiceIpConfiguration object itself.
-     */
-    public PrivateLinkServiceIpConfiguration withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
-    }
-
-    /**
-     * Get available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4', 'IPv6'.
+     * Get whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. Possible values include: 'IPv4', 'IPv6'.
      *
      * @return the privateIPAddressVersion value
      */
@@ -174,7 +175,7 @@ public class PrivateLinkServiceIpConfiguration {
     }
 
     /**
-     * Set available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values include: 'IPv4', 'IPv6'.
+     * Set whether the specific IP configuration is IPv4 or IPv6. Default is IPv4. Possible values include: 'IPv4', 'IPv6'.
      *
      * @param privateIPAddressVersion the privateIPAddressVersion value to set
      * @return the PrivateLinkServiceIpConfiguration object itself.
@@ -202,6 +203,24 @@ public class PrivateLinkServiceIpConfiguration {
     public PrivateLinkServiceIpConfiguration withName(String name) {
         this.name = name;
         return this;
+    }
+
+    /**
+     * Get a unique read-only string that changes whenever the resource is updated.
+     *
+     * @return the etag value
+     */
+    public String etag() {
+        return this.etag;
+    }
+
+    /**
+     * Get the resource type.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

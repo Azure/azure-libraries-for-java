@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -37,11 +38,12 @@ public class ServiceEndpointPolicyDefinitionInner extends SubResource {
     private List<String> serviceResources;
 
     /**
-     * The provisioning state of the service end point policy definition.
-     * Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the service endpoint policy definition
+     * resource. Possible values include: 'Succeeded', 'Updating', 'Deleting',
+     * 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -53,7 +55,7 @@ public class ServiceEndpointPolicyDefinitionInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -117,11 +119,11 @@ public class ServiceEndpointPolicyDefinitionInner extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the service end point policy definition. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the service endpoint policy definition resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -152,17 +154,6 @@ public class ServiceEndpointPolicyDefinitionInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the ServiceEndpointPolicyDefinitionInner object itself.
-     */
-    public ServiceEndpointPolicyDefinitionInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

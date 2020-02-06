@@ -78,13 +78,13 @@ public class ApplicationGatewayRedirectConfigurationInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
      * Type of the resource.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
     /**
@@ -277,34 +277,12 @@ public class ApplicationGatewayRedirectConfigurationInner extends SubResource {
     }
 
     /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the ApplicationGatewayRedirectConfigurationInner object itself.
-     */
-    public ApplicationGatewayRedirectConfigurationInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
-    }
-
-    /**
      * Get type of the resource.
      *
      * @return the type value
      */
     public String type() {
         return this.type;
-    }
-
-    /**
-     * Set type of the resource.
-     *
-     * @param type the type value to set
-     * @return the ApplicationGatewayRedirectConfigurationInner object itself.
-     */
-    public ApplicationGatewayRedirectConfigurationInner withType(String type) {
-        this.type = type;
-        return this;
     }
 
 }

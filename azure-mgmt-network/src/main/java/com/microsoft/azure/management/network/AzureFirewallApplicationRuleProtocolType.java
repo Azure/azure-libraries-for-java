@@ -22,6 +22,9 @@ public final class AzureFirewallApplicationRuleProtocolType extends ExpandableSt
     /** Static value Https for AzureFirewallApplicationRuleProtocolType. */
     public static final AzureFirewallApplicationRuleProtocolType HTTPS = fromString("Https");
 
+    /** Static value Mssql for AzureFirewallApplicationRuleProtocolType. */
+    public static final AzureFirewallApplicationRuleProtocolType MSSQL = fromString("Mssql");
+
     /**
      * Creates or finds a AzureFirewallApplicationRuleProtocolType from its string representation.
      * @param name a name to look for

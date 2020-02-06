@@ -166,7 +166,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, networkProfileName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -232,7 +232,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, networkProfileName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -318,7 +318,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final String expand = null;
         return service.getByResourceGroup(resourceGroupName, networkProfileName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkProfileInner>>>() {
@@ -400,7 +400,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, networkProfileName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkProfileInner>>>() {
                 @Override
@@ -492,7 +492,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, networkProfileName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<NetworkProfileInner>() { }.getType());
     }
@@ -508,7 +508,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
      * @return the NetworkProfileInner object if successful.
      */
     public NetworkProfileInner updateTags(String resourceGroupName, String networkProfileName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, networkProfileName).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkProfileName).toBlocking().single().body();
     }
 
     /**
@@ -530,7 +530,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
      * @param resourceGroupName The name of the resource group.
      * @param networkProfileName The name of the network profile.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the NetworkProfileInner object
      */
     public Observable<NetworkProfileInner> updateTagsAsync(String resourceGroupName, String networkProfileName) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, networkProfileName).map(new Func1<ServiceResponse<NetworkProfileInner>, NetworkProfileInner>() {
@@ -547,7 +547,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
      * @param resourceGroupName The name of the resource group.
      * @param networkProfileName The name of the network profile.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the NetworkProfileInner object
      */
     public Observable<ServiceResponse<NetworkProfileInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String networkProfileName) {
         if (resourceGroupName == null) {
@@ -559,13 +559,24 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, networkProfileName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<NetworkProfileInner>() { }.getType());
+        return service.updateTags(resourceGroupName, networkProfileName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkProfileInner>>>() {
+                @Override
+                public Observable<ServiceResponse<NetworkProfileInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NetworkProfileInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Updates network profile tags.
      *
@@ -578,7 +589,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
      * @return the NetworkProfileInner object if successful.
      */
     public NetworkProfileInner updateTags(String resourceGroupName, String networkProfileName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, networkProfileName, tags).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, networkProfileName, tags).toBlocking().single().body();
     }
 
     /**
@@ -602,7 +613,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
      * @param networkProfileName The name of the network profile.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the NetworkProfileInner object
      */
     public Observable<NetworkProfileInner> updateTagsAsync(String resourceGroupName, String networkProfileName, Map<String, String> tags) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, networkProfileName, tags).map(new Func1<ServiceResponse<NetworkProfileInner>, NetworkProfileInner>() {
@@ -620,7 +631,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
      * @param networkProfileName The name of the network profile.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the NetworkProfileInner object
      */
     public Observable<ServiceResponse<NetworkProfileInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String networkProfileName, Map<String, String> tags) {
         if (resourceGroupName == null) {
@@ -633,11 +644,28 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, networkProfileName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<NetworkProfileInner>() { }.getType());
+        return service.updateTags(resourceGroupName, networkProfileName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkProfileInner>>>() {
+                @Override
+                public Observable<ServiceResponse<NetworkProfileInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NetworkProfileInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<NetworkProfileInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<NetworkProfileInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<NetworkProfileInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
     }
 
     /**
@@ -723,7 +751,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<NetworkProfileInner>>>>() {
                 @Override
@@ -836,7 +864,7 @@ public class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<NetworkProfileInner>>>>() {
                 @Override

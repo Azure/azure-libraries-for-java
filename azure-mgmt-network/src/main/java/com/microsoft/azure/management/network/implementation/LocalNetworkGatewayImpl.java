@@ -9,6 +9,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.BgpSettings;
 import com.microsoft.azure.management.network.LocalNetworkGateway;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.network.model.AppliableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.rest.ServiceCallback;
@@ -63,7 +64,7 @@ class LocalNetworkGatewayImpl
     }
 
     @Override
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return inner().provisioningState();
     }
 

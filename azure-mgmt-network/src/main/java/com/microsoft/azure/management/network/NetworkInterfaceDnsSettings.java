@@ -30,7 +30,7 @@ public class NetworkInterfaceDnsSettings {
      * of the Availability Set. This property is what is configured on each of
      * those VMs.
      */
-    @JsonProperty(value = "appliedDnsServers")
+    @JsonProperty(value = "appliedDnsServers", access = JsonProperty.Access.WRITE_ONLY)
     private List<String> appliedDnsServers;
 
     /**
@@ -44,7 +44,7 @@ public class NetworkInterfaceDnsSettings {
      * Fully qualified DNS name supporting internal communications between VMs
      * in the same virtual network.
      */
-    @JsonProperty(value = "internalFqdn")
+    @JsonProperty(value = "internalFqdn", access = JsonProperty.Access.WRITE_ONLY)
     private String internalFqdn;
 
     /**
@@ -52,7 +52,7 @@ public class NetworkInterfaceDnsSettings {
      * for the primary NIC of the VM. This DNS name can be constructed by
      * concatenating the VM name with the value of internalDomainNameSuffix.
      */
-    @JsonProperty(value = "internalDomainNameSuffix")
+    @JsonProperty(value = "internalDomainNameSuffix", access = JsonProperty.Access.WRITE_ONLY)
     private String internalDomainNameSuffix;
 
     /**
@@ -85,17 +85,6 @@ public class NetworkInterfaceDnsSettings {
     }
 
     /**
-     * Set if the VM that uses this NIC is part of an Availability Set, then this list will have the union of all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of those VMs.
-     *
-     * @param appliedDnsServers the appliedDnsServers value to set
-     * @return the NetworkInterfaceDnsSettings object itself.
-     */
-    public NetworkInterfaceDnsSettings withAppliedDnsServers(List<String> appliedDnsServers) {
-        this.appliedDnsServers = appliedDnsServers;
-        return this;
-    }
-
-    /**
      * Get relative DNS name for this NIC used for internal communications between VMs in the same virtual network.
      *
      * @return the internalDnsNameLabel value
@@ -125,34 +114,12 @@ public class NetworkInterfaceDnsSettings {
     }
 
     /**
-     * Set fully qualified DNS name supporting internal communications between VMs in the same virtual network.
-     *
-     * @param internalFqdn the internalFqdn value to set
-     * @return the NetworkInterfaceDnsSettings object itself.
-     */
-    public NetworkInterfaceDnsSettings withInternalFqdn(String internalFqdn) {
-        this.internalFqdn = internalFqdn;
-        return this;
-    }
-
-    /**
      * Get even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
      *
      * @return the internalDomainNameSuffix value
      */
     public String internalDomainNameSuffix() {
         return this.internalDomainNameSuffix;
-    }
-
-    /**
-     * Set even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
-     *
-     * @param internalDomainNameSuffix the internalDomainNameSuffix value to set
-     * @return the NetworkInterfaceDnsSettings object itself.
-     */
-    public NetworkInterfaceDnsSettings withInternalDomainNameSuffix(String internalDomainNameSuffix) {
-        this.internalDomainNameSuffix = internalDomainNameSuffix;
-        return this;
     }
 
 }

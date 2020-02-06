@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class AzureFirewallApplicationRuleProtocol {
     /**
-     * Protocol type. Possible values include: 'Http', 'Https'.
+     * Protocol type. Possible values include: 'Http', 'Https', 'Mssql'.
      */
     @JsonProperty(value = "protocolType")
     private AzureFirewallApplicationRuleProtocolType protocolType;
@@ -28,7 +28,7 @@ public class AzureFirewallApplicationRuleProtocol {
     private Integer port;
 
     /**
-     * Get protocol type. Possible values include: 'Http', 'Https'.
+     * Get protocol type. Possible values include: 'Http', 'Https', 'Mssql'.
      *
      * @return the protocolType value
      */
@@ -37,7 +37,7 @@ public class AzureFirewallApplicationRuleProtocol {
     }
 
     /**
-     * Set protocol type. Possible values include: 'Http', 'Https'.
+     * Set protocol type. Possible values include: 'Http', 'Https', 'Mssql'.
      *
      * @param protocolType the protocolType value to set
      * @return the AzureFirewallApplicationRuleProtocol object itself.

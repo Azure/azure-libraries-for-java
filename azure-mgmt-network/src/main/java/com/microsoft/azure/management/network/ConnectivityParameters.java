@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ConnectivityParameters {
     /**
-     * Describes the source of the connection.
+     * The source of the connection.
      */
     @JsonProperty(value = "source", required = true)
     private ConnectivitySource source;
 
     /**
-     * Describes the destination of connection.
+     * The destination of connection.
      */
     @JsonProperty(value = "destination", required = true)
     private ConnectivityDestination destination;
@@ -40,7 +40,14 @@ public class ConnectivityParameters {
     private ProtocolConfiguration protocolConfiguration;
 
     /**
-     * Get describes the source of the connection.
+     * Preferred IP version of the connection. Possible values include: 'IPv4',
+     * 'IPv6'.
+     */
+    @JsonProperty(value = "preferredIPVersion")
+    private IPVersion preferredIPVersion;
+
+    /**
+     * Get the source of the connection.
      *
      * @return the source value
      */
@@ -49,7 +56,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Set describes the source of the connection.
+     * Set the source of the connection.
      *
      * @param source the source value to set
      * @return the ConnectivityParameters object itself.
@@ -60,7 +67,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Get describes the destination of connection.
+     * Get the destination of connection.
      *
      * @return the destination value
      */
@@ -69,7 +76,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Set describes the destination of connection.
+     * Set the destination of connection.
      *
      * @param destination the destination value to set
      * @return the ConnectivityParameters object itself.
@@ -116,6 +123,26 @@ public class ConnectivityParameters {
      */
     public ConnectivityParameters withProtocolConfiguration(ProtocolConfiguration protocolConfiguration) {
         this.protocolConfiguration = protocolConfiguration;
+        return this;
+    }
+
+    /**
+     * Get preferred IP version of the connection. Possible values include: 'IPv4', 'IPv6'.
+     *
+     * @return the preferredIPVersion value
+     */
+    public IPVersion preferredIPVersion() {
+        return this.preferredIPVersion;
+    }
+
+    /**
+     * Set preferred IP version of the connection. Possible values include: 'IPv4', 'IPv6'.
+     *
+     * @param preferredIPVersion the preferredIPVersion value to set
+     * @return the ConnectivityParameters object itself.
+     */
+    public ConnectivityParameters withPreferredIPVersion(IPVersion preferredIPVersion) {
+        this.preferredIPVersion = preferredIPVersion;
         return this;
     }
 

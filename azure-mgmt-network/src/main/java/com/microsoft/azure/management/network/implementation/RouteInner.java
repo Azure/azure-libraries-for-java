@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.RouteNextHopType;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -40,11 +41,11 @@ public class RouteInner extends SubResource {
     private String nextHopIpAddress;
 
     /**
-     * The provisioning state of the resource. Possible values are: 'Updating',
-     * 'Deleting', and 'Failed'.
+     * The provisioning state of the route resource. Possible values include:
+     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -56,7 +57,7 @@ public class RouteInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -120,23 +121,12 @@ public class RouteInner extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the route resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the RouteInner object itself.
-     */
-    public RouteInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -166,17 +156,6 @@ public class RouteInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the RouteInner object itself.
-     */
-    public RouteInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

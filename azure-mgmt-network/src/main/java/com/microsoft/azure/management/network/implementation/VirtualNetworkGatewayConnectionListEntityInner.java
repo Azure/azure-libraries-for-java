@@ -16,6 +16,8 @@ import java.util.List;
 import com.microsoft.azure.management.network.TunnelConnectionHealth;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.IpsecPolicy;
+import com.microsoft.azure.management.network.TrafficSelectorPolicy;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -127,18 +129,25 @@ public class VirtualNetworkGatewayConnectionListEntityInner extends Resource {
     private List<IpsecPolicy> ipsecPolicies;
 
     /**
-     * The resource GUID property of the VirtualNetworkGatewayConnection
+     * The Traffic Selector Policies to be considered by this connection.
+     */
+    @JsonProperty(value = "properties.trafficSelectorPolicies")
+    private List<TrafficSelectorPolicy> trafficSelectorPolicies;
+
+    /**
+     * The resource GUID property of the virtual network gateway connection
      * resource.
      */
-    @JsonProperty(value = "properties.resourceGuid")
+    @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /**
-     * The provisioning state of the VirtualNetworkGatewayConnection resource.
-     * Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the virtual network gateway connection
+     * resource. Possible values include: 'Succeeded', 'Updating', 'Deleting',
+     * 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * Bypass ExpressRoute Gateway for data forwarding.
@@ -147,10 +156,9 @@ public class VirtualNetworkGatewayConnectionListEntityInner extends Resource {
     private Boolean expressRouteGatewayBypass;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -436,7 +444,27 @@ public class VirtualNetworkGatewayConnectionListEntityInner extends Resource {
     }
 
     /**
-     * Get the resource GUID property of the VirtualNetworkGatewayConnection resource.
+     * Get the Traffic Selector Policies to be considered by this connection.
+     *
+     * @return the trafficSelectorPolicies value
+     */
+    public List<TrafficSelectorPolicy> trafficSelectorPolicies() {
+        return this.trafficSelectorPolicies;
+    }
+
+    /**
+     * Set the Traffic Selector Policies to be considered by this connection.
+     *
+     * @param trafficSelectorPolicies the trafficSelectorPolicies value to set
+     * @return the VirtualNetworkGatewayConnectionListEntityInner object itself.
+     */
+    public VirtualNetworkGatewayConnectionListEntityInner withTrafficSelectorPolicies(List<TrafficSelectorPolicy> trafficSelectorPolicies) {
+        this.trafficSelectorPolicies = trafficSelectorPolicies;
+        return this;
+    }
+
+    /**
+     * Get the resource GUID property of the virtual network gateway connection resource.
      *
      * @return the resourceGuid value
      */
@@ -445,22 +473,11 @@ public class VirtualNetworkGatewayConnectionListEntityInner extends Resource {
     }
 
     /**
-     * Set the resource GUID property of the VirtualNetworkGatewayConnection resource.
-     *
-     * @param resourceGuid the resourceGuid value to set
-     * @return the VirtualNetworkGatewayConnectionListEntityInner object itself.
-     */
-    public VirtualNetworkGatewayConnectionListEntityInner withResourceGuid(String resourceGuid) {
-        this.resourceGuid = resourceGuid;
-        return this;
-    }
-
-    /**
-     * Get the provisioning state of the VirtualNetworkGatewayConnection resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the virtual network gateway connection resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -485,23 +502,12 @@ public class VirtualNetworkGatewayConnectionListEntityInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set gets a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the VirtualNetworkGatewayConnectionListEntityInner object itself.
-     */
-    public VirtualNetworkGatewayConnectionListEntityInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

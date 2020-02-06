@@ -17,8 +17,8 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * Flag to enable/disable traffic analytics.
      */
-    @JsonProperty(value = "enabled", required = true)
-    private boolean enabled;
+    @JsonProperty(value = "enabled")
+    private Boolean enabled;
 
     /**
      * The resource guid of the attached workspace.
@@ -50,7 +50,7 @@ public class TrafficAnalyticsConfigurationProperties {
      *
      * @return the enabled value
      */
-    public boolean enabled() {
+    public Boolean enabled() {
         return this.enabled;
     }
 
@@ -60,7 +60,7 @@ public class TrafficAnalyticsConfigurationProperties {
      * @param enabled the enabled value to set
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
-    public TrafficAnalyticsConfigurationProperties withEnabled(boolean enabled) {
+    public TrafficAnalyticsConfigurationProperties withEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }

@@ -38,7 +38,7 @@ public interface DdosProtectionPlan extends
     /**
      * @return the provisioning state of the DDoS protection plan resource
      */
-    String provisioningState();
+    ProvisioningState provisioningState();
 
     /**
      * @return the list of virtual networks associated with the DDoS protection plan resource. This list is read-only.

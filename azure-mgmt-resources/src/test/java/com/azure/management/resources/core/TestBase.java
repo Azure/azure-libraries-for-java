@@ -6,8 +6,10 @@
 
 package com.azure.management.resources.core;
 
-import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
 import com.azure.core.http.policy.CookiePolicy;
+import com.azure.core.http.policy.HostPolicy;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.azure.core.util.Configuration;
@@ -81,7 +83,6 @@ public abstract class TestBase {
 
     private static void initTestMode() throws IOException {
         Configuration.getGlobalConfiguration().put(Configuration.PROPERTY_AZURE_LOG_LEVEL, String.valueOf(LogLevel.INFORMATIONAL));
-
         String azureTestMode = System.getenv("AZURE_TEST_MODE");
         if (azureTestMode != null) {
             if (azureTestMode.equalsIgnoreCase("Record")) {
@@ -153,7 +154,6 @@ public abstract class TestBase {
         Assume.assumeTrue(skipMessage, skipMessage == null);
 
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
-        interceptorManager.initInterceptor();
 
         ApplicationTokenCredential credentials;
         RestClient restClient;
@@ -164,8 +164,11 @@ public abstract class TestBase {
             restClient = buildRestClient(new RestClientBuilder()
                     .withBaseUrl(playbackUri + "/")
                     .withSerializerAdapter(new AzureJacksonAdapter())
-                    .withPolicy(new CookiePolicy())
-                    .withCredential(credentials), true);
+                    .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
+                    .withPolicy(interceptorManager.initInterceptor())
+                    .withPolicy(new HostPolicy(playbackUri + "/"))
+                    .withPolicy(new ResourceGroupTaggingPolicy())
+                    .withPolicy(new CookiePolicy()), true);
 
             defaultSubscription = ZERO_SUBSCRIPTION;
             interceptorManager.addTextReplacementRule(PLAYBACK_URI_BASE + "1234", playbackUri);
@@ -195,9 +198,14 @@ public abstract class TestBase {
             RestClientBuilder builder = new RestClientBuilder()
                     .withBaseUrl(this.baseUri())
                     .withSerializerAdapter(new AzureJacksonAdapter())
-                    .withPolicy(new CookiePolicy())
-                    // .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
-                    .withCredential(credentials);
+                    .withCredential(credentials)
+                    .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
+                    .withPolicy(new ResourceGroupTaggingPolicy())
+                    .withPolicy(new CookiePolicy());
+            if (!interceptorManager.isNoneMode()) {
+                builder.withPolicy(interceptorManager.initInterceptor());
+            }
+
             restClient = buildRestClient(builder, false);
             defaultSubscription = credentials.getDefaultSubscriptionId();
             interceptorManager.addTextReplacementRule(defaultSubscription, ZERO_SUBSCRIPTION);

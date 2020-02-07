@@ -8,7 +8,6 @@ import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
-import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
@@ -42,9 +41,6 @@ public final class RestClientBuilder {
     private SerializerAdapter serializerAdapter;
     private List<String> scopes;
 
-    // TODO: add AzureEnvironment parameter for different default scopes
-    private static final String[] defaultScopes = new String[] { AzureEnvironment.AZURE.getResourceManagerEndpoint() + "/.default" };
-
     private final RetryPolicy retryPolicy;
 
     /**
@@ -62,22 +58,18 @@ public final class RestClientBuilder {
             return new RestClient(baseUrl, pipeline, this);
         }
 
-        if (credential == null) {
-            throw logger.logExceptionAsError(
-                    new IllegalStateException(
-                            RestErrorCodeStrings.getErrorString(RestErrorCodeStrings.CREDENTIAL_REQUIRED)));
-        }
-
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
         policies.add(new UserAgentPolicy(httpLogOptions, configuration));
-        policies.add(new BearerTokenAuthenticationPolicy(this.credential, this.getScopes()));
+        if (this.credential != null) {
+            policies.add(new BearerTokenAuthenticationPolicy(this.credential, this.getScopes()));
+        }
+        policies.add(new HttpLoggingPolicy(httpLogOptions));
 
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
         policies.add(retryPolicy);
         policies.addAll(this.policies);
         HttpPolicyProviders.addAfterRetryPolicies(policies);
-        policies.add(new HttpLoggingPolicy(httpLogOptions));
 
 //        httpClient = new NettyAsyncHttpClientBuilder()
 //                .build();
@@ -156,7 +148,7 @@ public final class RestClientBuilder {
     }
 
     public String[] getScopes() {
-        return this.scopes.isEmpty() ? defaultScopes : this.scopes.toArray(new String[0]);
+        return this.scopes.isEmpty() ? null : this.scopes.toArray(new String[0]);
     }
 
     public SerializerAdapter getSerializerAdapter() {

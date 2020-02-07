@@ -57,7 +57,7 @@ public class TestPublicIPPrefix extends TestTemplate<PublicIPPrefix, PublicIPPre
                 .append("\n\tResource group: ").append(resource.resourceGroupName())
                 .append("\n\tRegion: ").append(resource.region())
                 .append("\n\tTags: ").append(resource.tags())
-                .append("\n\tIP Address: ").append(resource.zones())
+                .append("\n\tAvailability Zones: ").append(resource.availabilityZones())
                 .append("\n\tLeaf domain label: ").append(resource.sku())
                 .append("\n\tFQDN: ").append(resource.publicIPAddresses())
                 .append("\n\tReverse FQDN: ").append(resource.publicIPAddressVersion());

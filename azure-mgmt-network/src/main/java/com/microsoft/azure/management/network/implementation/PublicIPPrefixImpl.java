@@ -15,13 +15,18 @@ import com.microsoft.azure.management.network.PublicIPPrefix;
 import com.microsoft.azure.management.network.PublicIPPrefixSku;
 import com.microsoft.azure.management.network.ReferencedPublicIpAddress;
 import com.microsoft.azure.management.network.model.AppliableWithTags;
+import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Observable;
 import rx.functions.Func1;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class PublicIPPrefixImpl extends GroupableResourceImpl<PublicIPPrefix, PublicIPPrefixInner, PublicIPPrefixImpl, NetworkManager>
         implements PublicIPPrefix,
@@ -92,7 +97,7 @@ class PublicIPPrefixImpl extends GroupableResourceImpl<PublicIPPrefix, PublicIPP
 
     @Override
     public List<IpTag> ipTags() {
-        return this.inner().ipTags();
+        return Collections.unmodifiableList(inner().ipTags() == null ? new ArrayList<IpTag>() : inner().ipTags());
     }
 
     @Override
@@ -112,7 +117,7 @@ class PublicIPPrefixImpl extends GroupableResourceImpl<PublicIPPrefix, PublicIPP
 
     @Override
     public List<ReferencedPublicIpAddress> publicIPAddresses() {
-        return this.inner().publicIPAddresses();
+        return Collections.unmodifiableList(inner().publicIPAddresses() == null ? new ArrayList<ReferencedPublicIpAddress>() : this.inner().publicIPAddresses());
     }
 
     @Override
@@ -131,8 +136,14 @@ class PublicIPPrefixImpl extends GroupableResourceImpl<PublicIPPrefix, PublicIPP
     }
 
     @Override
-    public List<String> zones() {
-        return this.inner().zones();
+    public Set<AvailabilityZoneId> availabilityZones() {
+        Set<AvailabilityZoneId> zones = new HashSet<>();
+        if (this.inner().zones() != null) {
+            for (String zone : this.inner().zones()) {
+                zones.add(AvailabilityZoneId.fromString(zone));
+            }
+        }
+        return Collections.unmodifiableSet(zones);
     }
 
     @Override
@@ -160,9 +171,16 @@ class PublicIPPrefixImpl extends GroupableResourceImpl<PublicIPPrefix, PublicIPP
     }
 
     @Override
-    public PublicIPPrefixImpl withZones(List<String> zones) {
-        this.inner().withZones(zones);
+    public PublicIPPrefixImpl withAvailabilityZone(AvailabilityZoneId zoneId) {
+        // Note: Zone is not updatable as of now, so this is available only during definition time.
+        // Service return `ResourceAvailabilityZonesCannotBeModified` upon attempt to append a new
+        // zone or remove one. Trying to remove the last one means attempt to change resource from
+        // zonal to regional, which is not supported.
+        //
+        if (this.inner().zones() == null) {
+            this.inner().withZones(new ArrayList<String>());
+        }
+        this.inner().zones().add(zoneId.toString());
         return this;
     }
-
 }

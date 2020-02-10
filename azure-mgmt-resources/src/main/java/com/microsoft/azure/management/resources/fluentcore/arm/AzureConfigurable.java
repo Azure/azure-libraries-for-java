@@ -9,9 +9,11 @@ package com.microsoft.azure.management.resources.fluentcore.arm;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.rest.LogLevel;
 import okhttp3.Authenticator;
+import okhttp3.CipherSuite;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
+import okhttp3.TlsVersion;
 
 import java.net.Proxy;
 import java.util.concurrent.Executor;
@@ -97,6 +99,20 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      * @return the configurable object itself for chaining
      */
     T useHttpClientThreadPool(boolean useHttpClientThreadPool);
+
+    /**
+     * Sets the tls versions for the Http client.
+     * @param tlsVersions the OkHttp 3 tls versions
+     * @return the configurable object itself for chaining
+     */
+    T withTlsVersions(TlsVersion... tlsVersions);
+
+    /**
+     * Sets the cipher suites for the Http client.
+     * @param cipherSuites the OkHttp 3 cipher suite
+     * @return the configurable object itself for chaining
+     */
+    T withCipherSuites(CipherSuite... cipherSuites);
 
     /**
      * Sets the dispatcher used in OkHttp client. This is also where to set

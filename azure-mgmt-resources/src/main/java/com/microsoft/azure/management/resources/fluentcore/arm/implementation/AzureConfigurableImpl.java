@@ -17,9 +17,11 @@ import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.RestClient;
 import okhttp3.Authenticator;
+import okhttp3.CipherSuite;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
+import okhttp3.TlsVersion;
 
 import java.net.Proxy;
 import java.util.concurrent.Executor;
@@ -135,6 +137,19 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
     @Override
     public T withProxyAuthenticator(Authenticator proxyAuthenticator) {
         this.restClientBuilder = restClientBuilder.withProxyAuthenticator(proxyAuthenticator);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T withTlsVersions(TlsVersion... tlsVersions) {
+        this.restClientBuilder = restClientBuilder.withTlsVersions(tlsVersions);
+        return (T) this;
+    }
+
+    @Override
+    public T withCipherSuites(CipherSuite... cipherSuites) {
+        this.restClientBuilder = restClientBuilder.withCipherSuites(cipherSuites);
         return (T) this;
     }
 

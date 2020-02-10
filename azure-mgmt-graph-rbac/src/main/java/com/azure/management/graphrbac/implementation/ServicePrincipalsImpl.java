@@ -107,7 +107,7 @@ class ServicePrincipalsImpl
                     }
                     return new ServicePrincipalImpl(servicePrincipalInner, manager());
                 })
-                .flatMap((Function<ServicePrincipalImpl, Mono<ServicePrincipal>>) servicePrincipal -> {
+                .flatMap(servicePrincipal -> {
                     if (servicePrincipal == null) {
                         return null;
                     }

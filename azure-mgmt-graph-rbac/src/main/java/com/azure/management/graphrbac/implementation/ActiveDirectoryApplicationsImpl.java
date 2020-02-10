@@ -92,8 +92,8 @@ class ActiveDirectoryApplicationsImpl
     public Mono<ActiveDirectoryApplication> getByNameAsync(String name) {
         final String trimmed = name.replaceFirst("^'+", "").replaceAll("'+$", "");
         return innerCollection.listSinglePageAsync(String.format("displayName eq '%s'", trimmed))
-                .flatMap((Function<PagedResponse<ApplicationInner>, Mono<PagedFlux<ApplicationInner>>>) result -> {
-                    if (result == null || result.getItems() == null || result.getItems().isEmpty()) {
+                .flatMap(response -> {
+                    if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
                         try {
                             UUID.fromString(trimmed);
                             return Mono.just(innerCollection.listAsync(String.format("appId eq '%s'", trimmed)));
@@ -102,26 +102,14 @@ class ActiveDirectoryApplicationsImpl
                         }
                     }
                     return Mono.just(new PagedFlux<>(
-                            () -> Mono.just(result),
+                            () -> Mono.just(response),
                             nextLink -> innerCollection.listNextSinglePageAsync(nextLink)
                     ));
                 })
-                .map(result -> {
-                    if (result == null) {
-                        return null;
-                    }
-                    ApplicationInner applicationInner = result.blockFirst();
-                    if (applicationInner == null) {
-                        return null;
-                    }
-                    return new ActiveDirectoryApplicationImpl(applicationInner, manager());
-                })
-                .flatMap(application -> {
-                    if (application == null) {
-                        return null;
-                    }
-                    return application.refreshCredentialsAsync();
-                });
+                .map(result -> result.blockFirst())
+                .map(applicationInner -> new ActiveDirectoryApplicationImpl(applicationInner, manager()))
+                .flatMap(activeDirectoryApplication -> activeDirectoryApplication.refreshCredentialsAsync())
+                .switchIfEmpty(Mono.defer(() -> Mono.empty()));
     }
 
     @Override

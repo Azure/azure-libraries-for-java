@@ -6,9 +6,9 @@
 package com.azure.management.network;
 
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -111,44 +111,44 @@ public class LoadBalancerTests extends NetworkManagementTest {
                 .withExistingResourceGroup(resourceGroup.name())
                 // Add two rules that uses above backend and probe
                 .defineLoadBalancingRule(ruleName1)
-                    .withProtocol(TransportProtocol.TCP)
-                    .fromFrontend(frontendName)
-                    .fromFrontendPort(80)
-                    .toBackend(backendPoolName1)
-                    .withProbe(probeName1)
-                    .attach()
+                .withProtocol(TransportProtocol.TCP)
+                .fromFrontend(frontendName)
+                .fromFrontendPort(80)
+                .toBackend(backendPoolName1)
+                .withProbe(probeName1)
+                .attach()
                 .defineLoadBalancingRule(ruleName2)
-                    .withProtocol(TransportProtocol.TCP)
-                    .fromFrontend(frontendName)
-                    .fromFrontendPort(443)
-                    .toBackend(backendPoolName2)
-                    .withProbe(probeName2)
-                    .attach()
+                .withProtocol(TransportProtocol.TCP)
+                .fromFrontend(frontendName)
+                .fromFrontendPort(443)
+                .toBackend(backendPoolName2)
+                .withProbe(probeName2)
+                .attach()
                 // Add nat pools to enable direct VM connectivity for
                 //  SSH to port 22 and TELNET to port 23
                 .defineInboundNatPool(natPool50XXto22)
-                    .withProtocol(TransportProtocol.TCP)
-                    .fromFrontend(frontendName)
-                    .fromFrontendPortRange(5000, 5099)
-                    .toBackendPort(22)
-                    .attach()
+                .withProtocol(TransportProtocol.TCP)
+                .fromFrontend(frontendName)
+                .fromFrontendPortRange(5000, 5099)
+                .toBackendPort(22)
+                .attach()
                 .defineInboundNatPool(natPool60XXto23)
-                    .withProtocol(TransportProtocol.TCP)
-                    .fromFrontend(frontendName)
-                    .fromFrontendPortRange(6000, 6099)
-                    .toBackendPort(23)
-                    .attach()
+                .withProtocol(TransportProtocol.TCP)
+                .fromFrontend(frontendName)
+                .fromFrontendPortRange(6000, 6099)
+                .toBackendPort(23)
+                .attach()
                 // Explicitly define the frontend
                 .definePrivateFrontend(frontendName)
-                    .withExistingSubnet(network, subnetName)
-                    .attach()
+                .withExistingSubnet(network, subnetName)
+                .attach()
                 // Add two probes one per rule
                 .defineHttpProbe(probeName1)
-                    .withRequestPath("/")
-                    .attach()
+                .withRequestPath("/")
+                .attach()
                 .defineHttpsProbe(probeName2)
-                    .withRequestPath("/")
-                    .attach()
+                .withRequestPath("/")
+                .attach()
                 .withSku(LoadBalancerSkuType.STANDARD)
                 .create();
 

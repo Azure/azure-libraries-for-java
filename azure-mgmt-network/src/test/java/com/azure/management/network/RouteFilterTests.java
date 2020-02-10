@@ -6,10 +6,13 @@
 
 package com.azure.management.network;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.core.TestUtilities;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.util.List;
 
 public class RouteFilterTests extends NetworkManagementTest {
@@ -25,15 +28,15 @@ public class RouteFilterTests extends NetworkManagementTest {
                 .create();
         Assert.assertEquals("value1", routeFilter.tags().get("tag1"));
 
-        List<RouteFilter> rfList = networkManager.routeFilters().list();
-        Assert.assertTrue(rfList.size() > 0);
+        PagedIterable<RouteFilter> rfList = networkManager.routeFilters().list();
+        Assert.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
 
         rfList = networkManager.routeFilters().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(rfList.size() > 0);
+        Assert.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
 
         networkManager.routeFilters().deleteById(routeFilter.id());
         rfList = networkManager.routeFilters().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(rfList.isEmpty());
+        Assert.assertTrue(TestUtilities.isEmpty(rfList));
     }
 
     @Test
@@ -47,8 +50,8 @@ public class RouteFilterTests extends NetworkManagementTest {
 
         routeFilter.update()
                 .defineRule(ruleName)
-                    .withBgpCommunity("12076:51004")
-                    .attach()
+                .withBgpCommunity("12076:51004")
+                .attach()
                 .apply();
         Assert.assertEquals(1, routeFilter.rules().size());
         Assert.assertEquals(1, routeFilter.rules().get(ruleName).communities().size());
@@ -56,9 +59,9 @@ public class RouteFilterTests extends NetworkManagementTest {
 
         routeFilter.update()
                 .updateRule(ruleName)
-                    .withBgpCommunities("12076:51005", "12076:51026")
-                    .denyAccess()
-                    .parent()
+                .withBgpCommunities("12076:51005", "12076:51026")
+                .denyAccess()
+                .parent()
                 .apply();
         Assert.assertEquals(2, routeFilter.rules().get(ruleName).communities().size());
         Assert.assertEquals(Access.DENY, routeFilter.rules().get(ruleName).access());

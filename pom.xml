@@ -92,6 +92,24 @@
                 <version>4.13-rc-2</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>1.7.25</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>28.1-jre</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.azure</groupId>
+                <artifactId>azure-core-http-netty</artifactId>
+                <version>1.2.0</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -352,6 +370,7 @@
     <modules>
         <module>./azure-mgmt-graph-rbac</module>
         <module>./azure-mgmt-msi</module>
+        <module>./azure-mgmt-network</module>
         <module>./azure-mgmt-keyvault</module>
         <module>./azure-mgmt-resources</module>
         <module>./azure-mgmt-storage</module>

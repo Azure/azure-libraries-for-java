@@ -159,7 +159,7 @@ public abstract class ExternalChildResourcesCachedImpl<
      * @param childResource the external child resource
      */
     protected void addChildResource(FluentModelTImpl childResource) {
-        this.addChildResource(childResource.getName(), childResource);
+        this.addChildResource(childResource.name(), childResource);
     }
 
     /**

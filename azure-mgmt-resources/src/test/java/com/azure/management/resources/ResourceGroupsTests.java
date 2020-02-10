@@ -34,15 +34,15 @@ public class ResourceGroupsTests extends ResourceManagerTestBase {
         // List
         ResourceGroup groupResult = null;
         for (ResourceGroup rg : resourceGroups.listByTag("department", "finance")) {
-            if (rg.getName().equals(rgName)) {
+            if (rg.name().equals(rgName)) {
                 groupResult = rg;
                 break;
             }
         }
         Assert.assertNotNull(groupResult);
-        Assert.assertEquals("finance", groupResult.getTags().get("department"));
-        Assert.assertEquals("tagvalue", groupResult.getTags().get("tagname"));
-        Assert.assertTrue(region.name().equalsIgnoreCase(groupResult.getRegionName()));
+        Assert.assertEquals("finance", groupResult.tags().get("department"));
+        Assert.assertEquals("tagvalue", groupResult.tags().get("tagname"));
+        Assert.assertTrue(region.name().equalsIgnoreCase(groupResult.regionName()));
 
         // Check existence
         Assert.assertTrue(resourceGroups.contain(rgName));
@@ -50,13 +50,13 @@ public class ResourceGroupsTests extends ResourceManagerTestBase {
         // Get
         ResourceGroup getGroup = resourceGroups.getByName(rgName);
         Assert.assertNotNull(getGroup);
-        Assert.assertEquals(rgName, getGroup.getName());
+        Assert.assertEquals(rgName, getGroup.name());
         // Update
         ResourceGroup updatedGroup = getGroup.update()
                 .withTag("tag1", "value1")
                 .apply();
-        Assert.assertEquals("value1", updatedGroup.getTags().get("tag1"));
-        Assert.assertTrue(region.name().equalsIgnoreCase(getGroup.getRegionName()));
+        Assert.assertEquals("value1", updatedGroup.tags().get("tag1"));
+        Assert.assertTrue(region.name().equalsIgnoreCase(getGroup.regionName()));
         // Delete
         resourceGroups.deleteByName(rgName);
         // Assert.assertFalse(resourceGroups.checkExistence(rgName));

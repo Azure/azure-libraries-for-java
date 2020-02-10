@@ -39,7 +39,7 @@ class RoleAssignmentsImpl
         if (roleAssignmentInner == null) {
             return null;
         }
-        return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
+        return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
     }
 
     @Override
@@ -49,11 +49,11 @@ class RoleAssignmentsImpl
 
     @Override
     public Mono<RoleAssignment> getByIdAsync(String id) {
-        return getInner().getByIdAsync(id).map(roleAssignmentInner -> {
+        return inner().getByIdAsync(id).map(roleAssignmentInner -> {
             if (roleAssignmentInner == null) {
                 return null;
             } else {
-                return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
+                return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
             }
         });
     }
@@ -65,42 +65,42 @@ class RoleAssignmentsImpl
 
     @Override
     public PagedFlux<RoleAssignment> listByScopeAsync(String scope) {
-        return getInner().listForScopeAsync(scope, null).mapPage(roleAssignmentInner -> {
+        return inner().listForScopeAsync(scope, null).mapPage(roleAssignmentInner -> {
             if (roleAssignmentInner == null) {
                 return null;
             }
-            return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
+            return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
         });
     }
 
     @Override
     public PagedIterable<RoleAssignment> listByScope(String scope) {
-        return wrapList(getInner().listForScope(scope, null));
+        return wrapList(inner().listForScope(scope, null));
     }
 
     @Override
     public Mono<RoleAssignment> getByScopeAsync(String scope,  String name) {
-        return getInner().getAsync(scope, name)
+        return inner().getAsync(scope, name)
                 .map(roleAssignmentInner -> {
                     if (roleAssignmentInner == null) {
                         return null;
                     }
-                    return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
+                    return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
                 });
     }
 
     @Override
     protected RoleAssignmentImpl wrapModel(String name) {
-        return new RoleAssignmentImpl(name, new RoleAssignmentInner(), getManager());
+        return new RoleAssignmentImpl(name, new RoleAssignmentInner(), manager());
     }
 
     @Override
     public Mono<RoleAssignment> deleteByIdAsync(String id) {
-        return getInner().deleteByIdAsync(id).map(roleAssignmentInner -> {
+        return inner().deleteByIdAsync(id).map(roleAssignmentInner -> {
             if (roleAssignmentInner == null) {
                 return null;
             }
-            return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
+            return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
         });
     }
 
@@ -110,12 +110,12 @@ class RoleAssignmentsImpl
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 
     @Override
-    public RoleAssignmentsInner getInner() {
-        return getManager().roleInner().roleAssignments();
+    public RoleAssignmentsInner inner() {
+        return manager().roleInner().roleAssignments();
     }
 }

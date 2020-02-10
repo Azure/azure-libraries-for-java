@@ -24,14 +24,14 @@ public class InvokeRootTests {
 
         final HashMap<String, Integer> seen = new HashMap<>();
 
-        taskItem1.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+        taskItem1.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
                 .map(item -> {
                     SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                    if (seen.containsKey(c.getName())) {
-                        Integer a = seen.get(c.getName()) + 1;
-                        seen.put(c.getName(), a);
+                    if (seen.containsKey(c.name())) {
+                        Integer a = seen.get(c.name()) + 1;
+                        seen.put(c.name(), a);
                     } else {
-                        seen.put(c.getName(), 1);
+                        seen.put(c.name(), 1);
                     }
                     return item;
                 }).blockLast();
@@ -48,14 +48,14 @@ public class InvokeRootTests {
 
         seen.clear();
 
-        taskItem1.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+        taskItem1.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
                 .map(item -> {
                     SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                    if (seen.containsKey(c.getName())) {
-                        Integer a = seen.get(c.getName()) + 1;
-                        seen.put(c.getName(), a);
+                    if (seen.containsKey(c.name())) {
+                        Integer a = seen.get(c.name()) + 1;
+                        seen.put(c.name(), a);
                     } else {
-                        seen.put(c.getName(), 1);
+                        seen.put(c.name(), 1);
                     }
                     return item;
                 }).blockLast();
@@ -82,14 +82,14 @@ public class InvokeRootTests {
 
         final HashMap<String, Integer> seen = new HashMap<>();
 
-        taskItem1.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+        taskItem1.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
                 .map(item -> {
                     SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                    if (seen.containsKey(c.getName())) {
-                        Integer a = seen.get(c.getName()) + 1;
-                        seen.put(c.getName(), a);
+                    if (seen.containsKey(c.name())) {
+                        Integer a = seen.get(c.name()) + 1;
+                        seen.put(c.name(), a);
                     } else {
-                        seen.put(c.getName(), 1);
+                        seen.put(c.name(), 1);
                     }
                     return item;
                 }).blockLast();
@@ -109,14 +109,14 @@ public class InvokeRootTests {
 
         seen.clear();
 
-        taskItem1.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+        taskItem1.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
                 .map(item -> {
                     SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                    if (seen.containsKey(c.getName())) {
-                        Integer a = seen.get(c.getName()) + 1;
-                        seen.put(c.getName(), a);
+                    if (seen.containsKey(c.name())) {
+                        Integer a = seen.get(c.name()) + 1;
+                        seen.put(c.name(), a);
                     } else {
-                        seen.put(c.getName(), 1);
+                        seen.put(c.name(), 1);
                     }
                     return item;
                 }).blockLast();
@@ -152,14 +152,14 @@ public class InvokeRootTests {
 
         final HashMap<String, Integer> seen = new HashMap<>();
 
-        taskItem4.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+        taskItem4.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
                 .map(item -> {
                     SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                    if (seen.containsKey(c.getName())) {
-                        Integer a = seen.get(c.getName()) + 1;
-                        seen.put(c.getName(), a);
+                    if (seen.containsKey(c.name())) {
+                        Integer a = seen.get(c.name()) + 1;
+                        seen.put(c.name(), a);
                     } else {
-                        seen.put(c.getName(), 1);
+                        seen.put(c.name(), 1);
                     }
                     return item;
                 }).blockLast();
@@ -186,14 +186,14 @@ public class InvokeRootTests {
 
         seen.clear();
 
-        taskItem4.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+        taskItem4.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
                 .map(item -> {
                     SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                    if (seen.containsKey(c.getName())) {
-                        Integer a = seen.get(c.getName()) + 1;
-                        seen.put(c.getName(), a);
+                    if (seen.containsKey(c.name())) {
+                        Integer a = seen.get(c.name()) + 1;
+                        seen.put(c.name(), a);
                     } else {
-                        seen.put(c.getName(), 1);
+                        seen.put(c.name(), 1);
                     }
                     return item;
                 }).blockLast();
@@ -229,7 +229,7 @@ public class InvokeRootTests {
         }
 
         @Override
-        public String getName() {
+        public String name() {
             return this.name;
         }
 

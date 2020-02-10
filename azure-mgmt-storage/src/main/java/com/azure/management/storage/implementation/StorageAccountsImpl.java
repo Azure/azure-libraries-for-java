@@ -30,7 +30,7 @@ class StorageAccountsImpl
         implements StorageAccounts {
 
     StorageAccountsImpl(final StorageManager storageManager) {
-        super(storageManager.getInner().storageAccounts(), storageManager);
+        super(storageManager.inner().storageAccounts(), storageManager);
     }
 
     @Override
@@ -41,7 +41,7 @@ class StorageAccountsImpl
     @Override
     public Mono<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
         StorageAccountCheckNameAvailabilityParameters parameters = new StorageAccountCheckNameAvailabilityParameters().setName(name);
-        return this.getInner().checkNameAvailabilityAsync(parameters).map(checkNameAvailabilityResultInner -> new CheckNameAvailabilityResult(checkNameAvailabilityResultInner));
+        return this.inner().checkNameAvailabilityAsync(parameters).map(checkNameAvailabilityResultInner -> new CheckNameAvailabilityResult(checkNameAvailabilityResultInner));
     }
 
     @Override
@@ -53,7 +53,7 @@ class StorageAccountsImpl
 
     @Override
     protected StorageAccountImpl wrapModel(String name) {
-        return new StorageAccountImpl(name, new StorageAccountInner(), this.getManager());
+        return new StorageAccountImpl(name, new StorageAccountInner(), this.manager());
     }
 
     @Override
@@ -61,7 +61,7 @@ class StorageAccountsImpl
         if (storageAccountInner == null) {
             return null;
         }
-        return new StorageAccountImpl(storageAccountInner.getName(), storageAccountInner, this.getManager());
+        return new StorageAccountImpl(storageAccountInner.getName(), storageAccountInner, this.manager());
     }
 
     @Override
@@ -71,7 +71,7 @@ class StorageAccountsImpl
 
     @Override
     public Mono<String> createSasTokenAsync(String resourceGroupName, String accountName, ServiceSasParameters parameters) {
-        return this.getInner().listServiceSASAsync(resourceGroupName, accountName, parameters).map(listServiceSasResponseInner -> listServiceSasResponseInner.getServiceSasToken());
+        return this.inner().listServiceSASAsync(resourceGroupName, accountName, parameters).map(listServiceSasResponseInner -> listServiceSasResponseInner.getServiceSasToken());
     }
 
     @Override
@@ -81,6 +81,6 @@ class StorageAccountsImpl
 
     @Override
     public Mono<Void> failoverAsync(String resourceGroupName, String accountName) {
-        return this.getInner().failoverAsync(resourceGroupName, accountName);
+        return this.inner().failoverAsync(resourceGroupName, accountName);
     }
 }

@@ -57,14 +57,14 @@ public abstract class IndependentChildImpl<
      *******************************************/
 
     @Override
-    public ManagerT getManager() {
+    public ManagerT manager() {
         return this.manager;
     }
 
     @Override
-    public String getResourceGroupName() {
+    public String resourceGroupName() {
         if (this.groupName == null) {
-            return ResourceUtils.groupFromResourceId(this.getId());
+            return ResourceUtils.groupFromResourceId(this.id());
         } else {
             return this.groupName;
         }
@@ -75,7 +75,7 @@ public abstract class IndependentChildImpl<
      */
     @Override
     public boolean isInCreateMode() {
-        return this.getId() == null;
+        return this.id() == null;
     }
 
     @SuppressWarnings("unchecked")
@@ -89,7 +89,7 @@ public abstract class IndependentChildImpl<
 
     @Override
     public FluentModelImplT withExistingParentResource(FluentParentModelT existingParentResource) {
-        return withExistingParentResource(existingParentResource.getResourceGroupName(), existingParentResource.getName());
+        return withExistingParentResource(existingParentResource.resourceGroupName(), existingParentResource.name());
     }
 
     @SuppressWarnings("unchecked")
@@ -118,8 +118,8 @@ public abstract class IndependentChildImpl<
     }
 
     protected void setParentName(InnerModelT inner) {
-        if (this.getId() != null) {
-            this.parentName = ResourceId.fromString(this.getId()).parent().name();
+        if (this.id() != null) {
+            this.parentName = ResourceId.fromString(this.id()).parent().name();
         }
     }
 

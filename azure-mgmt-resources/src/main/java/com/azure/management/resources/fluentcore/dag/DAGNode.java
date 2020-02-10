@@ -74,7 +74,7 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
      * @return a list of keys of nodes in {@link DAGraph} that this node depends on
      */
     public List<String> dependencyKeys() {
-        return this.getChildren();
+        return this.children();
     }
 
     /**
@@ -140,7 +140,7 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
      */
     protected void onSuccessfulResolution(String dependencyKey) {
         if (toBeResolved == 0) {
-            throw new RuntimeException("invalid state - " + this.getKey() + ": The dependency '" + dependencyKey + "' is already reported or there is no such dependencyKey");
+            throw new RuntimeException("invalid state - " + this.key() + ": The dependency '" + dependencyKey + "' is already reported or there is no such dependencyKey");
         }
         toBeResolved--;
     }
@@ -153,7 +153,7 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
      */
     protected void onFaultedResolution(String dependencyKey, Throwable throwable) {
         if (toBeResolved == 0) {
-            throw new RuntimeException("invalid state - " + this.getKey() + ": The dependency '" + dependencyKey + "' is already reported or there is no such dependencyKey");
+            throw new RuntimeException("invalid state - " + this.key() + ": The dependency '" + dependencyKey + "' is already reported or there is no such dependencyKey");
         }
         toBeResolved--;
     }

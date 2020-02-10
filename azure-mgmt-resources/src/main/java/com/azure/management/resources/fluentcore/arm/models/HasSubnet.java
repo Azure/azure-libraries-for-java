@@ -15,12 +15,12 @@ public interface HasSubnet {
     /**
      * @return the resource ID of the virtual network whose subnet is associated with this resource
      */
-    String getNetworkId();
+    String networkId();
 
     /**
      * @return the name of the subnet associated with this resource
      */
-    String getSubnetName();
+    String subnetName();
 
     /**
      * Grouping of definition stages involving associating an existing subnet with a resource.

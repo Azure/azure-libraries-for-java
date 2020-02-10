@@ -78,7 +78,7 @@ public class Graph<DataT, NodeT extends Node<DataT, NodeT>> {
      */
     public void addNode(NodeT node) {
         node.setOwner(this);
-        nodeTable.put(node.getKey(), node);
+        nodeTable.put(node.key(), node);
     }
 
     /**
@@ -106,11 +106,11 @@ public class Graph<DataT, NodeT extends Node<DataT, NodeT>> {
     private void dfs(Visitor visitor, Node<DataT, NodeT> node) {
         visitor.visitNode(node);
 
-        String fromKey = node.getKey();
+        String fromKey = node.key();
         visited.add(fromKey);
         time++;
         entryTime.put(fromKey, time);
-        for (String toKey : node.getChildren()) {
+        for (String toKey : node.children()) {
             if (!visited.contains(toKey)) {
                 parent.put(toKey, fromKey);
                 visitor.visitEdge(fromKey, toKey, edgeType(fromKey, toKey));

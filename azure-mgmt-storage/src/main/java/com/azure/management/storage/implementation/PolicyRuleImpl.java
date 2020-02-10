@@ -153,7 +153,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public ManagementPolicyRule getInner() {
+    public ManagementPolicyRule inner() {
         return this.inner;
     }
 
@@ -297,7 +297,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public ManagementPolicy.Update getParent() {
+    public ManagementPolicy.Update parent() {
         this.managementPolicyImpl.defineRule(this);
         return this.managementPolicyImpl;
     }

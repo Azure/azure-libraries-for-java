@@ -49,11 +49,11 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     protected ExecutableImpl(String key) {
         super(key);
-        taskGroup = new TaskGroup(this.getKey(), new ExecuteTask(this));
+        taskGroup = new TaskGroup(this.key(), new ExecuteTask(this));
     }
 
     @Override
-    public TaskGroup getTaskGroup() {
+    public TaskGroup taskGroup() {
         return this.taskGroup;
     }
 
@@ -77,8 +77,8 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     protected String addDependency(TaskGroup.HasTaskGroup dependency) {
         Objects.requireNonNull(dependency);
-        this.taskGroup.addDependencyTaskGroup(dependency.getTaskGroup());
-        return dependency.getTaskGroup().getKey();
+        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
+        return dependency.taskGroup().key();
     }
 
     /**
@@ -127,7 +127,7 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     public String addPostRunDependent(FunctionalTaskItem dependent) {
         Objects.requireNonNull(dependent);
-        return this.getTaskGroup().addPostRunDependent(dependent);
+        return this.taskGroup().addPostRunDependent(dependent);
     }
 
     /**
@@ -138,8 +138,8 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     protected String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
         Objects.requireNonNull(dependent);
-        this.taskGroup.addPostRunDependentTaskGroup(dependent.getTaskGroup());
-        return dependent.getTaskGroup().getKey();
+        this.taskGroup.addPostRunDependentTaskGroup(dependent.taskGroup());
+        return dependent.taskGroup().key();
     }
 
     /**

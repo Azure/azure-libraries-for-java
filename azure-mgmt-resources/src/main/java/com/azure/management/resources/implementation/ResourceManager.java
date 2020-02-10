@@ -267,7 +267,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
 //    }
 
     @Override
-    public ResourceManagementClientImpl getInner() {
+    public ResourceManagementClientImpl inner() {
         return this.resourceManagementClient;
     }
 }

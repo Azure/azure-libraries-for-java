@@ -80,12 +80,12 @@ class ServicePrincipalImpl
 
     @Override
     public String applicationId() {
-        return getInner().getAppId();
+        return inner().getAppId();
     }
 
     @Override
     public List<String> servicePrincipalNames() {
-        return getInner().getServicePrincipalNames();
+        return inner().getServicePrincipalNames();
     }
 
     @Override
@@ -105,7 +105,7 @@ class ServicePrincipalImpl
 
     @Override
     protected Mono<ServicePrincipalInner> getInnerAsync() {
-        return manager.getInner().servicePrincipals().getAsync(getId());
+        return manager.inner().servicePrincipals().getAsync(id());
     }
 
     @Override
@@ -113,10 +113,10 @@ class ServicePrincipalImpl
         Mono<ServicePrincipal> sp = Mono.just(this);
         if (isInCreateMode()) {
             if (applicationCreatable != null) {
-                ActiveDirectoryApplication application = this.taskResult(applicationCreatable.getKey());
+                ActiveDirectoryApplication application = this.taskResult(applicationCreatable.key());
                 createParameters.setAppId(application.applicationId());
             }
-            sp = manager.getInner().servicePrincipals().createAsync(createParameters)
+            sp = manager.inner().servicePrincipals().createAsync(createParameters)
                     .map(innerToFluentMap(this));
         }
         return sp.flatMap((Function<ServicePrincipal, Mono<ServicePrincipal>>) servicePrincipal -> submitCredentialsAsync(servicePrincipal).mergeWith(submitRolesAsync(servicePrincipal)).last()).map(servicePrincipal -> {
@@ -140,14 +140,14 @@ class ServicePrincipalImpl
                 newCerts.remove(delete);
             }
             for (CertificateCredential create : certificateCredentialsToCreate) {
-                newCerts.put(create.getName(), create);
+                newCerts.put(create.name(), create);
             }
             List<KeyCredentialInner> updateKeyCredentials = new ArrayList<>();
             for (CertificateCredential certificateCredential: newCerts.values()) {
-                updateKeyCredentials.add(certificateCredential.getInner());
+                updateKeyCredentials.add(certificateCredential.inner());
             }
-            mono = mono.mergeWith(getManager().getInner().servicePrincipals().updateKeyCredentialsAsync(
-                    sp.getId(),
+            mono = mono.mergeWith(manager().inner().servicePrincipals().updateKeyCredentialsAsync(
+                    sp.id(),
                     new KeyCredentialsUpdateParameters().setValue(updateKeyCredentials)
             ).then(Mono.just(ServicePrincipalImpl.this))).last();
         }
@@ -157,14 +157,14 @@ class ServicePrincipalImpl
                 newPasses.remove(delete);
             }
             for (PasswordCredential create : passwordCredentialsToCreate) {
-                newPasses.put(create.getName(), create);
+                newPasses.put(create.name(), create);
             }
             List<PasswordCredentialInner> updatePasswordCredentials = new ArrayList<>();
             for (PasswordCredential passwordCredential: newPasses.values()) {
-                updatePasswordCredentials.add(passwordCredential.getInner());
+                updatePasswordCredentials.add(passwordCredential.inner());
             }
-            mono = mono.mergeWith(getManager().getInner().servicePrincipals().updatePasswordCredentialsAsync(
-                    sp.getId(),
+            mono = mono.mergeWith(manager().inner().servicePrincipals().updatePasswordCredentialsAsync(
+                    sp.id(),
                     new PasswordCredentialsUpdateParameters().setValue(updatePasswordCredentials)
             ).then(Mono.just(ServicePrincipalImpl.this))).last();
         }
@@ -184,7 +184,7 @@ class ServicePrincipalImpl
                     .flatMap((Function<Iterator<Map.Entry<String, BuiltInRole>>, Mono<Indexable>>) entryIterator -> {
                         if (entryIterator.hasNext()) {
                             Map.Entry<String, BuiltInRole> role = entryIterator.next();
-                            return getManager().roleAssignments().define(SdkContext.randomUuid())
+                            return manager().roleAssignments().define(SdkContext.randomUuid())
                                     .forServicePrincipal(servicePrincipal)
                                     .withBuiltInRole(role.getValue())
                                     .withScope(role.getKey())
@@ -192,7 +192,7 @@ class ServicePrincipalImpl
                         }
                         return null;
                     })
-                    .doOnNext(indexable -> cachedRoleAssignments.put(((RoleAssignment)indexable).getId(), (RoleAssignment)indexable))
+                    .doOnNext(indexable -> cachedRoleAssignments.put(((RoleAssignment)indexable).id(), (RoleAssignment)indexable))
                     .map(new Function<Indexable, ServicePrincipal>() {
                         @Override
                         public ServicePrincipal apply(Indexable indexable) {
@@ -208,11 +208,11 @@ class ServicePrincipalImpl
             delete = Mono.just(rolesToDelete.iterator())
                     .flatMap((Function<Iterator<String>, Mono<RoleAssignment>>) stringIterator -> {
                         if (stringIterator.hasNext()) {
-                            return (Mono<RoleAssignment>)getManager().roleAssignments().deleteByIdAsync(cachedRoleAssignments.get(stringIterator.next()).getId());
+                            return (Mono<RoleAssignment>) manager().roleAssignments().deleteByIdAsync(cachedRoleAssignments.get(stringIterator.next()).id());
                         }
                         return null;
                     })
-                    .doOnNext(roleAssignment -> cachedRoleAssignments.remove(roleAssignment.getId()))
+                    .doOnNext(roleAssignment -> cachedRoleAssignments.remove(roleAssignment.id()))
                     .map(roleAssignment -> {
                         rolesToDelete.clear();
                         return servicePrincipal;
@@ -223,7 +223,7 @@ class ServicePrincipalImpl
 
     @Override
     public boolean isInCreateMode() {
-        return getId() == null;
+        return id() == null;
     }
 
     Mono<ServicePrincipal> refreshCredentialsAsync() {
@@ -234,18 +234,18 @@ class ServicePrincipalImpl
                 servicePrincipal.cachedPasswordCredentials.clear();
                 return servicePrincipal;
             }
-        }).mergeWith(getManager().getInner().servicePrincipals().listKeyCredentialsAsync(getId()).map(new Function<KeyCredentialInner, ServicePrincipal>() {
+        }).mergeWith(manager().inner().servicePrincipals().listKeyCredentialsAsync(id()).map(new Function<KeyCredentialInner, ServicePrincipal>() {
             @Override
             public ServicePrincipal apply(KeyCredentialInner keyCredentialInner) {
                 CertificateCredential credential = new CertificateCredentialImpl<>(keyCredentialInner);
-                ServicePrincipalImpl.this.cachedCertificateCredentials.put(credential.getName(), credential);
+                ServicePrincipalImpl.this.cachedCertificateCredentials.put(credential.name(), credential);
                 return ServicePrincipalImpl.this;
             }
-        })).mergeWith(getManager().getInner().servicePrincipals().listPasswordCredentialsAsync(getId()).map(new Function<PasswordCredentialInner, ServicePrincipal>() {
+        })).mergeWith(manager().inner().servicePrincipals().listPasswordCredentialsAsync(id()).map(new Function<PasswordCredentialInner, ServicePrincipal>() {
             @Override
             public ServicePrincipal apply(PasswordCredentialInner passwordCredentialInner) {
                 PasswordCredential credential = new PasswordCredentialImpl<>(passwordCredentialInner);
-                ServicePrincipalImpl.this.cachedPasswordCredentials.put(credential.getName(), credential);
+                ServicePrincipalImpl.this.cachedPasswordCredentials.put(credential.name(), credential);
                 return ServicePrincipalImpl.this;
             }
         })).last();
@@ -328,7 +328,7 @@ class ServicePrincipalImpl
 
     @Override
     public ServicePrincipalImpl withNewApplication(String signOnUrl) {
-        return withNewApplication(manager.applications().define(getName())
+        return withNewApplication(manager.applications().define(name())
                 .withSignOnUrl(signOnUrl)
                 .withIdentifierUrl(signOnUrl));
     }
@@ -347,22 +347,22 @@ class ServicePrincipalImpl
 
     @Override
     public ServicePrincipalImpl withNewRoleInResourceGroup(BuiltInRole role, ResourceGroup resourceGroup) {
-        return withNewRole(role, resourceGroup.getId());
+        return withNewRole(role, resourceGroup.id());
     }
 
     @Override
     public Update withoutRole(RoleAssignment roleAssignment) {
-        this.rolesToDelete.add(roleAssignment.getId());
+        this.rolesToDelete.add(roleAssignment.id());
         return this;
     }
 
     @Override
-    public String getId() {
-        return getInner().getObjectId();
+    public String id() {
+        return inner().getObjectId();
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 }

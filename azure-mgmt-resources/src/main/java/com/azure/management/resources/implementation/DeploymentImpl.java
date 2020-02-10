@@ -73,43 +73,43 @@ public final class DeploymentImpl extends
 
     @Override
     public String provisioningState() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getProvisioningState();
+        return this.inner().getProperties().getProvisioningState();
     }
 
     @Override
     public String correlationId() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getCorrelationId();
+        return this.inner().getProperties().getCorrelationId();
     }
 
     @Override
     public OffsetDateTime timestamp() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getTimestamp();
+        return this.inner().getProperties().getTimestamp();
     }
 
     @Override
     public Object outputs() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getOutputs();
+        return this.inner().getProperties().getOutputs();
     }
 
     @Override
     public List<Provider> providers() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
         List<Provider> providers = new ArrayList<>();
-        for (ProviderInner providerInner : this.getInner().getProperties().getProviders()) {
+        for (ProviderInner providerInner : this.inner().getProperties().getProviders()) {
             providers.add(new ProviderImpl(providerInner));
         }
         return providers;
@@ -117,55 +117,55 @@ public final class DeploymentImpl extends
 
     @Override
     public List<Dependency> dependencies() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getDependencies();
+        return this.inner().getProperties().getDependencies();
     }
 
     @Override
     public Object template() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getTemplate();
+        return this.inner().getProperties().getTemplate();
     }
 
     @Override
     public TemplateLink templateLink() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getTemplateLink();
+        return this.inner().getProperties().getTemplateLink();
     }
 
     @Override
     public Object parameters() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getParameters();
+        return this.inner().getProperties().getParameters();
     }
 
     @Override
     public ParametersLink parametersLink() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getParametersLink();
+        return this.inner().getProperties().getParametersLink();
     }
 
     @Override
     public DeploymentMode mode() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return getInner().getProperties().getMode();
+        return inner().getProperties().getMode();
     }
 
     @Override
     public DeploymentOperations deploymentOperations() {
-        return new DeploymentOperationsImpl(this.getManager().getInner().deploymentOperations(), this);
+        return new DeploymentOperationsImpl(this.manager().inner().deploymentOperations(), this);
     }
 
     @Override
@@ -175,7 +175,7 @@ public final class DeploymentImpl extends
 
     @Override
     public Mono<Void> cancelAsync() {
-        return this.getManager().getInner().deployments().cancelAsync(resourceGroupName, getName());
+        return this.manager().inner().deployments().cancelAsync(resourceGroupName, name());
     }
 
 
@@ -186,7 +186,7 @@ public final class DeploymentImpl extends
 
     @Override
     public Mono<DeploymentExportResult> exportTemplateAsync() {
-        return this.getManager().getInner().deployments().exportTemplateAsync(resourceGroupName(), getName()).map(deploymentExportResultInner -> new DeploymentExportResultImpl(deploymentExportResultInner));
+        return this.manager().inner().deployments().exportTemplateAsync(resourceGroupName(), name()).map(deploymentExportResultInner -> new DeploymentExportResultImpl(deploymentExportResultInner));
     }
 
     @Override
@@ -208,7 +208,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withNewResourceGroup(Creatable<ResourceGroup> resourceGroupDefinition) {
-        this.resourceGroupName = resourceGroupDefinition.getName();
+        this.resourceGroupName = resourceGroupDefinition.name();
         this.addDependency(resourceGroupDefinition);
         this.creatableResourceGroup = resourceGroupDefinition;
         return this;
@@ -222,17 +222,17 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withExistingResourceGroup(ResourceGroup resourceGroup) {
-        this.resourceGroupName = resourceGroup.getName();
+        this.resourceGroupName = resourceGroup.name();
         return this;
     }
 
     @Override
     public DeploymentImpl withTemplate(Object template) {
-        if (this.getInner().getProperties() == null) {
-            this.getInner().setProperties(new DeploymentPropertiesExtended());
+        if (this.inner().getProperties() == null) {
+            this.inner().setProperties(new DeploymentPropertiesExtended());
         }
-        this.getInner().getProperties().setTemplate(template);
-        this.getInner().getProperties().setTemplateLink(null);
+        this.inner().getProperties().setTemplate(template);
+        this.inner().getProperties().setTemplateLink(null);
         return this;
     }
 
@@ -243,30 +243,30 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withTemplateLink(String uri, String contentVersion) {
-        if (this.getInner().getProperties() == null) {
-            this.getInner().setProperties(new DeploymentPropertiesExtended());
+        if (this.inner().getProperties() == null) {
+            this.inner().setProperties(new DeploymentPropertiesExtended());
         }
-        this.getInner().getProperties().setTemplateLink(new TemplateLink().setUri(uri).setContentVersion(contentVersion));
-        this.getInner().getProperties().setTemplate(null);
+        this.inner().getProperties().setTemplateLink(new TemplateLink().setUri(uri).setContentVersion(contentVersion));
+        this.inner().getProperties().setTemplate(null);
         return this;
     }
 
     @Override
     public DeploymentImpl withMode(DeploymentMode mode) {
-        if (this.getInner().getProperties() == null) {
-            this.getInner().setProperties(new DeploymentPropertiesExtended());
+        if (this.inner().getProperties() == null) {
+            this.inner().setProperties(new DeploymentPropertiesExtended());
         }
-        this.getInner().getProperties().setMode(mode);
+        this.inner().getProperties().setMode(mode);
         return this;
     }
 
     @Override
     public DeploymentImpl withParameters(Object parameters) {
-        if (this.getInner().getProperties() == null) {
-            this.getInner().setProperties(new DeploymentPropertiesExtended());
+        if (this.inner().getProperties() == null) {
+            this.inner().setProperties(new DeploymentPropertiesExtended());
         }
-        this.getInner().getProperties().setParameters(parameters);
-        this.getInner().getProperties().setParametersLink(null);
+        this.inner().getProperties().setParameters(parameters);
+        this.inner().getProperties().setParametersLink(null);
         return this;
     }
 
@@ -277,11 +277,11 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withParametersLink(String uri, String contentVersion) {
-        if (this.getInner().getProperties() == null) {
-            this.getInner().setProperties(new DeploymentPropertiesExtended());
+        if (this.inner().getProperties() == null) {
+            this.inner().setProperties(new DeploymentPropertiesExtended());
         }
-        this.getInner().getProperties().setParametersLink(new ParametersLink().setUri(uri).setContentVersion(contentVersion));
-        this.getInner().getProperties().setParameters(null);
+        this.inner().getProperties().setParametersLink(new ParametersLink().setUri(uri).setContentVersion(contentVersion));
+        this.inner().getProperties().setParameters(null);
         return this;
     }
 
@@ -301,7 +301,7 @@ public final class DeploymentImpl extends
         if (this.creatableResourceGroup != null) {
             this.creatableResourceGroup.create();
         }
-        setInner(this.getManager().getInner().deployments().beginCreateOrUpdate(resourceGroupName(), getName(), createRequestFromInner()));
+        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), createRequestFromInner()));
         return this;
     }
 
@@ -316,13 +316,13 @@ public final class DeploymentImpl extends
                         return Mono.just((Indexable) DeploymentImpl.this);
                     }
                 })
-                .flatMap(indexable -> getManager().getInner().deployments().createOrUpdateAsync(resourceGroupName(), getName(), createRequestFromInner()))
+                .flatMap(indexable -> manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner()))
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public Mono<Deployment> createResourceAsync() {
-        return this.getManager().getInner().deployments().createOrUpdateAsync(resourceGroupName(), getName(), createRequestFromInner())
+        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner())
                 .map(innerToFluentMap(this));
     }
 
@@ -348,22 +348,22 @@ public final class DeploymentImpl extends
 
     @Override
     protected Mono<DeploymentExtendedInner> getInnerAsync() {
-        return this.getManager().getInner().deployments().getAtManagementGroupScopeAsync(resourceGroupName(), getName());
+        return this.manager().inner().deployments().getAtManagementGroupScopeAsync(resourceGroupName(), name());
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.getInner().getId() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
-    public ResourceManager getManager() {
+    public ResourceManager manager() {
         return this.resourceManager;
     }
 
     @Override
-    public String getId() {
-        return getInner().getId();
+    public String id() {
+        return inner().getId();
     }
 
     @Override
@@ -502,7 +502,7 @@ public final class DeploymentImpl extends
 
     @Override
     public Mono<WhatIfOperationResult> whatIfAsync() {
-        return this.getManager().getInner().deployments().whatIfAsync(resourceGroupName(), getName(), deploymentWhatIf)
+        return this.manager().inner().deployments().whatIfAsync(resourceGroupName(), name(), deploymentWhatIf)
                 .map(whatIfOperationResultInner -> new WhatIfOperationResultImpl(whatIfOperationResultInner));
     }
 
@@ -514,7 +514,7 @@ public final class DeploymentImpl extends
 
     @Override
     public Mono<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync() {
-        return this.getManager().getInner().deployments().whatIfAtSubscriptionScopeAsync(getName(), deploymentWhatIf)
+        return this.manager().inner().deployments().whatIfAtSubscriptionScopeAsync(name(), deploymentWhatIf)
                 .map(whatIfOperationResultInner -> new WhatIfOperationResultImpl(whatIfOperationResultInner));
     }
 }

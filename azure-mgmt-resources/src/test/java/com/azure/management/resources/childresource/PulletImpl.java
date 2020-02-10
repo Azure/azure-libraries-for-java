@@ -30,7 +30,7 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
     }
 
     public ChickenImpl attach() {
-        return this.getParent().withPullet(this);
+        return this.parent().withPullet(this);
     }
 
     @Override
@@ -41,7 +41,7 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
         }
 
         if (this.failFlag == FailFlag.OnCreate) {
-            return Mono.error(new Exception("Creation of " + this.getName() + " failed"));
+            return Mono.error(new Exception("Creation of " + this.name() + " failed"));
         }
 
         Pullet self = this;
@@ -58,7 +58,7 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
         }
 
         if (this.failFlag == FailFlag.OnUpdate) {
-            return Mono.error(new Exception("Update of " + this.getName() + " failed"));
+            return Mono.error(new Exception("Update of " + this.name() + " failed"));
         }
 
         Pullet self = this;
@@ -75,7 +75,7 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
         }
 
         if (this.failFlag == FailFlag.OnDelete) {
-            return Mono.error(new Exception("Deletion of " + this.getName() + " failed"));
+            return Mono.error(new Exception("Deletion of " + this.name() + " failed"));
         }
 
         return Mono.empty();
@@ -87,7 +87,7 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
     }
 
     @Override
-    public String getId() {
+    public String id() {
         return null;
     }
 

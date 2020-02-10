@@ -45,38 +45,38 @@ class SecretImpl
     }
 
     @Override
-    public String getId() {
-        return getInner().getId();
+    public String id() {
+        return inner().getId();
     }
 
     @Override
     public String value() {
-        return getInner().getValue();
+        return inner().getValue();
     }
 
     @Override
     public SecretProperties attributes() {
-        return getInner().getProperties();
+        return inner().getProperties();
     }
 
     @Override
     public Map<String, String> tags() {
-        return getInner().getProperties().getTags();
+        return inner().getProperties().getTags();
     }
 
     @Override
     public String contentType() {
-        return getInner().getProperties().getContentType();
+        return inner().getProperties().getContentType();
     }
 
     @Override
     public String kid() {
-        return getInner().getProperties().getKeyId();
+        return inner().getProperties().getKeyId();
     }
 
     @Override
     public boolean managed() {
-        return Utils.toPrimitiveBoolean(getInner().getProperties().isManaged());
+        return Utils.toPrimitiveBoolean(inner().getProperties().isManaged());
     }
 
     @Override
@@ -86,30 +86,30 @@ class SecretImpl
 
     @Override
     public Flux<Secret> listVersionsAsync() {
-        return vault.secretClient().listPropertiesOfSecretVersions(getName())
+        return vault.secretClient().listPropertiesOfSecretVersions(name())
                 .flatMap(p -> vault.secretClient().getSecret(p.getName(), p.getVersion()))
                 .map(this::wrapModel);
     }
 
     @Override
     protected Mono<KeyVaultSecret> getInnerAsync() {
-        return vault.secretClient().getSecret(getName(), null);
+        return vault.secretClient().getSecret(name(), null);
     }
 
     @Override
     public SecretImpl withTags(Map<String, String> tags) {
-        this.getInner().getProperties().setTags(tags);
+        this.inner().getProperties().setTags(tags);
         return this;
     }
 
     @Override
     public boolean isInCreateMode() {
-        return getId() == null;
+        return id() == null;
     }
 
     @Override
     public Mono<Secret> createResourceAsync() {
-        KeyVaultSecret newSecret = new KeyVaultSecret(this.getName(), valueToSet);
+        KeyVaultSecret newSecret = new KeyVaultSecret(this.name(), valueToSet);
         newSecret.setProperties(this.attributes());
         return vault.secretClient().setSecret(newSecret)
                 .map(inner -> {
@@ -125,7 +125,7 @@ class SecretImpl
             // if no update on value, just update properties
             return vault.secretClient().updateSecretProperties(this.attributes())
                     .map(p -> {
-                        this.getInner().setProperties(p);
+                        this.inner().setProperties(p);
                         return this;
                     });
         } else {
@@ -135,7 +135,7 @@ class SecretImpl
 
     @Override
     public SecretImpl withAttributes(SecretProperties attributes) {
-        this.getInner().setProperties(attributes);
+        this.inner().setProperties(attributes);
         return this;
     }
 
@@ -154,7 +154,7 @@ class SecretImpl
 
     @Override
     public SecretImpl withContentType(String contentType) {
-        this.getInner().getProperties().setContentType(contentType);
+        this.inner().getProperties().setContentType(contentType);
         return this;
     }
 }

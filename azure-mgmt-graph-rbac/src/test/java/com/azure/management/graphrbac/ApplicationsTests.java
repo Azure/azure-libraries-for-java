@@ -31,10 +31,10 @@ public class ApplicationsTests extends GraphRbacManagementTest {
                         .withDuration(Duration.ofDays(100))
                         .attach()
                     .create();
-            System.out.println(application.getId() + " - " + application.applicationId());
-            Assert.assertNotNull(application.getId());
+            System.out.println(application.id() + " - " + application.applicationId());
+            Assert.assertNotNull(application.id());
             Assert.assertNotNull(application.applicationId());
-            Assert.assertEquals(name, application.getName());
+            Assert.assertEquals(name, application.name());
             Assert.assertEquals(1, application.certificateCredentials().size());
             Assert.assertEquals(1, application.passwordCredentials().size());
             Assert.assertEquals(1, application.replyUrls().size());
@@ -44,11 +44,11 @@ public class ApplicationsTests extends GraphRbacManagementTest {
             application.update()
                     .withoutCredential("passwd")
                     .apply();
-            System.out.println(application.getId() + " - " + application.applicationId());
+            System.out.println(application.id() + " - " + application.applicationId());
             Assert.assertEquals(0, application.passwordCredentials().size());
         } finally {
             if (application != null) {
-                graphRbacManager.applications().deleteById(application.getId());
+                graphRbacManager.applications().deleteById(application.id());
             }
         }
     }

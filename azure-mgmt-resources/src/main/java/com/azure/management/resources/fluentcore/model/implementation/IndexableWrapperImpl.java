@@ -26,7 +26,7 @@ public abstract class IndexableWrapperImpl<InnerT>
     }
 
     @Override
-    public InnerT getInner() {
+    public InnerT inner() {
         return this.innerObject;
     }
 

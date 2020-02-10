@@ -47,13 +47,13 @@ final class DeploymentsImpl
     @Override
     public PagedIterable<Deployment> listByResourceGroup(String groupName) {
         // FIXME: filter & top parameter
-        return this.getManager().getInner().deployments().listByResourceGroup(groupName, null, null).mapPage(inner -> createFluentModel(inner));
+        return this.manager().inner().deployments().listByResourceGroup(groupName, null, null).mapPage(inner -> createFluentModel(inner));
     }
 
     @Override
     public Deployment getByName(String name) {
         for (ResourceGroup group : this.resourceManager.resourceGroups().list()) {
-            DeploymentExtendedInner inner = this.getManager().getInner().deployments().getAtManagementGroupScope(group.getName(), name);
+            DeploymentExtendedInner inner = this.manager().inner().deployments().getAtManagementGroupScope(group.name(), name);
             if (inner != null) {
                 return createFluentModel(inner);
             }
@@ -69,7 +69,7 @@ final class DeploymentsImpl
 
     @Override
     public Mono<Deployment> getByResourceGroupAsync(String groupName, String name) {
-        return this.getManager().getInner().deployments().getByResourceGroupAsync(groupName, name).map(deploymentExtendedInner -> {
+        return this.manager().inner().deployments().getByResourceGroupAsync(groupName, name).map(deploymentExtendedInner -> {
             if (deploymentExtendedInner != null) {
                 return createFluentModel(deploymentExtendedInner);
             } else {
@@ -86,7 +86,7 @@ final class DeploymentsImpl
 
     @Override
     public Mono<Void> deleteByResourceGroupAsync(String groupName, String name) {
-        return this.getManager().getInner().deployments().deleteAsync(groupName, name);
+        return this.manager().inner().deployments().deleteAsync(groupName, name);
     }
 
     @Override
@@ -127,7 +127,7 @@ final class DeploymentsImpl
     }
 
     @Override
-    public ResourceManager getManager() {
+    public ResourceManager manager() {
         return this.resourceManager;
     }
 
@@ -142,7 +142,7 @@ final class DeploymentsImpl
 
     @Override
     public PagedFlux<Deployment> listByResourceGroupAsync(String resourceGroupName) {
-        final DeploymentsInner client = this.getManager().getInner().deployments();
+        final DeploymentsInner client = this.manager().inner().deployments();
         // FIXME: filter & top
         return client.listByResourceGroupAsync(resourceGroupName, null, null).mapPage(deploymentExtendedInner -> createFluentModel(deploymentExtendedInner));
     }

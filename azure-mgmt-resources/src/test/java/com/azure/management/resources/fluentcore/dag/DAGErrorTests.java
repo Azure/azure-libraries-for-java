@@ -106,13 +106,13 @@ public class DAGErrorTests {
         final Set<String> seen = new HashSet<>();
         final List<Throwable> exceptions = new ArrayList<>();
 
-        TaskGroup pancakeFtg = pancakeF.getTaskGroup();
+        TaskGroup pancakeFtg = pancakeF.taskGroup();
         TaskGroup.InvocationContext context = pancakeFtg.newInvocationContext()
                 .withTerminateOnErrorStrategy(TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
         IPancake rootPancake = pancakeFtg.invokeAsync(context).map(indexable -> {
             IPancake pancake = (IPancake) indexable;
-            System.out.println("map.onNext: " + pancake.getName());
-            seen.add(pancake.getName());
+            System.out.println("map.onNext: " + pancake.name());
+            seen.add(pancake.name());
             return pancake;
         })
                 .onErrorResume(throwable -> {
@@ -224,14 +224,14 @@ public class DAGErrorTests {
         final Set<String> seen = new HashSet<>();
         final List<Throwable> exceptions = new ArrayList<>();
 
-        TaskGroup pastaFtg = pastaF.getTaskGroup();
+        TaskGroup pastaFtg = pastaF.taskGroup();
         TaskGroup.InvocationContext context = pastaFtg.newInvocationContext()
                 .withTerminateOnErrorStrategy(TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_HITTING_LCA_TASK);
 
         IPasta rootPasta = pastaFtg.invokeAsync(context).map(indexable -> {
             IPasta pasta = (IPasta) indexable;
-            System.out.println("map.onNext: " + pasta.getName());
-            seen.add(pasta.getName());
+            System.out.println("map.onNext: " + pasta.name());
+            seen.add(pasta.name());
             return pasta;
         })
                 .onErrorResume(throwable -> {
@@ -339,13 +339,13 @@ public class DAGErrorTests {
         final Set<String> seen = new TreeSet<>();
         final List<Throwable> exceptions = new ArrayList<>();
 
-        TaskGroup pancakeFtg = pancakeF.getTaskGroup();
+        TaskGroup pancakeFtg = pancakeF.taskGroup();
         TaskGroup.InvocationContext context = pancakeFtg.newInvocationContext()
                 .withTerminateOnErrorStrategy(TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
 
         IPancake rootPancake = pancakeFtg.invokeAsync(context).map(indexable -> {
             IPancake pancake = (IPancake) indexable;
-            String name = pancake.getName();
+            String name = pancake.name();
             System.out.println("map.onNext:" + name);
             seen.add(name);
             return pancake;
@@ -457,13 +457,13 @@ public class DAGErrorTests {
         final Set<String> seen = new HashSet<>();
         final List<Throwable> exceptions = new ArrayList<>();
 
-        TaskGroup pancakeFtg = pancakeF.getTaskGroup();
+        TaskGroup pancakeFtg = pancakeF.taskGroup();
         TaskGroup.InvocationContext context = pancakeFtg.newInvocationContext()
                 .withTerminateOnErrorStrategy(TaskGroupTerminateOnErrorStrategy.TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION);
         IPancake rootPancake = pancakeFtg.invokeAsync(context).map(indexable -> {
             IPancake pancake = (IPancake) indexable;
-            seen.add(pancake.getName());
-            System.out.println("map.onNext:" + pancake.getName());
+            seen.add(pancake.name());
+            System.out.println("map.onNext:" + pancake.name());
             return pancake;
         }).onErrorResume(throwable -> {
             System.out.println("map.onErrorResumeNext:" + throwable);

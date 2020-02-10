@@ -32,7 +32,7 @@ public final class VoidIndexable implements Indexable {
     }
 
     @Override
-    public String getKey() {
+    public String key() {
         return this.key;
     }
 }

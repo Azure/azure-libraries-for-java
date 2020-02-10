@@ -7,7 +7,6 @@
 package com.azure.management.resources.fluentcore.model.implementation;
 
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.model.Indexable;
 
 import java.util.UUID;
 
@@ -27,13 +26,13 @@ abstract class IndexableImpl implements Indexable {
     }
 
     @Override
-    public String getKey() {
+    public String key() {
         return this.key;
     }
 
     @Override
     public String toString() {
-        return this.getKey();
+        return this.key();
     }
 }
 

@@ -37,47 +37,47 @@ final class DeploymentOperationImpl extends
 
     @Override
     public String operationId() {
-        return getInner().getOperationId();
+        return inner().getOperationId();
     }
 
     @Override
     public String provisioningState() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getProvisioningState();
+        return this.inner().getProperties().getProvisioningState();
     }
 
     @Override
     public OffsetDateTime timestamp() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getTimestamp();
+        return this.inner().getProperties().getTimestamp();
     }
 
     @Override
     public String statusCode() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getStatusCode();
+        return this.inner().getProperties().getStatusCode();
     }
 
     @Override
     public Object statusMessage() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getStatusMessage();
+        return this.inner().getProperties().getStatusMessage();
     }
 
     @Override
     public TargetResource targetResource() {
-        if (this.getInner().getProperties() == null) {
+        if (this.inner().getProperties() == null) {
             return null;
         }
-        return this.getInner().getProperties().getTargetResource();
+        return this.inner().getProperties().getTargetResource();
     }
 
     @Override

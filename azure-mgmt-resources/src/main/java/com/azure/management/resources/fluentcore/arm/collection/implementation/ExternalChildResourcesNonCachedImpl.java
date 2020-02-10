@@ -63,7 +63,7 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     protected final FluentModelTImpl prepareInlineDefine(FluentModelTImpl model) {
         FluentModelTImpl childResource = find(model.childResourceKey());
         if (childResource != null) {
-            throw new IllegalArgumentException(pendingOperationMessage(model.getName(), model.childResourceKey()));
+            throw new IllegalArgumentException(pendingOperationMessage(model.name(), model.childResourceKey()));
         }
         model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
         this.childCollection.put(model.childResourceKey(), model);
@@ -79,7 +79,7 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     protected final FluentModelTImpl prepareInlineUpdate(FluentModelTImpl model) {
         FluentModelTImpl childResource = find(model.childResourceKey());
         if (childResource != null) {
-            throw new IllegalArgumentException(pendingOperationMessage(model.getName(), model.childResourceKey()));
+            throw new IllegalArgumentException(pendingOperationMessage(model.name(), model.childResourceKey()));
         }
         model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeUpdated);
         this.childCollection.put(model.childResourceKey(), model);
@@ -94,7 +94,7 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     protected final void prepareInlineRemove(FluentModelTImpl model) {
         FluentModelTImpl childResource = find(model.childResourceKey());
         if (childResource != null) {
-            throw new IllegalArgumentException(pendingOperationMessage(model.getName(), model.childResourceKey()));
+            throw new IllegalArgumentException(pendingOperationMessage(model.name(), model.childResourceKey()));
         }
         model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeRemoved);
         this.childCollection.put(model.childResourceKey(), model);

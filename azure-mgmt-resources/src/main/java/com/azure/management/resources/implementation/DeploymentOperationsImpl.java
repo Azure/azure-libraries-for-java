@@ -34,7 +34,7 @@ final class DeploymentOperationsImpl
     @Override
     public PagedIterable<DeploymentOperation> list() {
         // FIXME: THe top parameter
-        return wrapList(client.listByResourceGroup(deployment.resourceGroupName(), deployment.getName(), null));
+        return wrapList(client.listByResourceGroup(deployment.resourceGroupName(), deployment.name(), null));
     }
 
     @Override
@@ -44,7 +44,7 @@ final class DeploymentOperationsImpl
 
     @Override
     public Mono<DeploymentOperation> getByIdAsync(String operationId) {
-        return client.getAsync(deployment.resourceGroupName(), deployment.getName(), operationId).map(deploymentOperationInner -> wrapModel(deploymentOperationInner));
+        return client.getAsync(deployment.resourceGroupName(), deployment.name(), operationId).map(deploymentOperationInner -> wrapModel(deploymentOperationInner));
     }
 
     @Override
@@ -58,6 +58,6 @@ final class DeploymentOperationsImpl
     @Override
     public PagedFlux<DeploymentOperation> listAsync() {
         // FIXME:  The top parameter.
-        return wrapPageAsync(this.client.listAtManagementGroupScopeAsync(deployment.resourceGroupName(), deployment.getName(), null));
+        return wrapPageAsync(this.client.listAtManagementGroupScopeAsync(deployment.resourceGroupName(), deployment.name(), null));
     }
 }

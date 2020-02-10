@@ -17,12 +17,11 @@ import com.azure.management.graphrbac.models.RoleAssignmentInner;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableImpl;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.reactivestreams.Publisher;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -89,8 +88,8 @@ class RoleAssignmentImpl
                 .retryWhen(throwableFlux -> throwableFlux.zipWith(Flux.range(1, 30), (throwable, integer) -> {
                     if (throwable instanceof  CloudException) {
                         CloudException cloudException = (CloudException) throwable;
-                        if ((cloudException.getValue().getCode() != null && cloudException.getValue().getCode().equalsIgnoreCase("PrincipalNotFound"))
-                            || (cloudException.getValue()).getMessage() != null && cloudException.getValue().getMessage().toLowerCase().contains("does not exist in the directory")) {
+                        String exceptionMessage = cloudException.getMessage().toLowerCase();
+                        if (exceptionMessage.contains("principalnotfound") || exceptionMessage.contains("does not exist in the directory")) {
                             // ref: https://github.com/Azure/azure-cli/blob/dev/src/command_modules/azure-cli-role/azure/cli/command_modules/role/custom.py#L1048-L1065
                             return integer;
                         } else {
@@ -99,7 +98,7 @@ class RoleAssignmentImpl
                     } else {
                         throw Exceptions.propagate(throwable);
                     }
-                }).flatMap((Function<Integer, Publisher<?>>) i -> SdkContext.delayedEmitAsync(i, i * 1000)))).map(innerToFluentMap(this));
+                }).flatMap(i -> Mono.delay(Duration.ofSeconds(i))))).map(innerToFluentMap(this));
     }
 
     @Override

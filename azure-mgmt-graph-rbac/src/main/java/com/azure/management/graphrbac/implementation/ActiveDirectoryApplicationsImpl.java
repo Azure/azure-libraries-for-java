@@ -106,12 +106,8 @@ class ActiveDirectoryApplicationsImpl
                             nextLink -> innerCollection.listNextSinglePageAsync(nextLink)
                     ));
                 })
-                .map(result -> {
-                    if (result == null || result.toIterable() == null || !result.toIterable().iterator().hasNext()) {
-                        return null;
-                    }
-                    return new ActiveDirectoryApplicationImpl(result.toIterable().iterator().next(), manager());
-                }).flatMap((Function<ActiveDirectoryApplicationImpl, Mono<ActiveDirectoryApplication>>) application -> {
+                .map(result -> new ActiveDirectoryApplicationImpl(result.toIterable().iterator().next(), manager))
+                .switchIfEmpty(Mono.defer(() -> null)).flatMap((Function<ActiveDirectoryApplicationImpl, Mono<ActiveDirectoryApplication>>) application -> {
                     if (application == null) {
                         return null;
                     }
@@ -121,7 +117,7 @@ class ActiveDirectoryApplicationsImpl
 
     @Override
     protected ActiveDirectoryApplicationImpl wrapModel(String name) {
-        return new ActiveDirectoryApplicationImpl(new ApplicationInner().setDisplayName(name), manager());
+        return new ActiveDirectoryApplicationImpl(new ApplicationInner().setDisplayName(name), manager);
     }
 
     @Override

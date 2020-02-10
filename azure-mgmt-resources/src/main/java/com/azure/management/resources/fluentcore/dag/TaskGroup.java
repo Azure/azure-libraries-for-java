@@ -98,15 +98,15 @@ public class TaskGroup
      * @param rootTaskItem the root task
      */
     public TaskGroup(IndexableTaskItem rootTaskItem) {
-        this(new TaskGroupEntry<TaskItem>(rootTaskItem.getKey(), rootTaskItem));
+        this(new TaskGroupEntry<TaskItem>(rootTaskItem.key(), rootTaskItem));
     }
 
     /**
      * @return the key of this task group, which is same as key of the root entry in the group
      */
     @Override
-    public String getKey() {
-        return this.rootTaskEntry.getKey();
+    public String key() {
+        return this.rootTaskEntry.key();
     }
 
     /**
@@ -122,14 +122,14 @@ public class TaskGroup
     public Indexable taskResult(String taskId) {
         TaskGroupEntry<TaskItem> taskGroupEntry = super.getNode(taskId);
         if (taskGroupEntry != null) {
-            return taskGroupEntry.getTaskResult();
+            return taskGroupEntry.taskResult();
         }
         if (!this.proxyTaskGroupWrapper.isActive()) {
             throw new IllegalArgumentException("A dependency task with id '" + taskId + "' is not found");
         }
         taskGroupEntry = this.proxyTaskGroupWrapper.proxyTaskGroup.getNode(taskId);
         if (taskGroupEntry != null) {
-            return taskGroupEntry.getTaskResult();
+            return taskGroupEntry.taskResult();
         }
         throw new IllegalArgumentException("A dependency task or 'post-run' dependent task with with id '" + taskId + "' not found");
     }
@@ -141,7 +141,7 @@ public class TaskGroup
      * @return true if TaskGroup is depends on the given TaskGroup
      */
     public boolean dependsOn(TaskGroup taskGroup) {
-        return this.nodeTable.containsKey(taskGroup.root().getKey());
+        return this.nodeTable.containsKey(taskGroup.root().key());
     }
 
     /**
@@ -162,7 +162,7 @@ public class TaskGroup
     public String addDependency(FunctionalTaskItem dependencyTaskItem) {
         IndexableTaskItem dependency = IndexableTaskItem.create(dependencyTaskItem);
         this.addDependency(dependency);
-        return dependency.getKey();
+        return dependency.key();
     }
 
     /**
@@ -173,7 +173,7 @@ public class TaskGroup
      * @param hasTaskGroup an item with taskGroup that this task group depends on
      */
     public void addDependency(TaskGroup.HasTaskGroup hasTaskGroup) {
-        this.addDependencyTaskGroup(hasTaskGroup.getTaskGroup());
+        this.addDependencyTaskGroup(hasTaskGroup.taskGroup());
     }
 
     /**
@@ -202,7 +202,7 @@ public class TaskGroup
     public String addPostRunDependent(FunctionalTaskItem dependentTaskItem) {
         IndexableTaskItem taskItem = IndexableTaskItem.create(dependentTaskItem);
         this.addPostRunDependent(taskItem);
-        return taskItem.getKey();
+        return taskItem.key();
     }
 
     /**
@@ -211,7 +211,7 @@ public class TaskGroup
      * @param hasTaskGroup an item with as task group that depends on this task group
      */
     public void addPostRunDependent(TaskGroup.HasTaskGroup hasTaskGroup) {
-        this.addPostRunDependentTaskGroup(hasTaskGroup.getTaskGroup());
+        this.addPostRunDependentTaskGroup(hasTaskGroup.taskGroup());
     }
 
     /**
@@ -236,14 +236,14 @@ public class TaskGroup
     public Flux<Indexable> invokeAsync(final InvocationContext context) {
         return Flux.defer(() -> {
             if (proxyTaskGroupWrapper.isActive()) {
-                return proxyTaskGroupWrapper.getTaskGroup().invokeInternAsync(context, true, null);
+                return proxyTaskGroupWrapper.taskGroup().invokeInternAsync(context, true, null);
             } else {
                 Set<String> processedKeys = runBeforeGroupInvoke(null);
                 if (proxyTaskGroupWrapper.isActive()) {
                     // If proxy got activated after 'runBeforeGroupInvoke()' stage due to the addition of direct
                     // 'postRunDependent's then delegate group invocation to proxy group.
                     //
-                    return proxyTaskGroupWrapper.getTaskGroup().invokeInternAsync(context, true, processedKeys);
+                    return proxyTaskGroupWrapper.taskGroup().invokeInternAsync(context, true, processedKeys);
                 } else {
                     return invokeInternAsync(context, false, null);
                 }
@@ -298,9 +298,9 @@ public class TaskGroup
         do {
             hasMoreToProcess = false;
             for (TaskGroupEntry<TaskItem> entry : entries) {
-                if (!processedEntryKeys.contains(entry.getKey())) {
-                    entry.getData().beforeGroupInvoke();
-                    processedEntryKeys.add(entry.getKey());
+                if (!processedEntryKeys.contains(entry.key())) {
+                    entry.data().beforeGroupInvoke();
+                    processedEntryKeys.add(entry.key());
                 }
             }
             int prevSize = entries.size();
@@ -344,7 +344,7 @@ public class TaskGroup
         //
         while (readyTaskEntry != null) {
             final TaskGroupEntry<TaskItem> currentEntry = readyTaskEntry;
-            final TaskItem currentTaskItem = currentEntry.getData();
+            final TaskItem currentTaskItem = currentEntry.data();
             if (currentTaskItem instanceof ProxyTaskItem) {
                 observables.add(invokeAfterPostRunAsync(currentEntry, context));
             } else {
@@ -378,7 +378,7 @@ public class TaskGroup
             } else {
                 // Any cached result will be ignored for root resource
                 //
-                boolean ignoreCachedResult = isRootEntry(entry) || (entry.getProxy() != null && isRootEntry(entry.getProxy()));
+                boolean ignoreCachedResult = isRootEntry(entry) || (entry.proxy() != null && isRootEntry(entry.proxy()));
 
                 Mono<Indexable> taskObservable = entry.invokeTaskAsync(ignoreCachedResult, context);
                 return taskObservable.flatMapMany((indexable) -> Flux.just(indexable),
@@ -403,7 +403,7 @@ public class TaskGroup
     private Flux<Indexable> invokeAfterPostRunAsync(final TaskGroupEntry<TaskItem> entry,
                                                     final InvocationContext context) {
         return Flux.defer(() -> {
-            final ProxyTaskItem proxyTaskItem = (ProxyTaskItem) entry.getData();
+            final ProxyTaskItem proxyTaskItem = (ProxyTaskItem) entry.data();
             if (proxyTaskItem == null) {
                 return Flux.empty();
             }
@@ -420,7 +420,7 @@ public class TaskGroup
                                         return processFaultedTaskAsync(entry, taskCancelledException, context);
                                     }
                                 } else {
-                                    return Flux.concat(Flux.just(proxyTaskItem.getResult()),
+                                    return Flux.concat(Flux.just(proxyTaskItem.result()),
                                             processCompletedTaskAsync(entry, context));
                                 }
                             });
@@ -527,7 +527,7 @@ public class TaskGroup
         /**
          * @return Gets the task group.
          */
-        TaskGroup getTaskGroup();
+        TaskGroup taskGroup();
     }
 
     /**
@@ -552,7 +552,7 @@ public class TaskGroup
         /**
          * @return the TaskGroup this invocation context associated with.
          */
-        public TaskGroup getTaskGroup() {
+        public TaskGroup taskGroup() {
             return this.taskGroup;
         }
 
@@ -644,7 +644,7 @@ public class TaskGroup
         /**
          * @return the wrapped proxy task group.
          */
-        TaskGroup getTaskGroup() {
+        TaskGroup taskGroup() {
             return this.proxyTaskGroup;
         }
 
@@ -685,15 +685,15 @@ public class TaskGroup
                 // Creates proxy TaskGroup with an instance of ProxyTaskItem as root TaskItem which delegates actions on
                 // it to "actual TaskGroup"'s root.
                 //
-                ProxyTaskItem proxyTaskItem = new ProxyTaskItem(this.actualTaskGroup.root().getData());
-                this.proxyTaskGroup = new TaskGroup("proxy-" + this.actualTaskGroup.root().getKey(),
+                ProxyTaskItem proxyTaskItem = new ProxyTaskItem(this.actualTaskGroup.root().data());
+                this.proxyTaskGroup = new TaskGroup("proxy-" + this.actualTaskGroup.root().key(),
                         proxyTaskItem);
 
                 if (this.actualTaskGroup.hasParents()) {
                     // Once "proxy TaskGroup" is enabled, all existing TaskGroups depends on "actual TaskGroup" should
                     // take dependency on "proxy TaskGroup".
                     //
-                    String atgRootKey = this.actualTaskGroup.root().getKey();
+                    String atgRootKey = this.actualTaskGroup.root().key();
                     for (DAGraph<TaskItem, TaskGroupEntry<TaskItem>> parentDAG : this.actualTaskGroup.parentDAGs) {
                         parentDAG.root().removeDependency(atgRootKey);
                         parentDAG.addDependencyGraph(this.proxyTaskGroup);
@@ -723,8 +723,8 @@ public class TaskGroup
         }
 
         @Override
-        public Indexable getResult() {
-            return actualTaskItem.getResult();
+        public Indexable result() {
+            return actualTaskItem.result();
         }
 
 
@@ -740,7 +740,7 @@ public class TaskGroup
 
         @Override
         public Mono<Indexable> invokeAsync(InvocationContext context) {
-            return Mono.just(actualTaskItem.getResult());
+            return Mono.just(actualTaskItem.result());
         }
 
         @Override

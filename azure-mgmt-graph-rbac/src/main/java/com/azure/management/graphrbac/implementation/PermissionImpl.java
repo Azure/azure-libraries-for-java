@@ -24,21 +24,21 @@ class PermissionImpl
 
     @Override
     public List<String> actions() {
-        return getInner().getActions();
+        return inner().getActions();
     }
 
     @Override
     public List<String> notActions() {
-        return getInner().getNotActions();
+        return inner().getNotActions();
     }
 
     @Override
     public List<String> dataActions() {
-        return getInner().getDataActions();
+        return inner().getDataActions();
     }
 
     @Override
     public List<String> notDataActions() {
-        return getInner().getNotDataActions();
+        return inner().getNotDataActions();
     }
 }

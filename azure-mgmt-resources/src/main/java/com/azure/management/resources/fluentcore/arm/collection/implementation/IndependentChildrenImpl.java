@@ -57,7 +57,7 @@ public abstract class IndependentChildrenImpl<
     }
 
     @Override
-    public InnerCollectionT getInner() {
+    public InnerCollectionT inner() {
         return this.innerCollection;
     }
 
@@ -73,7 +73,7 @@ public abstract class IndependentChildrenImpl<
 
     @Override
     public Mono<T> getByParentAsync(ParentT parentResource, String name) {
-        return getByParentAsync(parentResource.getResourceGroupName(), parentResource.getName(), name);
+        return getByParentAsync(parentResource.resourceGroupName(), parentResource.name(), name);
     }
 
     @Override
@@ -93,7 +93,7 @@ public abstract class IndependentChildrenImpl<
 
     @Override
     public PagedIterable<T> listByParent(ParentT parentResource) {
-        return listByParent(parentResource.getResourceGroupName(), parentResource.getName());
+        return listByParent(parentResource.resourceGroupName(), parentResource.name());
     }
 
     @Override
@@ -108,7 +108,7 @@ public abstract class IndependentChildrenImpl<
     }
 
     @Override
-    public ManagerT getManager() {
+    public ManagerT manager() {
         return this.manager;
     }
 }

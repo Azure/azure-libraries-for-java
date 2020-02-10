@@ -25,7 +25,7 @@ final class IdentitesImpl
 
     @Override
     protected IdentityImpl wrapModel(String name) {
-        return new IdentityImpl(name, new IdentityInner(), this.getManager());
+        return new IdentityImpl(name, new IdentityInner(), this.manager());
     }
 
     @Override
@@ -33,7 +33,7 @@ final class IdentitesImpl
         if (inner == null) {
             return null;
         } else {
-            return new IdentityImpl(inner.getName(), inner, this.getManager());
+            return new IdentityImpl(inner.getName(), inner, this.manager());
         }
     }
 

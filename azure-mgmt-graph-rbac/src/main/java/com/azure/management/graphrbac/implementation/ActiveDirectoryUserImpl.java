@@ -10,13 +10,11 @@ import com.azure.management.graphrbac.ActiveDirectoryUser;
 import com.azure.management.graphrbac.PasswordProfile;
 import com.azure.management.graphrbac.UserCreateParameters;
 import com.azure.management.graphrbac.UserUpdateParameters;
-import com.azure.management.graphrbac.models.DomainInner;
 import com.azure.management.graphrbac.models.UserInner;
 import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import reactor.core.publisher.Mono;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -36,19 +34,19 @@ class ActiveDirectoryUserImpl
     ActiveDirectoryUserImpl(UserInner innerObject, GraphRbacManager manager) {
         super(innerObject.getDisplayName(), innerObject);
         this.manager = manager;
-        this.createParameters = new UserCreateParameters().setDisplayName(getName()).setAccountEnabled(true);
-        this.updateParameters = new UserUpdateParameters().setDisplayName(getName());
+        this.createParameters = new UserCreateParameters().setDisplayName(name()).setAccountEnabled(true);
+        this.updateParameters = new UserUpdateParameters().setDisplayName(name());
     }
 
     @Override
     public String userPrincipalName() {
-        return getInner().getUserPrincipalName();
+        return inner().getUserPrincipalName();
     }
 
     @Override
     public String signInName() {
-        if (getInner().getSignInNames() != null && !getInner().getSignInNames().isEmpty()) {
-            return getInner().getSignInNames().get(0).getValue();
+        if (inner().getSignInNames() != null && !inner().getSignInNames().isEmpty()) {
+            return inner().getSignInNames().get(0).getValue();
         } else {
             return null;
         }
@@ -56,17 +54,17 @@ class ActiveDirectoryUserImpl
 
     @Override
     public String mail() {
-        return getInner().getMail();
+        return inner().getMail();
     }
 
     @Override
     public String mailNickname() {
-        return getInner().getMailNickname();
+        return inner().getMailNickname();
     }
 
     @Override
     public CountryIsoCode usageLocation() {
-        return CountryIsoCode.fromString(getInner().getUsageLocation());
+        return CountryIsoCode.fromString(inner().getUsageLocation());
     }
 
     @Override
@@ -92,19 +90,19 @@ class ActiveDirectoryUserImpl
 
     @Override
     protected Mono<UserInner> getInnerAsync() {
-        return manager.getInner().users().getAsync(this.getId());
+        return manager.inner().users().getAsync(this.id());
     }
 
     @Override
     public boolean isInCreateMode() {
-        return getId() == null;
+        return id() == null;
     }
 
     @Override
     public Mono<ActiveDirectoryUser> createResourceAsync() {
         Mono<ActiveDirectoryUserImpl> domain;
         if (emailAlias != null) {
-            domain = getManager().getInner().domains().listAsync(null)
+            domain = manager().inner().domains().listAsync(null)
                     .map(domainInner -> {
                         if (domainInner.isVerified() && domainInner.isDefault()) {
                             if (emailAlias != null) {
@@ -116,12 +114,12 @@ class ActiveDirectoryUserImpl
         } else {
             domain = Mono.just(this);
         }
-        return domain.flatMap((Function<ActiveDirectoryUserImpl, Mono<UserInner>>) activeDirectoryUser -> getManager().getInner().users().createAsync(createParameters))
+        return domain.flatMap((Function<ActiveDirectoryUserImpl, Mono<UserInner>>) activeDirectoryUser -> manager().inner().users().createAsync(createParameters))
         .map(innerToFluentMap(this));
     }
 
     public Mono<ActiveDirectoryUser> updateResourceAsync() {
-        return getManager().getInner().users().updateAsync(getId(), updateParameters)
+        return manager().inner().users().updateAsync(id(), updateParameters)
                 .then(ActiveDirectoryUserImpl.this.refreshAsync());
     }
 
@@ -138,7 +136,7 @@ class ActiveDirectoryUserImpl
 
     @Override
     public String toString() {
-        return getName() + " - " + userPrincipalName();
+        return name() + " - " + userPrincipalName();
     }
 
     @Override
@@ -156,12 +154,12 @@ class ActiveDirectoryUserImpl
     }
 
     @Override
-    public String getId() {
-        return getInner().getObjectId();
+    public String id() {
+        return inner().getObjectId();
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 }

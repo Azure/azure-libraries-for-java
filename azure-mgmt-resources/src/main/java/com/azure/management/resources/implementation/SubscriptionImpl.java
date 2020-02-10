@@ -34,22 +34,22 @@ final class SubscriptionImpl extends
 
     @Override
     public String subscriptionId() {
-        return this.getInner().getSubscriptionId();
+        return this.inner().getSubscriptionId();
     }
 
     @Override
     public String displayName() {
-        return this.getInner().getDisplayName();
+        return this.inner().getDisplayName();
     }
 
     @Override
     public SubscriptionState state() {
-        return this.getInner().getState();
+        return this.inner().getState();
     }
 
     @Override
     public SubscriptionPolicies subscriptionPolicies() {
-        return this.getInner().getSubscriptionPolicies();
+        return this.inner().getSubscriptionPolicies();
     }
 
     @Override

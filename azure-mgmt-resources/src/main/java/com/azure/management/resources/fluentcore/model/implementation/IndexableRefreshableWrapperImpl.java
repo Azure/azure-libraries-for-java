@@ -33,7 +33,7 @@ public abstract class IndexableRefreshableWrapperImpl<FluentModelT, InnerModelT>
     }
 
     @Override
-    public InnerModelT getInner() {
+    public InnerModelT inner() {
         return this.innerObject;
     }
 

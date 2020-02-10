@@ -108,8 +108,8 @@ public abstract class ExternalChildResourceCollectionImpl<
      */
     protected FluentModelTImpl prepareForFutureCommitOrPostRun(FluentModelTImpl childResource) {
         if (this.isPostRunMode) {
-            if (!childResource.getTaskGroup().dependsOn(this.parentTaskGroup)) {
-                this.parentTaskGroup.addPostRunDependentTaskGroup(childResource.getTaskGroup());
+            if (!childResource.taskGroup().dependsOn(this.parentTaskGroup)) {
+                this.parentTaskGroup.addPostRunDependentTaskGroup(childResource.taskGroup());
             }
         }
         return childResource;
@@ -146,7 +146,7 @@ public abstract class ExternalChildResourceCollectionImpl<
                         .map(response -> childResource)
                         .doOnSuccess(fluentModelT -> {
                             childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
-                            self.childCollection.remove(childResource.getName());
+                            self.childCollection.remove(childResource.name());
                             successfullyRemoved.add(childResource);
                         })
                         .onErrorResume(throwable -> {
@@ -160,7 +160,7 @@ public abstract class ExternalChildResourceCollectionImpl<
                         .map(fluentModelT -> childResource)
                         .doOnNext(fluentModelT -> childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None))
                         .onErrorResume(throwable -> {
-                            self.childCollection.remove(childResource.getName());
+                            self.childCollection.remove(childResource.name());
                             exceptionsList.add(throwable);
                             return Mono.empty();
                         }));

@@ -6,8 +6,6 @@
 
 package com.azure.management.keyvault;
 
-import java.util.List;
-
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.graphrbac.ActiveDirectoryUser;
 import com.azure.management.graphrbac.ServicePrincipal;
@@ -62,12 +60,12 @@ public class VaultTests extends KeyVaultManagementTest {
             vault = keyVaultManager.vaults().getByResourceGroup(RG_NAME, VAULT_NAME);
             Assert.assertNotNull(vault);
             for (AccessPolicy policy : vault.accessPolicies()) {
-                if (policy.objectId().equals(servicePrincipal.getId())) {
+                if (policy.objectId().equals(servicePrincipal.id())) {
                     Assert.assertArrayEquals(new KeyPermissions[] { KeyPermissions.LIST }, policy.permissions().getKeys().toArray());
                     Assert.assertEquals(SecretPermissions.values().size(), policy.permissions().getSecrets().size());
                     Assert.assertArrayEquals(new CertificatePermissions[] { CertificatePermissions.GET }, policy.permissions().getCertificates().toArray());
                 }
-                if (policy.objectId().equals(user.getId())) {
+                if (policy.objectId().equals(user.id())) {
                     Assert.assertEquals(KeyPermissions.values().size(), policy.permissions().getKeys().size());
                     Assert.assertEquals(SecretPermissions.values().size(), policy.permissions().getSecrets().size());
                     Assert.assertEquals(3, policy.permissions().getCertificates().size());
@@ -76,7 +74,7 @@ public class VaultTests extends KeyVaultManagementTest {
             // LIST
             PagedIterable<Vault> vaults = keyVaultManager.vaults().listByResourceGroup(RG_NAME);
             for (Vault v : vaults) {
-                if (VAULT_NAME.equals(v.getName())) {
+                if (VAULT_NAME.equals(v.name())) {
                     vault = v;
                     break;
                 }
@@ -84,15 +82,15 @@ public class VaultTests extends KeyVaultManagementTest {
             Assert.assertNotNull(vault);
             // UPDATE
             vault.update()
-                    .updateAccessPolicy(servicePrincipal.getId())
+                    .updateAccessPolicy(servicePrincipal.id())
                         .allowKeyAllPermissions()
                         .disallowSecretAllPermissions()
                         .allowCertificateAllPermissions()
-                        .getParent()
+                        .parent()
                     .withTag("foo", "bar")
                     .apply();
             for (AccessPolicy policy : vault.accessPolicies()) {
-                if (policy.objectId().equals(servicePrincipal.getId())) {
+                if (policy.objectId().equals(servicePrincipal.id())) {
                     Assert.assertEquals(KeyPermissions.values().size(), policy.permissions().getKeys().size());
                     Assert.assertEquals(0, policy.permissions().getSecrets().size());
                     Assert.assertEquals(CertificatePermissions.values().size(), policy.permissions().getCertificates().size());
@@ -100,12 +98,12 @@ public class VaultTests extends KeyVaultManagementTest {
             }
             
             // DELETE
-            keyVaultManager.vaults().deleteById(vault.getId());
+            keyVaultManager.vaults().deleteById(vault.id());
             SdkContext.sleep(20000);
             Assert.assertNull(keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString()));
             
         } finally {
-            graphRbacManager.servicePrincipals().deleteById(servicePrincipal.getId());
+            graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
 //            graphRbacManager.users().deleteById(user.id());
         }
     }
@@ -150,12 +148,12 @@ public class VaultTests extends KeyVaultManagementTest {
             vault = keyVaultManager.vaults().getByResourceGroupAsync(RG_NAME, VAULT_NAME).block();
             Assert.assertNotNull(vault);
             for (AccessPolicy policy : vault.accessPolicies()) {
-                if (policy.objectId().equals(servicePrincipal.getId())) {
+                if (policy.objectId().equals(servicePrincipal.id())) {
                     Assert.assertArrayEquals(new KeyPermissions[] { KeyPermissions.LIST }, policy.permissions().getKeys().toArray());
                     Assert.assertEquals(SecretPermissions.values().size(), policy.permissions().getSecrets().size());
                     Assert.assertArrayEquals(new CertificatePermissions[] { CertificatePermissions.GET }, policy.permissions().getCertificates().toArray());
                 }
-                if (policy.objectId().equals(user.getId())) {
+                if (policy.objectId().equals(user.id())) {
                     Assert.assertEquals(KeyPermissions.values().size(), policy.permissions().getKeys().size());
                     Assert.assertEquals(SecretPermissions.values().size(), policy.permissions().getSecrets().size());
                     Assert.assertEquals(3, policy.permissions().getCertificates().size());
@@ -164,7 +162,7 @@ public class VaultTests extends KeyVaultManagementTest {
             // LIST
             PagedIterable<Vault> vaults = new PagedIterable<>(keyVaultManager.vaults().listByResourceGroupAsync(RG_NAME));
             for (Vault v : vaults) {
-                if (VAULT_NAME.equals(v.getName())) {
+                if (VAULT_NAME.equals(v.name())) {
                     vault = v;
                     break;
                 }
@@ -172,15 +170,15 @@ public class VaultTests extends KeyVaultManagementTest {
             Assert.assertNotNull(vault);
             // UPDATE
             vault.update()
-                    .updateAccessPolicy(servicePrincipal.getId())
+                    .updateAccessPolicy(servicePrincipal.id())
                         .allowKeyAllPermissions()
                         .disallowSecretAllPermissions()
                         .allowCertificateAllPermissions()
-                        .getParent()
+                        .parent()
                     .withTag("foo", "bar")
                     .apply();
             for (AccessPolicy policy : vault.accessPolicies()) {
-                if (policy.objectId().equals(servicePrincipal.getId())) {
+                if (policy.objectId().equals(servicePrincipal.id())) {
                     Assert.assertEquals(KeyPermissions.values().size(), policy.permissions().getKeys().size());
                     Assert.assertEquals(0, policy.permissions().getSecrets().size());
                     Assert.assertEquals(CertificatePermissions.values().size(), policy.permissions().getCertificates().size());
@@ -188,12 +186,12 @@ public class VaultTests extends KeyVaultManagementTest {
             }
             
             // DELETE
-            keyVaultManager.vaults().deleteByIdAsync(vault.getId()).block();
+            keyVaultManager.vaults().deleteByIdAsync(vault.id()).block();
             SdkContext.sleep(20000);
             Assert.assertNull(keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString()));
             
         } finally {
-            graphRbacManager.servicePrincipals().deleteById(servicePrincipal.getId());
+            graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
 //            graphRbacManager.users().deleteById(user.id());
         }
     }
@@ -245,7 +243,7 @@ public class VaultTests extends KeyVaultManagementTest {
     	//Vault is purged
     	Assert.assertNull(keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString()));
         } finally {
-            graphRbacManager.servicePrincipals().deleteById(servicePrincipal.getId());
+            graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
            // graphRbacManager.users().deleteById(user.id());
         }
     }

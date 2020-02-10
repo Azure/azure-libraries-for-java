@@ -53,12 +53,12 @@ public abstract class GroupableResourcesImpl<
     }
 
     @Override
-    public InnerCollectionT getInner() {
+    public InnerCollectionT inner() {
         return this.innerCollection;
     }
 
     @Override
-    public ManagerT getManager() {
+    public ManagerT manager() {
         return this.myManager;
     }
 

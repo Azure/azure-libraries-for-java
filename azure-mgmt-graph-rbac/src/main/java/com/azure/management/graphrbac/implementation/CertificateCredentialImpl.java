@@ -66,17 +66,17 @@ class CertificateCredentialImpl<T>
 
     @Override
     public OffsetDateTime startDate() {
-        return getInner().getStartDate();
+        return inner().getStartDate();
     }
 
     @Override
     public OffsetDateTime endDate() {
-        return getInner().getEndDate();
+        return inner().getEndDate();
     }
 
     @Override
     public String value() {
-        return getInner().getValue();
+        return inner().getValue();
     }
 
 
@@ -90,7 +90,7 @@ class CertificateCredentialImpl<T>
     @Override
     public CertificateCredentialImpl<T> withStartDate(OffsetDateTime startDate) {
         OffsetDateTime original = startDate();
-        getInner().setStartDate(startDate);
+        inner().setStartDate(startDate);
         // Adjust end time
         withDuration(Duration.between(original, endDate()));
         return this;
@@ -98,31 +98,31 @@ class CertificateCredentialImpl<T>
 
     @Override
     public CertificateCredentialImpl<T> withDuration(Duration duration) {
-        getInner().setEndDate(startDate().plus(duration));
+        inner().setEndDate(startDate().plus(duration));
         return this;
     }
 
     @Override
     public CertificateCredentialImpl<T> withAsymmetricX509Certificate() {
-        getInner().setType(CertificateType.ASYMMETRIC_X509_CERT.toString());
+        inner().setType(CertificateType.ASYMMETRIC_X509_CERT.toString());
         return this;
     }
 
     @Override
     public CertificateCredentialImpl<T> withSymmetricEncryption() {
-        getInner().setType(CertificateType.SYMMETRIC.toString());
+        inner().setType(CertificateType.SYMMETRIC.toString());
         return this;
     }
 
     @Override
     public CertificateCredentialImpl<T> withPublicKey(byte[] certificate) {
-        getInner().setValue(Base64.getEncoder().encodeToString(certificate));
+        inner().setValue(Base64.getEncoder().encodeToString(certificate));
         return this;
     }
 
     @Override
     public CertificateCredentialImpl<T> withSecretKey(byte[] secret) {
-        getInner().setValue(Base64.getEncoder().encodeToString(secret));
+        inner().setValue(Base64.getEncoder().encodeToString(secret));
         return this;
     }
 
@@ -135,7 +135,7 @@ class CertificateCredentialImpl<T>
         builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");
         builder.append("  ").append(String.format("\"clientCertificate\": \"%s\",", privateKeyPath.replace("\\", "\\\\"))).append("\n");
         builder.append("  ").append(String.format("\"clientCertificatePassword\": \"%s\",", privateKeyPassword)).append("\n");
-        builder.append("  ").append(String.format("\"tenantId\": \"%s\",", servicePrincipal.getManager().tenantId())).append("\n");
+        builder.append("  ").append(String.format("\"tenantId\": \"%s\",", servicePrincipal.manager().tenantId())).append("\n");
         builder.append("  ").append(String.format("\"subscriptionId\": \"%s\",", servicePrincipal.assignedSubscription)).append("\n");
         builder.append("  ").append(String.format("\"activeDirectoryEndpointUrl\": \"%s\",", environment.getActiveDirectoryEndpoint())).append("\n");
         builder.append("  ").append(String.format("\"resourceManagerEndpointUrl\": \"%s\",", environment.getResourceManagerEndpoint())).append("\n");
@@ -168,12 +168,12 @@ class CertificateCredentialImpl<T>
     }
 
     @Override
-    public String getId() {
-        return getInner().getKeyId();
+    public String id() {
+        return inner().getKeyId();
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return this.name;
     }
 }

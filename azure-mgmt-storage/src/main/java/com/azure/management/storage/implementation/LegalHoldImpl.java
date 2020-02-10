@@ -22,18 +22,18 @@ class LegalHoldImpl extends WrapperImpl<LegalHoldInner> implements LegalHold {
     }
 
     @Override
-    public StorageManager getManager() {
+    public StorageManager manager() {
         return this.manager;
     }
 
     @Override
     public Boolean hasLegalHold() {
-        return this.getInner().isHasLegalHold();
+        return this.inner().isHasLegalHold();
     }
 
     @Override
     public List<String> tags() {
-        return this.getInner().getTags();
+        return this.inner().getTags();
     }
 
 }

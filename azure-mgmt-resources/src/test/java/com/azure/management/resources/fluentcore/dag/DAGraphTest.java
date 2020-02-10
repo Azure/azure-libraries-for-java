@@ -36,29 +36,29 @@ public class DAGraphTest {
         ItemHolder nodeI = new ItemHolder("I", "dataI");
 
         ItemHolder nodeB = new ItemHolder("B", "dataB");
-        nodeB.addDependency(nodeA.getKey());
+        nodeB.addDependency(nodeA.key());
 
         ItemHolder nodeC = new ItemHolder("C", "dataC");
-        nodeC.addDependency(nodeA.getKey());
+        nodeC.addDependency(nodeA.key());
 
         ItemHolder nodeH = new ItemHolder("H", "dataH");
-        nodeH.addDependency(nodeI.getKey());
+        nodeH.addDependency(nodeI.key());
 
         ItemHolder nodeG = new ItemHolder("G", "dataG");
-        nodeG.addDependency(nodeC.getKey());
+        nodeG.addDependency(nodeC.key());
 
         ItemHolder nodeE = new ItemHolder("E", "dataE");
-        nodeE.addDependency(nodeB.getKey());
-        nodeE.addDependency(nodeG.getKey());
+        nodeE.addDependency(nodeB.key());
+        nodeE.addDependency(nodeG.key());
 
         ItemHolder nodeD = new ItemHolder("D", "dataD");
-        nodeD.addDependency(nodeB.getKey());
+        nodeD.addDependency(nodeB.key());
 
 
         ItemHolder nodeF = new ItemHolder("F", "dataF");
-        nodeF.addDependency(nodeD.getKey());
-        nodeF.addDependency(nodeE.getKey());
-        nodeF.addDependency(nodeH.getKey());
+        nodeF.addDependency(nodeD.key());
+        nodeF.addDependency(nodeE.key());
+        nodeF.addDependency(nodeH.key());
 
         DAGraph<String, ItemHolder> dag = new DAGraph<>(nodeF);
         dag.addNode(nodeA);
@@ -74,7 +74,7 @@ public class DAGraphTest {
         ItemHolder nextNode = dag.getNext();
         int i = 0;
         while (nextNode != null) {
-            Assert.assertEquals(nextNode.getKey(), expectedOrder.get(i));
+            Assert.assertEquals(nextNode.key(), expectedOrder.get(i));
             dag.reportCompletion(nextNode);
             nextNode = dag.getNext();
             i++;
@@ -135,7 +135,7 @@ public class DAGraphTest {
         ItemHolder nextNode = dag.getNext();
         int i = 0;
         while (nextNode != null) {
-            Assert.assertEquals(expectedOrder.get(i), nextNode.getKey());
+            Assert.assertEquals(expectedOrder.get(i), nextNode.key());
             // Process the node
             dag.reportCompletion(nextNode);
             nextNode = dag.getNext();

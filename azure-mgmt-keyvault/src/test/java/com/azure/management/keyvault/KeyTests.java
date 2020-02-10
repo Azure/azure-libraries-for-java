@@ -19,7 +19,6 @@ import com.azure.security.keyvault.keys.models.KeyOperation;
 import com.azure.security.keyvault.keys.models.KeyType;
 import org.junit.Assert;
 import org.junit.Ignore;
-import org.junit.Test;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -44,13 +43,13 @@ public class KeyTests extends KeyVaultManagementTest {
                 .create();
 
         Assert.assertNotNull(key);
-        Assert.assertNotNull(key.getId());
+        Assert.assertNotNull(key.id());
         Assert.assertEquals(2, key.getJsonWebKey().getKeyOps().size());
 
         // Get
-        Key key1 = vault.keys().getById(key.getId());
+        Key key1 = vault.keys().getById(key.id());
         Assert.assertNotNull(key1);
-        Assert.assertEquals(key.getId(), key1.getId());
+        Assert.assertEquals(key.id(), key1.id());
 
         // Update
         key = key.update()
@@ -82,7 +81,7 @@ public class KeyTests extends KeyVaultManagementTest {
                 .create();
 
         Assert.assertNotNull(key);
-        Assert.assertNotNull(key.getId());
+        Assert.assertNotNull(key.id());
     }
 
     @Ignore("Mock framework doesn't support data plane")
@@ -98,7 +97,7 @@ public class KeyTests extends KeyVaultManagementTest {
 
         byte[] backup = key.backup();
 
-        vault.keys().deleteById(key.getId());
+        vault.keys().deleteById(key.id());
         Assert.assertEquals(0, TestUtilities.getPagedIterableSize(vault.keys().list()));
 
         vault.keys().restore(backup);

@@ -54,13 +54,13 @@ class BlobContainerImpl extends CreatableUpdatableImpl<BlobContainer, BlobContai
     }
 
     @Override
-    public StorageManager getManager() {
+    public StorageManager manager() {
         return this.manager;
     }
 
     @Override
     public Mono<BlobContainer> createResourceAsync() {
-        BlobContainersInner client = this.getManager().getInner().blobContainers();
+        BlobContainersInner client = this.manager().inner().blobContainers();
         BlobContainerInner inner = new BlobContainerInner();
         inner.setPublicAccess(this.cpublicAccess);
         inner.setMetadata(this.cmetadata);
@@ -70,7 +70,7 @@ class BlobContainerImpl extends CreatableUpdatableImpl<BlobContainer, BlobContai
 
     @Override
     public Mono<BlobContainer> updateResourceAsync() {
-        BlobContainersInner client = this.getManager().getInner().blobContainers();
+        BlobContainersInner client = this.manager().inner().blobContainers();
         BlobContainerInner inner = new BlobContainerInner();
         inner.setPublicAccess(this.upublicAccess);
         inner.setMetadata(this.umetadata);
@@ -81,84 +81,84 @@ class BlobContainerImpl extends CreatableUpdatableImpl<BlobContainer, BlobContai
 
     @Override
     protected Mono<BlobContainerInner> getInnerAsync() {
-        BlobContainersInner client = this.getManager().getInner().blobContainers();
+        BlobContainersInner client = this.manager().inner().blobContainers();
         return null; // NOP getInnerAsync implementation as get is not supported
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.getInner().getId() == null;
+        return this.inner().getId() == null;
     }
 
 
     @Override
     public String etag() {
-        return this.getInner().getEtag();
+        return this.inner().getEtag();
     }
 
     @Override
     public Boolean hasImmutabilityPolicy() {
-        return this.getInner().isHasImmutabilityPolicy();
+        return this.inner().isHasImmutabilityPolicy();
     }
 
     @Override
     public Boolean hasLegalHold() {
-        return this.getInner().isHasLegalHold();
+        return this.inner().isHasLegalHold();
     }
 
     @Override
     public String id() {
-        return this.getInner().getId();
+        return this.inner().getId();
     }
 
     @Override
     public ImmutabilityPolicyProperties immutabilityPolicy() {
-        return this.getInner().getImmutabilityPolicy();
+        return this.inner().getImmutabilityPolicy();
     }
 
     @Override
     public OffsetDateTime lastModifiedTime() {
-        return this.getInner().getLastModifiedTime();
+        return this.inner().getLastModifiedTime();
     }
 
     @Override
     public LeaseDuration leaseDuration() {
-        return this.getInner().getLeaseDuration();
+        return this.inner().getLeaseDuration();
     }
 
     @Override
     public LeaseState leaseState() {
-        return this.getInner().getLeaseState();
+        return this.inner().getLeaseState();
     }
 
     @Override
     public LeaseStatus leaseStatus() {
-        return this.getInner().getLeaseStatus();
+        return this.inner().getLeaseStatus();
     }
 
     @Override
     public LegalHoldProperties legalHold() {
-        return this.getInner().getLegalHold();
+        return this.inner().getLegalHold();
     }
 
     @Override
     public Map<String, String> metadata() {
-        return this.getInner().getMetadata();
+        return this.inner().getMetadata();
     }
 
     @Override
     public String name() {
-        return this.getInner().getName();
+        return this.inner().getName();
     }
 
     @Override
     public PublicAccess publicAccess() {
-        return this.getInner().getPublicAccess();
+        return this.inner().getPublicAccess();
     }
 
     @Override
     public String type() {
-        return this.getInner().getType();
+        return this.inner().getType();
     }
 
     @Override

@@ -30,10 +30,10 @@ public abstract class ChildResourceImpl<InnerT, ParentImplT extends ParentT, Par
     /**
      * @return parent resource for this child resource
      */
-    public ParentImplT getParent() {
+    public ParentImplT parent() {
         return this.parent;
     }
 
     @Override
-    public abstract String getName();
+    public abstract String name();
 }

@@ -37,8 +37,8 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                         .withPasswordValue("StrongPass!12")
                         .attach()
                     .create();
-            System.out.println(servicePrincipal.getId() + " - " + String.join(",", servicePrincipal.servicePrincipalNames()));
-            Assert.assertNotNull(servicePrincipal.getId());
+            System.out.println(servicePrincipal.id() + " - " + String.join(",", servicePrincipal.servicePrincipalNames()));
+            Assert.assertNotNull(servicePrincipal.id());
             Assert.assertNotNull(servicePrincipal.applicationId());
             Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
             Assert.assertEquals(1, servicePrincipal.passwordCredentials().size());
@@ -68,8 +68,8 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
             Assert.assertEquals(1, servicePrincipal.certificateCredentials().size());
         } finally {
             if (servicePrincipal != null) {
-                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.getId());
-                graphRbacManager.applications().deleteById(graphRbacManager.applications().getByName(servicePrincipal.applicationId()).getId());
+                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
+                graphRbacManager.applications().deleteById(graphRbacManager.applications().getByName(servicePrincipal.applicationId()).id());
             }
         }
     }
@@ -99,8 +99,8 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                         .attach()
                     .withNewRoleInSubscription(BuiltInRole.CONTRIBUTOR, subscription)
                     .create();
-            System.out.println(servicePrincipal.getId() + " - " + String.join(",",servicePrincipal.servicePrincipalNames()));
-            Assert.assertNotNull(servicePrincipal.getId());
+            System.out.println(servicePrincipal.id() + " - " + String.join(",",servicePrincipal.servicePrincipalNames()));
+            Assert.assertNotNull(servicePrincipal.id());
             Assert.assertNotNull(servicePrincipal.applicationId());
             Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
 
@@ -118,7 +118,7 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                     .apply();
 
             SdkContext.sleep(120000);
-            Assert.assertNotNull(resourceManager.resourceGroups().getByName(group.getName()));
+            Assert.assertNotNull(resourceManager.resourceGroups().getByName(group.name()));
             try {
                 resourceManager.resourceGroups().define(rgName + "2")
                         .withRegion(Region.US_WEST).create();
@@ -128,10 +128,10 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
             }
         } finally {
             try {
-                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.getId());
+                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
             } catch (Exception e) { }
             try {
-                graphRbacManager.applications().deleteById(graphRbacManager.applications().getByName(servicePrincipal.applicationId()).getId());
+                graphRbacManager.applications().deleteById(graphRbacManager.applications().getByName(servicePrincipal.applicationId()).id());
             } catch (Exception e) { }
         }
     }

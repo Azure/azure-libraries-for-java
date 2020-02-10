@@ -15,5 +15,5 @@ public interface HasResourceGroup {
     /**
      * @return the name of the resource group
      */
-    String getResourceGroupName();
+    String resourceGroupName();
 }

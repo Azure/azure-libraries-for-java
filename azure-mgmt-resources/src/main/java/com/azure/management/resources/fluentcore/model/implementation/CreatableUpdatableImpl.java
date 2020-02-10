@@ -67,17 +67,17 @@ public abstract class CreatableUpdatableImpl<
     protected CreatableUpdatableImpl(String name, String key, InnerModelT innerObject) {
         super(key, innerObject);
         this.name = name;
-        taskGroup = new TaskGroup(this.getKey(),
+        taskGroup = new TaskGroup(this.key(),
                 new CreateUpdateTask<FluentModelT>(this));
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
     @Override
-    public TaskGroup getTaskGroup() {
+    public TaskGroup taskGroup() {
         return this.taskGroup;
     }
 
@@ -101,8 +101,8 @@ public abstract class CreatableUpdatableImpl<
      */
     protected String addDependency(TaskGroup.HasTaskGroup dependency) {
         Objects.requireNonNull(dependency);
-        this.taskGroup.addDependencyTaskGroup(dependency.getTaskGroup());
-        return dependency.getTaskGroup().getKey();
+        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
+        return dependency.taskGroup().key();
     }
 
     /**
@@ -151,7 +151,7 @@ public abstract class CreatableUpdatableImpl<
      */
     public String addPostRunDependent(FunctionalTaskItem dependent) {
         Objects.requireNonNull(dependent);
-        return this.getTaskGroup().addPostRunDependent(dependent);
+        return this.taskGroup().addPostRunDependent(dependent);
     }
 
     /**
@@ -163,8 +163,8 @@ public abstract class CreatableUpdatableImpl<
      */
     protected String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
         Objects.requireNonNull(dependent);
-        this.taskGroup.addPostRunDependentTaskGroup(dependent.getTaskGroup());
-        return dependent.getTaskGroup().getKey();
+        this.taskGroup.addPostRunDependentTaskGroup(dependent.taskGroup());
+        return dependent.taskGroup().key();
     }
 
     /**

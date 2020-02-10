@@ -23,20 +23,20 @@ final class FeatureImpl extends
     }
 
     @Override
-    public String getName() {
-        return getInner().getName();
+    public String name() {
+        return inner().getName();
     }
 
     @Override
     public String type() {
-        return getInner().getType();
+        return inner().getType();
     }
 
     @Override
     public String state() {
-        if (getInner().getProperties() == null) {
+        if (inner().getProperties() == null) {
             return null;
         }
-        return getInner().getProperties().getState();
+        return inner().getProperties().getState();
     }
 }

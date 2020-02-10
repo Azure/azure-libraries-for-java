@@ -5,13 +5,14 @@
  */
 package com.azure.management.network;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import org.joda.time.DateTime;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public class NetworkWatcherTests extends NetworkManagementTest {
@@ -22,7 +23,7 @@ public class NetworkWatcherTests extends NetworkManagementTest {
         String nwName = SdkContext.randomResourceName("nw", 8);
         Region region = Region.US_WEST;
         // make sure Network Watcher is disabled in current subscription and region as only one can exist
-        List<NetworkWatcher> nwList = networkManager.networkWatchers().list();
+        PagedIterable<NetworkWatcher> nwList = networkManager.networkWatchers().list();
         for (NetworkWatcher nw : nwList) {
             if (region.equals(nw.region())) {
                 networkManager.networkWatchers().deleteById(nw.id());
@@ -50,8 +51,8 @@ public class NetworkWatcherTests extends NetworkManagementTest {
         String localProvider = providers.providersByCountry().get("United States").states().get(0).providers().get(0);
         AzureReachabilityReport report = nw.azureReachabilityReport()
                 .withProviderLocation("United States", "washington")
-                .withStartTime(DateTime.parse("2018-04-10"))
-                .withEndTime(DateTime.parse("2018-04-12"))
+                .withStartTime(OffsetDateTime.parse("2018-04-10"))
+                .withEndTime(OffsetDateTime.parse("2018-04-12"))
                 .withProviders(localProvider)
                 .withAzureLocations("West US")
                 .execute();

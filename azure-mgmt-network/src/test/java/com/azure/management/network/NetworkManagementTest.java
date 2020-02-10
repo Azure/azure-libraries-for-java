@@ -6,12 +6,12 @@
 
 package com.azure.management.network;
 
+import com.azure.management.RestClient;
+import com.azure.management.keyvault.implementation.KeyVaultManager;
+import com.azure.management.msi.implementation.MSIManager;
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
-import com.microsoft.azure.management.msi.implementation.MSIManager;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
+import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.implementation.ResourceManager;
 
 public class NetworkManagementTest extends TestBase {
     protected static ResourceManager resourceManager;

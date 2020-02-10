@@ -5,12 +5,12 @@
  */
 package com.azure.management.network;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.core.TestUtilities;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.List;
 
 public class DdosProtectionPlanTests extends NetworkManagementTest {
 
@@ -25,14 +25,14 @@ public class DdosProtectionPlanTests extends NetworkManagementTest {
                 .create();
         Assert.assertEquals("value1", pPlan.tags().get("tag1"));
 
-        List<DdosProtectionPlan> ppList = networkManager.ddosProtectionPlans().list();
-        Assert.assertTrue(ppList.size() > 0);
+        PagedIterable<DdosProtectionPlan> ppList = networkManager.ddosProtectionPlans().list();
+        Assert.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
 
         ppList = networkManager.ddosProtectionPlans().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(ppList.size() > 0);
+        Assert.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
 
         networkManager.ddosProtectionPlans().deleteById(pPlan.id());
         ppList = networkManager.ddosProtectionPlans().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(ppList.isEmpty());
+        Assert.assertTrue(TestUtilities.isEmpty(ppList));
     }
 }

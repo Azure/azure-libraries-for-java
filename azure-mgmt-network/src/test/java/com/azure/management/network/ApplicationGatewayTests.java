@@ -7,16 +7,18 @@
 
 package com.azure.management.network;
 
+import com.azure.core.util.serializer.JacksonAdapter;
+import com.azure.core.util.serializer.SerializerEncoding;
+import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.keyvault.Secret;
+import com.azure.management.keyvault.Vault;
+import com.azure.management.msi.Identity;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.io.Files;
-import com.google.gson.JsonObject;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.keyvault.Secret;
-import com.microsoft.azure.management.keyvault.Vault;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.serializer.JacksonAdapter;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -117,20 +119,20 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .withStaticIP()
                 .create();
 
-        ApplicationTokenCredentials credentials = ApplicationTokenCredentials
+        ApplicationTokenCredential credentials = ApplicationTokenCredential
                 .fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
-        
+
         Identity identity = msiManager.identities()
-               .define(identityName)
-               .withRegion(Region.US_EAST)
-               .withExistingResourceGroup(RG_NAME)
-               .create();
+                .define(identityName)
+                .withRegion(Region.US_EAST)
+                .withExistingResourceGroup(RG_NAME)
+                .create();
 
         Assert.assertNotNull(identity.name());
         Assert.assertNotNull(identity.principalId());
 
-        Secret secret1 = createKeyVaultSecret(credentials.clientId(), identity.principalId());
-        Secret secret2 = createKeyVaultSecret(credentials.clientId(), identity.principalId());
+        Secret secret1 = createKeyVaultSecret(credentials.getClientId(), identity.principalId());
+        Secret secret2 = createKeyVaultSecret(credentials.getClientId(), identity.principalId());
 
         ManagedServiceIdentity serviceIdentity = createManagedServiceIdentityFromIdentity(identity);
 
@@ -148,8 +150,8 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .attach()
                 .withIdentity(serviceIdentity)
                 .defineSslCertificate("ssl1")
-                        .withKeyVaultSecretId(secret1.id())
-                        .attach()
+                .withKeyVaultSecretId(secret1.id())
+                .attach()
                 .withExistingPublicIPAddress(pip)
                 .withTier(ApplicationGatewayTier.WAF_V2)
                 .withSize(ApplicationGatewaySkuName.WAF_V2)
@@ -162,8 +164,8 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
 
         appGateway = appGateway.update()
                 .defineSslCertificate("ssl2")
-                    .withKeyVaultSecretId(secret2.id())
-                    .attach()
+                .withKeyVaultSecretId(secret2.id())
+                .attach()
                 .apply();
 
         Assert.assertEquals(secret2.id(), appGateway.sslCertificates().get("ssl2").keyVaultSecretId());
@@ -179,13 +181,13 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .withRegion(Region.US_EAST)
                 .withExistingResourceGroup(RG_NAME)
                 .defineAccessPolicy()
-                    .forServicePrincipal(servicePrincipal)
-                    .allowSecretAllPermissions()
-                    .attach()
+                .forServicePrincipal(servicePrincipal)
+                .allowSecretAllPermissions()
+                .attach()
                 .defineAccessPolicy()
-                    .forObjectId(identityPrincipal)
-                    .allowSecretAllPermissions()
-                    .attach()
+                .forObjectId(identityPrincipal)
+                .allowSecretAllPermissions()
+                .attach()
                 .withAccessFromAzureServices()
                 .withDeploymentEnabled()
                 // Important!! Only soft delete enabled key vault can be assigned to application gateway
@@ -199,15 +201,17 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .create();
     }
 
-    private static ManagedServiceIdentity createManagedServiceIdentityFromIdentity(Identity identity) throws Exception{
-        JsonObject userAssignedIdentitiesValueObject = new JsonObject();
-        userAssignedIdentitiesValueObject.addProperty("principalId", identity.principalId());
-        userAssignedIdentitiesValueObject.addProperty("clientId", identity.clientId());
-        ManagedServiceIdentityUserAssignedIdentitiesValue userAssignedIdentitiesValue = 
-                new JacksonAdapter().deserialize(userAssignedIdentitiesValueObject.toString(), 
-                        ManagedServiceIdentityUserAssignedIdentitiesValue.class);
+    private static ManagedServiceIdentity createManagedServiceIdentityFromIdentity(Identity identity) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode userAssignedIdentitiesValueObject = mapper.createObjectNode();
+        ((ObjectNode) userAssignedIdentitiesValueObject).put("principalId", identity.principalId());
+        ((ObjectNode) userAssignedIdentitiesValueObject).put("clientId", identity.clientId());
+        ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties userAssignedIdentitiesValue =
+                new JacksonAdapter().deserialize(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userAssignedIdentitiesValueObject),
+                        ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties.class,
+                        SerializerEncoding.JSON);
 
-        Map<String, ManagedServiceIdentityUserAssignedIdentitiesValue> userAssignedIdentities = 
+        Map<String, ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties> userAssignedIdentities =
                 new HashMap<>();
         userAssignedIdentities.put(identity.id(), userAssignedIdentitiesValue);
 

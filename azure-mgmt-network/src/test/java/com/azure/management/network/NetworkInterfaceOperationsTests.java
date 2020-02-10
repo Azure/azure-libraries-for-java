@@ -6,18 +6,16 @@
 
 package com.azure.management.network;
 
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.ResourceGroups;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.ServiceCallback;
-
-import rx.Observable;
-
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.ResourceGroups;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.CreatedResources;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,40 +44,40 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
                 .create();
 
         List<Creatable<NetworkInterface>> nicDefinitions = Arrays.asList(
-            // 0 - NIC that starts with one IP config and ends with two
-            (Creatable<NetworkInterface>)(networkManager.networkInterfaces().define(nicNames[0])
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME)
-                    .withExistingPrimaryNetwork(network)
-                    .withSubnet("subnet1")
-                    .withPrimaryPrivateIPAddressDynamic()),
-    
-            // 1 - NIC that starts with two IP configs and ends with one
-            networkManager.networkInterfaces().define(nicNames[1])
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME)
-                    .withExistingPrimaryNetwork(network)
-                    .withSubnet("subnet1")
-                    .withPrimaryPrivateIPAddressDynamic()
-                    .defineSecondaryIPConfiguration("nicip2")
+                // 0 - NIC that starts with one IP config and ends with two
+                (Creatable<NetworkInterface>) (networkManager.networkInterfaces().define(nicNames[0])
+                        .withRegion(Region.US_EAST)
+                        .withNewResourceGroup(RG_NAME)
+                        .withExistingPrimaryNetwork(network)
+                        .withSubnet("subnet1")
+                        .withPrimaryPrivateIPAddressDynamic()),
+
+                // 1 - NIC that starts with two IP configs and ends with one
+                networkManager.networkInterfaces().define(nicNames[1])
+                        .withRegion(Region.US_EAST)
+                        .withNewResourceGroup(RG_NAME)
+                        .withExistingPrimaryNetwork(network)
+                        .withSubnet("subnet1")
+                        .withPrimaryPrivateIPAddressDynamic()
+                        .defineSecondaryIPConfiguration("nicip2")
                         .withExistingNetwork(network)
                         .withSubnet("subnet1")
                         .withPrivateIPAddressDynamic()
                         .attach(),
-    
-            // 2 - NIC that starts with two IP configs and ends with two
-            networkManager.networkInterfaces().define(nicNames[2])
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME)
-                    .withExistingPrimaryNetwork(network)
-                    .withSubnet("subnet1")
-                    .withPrimaryPrivateIPAddressDynamic()
-                    .defineSecondaryIPConfiguration("nicip2")
+
+                // 2 - NIC that starts with two IP configs and ends with two
+                networkManager.networkInterfaces().define(nicNames[2])
+                        .withRegion(Region.US_EAST)
+                        .withNewResourceGroup(RG_NAME)
+                        .withExistingPrimaryNetwork(network)
+                        .withSubnet("subnet1")
+                        .withPrimaryPrivateIPAddressDynamic()
+                        .defineSecondaryIPConfiguration("nicip2")
                         .withExistingNetwork(network)
                         .withSubnet("subnet1")
                         .withPrivateIPAddressDynamic()
                         .attach()
-            );
+        );
 
         // Create the NICs in parallel
         CreatedResources<NetworkInterface> createdNics = networkManager.networkInterfaces().create(nicDefinitions);
@@ -118,7 +116,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
         // Verify NIC2
         nic = nics[2];
         Assert.assertNotNull(nic);
-        Assert.assertEquals(2,  nic.ipConfigurations().size());
+        Assert.assertEquals(2, nic.ipConfigurations().size());
 
         primaryIPConfig = nic.primaryIPConfiguration();
         Assert.assertNotNull(primaryIPConfig);
@@ -132,39 +130,39 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
 
         nic = null;
 
-        List<Observable<NetworkInterface>> nicUpdates = Arrays.asList(
-            // Update NIC0
-            nics[0].update()
-                .defineSecondaryIPConfiguration("nicip2")
-                .withExistingNetwork(network)
-                .withSubnet("subnet1")
-                .withPrivateIPAddressDynamic()
-                .attach()
-                .applyAsync(),
+        List<Mono<NetworkInterface>> nicUpdates = Arrays.asList(
+                // Update NIC0
+                nics[0].update()
+                        .defineSecondaryIPConfiguration("nicip2")
+                        .withExistingNetwork(network)
+                        .withSubnet("subnet1")
+                        .withPrivateIPAddressDynamic()
+                        .attach()
+                        .applyAsync(),
 
-            // Update NIC2
-            nics[1].update()
-                .withoutIPConfiguration("nicip2")
-                .updateIPConfiguration("primary")
-                    .withSubnet("subnet2")
-                    .parent()
-                .applyAsync(),
+                // Update NIC2
+                nics[1].update()
+                        .withoutIPConfiguration("nicip2")
+                        .updateIPConfiguration("primary")
+                        .withSubnet("subnet2")
+                        .parent()
+                        .applyAsync(),
 
-            // Update NIC3
-            nics[2].update()
-                .withoutIPConfiguration("nicip2")
-                .defineSecondaryIPConfiguration("nicip3")
-                    .withExistingNetwork(network)
-                    .withSubnet("subnet1")
-                    .withPrivateIPAddressDynamic()
-                    .attach()
-                .applyAsync()
-            );
+                // Update NIC3
+                nics[2].update()
+                        .withoutIPConfiguration("nicip2")
+                        .defineSecondaryIPConfiguration("nicip3")
+                        .withExistingNetwork(network)
+                        .withSubnet("subnet1")
+                        .withPrivateIPAddressDynamic()
+                        .attach()
+                        .applyAsync()
+        );
 
-        List<NetworkInterface> updatedNics = Observable.mergeDelayError(nicUpdates)
-                .toList()
-                .toBlocking()
-                .single();
+        List<NetworkInterface> updatedNics = Flux.mergeDelayError(32, (Mono<NetworkInterface>[]) nicUpdates.toArray(new Mono[nicUpdates.size()]))
+                .collectList()
+                .block();
+
 
         // Verify updated NICs
         for (NetworkInterface n : updatedNics) {
@@ -306,18 +304,13 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
 
         final CountDownLatch latch = new CountDownLatch(1);
         final AtomicInteger counter = new AtomicInteger(0);
-        networkManager.networks().deleteByResourceGroupAsync(RG_NAME, vnetName, new ServiceCallback<Void>() {
-            @Override
-            public void failure(Throwable throwable) {
-                latch.countDown();
-            }
+        networkManager.networks().deleteByResourceGroupAsync(RG_NAME, vnetName)
+                .doOnSuccess(aVoid -> {
+                    counter.incrementAndGet();
+                    latch.countDown();
+                })
+                .doOnError(throwable -> latch.countDown());
 
-            @Override
-            public void success(Void aVoid) {
-                counter.incrementAndGet();
-                latch.countDown();
-            }
-        });
         try {
             latch.await();
         } catch (InterruptedException exception) {

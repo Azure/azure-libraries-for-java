@@ -6,11 +6,12 @@
 
 package com.azure.management.network;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.core.TestUtilities;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
-import java.util.List;
 
 public class ApplicationSecurityGroupTests extends NetworkManagementTest {
 
@@ -25,14 +26,14 @@ public class ApplicationSecurityGroupTests extends NetworkManagementTest {
                 .create();
         Assert.assertEquals("value1", applicationSecurityGroup.tags().get("tag1"));
 
-        List<ApplicationSecurityGroup> asgList = networkManager.applicationSecurityGroups().list();
-        Assert.assertTrue(asgList.size() > 0);
+        PagedIterable<ApplicationSecurityGroup> asgList = networkManager.applicationSecurityGroups().list();
+        Assert.assertTrue(TestUtilities.getPagedIterableSize(asgList) > 0);
 
         asgList = networkManager.applicationSecurityGroups().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(asgList.size() > 0);
+        Assert.assertTrue(TestUtilities.getPagedIterableSize(asgList) > 0);
 
         networkManager.applicationSecurityGroups().deleteById(applicationSecurityGroup.id());
         asgList = networkManager.applicationSecurityGroups().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(asgList.isEmpty());
+        Assert.assertTrue(TestUtilities.isEmpty(asgList));
     }
 }

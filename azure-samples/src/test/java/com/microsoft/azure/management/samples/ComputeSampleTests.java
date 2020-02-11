@@ -27,6 +27,7 @@ import com.microsoft.azure.management.compute.samples.ManageVirtualMachineExtens
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineScaleSetAsync;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineScaleSetWithUnmanagedDisks;
+import com.microsoft.azure.management.compute.samples.ManageVirtualMachineWithApplicationSecurityGroup;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineWithDisk;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachineWithUnmanagedDisks;
 import com.microsoft.azure.management.compute.samples.ManageVirtualMachinesInParallel;
@@ -134,6 +135,11 @@ public class ComputeSampleTests extends SamplesTestBase {
     @Test
     public void testManageVirtualMachinesInParallel() {
         Assert.assertTrue(ManageVirtualMachinesInParallel.runSample(azure));
+    }
+
+    @Test
+    public void testManageVirtualMachineWithApplicationSecurityGroup() {
+        Assert.assertTrue(ManageVirtualMachineWithApplicationSecurityGroup.runSample(azure));
     }
 
     @Test

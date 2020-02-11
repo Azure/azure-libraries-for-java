@@ -83,20 +83,6 @@ class ServicePrincipalsImpl
                 .switchIfEmpty(Mono.defer(() -> inner().listAsync(String.format("displayName eq '%s'", name)).singleOrEmpty()))
                 .map(servicePrincipalInner -> new ServicePrincipalImpl(servicePrincipalInner, manager()))
                 .flatMap(servicePrincipal -> servicePrincipal.refreshCredentialsAsync());
-//        return innerCollection.listSinglePageAsync(String.format("servicePrincipalNames/any(c:c eq '%s')", name))
-//                .flatMap(response -> {
-//                    if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
-//                        return Mono.just(innerCollection.listAsync(String.format("displayName eq '%s'", name)));
-//                    }
-//                    return Mono.just(new PagedFlux<>(
-//                            () -> Mono.just(response),
-//                            nextLink -> innerCollection.listNextSinglePageAsync(nextLink)
-//                    ));
-//                })
-//                .map(result -> result.blockFirst())
-//                .map(servicePrincipalInner -> new ServicePrincipalImpl(servicePrincipalInner, manager()))
-//                .flatMap(servicePrincipal -> servicePrincipal.refreshCredentialsAsync())
-//                .switchIfEmpty(Mono.defer(() -> Mono.empty()));
     }
 
     @Override

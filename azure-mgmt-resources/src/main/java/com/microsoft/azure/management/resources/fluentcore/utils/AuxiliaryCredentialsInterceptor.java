@@ -52,7 +52,7 @@ public final class AuxiliaryCredentialsInterceptor implements Interceptor {
                     buff.append(" ");
                     buff.append(tokenCredentials[i].getToken(chain.request().url().scheme() + "://" + chain.request().url().host()));
                     if (i < tokenCredentials.length - 1) {
-                        buff.append(";");
+                        buff.append(",");
                     }
                 }
                 Request request = chain.request().newBuilder()

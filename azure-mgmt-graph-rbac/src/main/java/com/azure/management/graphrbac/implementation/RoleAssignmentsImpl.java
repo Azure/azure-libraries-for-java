@@ -8,6 +8,7 @@ package com.azure.management.graphrbac.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.CloudException;
 import com.azure.management.graphrbac.RoleAssignment;
 import com.azure.management.graphrbac.RoleAssignments;
 import com.azure.management.graphrbac.models.RoleAssignmentInner;
@@ -49,13 +50,9 @@ class RoleAssignmentsImpl
 
     @Override
     public Mono<RoleAssignment> getByIdAsync(String id) {
-        return inner().getByIdAsync(id).map(roleAssignmentInner -> {
-            if (roleAssignmentInner == null) {
-                return null;
-            } else {
-                return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
-            }
-        });
+        return inner().getByIdAsync(id)
+                .onErrorResume(CloudException.class, e -> Mono.empty())
+                .map(roleAssignmentInner -> new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager()));
     }
 
     @Override
@@ -81,12 +78,8 @@ class RoleAssignmentsImpl
     @Override
     public Mono<RoleAssignment> getByScopeAsync(String scope,  String name) {
         return inner().getAsync(scope, name)
-                .map(roleAssignmentInner -> {
-                    if (roleAssignmentInner == null) {
-                        return null;
-                    }
-                    return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
-                });
+                .onErrorResume(CloudException.class, e-> Mono.empty())
+                .map(roleAssignmentInner -> new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager()));
     }
 
     @Override
@@ -96,12 +89,9 @@ class RoleAssignmentsImpl
 
     @Override
     public Mono<RoleAssignment> deleteByIdAsync(String id) {
-        return inner().deleteByIdAsync(id).map(roleAssignmentInner -> {
-            if (roleAssignmentInner == null) {
-                return null;
-            }
-            return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
-        });
+        return inner().deleteByIdAsync(id)
+                .onErrorResume(CloudException.class, e -> Mono.empty())
+                .map(roleAssignmentInner -> new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager()));
     }
 
     @Override

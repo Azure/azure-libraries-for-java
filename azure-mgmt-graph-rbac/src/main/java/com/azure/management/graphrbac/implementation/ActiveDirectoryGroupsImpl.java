@@ -15,8 +15,6 @@ import com.azure.management.graphrbac.models.GroupsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
 import reactor.core.publisher.Mono;
 
-import java.util.function.Function;
-
 /**
  * The implementation of Users and its parent interfaces.
  */
@@ -50,13 +48,8 @@ class ActiveDirectoryGroupsImpl
     @Override
     public Mono<ActiveDirectoryGroup> getByIdAsync(String id) {
         return manager.inner().groups().getAsync(id)
-                .map(groupInner -> {
-                    if (groupInner == null) {
-                        return null;
-                    } else {
-                        return new ActiveDirectoryGroupImpl(groupInner, manager());
-                    }
-                });
+                .onErrorResume(GraphErrorException.class, e -> Mono.empty())
+                .map(groupInner -> new ActiveDirectoryGroupImpl(groupInner, manager()));
     }
 
     @Override
@@ -67,13 +60,8 @@ class ActiveDirectoryGroupsImpl
     @Override
     public Mono<ActiveDirectoryGroup> getByNameAsync(String name) {
         return manager().inner().groups().listAsync(String.format("displayName eq '%s'", name))
-                .flatMap((Function<ADGroupInner, Mono<ActiveDirectoryGroup>>) adGroupInner -> {
-                    if (adGroupInner == null) {
-                        return null;
-                    }
-                    ActiveDirectoryGroupImpl activeDirectoryGroup = new ActiveDirectoryGroupImpl(adGroupInner, manager());
-                    return activeDirectoryGroup.refreshAsync();
-                }).last();
+                .singleOrEmpty()
+                .flatMap(adGroupInner -> new ActiveDirectoryGroupImpl(adGroupInner, manager()).refreshAsync());
     }
 
     @Override

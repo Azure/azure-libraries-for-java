@@ -8,7 +8,6 @@ package com.azure.management.graphrbac.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
-import com.azure.core.http.rest.PagedResponse;
 import com.azure.management.graphrbac.ServicePrincipal;
 import com.azure.management.graphrbac.ServicePrincipals;
 import com.azure.management.graphrbac.models.ServicePrincipalInner;
@@ -17,8 +16,6 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.C
 import com.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import reactor.core.publisher.Mono;
-
-import java.util.function.Function;
 
 /**
  * The implementation of ServicePrincipals and its parent interfaces.
@@ -71,13 +68,8 @@ class ServicePrincipalsImpl
     @Override
     public Mono<ServicePrincipal> getByIdAsync(String id) {
         return innerCollection.getAsync(id)
-                .flatMap((Function<ServicePrincipalInner, Mono<ServicePrincipal>>) servicePrincipalInner -> {
-                    if (servicePrincipalInner == null) {
-                        return Mono.just(null);
-                    } else {
-                        return new ServicePrincipalImpl(servicePrincipalInner, manager()).refreshCredentialsAsync();
-                    }
-                });
+                .onErrorResume(GraphErrorException.class, e -> Mono.empty())
+                .flatMap(servicePrincipalInner -> new ServicePrincipalImpl(servicePrincipalInner, manager()).refreshCredentialsAsync());
     }
 
     @Override
@@ -87,28 +79,10 @@ class ServicePrincipalsImpl
 
     @Override
     public Mono<ServicePrincipal> getByNameAsync(final String name) {
-        return innerCollection.listSinglePageAsync(String.format("servicePrincipalNames/any(c:c eq '%s')", name))
-                .flatMap((Function<PagedResponse<ServicePrincipalInner>, Mono<PagedFlux<ServicePrincipalInner>>>) response -> {
-                    if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
-                        return Mono.just(innerCollection.listAsync(String.format("displayName eq '%s'", name)));
-                    }
-                    return Mono.just(new PagedFlux<>(
-                            () -> Mono.just(response),
-                            nextLink -> innerCollection.listNextSinglePageAsync(nextLink)
-                    ));
-                })
-                .map(result -> {
-                    if (result == null || result.toIterable() == null || !result.toIterable().iterator().hasNext()) {
-                        return null;
-                    }
-                    return new ServicePrincipalImpl(result.toIterable().iterator().next(), manager());
-                })
-                .flatMap((Function<ServicePrincipalImpl, Mono<ServicePrincipal>>) servicePrincipal -> {
-                    if (servicePrincipal == null) {
-                        return null;
-                    }
-                    return servicePrincipal.refreshCredentialsAsync();
-                });
+        return inner().listAsync(String.format("servicePrincipalNames/any(c:c eq '%s')", name)).singleOrEmpty()
+                .switchIfEmpty(Mono.defer(() -> inner().listAsync(String.format("displayName eq '%s'", name)).singleOrEmpty()))
+                .map(servicePrincipalInner -> new ServicePrincipalImpl(servicePrincipalInner, manager()))
+                .flatMap(servicePrincipal -> servicePrincipal.refreshCredentialsAsync());
     }
 
     @Override

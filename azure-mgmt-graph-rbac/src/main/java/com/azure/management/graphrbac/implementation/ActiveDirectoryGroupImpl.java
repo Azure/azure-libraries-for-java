@@ -7,8 +7,6 @@
 package com.azure.management.graphrbac.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
-import com.azure.core.util.serializer.SerializerAdapter;
-import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.management.graphrbac.ActiveDirectoryGroup;
 import com.azure.management.graphrbac.ActiveDirectoryObject;
 import com.azure.management.graphrbac.ActiveDirectoryUser;
@@ -20,9 +18,9 @@ import com.azure.management.graphrbac.models.ApplicationInner;
 import com.azure.management.graphrbac.models.ServicePrincipalInner;
 import com.azure.management.graphrbac.models.UserInner;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -57,7 +55,7 @@ class ActiveDirectoryGroupImpl
 
     @Override
     public boolean securityEnabled() {
-        return inner().isSecurityEnabled() != null && inner().isSecurityEnabled().booleanValue() == true;
+        return Utils.toPrimitiveBoolean(inner().isSecurityEnabled());
     }
 
     @Override
@@ -74,22 +72,16 @@ class ActiveDirectoryGroupImpl
     public PagedFlux<ActiveDirectoryObject> listMembersAsync() {
         return manager().inner().groups().getGroupMembersAsync(id())
                 .mapPage(directoryObjectInner -> {
-                    SerializerAdapter adapter = manager().inner().getSerializerAdapter();
-                    try {
-                        String serialized = adapter.serialize(directoryObjectInner, SerializerEncoding.JSON);
-                        if (serialized.contains("User")) {
-                            return new ActiveDirectoryUserImpl(adapter.deserialize(serialized, UserInner.class, SerializerEncoding.JSON), manager());
-                        } else if (serialized.contains("Group")) {
-                            return new ActiveDirectoryGroupImpl(adapter.deserialize(serialized, ADGroupInner.class, SerializerEncoding.JSON), manager());
-                        } else if (serialized.contains("ServicePrincipal")) {
-                            return new ServicePrincipalImpl(adapter.deserialize(serialized, ServicePrincipalInner.class, SerializerEncoding.JSON), manager());
-                        } else if (serialized.contains("Application")) {
-                            return new ActiveDirectoryApplicationImpl(adapter.deserialize(serialized, ApplicationInner.class, SerializerEncoding.JSON), manager());
-                        } else {
-                            return null;
-                        }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                    if (directoryObjectInner instanceof UserInner) {
+                        return new ActiveDirectoryUserImpl((UserInner) directoryObjectInner, manager());
+                    } else if (directoryObjectInner instanceof ADGroupInner) {
+                        return new ActiveDirectoryGroupImpl((ADGroupInner)directoryObjectInner, manager());
+                    } else if (directoryObjectInner instanceof ServicePrincipalInner) {
+                        return new ServicePrincipalImpl((ServicePrincipalInner)directoryObjectInner, manager());
+                    } else if (directoryObjectInner instanceof ApplicationInner) {
+                        return new ActiveDirectoryApplicationImpl((ApplicationInner)directoryObjectInner, manager());
+                    } else {
+                        return null;
                     }
                 });
     }
@@ -122,15 +114,6 @@ class ActiveDirectoryGroupImpl
                     .doOnSuccess(o1 -> membersToRemove.clear()));
         }
         if (!membersToAdd.isEmpty()) {
-//            group = group.flatMap((Function<Object, Mono<?>>) o -> Mono.just(membersToAdd.iterator())
-//                    .flatMap((Function<Iterator<String>, Mono<?>>) stringIterator -> {
-//                        if (stringIterator.hasNext()) {
-//                            return getManager().getInner().groups().addMemberAsync(getId(), new GroupAddMemberParameters().setUrl(stringIterator.next())).then(Mono.just(ActiveDirectoryGroupImpl.this));
-//                        }
-//                        return null;
-//                    })
-//                    .doOnSuccess(o12 -> membersToAdd.clear()));
-
             for (String member : membersToAdd) {
                 group = group.flatMap(ignore -> manager().inner().groups().addMemberAsync(id(), new GroupAddMemberParameters().setUrl(member))).then(Mono.just(this));
             }

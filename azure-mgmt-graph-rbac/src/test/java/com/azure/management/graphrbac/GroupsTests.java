@@ -10,6 +10,7 @@ import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Iterator;
 import java.util.Set;
 
 public class GroupsTests extends GraphRbacManagementTest {
@@ -47,10 +48,10 @@ public class GroupsTests extends GraphRbacManagementTest {
             Assert.assertNotNull(group2.id());
             Set<ActiveDirectoryObject> members = group2.listMembers();
             Assert.assertEquals(3, members.size());
-            Assert.assertNotNull(members.iterator().next().id());
-            Assert.assertNotNull(members.iterator().next().id());
-            Assert.assertNotNull(members.iterator().next().id());
-            Assert.assertNotNull(members.iterator().next().id());
+            Iterator<ActiveDirectoryObject> iterator = members.iterator();
+            Assert.assertNotNull(iterator.next().id());
+            Assert.assertNotNull(iterator.next().id());
+            Assert.assertNotNull(iterator.next().id());
         } finally {
             if (servicePrincipal != null) {
                 graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());

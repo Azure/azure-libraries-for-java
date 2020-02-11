@@ -44,7 +44,7 @@ public class ProviderRegistrationPolicy implements HttpPipelinePolicy {
         this.credential = credential;
     }
 
-    private boolean responseSuccessful(HttpResponse response) {
+    private boolean isResponseSuccessful(HttpResponse response) {
         return response.getStatusCode() >= 200 && response.getStatusCode() < 300;
     }
 
@@ -53,7 +53,7 @@ public class ProviderRegistrationPolicy implements HttpPipelinePolicy {
         final HttpRequest request = context.getHttpRequest();
         return next.process().flatMap(
             response -> {
-                if (!responseSuccessful(response)) {
+                if (!isResponseSuccessful(response)) {
                     HttpResponse bufferedResponse = response.buffer();
                     return FluxUtil.collectBytesInByteBufferStream(bufferedResponse.getBody()).flatMap(
                         body -> {
@@ -73,20 +73,16 @@ public class ProviderRegistrationPolicy implements HttpPipelinePolicy {
                                         .withBaseUrl(String.format("%s://%s", request.getUrl().getProtocol(), request.getUrl().getHost()))
                                         .withCredential(credential)
                                         .withSerializerAdapter(jacksonAdapter).buildClient();
+                                // TODO: add proxy in rest client
                                 ResourceManager resourceManager = ResourceManager.authenticate(restClient)
                                         .withSubscription(subscriptionId);
                                 Pattern providerPattern = Pattern.compile(".*'(.*)'");
                                 Matcher providerMatcher = providerPattern.matcher(cloudError.getMessage());
                                 providerMatcher.find();
-                                Provider provider = registerProvider(providerMatcher.group(1), resourceManager);
-                                while (provider.registrationState().equalsIgnoreCase("Unregistered")
-                                    || provider.registrationState().equalsIgnoreCase("Registering")) {
-                                    SdkContext.sleep(5 * 1000);
-                                    provider = resourceManager.providers().getByName(provider.namespace());
-                                }
 
                                 // Retry after registration
-                                return next.process();
+                                return registerProviderUntilSuccess(providerMatcher.group(1), resourceManager)
+                                        .flatMap(afterRegistered -> next.process());
                             }
                             return Mono.just(bufferedResponse);
                         }
@@ -97,7 +93,28 @@ public class ProviderRegistrationPolicy implements HttpPipelinePolicy {
         );
     }
 
-    private Provider registerProvider(String namespace, ResourceManager resourceManager) {
-        return resourceManager.providers().register(namespace);
+    private Mono<Void> registerProviderUntilSuccess(String namespace, ResourceManager resourceManager) {
+        return resourceManager.providers().registerAsync(namespace)
+            .flatMap(
+                provider -> {
+                    if (isProviderRegistered(provider)) return Mono.empty();
+                    return resourceManager.providers().getByNameAsync(namespace)
+                            .map(providerGet -> checkProviderRegistered(providerGet))
+                            .retry(60, ProviderUnregisteredException.class::isInstance);
+                }
+            );
+    }
+
+    private Void checkProviderRegistered(Provider provider) throws ProviderUnregisteredException {
+        if (isProviderRegistered(provider)) return null;
+        SdkContext.sleep(5 * 1000);
+        throw new ProviderUnregisteredException();
+    }
+
+    private boolean isProviderRegistered(Provider provider) {
+        return provider.registrationState().equalsIgnoreCase("Registered");
+    }
+
+    private class ProviderUnregisteredException extends RuntimeException {
     }
 }

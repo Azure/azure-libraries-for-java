@@ -147,6 +147,7 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
         return (T) this;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T withCipherSuites(CipherSuite... cipherSuites) {
         this.restClientBuilder = restClientBuilder.withCipherSuites(cipherSuites);

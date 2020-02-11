@@ -16,9 +16,6 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.C
 import com.azure.management.resources.fluentcore.model.HasInner;
 import reactor.core.publisher.Mono;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 /**
  * The implementation of Users and its parent interfaces.
  */
@@ -53,13 +50,9 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public Mono<ActiveDirectoryUser> getByIdAsync(String id) {
-        return manager().inner().users().getAsync(id).map(userInner -> {
-            if (userInner == null) {
-                return null;
-            } else {
-                return new ActiveDirectoryUserImpl(userInner, manager());
-            }
-        });
+        return manager().inner().users().getAsync(id)
+                .onErrorResume(GraphErrorException.class, e -> Mono.empty())
+                .map(userInner -> new ActiveDirectoryUserImpl(userInner, manager()));
     }
 
     @Override
@@ -70,24 +63,18 @@ class ActiveDirectoryUsersImpl
     @Override
     public Mono<ActiveDirectoryUser> getByNameAsync(final String name) {
         return manager().inner().users().getAsync(name)
-                .flatMap((Function<UserInner, Mono<UserInner>>) userInner -> Mono.just(userInner))
-                .switchIfEmpty(Mono.defer((Supplier<Mono<UserInner>>) () -> {
+                .onErrorResume(GraphErrorException.class, e -> {
                     if (name.contains("@")) {
                         return manager().inner().users().listAsync(
                                 String.format("mail eq '%s' or mailNickName eq '%s#EXT#'", name, name.replace("@", "_"))
-                        ).last();
+                        ).singleOrEmpty();
                     } else {
                         return manager().inner().users().listAsync(
                                 String.format("displayName eq '%s'", name)
-                        ).last();
+                        ).singleOrEmpty();
                     }
-                }))
-                .map(userInnerServiceResponse -> {
-                    if (userInnerServiceResponse == null) {
-                        return null;
-                    }
-                    return new ActiveDirectoryUserImpl(userInnerServiceResponse, manager());
-                });
+                })
+                .map(userInnerServiceResponse -> new ActiveDirectoryUserImpl(userInnerServiceResponse, manager()).refresh());
     }
 
     @Override

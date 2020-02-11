@@ -115,11 +115,8 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
             graphEndpoint = ((AzureTokenCredential) restClient.getCredential()).getEnvironment().getGraphEndpoint();
             resourceManagerEndpoint = ((AzureTokenCredential) restClient.getCredential()).getEnvironment().getResourceManagerEndpoint();
         }
-        AzureTokenCredential credential = (AzureTokenCredential) restClient.getCredential();
-        RestClient graphRestClient = new RestClientBuilder()
-                .withBaseUrl(credential.getEnvironment().getGraphEndpoint())
-                .withCredential(credential)
-                .withSerializerAdapter(new AzureJacksonAdapter())
+        RestClient graphRestClient = restClient.newBuilder()
+                .withBaseUrl(graphEndpoint)
                 .withScope(AzureEnvironment.AZURE.getGraphEndpoint() + "/.default")
                 .buildClient();
         this.graphRbacManagementClient = new GraphRbacManagementClientBuilder()
@@ -127,15 +124,8 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
                 .host(graphEndpoint)
                 .tenantID(tenantId)
                 .build();
-
-        RestClient resourceRestClient = new RestClientBuilder()
-                .withBaseUrl(credential.getEnvironment().getResourceManagerEndpoint())
-                .withCredential(credential)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withScope(AzureEnvironment.AZURE.getResourceManagerEndpoint() + "/.default")
-                .buildClient();
         this.authorizationManagementClient = new AuthorizationManagementClientBuilder()
-                .pipeline(resourceRestClient.getHttpPipeline())
+                .pipeline(restClient.getHttpPipeline())
                 .host(resourceManagerEndpoint)
                 .subscriptionId(((AzureTokenCredential) restClient.getCredential()).getDefaultSubscriptionId())
                 .build();

@@ -22,7 +22,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -77,13 +76,10 @@ class RoleAssignmentImpl
             throw new IllegalArgumentException("Please pass a non-null value for either role name or role definition ID");
         }
 
-        return Mono.zip(objectIdObservable, roleDefinitionIdObservable, new BiFunction<String, String, RoleAssignmentCreateParameters>() {
-            @Override
-            public RoleAssignmentCreateParameters apply(String objectId, String roleDefinitionId) {
-                return new RoleAssignmentCreateParameters()
-                        .setPrincipalId(objectId).setRoleDefinitionId(roleDefinitionId);
-            }
-        }).flatMap((Function<RoleAssignmentCreateParameters, Mono<RoleAssignmentInner>>) roleAssignmentPropertiesInner -> manager().roleInner().roleAssignments()
+        return Mono.zip(objectIdObservable,
+                    roleDefinitionIdObservable,
+                    (objectId, roleDefinitionId) -> new RoleAssignmentCreateParameters().setPrincipalId(objectId).setRoleDefinitionId(roleDefinitionId))
+                .flatMap((Function<RoleAssignmentCreateParameters, Mono<RoleAssignmentInner>>) roleAssignmentPropertiesInner -> manager().roleInner().roleAssignments()
                 .createAsync(scope(), name(), roleAssignmentPropertiesInner)
                 .retryWhen(throwableFlux -> throwableFlux.zipWith(Flux.range(1, 30), (throwable, integer) -> {
                     if (throwable instanceof  CloudException) {

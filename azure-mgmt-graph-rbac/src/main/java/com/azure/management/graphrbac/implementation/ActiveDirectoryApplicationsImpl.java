@@ -8,7 +8,6 @@ package com.azure.management.graphrbac.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
-import com.azure.core.http.rest.PagedResponse;
 import com.azure.management.graphrbac.ActiveDirectoryApplication;
 import com.azure.management.graphrbac.ActiveDirectoryApplications;
 import com.azure.management.graphrbac.models.ApplicationInner;
@@ -19,7 +18,6 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
-import java.util.function.Function;
 
 /**
  * The implementation of Applications and its parent interfaces.
@@ -73,14 +71,9 @@ class ActiveDirectoryApplicationsImpl
     @Override
     public Mono<ActiveDirectoryApplication> getByIdAsync(String id) {
         return innerCollection.getAsync(id)
-                .flatMap((Function<ApplicationInner, Mono<ActiveDirectoryApplication>>) applicationInner -> {
-                    if (applicationInner == null) {
-                        return Mono.just(null);
-                    } else {
-                        return new ActiveDirectoryApplicationImpl(applicationInner, manager())
-                                .refreshCredentialsAsync();
-                    }
-                });
+                .onErrorResume(GraphErrorException.class, e -> Mono.empty())
+                .flatMap(applicationInner -> new ActiveDirectoryApplicationImpl(applicationInner, manager())
+                        .refreshCredentialsAsync());
     }
 
     @Override
@@ -91,25 +84,14 @@ class ActiveDirectoryApplicationsImpl
     @Override
     public Mono<ActiveDirectoryApplication> getByNameAsync(String name) {
         final String trimmed = name.replaceFirst("^'+", "").replaceAll("'+$", "");
-        return innerCollection.listSinglePageAsync(String.format("displayName eq '%s'", trimmed))
-                .flatMap(response -> {
-                    if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
-                        try {
-                            UUID.fromString(trimmed);
-                            return Mono.just(innerCollection.listAsync(String.format("appId eq '%s'", trimmed)));
-                        } catch (IllegalArgumentException e) {
-                            return null;
-                        }
-                    }
-                    return Mono.just(new PagedFlux<>(
-                            () -> Mono.just(response),
-                            nextLink -> innerCollection.listNextSinglePageAsync(nextLink)
-                    ));
-                })
-                .map(result -> result.blockFirst())
+        return inner().listAsync(String.format("displayName eq '%s'", trimmed)).singleOrEmpty()
+                .switchIfEmpty(Mono.defer(() -> {
+                    UUID.fromString(trimmed);
+                    return inner().listAsync(String.format("appId eq '%s'", trimmed)).singleOrEmpty();
+                }))
+                .onErrorResume(IllegalArgumentException.class, e -> Mono.empty())
                 .map(applicationInner -> new ActiveDirectoryApplicationImpl(applicationInner, manager()))
-                .flatMap(activeDirectoryApplication -> activeDirectoryApplication.refreshCredentialsAsync())
-                .switchIfEmpty(Mono.defer(() -> Mono.empty()));
+                .flatMap(activeDirectoryApplication -> activeDirectoryApplication.refreshCredentialsAsync());
     }
 
     @Override

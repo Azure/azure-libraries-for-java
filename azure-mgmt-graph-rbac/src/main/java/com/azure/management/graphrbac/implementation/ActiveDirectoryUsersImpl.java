@@ -74,7 +74,7 @@ class ActiveDirectoryUsersImpl
                         ).singleOrEmpty();
                     }
                 })
-                .map(userInnerServiceResponse -> new ActiveDirectoryUserImpl(userInnerServiceResponse, manager()).refresh());
+                .map(userInnerServiceResponse -> new ActiveDirectoryUserImpl(userInnerServiceResponse, manager()));
     }
 
     @Override

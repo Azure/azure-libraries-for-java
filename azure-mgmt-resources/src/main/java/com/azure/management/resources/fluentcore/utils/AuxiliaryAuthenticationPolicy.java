@@ -6,6 +6,7 @@
 
 package com.azure.management.resources.fluentcore.utils;
 
+import com.azure.core.credential.TokenRequestContext;
 import com.azure.core.http.HttpPipelineCallContext;
 import com.azure.core.http.HttpPipelineNextPolicy;
 import com.azure.core.http.HttpResponse;
@@ -37,7 +38,7 @@ public class AuxiliaryAuthenticationPolicy implements HttpPipelinePolicy {
         this.tokenCredentials = credentials;
     }
 
-    private boolean responseSuccessful(HttpResponse response) {
+    private boolean isResponseSuccessful(HttpResponse response) {
         return response.getStatusCode() >= 200 && response.getStatusCode() < 300;
     }
 
@@ -45,7 +46,7 @@ public class AuxiliaryAuthenticationPolicy implements HttpPipelinePolicy {
     public Mono<HttpResponse> process(HttpPipelineCallContext context, HttpPipelineNextPolicy next) {
         return next.clone().process().flatMap(
             response -> {
-                if (!responseSuccessful(response) && this.tokenCredentials != null && this.tokenCredentials.length > 0) {
+                if (!isResponseSuccessful(response) && this.tokenCredentials != null && this.tokenCredentials.length > 0) {
                     HttpResponse bufferedResponse = response.buffer();
                     return FluxUtil.collectBytesInByteBufferStream(bufferedResponse.getBody()).flatMap(
                         body -> {
@@ -63,9 +64,11 @@ public class AuxiliaryAuthenticationPolicy implements HttpPipelinePolicy {
                                 context.getHttpRequest().getHeaders().getValue(AUTHORIZATION_AUXILIARY_HEADER) == null) {
                                 Flux<String> tokens = Flux.fromIterable(Arrays.asList(tokenCredentials))
                                     .flatMap(
-                                        credential -> credential.getToken(context.getHttpRequest())
-                                        .map(accessToken -> String.format(SCHEMA_FORMAT, accessToken.getToken())
-                                    ));
+                                        credential -> {
+                                            String defaultScope = com.azure.management.Utils.getDefaultScopeFromRequest(context.getHttpRequest(), credential.getEnvironment());
+                                            return credential.getToken(new TokenRequestContext().addScopes(defaultScope))
+                                                    .map(accessToken -> String.format(SCHEMA_FORMAT, accessToken.getToken()));
+                                        });
 
                                 // Retry
                                 return tokens.collectList().flatMap(

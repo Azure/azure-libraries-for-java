@@ -37,7 +37,8 @@ public class BearerTokenAuthenticationPolicy implements HttpPipelinePolicy {
 
         Mono<AccessToken> tokenResult;
         if (this.scopes == null || this.scopes.length == 0) {
-            tokenResult = this.credential.getToken(context.getHttpRequest());
+            String defaultScope = Utils.getDefaultScopeFromRequest(context.getHttpRequest(), credential.getEnvironment());
+            tokenResult = this.credential.getToken(new TokenRequestContext().addScopes(defaultScope));
         } else {
             tokenResult = this.credential.getToken(new TokenRequestContext().addScopes(scopes));
         }

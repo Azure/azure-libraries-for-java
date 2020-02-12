@@ -7,15 +7,21 @@
 package com.azure.management.keyvault;
 
 import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.File;
 
 public class SecretTests extends KeyVaultManagementTest {
-    @Ignore("Mock framework doesn't support data plane")
+    
+    public SecretTests() {
+        super(TestBase.RunCondition.LIVE_ONLY);
+    }
+
+    @Test
     public void canCRUDSecret() throws Exception {
         String vaultName = SdkContext.randomResourceName("vault", 20);
         String secretName = SdkContext.randomResourceName("secret", 20);

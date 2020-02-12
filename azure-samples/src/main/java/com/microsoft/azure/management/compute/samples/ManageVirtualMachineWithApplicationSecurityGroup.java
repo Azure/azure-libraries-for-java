@@ -8,12 +8,17 @@ import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.SecurityRuleProtocol;
+import com.microsoft.azure.management.network.implementation.ApplicationSecurityGroupInner;
+import com.microsoft.azure.management.network.implementation.NetworkInterfaceIPConfigurationInner;
+import com.microsoft.azure.management.network.implementation.NetworkInterfaceInner;
+import com.microsoft.azure.management.network.implementation.SubnetInner;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Azure Compute sample for managing virtual machines with application security group -
@@ -117,14 +122,29 @@ public class ManageVirtualMachineWithApplicationSecurityGroup {
             //=============================================================
             // Create network interface with the network security group
 
-            NetworkInterface networkInterface = azure.networkInterfaces().define(networkInterfaceName)
-                    .withRegion(region)
-                    .withExistingResourceGroup(rgName)
-                    .withExistingPrimaryNetwork(network)
-                    .withSubnet(subnetName)
-                    .withPrimaryPrivateIPAddressDynamic()
-                    .withExistingNetworkSecurityGroup(nsg)
-                    .create();
+            NetworkInterfaceInner networkInterfaceInner = new NetworkInterfaceInner()
+                    .withIpConfigurations(new ArrayList<NetworkInterfaceIPConfigurationInner>());
+            // Set location
+            networkInterfaceInner.withLocation(region.name());
+            // Prepare SubnetInner
+            SubnetInner subnetInner = new SubnetInner();
+            subnetInner.withId(network.subnets().get(subnetName).inner().id());
+            // Add SubnetInner
+            networkInterfaceInner.ipConfigurations().add(
+                    new NetworkInterfaceIPConfigurationInner()
+                        .withSubnet(subnetInner)
+                        .withApplicationSecurityGroups(new ArrayList<ApplicationSecurityGroupInner>())
+            );
+            // Set as primary IP Config
+            networkInterfaceInner.ipConfigurations().get(0).withPrimary(true).withName("primary");
+            // Bind ApplicationSecurityGroup
+            networkInterfaceInner.ipConfigurations().get(0).applicationSecurityGroups()
+                    .add(new ApplicationSecurityGroupInner().withId(webServerGroup.id()));
+            // Create network interface and get NetworkInterfaceInner
+            NetworkInterfaceInner inner = azure.networkInterfaces().inner()
+                    .createOrUpdate(rgName, networkInterfaceName, networkInterfaceInner);
+            // Get NetworkInterface to create VM in next step
+            NetworkInterface networkInterface = azure.networkInterfaces().getById(inner.id());
 
             System.out.println("Created a network interface:" + networkInterface.id());
             Utils.print(networkInterface);

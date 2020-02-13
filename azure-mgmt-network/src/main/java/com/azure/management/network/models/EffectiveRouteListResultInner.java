@@ -7,6 +7,7 @@
 package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.network.EffectiveRoute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public final class EffectiveRouteListResultInner {
      * A list of effective routes.
      */
     @JsonProperty(value = "value")
-    private List<EffectiveRouteInner> value;
+    private List<EffectiveRoute> value;
 
     /*
      * The URL to get the next set of results.
@@ -32,7 +33,7 @@ public final class EffectiveRouteListResultInner {
      * 
      * @return the value value.
      */
-    public List<EffectiveRouteInner> value() {
+    public List<EffectiveRoute> value() {
         return this.value;
     }
 
@@ -42,7 +43,7 @@ public final class EffectiveRouteListResultInner {
      * @param value the value value to set.
      * @return the EffectiveRouteListResultInner object itself.
      */
-    public EffectiveRouteListResultInner withValue(List<EffectiveRouteInner> value) {
+    public EffectiveRouteListResultInner withValue(List<EffectiveRoute> value) {
         this.value = value;
         return this;
     }

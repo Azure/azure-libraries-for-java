@@ -7,6 +7,7 @@
 package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.network.VpnClientConnectionHealthDetail;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,14 +20,14 @@ public final class VpnClientConnectionHealthDetailListResultInner {
      * List of vpn client connection health.
      */
     @JsonProperty(value = "value")
-    private List<VpnClientConnectionHealthDetailInner> value;
+    private List<VpnClientConnectionHealthDetail> value;
 
     /**
      * Get the value property: List of vpn client connection health.
      * 
      * @return the value value.
      */
-    public List<VpnClientConnectionHealthDetailInner> value() {
+    public List<VpnClientConnectionHealthDetail> value() {
         return this.value;
     }
 
@@ -37,7 +38,7 @@ public final class VpnClientConnectionHealthDetailListResultInner {
      * @return the VpnClientConnectionHealthDetailListResultInner object
      * itself.
      */
-    public VpnClientConnectionHealthDetailListResultInner withValue(List<VpnClientConnectionHealthDetailInner> value) {
+    public VpnClientConnectionHealthDetailListResultInner withValue(List<VpnClientConnectionHealthDetail> value) {
         this.value = value;
         return this;
     }

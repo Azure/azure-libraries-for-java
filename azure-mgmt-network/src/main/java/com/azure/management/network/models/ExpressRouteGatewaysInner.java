@@ -66,7 +66,7 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ExpressRouteGatewayListInner>> list(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ExpressRouteGatewayListInner>> listBySubscription(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways")
         @ExpectedResponses({200})
@@ -106,9 +106,9 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRouteGatewayListInner>> listWithResponseAsync() {
+    public Mono<SimpleResponse<ExpressRouteGatewayListInner>> listBySubscriptionWithResponseAsync() {
         final String apiVersion = "2019-06-01";
-        return service.list(this.client.getHost(), this.client.getSubscriptionId(), apiVersion);
+        return service.listBySubscription(this.client.getHost(), this.client.getSubscriptionId(), apiVersion);
     }
 
     /**
@@ -118,8 +118,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ExpressRouteGatewayListInner> listAsync() {
-        return listWithResponseAsync()
+    public Mono<ExpressRouteGatewayListInner> listBySubscriptionAsync() {
+        return listBySubscriptionWithResponseAsync()
             .flatMap((SimpleResponse<ExpressRouteGatewayListInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -136,8 +136,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRouteGatewayListInner list() {
-        return listAsync().block();
+    public ExpressRouteGatewayListInner listBySubscription() {
+        return listBySubscriptionAsync().block();
     }
 
     /**

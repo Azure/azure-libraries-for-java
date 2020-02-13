@@ -34,13 +34,13 @@ import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
- * P2sVpnServerConfigurations.
+ * P2SVpnServerConfigurations.
  */
-public final class P2sVpnServerConfigurationsInner {
+public final class P2SVpnServerConfigurationsInner {
     /**
      * The proxy service used to perform REST calls.
      */
-    private P2sVpnServerConfigurationsService service;
+    private P2SVpnServerConfigurationsService service;
 
     /**
      * The service client containing this operation class.
@@ -48,23 +48,23 @@ public final class P2sVpnServerConfigurationsInner {
     private NetworkManagementClientImpl client;
 
     /**
-     * Initializes an instance of P2sVpnServerConfigurationsInner.
+     * Initializes an instance of P2SVpnServerConfigurationsInner.
      * 
      * @param client the instance of the service client containing this operation class.
      */
-    public P2sVpnServerConfigurationsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(P2sVpnServerConfigurationsService.class, client.getHttpPipeline());
+    public P2SVpnServerConfigurationsInner(NetworkManagementClientImpl client) {
+        this.service = RestProxy.create(P2SVpnServerConfigurationsService.class, client.getHttpPipeline());
         this.client = client;
     }
 
     /**
      * The interface defining all the services for
-     * NetworkManagementClientP2sVpnServerConfigurations to be used by the
+     * NetworkManagementClientP2SVpnServerConfigurations to be used by the
      * proxy service to perform REST calls.
      */
     @Host("{$host}")
-    @ServiceInterface(name = "NetworkManagementClientP2sVpnServerConfigurations")
-    private interface P2sVpnServerConfigurationsService {
+    @ServiceInterface(name = "NetworkManagementClientP2SVpnServerConfigurations")
+    private interface P2SVpnServerConfigurationsService {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations/{p2SVpnServerConfigurationName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ErrorException.class)

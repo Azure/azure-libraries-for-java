@@ -1209,31 +1209,31 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The P2sVpnServerConfigurationsInner object to access its operations.
+     * The P2SVpnServerConfigurationsInner object to access its operations.
      */
-    private P2sVpnServerConfigurationsInner p2sVpnServerConfigurations;
+    private P2SVpnServerConfigurationsInner p2SVpnServerConfigurations;
 
     /**
-     * Gets the P2sVpnServerConfigurationsInner object to access its operations.
+     * Gets the P2SVpnServerConfigurationsInner object to access its operations.
      * 
-     * @return the P2sVpnServerConfigurationsInner object.
+     * @return the P2SVpnServerConfigurationsInner object.
      */
-    public P2sVpnServerConfigurationsInner p2sVpnServerConfigurations() {
-        return this.p2sVpnServerConfigurations;
+    public P2SVpnServerConfigurationsInner p2SVpnServerConfigurations() {
+        return this.p2SVpnServerConfigurations;
     }
 
     /**
-     * The P2sVpnGatewaysInner object to access its operations.
+     * The P2SVpnGatewaysInner object to access its operations.
      */
-    private P2sVpnGatewaysInner p2sVpnGateways;
+    private P2SVpnGatewaysInner p2SVpnGateways;
 
     /**
-     * Gets the P2sVpnGatewaysInner object to access its operations.
+     * Gets the P2SVpnGatewaysInner object to access its operations.
      * 
-     * @return the P2sVpnGatewaysInner object.
+     * @return the P2SVpnGatewaysInner object.
      */
-    public P2sVpnGatewaysInner p2sVpnGateways() {
-        return this.p2sVpnGateways;
+    public P2SVpnGatewaysInner p2SVpnGateways() {
+        return this.p2SVpnGateways;
     }
 
     /**
@@ -1354,8 +1354,8 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
         this.vpnConnections = new VpnConnectionsInner(this);
         this.vpnSiteLinkConnections = new VpnSiteLinkConnectionsInner(this);
         this.vpnLinkConnections = new VpnLinkConnectionsInner(this);
-        this.p2sVpnServerConfigurations = new P2sVpnServerConfigurationsInner(this);
-        this.p2sVpnGateways = new P2sVpnGatewaysInner(this);
+        this.p2SVpnServerConfigurations = new P2SVpnServerConfigurationsInner(this);
+        this.p2SVpnGateways = new P2SVpnGatewaysInner(this);
         this.webApplicationFirewallPolicies = new WebApplicationFirewallPoliciesInner(this);
         this.service = RestProxy.create(NetworkManagementClientService.class, this.httpPipeline);
     }

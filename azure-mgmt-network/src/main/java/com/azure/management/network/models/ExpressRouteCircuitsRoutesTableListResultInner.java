@@ -7,6 +7,7 @@
 package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.network.ExpressRouteCircuitRoutesTable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public final class ExpressRouteCircuitsRoutesTableListResultInner {
      * The list of routes table.
      */
     @JsonProperty(value = "value")
-    private List<ExpressRouteCircuitRoutesTableInner> value;
+    private List<ExpressRouteCircuitRoutesTable> value;
 
     /*
      * The URL to get the next set of results.
@@ -32,7 +33,7 @@ public final class ExpressRouteCircuitsRoutesTableListResultInner {
      * 
      * @return the value value.
      */
-    public List<ExpressRouteCircuitRoutesTableInner> value() {
+    public List<ExpressRouteCircuitRoutesTable> value() {
         return this.value;
     }
 
@@ -43,7 +44,7 @@ public final class ExpressRouteCircuitsRoutesTableListResultInner {
      * @return the ExpressRouteCircuitsRoutesTableListResultInner object
      * itself.
      */
-    public ExpressRouteCircuitsRoutesTableListResultInner withValue(List<ExpressRouteCircuitRoutesTableInner> value) {
+    public ExpressRouteCircuitsRoutesTableListResultInner withValue(List<ExpressRouteCircuitRoutesTable> value) {
         this.value = value;
         return this;
     }

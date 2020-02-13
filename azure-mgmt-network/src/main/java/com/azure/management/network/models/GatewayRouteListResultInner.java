@@ -7,6 +7,7 @@
 package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.network.GatewayRoute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,14 +20,14 @@ public final class GatewayRouteListResultInner {
      * List of gateway routes.
      */
     @JsonProperty(value = "value")
-    private List<GatewayRouteInner> value;
+    private List<GatewayRoute> value;
 
     /**
      * Get the value property: List of gateway routes.
      * 
      * @return the value value.
      */
-    public List<GatewayRouteInner> value() {
+    public List<GatewayRoute> value() {
         return this.value;
     }
 
@@ -36,7 +37,7 @@ public final class GatewayRouteListResultInner {
      * @param value the value value to set.
      * @return the GatewayRouteListResultInner object itself.
      */
-    public GatewayRouteListResultInner withValue(List<GatewayRouteInner> value) {
+    public GatewayRouteListResultInner withValue(List<GatewayRoute> value) {
         this.value = value;
         return this;
     }

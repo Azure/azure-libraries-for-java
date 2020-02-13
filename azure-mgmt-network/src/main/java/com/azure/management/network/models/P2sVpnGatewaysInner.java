@@ -44,13 +44,13 @@ import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
- * P2sVpnGateways.
+ * P2SVpnGateways.
  */
-public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>, InnerSupportsListing<P2SVpnGatewayInner>, InnerSupportsDelete<Void> {
+public final class P2SVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>, InnerSupportsListing<P2SVpnGatewayInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
-    private P2sVpnGatewaysService service;
+    private P2SVpnGatewaysService service;
 
     /**
      * The service client containing this operation class.
@@ -58,23 +58,23 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     private NetworkManagementClientImpl client;
 
     /**
-     * Initializes an instance of P2sVpnGatewaysInner.
+     * Initializes an instance of P2SVpnGatewaysInner.
      * 
      * @param client the instance of the service client containing this operation class.
      */
-    public P2sVpnGatewaysInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(P2sVpnGatewaysService.class, client.getHttpPipeline());
+    public P2SVpnGatewaysInner(NetworkManagementClientImpl client) {
+        this.service = RestProxy.create(P2SVpnGatewaysService.class, client.getHttpPipeline());
         this.client = client;
     }
 
     /**
      * The interface defining all the services for
-     * NetworkManagementClientP2sVpnGateways to be used by the proxy service to
+     * NetworkManagementClientP2SVpnGateways to be used by the proxy service to
      * perform REST calls.
      */
     @Host("{$host}")
-    @ServiceInterface(name = "NetworkManagementClientP2sVpnGateways")
-    private interface P2sVpnGatewaysService {
+    @ServiceInterface(name = "NetworkManagementClientP2SVpnGateways")
+    private interface P2SVpnGatewaysService {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ErrorException.class)
@@ -113,7 +113,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> getP2sVpnConnectionHealth(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getP2SVpnConnectionHealth(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}")
         @ExpectedResponses({200, 201})
@@ -138,7 +138,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<P2SVpnGatewayInner>> beginGetP2sVpnConnectionHealth(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<P2SVpnGatewayInner>> beginGetP2SVpnConnectionHealth(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("{nextLink}")
         @ExpectedResponses({200})
@@ -498,9 +498,9 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<Flux<ByteBuffer>>> getP2sVpnConnectionHealthWithResponseAsync(String resourceGroupName, String gatewayName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getP2SVpnConnectionHealthWithResponseAsync(String resourceGroupName, String gatewayName) {
         final String apiVersion = "2019-06-01";
-        return service.getP2sVpnConnectionHealth(this.client.getHost(), resourceGroupName, gatewayName, this.client.getSubscriptionId(), apiVersion);
+        return service.getP2SVpnConnectionHealth(this.client.getHost(), resourceGroupName, gatewayName, this.client.getSubscriptionId(), apiVersion);
     }
 
     /**
@@ -513,8 +513,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<P2SVpnGatewayInner> getP2sVpnConnectionHealthAsync(String resourceGroupName, String gatewayName) {
-        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getP2sVpnConnectionHealthWithResponseAsync(resourceGroupName, gatewayName);
+    public Mono<P2SVpnGatewayInner> getP2SVpnConnectionHealthAsync(String resourceGroupName, String gatewayName) {
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getP2SVpnConnectionHealthWithResponseAsync(resourceGroupName, gatewayName);
         return client.<P2SVpnGatewayInner, P2SVpnGatewayInner>getLroResultAsync(response, client.getHttpPipeline(), P2SVpnGatewayInner.class, P2SVpnGatewayInner.class)
             .last()
             .flatMap(AsyncPollResponse::getFinalResult);
@@ -530,8 +530,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public P2SVpnGatewayInner getP2sVpnConnectionHealth(String resourceGroupName, String gatewayName) {
-        return getP2sVpnConnectionHealthAsync(resourceGroupName, gatewayName).block();
+    public P2SVpnGatewayInner getP2SVpnConnectionHealth(String resourceGroupName, String gatewayName) {
+        return getP2SVpnConnectionHealthAsync(resourceGroupName, gatewayName).block();
     }
 
     /**
@@ -751,9 +751,9 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<P2SVpnGatewayInner>> beginGetP2sVpnConnectionHealthWithResponseAsync(String resourceGroupName, String gatewayName) {
+    public Mono<SimpleResponse<P2SVpnGatewayInner>> beginGetP2SVpnConnectionHealthWithResponseAsync(String resourceGroupName, String gatewayName) {
         final String apiVersion = "2019-06-01";
-        return service.beginGetP2sVpnConnectionHealth(this.client.getHost(), resourceGroupName, gatewayName, this.client.getSubscriptionId(), apiVersion);
+        return service.beginGetP2SVpnConnectionHealth(this.client.getHost(), resourceGroupName, gatewayName, this.client.getSubscriptionId(), apiVersion);
     }
 
     /**
@@ -766,8 +766,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<P2SVpnGatewayInner> beginGetP2sVpnConnectionHealthAsync(String resourceGroupName, String gatewayName) {
-        return beginGetP2sVpnConnectionHealthWithResponseAsync(resourceGroupName, gatewayName)
+    public Mono<P2SVpnGatewayInner> beginGetP2SVpnConnectionHealthAsync(String resourceGroupName, String gatewayName) {
+        return beginGetP2SVpnConnectionHealthWithResponseAsync(resourceGroupName, gatewayName)
             .flatMap((SimpleResponse<P2SVpnGatewayInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -787,8 +787,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public P2SVpnGatewayInner beginGetP2sVpnConnectionHealth(String resourceGroupName, String gatewayName) {
-        return beginGetP2sVpnConnectionHealthAsync(resourceGroupName, gatewayName).block();
+    public P2SVpnGatewayInner beginGetP2SVpnConnectionHealth(String resourceGroupName, String gatewayName) {
+        return beginGetP2SVpnConnectionHealthAsync(resourceGroupName, gatewayName).block();
     }
 
     /**

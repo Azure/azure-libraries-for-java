@@ -10,6 +10,8 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.SubResource;
 import com.azure.management.network.Delegation;
+import com.azure.management.network.ResourceNavigationLink;
+import com.azure.management.network.ServiceAssociationLink;
 import com.azure.management.network.ServiceEndpointPropertiesFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -98,13 +100,13 @@ public class SubnetInner extends SubResource {
      * Gets an array of references to the external resources using subnet.
      */
     @JsonProperty(value = "properties.resourceNavigationLinks")
-    private List<ResourceNavigationLinkInner> resourceNavigationLinks;
+    private List<ResourceNavigationLink> resourceNavigationLinks;
 
     /*
      * Gets an array of references to services injecting into this subnet.
      */
     @JsonProperty(value = "properties.serviceAssociationLinks")
-    private List<ServiceAssociationLinkInner> serviceAssociationLinks;
+    private List<ServiceAssociationLink> serviceAssociationLinks;
 
     /*
      * Gets an array of references to the delegations on the subnet.
@@ -363,7 +365,7 @@ public class SubnetInner extends SubResource {
      * 
      * @return the resourceNavigationLinks value.
      */
-    public List<ResourceNavigationLinkInner> resourceNavigationLinks() {
+    public List<ResourceNavigationLink> resourceNavigationLinks() {
         return this.resourceNavigationLinks;
     }
 
@@ -374,7 +376,7 @@ public class SubnetInner extends SubResource {
      * @param resourceNavigationLinks the resourceNavigationLinks value to set.
      * @return the SubnetInner object itself.
      */
-    public SubnetInner withResourceNavigationLinks(List<ResourceNavigationLinkInner> resourceNavigationLinks) {
+    public SubnetInner withResourceNavigationLinks(List<ResourceNavigationLink> resourceNavigationLinks) {
         this.resourceNavigationLinks = resourceNavigationLinks;
         return this;
     }
@@ -385,7 +387,7 @@ public class SubnetInner extends SubResource {
      * 
      * @return the serviceAssociationLinks value.
      */
-    public List<ServiceAssociationLinkInner> serviceAssociationLinks() {
+    public List<ServiceAssociationLink> serviceAssociationLinks() {
         return this.serviceAssociationLinks;
     }
 
@@ -396,7 +398,7 @@ public class SubnetInner extends SubResource {
      * @param serviceAssociationLinks the serviceAssociationLinks value to set.
      * @return the SubnetInner object itself.
      */
-    public SubnetInner withServiceAssociationLinks(List<ServiceAssociationLinkInner> serviceAssociationLinks) {
+    public SubnetInner withServiceAssociationLinks(List<ServiceAssociationLink> serviceAssociationLinks) {
         this.serviceAssociationLinks = serviceAssociationLinks;
         return this;
     }

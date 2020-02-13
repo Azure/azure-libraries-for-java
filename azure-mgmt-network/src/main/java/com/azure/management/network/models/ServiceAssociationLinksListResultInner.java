@@ -7,6 +7,7 @@
 package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.network.ServiceAssociationLink;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public final class ServiceAssociationLinksListResultInner {
      * The service association links in a subnet.
      */
     @JsonProperty(value = "value")
-    private List<ServiceAssociationLinkInner> value;
+    private List<ServiceAssociationLink> value;
 
     /*
      * The URL to get the next set of results.
@@ -32,7 +33,7 @@ public final class ServiceAssociationLinksListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServiceAssociationLinkInner> value() {
+    public List<ServiceAssociationLink> value() {
         return this.value;
     }
 
@@ -42,7 +43,7 @@ public final class ServiceAssociationLinksListResultInner {
      * @param value the value value to set.
      * @return the ServiceAssociationLinksListResultInner object itself.
      */
-    public ServiceAssociationLinksListResultInner withValue(List<ServiceAssociationLinkInner> value) {
+    public ServiceAssociationLinksListResultInner withValue(List<ServiceAssociationLink> value) {
         this.value = value;
         return this;
     }

@@ -129,7 +129,7 @@ var codegen = function(project, cb) {
     cmd = autoRestExe + ' ' + transcribedReadmeFile +
                         ' --java ' +
                         ' --azure-arm=true ' +
-                        ' --generate-client-as-impl=true --implementation-subpackage=models --sync-methods=all ' +
+                        ' --generate-client-as-impl=true --implementation-subpackage=models --sync-methods=all --required-parameter-client-methods=true ' +
                         generator +
                         ` --namespace=${mappings[project].package} ` +
                         ` --java.output-folder=${outDir} ` +

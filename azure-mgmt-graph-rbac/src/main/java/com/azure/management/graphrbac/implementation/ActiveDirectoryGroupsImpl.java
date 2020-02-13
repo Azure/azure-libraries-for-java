@@ -61,7 +61,7 @@ class ActiveDirectoryGroupsImpl
     public Mono<ActiveDirectoryGroup> getByNameAsync(String name) {
         return manager().inner().groups().listAsync(String.format("displayName eq '%s'", name))
                 .singleOrEmpty()
-                .flatMap(adGroupInner -> new ActiveDirectoryGroupImpl(adGroupInner, manager()).refreshAsync());
+                .map(adGroupInner -> new ActiveDirectoryGroupImpl(adGroupInner, manager()));
     }
 
     @Override

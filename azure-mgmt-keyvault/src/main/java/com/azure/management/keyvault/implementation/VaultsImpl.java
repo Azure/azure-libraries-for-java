@@ -85,7 +85,7 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
         if (vaultInner == null) {
             return null;
         }
-        return new VaultImpl(vaultInner.getName(), vaultInner, super.manager(), graphRbacManager);
+        return new VaultImpl(vaultInner.getName(), vaultInner, this.manager(), graphRbacManager);
     }
 
     @Override

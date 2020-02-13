@@ -63,7 +63,7 @@ class ActiveDirectoryApplicationImpl
         }
         return manager.inner().applications().createAsync(createParameters)
                 .map(innerToFluentMap(this))
-                .flatMap((Function<ActiveDirectoryApplication, Mono<ActiveDirectoryApplication>>) application -> refreshCredentialsAsync());
+                .flatMap(application -> refreshCredentialsAsync());
     }
 
     @Override
@@ -95,7 +95,7 @@ class ActiveDirectoryApplicationImpl
     public Mono<ActiveDirectoryApplication> refreshAsync() {
         return getInnerAsync()
                 .map(innerToFluentMap(this))
-                .flatMap((Function<ActiveDirectoryApplication, Mono<ActiveDirectoryApplication>>) application -> refreshCredentialsAsync());
+                .flatMap(application -> refreshCredentialsAsync());
     }
 
     @Override

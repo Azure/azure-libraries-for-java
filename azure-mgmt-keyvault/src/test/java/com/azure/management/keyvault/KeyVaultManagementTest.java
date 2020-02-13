@@ -22,6 +22,14 @@ public class KeyVaultManagementTest extends TestBase {
     protected static String RG_NAME = "";
     protected static String VAULT_NAME = "";
 
+    public KeyVaultManagementTest() {
+        super();
+    }
+
+    public KeyVaultManagementTest(RunCondition runCondition) {
+        super(runCondition);
+    }
+
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);

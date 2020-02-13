@@ -67,7 +67,18 @@ public class BearerTokenAuthenticationPolicy implements HttpPipelinePolicy {
                 }
             }
         }
+        resource = removeTrailingSlash(resource);
         return resource + "/.default";
+    }
+
+    private static String removeTrailingSlash(String s) {
+        int index;
+        for (index = s.length() - 1; index >= 0; index--) {
+            if (s.charAt(index) != '/') {
+                break;
+            }
+        }
+        return s.substring(0, index + 1);
     }
 
     @Override

@@ -66,7 +66,7 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
             }
         }
 
-        vaultRestClient = manager().newRestClientBuilder().withScope("https://vault.azure.net" + "/.default").buildClient();
+        vaultRestClient = manager().newRestClientBuilder().buildClient();
         init();
     }
 

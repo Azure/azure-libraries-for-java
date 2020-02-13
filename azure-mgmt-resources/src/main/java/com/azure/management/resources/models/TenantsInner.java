@@ -23,7 +23,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.resources.TenantIdDescription;
 import reactor.core.publisher.Mono;
 
 /**
@@ -69,8 +68,14 @@ public final class TenantsInner {
         Mono<SimpleResponse<TenantListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Gets the tenants for your account.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<TenantIdDescription>> listSinglePageAsync() {
+    public Mono<PagedResponse<TenantIdDescriptionInner>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -80,24 +85,40 @@ public final class TenantsInner {
             null));
     }
 
+    /**
+     * Gets the tenants for your account.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<TenantIdDescription> listAsync() {
+    public PagedFlux<TenantIdDescriptionInner> listAsync() {
         return new PagedFlux<>(
             () -> listSinglePageAsync(),
             nextLink -> listNextSinglePageAsync(nextLink));
     }
 
     /**
+     * Gets the tenants for your account.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<TenantIdDescription> list() {
+    public PagedIterable<TenantIdDescriptionInner> list() {
         return new PagedIterable<>(listAsync());
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<TenantIdDescription>> listNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<TenantIdDescriptionInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

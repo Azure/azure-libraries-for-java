@@ -199,7 +199,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<OperationInner>> listOperationsSinglePageAsync() {
-        return service.listOperations(this.client.getHost(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+        return service.listOperations(this.getHost(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),

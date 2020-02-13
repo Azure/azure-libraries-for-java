@@ -23,7 +23,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.resources.Location;
 import reactor.core.publisher.Mono;
 
 /**
@@ -80,8 +79,16 @@ public final class SubscriptionsInner {
         Mono<SimpleResponse<SubscriptionListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
+     * 
+     * @param subscriptionId 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Location>> listLocationsSinglePageAsync(String subscriptionId) {
+    public Mono<PagedResponse<LocationInner>> listLocationsSinglePageAsync(String subscriptionId) {
         return service.listLocations(this.client.getHost(), subscriptionId, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -91,28 +98,54 @@ public final class SubscriptionsInner {
             null));
     }
 
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Location> listLocationsAsync(String subscriptionId) {
-        return new PagedFlux<>(
-            () -> listLocationsSinglePageAsync(subscriptionId));
-    }
-
     /**
-     * @param subscriptionId null
+     * This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
+     * 
+     * @param subscriptionId 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Location> listLocations(String subscriptionId) {
+    public PagedFlux<LocationInner> listLocationsAsync(String subscriptionId) {
+        return new PagedFlux<>(
+            () -> listLocationsSinglePageAsync(subscriptionId));
+    }
+
+    /**
+     * This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
+     * 
+     * @param subscriptionId 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<LocationInner> listLocations(String subscriptionId) {
         return new PagedIterable<>(listLocationsAsync(subscriptionId));
     }
 
+    /**
+     * Gets details about a specified subscription.
+     * 
+     * @param subscriptionId 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SubscriptionInner>> getWithResponseAsync(String subscriptionId) {
         return service.get(this.client.getHost(), subscriptionId, this.client.getApiVersion());
     }
 
+    /**
+     * Gets details about a specified subscription.
+     * 
+     * @param subscriptionId 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SubscriptionInner> getAsync(String subscriptionId) {
         return getWithResponseAsync(subscriptionId)
@@ -125,11 +158,25 @@ public final class SubscriptionsInner {
             });
     }
 
+    /**
+     * Gets details about a specified subscription.
+     * 
+     * @param subscriptionId 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public SubscriptionInner get(String subscriptionId) {
         return getAsync(subscriptionId).block();
     }
 
+    /**
+     * Gets all subscriptions for a tenant.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<SubscriptionInner>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -141,6 +188,12 @@ public final class SubscriptionsInner {
             null));
     }
 
+    /**
+     * Gets all subscriptions for a tenant.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<SubscriptionInner> listAsync() {
         return new PagedFlux<>(
@@ -149,6 +202,8 @@ public final class SubscriptionsInner {
     }
 
     /**
+     * Gets all subscriptions for a tenant.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -157,6 +212,14 @@ public final class SubscriptionsInner {
         return new PagedIterable<>(listAsync());
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<SubscriptionInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(

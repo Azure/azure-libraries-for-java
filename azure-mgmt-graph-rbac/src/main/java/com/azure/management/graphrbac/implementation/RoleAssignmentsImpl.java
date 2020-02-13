@@ -62,12 +62,7 @@ class RoleAssignmentsImpl
 
     @Override
     public PagedFlux<RoleAssignment> listByScopeAsync(String scope) {
-        return inner().listForScopeAsync(scope, null).mapPage(roleAssignmentInner -> {
-            if (roleAssignmentInner == null) {
-                return null;
-            }
-            return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
-        });
+        return inner().listForScopeAsync(scope, null).mapPage(roleAssignmentInner -> wrapModel(roleAssignmentInner));
     }
 
     @Override

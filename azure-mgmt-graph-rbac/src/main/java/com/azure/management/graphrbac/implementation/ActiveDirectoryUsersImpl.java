@@ -74,7 +74,7 @@ class ActiveDirectoryUsersImpl
                         ).singleOrEmpty();
                     }
                 })
-                .map(userInnerServiceResponse -> new ActiveDirectoryUserImpl(userInnerServiceResponse, manager()));
+                .map(userInner -> new ActiveDirectoryUserImpl(userInner, manager()));
     }
 
     @Override
@@ -89,7 +89,7 @@ class ActiveDirectoryUsersImpl
 
     @Override
     protected ActiveDirectoryUserImpl wrapModel(String name) {
-        return new ActiveDirectoryUserImpl((UserInner) new UserInner().setDisplayName(name), manager());
+        return new ActiveDirectoryUserImpl(new UserInner().setDisplayName(name), manager());
     }
 
     @Override

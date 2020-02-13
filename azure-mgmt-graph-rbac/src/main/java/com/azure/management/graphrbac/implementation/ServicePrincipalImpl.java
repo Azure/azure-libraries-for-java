@@ -20,16 +20,15 @@ import com.azure.management.graphrbac.models.PasswordCredentialInner;
 import com.azure.management.graphrbac.models.ServicePrincipalInner;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -119,7 +118,7 @@ class ServicePrincipalImpl
             sp = manager.inner().servicePrincipals().createAsync(createParameters)
                     .map(innerToFluentMap(this));
         }
-        return sp.flatMap((Function<ServicePrincipal, Mono<ServicePrincipal>>) servicePrincipal -> submitCredentialsAsync(servicePrincipal).mergeWith(submitRolesAsync(servicePrincipal)).last()).map(servicePrincipal -> {
+        return sp.flatMap(servicePrincipal -> submitCredentialsAsync(servicePrincipal).mergeWith(submitRolesAsync(servicePrincipal)).last()).map(servicePrincipal -> {
             for (PasswordCredentialImpl<?> passwordCredential : passwordCredentialsToCreate) {
                 passwordCredential.exportAuthFile((ServicePrincipalImpl) servicePrincipal);
             }
@@ -168,7 +167,7 @@ class ServicePrincipalImpl
                     new PasswordCredentialsUpdateParameters().setValue(updatePasswordCredentials)
             ).then(Mono.just(ServicePrincipalImpl.this))).last();
         }
-        return mono.flatMap((Function<ServicePrincipal, Mono<ServicePrincipal>>) servicePrincipal -> {
+        return mono.flatMap(servicePrincipal -> {
             passwordCredentialsToDelete.clear();
             certificateCredentialsToDelete.clear();
             return refreshCredentialsAsync();
@@ -180,19 +179,14 @@ class ServicePrincipalImpl
         if (rolesToCreate.isEmpty()) {
             create = Mono.just(servicePrincipal);
         } else {
-            create = Mono.just(rolesToCreate.entrySet().iterator())
-                    .flatMap((Function<Iterator<Map.Entry<String, BuiltInRole>>, Mono<Indexable>>) entryIterator -> {
-                        if (entryIterator.hasNext()) {
-                            Map.Entry<String, BuiltInRole> role = entryIterator.next();
-                            return manager().roleAssignments().define(SdkContext.randomUuid())
-                                    .forServicePrincipal(servicePrincipal)
-                                    .withBuiltInRole(role.getValue())
-                                    .withScope(role.getKey())
-                                    .createAsync().last();
-                        }
-                        return null;
-                    })
+            create = Flux.fromIterable(rolesToCreate.entrySet())
+                    .flatMap(roleEntry -> manager().roleAssignments().define(SdkContext.randomUuid())
+                            .forServicePrincipal(servicePrincipal)
+                            .withBuiltInRole(roleEntry.getValue())
+                            .withScope(roleEntry.getKey())
+                            .createAsync())
                     .doOnNext(indexable -> cachedRoleAssignments.put(((RoleAssignment)indexable).id(), (RoleAssignment)indexable))
+                    .last()
                     .map(indexable -> {
                         rolesToCreate.clear();
                         return servicePrincipal;
@@ -202,15 +196,11 @@ class ServicePrincipalImpl
         if (rolesToDelete.isEmpty()) {
             delete =  Mono.just(servicePrincipal);
         } else {
-            delete = Mono.just(rolesToDelete.iterator())
-                    .flatMap((Function<Iterator<String>, Mono<RoleAssignment>>) stringIterator -> {
-                        if (stringIterator.hasNext()) {
-                            return (Mono<RoleAssignment>)manager().roleAssignments().deleteByIdAsync(cachedRoleAssignments.get(stringIterator.next()).id());
-                        }
-                        return null;
-                    })
-                    .doOnNext(roleAssignment -> cachedRoleAssignments.remove(roleAssignment.id()))
-                    .map(roleAssignment -> {
+            delete = Flux.fromIterable(rolesToDelete)
+                    .flatMap(role -> manager().roleAssignments().deleteByIdAsync(cachedRoleAssignments.get(role).id()).thenReturn(role))
+                    .doOnNext(s -> cachedRoleAssignments.remove(s))
+                    .last()
+                    .map(s -> {
                         rolesToDelete.clear();
                         return servicePrincipal;
                     });
@@ -243,7 +233,7 @@ class ServicePrincipalImpl
     public Mono<ServicePrincipal> refreshAsync() {
         return getInnerAsync()
                 .map(innerToFluentMap(this))
-                .flatMap((Function<ServicePrincipal, Mono<ServicePrincipal>>) application -> refreshCredentialsAsync());
+                .flatMap(application -> refreshCredentialsAsync());
     }
 
     @Override

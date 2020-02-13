@@ -61,7 +61,7 @@ public final class FeaturesInner {
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Features/features")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<FeatureOperationsListResultInner>> listAll(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<FeatureOperationsListResultInner>> list(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features")
         @ExpectedResponses({200})
@@ -89,9 +89,15 @@ public final class FeaturesInner {
         Mono<SimpleResponse<FeatureOperationsListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Gets all the preview features that are available through AFEC for the subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<FeatureResultInner>> listAllSinglePageAsync() {
-        return service.listAll(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+    public Mono<PagedResponse<FeatureResultInner>> listSinglePageAsync() {
+        return service.list(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -100,22 +106,38 @@ public final class FeaturesInner {
             null));
     }
 
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<FeatureResultInner> listAllAsync() {
-        return new PagedFlux<>(
-            () -> listAllSinglePageAsync(),
-            nextLink -> listAllNextSinglePageAsync(nextLink));
-    }
-
     /**
+     * Gets all the preview features that are available through AFEC for the subscription.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<FeatureResultInner> listAll() {
-        return new PagedIterable<>(listAllAsync());
+    public PagedFlux<FeatureResultInner> listAsync() {
+        return new PagedFlux<>(
+            () -> listSinglePageAsync(),
+            nextLink -> listAllNextSinglePageAsync(nextLink));
     }
 
+    /**
+     * Gets all the preview features that are available through AFEC for the subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<FeatureResultInner> list() {
+        return new PagedIterable<>(listAsync());
+    }
+
+    /**
+     * Gets all the preview features in a provider namespace that are available through AFEC for the subscription.
+     * 
+     * @param resourceProviderNamespace 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<FeatureResultInner>> listSinglePageAsync(String resourceProviderNamespace) {
         return service.list(this.client.getHost(), resourceProviderNamespace, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -127,6 +149,14 @@ public final class FeaturesInner {
             null));
     }
 
+    /**
+     * Gets all the preview features in a provider namespace that are available through AFEC for the subscription.
+     * 
+     * @param resourceProviderNamespace 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<FeatureResultInner> listAsync(String resourceProviderNamespace) {
         return new PagedFlux<>(
@@ -135,7 +165,9 @@ public final class FeaturesInner {
     }
 
     /**
-     * @param resourceProviderNamespace null
+     * Gets all the preview features in a provider namespace that are available through AFEC for the subscription.
+     * 
+     * @param resourceProviderNamespace 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -145,11 +177,29 @@ public final class FeaturesInner {
         return new PagedIterable<>(listAsync(resourceProviderNamespace));
     }
 
+    /**
+     * Gets the preview feature with the specified name.
+     * 
+     * @param resourceProviderNamespace 
+     * @param featureName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<FeatureResultInner>> getWithResponseAsync(String resourceProviderNamespace, String featureName) {
         return service.get(this.client.getHost(), resourceProviderNamespace, featureName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets the preview feature with the specified name.
+     * 
+     * @param resourceProviderNamespace 
+     * @param featureName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<FeatureResultInner> getAsync(String resourceProviderNamespace, String featureName) {
         return getWithResponseAsync(resourceProviderNamespace, featureName)
@@ -162,16 +212,43 @@ public final class FeaturesInner {
             });
     }
 
+    /**
+     * Gets the preview feature with the specified name.
+     * 
+     * @param resourceProviderNamespace 
+     * @param featureName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public FeatureResultInner get(String resourceProviderNamespace, String featureName) {
         return getAsync(resourceProviderNamespace, featureName).block();
     }
 
+    /**
+     * Registers the preview feature for the subscription.
+     * 
+     * @param resourceProviderNamespace 
+     * @param featureName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<FeatureResultInner>> registerWithResponseAsync(String resourceProviderNamespace, String featureName) {
         return service.register(this.client.getHost(), resourceProviderNamespace, featureName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Registers the preview feature for the subscription.
+     * 
+     * @param resourceProviderNamespace 
+     * @param featureName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<FeatureResultInner> registerAsync(String resourceProviderNamespace, String featureName) {
         return registerWithResponseAsync(resourceProviderNamespace, featureName)
@@ -184,11 +261,28 @@ public final class FeaturesInner {
             });
     }
 
+    /**
+     * Registers the preview feature for the subscription.
+     * 
+     * @param resourceProviderNamespace 
+     * @param featureName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public FeatureResultInner register(String resourceProviderNamespace, String featureName) {
         return registerAsync(resourceProviderNamespace, featureName).block();
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<FeatureResultInner>> listAllNextSinglePageAsync(String nextLink) {
         return service.listAllNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -200,6 +294,14 @@ public final class FeaturesInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<FeatureResultInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(

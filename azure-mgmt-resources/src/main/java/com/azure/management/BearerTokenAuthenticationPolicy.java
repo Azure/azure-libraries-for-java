@@ -4,11 +4,14 @@
 package com.azure.management;
 
 import com.azure.core.credential.AccessToken;
+import com.azure.core.credential.TokenCredential;
 import com.azure.core.credential.TokenRequestContext;
 import com.azure.core.http.HttpPipelineCallContext;
 import com.azure.core.http.HttpPipelineNextPolicy;
 import com.azure.core.http.HttpResponse;
 import com.azure.core.http.policy.HttpPipelinePolicy;
+import com.azure.core.management.AzureEnvironment;
+
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -20,13 +23,19 @@ public class BearerTokenAuthenticationPolicy implements HttpPipelinePolicy {
     private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
     private static final String AUTHORIZATION_HEADER_VALUE_FORMAT = "Bearer %s";
 
-    private final AzureTokenCredential credential;
+    private final TokenCredential credential;
     private final String[] scopes;
+    private AzureEnvironment environment;
 
-    public BearerTokenAuthenticationPolicy(AzureTokenCredential credential, String... scopes) {
+    public BearerTokenAuthenticationPolicy(TokenCredential credential, String... scopes) {
         Objects.requireNonNull(credential);
         this.credential = credential;
         this.scopes = scopes;
+        if (credential instanceof AzureTokenCredential) {
+            this.environment = ((AzureTokenCredential) credential).getEnvironment();
+        } else {
+            this.environment = AzureEnvironment.AZURE;
+        }
     }
 
     @Override
@@ -37,7 +46,7 @@ public class BearerTokenAuthenticationPolicy implements HttpPipelinePolicy {
 
         Mono<AccessToken> tokenResult;
         if (this.scopes == null || this.scopes.length == 0) {
-            String defaultScope = Utils.getDefaultScopeFromRequest(context.getHttpRequest(), credential.getEnvironment());
+            String defaultScope = Utils.getDefaultScopeFromRequest(context.getHttpRequest(), environment);
             tokenResult = this.credential.getToken(new TokenRequestContext().addScopes(defaultScope));
         } else {
             tokenResult = this.credential.getToken(new TokenRequestContext().addScopes(scopes));

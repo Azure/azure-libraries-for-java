@@ -3,6 +3,7 @@
 
 package com.azure.management;
 
+import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.util.serializer.SerializerAdapter;
 
@@ -39,7 +40,7 @@ public class RestClient {
     /**
      * @return the credentials attached to this REST client
      */
-    public AzureTokenCredential getCredential() {
+    public TokenCredential getCredential() {
         return builder.getCredential();
     }
 

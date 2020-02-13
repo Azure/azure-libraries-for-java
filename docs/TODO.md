@@ -70,5 +70,6 @@
     * One question is that as modelAsString=true, should we treat it as enum for later expansion?
     * Another question is the case that when service actually want user to choose between the single value, and `null`.
 
-  - VirtualNetworksInner/NetworkInterfacesInner/RouteTablesInner don't generated with InnerSupportsListing
+  - [FIXED] VirtualNetworksInner/NetworkInterfacesInner/RouteTablesInner don't generated with InnerSupportsListing
+    * `--required-parameter-client-methods=true` to generate client method with only required parameters
   - [FIXED] apiVersion is generated multiple copies on the NetworkManagementClientBuilder

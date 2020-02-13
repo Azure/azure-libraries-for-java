@@ -22,7 +22,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.function.Function;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -79,7 +78,7 @@ class RoleAssignmentImpl
         return Mono.zip(objectIdObservable,
                     roleDefinitionIdObservable,
                     (objectId, roleDefinitionId) -> new RoleAssignmentCreateParameters().setPrincipalId(objectId).setRoleDefinitionId(roleDefinitionId))
-                .flatMap((Function<RoleAssignmentCreateParameters, Mono<RoleAssignmentInner>>) roleAssignmentPropertiesInner -> manager().roleInner().roleAssignments()
+                .flatMap(roleAssignmentPropertiesInner -> manager().roleInner().roleAssignments()
                 .createAsync(scope(), name(), roleAssignmentPropertiesInner)
                 .retryWhen(throwableFlux -> throwableFlux.zipWith(Flux.range(1, 30), (throwable, integer) -> {
                     if (throwable instanceof  CloudException) {

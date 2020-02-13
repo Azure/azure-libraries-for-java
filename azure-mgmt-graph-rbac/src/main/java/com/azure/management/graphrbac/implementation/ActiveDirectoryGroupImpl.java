@@ -19,13 +19,12 @@ import com.azure.management.graphrbac.models.ServicePrincipalInner;
 import com.azure.management.graphrbac.models.UserInner;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-import java.util.function.Function;
 
 /**
  * Implementation for Group and its parent interfaces.
@@ -104,21 +103,20 @@ class ActiveDirectoryGroupImpl
                     .map(innerToFluentMap(this));
         }
         if (!membersToRemove.isEmpty()) {
-            group = group.flatMap((Function<Object, Mono<?>>) o -> Mono.just(membersToRemove.iterator())
-                    .flatMap((Function<Iterator<String>, Mono<?>>) stringIterator -> {
-                        if (stringIterator.hasNext()) {
-                            return manager().inner().groups().removeMemberAsync(id(), stringIterator.next());
-                        }
-                        return null;
-                    })
-                    .doOnSuccess(o1 -> membersToRemove.clear()));
+            group = group.flatMap(o -> Flux.fromIterable(membersToRemove)
+                    .flatMap(s -> manager().inner().groups().removeMemberAsync(id(), s))
+                    .singleOrEmpty()
+                    .thenReturn(Mono.just(this))
+                    .doFinally(signalType -> membersToRemove.clear()));
         }
         if (!membersToAdd.isEmpty()) {
-            for (String member : membersToAdd) {
-                group = group.flatMap(ignore -> manager().inner().groups().addMemberAsync(id(), new GroupAddMemberParameters().setUrl(member))).then(Mono.just(this));
-            }
+            group = group.flatMap(o -> Flux.fromIterable(membersToAdd)
+                    .flatMap(s -> manager().inner().groups().addMemberAsync(id(), new GroupAddMemberParameters().setUrl(s)))
+                    .singleOrEmpty()
+                    .thenReturn(Mono.just(this))
+                    .doFinally(signalType -> membersToAdd.clear()));
         }
-        return group.map((Function<Object, ActiveDirectoryGroup>) o -> ActiveDirectoryGroupImpl.this);
+        return group.map(o -> ActiveDirectoryGroupImpl.this);
     }
 
     @Override

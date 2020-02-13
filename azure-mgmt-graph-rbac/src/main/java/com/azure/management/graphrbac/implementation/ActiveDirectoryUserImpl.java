@@ -15,8 +15,6 @@ import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import reactor.core.publisher.Mono;
 
-import java.util.function.Function;
-
 /**
  * Implementation for User and its parent interfaces.
  */
@@ -114,7 +112,7 @@ class ActiveDirectoryUserImpl
         } else {
             domain = Mono.just(this);
         }
-        return domain.flatMap((Function<ActiveDirectoryUserImpl, Mono<UserInner>>) activeDirectoryUser -> manager().inner().users().createAsync(createParameters))
+        return domain.flatMap(activeDirectoryUser -> manager().inner().users().createAsync(createParameters))
         .map(innerToFluentMap(this));
     }
 

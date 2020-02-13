@@ -8,6 +8,7 @@ package com.azure.management.keyvault;
 
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -18,7 +19,7 @@ import com.azure.security.keyvault.keys.models.JsonWebKey;
 import com.azure.security.keyvault.keys.models.KeyOperation;
 import com.azure.security.keyvault.keys.models.KeyType;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Test;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -31,7 +32,12 @@ import java.security.MessageDigest;
 import java.security.Signature;
 
 public class KeyTests extends KeyVaultManagementTest {
-    @Ignore("Mock framework doesn't support data plane")
+
+    public KeyTests() {
+        super(TestBase.RunCondition.LIVE_ONLY);
+    }
+
+    @Test
     public void canCRUDKey() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);
@@ -71,7 +77,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertEquals(2, TestUtilities.getPagedIterableSize(keys));
     }
 
-    @Ignore("Mock framework doesn't support data plane")
+    @Test
     public void canImportKey() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);
@@ -84,7 +90,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertNotNull(key.id());
     }
 
-    @Ignore("Mock framework doesn't support data plane")
+    @Test
     public void canBackupAndRestore() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);
@@ -107,7 +113,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertEquals(key.getJsonWebKey(), keys.iterator().next().getJsonWebKey());
     }
 
-    @Ignore("Mock framework doesn't support data plane")
+    @Test
     public void canEncryptAndDecrypt() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);
@@ -139,7 +145,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertEquals(s, new String(decrypted));
     }
 
-    @Ignore("Mock framework doesn't support data plane")
+    @Test
     public void canSignAndVerify() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);
@@ -168,7 +174,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertTrue(key.verify(SignatureAlgorithm.RS256, digest, signature));
     }
 
-    @Ignore("Mock framework doesn't support data plane")
+    @Test
     public void canWrapAndUnwrap() throws Exception {
         Vault vault = createVault();
         String keyName = SdkContext.randomResourceName("key", 20);

@@ -109,7 +109,7 @@ public final class StorageManagementClientBuilder {
             this.host = "https://management.azure.com";
         }
         if (apiVersion == null) {
-            this.apiVersion = "2018-11-01";
+            this.apiVersion = "2019-06-01";
         }
         if (environment == null) {
             this.environment = AzureEnvironment.AZURE;

@@ -11,16 +11,21 @@ import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.Resource;
 import com.azure.management.storage.AccessTier;
 import com.azure.management.storage.AccountStatus;
+import com.azure.management.storage.AzureFilesIdentityBasedAuthentication;
 import com.azure.management.storage.CustomDomain;
 import com.azure.management.storage.Encryption;
 import com.azure.management.storage.Endpoints;
 import com.azure.management.storage.GeoReplicationStats;
 import com.azure.management.storage.Identity;
 import com.azure.management.storage.Kind;
+import com.azure.management.storage.LargeFileSharesState;
 import com.azure.management.storage.NetworkRuleSet;
 import com.azure.management.storage.ProvisioningState;
+import com.azure.management.storage.RoutingPreference;
+import com.azure.management.storage.Sku;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 /**
  * The StorageAccount model.
@@ -32,7 +37,7 @@ public class StorageAccountInner extends Resource {
      * The SKU of the storage account.
      */
     @JsonProperty(value = "sku", access = JsonProperty.Access.WRITE_ONLY)
-    private SkuInner sku;
+    private Sku sku;
 
     /*
      * Indicates the type of storage account.
@@ -131,10 +136,10 @@ public class StorageAccountInner extends Resource {
     private AccessTier accessTier;
 
     /*
-     * Enables Azure Files AAD Integration for SMB if sets to true.
+     * Settings for Azure Files identity based authentication.
      */
-    @JsonProperty(value = "properties.azureFilesAadIntegration")
-    private Boolean enableAzureFilesAadIntegration;
+    @JsonProperty(value = "properties.azureFilesIdentityBasedAuthentication")
+    private AzureFilesIdentityBasedAuthentication azureFilesIdentityBasedAuthentication;
 
     /*
      * Allows https traffic only to storage service if sets to true.
@@ -169,12 +174,40 @@ public class StorageAccountInner extends Resource {
     @JsonProperty(value = "properties.failoverInProgress", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean failoverInProgress;
 
+    /*
+     * Allow large file shares if sets to Enabled. It cannot be disabled once
+     * it is enabled.
+     */
+    @JsonProperty(value = "properties.largeFileSharesState")
+    private LargeFileSharesState largeFileSharesState;
+
+    /*
+     * List of private endpoint connection associated with the specified
+     * storage account
+     */
+    @JsonProperty(value = "properties.privateEndpointConnections", access = JsonProperty.Access.WRITE_ONLY)
+    private List<PrivateEndpointConnectionInner> privateEndpointConnections;
+
+    /*
+     * Routing preference defines the type of network, either microsoft or
+     * internet routing to be used to deliver the user data, the default option
+     * is microsoft routing
+     */
+    @JsonProperty(value = "properties.routingPreference")
+    private RoutingPreference routingPreference;
+
+    /*
+     * Blob restore status.
+     */
+    @JsonProperty(value = "properties.blobRestoreStatus", access = JsonProperty.Access.WRITE_ONLY)
+    private BlobRestoreStatusInner blobRestoreStatus;
+
     /**
      * Get the sku property: The SKU of the storage account.
      * 
      * @return the sku value.
      */
-    public SkuInner getSku() {
+    public Sku getSku() {
         return this.sku;
     }
 
@@ -332,25 +365,25 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the enableAzureFilesAadIntegration property: Enables Azure Files AAD
-     * Integration for SMB if sets to true.
+     * Get the azureFilesIdentityBasedAuthentication property: Settings for
+     * Azure Files identity based authentication.
      * 
-     * @return the enableAzureFilesAadIntegration value.
+     * @return the azureFilesIdentityBasedAuthentication value.
      */
-    public Boolean isEnableAzureFilesAadIntegration() {
-        return this.enableAzureFilesAadIntegration;
+    public AzureFilesIdentityBasedAuthentication getAzureFilesIdentityBasedAuthentication() {
+        return this.azureFilesIdentityBasedAuthentication;
     }
 
     /**
-     * Set the enableAzureFilesAadIntegration property: Enables Azure Files AAD
-     * Integration for SMB if sets to true.
+     * Set the azureFilesIdentityBasedAuthentication property: Settings for
+     * Azure Files identity based authentication.
      * 
-     * @param enableAzureFilesAadIntegration the enableAzureFilesAadIntegration
-     * value to set.
+     * @param azureFilesIdentityBasedAuthentication the
+     * azureFilesIdentityBasedAuthentication value to set.
      * @return the StorageAccountInner object itself.
      */
-    public StorageAccountInner setEnableAzureFilesAadIntegration(Boolean enableAzureFilesAadIntegration) {
-        this.enableAzureFilesAadIntegration = enableAzureFilesAadIntegration;
+    public StorageAccountInner setAzureFilesIdentityBasedAuthentication(AzureFilesIdentityBasedAuthentication azureFilesIdentityBasedAuthentication) {
+        this.azureFilesIdentityBasedAuthentication = azureFilesIdentityBasedAuthentication;
         return this;
     }
 
@@ -427,5 +460,70 @@ public class StorageAccountInner extends Resource {
      */
     public Boolean isFailoverInProgress() {
         return this.failoverInProgress;
+    }
+
+    /**
+     * Get the largeFileSharesState property: Allow large file shares if sets
+     * to Enabled. It cannot be disabled once it is enabled.
+     * 
+     * @return the largeFileSharesState value.
+     */
+    public LargeFileSharesState getLargeFileSharesState() {
+        return this.largeFileSharesState;
+    }
+
+    /**
+     * Set the largeFileSharesState property: Allow large file shares if sets
+     * to Enabled. It cannot be disabled once it is enabled.
+     * 
+     * @param largeFileSharesState the largeFileSharesState value to set.
+     * @return the StorageAccountInner object itself.
+     */
+    public StorageAccountInner setLargeFileSharesState(LargeFileSharesState largeFileSharesState) {
+        this.largeFileSharesState = largeFileSharesState;
+        return this;
+    }
+
+    /**
+     * Get the privateEndpointConnections property: List of private endpoint
+     * connection associated with the specified storage account.
+     * 
+     * @return the privateEndpointConnections value.
+     */
+    public List<PrivateEndpointConnectionInner> getPrivateEndpointConnections() {
+        return this.privateEndpointConnections;
+    }
+
+    /**
+     * Get the routingPreference property: Routing preference defines the type
+     * of network, either microsoft or internet routing to be used to deliver
+     * the user data, the default option is microsoft routing.
+     * 
+     * @return the routingPreference value.
+     */
+    public RoutingPreference getRoutingPreference() {
+        return this.routingPreference;
+    }
+
+    /**
+     * Set the routingPreference property: Routing preference defines the type
+     * of network, either microsoft or internet routing to be used to deliver
+     * the user data, the default option is microsoft routing.
+     * 
+     * @param routingPreference the routingPreference value to set.
+     * @return the StorageAccountInner object itself.
+     */
+    public StorageAccountInner setRoutingPreference(RoutingPreference routingPreference) {
+        this.routingPreference = routingPreference;
+        return this;
+    }
+
+    /**
+     * Get the blobRestoreStatus property: Blob restore status.
+     * 
+     * @return the blobRestoreStatus value.
+     */
+    public BlobRestoreStatusInner getBlobRestoreStatus() {
+        return this.blobRestoreStatus;
     }
 }

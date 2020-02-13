@@ -178,6 +178,34 @@ public final class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The PrivateEndpointConnectionsInner object to access its operations.
+     */
+    private PrivateEndpointConnectionsInner privateEndpointConnections;
+
+    /**
+     * Gets the PrivateEndpointConnectionsInner object to access its operations.
+     * 
+     * @return the PrivateEndpointConnectionsInner object.
+     */
+    public PrivateEndpointConnectionsInner privateEndpointConnections() {
+        return this.privateEndpointConnections;
+    }
+
+    /**
+     * The PrivateLinkResourcesInner object to access its operations.
+     */
+    private PrivateLinkResourcesInner privateLinkResources;
+
+    /**
+     * Gets the PrivateLinkResourcesInner object to access its operations.
+     * 
+     * @return the PrivateLinkResourcesInner object.
+     */
+    public PrivateLinkResourcesInner privateLinkResources() {
+        return this.privateLinkResources;
+    }
+
+    /**
      * The BlobServicesInner object to access its operations.
      */
     private BlobServicesInner blobServices;
@@ -203,6 +231,34 @@ public final class StorageManagementClientImpl extends AzureServiceClient {
      */
     public BlobContainersInner blobContainers() {
         return this.blobContainers;
+    }
+
+    /**
+     * The FileServicesInner object to access its operations.
+     */
+    private FileServicesInner fileServices;
+
+    /**
+     * Gets the FileServicesInner object to access its operations.
+     * 
+     * @return the FileServicesInner object.
+     */
+    public FileServicesInner fileServices() {
+        return this.fileServices;
+    }
+
+    /**
+     * The FileSharesInner object to access its operations.
+     */
+    private FileSharesInner fileShares;
+
+    /**
+     * Gets the FileSharesInner object to access its operations.
+     * 
+     * @return the FileSharesInner object.
+     */
+    public FileSharesInner fileShares() {
+        return this.fileShares;
     }
 
     /**
@@ -235,7 +291,11 @@ public final class StorageManagementClientImpl extends AzureServiceClient {
         this.storageAccounts = new StorageAccountsInner(this);
         this.usages = new UsagesInner(this);
         this.managementPolicies = new ManagementPoliciesInner(this);
+        this.privateEndpointConnections = new PrivateEndpointConnectionsInner(this);
+        this.privateLinkResources = new PrivateLinkResourcesInner(this);
         this.blobServices = new BlobServicesInner(this);
         this.blobContainers = new BlobContainersInner(this);
+        this.fileServices = new FileServicesInner(this);
+        this.fileShares = new FileSharesInner(this);
     }
 }

@@ -22,6 +22,10 @@ import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.annotation.UnexpectedResponseExceptionType;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.http.rest.PagedResponse;
+import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
@@ -68,7 +72,7 @@ public final class BlobContainersInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ListContainerItemsInner>> list(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ListContainerItemsInner>> list(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$maxpagesize") String maxpagesize, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}")
         @ExpectedResponses({200, 201})
@@ -125,10 +129,55 @@ public final class BlobContainersInner {
         @UnexpectedResponseExceptionType(CloudException.class)
         Mono<BlobContainersExtendImmutabilityPolicyResponse> extendImmutabilityPolicy(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("containerName") String containerName, @PathParam("subscriptionId") String subscriptionId, @HeaderParam("If-Match") String ifMatch, @BodyParam("application/json") ImmutabilityPolicyInner parameters, @QueryParam("api-version") String apiVersion);
 
-        @Post("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease")
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
         Mono<SimpleResponse<LeaseContainerResponseInner>> lease(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("containerName") String containerName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") LeaseContainerRequest parameters, @QueryParam("api-version") String apiVersion);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<ListContainerItemsInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
+    }
+
+    /**
+     * Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param maxpagesize 
+     * @param filter 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PagedResponse<ListContainerItemInner>> listSinglePageAsync(String resourceGroupName, String accountName, String maxpagesize, String filter) {
+        return service.list(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), maxpagesize, filter, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+            res.getRequest(),
+            res.getStatusCode(),
+            res.getHeaders(),
+            res.getValue().getValue(),
+            res.getValue().getNextLink(),
+            null));
+    }
+
+    /**
+     * Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param maxpagesize 
+     * @param filter 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<ListContainerItemInner> listAsync(String resourceGroupName, String accountName, String maxpagesize, String filter) {
+        return new PagedFlux<>(
+            () -> listSinglePageAsync(resourceGroupName, accountName, maxpagesize, filter),
+            nextLink -> listNextSinglePageAsync(nextLink));
     }
 
     /**
@@ -140,9 +189,29 @@ public final class BlobContainersInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ListContainerItemsInner>> listWithResponseAsync(String resourceGroupName, String accountName) {
-        return service.list(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), this.client.getApiVersion());
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<ListContainerItemInner> listAsync(String resourceGroupName, String accountName) {
+        final String maxpagesize = null;
+        final String filter = null;
+        return new PagedFlux<>(
+            () -> listSinglePageAsync(resourceGroupName, accountName, maxpagesize, filter),
+            nextLink -> listNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param maxpagesize 
+     * @param filter 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<ListContainerItemInner> list(String resourceGroupName, String accountName, String maxpagesize, String filter) {
+        return new PagedIterable<>(listAsync(resourceGroupName, accountName, maxpagesize, filter));
     }
 
     /**
@@ -154,30 +223,11 @@ public final class BlobContainersInner {
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ListContainerItemsInner> listAsync(String resourceGroupName, String accountName) {
-        return listWithResponseAsync(resourceGroupName, accountName)
-            .flatMap((SimpleResponse<ListContainerItemsInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
-    }
-
-    /**
-     * Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
-     * 
-     * @param resourceGroupName 
-     * @param accountName 
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
-     * @throws CloudException thrown if the request is rejected by server.
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
-     */
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public ListContainerItemsInner list(String resourceGroupName, String accountName) {
-        return listAsync(resourceGroupName, accountName).block();
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<ListContainerItemInner> list(String resourceGroupName, String accountName) {
+        final String maxpagesize = null;
+        final String filter = null;
+        return new PagedIterable<>(listAsync(resourceGroupName, accountName, maxpagesize, filter));
     }
 
     /**
@@ -933,5 +983,24 @@ public final class BlobContainersInner {
     public LeaseContainerResponseInner lease(String resourceGroupName, String accountName, String containerName) {
         final LeaseContainerRequest parameters = null;
         return leaseAsync(resourceGroupName, accountName, containerName, parameters).block();
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PagedResponse<ListContainerItemInner>> listNextSinglePageAsync(String nextLink) {
+        return service.listNext(nextLink).map(res -> new PagedResponseBase<>(
+            res.getRequest(),
+            res.getStatusCode(),
+            res.getHeaders(),
+            res.getValue().getValue(),
+            res.getValue().getNextLink(),
+            null));
     }
 }

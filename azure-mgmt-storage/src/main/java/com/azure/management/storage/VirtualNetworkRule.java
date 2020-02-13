@@ -8,7 +8,6 @@ package com.azure.management.storage;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.OffsetDateTime;
 
 /**
  * The VirtualNetworkRule model.
@@ -29,12 +28,6 @@ public final class VirtualNetworkRule {
     private String action;
 
     /*
-     * The action of virtual network rule.
-     */
-    @JsonProperty(value = "actionTest")
-    private OffsetDateTime actionTest;
-
-    /*
      * Gets the state of virtual network rule.
      */
     @JsonProperty(value = "state")
@@ -45,7 +38,6 @@ public final class VirtualNetworkRule {
      */
     public VirtualNetworkRule() {
         action = "Allow";
-        actionTest = OffsetDateTime.parse("0001-01-01T00:00:00Z");
     }
 
     /**
@@ -90,26 +82,6 @@ public final class VirtualNetworkRule {
      */
     public VirtualNetworkRule setAction(String action) {
         this.action = action;
-        return this;
-    }
-
-    /**
-     * Get the actionTest property: The action of virtual network rule.
-     * 
-     * @return the actionTest value.
-     */
-    public OffsetDateTime getActionTest() {
-        return this.actionTest;
-    }
-
-    /**
-     * Set the actionTest property: The action of virtual network rule.
-     * 
-     * @param actionTest the actionTest value to set.
-     * @return the VirtualNetworkRule object itself.
-     */
-    public VirtualNetworkRule setActionTest(OffsetDateTime actionTest) {
-        this.actionTest = actionTest;
         return this;
     }
 

@@ -9,24 +9,26 @@ package com.azure.management.storage.implementation;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.storage.AccessTier;
+import com.azure.management.storage.AzureFilesIdentityBasedAuthentication;
 import com.azure.management.storage.CustomDomain;
+import com.azure.management.storage.DirectoryServiceOptions;
 import com.azure.management.storage.Encryption;
 import com.azure.management.storage.Identity;
 import com.azure.management.storage.Kind;
+import com.azure.management.storage.LargeFileSharesState;
 import com.azure.management.storage.ProvisioningState;
 import com.azure.management.storage.PublicEndpoints;
+import com.azure.management.storage.Sku;
 import com.azure.management.storage.SkuName;
 import com.azure.management.storage.StorageAccount;
+import com.azure.management.storage.StorageAccountCreateParameters;
 import com.azure.management.storage.StorageAccountEncryptionKeySource;
 import com.azure.management.storage.StorageAccountEncryptionStatus;
 import com.azure.management.storage.StorageAccountKey;
-import com.azure.management.storage.StorageAccountRegenerateKeyParameters;
 import com.azure.management.storage.StorageAccountSkuType;
+import com.azure.management.storage.StorageAccountUpdateParameters;
 import com.azure.management.storage.StorageService;
-import com.azure.management.storage.models.SkuInner;
-import com.azure.management.storage.models.StorageAccountCreateParametersInner;
 import com.azure.management.storage.models.StorageAccountInner;
-import com.azure.management.storage.models.StorageAccountUpdateParametersInner;
 import com.azure.management.storage.models.StorageAccountsInner;
 import reactor.core.publisher.Mono;
 
@@ -50,8 +52,8 @@ class StorageAccountImpl
 
     private PublicEndpoints publicEndpoints;
     private AccountStatuses accountStatuses;
-    private StorageAccountCreateParametersInner createParameters;
-    private StorageAccountUpdateParametersInner updateParameters;
+    private StorageAccountCreateParameters createParameters;
+    private StorageAccountUpdateParameters updateParameters;
     private StorageNetworkRulesHelper networkRulesHelper;
     private StorageEncryptionHelper encryptionHelper;
 
@@ -59,7 +61,7 @@ class StorageAccountImpl
                        StorageAccountInner innerModel,
                        final StorageManager storageManager) {
         super(name, innerModel, storageManager);
-        this.createParameters = new StorageAccountCreateParametersInner();
+        this.createParameters = new StorageAccountCreateParameters();
         this.networkRulesHelper = new StorageNetworkRulesHelper(this.createParameters);
         this.encryptionHelper = new StorageEncryptionHelper(this.createParameters);
     }
@@ -189,10 +191,8 @@ class StorageAccountImpl
 
     @Override
     public boolean isAzureFilesAadIntegrationEnabled() {
-        // FIXME: Update the storage API version
-        return true;
-//        return this.getInner().azureFilesIdentityBasedAuthentication() != null
-//                && this.getInner().azureFilesIdentityBasedAuthentication().directoryServiceOptions() == DirectoryServiceOptions.AADDS;
+        return this.inner().getAzureFilesIdentityBasedAuthentication() != null
+                && this.inner().getAzureFilesIdentityBasedAuthentication().getDirectoryServiceOptions() == DirectoryServiceOptions.AADDS;
     }
 
     @Override
@@ -200,10 +200,10 @@ class StorageAccountImpl
         return Utils.toPrimitiveBoolean(this.inner().isHnsEnabled());
     }
 
-//    @Override
-//    public boolean isLargeFileSharesEnabled() {
-//        return this.getInner().largeFileSharesState() == LargeFileSharesState.ENABLED;
-//    }
+    @Override
+    public boolean isLargeFileSharesEnabled() {
+        return this.inner().getLargeFileSharesState() == LargeFileSharesState.ENABLED;
+    }
 
     @Override
     public List<StorageAccountKey> getKeys() {
@@ -239,7 +239,6 @@ class StorageAccountImpl
 
     @Override
     protected Mono<StorageAccountInner> getInnerAsync() {
-        // FIXME: Double check the API
         return this.manager().inner().storageAccounts().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -252,9 +251,9 @@ class StorageAccountImpl
     @Override
     public StorageAccountImpl withSku(StorageAccountSkuType sku) {
         if (isInCreateMode()) {
-            createParameters.setSku(new SkuInner().setName(sku.name()));
+            createParameters.setSku(new Sku().setName(sku.name()));
         } else {
-            updateParameters.setSku(new SkuInner().setName(sku.name()));
+            updateParameters.setSku(new Sku().setName(sku.name()));
         }
         return this;
     }
@@ -339,7 +338,7 @@ class StorageAccountImpl
     @Override
     public StorageAccountImpl update() {
         createParameters = null;
-        updateParameters = new StorageAccountUpdateParametersInner();
+        updateParameters = new StorageAccountUpdateParameters();
         this.networkRulesHelper = new StorageNetworkRulesHelper(this.updateParameters, this.inner());
         this.encryptionHelper = new StorageEncryptionHelper(this.updateParameters, this.inner());
         return super.update();
@@ -506,7 +505,6 @@ class StorageAccountImpl
         final StorageAccountsInner client = this.manager().inner().storageAccounts();
         return this.manager().inner().storageAccounts().createAsync(
                 this.resourceGroupName(), this.name(), createParameters)
-                // FIXME: Double check the method calling
                 .flatMap(storageAccountInner -> client.getByResourceGroupAsync(resourceGroupName(), this.name())
                         .map(innerToFluentMap(this))
                         .doOnNext(storageAccount -> clearWrapperProperties()));
@@ -524,35 +522,34 @@ class StorageAccountImpl
 
     @Override
     public StorageAccountImpl withAzureFilesAadIntegrationEnabled(boolean enabled) {
-        // FIXME: Update storage API version.
-//        if (isInCreateMode()) {
-//            if (enabled) {
-//                this.createParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS));
-//            }
-//        } else {
-//            if (this.createParameters.azureFilesIdentityBasedAuthentication() == null) {
-//                this.createParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication());
-//            }
-//            if (enabled) {
-//                this.updateParameters.azureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS);
-//            } else {
-//                this.updateParameters.azureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.NONE);
-//            }
-//        }
+        if (isInCreateMode()) {
+            if (enabled) {
+                this.createParameters.setAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication().setDirectoryServiceOptions(DirectoryServiceOptions.AADDS));
+            }
+        } else {
+            if (this.createParameters.getAzureFilesIdentityBasedAuthentication() == null) {
+                this.createParameters.setAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication());
+            }
+            if (enabled) {
+                this.updateParameters.getAzureFilesIdentityBasedAuthentication().setDirectoryServiceOptions(DirectoryServiceOptions.AADDS);
+            } else {
+                this.updateParameters.getAzureFilesIdentityBasedAuthentication().setDirectoryServiceOptions(DirectoryServiceOptions.NONE);
+            }
+        }
         return this;
     }
 
-//    @Override
-//    public StorageAccountImpl withLargeFileShares(boolean enabled) {
-//        if (isInCreateMode()) {
-//            if (enabled) {
-//                this.createParameters.withLargeFileSharesState(LargeFileSharesState.ENABLED);
-//            } else {
-//                this.createParameters.withLargeFileSharesState(LargeFileSharesState.DISABLED);
-//            }
-//        }
-//        return this;
-//    }
+    @Override
+    public StorageAccountImpl withLargeFileShares(boolean enabled) {
+        if (isInCreateMode()) {
+            if (enabled) {
+                this.createParameters.setLargeFileSharesState(LargeFileSharesState.ENABLED);
+            } else {
+                this.createParameters.setLargeFileSharesState(LargeFileSharesState.DISABLED);
+            }
+        }
+        return this;
+    }
 
     @Override
     public StorageAccountImpl withHnsEnabled(boolean enabled) {

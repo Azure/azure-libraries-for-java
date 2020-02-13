@@ -10,10 +10,10 @@ import com.azure.management.storage.Bypass;
 import com.azure.management.storage.DefaultAction;
 import com.azure.management.storage.IPRule;
 import com.azure.management.storage.NetworkRuleSet;
+import com.azure.management.storage.StorageAccountCreateParameters;
+import com.azure.management.storage.StorageAccountUpdateParameters;
 import com.azure.management.storage.VirtualNetworkRule;
-import com.azure.management.storage.models.StorageAccountCreateParametersInner;
 import com.azure.management.storage.models.StorageAccountInner;
-import com.azure.management.storage.models.StorageAccountUpdateParametersInner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,15 +28,15 @@ final class StorageNetworkRulesHelper {
     private static final String BYPASS_NONE_STR = Bypass.NONE.toString().toLowerCase();
     private final boolean isInCreateMode;
     private final StorageAccountInner inner;
-    private final StorageAccountCreateParametersInner createParameters;
-    private final StorageAccountUpdateParametersInner updateParameters;
+    private final StorageAccountCreateParameters createParameters;
+    private final StorageAccountUpdateParameters updateParameters;
 
     /**
      * Creates StorageNetworkRulesHelper.
      *
      * @param createParameters the model representing payload for storage account create.
      */
-    StorageNetworkRulesHelper(StorageAccountCreateParametersInner createParameters) {
+    StorageNetworkRulesHelper(StorageAccountCreateParameters createParameters) {
         this.isInCreateMode = true;
         this.createParameters = createParameters;
         this.updateParameters = null;
@@ -49,7 +49,7 @@ final class StorageNetworkRulesHelper {
      * @param updateParameters the model representing payload for storage account update
      * @param inner            the current state of storage account
      */
-    StorageNetworkRulesHelper(StorageAccountUpdateParametersInner updateParameters, final StorageAccountInner inner) {
+    StorageNetworkRulesHelper(StorageAccountUpdateParameters updateParameters, final StorageAccountInner inner) {
         this.isInCreateMode = false;
         this.createParameters = null;
         this.updateParameters = updateParameters;

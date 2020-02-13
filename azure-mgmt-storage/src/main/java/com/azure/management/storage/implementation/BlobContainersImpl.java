@@ -6,16 +6,17 @@
 
 package com.azure.management.storage.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.storage.BlobContainer;
 import com.azure.management.storage.BlobContainers;
 import com.azure.management.storage.ImmutabilityPolicy;
 import com.azure.management.storage.LegalHold;
-import com.azure.management.storage.ListContainerItem;
 import com.azure.management.storage.models.BlobContainerInner;
 import com.azure.management.storage.models.BlobContainersInner;
 import com.azure.management.storage.models.ImmutabilityPolicyInner;
 import com.azure.management.storage.models.LegalHoldInner;
+import com.azure.management.storage.models.ListContainerItemInner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -64,15 +65,13 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
         String accountName = IdParsingUtils.getValueFromIdByName(id, "storageAccounts");
         String containerName = IdParsingUtils.getValueFromIdByName(id, "containers");
         BlobContainersInner client = this.inner();
-        // FIXME: Last parameter
-        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, null);
+        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName);
     }
 
     @Override
-    public Flux<ListContainerItem> listAsync(String resourceGroupName, String accountName) {
+    public PagedFlux<ListContainerItemInner> listAsync(String resourceGroupName, String accountName) {
         BlobContainersInner client = this.inner();
-        return client.listAsync(resourceGroupName, accountName)
-                .flatMapMany(inners -> Flux.fromIterable(inners.getValue()));
+        return client.listAsync(resourceGroupName, accountName);
     }
 
     @Override

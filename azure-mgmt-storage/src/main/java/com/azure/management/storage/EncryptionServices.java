@@ -29,13 +29,13 @@ public final class EncryptionServices {
     /*
      * A service that allows server-side encryption to be used.
      */
-    @JsonProperty(value = "table", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "table")
     private EncryptionService table;
 
     /*
      * A service that allows server-side encryption to be used.
      */
-    @JsonProperty(value = "queue", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "queue")
     private EncryptionService queue;
 
     /**
@@ -93,6 +93,18 @@ public final class EncryptionServices {
     }
 
     /**
+     * Set the table property: A service that allows server-side encryption to
+     * be used.
+     * 
+     * @param table the table value to set.
+     * @return the EncryptionServices object itself.
+     */
+    public EncryptionServices setTable(EncryptionService table) {
+        this.table = table;
+        return this;
+    }
+
+    /**
      * Get the queue property: A service that allows server-side encryption to
      * be used.
      * 
@@ -100,5 +112,17 @@ public final class EncryptionServices {
      */
     public EncryptionService getQueue() {
         return this.queue;
+    }
+
+    /**
+     * Set the queue property: A service that allows server-side encryption to
+     * be used.
+     * 
+     * @param queue the queue value to set.
+     * @return the EncryptionServices object itself.
+     */
+    public EncryptionServices setQueue(EncryptionService queue) {
+        this.queue = queue;
+        return this;
     }
 }

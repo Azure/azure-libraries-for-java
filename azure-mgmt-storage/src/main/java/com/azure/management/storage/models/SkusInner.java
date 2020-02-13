@@ -70,7 +70,7 @@ public final class SkusInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<SkuInner>> listSinglePageAsync() {
+    public Mono<PagedResponse<SkuInformationInner>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -87,7 +87,7 @@ public final class SkusInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<SkuInner> listAsync() {
+    public PagedFlux<SkuInformationInner> listAsync() {
         return new PagedFlux<>(
             () -> listSinglePageAsync());
     }
@@ -99,7 +99,7 @@ public final class SkusInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<SkuInner> list() {
+    public PagedIterable<SkuInformationInner> list() {
         return new PagedIterable<>(listAsync());
     }
 }

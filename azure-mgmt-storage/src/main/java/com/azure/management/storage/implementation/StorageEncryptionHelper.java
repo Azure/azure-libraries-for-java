@@ -11,12 +11,12 @@ import com.azure.management.storage.EncryptionService;
 import com.azure.management.storage.EncryptionServices;
 import com.azure.management.storage.KeySource;
 import com.azure.management.storage.KeyVaultProperties;
+import com.azure.management.storage.StorageAccountCreateParameters;
 import com.azure.management.storage.StorageAccountEncryptionKeySource;
 import com.azure.management.storage.StorageAccountEncryptionStatus;
+import com.azure.management.storage.StorageAccountUpdateParameters;
 import com.azure.management.storage.StorageService;
-import com.azure.management.storage.models.StorageAccountCreateParametersInner;
 import com.azure.management.storage.models.StorageAccountInner;
-import com.azure.management.storage.models.StorageAccountUpdateParametersInner;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,15 +27,15 @@ import java.util.Map;
 final class StorageEncryptionHelper {
     private final boolean isInCreateMode;
     private final StorageAccountInner inner;
-    private final StorageAccountCreateParametersInner createParameters;
-    private final StorageAccountUpdateParametersInner updateParameters;
+    private final StorageAccountCreateParameters createParameters;
+    private final StorageAccountUpdateParameters updateParameters;
 
     /**
      * Creates StorageEncryptionHelper.
      *
      * @param createParameters the model representing payload for storage account create.
      */
-    StorageEncryptionHelper(StorageAccountCreateParametersInner createParameters) {
+    StorageEncryptionHelper(StorageAccountCreateParameters createParameters) {
         this.isInCreateMode = true;
         this.createParameters = createParameters;
         this.updateParameters = null;
@@ -48,7 +48,7 @@ final class StorageEncryptionHelper {
      * @param updateParameters the model representing payload for storage account update
      * @param inner            the current state of storage account
      */
-    StorageEncryptionHelper(StorageAccountUpdateParametersInner updateParameters, final StorageAccountInner inner) {
+    StorageEncryptionHelper(StorageAccountUpdateParameters updateParameters, final StorageAccountInner inner) {
         this.isInCreateMode = false;
         this.createParameters = null;
         this.updateParameters = updateParameters;

@@ -34,10 +34,17 @@ import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import com.azure.management.storage.AccountSasParameters;
+import com.azure.management.storage.BlobRestoreParameters;
+import com.azure.management.storage.BlobRestoreRange;
 import com.azure.management.storage.ServiceSasParameters;
 import com.azure.management.storage.StorageAccountCheckNameAvailabilityParameters;
+import com.azure.management.storage.StorageAccountCreateParameters;
+import com.azure.management.storage.StorageAccountExpand;
 import com.azure.management.storage.StorageAccountRegenerateKeyParameters;
+import com.azure.management.storage.StorageAccountUpdateParameters;
 import java.nio.ByteBuffer;
+import java.time.OffsetDateTime;
+import java.util.List;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -82,7 +89,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> create(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") StorageAccountCreateParametersInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> create(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") StorageAccountCreateParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
         @ExpectedResponses({200, 204})
@@ -92,12 +99,12 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<StorageAccountInner>> getByResourceGroup(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<StorageAccountInner>> getByResourceGroup(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") StorageAccountExpand expand, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<StorageAccountInner>> update(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") StorageAccountUpdateParametersInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<StorageAccountInner>> update(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") StorageAccountUpdateParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts")
         @ExpectedResponses({200})
@@ -112,7 +119,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<StorageAccountListKeysResultInner>> listKeys(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<StorageAccountListKeysResultInner>> listKeys(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey")
         @ExpectedResponses({200})
@@ -134,6 +141,11 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
         @UnexpectedResponseExceptionType(CloudException.class)
         Mono<SimpleResponse<Flux<ByteBuffer>>> failover(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges")
+        @ExpectedResponses({200, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<Flux<ByteBuffer>>> restoreBlobRanges(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") BlobRestoreParameters parameters, @QueryParam("api-version") String apiVersion);
+
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/revokeUserDelegationKeys")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
@@ -142,12 +154,22 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<StorageAccountInner>> beginCreate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") StorageAccountCreateParametersInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<StorageAccountInner>> beginCreate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") StorageAccountCreateParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
         Mono<Response<Void>> beginFailover(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges")
+        @ExpectedResponses({200, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<BlobRestoreStatusInner>> beginRestoreBlobRanges(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") BlobRestoreParameters parameters, @QueryParam("api-version") String apiVersion);
+
+        @Get("{nextLink}")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<StorageAccountListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
     /**
@@ -209,7 +231,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<Flux<ByteBuffer>>> createWithResponseAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createWithResponseAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         return service.create(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -224,7 +246,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<StorageAccountInner> createAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public Mono<StorageAccountInner> createAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         Mono<SimpleResponse<Flux<ByteBuffer>>> response = createWithResponseAsync(resourceGroupName, accountName, parameters);
         return client.<StorageAccountInner, StorageAccountInner>getLroResultAsync(response, client.getHttpPipeline(), StorageAccountInner.class, StorageAccountInner.class)
             .last()
@@ -242,7 +264,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public StorageAccountInner create(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public StorageAccountInner create(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         return createAsync(resourceGroupName, accountName, parameters).block();
     }
 
@@ -294,13 +316,13 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * 
      * @param resourceGroupName 
      * @param accountName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<StorageAccountInner>> getByResourceGroupWithResponseAsync(String resourceGroupName, String accountName) {
-        final String expand = "geoReplicationStats";
+    public Mono<SimpleResponse<StorageAccountInner>> getByResourceGroupWithResponseAsync(String resourceGroupName, String accountName, StorageAccountExpand expand) {
         return service.getByResourceGroup(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), expand, this.client.getApiVersion());
     }
 
@@ -309,13 +331,14 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * 
      * @param resourceGroupName 
      * @param accountName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<StorageAccountInner> getByResourceGroupAsync(String resourceGroupName, String accountName) {
-        return getByResourceGroupWithResponseAsync(resourceGroupName, accountName)
+    public Mono<StorageAccountInner> getByResourceGroupAsync(String resourceGroupName, String accountName, StorageAccountExpand expand) {
+        return getByResourceGroupWithResponseAsync(resourceGroupName, accountName, expand)
             .flatMap((SimpleResponse<StorageAccountInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -335,8 +358,46 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<StorageAccountInner> getByResourceGroupAsync(String resourceGroupName, String accountName) {
+        final StorageAccountExpand expand = null;
+        return getByResourceGroupWithResponseAsync(resourceGroupName, accountName, expand)
+            .flatMap((SimpleResponse<StorageAccountInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param expand 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public StorageAccountInner getByResourceGroup(String resourceGroupName, String accountName, StorageAccountExpand expand) {
+        return getByResourceGroupAsync(resourceGroupName, accountName, expand).block();
+    }
+
+    /**
+     * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
     public StorageAccountInner getByResourceGroup(String resourceGroupName, String accountName) {
-        return getByResourceGroupAsync(resourceGroupName, accountName).block();
+        final StorageAccountExpand expand = null;
+        return getByResourceGroupAsync(resourceGroupName, accountName, expand).block();
     }
 
     /**
@@ -350,7 +411,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<StorageAccountInner>> updateWithResponseAsync(String resourceGroupName, String accountName, StorageAccountUpdateParametersInner parameters) {
+    public Mono<SimpleResponse<StorageAccountInner>> updateWithResponseAsync(String resourceGroupName, String accountName, StorageAccountUpdateParameters parameters) {
         return service.update(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -365,7 +426,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<StorageAccountInner> updateAsync(String resourceGroupName, String accountName, StorageAccountUpdateParametersInner parameters) {
+    public Mono<StorageAccountInner> updateAsync(String resourceGroupName, String accountName, StorageAccountUpdateParameters parameters) {
         return updateWithResponseAsync(resourceGroupName, accountName, parameters)
             .flatMap((SimpleResponse<StorageAccountInner> res) -> {
                 if (res.getValue() != null) {
@@ -387,7 +448,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public StorageAccountInner update(String resourceGroupName, String accountName, StorageAccountUpdateParametersInner parameters) {
+    public StorageAccountInner update(String resourceGroupName, String accountName, StorageAccountUpdateParameters parameters) {
         return updateAsync(resourceGroupName, accountName, parameters).block();
     }
 
@@ -404,7 +465,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
             res.getStatusCode(),
             res.getHeaders(),
             res.getValue().getValue(),
-            null,
+            res.getValue().getNextLink(),
             null));
     }
 
@@ -417,7 +478,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<StorageAccountInner> listAsync() {
         return new PagedFlux<>(
-            () -> listSinglePageAsync());
+            () -> listSinglePageAsync(),
+            nextLink -> listNextSinglePageAsync(nextLink));
     }
 
     /**
@@ -478,7 +540,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     }
 
     /**
-     * Lists the access keys for the specified storage account.
+     * Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
      * 
      * @param resourceGroupName 
      * @param accountName 
@@ -488,11 +550,12 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<StorageAccountListKeysResultInner>> listKeysWithResponseAsync(String resourceGroupName, String accountName) {
-        return service.listKeys(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), this.client.getApiVersion());
+        final String expand = "kerb";
+        return service.listKeys(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), expand, this.client.getApiVersion());
     }
 
     /**
-     * Lists the access keys for the specified storage account.
+     * Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
      * 
      * @param resourceGroupName 
      * @param accountName 
@@ -513,7 +576,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     }
 
     /**
-     * Lists the access keys for the specified storage account.
+     * Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
      * 
      * @param resourceGroupName 
      * @param accountName 
@@ -527,11 +590,11 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     }
 
     /**
-     * Regenerates one of the access keys for the specified storage account.
+     * Regenerates one of the access keys or Kerberos keys for the specified storage account.
      * 
      * @param resourceGroupName 
      * @param accountName 
-     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2, kerb1, kerb2.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -544,11 +607,11 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     }
 
     /**
-     * Regenerates one of the access keys for the specified storage account.
+     * Regenerates one of the access keys or Kerberos keys for the specified storage account.
      * 
      * @param resourceGroupName 
      * @param accountName 
-     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2, kerb1, kerb2.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -566,11 +629,11 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     }
 
     /**
-     * Regenerates one of the access keys for the specified storage account.
+     * Regenerates one of the access keys or Kerberos keys for the specified storage account.
      * 
      * @param resourceGroupName 
      * @param accountName 
-     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2, kerb1, kerb2.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -730,6 +793,60 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     }
 
     /**
+     * Restore blobs in the specified blob ranges.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> restoreBlobRangesWithResponseAsync(String resourceGroupName, String accountName, OffsetDateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        BlobRestoreParameters parameters = new BlobRestoreParameters();
+        parameters.setTimeToRestore(timeToRestore);
+        parameters.setBlobRanges(blobRanges);
+        return service.restoreBlobRanges(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<BlobRestoreStatusInner> restoreBlobRangesAsync(String resourceGroupName, String accountName, OffsetDateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = restoreBlobRangesWithResponseAsync(resourceGroupName, accountName, timeToRestore, blobRanges);
+        return client.<BlobRestoreStatusInner, BlobRestoreStatusInner>getLroResultAsync(response, client.getHttpPipeline(), BlobRestoreStatusInner.class, BlobRestoreStatusInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public BlobRestoreStatusInner restoreBlobRanges(String resourceGroupName, String accountName, OffsetDateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        return restoreBlobRangesAsync(resourceGroupName, accountName, timeToRestore, blobRanges).block();
+    }
+
+    /**
      * Revoke user delegation keys.
      * 
      * @param resourceGroupName 
@@ -783,7 +900,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<StorageAccountInner>> beginCreateWithResponseAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public Mono<SimpleResponse<StorageAccountInner>> beginCreateWithResponseAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         return service.beginCreate(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -798,7 +915,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<StorageAccountInner> beginCreateAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public Mono<StorageAccountInner> beginCreateAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         return beginCreateWithResponseAsync(resourceGroupName, accountName, parameters)
             .flatMap((SimpleResponse<StorageAccountInner> res) -> {
                 if (res.getValue() != null) {
@@ -820,7 +937,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public StorageAccountInner beginCreate(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public StorageAccountInner beginCreate(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         return beginCreateAsync(resourceGroupName, accountName, parameters).block();
     }
 
@@ -865,5 +982,82 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void beginFailover(String resourceGroupName, String accountName) {
         beginFailoverAsync(resourceGroupName, accountName).block();
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<BlobRestoreStatusInner>> beginRestoreBlobRangesWithResponseAsync(String resourceGroupName, String accountName, OffsetDateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        BlobRestoreParameters parameters = new BlobRestoreParameters();
+        parameters.setTimeToRestore(timeToRestore);
+        parameters.setBlobRanges(blobRanges);
+        return service.beginRestoreBlobRanges(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<BlobRestoreStatusInner> beginRestoreBlobRangesAsync(String resourceGroupName, String accountName, OffsetDateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        return beginRestoreBlobRangesWithResponseAsync(resourceGroupName, accountName, timeToRestore, blobRanges)
+            .flatMap((SimpleResponse<BlobRestoreStatusInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public BlobRestoreStatusInner beginRestoreBlobRanges(String resourceGroupName, String accountName, OffsetDateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        return beginRestoreBlobRangesAsync(resourceGroupName, accountName, timeToRestore, blobRanges).block();
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PagedResponse<StorageAccountInner>> listNextSinglePageAsync(String nextLink) {
+        return service.listNext(nextLink).map(res -> new PagedResponseBase<>(
+            res.getRequest(),
+            res.getStatusCode(),
+            res.getHeaders(),
+            res.getValue().getValue(),
+            res.getValue().getNextLink(),
+            null));
     }
 }

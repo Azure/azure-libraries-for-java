@@ -18,6 +18,10 @@ import com.azure.core.annotation.ReturnType;
 import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.annotation.UnexpectedResponseExceptionType;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.http.rest.PagedResponse;
+import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
@@ -56,6 +60,11 @@ public final class BlobServicesInner {
     @Host("{$host}")
     @ServiceInterface(name = "StorageManagementClientBlobServices")
     private interface BlobServicesService {
+        @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices")
+        @ExpectedResponses({200})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<BlobServiceItemsInner>> list(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
@@ -65,6 +74,55 @@ public final class BlobServicesInner {
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
         Mono<SimpleResponse<BlobServicePropertiesInner>> getServiceProperties(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @PathParam("BlobServicesName") String blobServicesName, @QueryParam("api-version") String apiVersion);
+    }
+
+    /**
+     * List blob services of storage account. It returns a collection of one object named default.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PagedResponse<BlobServicePropertiesInner>> listSinglePageAsync(String resourceGroupName, String accountName) {
+        return service.list(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+            res.getRequest(),
+            res.getStatusCode(),
+            res.getHeaders(),
+            res.getValue().getValue(),
+            null,
+            null));
+    }
+
+    /**
+     * List blob services of storage account. It returns a collection of one object named default.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<BlobServicePropertiesInner> listAsync(String resourceGroupName, String accountName) {
+        return new PagedFlux<>(
+            () -> listSinglePageAsync(resourceGroupName, accountName));
+    }
+
+    /**
+     * List blob services of storage account. It returns a collection of one object named default.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<BlobServicePropertiesInner> list(String resourceGroupName, String accountName) {
+        return new PagedIterable<>(listAsync(resourceGroupName, accountName));
     }
 
     /**

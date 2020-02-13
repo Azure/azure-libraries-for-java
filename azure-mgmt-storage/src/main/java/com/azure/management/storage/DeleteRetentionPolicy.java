@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Fluent
 public final class DeleteRetentionPolicy {
     /*
-     * Indicates whether DeleteRetentionPolicy is enabled for the Blob service.
+     * Indicates whether DeleteRetentionPolicy is enabled.
      */
     @JsonProperty(value = "enabled")
     private Boolean enabled;
 
     /*
-     * Indicates the number of days that the deleted blob should be retained.
+     * Indicates the number of days that the deleted item should be retained.
      * The minimum specified value can be 1 and the maximum value can be 365.
      */
     @JsonProperty(value = "days")
@@ -29,7 +29,7 @@ public final class DeleteRetentionPolicy {
 
     /**
      * Get the enabled property: Indicates whether DeleteRetentionPolicy is
-     * enabled for the Blob service.
+     * enabled.
      * 
      * @return the enabled value.
      */
@@ -39,7 +39,7 @@ public final class DeleteRetentionPolicy {
 
     /**
      * Set the enabled property: Indicates whether DeleteRetentionPolicy is
-     * enabled for the Blob service.
+     * enabled.
      * 
      * @param enabled the enabled value to set.
      * @return the DeleteRetentionPolicy object itself.
@@ -51,7 +51,7 @@ public final class DeleteRetentionPolicy {
 
     /**
      * Get the days property: Indicates the number of days that the deleted
-     * blob should be retained. The minimum specified value can be 1 and the
+     * item should be retained. The minimum specified value can be 1 and the
      * maximum value can be 365.
      * 
      * @return the days value.
@@ -62,7 +62,7 @@ public final class DeleteRetentionPolicy {
 
     /**
      * Set the days property: Indicates the number of days that the deleted
-     * blob should be retained. The minimum specified value can be 1 and the
+     * item should be retained. The minimum specified value can be 1 and the
      * maximum value can be 365.
      * 
      * @param days the days value to set.

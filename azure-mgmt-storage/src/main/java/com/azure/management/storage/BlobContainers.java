@@ -7,7 +7,9 @@
 package com.azure.management.storage;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.storage.models.ImmutabilityPolicyInner;
+import com.azure.management.storage.models.ListContainerItemInner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -40,7 +42,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Flux<ListContainerItem> listAsync(String resourceGroupName, String accountName);
+    PagedFlux<ListContainerItemInner> listAsync(String resourceGroupName, String accountName);
 
     /**
      * Gets properties of a specified container.

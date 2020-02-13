@@ -16,21 +16,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * The Sku model.
+ * The SkuInformation model.
  */
 @Fluent
-public final class SkuInner {
+public final class SkuInformationInner {
     /*
-     * Gets or sets the SKU name. Required for account creation; optional for
-     * update. Note that in older versions, SKU name was called accountType.
+     * The SKU name. Required for account creation; optional for update. Note
+     * that in older versions, SKU name was called accountType.
      */
     @JsonProperty(value = "name", required = true)
     private SkuName name;
 
     /*
-     * Gets the SKU tier. This is based on the SKU name.
+     * The SKU tier. This is based on the SKU name.
      */
-    @JsonProperty(value = "tier", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "tier")
     private SkuTier tier;
 
     /*
@@ -68,9 +68,9 @@ public final class SkuInner {
     private List<Restriction> restrictions;
 
     /**
-     * Get the name property: Gets or sets the SKU name. Required for account
-     * creation; optional for update. Note that in older versions, SKU name was
-     * called accountType.
+     * Get the name property: The SKU name. Required for account creation;
+     * optional for update. Note that in older versions, SKU name was called
+     * accountType.
      * 
      * @return the name value.
      */
@@ -79,25 +79,36 @@ public final class SkuInner {
     }
 
     /**
-     * Set the name property: Gets or sets the SKU name. Required for account
-     * creation; optional for update. Note that in older versions, SKU name was
-     * called accountType.
+     * Set the name property: The SKU name. Required for account creation;
+     * optional for update. Note that in older versions, SKU name was called
+     * accountType.
      * 
      * @param name the name value to set.
-     * @return the SkuInner object itself.
+     * @return the SkuInformationInner object itself.
      */
-    public SkuInner setName(SkuName name) {
+    public SkuInformationInner setName(SkuName name) {
         this.name = name;
         return this;
     }
 
     /**
-     * Get the tier property: Gets the SKU tier. This is based on the SKU name.
+     * Get the tier property: The SKU tier. This is based on the SKU name.
      * 
      * @return the tier value.
      */
     public SkuTier getTier() {
         return this.tier;
+    }
+
+    /**
+     * Set the tier property: The SKU tier. This is based on the SKU name.
+     * 
+     * @param tier the tier value to set.
+     * @return the SkuInformationInner object itself.
+     */
+    public SkuInformationInner setTier(SkuTier tier) {
+        this.tier = tier;
+        return this;
     }
 
     /**
@@ -156,9 +167,9 @@ public final class SkuInner {
      * cannot be used. This is empty if there are no restrictions.
      * 
      * @param restrictions the restrictions value to set.
-     * @return the SkuInner object itself.
+     * @return the SkuInformationInner object itself.
      */
-    public SkuInner setRestrictions(List<Restriction> restrictions) {
+    public SkuInformationInner setRestrictions(List<Restriction> restrictions) {
         this.restrictions = restrictions;
         return this;
     }

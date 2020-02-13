@@ -195,7 +195,7 @@ public final class ProvidersInner {
     /**
      * Gets all resource providers for a subscription.
      * 
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -215,7 +215,7 @@ public final class ProvidersInner {
     /**
      * Gets all resource providers for a subscription.
      * 
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -231,7 +231,22 @@ public final class ProvidersInner {
     /**
      * Gets all resource providers for a subscription.
      * 
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<ProviderInner> listAsync() {
+        final Integer top = null;
+        final String expand = null;
+        return new PagedFlux<>(
+            () -> listSinglePageAsync(top, expand),
+            nextLink -> listNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets all resource providers for a subscription.
+     * 
+     * @param top 
      * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -243,9 +258,22 @@ public final class ProvidersInner {
     }
 
     /**
+     * Gets all resource providers for a subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<ProviderInner> list() {
+        final Integer top = null;
+        final String expand = null;
+        return new PagedIterable<>(listAsync(top, expand));
+    }
+
+    /**
      * Gets all resource providers for the tenant.
      * 
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -265,7 +293,7 @@ public final class ProvidersInner {
     /**
      * Gets all resource providers for the tenant.
      * 
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -281,7 +309,22 @@ public final class ProvidersInner {
     /**
      * Gets all resource providers for the tenant.
      * 
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<ProviderInner> listAtTenantScopeAsync() {
+        final Integer top = null;
+        final String expand = null;
+        return new PagedFlux<>(
+            () -> listAtTenantScopeSinglePageAsync(top, expand),
+            nextLink -> listAtTenantScopeNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     * 
+     * @param top 
      * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -293,31 +336,44 @@ public final class ProvidersInner {
     }
 
     /**
+     * Gets all resource providers for the tenant.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<ProviderInner> listAtTenantScope() {
+        final Integer top = null;
+        final String expand = null;
+        return new PagedIterable<>(listAtTenantScopeAsync(top, expand));
+    }
+
+    /**
      * Gets the specified resource provider.
      * 
-     * @param expand The additional properties.
      * @param resourceProviderNamespace The additional properties.
+     * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ProviderInner>> getWithResponseAsync(String expand, String resourceProviderNamespace) {
+    public Mono<SimpleResponse<ProviderInner>> getWithResponseAsync(String resourceProviderNamespace, String expand) {
         return service.get(this.client.getHost(), expand, resourceProviderNamespace, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
     /**
      * Gets the specified resource provider.
      * 
-     * @param expand The additional properties.
      * @param resourceProviderNamespace The additional properties.
+     * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ProviderInner> getAsync(String expand, String resourceProviderNamespace) {
-        return getWithResponseAsync(expand, resourceProviderNamespace)
+    public Mono<ProviderInner> getAsync(String resourceProviderNamespace, String expand) {
+        return getWithResponseAsync(resourceProviderNamespace, expand)
             .flatMap((SimpleResponse<ProviderInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -330,43 +386,78 @@ public final class ProvidersInner {
     /**
      * Gets the specified resource provider.
      * 
-     * @param expand The additional properties.
      * @param resourceProviderNamespace The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ProviderInner get(String expand, String resourceProviderNamespace) {
-        return getAsync(expand, resourceProviderNamespace).block();
+    public Mono<ProviderInner> getAsync(String resourceProviderNamespace) {
+        final String expand = null;
+        return getWithResponseAsync(resourceProviderNamespace, expand)
+            .flatMap((SimpleResponse<ProviderInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified resource provider.
+     * 
+     * @param resourceProviderNamespace The additional properties.
+     * @param expand The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ProviderInner get(String resourceProviderNamespace, String expand) {
+        return getAsync(resourceProviderNamespace, expand).block();
+    }
+
+    /**
+     * Gets the specified resource provider.
+     * 
+     * @param resourceProviderNamespace The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ProviderInner get(String resourceProviderNamespace) {
+        final String expand = null;
+        return getAsync(resourceProviderNamespace, expand).block();
     }
 
     /**
      * Gets the specified resource provider at the tenant level.
      * 
-     * @param expand The additional properties.
      * @param resourceProviderNamespace The additional properties.
+     * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ProviderInner>> getAtTenantScopeWithResponseAsync(String expand, String resourceProviderNamespace) {
+    public Mono<SimpleResponse<ProviderInner>> getAtTenantScopeWithResponseAsync(String resourceProviderNamespace, String expand) {
         return service.getAtTenantScope(this.client.getHost(), expand, resourceProviderNamespace, this.client.getApiVersion());
     }
 
     /**
      * Gets the specified resource provider at the tenant level.
      * 
-     * @param expand The additional properties.
      * @param resourceProviderNamespace The additional properties.
+     * @param expand The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ProviderInner> getAtTenantScopeAsync(String expand, String resourceProviderNamespace) {
-        return getAtTenantScopeWithResponseAsync(expand, resourceProviderNamespace)
+    public Mono<ProviderInner> getAtTenantScopeAsync(String resourceProviderNamespace, String expand) {
+        return getAtTenantScopeWithResponseAsync(resourceProviderNamespace, expand)
             .flatMap((SimpleResponse<ProviderInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -379,15 +470,50 @@ public final class ProvidersInner {
     /**
      * Gets the specified resource provider at the tenant level.
      * 
-     * @param expand The additional properties.
      * @param resourceProviderNamespace The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ProviderInner getAtTenantScope(String expand, String resourceProviderNamespace) {
-        return getAtTenantScopeAsync(expand, resourceProviderNamespace).block();
+    public Mono<ProviderInner> getAtTenantScopeAsync(String resourceProviderNamespace) {
+        final String expand = null;
+        return getAtTenantScopeWithResponseAsync(resourceProviderNamespace, expand)
+            .flatMap((SimpleResponse<ProviderInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified resource provider at the tenant level.
+     * 
+     * @param resourceProviderNamespace The additional properties.
+     * @param expand The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ProviderInner getAtTenantScope(String resourceProviderNamespace, String expand) {
+        return getAtTenantScopeAsync(resourceProviderNamespace, expand).block();
+    }
+
+    /**
+     * Gets the specified resource provider at the tenant level.
+     * 
+     * @param resourceProviderNamespace The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ProviderInner getAtTenantScope(String resourceProviderNamespace) {
+        final String expand = null;
+        return getAtTenantScopeAsync(resourceProviderNamespace, expand).block();
     }
 
     /**

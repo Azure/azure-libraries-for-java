@@ -32,6 +32,9 @@ import com.azure.core.management.CloudException;
 import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.DeploymentWhatIf;
 import com.azure.management.resources.ScopedDeployment;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import java.nio.ByteBuffer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -40,7 +43,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * Deployments.
  */
-public final class DeploymentsInner {
+public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInner>, InnerSupportsListing<DeploymentExtendedInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -77,7 +80,7 @@ public final class DeploymentsInner {
         @Head("/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> checkExistenceAtScope(@HostParam("$host") String host, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Boolean>> checkExistenceAtScope(@HostParam("$host") String host, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
 
         @Put("/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
@@ -117,7 +120,7 @@ public final class DeploymentsInner {
         @Head("/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> checkExistenceAtTenantScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Boolean>> checkExistenceAtTenantScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
 
         @Put("/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
@@ -157,7 +160,7 @@ public final class DeploymentsInner {
         @Head("/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> checkExistenceAtManagementGroupScope(@HostParam("$host") String host, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Boolean>> checkExistenceAtManagementGroupScope(@HostParam("$host") String host, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
 
         @Put("/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
@@ -197,7 +200,7 @@ public final class DeploymentsInner {
         @Head("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> checkExistenceAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Boolean>> checkExistenceAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
@@ -242,7 +245,7 @@ public final class DeploymentsInner {
         @Head("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> checkExistence(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Boolean>> checkExistence(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
@@ -374,7 +377,7 @@ public final class DeploymentsInner {
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -388,7 +391,7 @@ public final class DeploymentsInner {
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -405,7 +408,7 @@ public final class DeploymentsInner {
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -419,13 +422,13 @@ public final class DeploymentsInner {
      * Checks whether the deployment exists.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> checkExistenceAtScopeWithResponseAsync(String scope, String deploymentName) {
+    public Mono<SimpleResponse<Boolean>> checkExistenceAtScopeWithResponseAsync(String scope, String deploymentName) {
         return service.checkExistenceAtScope(this.client.getHost(), scope, deploymentName, this.client.getApiVersion());
     }
 
@@ -433,7 +436,7 @@ public final class DeploymentsInner {
      * Checks whether the deployment exists.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -441,14 +444,20 @@ public final class DeploymentsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAtScopeAsync(String scope, String deploymentName) {
         return checkExistenceAtScopeWithResponseAsync(scope, deploymentName)
-            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
+            .flatMap((SimpleResponse<Boolean> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
     }
 
     /**
      * Checks whether the deployment exists.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -462,7 +471,7 @@ public final class DeploymentsInner {
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -477,7 +486,7 @@ public final class DeploymentsInner {
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -495,7 +504,7 @@ public final class DeploymentsInner {
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -510,7 +519,7 @@ public final class DeploymentsInner {
      * Gets a deployment.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -524,7 +533,7 @@ public final class DeploymentsInner {
      * Gets a deployment.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -545,7 +554,7 @@ public final class DeploymentsInner {
      * Gets a deployment.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -559,7 +568,7 @@ public final class DeploymentsInner {
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -573,7 +582,7 @@ public final class DeploymentsInner {
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -588,7 +597,7 @@ public final class DeploymentsInner {
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -602,7 +611,7 @@ public final class DeploymentsInner {
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -617,7 +626,7 @@ public final class DeploymentsInner {
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -639,7 +648,7 @@ public final class DeploymentsInner {
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -654,7 +663,7 @@ public final class DeploymentsInner {
      * Exports the template used for specified deployment.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -668,7 +677,7 @@ public final class DeploymentsInner {
      * Exports the template used for specified deployment.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -689,7 +698,7 @@ public final class DeploymentsInner {
      * Exports the template used for specified deployment.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -704,7 +713,7 @@ public final class DeploymentsInner {
      * 
      * @param scope The additional properties.
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -725,7 +734,7 @@ public final class DeploymentsInner {
      * 
      * @param scope The additional properties.
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -741,8 +750,25 @@ public final class DeploymentsInner {
      * Get all the deployments at the given scope.
      * 
      * @param scope The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentExtendedInner> listAtScopeAsync(String scope) {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listAtScopeSinglePageAsync(scope, filter, top),
+            nextLink -> listAtScopeNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Get all the deployments at the given scope.
+     * 
+     * @param scope The additional properties.
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -753,9 +779,24 @@ public final class DeploymentsInner {
     }
 
     /**
+     * Get all the deployments at the given scope.
+     * 
+     * @param scope The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentExtendedInner> listAtScope(String scope) {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedIterable<>(listAtScopeAsync(scope, filter, top));
+    }
+
+    /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -768,7 +809,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -784,7 +825,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -797,20 +838,20 @@ public final class DeploymentsInner {
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> checkExistenceAtTenantScopeWithResponseAsync(String deploymentName) {
+    public Mono<SimpleResponse<Boolean>> checkExistenceAtTenantScopeWithResponseAsync(String deploymentName) {
         return service.checkExistenceAtTenantScope(this.client.getHost(), deploymentName, this.client.getApiVersion());
     }
 
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -818,13 +859,19 @@ public final class DeploymentsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAtTenantScopeAsync(String deploymentName) {
         return checkExistenceAtTenantScopeWithResponseAsync(deploymentName)
-            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
+            .flatMap((SimpleResponse<Boolean> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
     }
 
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -837,7 +884,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -851,7 +898,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -868,7 +915,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -882,7 +929,7 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -895,7 +942,7 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -915,7 +962,7 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -928,7 +975,7 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -941,7 +988,7 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -955,7 +1002,7 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -968,7 +1015,7 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -982,7 +1029,7 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1003,7 +1050,7 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1017,7 +1064,7 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1030,7 +1077,7 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1050,7 +1097,7 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1064,7 +1111,7 @@ public final class DeploymentsInner {
      * Get all the deployments at the tenant scope.
      * 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1084,7 +1131,7 @@ public final class DeploymentsInner {
      * Get all the deployments at the tenant scope.
      * 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1099,8 +1146,23 @@ public final class DeploymentsInner {
     /**
      * Get all the deployments at the tenant scope.
      * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentExtendedInner> listAtTenantScopeAsync() {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listAtTenantScopeSinglePageAsync(filter, top),
+            nextLink -> listAtTenantScopeNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Get all the deployments at the tenant scope.
+     * 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1111,10 +1173,23 @@ public final class DeploymentsInner {
     }
 
     /**
+     * Get all the deployments at the tenant scope.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentExtendedInner> listAtTenantScope() {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedIterable<>(listAtTenantScopeAsync(filter, top));
+    }
+
+    /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1127,8 +1202,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1144,8 +1219,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1158,22 +1233,22 @@ public final class DeploymentsInner {
     /**
      * Checks whether the deployment exists.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> checkExistenceAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName) {
+    public Mono<SimpleResponse<Boolean>> checkExistenceAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName) {
         return service.checkExistenceAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, this.client.getApiVersion());
     }
 
     /**
      * Checks whether the deployment exists.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1181,14 +1256,20 @@ public final class DeploymentsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAtManagementGroupScopeAsync(String groupId, String deploymentName) {
         return checkExistenceAtManagementGroupScopeWithResponseAsync(groupId, deploymentName)
-            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
+            .flatMap((SimpleResponse<Boolean> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
     }
 
     /**
      * Checks whether the deployment exists.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1201,8 +1282,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1216,8 +1297,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1234,8 +1315,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1249,8 +1330,8 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1263,8 +1344,8 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1284,8 +1365,8 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1298,8 +1379,8 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1312,8 +1393,8 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1327,8 +1408,8 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1341,8 +1422,8 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1356,8 +1437,8 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1378,8 +1459,8 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1393,8 +1474,8 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1407,8 +1488,8 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1428,8 +1509,8 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1442,9 +1523,9 @@ public final class DeploymentsInner {
     /**
      * Get all the deployments for a management group.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1463,9 +1544,9 @@ public final class DeploymentsInner {
     /**
      * Get all the deployments for a management group.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1480,9 +1561,26 @@ public final class DeploymentsInner {
     /**
      * Get all the deployments for a management group.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentExtendedInner> listAtManagementGroupScopeAsync(String groupId) {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listAtManagementGroupScopeSinglePageAsync(groupId, filter, top),
+            nextLink -> listAtManagementGroupScopeNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Get all the deployments for a management group.
+     * 
+     * @param groupId 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1493,9 +1591,24 @@ public final class DeploymentsInner {
     }
 
     /**
+     * Get all the deployments for a management group.
+     * 
+     * @param groupId 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentExtendedInner> listAtManagementGroupScope(String groupId) {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedIterable<>(listAtManagementGroupScopeAsync(groupId, filter, top));
+    }
+
+    /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1508,7 +1621,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1524,7 +1637,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1537,20 +1650,20 @@ public final class DeploymentsInner {
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> checkExistenceAtSubscriptionScopeWithResponseAsync(String deploymentName) {
+    public Mono<SimpleResponse<Boolean>> checkExistenceAtSubscriptionScopeWithResponseAsync(String deploymentName) {
         return service.checkExistenceAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1558,13 +1671,19 @@ public final class DeploymentsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAtSubscriptionScopeAsync(String deploymentName) {
         return checkExistenceAtSubscriptionScopeWithResponseAsync(deploymentName)
-            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
+            .flatMap((SimpleResponse<Boolean> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
     }
 
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1577,7 +1696,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1591,7 +1710,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1608,7 +1727,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1622,7 +1741,7 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1635,7 +1754,7 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1655,7 +1774,7 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1668,7 +1787,7 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1681,7 +1800,7 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1695,7 +1814,7 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1708,7 +1827,7 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1722,7 +1841,7 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1743,7 +1862,7 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1757,7 +1876,7 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1771,7 +1890,7 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1788,7 +1907,7 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1802,7 +1921,7 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1815,7 +1934,7 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1835,7 +1954,7 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1849,7 +1968,7 @@ public final class DeploymentsInner {
      * Get all the deployments for a subscription.
      * 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1869,7 +1988,7 @@ public final class DeploymentsInner {
      * Get all the deployments for a subscription.
      * 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1884,8 +2003,23 @@ public final class DeploymentsInner {
     /**
      * Get all the deployments for a subscription.
      * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentExtendedInner> listAsync() {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listSinglePageAsync(filter, top),
+            nextLink -> listAtSubscriptionScopeNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Get all the deployments for a subscription.
+     * 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1896,10 +2030,23 @@ public final class DeploymentsInner {
     }
 
     /**
+     * Get all the deployments for a subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentExtendedInner> list() {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedIterable<>(listAsync(filter, top));
+    }
+
+    /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1912,8 +2059,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1929,8 +2076,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1943,22 +2090,22 @@ public final class DeploymentsInner {
     /**
      * Checks whether the deployment exists.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> checkExistenceWithResponseAsync(String resourceGroupName, String deploymentName) {
+    public Mono<SimpleResponse<Boolean>> checkExistenceWithResponseAsync(String resourceGroupName, String deploymentName) {
         return service.checkExistence(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
     /**
      * Checks whether the deployment exists.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1966,14 +2113,20 @@ public final class DeploymentsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAsync(String resourceGroupName, String deploymentName) {
         return checkExistenceWithResponseAsync(resourceGroupName, deploymentName)
-            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
+            .flatMap((SimpleResponse<Boolean> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
     }
 
     /**
      * Checks whether the deployment exists.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1986,8 +2139,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2001,8 +2154,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2019,8 +2172,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2034,8 +2187,8 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2048,8 +2201,8 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2069,8 +2222,8 @@ public final class DeploymentsInner {
     /**
      * Gets a deployment.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2083,8 +2236,8 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2097,8 +2250,8 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2112,8 +2265,8 @@ public final class DeploymentsInner {
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2126,8 +2279,8 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2141,8 +2294,8 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2163,8 +2316,8 @@ public final class DeploymentsInner {
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2178,8 +2331,8 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2193,8 +2346,8 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2211,8 +2364,8 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2226,8 +2379,8 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2240,8 +2393,8 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2261,8 +2414,8 @@ public final class DeploymentsInner {
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2275,9 +2428,9 @@ public final class DeploymentsInner {
     /**
      * Get all the deployments for a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2296,9 +2449,9 @@ public final class DeploymentsInner {
     /**
      * Get all the deployments for a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2313,9 +2466,26 @@ public final class DeploymentsInner {
     /**
      * Get all the deployments for a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentExtendedInner> listByResourceGroupAsync(String resourceGroupName) {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listByResourceGroupSinglePageAsync(resourceGroupName, filter, top),
+            nextLink -> listByResourceGroupNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Get all the deployments for a resource group.
+     * 
+     * @param resourceGroupName 
      * @param filter The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2326,10 +2496,24 @@ public final class DeploymentsInner {
     }
 
     /**
-     * Calculate the hash of the given template.
+     * Get all the deployments for a resource group.
      * 
-     * @param template MISSING·SCHEMA-DESCRIPTION-OBJECTSCHEMA.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentExtendedInner> listByResourceGroup(String resourceGroupName) {
+        final String filter = null;
+        final Integer top = null;
+        return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, filter, top));
+    }
+
+    /**
+     * Calculate the hash of the given template.
+     *
+     * @param template
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -2340,9 +2524,8 @@ public final class DeploymentsInner {
 
     /**
      * Calculate the hash of the given template.
-     * 
-     * @param template MISSING·SCHEMA-DESCRIPTION-OBJECTSCHEMA.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     *
+     * @param template
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -2360,9 +2543,8 @@ public final class DeploymentsInner {
 
     /**
      * Calculate the hash of the given template.
-     * 
-     * @param template MISSING·SCHEMA-DESCRIPTION-OBJECTSCHEMA.
-     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     *
+     * @param template
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -2375,7 +2557,7 @@ public final class DeploymentsInner {
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2389,7 +2571,7 @@ public final class DeploymentsInner {
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2404,7 +2586,7 @@ public final class DeploymentsInner {
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2418,7 +2600,7 @@ public final class DeploymentsInner {
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2433,7 +2615,7 @@ public final class DeploymentsInner {
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2455,7 +2637,7 @@ public final class DeploymentsInner {
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2469,7 +2651,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2482,7 +2664,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2496,7 +2678,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2509,7 +2691,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2523,7 +2705,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2544,7 +2726,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2558,8 +2740,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2572,8 +2754,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2587,8 +2769,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2601,8 +2783,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2616,8 +2798,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2638,8 +2820,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2653,7 +2835,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2666,7 +2848,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2680,7 +2862,7 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2693,7 +2875,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2707,7 +2889,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2728,7 +2910,7 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2742,7 +2924,7 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2756,7 +2938,7 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2777,7 +2959,7 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2791,8 +2973,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2805,8 +2987,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2820,8 +3002,8 @@ public final class DeploymentsInner {
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2834,8 +3016,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2849,8 +3031,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2871,8 +3053,8 @@ public final class DeploymentsInner {
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2886,8 +3068,8 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2901,8 +3083,8 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2923,8 +3105,8 @@ public final class DeploymentsInner {
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

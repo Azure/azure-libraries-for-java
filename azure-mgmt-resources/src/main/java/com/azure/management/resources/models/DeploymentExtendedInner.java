@@ -7,6 +7,7 @@
 package com.azure.management.resources.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.management.ProxyResource;
 import com.azure.management.resources.DeploymentPropertiesExtended;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,25 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The DeploymentExtended model.
  */
 @Fluent
-public final class DeploymentExtendedInner {
-    /*
-     * The ID of the deployment.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /*
-     * The name of the deployment.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /*
-     * The type of the deployment.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
+public final class DeploymentExtendedInner extends ProxyResource {
     /*
      * the location of the deployment.
      */
@@ -44,33 +27,6 @@ public final class DeploymentExtendedInner {
      */
     @JsonProperty(value = "properties")
     private DeploymentPropertiesExtended properties;
-
-    /**
-     * Get the id property: The ID of the deployment.
-     * 
-     * @return the id value.
-     */
-    public String getId() {
-        return this.id;
-    }
-
-    /**
-     * Get the name property: The name of the deployment.
-     * 
-     * @return the name value.
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Get the type property: The type of the deployment.
-     * 
-     * @return the type value.
-     */
-    public String getType() {
-        return this.type;
-    }
 
     /**
      * Get the location property: the location of the deployment.

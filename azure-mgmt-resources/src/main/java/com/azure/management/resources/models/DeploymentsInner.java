@@ -2512,8 +2512,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
 
     /**
      * Calculate the hash of the given template.
-     *
-     * @param template
+     * 
+     * @param template 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -2524,8 +2525,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
 
     /**
      * Calculate the hash of the given template.
-     *
-     * @param template
+     * 
+     * @param template 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -2543,8 +2545,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
 
     /**
      * Calculate the hash of the given template.
-     *
-     * @param template
+     * 
+     * @param template 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */

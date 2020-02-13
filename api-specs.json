@@ -265,7 +265,7 @@
     "dir": "azure-mgmt-resources",
     "source": "specification/resources/resource-manager/readme.md",
     "package": "com.azure.management.resources --tag=package-resources-2019-08",
-    "args": "--add-inner=Deployment --track2-naming=true"
+    "args": "--payload-flattening-threshold=0 --add-inner=Deployment --track2-naming=true"
   },
   "scheduler": {
     "dir": "azure-mgmt-scheduler",

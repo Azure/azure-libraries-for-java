@@ -46,6 +46,12 @@ public class StorageAccountUpdateParametersInner {
     private Identity identity;
 
     /*
+     * Indicates the type of storage account.
+     */
+    @JsonProperty(value = "kind")
+    private Kind kind;
+
+    /*
      * The custom domain assigned to this storage account. This can be set via
      * Update.
      */
@@ -82,12 +88,6 @@ public class StorageAccountUpdateParametersInner {
      */
     @JsonProperty(value = "properties.networkAcls")
     private NetworkRuleSet networkRuleSet;
-
-    /*
-     * Indicates the type of storage account.
-     */
-    @JsonProperty(value = "kind")
-    private Kind kind;
 
     /**
      * Get the sku property: The SKU of the storage account.
@@ -156,6 +156,26 @@ public class StorageAccountUpdateParametersInner {
      */
     public StorageAccountUpdateParametersInner setIdentity(Identity identity) {
         this.identity = identity;
+        return this;
+    }
+
+    /**
+     * Get the kind property: Indicates the type of storage account.
+     * 
+     * @return the kind value.
+     */
+    public Kind getKind() {
+        return this.kind;
+    }
+
+    /**
+     * Set the kind property: Indicates the type of storage account.
+     * 
+     * @param kind the kind value to set.
+     * @return the StorageAccountUpdateParametersInner object itself.
+     */
+    public StorageAccountUpdateParametersInner setKind(Kind kind) {
+        this.kind = kind;
         return this;
     }
 
@@ -287,26 +307,6 @@ public class StorageAccountUpdateParametersInner {
      */
     public StorageAccountUpdateParametersInner setNetworkRuleSet(NetworkRuleSet networkRuleSet) {
         this.networkRuleSet = networkRuleSet;
-        return this;
-    }
-
-    /**
-     * Get the kind property: Indicates the type of storage account.
-     * 
-     * @return the kind value.
-     */
-    public Kind getKind() {
-        return this.kind;
-    }
-
-    /**
-     * Set the kind property: Indicates the type of storage account.
-     * 
-     * @param kind the kind value to set.
-     * @return the StorageAccountUpdateParametersInner object itself.
-     */
-    public StorageAccountUpdateParametersInner setKind(Kind kind) {
-        this.kind = kind;
         return this;
     }
 }

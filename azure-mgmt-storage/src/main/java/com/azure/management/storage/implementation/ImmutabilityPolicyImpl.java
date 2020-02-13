@@ -53,18 +53,14 @@ class ImmutabilityPolicyImpl
     @Override
     public Mono<ImmutabilityPolicy> createResourceAsync() {
         BlobContainersInner client = this.manager().inner().blobContainers();
-        ImmutabilityPolicyInner inner = new ImmutabilityPolicyInner();
-        inner.setImmutabilityPeriodSinceCreationInDays(this.cimmutabilityPeriodSinceCreationInDays);
-        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.cifMatch, inner)
+        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.cimmutabilityPeriodSinceCreationInDays, this.cifMatch)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public Mono<ImmutabilityPolicy> updateResourceAsync() {
         BlobContainersInner client = this.manager().inner().blobContainers();
-        ImmutabilityPolicyInner inner = new ImmutabilityPolicyInner();
-        inner.setImmutabilityPeriodSinceCreationInDays(this.uimmutabilityPeriodSinceCreationInDays);
-        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.uifMatch, inner)
+        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.uimmutabilityPeriodSinceCreationInDays, this.uifMatch)
                 .map(innerToFluentMap(this));
     }
 

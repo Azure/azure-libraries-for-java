@@ -8,6 +8,7 @@ package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
+import com.azure.core.management.Resource;
 import com.azure.management.storage.AccessTier;
 import com.azure.management.storage.AccountStatus;
 import com.azure.management.storage.CustomDomain;
@@ -18,7 +19,6 @@ import com.azure.management.storage.Identity;
 import com.azure.management.storage.Kind;
 import com.azure.management.storage.NetworkRuleSet;
 import com.azure.management.storage.ProvisioningState;
-import com.azure.management.storage.TrackedResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 
@@ -27,7 +27,7 @@ import java.time.OffsetDateTime;
  */
 @JsonFlatten
 @Fluent
-public class StorageAccountInner extends TrackedResource {
+public class StorageAccountInner extends Resource {
     /*
      * The SKU of the storage account.
      */

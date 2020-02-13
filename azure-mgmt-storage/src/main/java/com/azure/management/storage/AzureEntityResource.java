@@ -7,14 +7,14 @@
 package com.azure.management.storage;
 
 import com.azure.core.annotation.Immutable;
-import com.azure.core.management.Resource;
+import com.azure.core.management.ProxyResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The AzureEntityResource model.
  */
 @Immutable
-public class AzureEntityResource extends Resource {
+public class AzureEntityResource extends ProxyResource {
     /*
      * Resource Etag.
      */

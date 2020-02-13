@@ -7,6 +7,7 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.storage.ListContainerItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,14 +20,14 @@ public final class ListContainerItemsInner {
      * The list of blob containers.
      */
     @JsonProperty(value = "value")
-    private List<ListContainerItemInner> value;
+    private List<ListContainerItem> value;
 
     /**
      * Get the value property: The list of blob containers.
      * 
      * @return the value value.
      */
-    public List<ListContainerItemInner> getValue() {
+    public List<ListContainerItem> getValue() {
         return this.value;
     }
 
@@ -36,7 +37,7 @@ public final class ListContainerItemsInner {
      * @param value the value value to set.
      * @return the ListContainerItemsInner object itself.
      */
-    public ListContainerItemsInner setValue(List<ListContainerItemInner> value) {
+    public ListContainerItemsInner setValue(List<ListContainerItem> value) {
         this.value = value;
         return this;
     }

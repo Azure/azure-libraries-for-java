@@ -27,6 +27,9 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.storage.LeaseContainerRequest;
+import com.azure.management.storage.PublicAccess;
+import java.util.List;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
@@ -131,8 +134,8 @@ public final class BlobContainersInner {
     /**
      * Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -145,8 +148,8 @@ public final class BlobContainersInner {
     /**
      * Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -166,8 +169,8 @@ public final class BlobContainersInner {
     /**
      * Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -180,33 +183,38 @@ public final class BlobContainersInner {
     /**
      * Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param blobContainer Properties of the blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param publicAccess Specifies whether data in the container may be accessed publicly and the level of access.
+     * @param metadata A name-value pair to associate with the container as metadata.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<BlobContainerInner>> createWithResponseAsync(String resourceGroupName, String accountName, String containerName, BlobContainerInner blobContainer) {
+    public Mono<SimpleResponse<BlobContainerInner>> createWithResponseAsync(String resourceGroupName, String accountName, String containerName, PublicAccess publicAccess, Map<String, String> metadata) {
+        BlobContainerInner blobContainer = new BlobContainerInner();
+        blobContainer.setPublicAccess(publicAccess);
+        blobContainer.setMetadata(metadata);
         return service.create(this.client.getHost(), resourceGroupName, accountName, containerName, this.client.getSubscriptionId(), blobContainer, this.client.getApiVersion());
     }
 
     /**
      * Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param blobContainer Properties of the blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param publicAccess Specifies whether data in the container may be accessed publicly and the level of access.
+     * @param metadata A name-value pair to associate with the container as metadata.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<BlobContainerInner> createAsync(String resourceGroupName, String accountName, String containerName, BlobContainerInner blobContainer) {
-        return createWithResponseAsync(resourceGroupName, accountName, containerName, blobContainer)
+    public Mono<BlobContainerInner> createAsync(String resourceGroupName, String accountName, String containerName, PublicAccess publicAccess, Map<String, String> metadata) {
+        return createWithResponseAsync(resourceGroupName, accountName, containerName, publicAccess, metadata)
             .flatMap((SimpleResponse<BlobContainerInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -219,49 +227,55 @@ public final class BlobContainersInner {
     /**
      * Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param blobContainer Properties of the blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param publicAccess Specifies whether data in the container may be accessed publicly and the level of access.
+     * @param metadata A name-value pair to associate with the container as metadata.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public BlobContainerInner create(String resourceGroupName, String accountName, String containerName, BlobContainerInner blobContainer) {
-        return createAsync(resourceGroupName, accountName, containerName, blobContainer).block();
+    public BlobContainerInner create(String resourceGroupName, String accountName, String containerName, PublicAccess publicAccess, Map<String, String> metadata) {
+        return createAsync(resourceGroupName, accountName, containerName, publicAccess, metadata).block();
     }
 
     /**
      * Updates container properties as specified in request body. Properties not mentioned in the request will be unchanged. Update fails if the specified container doesn't already exist.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param blobContainer Properties of the blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param publicAccess Specifies whether data in the container may be accessed publicly and the level of access.
+     * @param metadata A name-value pair to associate with the container as metadata.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<BlobContainerInner>> updateWithResponseAsync(String resourceGroupName, String accountName, String containerName, BlobContainerInner blobContainer) {
+    public Mono<SimpleResponse<BlobContainerInner>> updateWithResponseAsync(String resourceGroupName, String accountName, String containerName, PublicAccess publicAccess, Map<String, String> metadata) {
+        BlobContainerInner blobContainer = new BlobContainerInner();
+        blobContainer.setPublicAccess(publicAccess);
+        blobContainer.setMetadata(metadata);
         return service.update(this.client.getHost(), resourceGroupName, accountName, containerName, this.client.getSubscriptionId(), blobContainer, this.client.getApiVersion());
     }
 
     /**
      * Updates container properties as specified in request body. Properties not mentioned in the request will be unchanged. Update fails if the specified container doesn't already exist.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param blobContainer Properties of the blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param publicAccess Specifies whether data in the container may be accessed publicly and the level of access.
+     * @param metadata A name-value pair to associate with the container as metadata.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<BlobContainerInner> updateAsync(String resourceGroupName, String accountName, String containerName, BlobContainerInner blobContainer) {
-        return updateWithResponseAsync(resourceGroupName, accountName, containerName, blobContainer)
+    public Mono<BlobContainerInner> updateAsync(String resourceGroupName, String accountName, String containerName, PublicAccess publicAccess, Map<String, String> metadata) {
+        return updateWithResponseAsync(resourceGroupName, accountName, containerName, publicAccess, metadata)
             .flatMap((SimpleResponse<BlobContainerInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -274,25 +288,26 @@ public final class BlobContainersInner {
     /**
      * Updates container properties as specified in request body. Properties not mentioned in the request will be unchanged. Update fails if the specified container doesn't already exist.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param blobContainer Properties of the blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param publicAccess Specifies whether data in the container may be accessed publicly and the level of access.
+     * @param metadata A name-value pair to associate with the container as metadata.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public BlobContainerInner update(String resourceGroupName, String accountName, String containerName, BlobContainerInner blobContainer) {
-        return updateAsync(resourceGroupName, accountName, containerName, blobContainer).block();
+    public BlobContainerInner update(String resourceGroupName, String accountName, String containerName, PublicAccess publicAccess, Map<String, String> metadata) {
+        return updateAsync(resourceGroupName, accountName, containerName, publicAccess, metadata).block();
     }
 
     /**
      * Gets properties of a specified container.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -305,9 +320,9 @@ public final class BlobContainersInner {
     /**
      * Gets properties of a specified container.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -327,9 +342,9 @@ public final class BlobContainersInner {
     /**
      * Gets properties of a specified container.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -342,9 +357,9 @@ public final class BlobContainersInner {
     /**
      * Deletes specified container under its account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -357,9 +372,9 @@ public final class BlobContainersInner {
     /**
      * Deletes specified container under its account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -373,9 +388,9 @@ public final class BlobContainersInner {
     /**
      * Deletes specified container under its account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -388,33 +403,35 @@ public final class BlobContainersInner {
     /**
      * Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param legalHold The LegalHold property of a blob container.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<LegalHoldInner>> setLegalHoldWithResponseAsync(String resourceGroupName, String accountName, String containerName, LegalHoldInner legalHold) {
+    public Mono<SimpleResponse<LegalHoldInner>> setLegalHoldWithResponseAsync(String resourceGroupName, String accountName, String containerName, List<String> tags) {
+        LegalHoldInner legalHold = new LegalHoldInner();
+        legalHold.setTags(tags);
         return service.setLegalHold(this.client.getHost(), resourceGroupName, accountName, containerName, this.client.getSubscriptionId(), legalHold, this.client.getApiVersion());
     }
 
     /**
      * Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param legalHold The LegalHold property of a blob container.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<LegalHoldInner> setLegalHoldAsync(String resourceGroupName, String accountName, String containerName, LegalHoldInner legalHold) {
-        return setLegalHoldWithResponseAsync(resourceGroupName, accountName, containerName, legalHold)
+    public Mono<LegalHoldInner> setLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags) {
+        return setLegalHoldWithResponseAsync(resourceGroupName, accountName, containerName, tags)
             .flatMap((SimpleResponse<LegalHoldInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -427,49 +444,51 @@ public final class BlobContainersInner {
     /**
      * Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param legalHold The LegalHold property of a blob container.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public LegalHoldInner setLegalHold(String resourceGroupName, String accountName, String containerName, LegalHoldInner legalHold) {
-        return setLegalHoldAsync(resourceGroupName, accountName, containerName, legalHold).block();
+    public LegalHoldInner setLegalHold(String resourceGroupName, String accountName, String containerName, List<String> tags) {
+        return setLegalHoldAsync(resourceGroupName, accountName, containerName, tags).block();
     }
 
     /**
      * Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation. ClearLegalHold clears out only the specified tags in the request.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param legalHold The LegalHold property of a blob container.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<LegalHoldInner>> clearLegalHoldWithResponseAsync(String resourceGroupName, String accountName, String containerName, LegalHoldInner legalHold) {
+    public Mono<SimpleResponse<LegalHoldInner>> clearLegalHoldWithResponseAsync(String resourceGroupName, String accountName, String containerName, List<String> tags) {
+        LegalHoldInner legalHold = new LegalHoldInner();
+        legalHold.setTags(tags);
         return service.clearLegalHold(this.client.getHost(), resourceGroupName, accountName, containerName, this.client.getSubscriptionId(), legalHold, this.client.getApiVersion());
     }
 
     /**
      * Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation. ClearLegalHold clears out only the specified tags in the request.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param legalHold The LegalHold property of a blob container.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<LegalHoldInner> clearLegalHoldAsync(String resourceGroupName, String accountName, String containerName, LegalHoldInner legalHold) {
-        return clearLegalHoldWithResponseAsync(resourceGroupName, accountName, containerName, legalHold)
+    public Mono<LegalHoldInner> clearLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags) {
+        return clearLegalHoldWithResponseAsync(resourceGroupName, accountName, containerName, tags)
             .flatMap((SimpleResponse<LegalHoldInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -482,52 +501,54 @@ public final class BlobContainersInner {
     /**
      * Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation. ClearLegalHold clears out only the specified tags in the request.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param legalHold The LegalHold property of a blob container.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public LegalHoldInner clearLegalHold(String resourceGroupName, String accountName, String containerName, LegalHoldInner legalHold) {
-        return clearLegalHoldAsync(resourceGroupName, accountName, containerName, legalHold).block();
+    public LegalHoldInner clearLegalHold(String resourceGroupName, String accountName, String containerName, List<String> tags) {
+        return clearLegalHoldAsync(resourceGroupName, accountName, containerName, tags).block();
     }
 
     /**
      * Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the container since the policy creation, in days.
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<BlobContainersCreateOrUpdateImmutabilityPolicyResponse> createOrUpdateImmutabilityPolicyWithResponseAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, ImmutabilityPolicyInner parameters) {
+    public Mono<BlobContainersCreateOrUpdateImmutabilityPolicyResponse> createOrUpdateImmutabilityPolicyWithResponseAsync(String resourceGroupName, String accountName, String containerName, int immutabilityPeriodSinceCreationInDays, String ifMatch) {
         final String immutabilityPolicyName = "default";
+        ImmutabilityPolicyInner parameters = new ImmutabilityPolicyInner();
+        parameters.setImmutabilityPeriodSinceCreationInDays(immutabilityPeriodSinceCreationInDays);
         return service.createOrUpdateImmutabilityPolicy(this.client.getHost(), resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.getSubscriptionId(), ifMatch, parameters, this.client.getApiVersion());
     }
 
     /**
      * Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the container since the policy creation, in days.
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ImmutabilityPolicyInner> createOrUpdateImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, ImmutabilityPolicyInner parameters) {
-        return createOrUpdateImmutabilityPolicyWithResponseAsync(resourceGroupName, accountName, containerName, ifMatch, parameters)
+    public Mono<ImmutabilityPolicyInner> createOrUpdateImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, int immutabilityPeriodSinceCreationInDays, String ifMatch) {
+        return createOrUpdateImmutabilityPolicyWithResponseAsync(resourceGroupName, accountName, containerName, immutabilityPeriodSinceCreationInDays, ifMatch)
             .flatMap((BlobContainersCreateOrUpdateImmutabilityPolicyResponse res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -540,27 +561,27 @@ public final class BlobContainersInner {
     /**
      * Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the container since the policy creation, in days.
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ImmutabilityPolicyInner createOrUpdateImmutabilityPolicy(String resourceGroupName, String accountName, String containerName, String ifMatch, ImmutabilityPolicyInner parameters) {
-        return createOrUpdateImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch, parameters).block();
+    public ImmutabilityPolicyInner createOrUpdateImmutabilityPolicy(String resourceGroupName, String accountName, String containerName, int immutabilityPeriodSinceCreationInDays, String ifMatch) {
+        return createOrUpdateImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, immutabilityPeriodSinceCreationInDays, ifMatch).block();
     }
 
     /**
      * Gets the existing immutability policy along with the corresponding ETag in response headers and body.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -574,10 +595,10 @@ public final class BlobContainersInner {
     /**
      * Gets the existing immutability policy along with the corresponding ETag in response headers and body.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -597,10 +618,33 @@ public final class BlobContainersInner {
     /**
      * Gets the existing immutability policy along with the corresponding ETag in response headers and body.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<ImmutabilityPolicyInner> getImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName) {
+        final String ifMatch = null;
+        return getImmutabilityPolicyWithResponseAsync(resourceGroupName, accountName, containerName, ifMatch)
+            .flatMap((BlobContainersGetImmutabilityPolicyResponse res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the existing immutability policy along with the corresponding ETag in response headers and body.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -611,12 +655,28 @@ public final class BlobContainersInner {
     }
 
     /**
+     * Gets the existing immutability policy along with the corresponding ETag in response headers and body.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ImmutabilityPolicyInner getImmutabilityPolicy(String resourceGroupName, String accountName, String containerName) {
+        final String ifMatch = null;
+        return getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch).block();
+    }
+
+    /**
      * Aborts an unlocked immutability policy. The response of delete has immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation. Deleting a locked immutability policy is not allowed, only way is to delete the container after deleting all blobs inside the container.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -630,10 +690,10 @@ public final class BlobContainersInner {
     /**
      * Aborts an unlocked immutability policy. The response of delete has immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation. Deleting a locked immutability policy is not allowed, only way is to delete the container after deleting all blobs inside the container.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -653,10 +713,10 @@ public final class BlobContainersInner {
     /**
      * Aborts an unlocked immutability policy. The response of delete has immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation. Deleting a locked immutability policy is not allowed, only way is to delete the container after deleting all blobs inside the container.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -669,10 +729,10 @@ public final class BlobContainersInner {
     /**
      * Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -685,10 +745,10 @@ public final class BlobContainersInner {
     /**
      * Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -708,10 +768,10 @@ public final class BlobContainersInner {
     /**
      * Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -724,35 +784,37 @@ public final class BlobContainersInner {
     /**
      * Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
+     * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the container since the policy creation, in days.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<BlobContainersExtendImmutabilityPolicyResponse> extendImmutabilityPolicyWithResponseAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, ImmutabilityPolicyInner parameters) {
+    public Mono<BlobContainersExtendImmutabilityPolicyResponse> extendImmutabilityPolicyWithResponseAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, int immutabilityPeriodSinceCreationInDays) {
+        ImmutabilityPolicyInner parameters = new ImmutabilityPolicyInner();
+        parameters.setImmutabilityPeriodSinceCreationInDays(immutabilityPeriodSinceCreationInDays);
         return service.extendImmutabilityPolicy(this.client.getHost(), resourceGroupName, accountName, containerName, this.client.getSubscriptionId(), ifMatch, parameters, this.client.getApiVersion());
     }
 
     /**
      * Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
+     * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the container since the policy creation, in days.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ImmutabilityPolicyInner> extendImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, ImmutabilityPolicyInner parameters) {
-        return extendImmutabilityPolicyWithResponseAsync(resourceGroupName, accountName, containerName, ifMatch, parameters)
+    public Mono<ImmutabilityPolicyInner> extendImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, int immutabilityPeriodSinceCreationInDays) {
+        return extendImmutabilityPolicyWithResponseAsync(resourceGroupName, accountName, containerName, ifMatch, immutabilityPeriodSinceCreationInDays)
             .flatMap((BlobContainersExtendImmutabilityPolicyResponse res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -765,26 +827,26 @@ public final class BlobContainersInner {
     /**
      * Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ifMatch MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @param ifMatch 
+     * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the container since the policy creation, in days.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ImmutabilityPolicyInner extendImmutabilityPolicy(String resourceGroupName, String accountName, String containerName, String ifMatch, ImmutabilityPolicyInner parameters) {
-        return extendImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch, parameters).block();
+    public ImmutabilityPolicyInner extendImmutabilityPolicy(String resourceGroupName, String accountName, String containerName, String ifMatch, int immutabilityPeriodSinceCreationInDays) {
+        return extendImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch, immutabilityPeriodSinceCreationInDays).block();
     }
 
     /**
      * The Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
      * @param parameters Lease Container request schema.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -798,9 +860,9 @@ public final class BlobContainersInner {
     /**
      * The Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
      * @param parameters Lease Container request schema.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -821,9 +883,32 @@ public final class BlobContainersInner {
     /**
      * The Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param containerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<LeaseContainerResponseInner> leaseAsync(String resourceGroupName, String accountName, String containerName) {
+        final LeaseContainerRequest parameters = null;
+        return leaseWithResponseAsync(resourceGroupName, accountName, containerName, parameters)
+            .flatMap((SimpleResponse<LeaseContainerResponseInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * The Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
      * @param parameters Lease Container request schema.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -831,6 +916,22 @@ public final class BlobContainersInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public LeaseContainerResponseInner lease(String resourceGroupName, String accountName, String containerName, LeaseContainerRequest parameters) {
+        return leaseAsync(resourceGroupName, accountName, containerName, parameters).block();
+    }
+
+    /**
+     * The Lease Container operation establishes and manages a lock on a container for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
+     * 
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param containerName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public LeaseContainerResponseInner lease(String resourceGroupName, String accountName, String containerName) {
+        final LeaseContainerRequest parameters = null;
         return leaseAsync(resourceGroupName, accountName, containerName, parameters).block();
     }
 }

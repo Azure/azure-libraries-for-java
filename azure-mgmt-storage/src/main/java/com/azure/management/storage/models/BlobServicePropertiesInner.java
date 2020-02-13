@@ -8,7 +8,7 @@ package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
-import com.azure.core.management.Resource;
+import com.azure.core.management.ProxyResource;
 import com.azure.management.storage.CorsRules;
 import com.azure.management.storage.DeleteRetentionPolicy;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonFlatten
 @Fluent
-public class BlobServicePropertiesInner extends Resource {
+public class BlobServicePropertiesInner extends ProxyResource {
     /*
      * Sets the CORS rules. You can include up to five CorsRule elements in the
      * request.

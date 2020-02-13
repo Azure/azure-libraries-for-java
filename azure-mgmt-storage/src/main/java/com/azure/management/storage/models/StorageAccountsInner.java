@@ -29,7 +29,6 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.core.management.polling.PollResult;
 import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
@@ -46,7 +45,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * StorageAccounts.
  */
-public final class StorageAccountsInner implements InnerSupportsGet<StorageAccountInner>, InnerSupportsDelete<Void>, InnerSupportsListing<StorageAccountInner> {
+public final class StorageAccountsInner implements InnerSupportsGet<StorageAccountInner>, InnerSupportsListing<StorageAccountInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -154,27 +153,29 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Checks that the storage account name is valid and is not already in use.
      * 
-     * @param accountName The parameters used to check the availability of the storage account name.
+     * @param name The storage account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<CheckNameAvailabilityResultInner>> checkNameAvailabilityWithResponseAsync(StorageAccountCheckNameAvailabilityParameters accountName) {
+    public Mono<SimpleResponse<CheckNameAvailabilityResultInner>> checkNameAvailabilityWithResponseAsync(String name) {
+        StorageAccountCheckNameAvailabilityParameters accountName = new StorageAccountCheckNameAvailabilityParameters();
+        accountName.setName(name);
         return service.checkNameAvailability(this.client.getHost(), this.client.getSubscriptionId(), accountName, this.client.getApiVersion());
     }
 
     /**
      * Checks that the storage account name is valid and is not already in use.
      * 
-     * @param accountName The parameters used to check the availability of the storage account name.
+     * @param name The storage account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<CheckNameAvailabilityResultInner> checkNameAvailabilityAsync(StorageAccountCheckNameAvailabilityParameters accountName) {
-        return checkNameAvailabilityWithResponseAsync(accountName)
+    public Mono<CheckNameAvailabilityResultInner> checkNameAvailabilityAsync(String name) {
+        return checkNameAvailabilityWithResponseAsync(name)
             .flatMap((SimpleResponse<CheckNameAvailabilityResultInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -187,21 +188,21 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Checks that the storage account name is valid and is not already in use.
      * 
-     * @param accountName The parameters used to check the availability of the storage account name.
+     * @param name The storage account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public CheckNameAvailabilityResultInner checkNameAvailability(StorageAccountCheckNameAvailabilityParameters accountName) {
-        return checkNameAvailabilityAsync(accountName).block();
+    public CheckNameAvailabilityResultInner checkNameAvailability(String name) {
+        return checkNameAvailabilityAsync(name).block();
     }
 
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters used when creating a storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -215,8 +216,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters used when creating a storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -225,16 +226,16 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<StorageAccountInner> createAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
         Mono<SimpleResponse<Flux<ByteBuffer>>> response = createWithResponseAsync(resourceGroupName, accountName, parameters);
-        return client.<PollResult<StorageAccountInner>, StorageAccountInner>getLroResultAsync(response, client.getHttpPipeline(), StorageAccountInner.class, StorageAccountInner.class)
+        return client.<StorageAccountInner, StorageAccountInner>getLroResultAsync(response, client.getHttpPipeline(), StorageAccountInner.class, StorageAccountInner.class)
             .last()
-            .flatMap(res -> res.getFinalResult());
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters used when creating a storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -248,8 +249,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Deletes a storage account in Microsoft Azure.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -262,8 +263,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Deletes a storage account in Microsoft Azure.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -277,8 +278,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Deletes a storage account in Microsoft Azure.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -291,8 +292,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -306,8 +307,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -327,8 +328,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -341,8 +342,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters that can be provided when updating the storage account properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -356,8 +357,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters that can be provided when updating the storage account properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -378,8 +379,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters that can be provided when updating the storage account properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -433,7 +434,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -452,7 +453,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -466,7 +467,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -479,8 +480,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Lists the access keys for the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -493,8 +494,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Lists the access keys for the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -514,8 +515,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Lists the access keys for the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -528,31 +529,33 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Regenerates one of the access keys for the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param regenerateKey The parameters used to regenerate the storage account key.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<StorageAccountListKeysResultInner>> regenerateKeyWithResponseAsync(String resourceGroupName, String accountName, StorageAccountRegenerateKeyParameters regenerateKey) {
+    public Mono<SimpleResponse<StorageAccountListKeysResultInner>> regenerateKeyWithResponseAsync(String resourceGroupName, String accountName, String keyName) {
+        StorageAccountRegenerateKeyParameters regenerateKey = new StorageAccountRegenerateKeyParameters();
+        regenerateKey.setKeyName(keyName);
         return service.regenerateKey(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), regenerateKey, this.client.getApiVersion());
     }
 
     /**
      * Regenerates one of the access keys for the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param regenerateKey The parameters used to regenerate the storage account key.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<StorageAccountListKeysResultInner> regenerateKeyAsync(String resourceGroupName, String accountName, StorageAccountRegenerateKeyParameters regenerateKey) {
-        return regenerateKeyWithResponseAsync(resourceGroupName, accountName, regenerateKey)
+    public Mono<StorageAccountListKeysResultInner> regenerateKeyAsync(String resourceGroupName, String accountName, String keyName) {
+        return regenerateKeyWithResponseAsync(resourceGroupName, accountName, keyName)
             .flatMap((SimpleResponse<StorageAccountListKeysResultInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -565,23 +568,23 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Regenerates one of the access keys for the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param regenerateKey The parameters used to regenerate the storage account key.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public StorageAccountListKeysResultInner regenerateKey(String resourceGroupName, String accountName, StorageAccountRegenerateKeyParameters regenerateKey) {
-        return regenerateKeyAsync(resourceGroupName, accountName, regenerateKey).block();
+    public StorageAccountListKeysResultInner regenerateKey(String resourceGroupName, String accountName, String keyName) {
+        return regenerateKeyAsync(resourceGroupName, accountName, keyName).block();
     }
 
     /**
      * List SAS credentials of a storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters to list SAS credentials of a storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -595,8 +598,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * List SAS credentials of a storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters to list SAS credentials of a storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -617,8 +620,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * List SAS credentials of a storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters to list SAS credentials of a storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -632,8 +635,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * List service SAS credentials of a specific resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters to list service SAS credentials of a specific resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -647,8 +650,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * List service SAS credentials of a specific resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters to list service SAS credentials of a specific resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -669,8 +672,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * List service SAS credentials of a specific resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters to list service SAS credentials of a specific resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -684,8 +687,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -698,8 +701,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -709,14 +712,14 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
         Mono<SimpleResponse<Flux<ByteBuffer>>> response = failoverWithResponseAsync(resourceGroupName, accountName);
         return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
             .last()
-            .flatMap(res -> res.getFinalResult());
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
      * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -729,8 +732,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Revoke user delegation keys.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -743,8 +746,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Revoke user delegation keys.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -758,8 +761,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Revoke user delegation keys.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -772,8 +775,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters used when creating a storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -787,8 +790,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters used when creating a storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -809,8 +812,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @param parameters The parameters used when creating a storage account.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -824,8 +827,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -838,8 +841,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -853,8 +856,8 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     /**
      * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

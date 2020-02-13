@@ -69,9 +69,7 @@ class ManagementPolicyImpl extends
     @Override
     public Mono<ManagementPolicy> createResourceAsync() {
         ManagementPoliciesInner client = this.manager().inner().managementPolicies();
-        ManagementPolicyInner inner = new ManagementPolicyInner();
-        inner.setPolicy(this.cpolicy);
-        return client.createOrUpdateAsync(this.resourceGroupName, this.accountName, inner)
+        return client.createOrUpdateAsync(this.resourceGroupName, this.accountName, cpolicy)
                 .map(resource -> {
                     resetCreateUpdateParameters();
                     return resource;
@@ -82,9 +80,7 @@ class ManagementPolicyImpl extends
     @Override
     public Mono<ManagementPolicy> updateResourceAsync() {
         ManagementPoliciesInner client = this.manager().inner().managementPolicies();
-        ManagementPolicyInner inner = new ManagementPolicyInner();
-        inner.setPolicy(this.upolicy);
-        return client.createOrUpdateAsync(this.resourceGroupName, this.accountName, inner)
+        return client.createOrUpdateAsync(this.resourceGroupName, this.accountName, upolicy)
                 .map(resource -> {
                     resetCreateUpdateParameters();
                     return resource;

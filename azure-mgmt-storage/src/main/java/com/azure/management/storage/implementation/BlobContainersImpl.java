@@ -11,11 +11,11 @@ import com.azure.management.storage.BlobContainer;
 import com.azure.management.storage.BlobContainers;
 import com.azure.management.storage.ImmutabilityPolicy;
 import com.azure.management.storage.LegalHold;
+import com.azure.management.storage.ListContainerItem;
 import com.azure.management.storage.models.BlobContainerInner;
 import com.azure.management.storage.models.BlobContainersInner;
 import com.azure.management.storage.models.ImmutabilityPolicyInner;
 import com.azure.management.storage.models.LegalHoldInner;
-import com.azure.management.storage.models.ListContainerItemInner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -69,7 +69,7 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
     }
 
     @Override
-    public Flux<ListContainerItemInner> listAsync(String resourceGroupName, String accountName) {
+    public Flux<ListContainerItem> listAsync(String resourceGroupName, String accountName) {
         BlobContainersInner client = this.inner();
         return client.listAsync(resourceGroupName, accountName)
                 .flatMapMany(inners -> Flux.fromIterable(inners.getValue()));
@@ -91,26 +91,21 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
     @Override
     public Mono<LegalHold> setLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags) {
         BlobContainersInner client = this.inner();
-        LegalHoldInner inner = new LegalHoldInner();
-        inner.setTags(tags);
-        return client.setLegalHoldAsync(resourceGroupName, accountName, containerName, inner)
+        return client.setLegalHoldAsync(resourceGroupName, accountName, containerName, tags)
                 .map(legalHoldInner -> new LegalHoldImpl(legalHoldInner, manager()));
     }
 
     @Override
     public Mono<LegalHold> clearLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags) {
         BlobContainersInner client = this.inner();
-        LegalHoldInner inner = new LegalHoldInner();
-        inner.setTags(tags);
-        return client.clearLegalHoldAsync(resourceGroupName, accountName, containerName, inner)
+        return client.clearLegalHoldAsync(resourceGroupName, accountName, containerName, tags)
                 .map(legalHoldInner -> new LegalHoldImpl(legalHoldInner, manager()));
     }
 
     @Override
     public Mono<ImmutabilityPolicy> getImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName) {
         BlobContainersInner client = this.inner();
-        // FIXME: If-match
-        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, null)
+        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName)
                 .map(inner -> wrapImmutabilityPolicyModel(inner));
     }
 
@@ -129,9 +124,7 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
     @Override
     public Mono<ImmutabilityPolicy> extendImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, int immutabilityPeriodSinceCreationInDays) {
         BlobContainersInner client = this.inner();
-        ImmutabilityPolicyInner inner = new ImmutabilityPolicyInner();
-        inner.setImmutabilityPeriodSinceCreationInDays(immutabilityPeriodSinceCreationInDays);
-        return client.extendImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch, inner)
+        return client.extendImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch, immutabilityPeriodSinceCreationInDays)
                 .map(policyInner -> new ImmutabilityPolicyImpl(policyInner, this.manager));
     }
 }

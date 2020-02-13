@@ -224,8 +224,7 @@ class StorageAccountImpl
 
     @Override
     public Mono<List<StorageAccountKey>> regenerateKeyAsync(String keyName) {
-        StorageAccountRegenerateKeyParameters parameters = new StorageAccountRegenerateKeyParameters().setKeyName(keyName);
-        return this.manager().inner().storageAccounts().regenerateKeyAsync(this.resourceGroupName(), this.name(), parameters)
+        return this.manager().inner().storageAccounts().regenerateKeyAsync(this.resourceGroupName(), this.name(), keyName)
                 .map(storageAccountListKeysResultInner -> storageAccountListKeysResultInner.getKeys());
     }
 

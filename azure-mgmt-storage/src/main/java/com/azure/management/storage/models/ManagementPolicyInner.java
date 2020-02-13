@@ -8,7 +8,7 @@ package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
-import com.azure.core.management.Resource;
+import com.azure.core.management.ProxyResource;
 import com.azure.management.storage.ManagementPolicySchema;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
@@ -18,7 +18,7 @@ import java.time.OffsetDateTime;
  */
 @JsonFlatten
 @Fluent
-public class ManagementPolicyInner extends Resource {
+public class ManagementPolicyInner extends ProxyResource {
     /*
      * Returns the date and time the ManagementPolicies was last modified.
      */
@@ -29,7 +29,7 @@ public class ManagementPolicyInner extends Resource {
      * The Storage Account ManagementPolicies Rules. See more details in:
      * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
      */
-    @JsonProperty(value = "properties.policy", required = true)
+    @JsonProperty(value = "properties.policy")
     private ManagementPolicySchema policy;
 
     /**

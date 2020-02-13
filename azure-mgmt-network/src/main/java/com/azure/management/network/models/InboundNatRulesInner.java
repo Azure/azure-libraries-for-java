@@ -27,6 +27,9 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -70,7 +73,7 @@ public final class InboundNatRulesInner {
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("inboundNatRuleName") String inboundNatRuleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("inboundNatRuleName") String inboundNatRuleName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
         @ExpectedResponses({200})
@@ -80,7 +83,7 @@ public final class InboundNatRulesInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<InboundNatRuleInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("inboundNatRuleName") String inboundNatRuleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") InboundNatRuleInner inboundNatRuleParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("inboundNatRuleName") String inboundNatRuleName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") InboundNatRuleInner inboundNatRuleParameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}")
         @ExpectedResponses({200, 202, 204})
@@ -160,7 +163,7 @@ public final class InboundNatRulesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -177,8 +180,10 @@ public final class InboundNatRulesInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
-        return deleteWithResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -242,6 +247,30 @@ public final class InboundNatRulesInner {
      * @param resourceGroupName 
      * @param loadBalancerName 
      * @param inboundNatRuleName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<InboundNatRuleInner> getAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return getWithResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, expand)
+            .flatMap((SimpleResponse<InboundNatRuleInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified load balancer inbound nat rule.
+     * 
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -249,6 +278,23 @@ public final class InboundNatRulesInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public InboundNatRuleInner get(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, String expand) {
+        return getAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, expand).block();
+    }
+
+    /**
+     * Gets the specified load balancer inbound nat rule.
+     * 
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public InboundNatRuleInner get(String resourceGroupName, String loadBalancerName, String inboundNatRuleName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
         return getAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, expand).block();
     }
 
@@ -264,7 +310,7 @@ public final class InboundNatRulesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<InboundNatRuleInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, loadBalancerName, inboundNatRuleName, this.client.getSubscriptionId(), inboundNatRuleParameters, apiVersion);
     }
@@ -282,14 +328,10 @@ public final class InboundNatRulesInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<InboundNatRuleInner> createOrUpdateAsync(String resourceGroupName, String loadBalancerName, String inboundNatRuleName, InboundNatRuleInner inboundNatRuleParameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters)
-            .flatMap((SimpleResponse<InboundNatRuleInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, loadBalancerName, inboundNatRuleName, inboundNatRuleParameters);
+        return client.<InboundNatRuleInner, InboundNatRuleInner>getLroResultAsync(response, client.getHttpPipeline(), InboundNatRuleInner.class, InboundNatRuleInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

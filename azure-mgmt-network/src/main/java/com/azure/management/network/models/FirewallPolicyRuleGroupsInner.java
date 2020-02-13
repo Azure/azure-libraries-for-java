@@ -27,6 +27,9 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -65,7 +68,7 @@ public final class FirewallPolicyRuleGroupsInner {
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleGroups/{ruleGroupName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("firewallPolicyName") String firewallPolicyName, @PathParam("ruleGroupName") String ruleGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("firewallPolicyName") String firewallPolicyName, @PathParam("ruleGroupName") String ruleGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleGroups/{ruleGroupName}")
         @ExpectedResponses({200})
@@ -75,7 +78,7 @@ public final class FirewallPolicyRuleGroupsInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleGroups/{ruleGroupName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<FirewallPolicyRuleGroupInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("firewallPolicyName") String firewallPolicyName, @PathParam("ruleGroupName") String ruleGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") FirewallPolicyRuleGroupInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("firewallPolicyName") String firewallPolicyName, @PathParam("ruleGroupName") String ruleGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") FirewallPolicyRuleGroupInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleGroups")
         @ExpectedResponses({200})
@@ -109,7 +112,7 @@ public final class FirewallPolicyRuleGroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String firewallPolicyName, String ruleGroupName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String firewallPolicyName, String ruleGroupName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, firewallPolicyName, ruleGroupName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -126,8 +129,10 @@ public final class FirewallPolicyRuleGroupsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String firewallPolicyName, String ruleGroupName) {
-        return deleteWithResponseAsync(resourceGroupName, firewallPolicyName, ruleGroupName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, firewallPolicyName, ruleGroupName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -210,7 +215,7 @@ public final class FirewallPolicyRuleGroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<FirewallPolicyRuleGroupInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String firewallPolicyName, String ruleGroupName, FirewallPolicyRuleGroupInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String firewallPolicyName, String ruleGroupName, FirewallPolicyRuleGroupInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, firewallPolicyName, ruleGroupName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -228,14 +233,10 @@ public final class FirewallPolicyRuleGroupsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<FirewallPolicyRuleGroupInner> createOrUpdateAsync(String resourceGroupName, String firewallPolicyName, String ruleGroupName, FirewallPolicyRuleGroupInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, firewallPolicyName, ruleGroupName, parameters)
-            .flatMap((SimpleResponse<FirewallPolicyRuleGroupInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, firewallPolicyName, ruleGroupName, parameters);
+        return client.<FirewallPolicyRuleGroupInner, FirewallPolicyRuleGroupInner>getLroResultAsync(response, client.getHttpPipeline(), FirewallPolicyRuleGroupInner.class, FirewallPolicyRuleGroupInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

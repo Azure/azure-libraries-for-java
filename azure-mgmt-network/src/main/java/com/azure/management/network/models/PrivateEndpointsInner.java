@@ -26,16 +26,20 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.ErrorException;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * PrivateEndpoints.
  */
-public final class PrivateEndpointsInner implements InnerSupportsListing<PrivateEndpointInner>, InnerSupportsDelete<Void> {
+public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointInner>, InnerSupportsListing<PrivateEndpointInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -67,7 +71,7 @@ public final class PrivateEndpointsInner implements InnerSupportsListing<Private
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("privateEndpointName") String privateEndpointName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("privateEndpointName") String privateEndpointName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}")
         @ExpectedResponses({200})
@@ -77,7 +81,7 @@ public final class PrivateEndpointsInner implements InnerSupportsListing<Private
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<PrivateEndpointInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("privateEndpointName") String privateEndpointName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PrivateEndpointInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("privateEndpointName") String privateEndpointName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PrivateEndpointInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints")
         @ExpectedResponses({200})
@@ -120,7 +124,7 @@ public final class PrivateEndpointsInner implements InnerSupportsListing<Private
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String privateEndpointName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String privateEndpointName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, privateEndpointName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -136,8 +140,10 @@ public final class PrivateEndpointsInner implements InnerSupportsListing<Private
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String privateEndpointName) {
-        return deleteWithResponseAsync(resourceGroupName, privateEndpointName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, privateEndpointName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -197,6 +203,29 @@ public final class PrivateEndpointsInner implements InnerSupportsListing<Private
      * 
      * @param resourceGroupName 
      * @param privateEndpointName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PrivateEndpointInner> getByResourceGroupAsync(String resourceGroupName, String privateEndpointName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return getByResourceGroupWithResponseAsync(resourceGroupName, privateEndpointName, expand)
+            .flatMap((SimpleResponse<PrivateEndpointInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified private endpoint by resource group.
+     * 
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -204,6 +233,22 @@ public final class PrivateEndpointsInner implements InnerSupportsListing<Private
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public PrivateEndpointInner getByResourceGroup(String resourceGroupName, String privateEndpointName, String expand) {
+        return getByResourceGroupAsync(resourceGroupName, privateEndpointName, expand).block();
+    }
+
+    /**
+     * Gets the specified private endpoint by resource group.
+     * 
+     * @param resourceGroupName 
+     * @param privateEndpointName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PrivateEndpointInner getByResourceGroup(String resourceGroupName, String privateEndpointName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
         return getByResourceGroupAsync(resourceGroupName, privateEndpointName, expand).block();
     }
 
@@ -218,7 +263,7 @@ public final class PrivateEndpointsInner implements InnerSupportsListing<Private
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PrivateEndpointInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String privateEndpointName, PrivateEndpointInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String privateEndpointName, PrivateEndpointInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, privateEndpointName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -235,14 +280,10 @@ public final class PrivateEndpointsInner implements InnerSupportsListing<Private
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PrivateEndpointInner> createOrUpdateAsync(String resourceGroupName, String privateEndpointName, PrivateEndpointInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, privateEndpointName, parameters)
-            .flatMap((SimpleResponse<PrivateEndpointInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, privateEndpointName, parameters);
+        return client.<PrivateEndpointInner, PrivateEndpointInner>getLroResultAsync(response, client.getHttpPipeline(), PrivateEndpointInner.class, PrivateEndpointInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

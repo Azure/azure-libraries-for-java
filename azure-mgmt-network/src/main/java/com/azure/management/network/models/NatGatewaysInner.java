@@ -28,17 +28,21 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * NatGateways.
  */
-public final class NatGatewaysInner implements InnerSupportsListing<NatGatewayInner>, InnerSupportsDelete<Void> {
+public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>, InnerSupportsListing<NatGatewayInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -70,7 +74,7 @@ public final class NatGatewaysInner implements InnerSupportsListing<NatGatewayIn
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("natGatewayName") String natGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("natGatewayName") String natGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}")
         @ExpectedResponses({200})
@@ -80,7 +84,7 @@ public final class NatGatewaysInner implements InnerSupportsListing<NatGatewayIn
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}")
         @ExpectedResponses({200, 201, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<NatGatewayInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("natGatewayName") String natGatewayName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") NatGatewayInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("natGatewayName") String natGatewayName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") NatGatewayInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}")
         @ExpectedResponses({200})
@@ -128,7 +132,7 @@ public final class NatGatewaysInner implements InnerSupportsListing<NatGatewayIn
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String natGatewayName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String natGatewayName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, natGatewayName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -144,8 +148,10 @@ public final class NatGatewaysInner implements InnerSupportsListing<NatGatewayIn
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String natGatewayName) {
-        return deleteWithResponseAsync(resourceGroupName, natGatewayName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, natGatewayName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -205,6 +211,29 @@ public final class NatGatewaysInner implements InnerSupportsListing<NatGatewayIn
      * 
      * @param resourceGroupName 
      * @param natGatewayName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<NatGatewayInner> getByResourceGroupAsync(String resourceGroupName, String natGatewayName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return getByResourceGroupWithResponseAsync(resourceGroupName, natGatewayName, expand)
+            .flatMap((SimpleResponse<NatGatewayInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified nat gateway in a specified resource group.
+     * 
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -212,6 +241,22 @@ public final class NatGatewaysInner implements InnerSupportsListing<NatGatewayIn
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public NatGatewayInner getByResourceGroup(String resourceGroupName, String natGatewayName, String expand) {
+        return getByResourceGroupAsync(resourceGroupName, natGatewayName, expand).block();
+    }
+
+    /**
+     * Gets the specified nat gateway in a specified resource group.
+     * 
+     * @param resourceGroupName 
+     * @param natGatewayName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public NatGatewayInner getByResourceGroup(String resourceGroupName, String natGatewayName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
         return getByResourceGroupAsync(resourceGroupName, natGatewayName, expand).block();
     }
 
@@ -226,7 +271,7 @@ public final class NatGatewaysInner implements InnerSupportsListing<NatGatewayIn
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NatGatewayInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String natGatewayName, NatGatewayInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String natGatewayName, NatGatewayInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, natGatewayName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -243,14 +288,10 @@ public final class NatGatewaysInner implements InnerSupportsListing<NatGatewayIn
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<NatGatewayInner> createOrUpdateAsync(String resourceGroupName, String natGatewayName, NatGatewayInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, natGatewayName, parameters)
-            .flatMap((SimpleResponse<NatGatewayInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, natGatewayName, parameters);
+        return client.<NatGatewayInner, NatGatewayInner>getLroResultAsync(response, client.getHttpPipeline(), NatGatewayInner.class, NatGatewayInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

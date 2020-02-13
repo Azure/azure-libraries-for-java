@@ -87,7 +87,7 @@ public class ResourceNavigationLinkInner extends SubResource {
      * 
      * @return the id value.
      */
-    public String id() {
+    public String getId() {
         return this.id;
     }
 

@@ -44,7 +44,7 @@ public final class ManagedServiceIdentity {
      * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
      */
     @JsonProperty(value = "userAssignedIdentities")
-    private Map<String, ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties> userAssignedIdentities;
+    private Map<String, ManagedServiceIdentityUserAssignedIdentities> userAssignedIdentities;
 
     /**
      * Get the principalId property: The principal id of the system assigned
@@ -102,7 +102,7 @@ public final class ManagedServiceIdentity {
      * 
      * @return the userAssignedIdentities value.
      */
-    public Map<String, ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties> userAssignedIdentities() {
+    public Map<String, ManagedServiceIdentityUserAssignedIdentities> userAssignedIdentities() {
         return this.userAssignedIdentities;
     }
 
@@ -115,7 +115,7 @@ public final class ManagedServiceIdentity {
      * @param userAssignedIdentities the userAssignedIdentities value to set.
      * @return the ManagedServiceIdentity object itself.
      */
-    public ManagedServiceIdentity withUserAssignedIdentities(Map<String, ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties> userAssignedIdentities) {
+    public ManagedServiceIdentity withUserAssignedIdentities(Map<String, ManagedServiceIdentityUserAssignedIdentities> userAssignedIdentities) {
         this.userAssignedIdentities = userAssignedIdentities;
         return this;
     }

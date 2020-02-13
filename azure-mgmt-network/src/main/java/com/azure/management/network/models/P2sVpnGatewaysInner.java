@@ -29,6 +29,7 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.AuthenticationMethod;
 import com.azure.management.network.ErrorException;
 import com.azure.management.network.P2SVpnProfileParameters;
@@ -36,7 +37,9 @@ import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -80,17 +83,17 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<P2SVpnGatewayInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @BodyParam("application/json") P2SVpnGatewayInner p2SVpnGatewayParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @BodyParam("application/json") P2SVpnGatewayInner p2SVpnGatewayParameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<P2SVpnGatewayInner>> updateTags(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @BodyParam("application/json") TagsObject p2SVpnGatewayParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @BodyParam("application/json") TagsObject p2SVpnGatewayParameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways")
         @ExpectedResponses({200})
@@ -105,12 +108,12 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/generatevpnprofile")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VpnProfileResponseInner>> generateVpnProfile(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") P2SVpnProfileParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> generateVpnProfile(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") P2SVpnProfileParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<P2SVpnGatewayInner>> getP2sVpnConnectionHealth(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getP2sVpnConnectionHealth(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}")
         @ExpectedResponses({200, 201})
@@ -209,7 +212,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<P2SVpnGatewayInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String gatewayName, P2SVpnGatewayInner p2SVpnGatewayParameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String gatewayName, P2SVpnGatewayInner p2SVpnGatewayParameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, gatewayName, p2SVpnGatewayParameters, apiVersion);
     }
@@ -226,14 +229,10 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<P2SVpnGatewayInner> createOrUpdateAsync(String resourceGroupName, String gatewayName, P2SVpnGatewayInner p2SVpnGatewayParameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, gatewayName, p2SVpnGatewayParameters)
-            .flatMap((SimpleResponse<P2SVpnGatewayInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, gatewayName, p2SVpnGatewayParameters);
+        return client.<P2SVpnGatewayInner, P2SVpnGatewayInner>getLroResultAsync(response, client.getHttpPipeline(), P2SVpnGatewayInner.class, P2SVpnGatewayInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -262,7 +261,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<P2SVpnGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject p2SVpnGatewayParameters = new TagsObject();
         p2SVpnGatewayParameters.withTags(tags);
@@ -281,14 +280,10 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<P2SVpnGatewayInner> updateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, gatewayName, tags)
-            .flatMap((SimpleResponse<P2SVpnGatewayInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, gatewayName, tags);
+        return client.<P2SVpnGatewayInner, P2SVpnGatewayInner>getLroResultAsync(response, client.getHttpPipeline(), P2SVpnGatewayInner.class, P2SVpnGatewayInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -316,7 +311,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String gatewayName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String gatewayName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, gatewayName, apiVersion);
     }
@@ -332,8 +327,10 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String gatewayName) {
-        return deleteWithResponseAsync(resourceGroupName, gatewayName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, gatewayName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -451,7 +448,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VpnProfileResponseInner>> generateVpnProfileWithResponseAsync(String resourceGroupName, String gatewayName, AuthenticationMethod authenticationMethod) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> generateVpnProfileWithResponseAsync(String resourceGroupName, String gatewayName, AuthenticationMethod authenticationMethod) {
         final String apiVersion = "2019-06-01";
         P2SVpnProfileParameters parameters = new P2SVpnProfileParameters();
         parameters.withAuthenticationMethod(authenticationMethod);
@@ -470,14 +467,10 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VpnProfileResponseInner> generateVpnProfileAsync(String resourceGroupName, String gatewayName, AuthenticationMethod authenticationMethod) {
-        return generateVpnProfileWithResponseAsync(resourceGroupName, gatewayName, authenticationMethod)
-            .flatMap((SimpleResponse<VpnProfileResponseInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = generateVpnProfileWithResponseAsync(resourceGroupName, gatewayName, authenticationMethod);
+        return client.<VpnProfileResponseInner, VpnProfileResponseInner>getLroResultAsync(response, client.getHttpPipeline(), VpnProfileResponseInner.class, VpnProfileResponseInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -505,7 +498,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<P2SVpnGatewayInner>> getP2sVpnConnectionHealthWithResponseAsync(String resourceGroupName, String gatewayName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getP2sVpnConnectionHealthWithResponseAsync(String resourceGroupName, String gatewayName) {
         final String apiVersion = "2019-06-01";
         return service.getP2sVpnConnectionHealth(this.client.getHost(), resourceGroupName, gatewayName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -521,14 +514,10 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<P2SVpnGatewayInner> getP2sVpnConnectionHealthAsync(String resourceGroupName, String gatewayName) {
-        return getP2sVpnConnectionHealthWithResponseAsync(resourceGroupName, gatewayName)
-            .flatMap((SimpleResponse<P2SVpnGatewayInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getP2sVpnConnectionHealthWithResponseAsync(resourceGroupName, gatewayName);
+        return client.<P2SVpnGatewayInner, P2SVpnGatewayInner>getLroResultAsync(response, client.getHttpPipeline(), P2SVpnGatewayInner.class, P2SVpnGatewayInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

@@ -28,18 +28,21 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * LoadBalancers.
  */
-public final class LoadBalancersInner implements InnerSupportsListing<LoadBalancerInner>, InnerSupportsDelete<Void>, InnerSupportsGet<LoadBalancerInner> {
+public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, InnerSupportsListing<LoadBalancerInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -60,16 +63,6 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
         this.client = client;
     }
 
-    @Override
-    public LoadBalancerInner getByResourceGroup(String resourceGroupName, String resourceName) {
-        return this.getByResourceGroup(resourceGroupName, resourceName, null);
-    }
-
-    @Override
-    public Mono<LoadBalancerInner> getByResourceGroupAsync(String resourceGroupName, String resourceName) {
-        return this.getByResourceGroupAsync(resourceGroupName, resourceName, null);
-    }
-
     /**
      * The interface defining all the services for
      * NetworkManagementClientLoadBalancers to be used by the proxy service to
@@ -81,7 +74,7 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
         @ExpectedResponses({200})
@@ -91,12 +84,12 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<LoadBalancerInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") LoadBalancerInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") LoadBalancerInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<LoadBalancerInner>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("loadBalancerName") String loadBalancerName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Network/loadBalancers")
         @ExpectedResponses({200})
@@ -144,7 +137,7 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String loadBalancerName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String loadBalancerName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, loadBalancerName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -160,8 +153,10 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String loadBalancerName) {
-        return deleteWithResponseAsync(resourceGroupName, loadBalancerName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, loadBalancerName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -221,6 +216,29 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
      * 
      * @param resourceGroupName 
      * @param loadBalancerName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<LoadBalancerInner> getByResourceGroupAsync(String resourceGroupName, String loadBalancerName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return getByResourceGroupWithResponseAsync(resourceGroupName, loadBalancerName, expand)
+            .flatMap((SimpleResponse<LoadBalancerInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified load balancer.
+     * 
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -228,6 +246,22 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public LoadBalancerInner getByResourceGroup(String resourceGroupName, String loadBalancerName, String expand) {
+        return getByResourceGroupAsync(resourceGroupName, loadBalancerName, expand).block();
+    }
+
+    /**
+     * Gets the specified load balancer.
+     * 
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public LoadBalancerInner getByResourceGroup(String resourceGroupName, String loadBalancerName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
         return getByResourceGroupAsync(resourceGroupName, loadBalancerName, expand).block();
     }
 
@@ -242,7 +276,7 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<LoadBalancerInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, loadBalancerName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -259,14 +293,10 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<LoadBalancerInner> createOrUpdateAsync(String resourceGroupName, String loadBalancerName, LoadBalancerInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, loadBalancerName, parameters)
-            .flatMap((SimpleResponse<LoadBalancerInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, loadBalancerName, parameters);
+        return client.<LoadBalancerInner, LoadBalancerInner>getLroResultAsync(response, client.getHttpPipeline(), LoadBalancerInner.class, LoadBalancerInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -295,7 +325,7 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<LoadBalancerInner>> updateTagsWithResponseAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
@@ -314,14 +344,10 @@ public final class LoadBalancersInner implements InnerSupportsListing<LoadBalanc
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<LoadBalancerInner> updateTagsAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, loadBalancerName, tags)
-            .flatMap((SimpleResponse<LoadBalancerInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, loadBalancerName, tags);
+        return client.<LoadBalancerInner, LoadBalancerInner>getLroResultAsync(response, client.getHttpPipeline(), LoadBalancerInner.class, LoadBalancerInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

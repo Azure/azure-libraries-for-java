@@ -206,12 +206,12 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
         JsonNode userAssignedIdentitiesValueObject = mapper.createObjectNode();
         ((ObjectNode) userAssignedIdentitiesValueObject).put("principalId", identity.principalId());
         ((ObjectNode) userAssignedIdentitiesValueObject).put("clientId", identity.clientId());
-        ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties userAssignedIdentitiesValue =
+        ManagedServiceIdentityUserAssignedIdentities userAssignedIdentitiesValue =
                 new JacksonAdapter().deserialize(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userAssignedIdentitiesValueObject),
-                        ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties.class,
+                        ManagedServiceIdentityUserAssignedIdentities.class,
                         SerializerEncoding.JSON);
 
-        Map<String, ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties> userAssignedIdentities =
+        Map<String, ManagedServiceIdentityUserAssignedIdentities> userAssignedIdentities =
                 new HashMap<>();
         userAssignedIdentities.put(identity.id(), userAssignedIdentitiesValue);
 

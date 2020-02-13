@@ -28,17 +28,21 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * NetworkProfiles.
  */
-public final class NetworkProfilesInner implements InnerSupportsListing<NetworkProfileInner>, InnerSupportsDelete<Void> {
+public final class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInner>, InnerSupportsListing<NetworkProfileInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -70,7 +74,7 @@ public final class NetworkProfilesInner implements InnerSupportsListing<NetworkP
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkProfileName") String networkProfileName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkProfileName") String networkProfileName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}")
         @ExpectedResponses({200})
@@ -123,7 +127,7 @@ public final class NetworkProfilesInner implements InnerSupportsListing<NetworkP
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String networkProfileName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String networkProfileName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, networkProfileName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -139,8 +143,10 @@ public final class NetworkProfilesInner implements InnerSupportsListing<NetworkP
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String networkProfileName) {
-        return deleteWithResponseAsync(resourceGroupName, networkProfileName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, networkProfileName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -200,6 +206,29 @@ public final class NetworkProfilesInner implements InnerSupportsListing<NetworkP
      * 
      * @param resourceGroupName 
      * @param networkProfileName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<NetworkProfileInner> getByResourceGroupAsync(String resourceGroupName, String networkProfileName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return getByResourceGroupWithResponseAsync(resourceGroupName, networkProfileName, expand)
+            .flatMap((SimpleResponse<NetworkProfileInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified network profile in a specified resource group.
+     * 
+     * @param resourceGroupName 
+     * @param networkProfileName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -207,6 +236,22 @@ public final class NetworkProfilesInner implements InnerSupportsListing<NetworkP
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public NetworkProfileInner getByResourceGroup(String resourceGroupName, String networkProfileName, String expand) {
+        return getByResourceGroupAsync(resourceGroupName, networkProfileName, expand).block();
+    }
+
+    /**
+     * Gets the specified network profile in a specified resource group.
+     * 
+     * @param resourceGroupName 
+     * @param networkProfileName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public NetworkProfileInner getByResourceGroup(String resourceGroupName, String networkProfileName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
         return getByResourceGroupAsync(resourceGroupName, networkProfileName, expand).block();
     }
 

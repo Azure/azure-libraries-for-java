@@ -29,14 +29,17 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.ApplicationGatewayOnDemandProbe;
 import com.azure.management.network.ErrorException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -75,7 +78,7 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}")
         @ExpectedResponses({200})
@@ -85,12 +88,12 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ApplicationGatewayInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ApplicationGatewayInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ApplicationGatewayInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ApplicationGatewayInner>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways")
         @ExpectedResponses({200})
@@ -105,22 +108,22 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> start(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> start(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/stop")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> stop(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> stop(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ApplicationGatewayBackendHealthInner>> backendHealth(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> backendHealth(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ApplicationGatewayBackendHealthOnDemandInner>> backendHealthOnDemand(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @BodyParam("application/json") ApplicationGatewayOnDemandProbe probeRequest, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> backendHealthOnDemand(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("applicationGatewayName") String applicationGatewayName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @BodyParam("application/json") ApplicationGatewayOnDemandProbe probeRequest, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableServerVariables")
         @ExpectedResponses({200})
@@ -218,7 +221,7 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String applicationGatewayName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String applicationGatewayName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, applicationGatewayName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -234,8 +237,10 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String applicationGatewayName) {
-        return deleteWithResponseAsync(resourceGroupName, applicationGatewayName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, applicationGatewayName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -313,7 +318,7 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ApplicationGatewayInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, applicationGatewayName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -330,14 +335,10 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ApplicationGatewayInner> createOrUpdateAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, applicationGatewayName, parameters)
-            .flatMap((SimpleResponse<ApplicationGatewayInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, applicationGatewayName, parameters);
+        return client.<ApplicationGatewayInner, ApplicationGatewayInner>getLroResultAsync(response, client.getHttpPipeline(), ApplicationGatewayInner.class, ApplicationGatewayInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -366,7 +367,7 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ApplicationGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String applicationGatewayName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String applicationGatewayName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
@@ -385,14 +386,10 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ApplicationGatewayInner> updateTagsAsync(String resourceGroupName, String applicationGatewayName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, applicationGatewayName, tags)
-            .flatMap((SimpleResponse<ApplicationGatewayInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, applicationGatewayName, tags);
+        return client.<ApplicationGatewayInner, ApplicationGatewayInner>getLroResultAsync(response, client.getHttpPipeline(), ApplicationGatewayInner.class, ApplicationGatewayInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -510,7 +507,7 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> startWithResponseAsync(String resourceGroupName, String applicationGatewayName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> startWithResponseAsync(String resourceGroupName, String applicationGatewayName) {
         final String apiVersion = "2019-06-01";
         return service.start(this.client.getHost(), resourceGroupName, applicationGatewayName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -526,8 +523,10 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> startAsync(String resourceGroupName, String applicationGatewayName) {
-        return startWithResponseAsync(resourceGroupName, applicationGatewayName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = startWithResponseAsync(resourceGroupName, applicationGatewayName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -554,7 +553,7 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> stopWithResponseAsync(String resourceGroupName, String applicationGatewayName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> stopWithResponseAsync(String resourceGroupName, String applicationGatewayName) {
         final String apiVersion = "2019-06-01";
         return service.stop(this.client.getHost(), resourceGroupName, applicationGatewayName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -570,8 +569,10 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> stopAsync(String resourceGroupName, String applicationGatewayName) {
-        return stopWithResponseAsync(resourceGroupName, applicationGatewayName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = stopWithResponseAsync(resourceGroupName, applicationGatewayName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -599,7 +600,7 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ApplicationGatewayBackendHealthInner>> backendHealthWithResponseAsync(String resourceGroupName, String applicationGatewayName, String expand) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> backendHealthWithResponseAsync(String resourceGroupName, String applicationGatewayName, String expand) {
         final String apiVersion = "2019-06-01";
         return service.backendHealth(this.client.getHost(), resourceGroupName, applicationGatewayName, this.client.getSubscriptionId(), expand, apiVersion);
     }
@@ -616,14 +617,10 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ApplicationGatewayBackendHealthInner> backendHealthAsync(String resourceGroupName, String applicationGatewayName, String expand) {
-        return backendHealthWithResponseAsync(resourceGroupName, applicationGatewayName, expand)
-            .flatMap((SimpleResponse<ApplicationGatewayBackendHealthInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = backendHealthWithResponseAsync(resourceGroupName, applicationGatewayName, expand);
+        return client.<ApplicationGatewayBackendHealthInner, ApplicationGatewayBackendHealthInner>getLroResultAsync(response, client.getHttpPipeline(), ApplicationGatewayBackendHealthInner.class, ApplicationGatewayBackendHealthInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -646,14 +643,14 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * 
      * @param resourceGroupName 
      * @param applicationGatewayName 
-     * @param expand 
      * @param probeRequest Details of on demand test probe request.
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ApplicationGatewayBackendHealthOnDemandInner>> backendHealthOnDemandWithResponseAsync(String resourceGroupName, String applicationGatewayName, String expand, ApplicationGatewayOnDemandProbe probeRequest) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> backendHealthOnDemandWithResponseAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
         final String apiVersion = "2019-06-01";
         return service.backendHealthOnDemand(this.client.getHost(), resourceGroupName, applicationGatewayName, this.client.getSubscriptionId(), expand, probeRequest, apiVersion);
     }
@@ -663,22 +660,18 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * 
      * @param resourceGroupName 
      * @param applicationGatewayName 
-     * @param expand 
      * @param probeRequest Details of on demand test probe request.
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ApplicationGatewayBackendHealthOnDemandInner> backendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, String expand, ApplicationGatewayOnDemandProbe probeRequest) {
-        return backendHealthOnDemandWithResponseAsync(resourceGroupName, applicationGatewayName, expand, probeRequest)
-            .flatMap((SimpleResponse<ApplicationGatewayBackendHealthOnDemandInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+    public Mono<ApplicationGatewayBackendHealthOnDemandInner> backendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = backendHealthOnDemandWithResponseAsync(resourceGroupName, applicationGatewayName, probeRequest, expand);
+        return client.<ApplicationGatewayBackendHealthOnDemandInner, ApplicationGatewayBackendHealthOnDemandInner>getLroResultAsync(response, client.getHttpPipeline(), ApplicationGatewayBackendHealthOnDemandInner.class, ApplicationGatewayBackendHealthOnDemandInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -686,15 +679,15 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * 
      * @param resourceGroupName 
      * @param applicationGatewayName 
-     * @param expand 
      * @param probeRequest Details of on demand test probe request.
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ApplicationGatewayBackendHealthOnDemandInner backendHealthOnDemand(String resourceGroupName, String applicationGatewayName, String expand, ApplicationGatewayOnDemandProbe probeRequest) {
-        return backendHealthOnDemandAsync(resourceGroupName, applicationGatewayName, expand, probeRequest).block();
+    public ApplicationGatewayBackendHealthOnDemandInner backendHealthOnDemand(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        return backendHealthOnDemandAsync(resourceGroupName, applicationGatewayName, probeRequest, expand).block();
     }
 
     /**
@@ -1274,6 +1267,29 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * 
      * @param resourceGroupName 
      * @param applicationGatewayName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<ApplicationGatewayBackendHealthInner> beginBackendHealthAsync(String resourceGroupName, String applicationGatewayName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return beginBackendHealthWithResponseAsync(resourceGroupName, applicationGatewayName, expand)
+            .flatMap((SimpleResponse<ApplicationGatewayBackendHealthInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the backend health of the specified application gateway in a resource group.
+     * 
+     * @param resourceGroupName 
+     * @param applicationGatewayName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1285,18 +1301,34 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
     }
 
     /**
-     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     * Gets the backend health of the specified application gateway in a resource group.
      * 
      * @param resourceGroupName 
      * @param applicationGatewayName 
-     * @param expand 
-     * @param probeRequest Details of on demand test probe request.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ApplicationGatewayBackendHealthOnDemandInner>> beginBackendHealthOnDemandWithResponseAsync(String resourceGroupName, String applicationGatewayName, String expand, ApplicationGatewayOnDemandProbe probeRequest) {
+    public ApplicationGatewayBackendHealthInner beginBackendHealth(String resourceGroupName, String applicationGatewayName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return beginBackendHealthAsync(resourceGroupName, applicationGatewayName, expand).block();
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     * 
+     * @param resourceGroupName 
+     * @param applicationGatewayName 
+     * @param probeRequest Details of on demand test probe request.
+     * @param expand 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<ApplicationGatewayBackendHealthOnDemandInner>> beginBackendHealthOnDemandWithResponseAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
         final String apiVersion = "2019-06-01";
         return service.beginBackendHealthOnDemand(this.client.getHost(), resourceGroupName, applicationGatewayName, this.client.getSubscriptionId(), expand, probeRequest, apiVersion);
     }
@@ -1306,15 +1338,15 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * 
      * @param resourceGroupName 
      * @param applicationGatewayName 
-     * @param expand 
      * @param probeRequest Details of on demand test probe request.
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ApplicationGatewayBackendHealthOnDemandInner> beginBackendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, String expand, ApplicationGatewayOnDemandProbe probeRequest) {
-        return beginBackendHealthOnDemandWithResponseAsync(resourceGroupName, applicationGatewayName, expand, probeRequest)
+    public Mono<ApplicationGatewayBackendHealthOnDemandInner> beginBackendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        return beginBackendHealthOnDemandWithResponseAsync(resourceGroupName, applicationGatewayName, probeRequest, expand)
             .flatMap((SimpleResponse<ApplicationGatewayBackendHealthOnDemandInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -1329,15 +1361,56 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * 
      * @param resourceGroupName 
      * @param applicationGatewayName 
-     * @param expand 
      * @param probeRequest Details of on demand test probe request.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ApplicationGatewayBackendHealthOnDemandInner beginBackendHealthOnDemand(String resourceGroupName, String applicationGatewayName, String expand, ApplicationGatewayOnDemandProbe probeRequest) {
-        return beginBackendHealthOnDemandAsync(resourceGroupName, applicationGatewayName, expand, probeRequest).block();
+    public Mono<ApplicationGatewayBackendHealthOnDemandInner> beginBackendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return beginBackendHealthOnDemandWithResponseAsync(resourceGroupName, applicationGatewayName, probeRequest, expand)
+            .flatMap((SimpleResponse<ApplicationGatewayBackendHealthOnDemandInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     * 
+     * @param resourceGroupName 
+     * @param applicationGatewayName 
+     * @param probeRequest Details of on demand test probe request.
+     * @param expand 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ApplicationGatewayBackendHealthOnDemandInner beginBackendHealthOnDemand(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        return beginBackendHealthOnDemandAsync(resourceGroupName, applicationGatewayName, probeRequest, expand).block();
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     * 
+     * @param resourceGroupName 
+     * @param applicationGatewayName 
+     * @param probeRequest Details of on demand test probe request.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ApplicationGatewayBackendHealthOnDemandInner beginBackendHealthOnDemand(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return beginBackendHealthOnDemandAsync(resourceGroupName, applicationGatewayName, probeRequest, expand).block();
     }
 
     /**

@@ -7,6 +7,7 @@
 package com.azure.management.keyvault;
 
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.CloudException;
 import com.azure.management.graphrbac.ActiveDirectoryUser;
 import com.azure.management.graphrbac.ServicePrincipal;
 import com.azure.management.resources.fluentcore.arm.Region;
@@ -100,8 +101,15 @@ public class VaultTests extends KeyVaultManagementTest {
             // DELETE
             keyVaultManager.vaults().deleteById(vault.id());
             SdkContext.sleep(20000);
-            Assert.assertNull(keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString()));
-            
+            boolean deleted = false;
+            try {
+                keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString());
+            } catch (CloudException exception) {
+                if (exception.getResponse().getStatusCode() == 404) {
+                    deleted = true;
+                }
+            }
+            Assert.assertTrue(deleted);
         } finally {
             graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
 //            graphRbacManager.users().deleteById(user.id());
@@ -188,8 +196,15 @@ public class VaultTests extends KeyVaultManagementTest {
             // DELETE
             keyVaultManager.vaults().deleteByIdAsync(vault.id()).block();
             SdkContext.sleep(20000);
-            Assert.assertNull(keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString()));
-            
+            boolean deleted = false;
+            try {
+                keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString());
+            } catch (CloudException exception) {
+                if (exception.getResponse().getStatusCode() == 404) {
+                    deleted = true;
+                }
+            }
+            Assert.assertTrue(deleted);
         } finally {
             graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
 //            graphRbacManager.users().deleteById(user.id());
@@ -214,34 +229,42 @@ public class VaultTests extends KeyVaultManagementTest {
                 .create();
 
         try {
-    	Vault vault = keyVaultManager.vaults().define(otherVaultName)
-                .withRegion(Region.US_WEST)
-                .withNewResourceGroup(RG_NAME)
-                .defineAccessPolicy()
-                .forServicePrincipal("http://" + sp)
-                    .allowKeyPermissions(KeyPermissions.LIST)
-                    .allowSecretAllPermissions()
-                    .allowCertificatePermissions(CertificatePermissions.GET)
-                    .attach()
-                .defineAccessPolicy()
-                .forUser(us)
-                    .allowKeyAllPermissions()
-                    .allowSecretAllPermissions()
-                    .allowCertificatePermissions(CertificatePermissions.GET, CertificatePermissions.LIST, CertificatePermissions.CREATE)
-                    .attach()
-                .withSoftDeleteEnabled()
-                .create();
-    	Assert.assertTrue(vault.softDeleteEnabled());
-    	
-    	keyVaultManager.vaults().deleteByResourceGroup(RG_NAME, otherVaultName);;
-    	SdkContext.sleep(20000);
-    	//Can still see deleted vault.
-    	Assert.assertNotNull(keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString()));
-    	
-    	keyVaultManager.vaults().purgeDeleted(otherVaultName,  Region.US_WEST.toString());
-    	SdkContext.sleep(20000);
-    	//Vault is purged
-    	Assert.assertNull(keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString()));
+            Vault vault = keyVaultManager.vaults().define(otherVaultName)
+                    .withRegion(Region.US_WEST)
+                    .withNewResourceGroup(RG_NAME)
+                    .defineAccessPolicy()
+                    .forServicePrincipal("http://" + sp)
+                        .allowKeyPermissions(KeyPermissions.LIST)
+                        .allowSecretAllPermissions()
+                        .allowCertificatePermissions(CertificatePermissions.GET)
+                        .attach()
+                    .defineAccessPolicy()
+                    .forUser(us)
+                        .allowKeyAllPermissions()
+                        .allowSecretAllPermissions()
+                        .allowCertificatePermissions(CertificatePermissions.GET, CertificatePermissions.LIST, CertificatePermissions.CREATE)
+                        .attach()
+                    .withSoftDeleteEnabled()
+                    .create();
+            Assert.assertTrue(vault.softDeleteEnabled());
+
+            keyVaultManager.vaults().deleteByResourceGroup(RG_NAME, otherVaultName);;
+            SdkContext.sleep(20000);
+            //Can still see deleted vault.
+            Assert.assertNotNull(keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString()));
+
+            keyVaultManager.vaults().purgeDeleted(otherVaultName,  Region.US_WEST.toString());
+            SdkContext.sleep(20000);
+            //Vault is purged
+            boolean deleted = false;
+            try {
+                keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString());
+            } catch (CloudException exception) {
+                if (exception.getResponse().getStatusCode() == 404) {
+                    deleted = true;
+                }
+            }
+            Assert.assertTrue(deleted);
         } finally {
             graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
            // graphRbacManager.users().deleteById(user.id());

@@ -4,15 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.DiskVolumeEncryptionMonitor;
-import com.microsoft.azure.management.compute.DiskVolumeType;
-import com.microsoft.azure.management.compute.LinuxVMDiskEncryptionConfiguration;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineEncryption;
-import com.microsoft.azure.management.compute.WindowsVMDiskEncryptionConfiguration;
+import com.azure.management.compute.DiskVolumeEncryptionMonitor;
+import com.azure.management.compute.DiskVolumeType;
+import com.azure.management.compute.LinuxVMDiskEncryptionConfiguration;
+import com.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineEncryption;
+import com.azure.management.compute.WindowsVMDiskEncryptionConfiguration;
 import rx.Observable;
 
 /**

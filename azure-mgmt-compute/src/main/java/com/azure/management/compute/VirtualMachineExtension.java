@@ -4,12 +4,12 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import rx.Observable;
+package com.azure.management.compute;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.Settable;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public interface VirtualMachineExtension extends
     /**
      * @return a representation of the deferred computation of this call returning the virtual machine extension instance view
      */
-    Observable<VirtualMachineExtensionInstanceView> getInstanceViewAsync();
+    Mono<VirtualMachineExtensionInstanceView> getInstanceViewAsync();
 
     /**
      * @return the instance view of the virtual machine extension

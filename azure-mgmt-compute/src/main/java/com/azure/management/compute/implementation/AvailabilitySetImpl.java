@@ -3,21 +3,21 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.AvailabilitySet;
-import com.microsoft.azure.management.compute.AvailabilitySetSkuTypes;
-import com.microsoft.azure.management.compute.InstanceViewStatus;
-import com.microsoft.azure.management.compute.ProximityPlacementGroup;
-import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
-import com.microsoft.azure.management.compute.Sku;
-import com.microsoft.azure.management.compute.VirtualMachineSize;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.AvailabilitySet;
+import com.azure.management.compute.AvailabilitySetSkuTypes;
+import com.azure.management.compute.InstanceViewStatus;
+import com.azure.management.compute.ProximityPlacementGroup;
+import com.azure.management.compute.ProximityPlacementGroupType;
+import com.azure.management.compute.Sku;
+import com.azure.management.compute.VirtualMachineSize;
+import com.azure.management.resources.fluentcore.arm.ResourceId;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Func1;
 

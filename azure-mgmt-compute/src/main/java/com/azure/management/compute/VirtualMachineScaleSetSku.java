@@ -4,9 +4,9 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 /**
  * A type representing a SKU available for virtual machines in a scale set.

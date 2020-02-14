@@ -4,24 +4,24 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.AccessLevel;
-import com.microsoft.azure.management.compute.CreationData;
-import com.microsoft.azure.management.compute.CreationSource;
-import com.microsoft.azure.management.compute.Disk;
-import com.microsoft.azure.management.compute.DiskCreateOption;
-import com.microsoft.azure.management.compute.DiskSkuTypes;
-import com.microsoft.azure.management.compute.DiskStorageAccountTypes;
-import com.microsoft.azure.management.compute.GrantAccessData;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.management.compute.Snapshot;
-import com.microsoft.azure.management.compute.SnapshotSku;
-import com.microsoft.azure.management.compute.SnapshotSkuType;
-import com.microsoft.azure.management.compute.SnapshotStorageAccountTypes;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.AccessLevel;
+import com.azure.management.compute.CreationData;
+import com.azure.management.compute.CreationSource;
+import com.azure.management.compute.Disk;
+import com.azure.management.compute.DiskCreateOption;
+import com.azure.management.compute.DiskSkuTypes;
+import com.azure.management.compute.DiskStorageAccountTypes;
+import com.azure.management.compute.GrantAccessData;
+import com.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.Snapshot;
+import com.azure.management.compute.SnapshotSku;
+import com.azure.management.compute.SnapshotSkuType;
+import com.azure.management.compute.SnapshotStorageAccountTypes;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;

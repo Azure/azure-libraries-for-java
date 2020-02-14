@@ -4,27 +4,23 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.compute.implementation.SnapshotsInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.compute.models.SnapshotsInner;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import reactor.core.publisher.Mono;
 
 /**
  * Entry point to managed snapshot management API in Azure.
@@ -51,28 +47,10 @@ public interface Snapshots extends
      * @param accessDuration access duration
      * @return a representation of the deferred computation of this call returning a read-only SAS URI to the snapshot
      */
-    @Beta(Beta.SinceVersion.V1_2_0)
-    Observable<String> grantAccessAsync(String resourceGroupName,
-                                        String snapshotName,
-                                        AccessLevel accessLevel,
-                                        int accessDuration);
-
-    /**
-     * Grants access to the snapshot asynchronously.
-     *
-     * @param resourceGroupName the resource group name
-     * @param snapshotName the snapshot name
-     * @param accessLevel access level
-     * @param accessDuration access duration
-     * @param callback the callback to call on success or failure, on success it will pass read-only SAS URI to the snapshot in callback
-     * @return a handle to cancel the request
-     */
-    @Beta(Beta.SinceVersion.V1_2_0)
-    ServiceFuture<String> grantAccessAsync(String resourceGroupName,
-                                           String snapshotName,
-                                           AccessLevel accessLevel,
-                                           int accessDuration,
-                                           ServiceCallback<String> callback);
+    Mono<String> grantAccessAsync(String resourceGroupName,
+                                  String snapshotName,
+                                  AccessLevel accessLevel,
+                                  int accessDuration);
 
     /**
      * Grants access to a snapshot.
@@ -95,19 +73,7 @@ public interface Snapshots extends
      * @param snapName the snapshot name
      * @return a representation of the deferred computation of this call
      */
-    @Beta(Beta.SinceVersion.V1_2_0)
-    Completable revokeAccessAsync(String resourceGroupName, String snapName);
-
-    /**
-     * Revoke access granted to the snapshot asynchronously.
-     *
-     * @param resourceGroupName the resource group name
-     * @param snapName the snapshot name
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    @Beta(Beta.SinceVersion.V1_2_0)
-    ServiceFuture<Void> revokeAccessAsync(String resourceGroupName, String snapName, ServiceCallback<Void> callback);
+    Mono<Void> revokeAccessAsync(String resourceGroupName, String snapName);
 
     /**
      * Revoke access granted to a snapshot.

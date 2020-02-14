@@ -4,22 +4,20 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.compute.implementation.GalleryImagesInner;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.GalleryImagesInner;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import reactor.core.publisher.Mono;
 
 /**
  * Entry point to gallery images management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_15_0)
 public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionStages.Blank>,
         HasInner<GalleryImagesInner> {
     /**
@@ -31,8 +29,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
-    Observable<GalleryImage> getByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName);
+    Mono<GalleryImage> getByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
      * Retrieves information about an image in a gallery.
@@ -43,7 +40,6 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the gallery image
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     GalleryImage getByGallery(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
@@ -54,8 +50,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
-    Observable<GalleryImage> listByGalleryAsync(String resourceGroupName, String galleryName);
+    PagedFlux<GalleryImage> listByGalleryAsync(String resourceGroupName, String galleryName);
 
     /**
      * List images under a gallery.
@@ -65,8 +60,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the list of images in the gallery
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
-    PagedList<GalleryImage> listByGallery(String resourceGroupName, String galleryName);
+    PagedIterable<GalleryImage> listByGallery(String resourceGroupName, String galleryName);
 
     /**
      * Delete a gallery image in a gallery.
@@ -77,8 +71,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the completable for the request
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
-    Completable deleteByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName);
+    Mono<Void> deleteByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
      * Delete an image in a gallery.
@@ -88,6 +81,5 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @param galleryImageName The name of the gallery image.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     void deleteByGallery(String resourceGroupName, String galleryName, String galleryImageName);
 }

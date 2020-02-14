@@ -4,18 +4,18 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.GalleryArtifactVersionSource;
-import com.microsoft.azure.management.compute.GalleryImageVersion;
-import com.microsoft.azure.management.compute.GalleryImageVersionPublishingProfile;
-import com.microsoft.azure.management.compute.GalleryImageVersionStorageProfile;
-import com.microsoft.azure.management.compute.ReplicationStatus;
-import com.microsoft.azure.management.compute.TargetRegion;
-import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.GalleryArtifactVersionSource;
+import com.azure.management.compute.GalleryImageVersion;
+import com.azure.management.compute.GalleryImageVersionPublishingProfile;
+import com.azure.management.compute.GalleryImageVersionStorageProfile;
+import com.azure.management.compute.ReplicationStatus;
+import com.azure.management.compute.TargetRegion;
+import com.azure.management.compute.VirtualMachineCustomImage;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
 

@@ -4,14 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.ComputeSku;
-import com.microsoft.azure.management.compute.ProximityPlacementGroup;
-import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.ComputeSku;
+import com.azure.management.compute.ProximityPlacementGroup;
+import com.azure.management.compute.ProximityPlacementGroupType;
+import com.azure.management.resources.fluentcore.arm.ResourceId;
 
 import java.util.ArrayList;
 import java.util.Iterator;

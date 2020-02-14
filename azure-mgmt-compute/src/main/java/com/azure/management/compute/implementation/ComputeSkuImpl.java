@@ -4,24 +4,24 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.AvailabilitySetSkuTypes;
-import com.microsoft.azure.management.compute.ComputeResourceType;
-import com.microsoft.azure.management.compute.ComputeSku;
-import com.microsoft.azure.management.compute.ComputeSkuName;
-import com.microsoft.azure.management.compute.ComputeSkuTier;
-import com.microsoft.azure.management.compute.DiskSkuTypes;
-import com.microsoft.azure.management.compute.DiskStorageAccountTypes;
-import com.microsoft.azure.management.compute.ResourceSkuCapabilities;
-import com.microsoft.azure.management.compute.ResourceSkuCapacity;
-import com.microsoft.azure.management.compute.ResourceSkuCosts;
-import com.microsoft.azure.management.compute.ResourceSkuLocationInfo;
-import com.microsoft.azure.management.compute.ResourceSkuRestrictions;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.AvailabilitySetSkuTypes;
+import com.azure.management.compute.ComputeResourceType;
+import com.azure.management.compute.ComputeSku;
+import com.azure.management.compute.ComputeSkuName;
+import com.azure.management.compute.ComputeSkuTier;
+import com.azure.management.compute.DiskSkuTypes;
+import com.azure.management.compute.DiskStorageAccountTypes;
+import com.azure.management.compute.ResourceSkuCapabilities;
+import com.azure.management.compute.ResourceSkuCapacity;
+import com.azure.management.compute.ResourceSkuCosts;
+import com.azure.management.compute.ResourceSkuLocationInfo;
+import com.azure.management.compute.ResourceSkuRestrictions;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.Region;
 
 import java.util.ArrayList;
 import java.util.Collections;

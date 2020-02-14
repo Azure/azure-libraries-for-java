@@ -4,15 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.compute.DiskEncryptionSettings;
-import com.microsoft.azure.management.compute.DiskVolumeType;
-import com.microsoft.azure.management.compute.KeyVaultKeyReference;
-import com.microsoft.azure.management.compute.KeyVaultSecretReference;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.management.compute.VirtualMachineEncryptionConfiguration;
+import com.azure.management.compute.DiskEncryptionSettings;
+import com.azure.management.compute.DiskVolumeType;
+import com.azure.management.compute.KeyVaultKeyReference;
+import com.azure.management.compute.KeyVaultSecretReference;
+import com.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.VirtualMachineEncryptionConfiguration;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

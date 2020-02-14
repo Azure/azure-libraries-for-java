@@ -3,16 +3,16 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineExtension;
-import com.microsoft.azure.management.compute.VirtualMachineExtensionImage;
-import com.microsoft.azure.management.compute.VirtualMachineExtensionInstanceView;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineExtension;
+import com.azure.management.compute.VirtualMachineExtensionImage;
+import com.azure.management.compute.VirtualMachineExtensionInstanceView;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.azure.management.resources.fluentcore.utils.RXMapper;
 import rx.Observable;
 import rx.functions.Func1;
 

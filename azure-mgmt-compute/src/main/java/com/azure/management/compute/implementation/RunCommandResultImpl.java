@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.InstanceViewStatus;
-import com.microsoft.azure.management.compute.RunCommandResult;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.InstanceViewStatus;
+import com.azure.management.compute.RunCommandResult;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.List;
 

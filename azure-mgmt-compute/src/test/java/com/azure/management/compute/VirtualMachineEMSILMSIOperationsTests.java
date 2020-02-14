@@ -4,22 +4,22 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.graphrbac.RoleDefinition;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.msi.implementation.MSIManager;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
+import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.graphrbac.BuiltInRole;
+import com.azure.management.graphrbac.RoleAssignment;
+import com.azure.management.graphrbac.RoleDefinition;
+import com.azure.management.msi.Identity;
+import com.azure.management.msi.implementation.MSIManager;
+import com.azure.management.network.Network;
+import com.azure.management.network.implementation.NetworkManager;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;

@@ -4,15 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.CachingTypes;
-import com.microsoft.azure.management.compute.DiskCreateOptionTypes;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetDataDisk;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUnmanagedDataDisk;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.CachingTypes;
+import com.azure.management.compute.DiskCreateOptionTypes;
+import com.azure.management.compute.VirtualMachineScaleSet;
+import com.azure.management.compute.VirtualMachineScaleSetDataDisk;
+import com.azure.management.compute.VirtualMachineScaleSetUnmanagedDataDisk;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

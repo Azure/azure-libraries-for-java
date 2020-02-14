@@ -4,16 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.Galleries;
-import com.microsoft.azure.management.compute.Gallery;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.Galleries;
+import com.azure.management.compute.Gallery;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import com.azure.management.resources.fluentcore.utils.RXMapper;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;

@@ -3,29 +3,29 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.DataDisk;
-import com.microsoft.azure.management.compute.HardwareProfile;
-import com.microsoft.azure.management.compute.NetworkInterfaceReference;
-import com.microsoft.azure.management.compute.NetworkProfile;
-import com.microsoft.azure.management.compute.OSDisk;
-import com.microsoft.azure.management.compute.OSProfile;
-import com.microsoft.azure.management.compute.RunCommandInput;
-import com.microsoft.azure.management.compute.RunCommandInputParameter;
-import com.microsoft.azure.management.compute.RunCommandResult;
-import com.microsoft.azure.management.compute.StorageProfile;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineCaptureParameters;
-import com.microsoft.azure.management.compute.VirtualMachineSizes;
-import com.microsoft.azure.management.compute.VirtualMachines;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.DataDisk;
+import com.azure.management.compute.HardwareProfile;
+import com.azure.management.compute.NetworkInterfaceReference;
+import com.azure.management.compute.NetworkProfile;
+import com.azure.management.compute.OSDisk;
+import com.azure.management.compute.OSProfile;
+import com.azure.management.compute.RunCommandInput;
+import com.azure.management.compute.RunCommandInputParameter;
+import com.azure.management.compute.RunCommandResult;
+import com.azure.management.compute.StorageProfile;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineCaptureParameters;
+import com.azure.management.compute.VirtualMachineSizes;
+import com.azure.management.compute.VirtualMachines;
+import com.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.azure.management.network.implementation.NetworkManager;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;

@@ -4,32 +4,28 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.compute.implementation.VirtualMachineInner;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.VirtualMachineInner;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.graphrbac.BuiltInRole;
+import com.azure.management.msi.Identity;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkInterface;
+import com.azure.management.network.PublicIPAddress;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.storage.StorageAccount;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -55,15 +51,7 @@ public interface VirtualMachine extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable deallocateAsync();
-
-    /**
-     * Shuts down the virtual machine and releases the compute resources asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> deallocateAsync(ServiceCallback<Void> callback);
+    Mono<Void> deallocateAsync();
 
     /**
      * Generalizes the virtual machine.
@@ -75,15 +63,7 @@ public interface VirtualMachine extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable generalizeAsync();
-
-    /**
-     * Generalizes the virtual machine asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> generalizeAsync(ServiceCallback<Void> callback);
+    Mono<Void> generalizeAsync();
 
     /**
      * Powers off (stops) the virtual machine.
@@ -95,15 +75,7 @@ public interface VirtualMachine extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable powerOffAsync();
-
-    /**
-     * Powers off (stop) the virtual machine asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> powerOffAsync(ServiceCallback<Void> callback);
+    Mono<Void> powerOffAsync();
 
     /**
      * Restarts the virtual machine.
@@ -115,15 +87,7 @@ public interface VirtualMachine extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable restartAsync();
-
-    /**
-     * Restarts the virtual machine asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> restartAsync(ServiceCallback<Void> callback);
+    Mono<Void> restartAsync();
 
     /**
      * Starts the virtual machine.
@@ -135,15 +99,7 @@ public interface VirtualMachine extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable startAsync();
-
-    /**
-     * Starts the virtual machine asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> startAsync(ServiceCallback<Void> callback);
+    Mono<Void> startAsync();
 
     /**
      * Redeploys the virtual machine.
@@ -155,15 +111,7 @@ public interface VirtualMachine extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable redeployAsync();
-
-    /**
-     * Redeploys the virtual machine asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> redeployAsync(ServiceCallback<Void> callback);
+    Mono<Void> redeployAsync();
 
     /**
      * @return entry point to enabling, disabling and querying disk encryption
@@ -180,23 +128,14 @@ public interface VirtualMachine extends
      *
      *  @return a representation of the deferred computation of this call
      */
-    Completable convertToManagedAsync();
-
-    /**
-     * Converts (migrates) the virtual machine with un-managed disks to use managed disk asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> convertToManagedAsync(ServiceCallback<Void> callback);
+    Mono<Void> convertToManagedAsync();
 
     /**
      * Lists all available virtual machine sizes this virtual machine can resized to.
      *
      * @return the virtual machine sizes
      */
-    @Method
-    PagedList<VirtualMachineSize> availableSizes();
+    PagedIterable<VirtualMachineSize> availableSizes();
 
     /**
      * Captures the virtual machine by copying virtual hard disks of the VM.
@@ -216,18 +155,7 @@ public interface VirtualMachine extends
      * @param overwriteVhd whether to overwrites destination VHD if it exists
      * @return a representation of the deferred computation of this call
      */
-    Observable<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd);
-
-    /**
-     * Captures the virtual machine by copying virtual hard disks of the VM asynchronously.
-     *
-     * @param containerName destination container name to store the captured VHD
-     * @param vhdPrefix the prefix for the VHD holding captured image
-     * @param overwriteVhd whether to overwrites destination VHD if it exists
-     * @param callback the callback to call on success or failure
-     * @return a representation of the deferred computation of this call
-     */
-    ServiceFuture<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd, ServiceCallback<String> callback);
+    Mono<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd);
 
     /**
      * Refreshes the virtual machine instance view to sync with Azure.
@@ -236,7 +164,6 @@ public interface VirtualMachine extends
      *
      * @return the refreshed instance view
      */
-    @Method
     VirtualMachineInstanceView refreshInstanceView();
 
     /**
@@ -244,8 +171,7 @@ public interface VirtualMachine extends
      *
      * @return an observable that emits the instance view of the virtual machine.
      */
-    @Method
-    Observable<VirtualMachineInstanceView> refreshInstanceViewAsync();
+    Mono<VirtualMachineInstanceView> refreshInstanceViewAsync();
 
     /**
      * Run shell script in a virtual machine.
@@ -265,7 +191,7 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    Observable<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    Mono<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run shell script in the virtual machine.
@@ -284,7 +210,7 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    Observable<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    Mono<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run commands in the virtual machine.
@@ -300,7 +226,7 @@ public interface VirtualMachine extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    Observable<RunCommandResult> runCommandAsync(RunCommandInput inputCommand);
+    Mono<RunCommandResult> runCommandAsync(RunCommandInput inputCommand);
 
     // Getters
     //
@@ -399,7 +325,7 @@ public interface VirtualMachine extends
     /**
      * @return a representation of the deferred computation of this call, returning extensions attached to the virtual machine
      */
-    Observable<VirtualMachineExtension> listExtensionsAsync();
+    PagedFlux<VirtualMachineExtension> listExtensionsAsync();
 
     /**
      * @return extensions attached to the virtual machine
@@ -450,7 +376,6 @@ public interface VirtualMachine extends
     /**
      * @return the availability zones assigned to the virtual machine
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
@@ -493,20 +418,17 @@ public interface VirtualMachine extends
     /**
      * @return the priority for the virtual machine.
      */
-    @Beta(Beta.SinceVersion.V1_25_0)
     VirtualMachinePriorityTypes priority();
 
 
     /**
      * @return the eviction policy for the virtual machine.
      */
-    @Beta(Beta.SinceVersion.V1_25_0)
     VirtualMachineEvictionPolicyTypes evictionPolicy();
 
     /**
      * @return the billing related details of a low priority virtual machine
      */
-    @Beta(Beta.SinceVersion.V1_25_0)
     BillingProfile billingProfile();
 
     // Setters
@@ -796,7 +718,6 @@ public interface VirtualMachine extends
              * @param galleryImageVersionId the resource ID of the gallery image version
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_15_0)
             WithWindowsAdminUsernameManaged withWindowsGalleryImageVersion(String galleryImageVersionId);
 
             /**
@@ -847,7 +768,6 @@ public interface VirtualMachine extends
              * @param galleryImageVersionId the resource ID of a gallery image version
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_15_0)
             WithLinuxRootUsernameManaged withLinuxGalleryImageVersion(String galleryImageVersionId);
 
             /**
@@ -1173,7 +1093,6 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the definition
              */
-            @Method
             WithWindowsCreateManaged withoutVMAgent();
 
             /**
@@ -1181,7 +1100,6 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the definition
              */
-            @Method
             WithWindowsCreateManaged withoutAutoUpdate();
 
             /**
@@ -1213,7 +1131,6 @@ public interface VirtualMachine extends
              *
              * @return the stage representing creatable Windows VM definition
              */
-            @Method
             WithWindowsCreateUnmanaged withoutVMAgent();
 
             /**
@@ -1221,7 +1138,6 @@ public interface VirtualMachine extends
              *
              * @return the stage representing creatable Windows VM definition
              */
-            @Method
             WithWindowsCreateUnmanaged withoutAutoUpdate();
 
             /**
@@ -1637,7 +1553,6 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine definition allowing to specify priority.
          */
-        @Beta(Beta.SinceVersion.V1_25_0)
         interface WithPriority {
             /**
              * Specifies the priority of the virtual machine.
@@ -1645,7 +1560,6 @@ public interface VirtualMachine extends
              * @param priority the priority to set
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
             WithCreate withPriority(VirtualMachinePriorityTypes priority);
 
             /**
@@ -1653,7 +1567,6 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
             WithCreate withLowPriority();
 
             /**
@@ -1662,14 +1575,12 @@ public interface VirtualMachine extends
              * @param policy eviction policy for the virtual machine
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
             WithCreate withLowPriority(VirtualMachineEvictionPolicyTypes policy);
         }
 
         /**
          * The stage of a virtual machine definition allowing to set the billing related details of a low priority virtual machine.
          */
-        @Beta(Beta.SinceVersion.V1_25_0)
         interface WithBillingProfile {
 
             /**
@@ -1677,21 +1588,18 @@ public interface VirtualMachine extends
              * @param maxPrice the maxPrice value to set
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
             WithCreate withMaxPrice(Double maxPrice);
         }
 
         /**
          * The stage of the virtual machine definition allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual machine.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
         }
 
@@ -1699,7 +1607,6 @@ public interface VirtualMachine extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine allowing to
          * set access role for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate {
             /**
              * Specifies that virtual machine's system assigned (local) identity should have the given access
@@ -1710,7 +1617,6 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -1721,7 +1627,6 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -1733,7 +1638,6 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -1745,14 +1649,12 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
         /**
          * The stage of the virtual machine definition allowing to specify User Assigned (External) Managed Service Identities.
          */
-        @Beta(Beta.SinceVersion.V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
@@ -1760,7 +1662,6 @@ public interface VirtualMachine extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -1769,7 +1670,6 @@ public interface VirtualMachine extends
              * @param identity the identity
              * @return the next stage of the virtual machine definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
@@ -1777,7 +1677,6 @@ public interface VirtualMachine extends
          * The stage of the virtual machine definition allowing to specify that the image or disk that is being used was licensed
          * on-premises. This element is only used for images that contain the Windows Server operating system.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithLicenseType {
             /**
              * Specifies that the image or disk that is being used was licensed on-premises.
@@ -1785,14 +1684,12 @@ public interface VirtualMachine extends
              * @param licenseType license type
              * @return the next stage of the virtual machine definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withLicenseType(String licenseType);
         }
 
         /**
          * The stage of the VM definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the virtual machine.
@@ -1800,7 +1697,6 @@ public interface VirtualMachine extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
             WithManagedCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 
@@ -1910,7 +1806,6 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine update allowing to specify billing profile.
          */
-        @Beta(Beta.SinceVersion.V1_25_0)
         interface WithBillingProfile {
             /**
              * Set the billing related details of a low priority virtual machine.
@@ -2221,7 +2116,6 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine update allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the
@@ -2229,7 +2123,6 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity();
 
             /**
@@ -2237,7 +2130,6 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
             Update withoutSystemAssignedManagedServiceIdentity();
         }
 
@@ -2245,7 +2137,6 @@ public interface VirtualMachine extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine allowing
          * to set access role for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedIdentityBasedAccessOrUpdate extends Update {
             /**
              * Specifies that virtual machine's system assigned (local) identity should have the given
@@ -2257,7 +2148,6 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -2268,7 +2158,6 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -2281,7 +2170,6 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -2292,14 +2180,12 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
         /**
          * The stage of the virtual machine update allowing to add or remove User Assigned (External) Managed Service Identities.
          */
-        @Beta(Beta.SinceVersion.V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
@@ -2307,7 +2193,6 @@ public interface VirtualMachine extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             Update withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -2315,7 +2200,6 @@ public interface VirtualMachine extends
              * @param identity the identity
              * @return the next stage of the virtual machine update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             Update withExistingUserAssignedManagedServiceIdentity(Identity identity);
 
             /**
@@ -2324,7 +2208,6 @@ public interface VirtualMachine extends
              * @param identityId ARM resource id of the identity
              * @return the next stage of the virtual machine update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             Update withoutUserAssignedManagedServiceIdentity(String identityId);
         }
 
@@ -2332,7 +2215,6 @@ public interface VirtualMachine extends
          * The stage of the virtual machine update allowing to specify that the image or disk that is being used was licensed
          * on-premises. This element is only used for images that contain the Windows Server operating system.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithLicenseType {
             /**
              * Specifies that the image or disk that is being used was licensed on-premises.
@@ -2340,7 +2222,6 @@ public interface VirtualMachine extends
              * @param licenseType license type
              * @return the next stage of the virtual machine update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
             Update withLicenseType(String licenseType);
         }
     }
@@ -2437,7 +2318,6 @@ public interface VirtualMachine extends
          * @param priority a priority from the list of available priority types
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_29_0)
         Update withPriority(VirtualMachinePriorityTypes priority);
     }
 }

@@ -4,21 +4,21 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetIPConfiguration;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkConfiguration;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdate;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdateIPConfiguration;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdateNetworkConfiguration;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdateNetworkProfile;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdateOSDisk;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdateOSProfile;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdateStorageProfile;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdateVMProfile;
+import com.azure.management.compute.VirtualMachineScaleSet;
+import com.azure.management.compute.VirtualMachineScaleSetIPConfiguration;
+import com.azure.management.compute.VirtualMachineScaleSetNetworkConfiguration;
+import com.azure.management.compute.VirtualMachineScaleSetUpdate;
+import com.azure.management.compute.VirtualMachineScaleSetUpdateIPConfiguration;
+import com.azure.management.compute.VirtualMachineScaleSetUpdateNetworkConfiguration;
+import com.azure.management.compute.VirtualMachineScaleSetUpdateNetworkProfile;
+import com.azure.management.compute.VirtualMachineScaleSetUpdateOSDisk;
+import com.azure.management.compute.VirtualMachineScaleSetUpdateOSProfile;
+import com.azure.management.compute.VirtualMachineScaleSetUpdatePublicIPAddressConfiguration;
+import com.azure.management.compute.VirtualMachineScaleSetUpdateStorageProfile;
+import com.azure.management.compute.VirtualMachineScaleSetUpdateVMProfile;
 
 import java.util.ArrayList;
 

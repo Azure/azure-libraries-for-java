@@ -4,33 +4,33 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.keyvault.Secret;
-import com.microsoft.azure.management.keyvault.Vault;
-import com.microsoft.azure.management.network.ApplicationSecurityGroup;
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.LoadBalancerBackend;
-import com.microsoft.azure.management.network.LoadBalancerInboundNatRule;
-import com.microsoft.azure.management.network.LoadBalancerSkuType;
-import com.microsoft.azure.management.network.LoadBalancingRule;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.SecurityRuleProtocol;
-import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
-import com.microsoft.azure.management.network.VirtualMachineScaleSetNicIPConfiguration;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccountKey;
+import com.azure.management.graphrbac.BuiltInRole;
+import com.azure.management.graphrbac.RoleAssignment;
+import com.azure.management.graphrbac.ServicePrincipal;
+import com.azure.management.keyvault.Secret;
+import com.azure.management.keyvault.Vault;
+import com.azure.management.network.ApplicationSecurityGroup;
+import com.azure.management.network.LoadBalancer;
+import com.azure.management.network.LoadBalancerBackend;
+import com.azure.management.network.LoadBalancerInboundNatRule;
+import com.azure.management.network.LoadBalancerSkuType;
+import com.azure.management.network.LoadBalancingRule;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkSecurityGroup;
+import com.azure.management.network.PublicIPAddress;
+import com.azure.management.network.SecurityRuleProtocol;
+import com.azure.management.network.VirtualMachineScaleSetNetworkInterface;
+import com.azure.management.network.VirtualMachineScaleSetNicIPConfiguration;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.storage.StorageAccount;
+import com.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;

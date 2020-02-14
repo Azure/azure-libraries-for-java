@@ -3,14 +3,14 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.VirtualMachineExtensionImageType;
-import com.microsoft.azure.management.compute.VirtualMachineExtensionImageTypes;
-import com.microsoft.azure.management.compute.VirtualMachinePublisher;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.VirtualMachineExtensionImageType;
+import com.azure.management.compute.VirtualMachineExtensionImageTypes;
+import com.azure.management.compute.VirtualMachinePublisher;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import rx.Observable;
 
 /**

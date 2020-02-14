@@ -4,15 +4,15 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.GalleryImageVersion;
-import com.microsoft.azure.management.compute.GalleryImageVersions;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.GalleryImageVersion;
+import com.azure.management.compute.GalleryImageVersions;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;

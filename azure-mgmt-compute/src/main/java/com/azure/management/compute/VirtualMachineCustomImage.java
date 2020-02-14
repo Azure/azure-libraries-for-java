@@ -4,20 +4,18 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.compute.implementation.ImageInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.compute.models.ImageInner;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
 
 import java.util.Map;
 
@@ -280,21 +278,18 @@ public interface VirtualMachineCustomImage extends
              * Begins the definition of a new data disk image to add to the image.
              * @return the first stage of the new data disk image definition
              */
-            @Method
             CustomImageDataDisk.DefinitionStages.Blank<WithCreateAndDataDiskImageOSDiskSettings> defineDataDiskImage();
         }
 
         /**
          * The stage of an image definition allowing to enable zone resiliency.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithZoneResilient {
             /**
              * Specifies that zone resiliency should be enabled for the image.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_8_0)
             WithCreate withZoneResilient();
         }
 

@@ -8,4 +8,4 @@
  * This package contains the implementation classes for ComputeManagementClient.
  * Compute Client.
  */
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;

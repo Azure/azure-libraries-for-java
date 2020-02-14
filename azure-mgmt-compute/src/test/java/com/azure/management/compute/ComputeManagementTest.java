@@ -4,25 +4,25 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.LoadBalancerSkuType;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.PublicIPSkuType;
-import com.microsoft.azure.management.network.TransportProtocol;
-import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.azure.management.keyvault.implementation.KeyVaultManager;
+import com.azure.management.network.LoadBalancer;
+import com.azure.management.network.LoadBalancerSkuType;
+import com.azure.management.network.Network;
+import com.azure.management.network.PublicIPAddress;
+import com.azure.management.network.PublicIPSkuType;
+import com.azure.management.network.TransportProtocol;
+import com.azure.management.network.implementation.NetworkManager;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.implementation.ResourceManager;
+import com.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 

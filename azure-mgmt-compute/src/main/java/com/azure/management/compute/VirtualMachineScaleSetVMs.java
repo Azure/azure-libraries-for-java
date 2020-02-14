@@ -4,15 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetVMsInner;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.compute.models.VirtualMachineScaleSetVMsInner;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 
@@ -29,8 +27,7 @@ public interface VirtualMachineScaleSetVMs extends
      * @param instanceIds instance IDs of the virtual machine scale set instances to be deleted
      * @return a representation of the deferred computation of this call.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
-    Completable deleteInstancesAsync(Collection<String> instanceIds);
+    Mono<Void> deleteInstancesAsync(Collection<String> instanceIds);
 
     /**
      * Deletes the specified virtual machine instances from the scale set.
@@ -38,15 +35,13 @@ public interface VirtualMachineScaleSetVMs extends
      * @param instanceIds instance IDs of the virtual machine scale set instances to be deleted
      * @return a representation of the deferred computation of this call.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
-    Completable deleteInstancesAsync(String... instanceIds);
+    Mono<Void> deleteInstancesAsync(String... instanceIds);
 
     /**
      * Deletes the specified virtual machine instances from the scale set.
      *
      * @param instanceIds instance IDs of the virtual machine scale set instances to be deleted
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
     void deleteInstances(String... instanceIds);
 
     /**
@@ -61,7 +56,7 @@ public interface VirtualMachineScaleSetVMs extends
      * @param instanceId instance ID of the virtual machine scale set instance to be fetched.
      * @return the virtual machine scale set instance.
      */
-    Observable<VirtualMachineScaleSetVM> getInstanceAsync(String instanceId);
+    Mono<VirtualMachineScaleSetVM> getInstanceAsync(String instanceId);
 
     /**
      * Updates the specified virtual machine instances from the scale set.
@@ -69,8 +64,7 @@ public interface VirtualMachineScaleSetVMs extends
      * @param instanceIds instance IDs of the virtual machine scale set instances to be updated
      * @return a representation of the deferred computation of this call.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
-    Completable updateInstancesAsync(Collection<String> instanceIds);
+    Mono<Void> updateInstancesAsync(Collection<String> instanceIds);
 
     /**
      * Updates the specified virtual machine instances from the scale set.
@@ -78,14 +72,12 @@ public interface VirtualMachineScaleSetVMs extends
      * @param instanceIds instance IDs of the virtual machine scale set instances to be updated
      * @return a representation of the deferred computation of this call.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
-    Completable updateInstancesAsync(String... instanceIds);
+    Mono<Void> updateInstancesAsync(String... instanceIds);
 
     /**
      * Updates the specified virtual machine instances from the scale set.
      *
      * @param instanceIds instance IDs of the virtual machine scale set instances to be updated
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
     void updateInstances(String... instanceIds);
 }

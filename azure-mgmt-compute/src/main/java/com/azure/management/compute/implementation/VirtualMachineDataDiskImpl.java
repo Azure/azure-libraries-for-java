@@ -4,16 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.CachingTypes;
-import com.microsoft.azure.management.compute.DataDisk;
-import com.microsoft.azure.management.compute.DiskCreateOptionTypes;
-import com.microsoft.azure.management.compute.StorageAccountTypes;
-import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.CachingTypes;
+import com.azure.management.compute.DataDisk;
+import com.azure.management.compute.DiskCreateOptionTypes;
+import com.azure.management.compute.StorageAccountTypes;
+import com.azure.management.compute.VirtualMachineDataDisk;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
  * The implementation for {@link VirtualMachineDataDisk} interface.

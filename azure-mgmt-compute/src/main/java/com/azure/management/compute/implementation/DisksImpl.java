@@ -4,14 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.AccessLevel;
-import com.microsoft.azure.management.compute.Disk;
-import com.microsoft.azure.management.compute.Disks;
-import com.microsoft.azure.management.compute.GrantAccessData;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.AccessLevel;
+import com.azure.management.compute.Disk;
+import com.azure.management.compute.Disks;
+import com.azure.management.compute.GrantAccessData;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;

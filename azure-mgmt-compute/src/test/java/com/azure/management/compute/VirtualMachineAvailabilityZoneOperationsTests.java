@@ -4,23 +4,23 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.LoadBalancerFrontend;
-import com.microsoft.azure.management.network.LoadBalancerPublicFrontend;
-import com.microsoft.azure.management.network.LoadBalancerSkuType;
-import com.microsoft.azure.management.network.LoadBalancingRule;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.PublicIPSkuType;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.network.TransportProtocol;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
+import com.azure.management.network.LoadBalancer;
+import com.azure.management.network.LoadBalancerFrontend;
+import com.azure.management.network.LoadBalancerPublicFrontend;
+import com.azure.management.network.LoadBalancerSkuType;
+import com.azure.management.network.LoadBalancingRule;
+import com.azure.management.network.Network;
+import com.azure.management.network.PublicIPAddress;
+import com.azure.management.network.PublicIPSkuType;
+import com.azure.management.network.Subnet;
+import com.azure.management.network.TransportProtocol;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.CreatedResources;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Ignore;

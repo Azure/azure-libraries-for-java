@@ -4,14 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.microsoft.azure.management.compute.EncryptionStatus;
-import com.microsoft.azure.management.compute.InstanceViewStatus;
-import com.microsoft.azure.management.compute.VirtualMachineExtensionInstanceView;
+import com.azure.management.compute.EncryptionStatus;
+import com.azure.management.compute.InstanceViewStatus;
+import com.azure.management.compute.VirtualMachineExtensionInstanceView;
 
 import java.io.IOException;
 import java.util.ArrayList;

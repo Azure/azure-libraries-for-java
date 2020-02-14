@@ -4,18 +4,18 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.ResourceIdentityType;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetIdentity;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdate;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.ResourceIdentityType;
+import com.azure.management.compute.VirtualMachineScaleSetIdentity;
+import com.azure.management.compute.VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue;
+import com.azure.management.compute.VirtualMachineScaleSetUpdate;
+import com.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.azure.management.graphrbac.implementation.RoleAssignmentHelper;
+import com.azure.management.msi.Identity;
+import com.azure.management.resources.fluentcore.dag.TaskGroup;
+import com.azure.management.resources.fluentcore.model.Creatable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

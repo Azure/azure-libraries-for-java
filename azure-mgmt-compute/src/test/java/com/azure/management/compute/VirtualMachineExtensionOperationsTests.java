@@ -4,11 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;

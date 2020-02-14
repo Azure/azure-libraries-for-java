@@ -3,9 +3,9 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 
 /**
  * Shared managed vs unmanaged disks errors between virtual machine and virtual machine scale set.

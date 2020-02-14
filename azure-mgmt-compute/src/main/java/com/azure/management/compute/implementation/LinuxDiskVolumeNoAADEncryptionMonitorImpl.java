@@ -4,17 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.DiskInstanceView;
-import com.microsoft.azure.management.compute.DiskVolumeEncryptionMonitor;
-import com.microsoft.azure.management.compute.EncryptionStatus;
-import com.microsoft.azure.management.compute.InstanceViewStatus;
-import com.microsoft.azure.management.compute.InstanceViewTypes;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.management.compute.VirtualMachineExtensionInstanceView;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.DiskInstanceView;
+import com.azure.management.compute.DiskVolumeEncryptionMonitor;
+import com.azure.management.compute.EncryptionStatus;
+import com.azure.management.compute.InstanceViewStatus;
+import com.azure.management.compute.InstanceViewTypes;
+import com.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.VirtualMachineExtensionInstanceView;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import rx.Observable;
 import rx.functions.Func1;
 

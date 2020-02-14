@@ -4,10 +4,10 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import reactor.core.publisher.Mono;
 
 /**
  * Virtual machine encryption related operations.
@@ -24,7 +24,7 @@ public interface VirtualMachineEncryption {
      *
      * @return a representation of the deferred computation of this call, returning the current volume encryption status
      */
-    Observable<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId, String aadClientId, String aadSecret);
+    Mono<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId, String aadClientId, String aadSecret);
 
     /**
      * Enable encryption for virtual machine disks.
@@ -33,7 +33,7 @@ public interface VirtualMachineEncryption {
      * @param keyVaultId resource ID of the key vault to store the disk encryption key
      * @return a representation of the deferred computation of this call, returning the current volume encryption status
      */
-    Observable<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId);
+    Mono<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId);
 
     /**
      * Enable encryption for Windows virtual machine disks.
@@ -42,7 +42,7 @@ public interface VirtualMachineEncryption {
 
      * @return a representation of the deferred computation of this call, returning the current volume encryption status
      */
-    Observable<DiskVolumeEncryptionMonitor> enableAsync(WindowsVMDiskEncryptionConfiguration encryptionSettings);
+    Mono<DiskVolumeEncryptionMonitor> enableAsync(WindowsVMDiskEncryptionConfiguration encryptionSettings);
 
     /**
      * Enable encryption for Linux virtual machine disks.
@@ -51,19 +51,19 @@ public interface VirtualMachineEncryption {
      *
      * @return a representation of the deferred computation of this call, returning the current volume encryption status
      */
-    Observable<DiskVolumeEncryptionMonitor> enableAsync(LinuxVMDiskEncryptionConfiguration encryptionSettings);
+    Mono<DiskVolumeEncryptionMonitor> enableAsync(LinuxVMDiskEncryptionConfiguration encryptionSettings);
 
     /**
      * Disable encryption for virtual machine disks.
      * @param volumeType volume type to disable encryption
      * @return a representation of the deferred computation of this call, returning the current volume decryption status
      */
-    Observable<DiskVolumeEncryptionMonitor> disableAsync(DiskVolumeType volumeType);
+    Mono<DiskVolumeEncryptionMonitor> disableAsync(DiskVolumeType volumeType);
 
     /**
      * @return observable that emits current volume encryption/decryption status
      */
-    Observable<DiskVolumeEncryptionMonitor> getMonitorAsync();
+    Mono<DiskVolumeEncryptionMonitor> getMonitorAsync();
 
     /**
      * Enable encryption for virtual machine disks.

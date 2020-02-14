@@ -4,30 +4,30 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetInner;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.network.ApplicationSecurityGroup;
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.LoadBalancerBackend;
-import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.azure.management.apigeneration.Beta;
+import com.azure.management.apigeneration.Fluent;
+import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.compute.implementation.VirtualMachineScaleSetInner;
+import com.azure.management.graphrbac.BuiltInRole;
+import com.azure.management.msi.Identity;
+import com.azure.management.network.ApplicationSecurityGroup;
+import com.azure.management.network.LoadBalancer;
+import com.azure.management.network.LoadBalancerBackend;
+import com.azure.management.network.LoadBalancerInboundNatPool;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkSecurityGroup;
+import com.azure.management.network.VirtualMachineScaleSetNetworkInterface;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.storage.StorageAccount;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;

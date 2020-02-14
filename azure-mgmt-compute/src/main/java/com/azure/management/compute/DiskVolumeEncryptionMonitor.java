@@ -4,20 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import rx.Observable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
 /**
  * Type that can be used to monitor encryption enable and disable status of a virtual machine.
  */
-@LangDefinition
 public interface DiskVolumeEncryptionMonitor
         extends Refreshable<DiskVolumeEncryptionMonitor> {
     /**
@@ -40,12 +36,10 @@ public interface DiskVolumeEncryptionMonitor
     /**
      * @return disks encryption status from instance view level.
      */
-    @Beta
      Map<String, InstanceViewStatus> diskInstanceViewEncryptionStatuses();
 
     /**
      * @return a representation of the deferred computation of this call returning the encryption status once the refresh is done
      */
-    @Method
-    Observable<DiskVolumeEncryptionMonitor> refreshAsync();
+    Mono<DiskVolumeEncryptionMonitor> refreshAsync();
 }

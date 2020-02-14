@@ -4,24 +4,24 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.Disallowed;
-import com.microsoft.azure.management.compute.DiskSkuTypes;
-import com.microsoft.azure.management.compute.DiskStorageAccountTypes;
-import com.microsoft.azure.management.compute.Gallery;
-import com.microsoft.azure.management.compute.GalleryImage;
-import com.microsoft.azure.management.compute.GalleryImageIdentifier;
-import com.microsoft.azure.management.compute.GalleryImageVersion;
-import com.microsoft.azure.management.compute.ImagePurchasePlan;
-import com.microsoft.azure.management.compute.OperatingSystemStateTypes;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.management.compute.RecommendedMachineConfiguration;
-import com.microsoft.azure.management.compute.ResourceRange;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.Disallowed;
+import com.azure.management.compute.DiskSkuTypes;
+import com.azure.management.compute.DiskStorageAccountTypes;
+import com.azure.management.compute.Gallery;
+import com.azure.management.compute.GalleryImage;
+import com.azure.management.compute.GalleryImageIdentifier;
+import com.azure.management.compute.GalleryImageVersion;
+import com.azure.management.compute.ImagePurchasePlan;
+import com.azure.management.compute.OperatingSystemStateTypes;
+import com.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.RecommendedMachineConfiguration;
+import com.azure.management.compute.ResourceRange;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
 

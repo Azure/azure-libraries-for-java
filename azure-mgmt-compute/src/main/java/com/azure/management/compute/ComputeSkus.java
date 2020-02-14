@@ -4,26 +4,23 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.compute.implementation.ResourceSkusInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListingByRegion;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import rx.Observable;
-
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.ResourceSkusInner;
+import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.collection.SupportsListingByRegion;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * Entry point to compute service SKUs.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_5_0)
 public interface ComputeSkus
         extends SupportsListing<ComputeSku>,
         SupportsListingByRegion<ComputeSku>,
@@ -35,7 +32,7 @@ public interface ComputeSkus
      * @param resourceType the compute resource type
      * @return the skus list
      */
-    PagedList<ComputeSku> listByResourceType(ComputeResourceType resourceType);
+    PagedIterable<ComputeSku> listByResourceType(ComputeResourceType resourceType);
 
     /**
      * Lists all the skus with the specified resource type.
@@ -43,7 +40,7 @@ public interface ComputeSkus
      * @param resourceType the compute resource type
      * @return an observable that emits skus
      */
-    Observable<ComputeSku> listByResourceTypeAsync(ComputeResourceType resourceType);
+    PagedFlux<ComputeSku> listByResourceTypeAsync(ComputeResourceType resourceType);
 
     /**
      * Lists all the skus with the specified resource type in the given region.
@@ -52,7 +49,7 @@ public interface ComputeSkus
      * @param resourceType the resource type
      * @return the skus list
      */
-    PagedList<ComputeSku> listbyRegionAndResourceType(Region region, ComputeResourceType resourceType);
+    PagedIterable<ComputeSku> listbyRegionAndResourceType(Region region, ComputeResourceType resourceType);
 
     /**
      * Lists all the skus with the specified resource type in the given region.
@@ -61,5 +58,5 @@ public interface ComputeSkus
      * @param resourceType the resource type
      * @return an observable that emits skus
      */
-    Observable<ComputeSku> listbyRegionAndResourceTypeAsync(Region region, ComputeResourceType resourceType);
+    PagedFlux<ComputeSku> listbyRegionAndResourceTypeAsync(Region region, ComputeResourceType resourceType);
 }

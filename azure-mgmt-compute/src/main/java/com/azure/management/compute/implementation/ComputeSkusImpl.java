@@ -4,17 +4,17 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.google.common.collect.Lists;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.ComputeResourceType;
-import com.microsoft.azure.management.compute.ComputeSku;
-import com.microsoft.azure.management.compute.ComputeSkus;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.ComputeResourceType;
+import com.azure.management.compute.ComputeSku;
+import com.azure.management.compute.ComputeSkus;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.rest.RestException;
 import rx.Observable;
 import rx.functions.Func1;

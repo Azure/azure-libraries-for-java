@@ -4,26 +4,26 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
 import com.microsoft.azure.CloudException;
-import com.microsoft.azure.management.compute.implementation.RunCommandResultInner;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.NicIPConfiguration;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.SecurityRuleProtocol;
-import com.microsoft.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.SkuName;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.azure.management.compute.implementation.RunCommandResultInner;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkInterface;
+import com.azure.management.network.NetworkSecurityGroup;
+import com.azure.management.network.NicIPConfiguration;
+import com.azure.management.network.PublicIPAddress;
+import com.azure.management.network.SecurityRuleProtocol;
+import com.azure.management.network.Subnet;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.CreatedResources;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.storage.SkuName;
+import com.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;

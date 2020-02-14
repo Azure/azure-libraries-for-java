@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;

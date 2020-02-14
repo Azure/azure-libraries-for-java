@@ -4,24 +4,20 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.compute.implementation.DiskInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.compute.models.DiskInner;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.storage.StorageAccount;
+import reactor.core.publisher.Mono;
 
 import java.util.Set;
 
@@ -77,13 +73,11 @@ public interface Disk extends
     /**
      * @return the availability zones assigned to the disk
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
      * @return the disk encryption settings
      */
-    @Beta(Beta.SinceVersion.V1_19_0)
     EncryptionSettingsCollection encryptionSettings();
 
     /**
@@ -100,16 +94,7 @@ public interface Disk extends
      * @param accessDurationInSeconds the access duration in seconds
      * @return a representation of the deferred computation of this call returning a read-only SAS URI to the disk
      */
-    Observable<String> grantAccessAsync(int accessDurationInSeconds);
-
-    /**
-     * Grants access to the disk asynchronously.
-     *
-     * @param accessDurationInSeconds the access duration in seconds
-     * @param callback the callback to call on success or failure, containing a read-only SAS URI to the disk, if successful
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<String> grantAccessAsync(int accessDurationInSeconds, ServiceCallback<String> callback);
+    Mono<String> grantAccessAsync(int accessDurationInSeconds);
 
     /**
      * Revokes access granted to the disk.
@@ -121,15 +106,7 @@ public interface Disk extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable revokeAccessAsync();
-
-    /**
-     * Revokes access granted to the disk asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> revokeAccessAsync(ServiceCallback<Void> callback);
+    Mono<Void> revokeAccessAsync();
 
     /**
      * The entirety of the managed disk definition.
@@ -463,7 +440,6 @@ public interface Disk extends
         /**
          * The stage of the managed disk definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the managed disk.
@@ -471,7 +447,6 @@ public interface Disk extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
             WithCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 

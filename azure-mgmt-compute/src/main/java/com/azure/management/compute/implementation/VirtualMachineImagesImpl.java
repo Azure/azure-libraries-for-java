@@ -3,17 +3,17 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.VirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachineImages;
-import com.microsoft.azure.management.compute.VirtualMachineOffer;
-import com.microsoft.azure.management.compute.VirtualMachinePublisher;
-import com.microsoft.azure.management.compute.VirtualMachinePublishers;
-import com.microsoft.azure.management.compute.VirtualMachineSku;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.VirtualMachineImage;
+import com.azure.management.compute.VirtualMachineImages;
+import com.azure.management.compute.VirtualMachineOffer;
+import com.azure.management.compute.VirtualMachinePublisher;
+import com.azure.management.compute.VirtualMachinePublishers;
+import com.azure.management.compute.VirtualMachineSku;
+import com.azure.management.resources.fluentcore.arm.Region;
 import rx.Observable;
 import rx.functions.Func1;
 

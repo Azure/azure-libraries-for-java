@@ -4,33 +4,33 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.compute.AvailabilitySets;
-import com.microsoft.azure.management.compute.ComputeSkus;
-import com.microsoft.azure.management.compute.ComputeUsages;
-import com.microsoft.azure.management.compute.Disks;
-import com.microsoft.azure.management.compute.Galleries;
-import com.microsoft.azure.management.compute.GalleryImageVersions;
-import com.microsoft.azure.management.compute.GalleryImages;
-import com.microsoft.azure.management.compute.Snapshots;
-import com.microsoft.azure.management.compute.VirtualMachineCustomImages;
-import com.microsoft.azure.management.compute.VirtualMachineExtensionImages;
-import com.microsoft.azure.management.compute.VirtualMachineImages;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSets;
-import com.microsoft.azure.management.compute.VirtualMachines;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
+import com.azure.management.apigeneration.Beta;
+import com.azure.management.compute.AvailabilitySets;
+import com.azure.management.compute.ComputeSkus;
+import com.azure.management.compute.ComputeUsages;
+import com.azure.management.compute.Disks;
+import com.azure.management.compute.Galleries;
+import com.azure.management.compute.GalleryImageVersions;
+import com.azure.management.compute.GalleryImages;
+import com.azure.management.compute.Snapshots;
+import com.azure.management.compute.VirtualMachineCustomImages;
+import com.azure.management.compute.VirtualMachineExtensionImages;
+import com.azure.management.compute.VirtualMachineImages;
+import com.azure.management.compute.VirtualMachineScaleSets;
+import com.azure.management.compute.VirtualMachines;
+import com.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.azure.management.network.implementation.NetworkManager;
+import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
+import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.azure.management.resources.fluentcore.arm.implementation.Manager;
+import com.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
+import com.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
+import com.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
 

@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
 import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.JSch;

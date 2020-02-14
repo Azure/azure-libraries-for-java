@@ -4,14 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.compute.implementation.ResourceSkuInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.compute.models.ResourceSkuInner;
+import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,6 @@ import java.util.Set;
  * Type representing sku for an Azure compute resource.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_5_0)
 public interface ComputeSku extends HasInner<ResourceSkuInner> {
     /**
      * @return the sku name

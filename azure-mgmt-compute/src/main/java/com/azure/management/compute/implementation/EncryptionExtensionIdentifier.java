@@ -4,9 +4,9 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.OperatingSystemTypes;
 
 /**
  * An internal type expose utility methods around encryption extension identifier.

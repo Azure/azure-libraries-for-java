@@ -3,18 +3,18 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.compute.implementation.AvailabilitySetInner;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.AvailabilitySetInner;
+import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 import java.util.List;
 import java.util.Set;
@@ -22,7 +22,7 @@ import java.util.Set;
 /**
  * An immutable client-side representation of an Azure availability set.
  */
-@Fluent()
+@Fluent
 public interface AvailabilitySet extends
         GroupableResource<ComputeManager, AvailabilitySetInner>,
         Refreshable<AvailabilitySet>,
@@ -63,7 +63,7 @@ public interface AvailabilitySet extends
     /**
      * @return the virtual machine sizes supported in the availability set
      */
-    PagedList<VirtualMachineSize> listVirtualMachineSizes();
+    PagedIterable<VirtualMachineSize> listVirtualMachineSizes();
 
 
     // Fluent interfaces

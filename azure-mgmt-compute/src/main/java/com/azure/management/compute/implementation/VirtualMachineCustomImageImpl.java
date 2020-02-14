@@ -4,22 +4,22 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute.implementation;
+package com.azure.management.compute.implementation;
 
 import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.CachingTypes;
-import com.microsoft.azure.management.compute.Disk;
-import com.microsoft.azure.management.compute.HyperVGenerationTypes;
-import com.microsoft.azure.management.compute.ImageDataDisk;
-import com.microsoft.azure.management.compute.ImageOSDisk;
-import com.microsoft.azure.management.compute.ImageStorageProfile;
-import com.microsoft.azure.management.compute.OperatingSystemStateTypes;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.management.compute.Snapshot;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.CachingTypes;
+import com.azure.management.compute.Disk;
+import com.azure.management.compute.HyperVGenerationTypes;
+import com.azure.management.compute.ImageDataDisk;
+import com.azure.management.compute.ImageOSDisk;
+import com.azure.management.compute.ImageStorageProfile;
+import com.azure.management.compute.OperatingSystemStateTypes;
+import com.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.Snapshot;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineCustomImage;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 
 import java.util.ArrayList;

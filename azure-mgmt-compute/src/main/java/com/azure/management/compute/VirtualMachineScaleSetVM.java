@@ -4,22 +4,19 @@
  * license information.
  */
 
-package com.microsoft.azure.management.compute;
+package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetVMInner;
-import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.VirtualMachineScaleSetVMInner;
+import com.azure.management.network.VirtualMachineScaleSetNetworkInterface;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -224,8 +221,7 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable reimageAsync();
+    Mono<Void> reimageAsync();
 
     /**
      * Shuts down the virtual machine instance and releases the associated compute resources.
@@ -237,8 +233,7 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable deallocateAsync();
+    Mono<Void> deallocateAsync();
 
     /**
      * Stops the virtual machine instance.
@@ -250,8 +245,7 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable powerOffAsync();
+    Mono<Void> powerOffAsync();
 
     /**
      * Starts the virtual machine instance.
@@ -263,8 +257,7 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable startAsync();
+    Mono<Void> startAsync();
 
     /**
      * Restarts the virtual machine instance.
@@ -276,8 +269,7 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable restartAsync();
+    Mono<Void> restartAsync();
 
     /**
      * Deletes the virtual machine instance.
@@ -289,8 +281,7 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable deleteAsync();
+    Mono<Void> deleteAsync();
 
     /**
      * Gets the instance view of the virtual machine instance.
@@ -306,7 +297,6 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return the instance view
      */
-    @Method
     VirtualMachineInstanceView refreshInstanceView();
 
     /**
@@ -314,8 +304,7 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return an observable that emits the instance view of the virtual machine instance.
      */
-    @Method
-    Observable<VirtualMachineInstanceView> refreshInstanceViewAsync();
+    Mono<VirtualMachineInstanceView> refreshInstanceViewAsync();
 
     /**
      * @return the power state of the virtual machine instance
@@ -333,7 +322,7 @@ public interface VirtualMachineScaleSetVM extends
     /**
      * @return the network interfaces associated with this virtual machine instance.
      */
-    PagedList<VirtualMachineScaleSetNetworkInterface> listNetworkInterfaces();
+    PagedIterable<VirtualMachineScaleSetNetworkInterface> listNetworkInterfaces();
 
     /**
      * @return Get specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine.
@@ -362,7 +351,6 @@ public interface VirtualMachineScaleSetVM extends
          * @param cachingTypes the caching type
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_24_0)
         Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes);
 
         /**
@@ -374,7 +362,6 @@ public interface VirtualMachineScaleSetVM extends
          * @param storageAccountTypes the storage account type
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_24_0)
         Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes, StorageAccountTypes storageAccountTypes);
 
         /**
@@ -383,7 +370,6 @@ public interface VirtualMachineScaleSetVM extends
          * @param lun the disk LUN
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_24_0)
         Update withoutDataDisk(int lun);
     }
 }

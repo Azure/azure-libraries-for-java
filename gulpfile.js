@@ -109,9 +109,9 @@ var codegen = function(project, cb) {
 
     // path.join won't work if specRoot is a URL
     const readmeFile = specRoot + '/' + mappings[project].source;
-    const transcribedReadmeFile = readmeFile + '.temp.md';
-    const tag = findTag(mappings[project].package + ' ' + mappings[project].args);
-    transcribeReadme(readmeFile, transcribedReadmeFile, tag);
+//    const transcribedReadmeFile = readmeFile + '.temp.md';
+//    const tag = findTag(mappings[project].package + ' ' + mappings[project].args);
+//    transcribeReadme(readmeFile, transcribedReadmeFile, tag);
 
     console.log('Generating "' + project + '" from spec file ' + readmeFile);
     var generator = '--fluent=true';
@@ -126,7 +126,7 @@ var codegen = function(project, cb) {
     const regenManager = args['regenerate-manager'] ? ' --regenerate-manager=true ' : '';
 
     const outDir = path.resolve(mappings[project].dir);
-    cmd = autoRestExe + ' ' + transcribedReadmeFile +
+    cmd = autoRestExe + ' ' + readmeFile +
                         ' --java ' +
                         ' --azure-arm=true ' +
                         ' --generate-client-as-impl=true --implementation-subpackage=models --sync-methods=all --required-parameter-client-methods=true ' +

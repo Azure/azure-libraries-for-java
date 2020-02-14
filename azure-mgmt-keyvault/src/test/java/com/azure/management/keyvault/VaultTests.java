@@ -101,15 +101,7 @@ public class VaultTests extends KeyVaultManagementTest {
             // DELETE
             keyVaultManager.vaults().deleteById(vault.id());
             SdkContext.sleep(20000);
-            boolean deleted = false;
-            try {
-                keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString());
-            } catch (CloudException exception) {
-                if (exception.getResponse().getStatusCode() == 404) {
-                    deleted = true;
-                }
-            }
-            Assert.assertTrue(deleted);
+            assertVaultDeleted(VAULT_NAME, Region.US_WEST.toString());
         } finally {
             graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
 //            graphRbacManager.users().deleteById(user.id());
@@ -196,15 +188,7 @@ public class VaultTests extends KeyVaultManagementTest {
             // DELETE
             keyVaultManager.vaults().deleteByIdAsync(vault.id()).block();
             SdkContext.sleep(20000);
-            boolean deleted = false;
-            try {
-                keyVaultManager.vaults().getDeleted(VAULT_NAME, Region.US_WEST.toString());
-            } catch (CloudException exception) {
-                if (exception.getResponse().getStatusCode() == 404) {
-                    deleted = true;
-                }
-            }
-            Assert.assertTrue(deleted);
+            assertVaultDeleted(VAULT_NAME, Region.US_WEST.toString());
         } finally {
             graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
 //            graphRbacManager.users().deleteById(user.id());
@@ -256,19 +240,22 @@ public class VaultTests extends KeyVaultManagementTest {
             keyVaultManager.vaults().purgeDeleted(otherVaultName,  Region.US_WEST.toString());
             SdkContext.sleep(20000);
             //Vault is purged
-            boolean deleted = false;
-            try {
-                keyVaultManager.vaults().getDeleted(otherVaultName, Region.US_WEST.toString());
-            } catch (CloudException exception) {
-                if (exception.getResponse().getStatusCode() == 404) {
-                    deleted = true;
-                }
-            }
-            Assert.assertTrue(deleted);
+            assertVaultDeleted(otherVaultName, Region.US_WEST.toString());
         } finally {
             graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
            // graphRbacManager.users().deleteById(user.id());
         }
     }
-    
+
+    private static void assertVaultDeleted(String name, String location) {
+        boolean deleted = false;
+        try {
+            keyVaultManager.vaults().getDeleted(name, location);
+        } catch (CloudException exception) {
+            if (exception.getResponse().getStatusCode() == 404) {
+                deleted = true;
+            }
+        }
+        Assert.assertTrue(deleted);
+    }
 }

@@ -7,11 +7,9 @@
 package com.azure.management.resources.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.resources.ManagedByTenant;
 import com.azure.management.resources.SubscriptionPolicies;
 import com.azure.management.resources.SubscriptionState;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.List;
 
 /**
  * The Subscription model.
@@ -38,12 +36,6 @@ public final class SubscriptionInner {
     private String displayName;
 
     /*
-     * The subscription tenant ID.
-     */
-    @JsonProperty(value = "tenantId", access = JsonProperty.Access.WRITE_ONLY)
-    private String tenantId;
-
-    /*
      * The subscription state. Possible values are Enabled, Warned, PastDue,
      * Disabled, and Deleted.
      */
@@ -63,12 +55,6 @@ public final class SubscriptionInner {
      */
     @JsonProperty(value = "authorizationSource")
     private String authorizationSource;
-
-    /*
-     * An array containing the tenants managing the subscription.
-     */
-    @JsonProperty(value = "managedByTenants")
-    private List<ManagedByTenant> managedByTenants;
 
     /**
      * Get the id property: The fully qualified ID for the subscription. For
@@ -96,15 +82,6 @@ public final class SubscriptionInner {
      */
     public String getDisplayName() {
         return this.displayName;
-    }
-
-    /**
-     * Get the tenantId property: The subscription tenant ID.
-     * 
-     * @return the tenantId value.
-     */
-    public String getTenantId() {
-        return this.tenantId;
     }
 
     /**
@@ -158,28 +135,6 @@ public final class SubscriptionInner {
      */
     public SubscriptionInner setAuthorizationSource(String authorizationSource) {
         this.authorizationSource = authorizationSource;
-        return this;
-    }
-
-    /**
-     * Get the managedByTenants property: An array containing the tenants
-     * managing the subscription.
-     * 
-     * @return the managedByTenants value.
-     */
-    public List<ManagedByTenant> getManagedByTenants() {
-        return this.managedByTenants;
-    }
-
-    /**
-     * Set the managedByTenants property: An array containing the tenants
-     * managing the subscription.
-     * 
-     * @param managedByTenants the managedByTenants value to set.
-     * @return the SubscriptionInner object itself.
-     */
-    public SubscriptionInner setManagedByTenants(List<ManagedByTenant> managedByTenants) {
-        this.managedByTenants = managedByTenants;
         return this;
     }
 }

@@ -27,12 +27,15 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.ErrorException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -76,17 +79,17 @@ public final class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<VirtualHubInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualHubName") String virtualHubName, @BodyParam("application/json") VirtualHubInner virtualHubParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualHubName") String virtualHubName, @BodyParam("application/json") VirtualHubInner virtualHubParameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<VirtualHubInner>> updateTags(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualHubName") String virtualHubName, @BodyParam("application/json") TagsObject virtualHubParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualHubName") String virtualHubName, @BodyParam("application/json") TagsObject virtualHubParameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualHubName") String virtualHubName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualHubName") String virtualHubName, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs")
         @ExpectedResponses({200})
@@ -185,7 +188,7 @@ public final class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualHubInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualHubName, VirtualHubInner virtualHubParameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualHubName, VirtualHubInner virtualHubParameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualHubName, virtualHubParameters, apiVersion);
     }
@@ -202,14 +205,10 @@ public final class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VirtualHubInner> createOrUpdateAsync(String resourceGroupName, String virtualHubName, VirtualHubInner virtualHubParameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, virtualHubName, virtualHubParameters)
-            .flatMap((SimpleResponse<VirtualHubInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, virtualHubName, virtualHubParameters);
+        return client.<VirtualHubInner, VirtualHubInner>getLroResultAsync(response, client.getHttpPipeline(), VirtualHubInner.class, VirtualHubInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -238,7 +237,7 @@ public final class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualHubInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject virtualHubParameters = new TagsObject();
         virtualHubParameters.withTags(tags);
@@ -257,14 +256,10 @@ public final class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VirtualHubInner> updateTagsAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, virtualHubName, tags)
-            .flatMap((SimpleResponse<VirtualHubInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, virtualHubName, tags);
+        return client.<VirtualHubInner, VirtualHubInner>getLroResultAsync(response, client.getHttpPipeline(), VirtualHubInner.class, VirtualHubInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -292,7 +287,7 @@ public final class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String virtualHubName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String virtualHubName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualHubName, apiVersion);
     }
@@ -308,8 +303,10 @@ public final class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String virtualHubName) {
-        return deleteWithResponseAsync(resourceGroupName, virtualHubName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, virtualHubName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

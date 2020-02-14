@@ -26,7 +26,10 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.ErrorException;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -70,12 +73,12 @@ public final class VpnConnectionsInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<VpnConnectionInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("connectionName") String connectionName, @BodyParam("application/json") VpnConnectionInner vpnConnectionParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("connectionName") String connectionName, @BodyParam("application/json") VpnConnectionInner vpnConnectionParameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("connectionName") String connectionName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("gatewayName") String gatewayName, @PathParam("connectionName") String connectionName, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections")
         @ExpectedResponses({200})
@@ -163,7 +166,7 @@ public final class VpnConnectionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VpnConnectionInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String gatewayName, String connectionName, VpnConnectionInner vpnConnectionParameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String gatewayName, String connectionName, VpnConnectionInner vpnConnectionParameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, gatewayName, connectionName, vpnConnectionParameters, apiVersion);
     }
@@ -181,14 +184,10 @@ public final class VpnConnectionsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VpnConnectionInner> createOrUpdateAsync(String resourceGroupName, String gatewayName, String connectionName, VpnConnectionInner vpnConnectionParameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, gatewayName, connectionName, vpnConnectionParameters)
-            .flatMap((SimpleResponse<VpnConnectionInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, gatewayName, connectionName, vpnConnectionParameters);
+        return client.<VpnConnectionInner, VpnConnectionInner>getLroResultAsync(response, client.getHttpPipeline(), VpnConnectionInner.class, VpnConnectionInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -218,7 +217,7 @@ public final class VpnConnectionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String gatewayName, String connectionName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String gatewayName, String connectionName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, gatewayName, connectionName, apiVersion);
     }
@@ -235,8 +234,10 @@ public final class VpnConnectionsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String gatewayName, String connectionName) {
-        return deleteWithResponseAsync(resourceGroupName, gatewayName, connectionName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, gatewayName, connectionName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

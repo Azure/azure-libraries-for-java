@@ -29,11 +29,14 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -72,7 +75,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
         @ExpectedResponses({200})
@@ -82,27 +85,27 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ExpressRouteCircuitInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ExpressRouteCircuitInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ExpressRouteCircuitInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ExpressRouteCircuitInner>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ExpressRouteCircuitsArpTableListResultInner>> listArpTable(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> listArpTable(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ExpressRouteCircuitsRoutesTableListResultInner>> listRoutesTable(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> listRoutesTable(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> listRoutesTableSummary(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> listRoutesTableSummary(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("devicePath") String devicePath, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats")
         @ExpectedResponses({200})
@@ -175,7 +178,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String circuitName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String circuitName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, circuitName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -191,8 +194,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String circuitName) {
-        return deleteWithResponseAsync(resourceGroupName, circuitName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, circuitName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -270,7 +275,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRouteCircuitInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, circuitName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -287,14 +292,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ExpressRouteCircuitInner> createOrUpdateAsync(String resourceGroupName, String circuitName, ExpressRouteCircuitInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, circuitName, parameters)
-            .flatMap((SimpleResponse<ExpressRouteCircuitInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, circuitName, parameters);
+        return client.<ExpressRouteCircuitInner, ExpressRouteCircuitInner>getLroResultAsync(response, client.getHttpPipeline(), ExpressRouteCircuitInner.class, ExpressRouteCircuitInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -323,7 +324,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRouteCircuitInner>> updateTagsWithResponseAsync(String resourceGroupName, String circuitName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String circuitName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
@@ -342,14 +343,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ExpressRouteCircuitInner> updateTagsAsync(String resourceGroupName, String circuitName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, circuitName, tags)
-            .flatMap((SimpleResponse<ExpressRouteCircuitInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, circuitName, tags);
+        return client.<ExpressRouteCircuitInner, ExpressRouteCircuitInner>getLroResultAsync(response, client.getHttpPipeline(), ExpressRouteCircuitInner.class, ExpressRouteCircuitInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -379,7 +376,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRouteCircuitsArpTableListResultInner>> listArpTableWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> listArpTableWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
         final String apiVersion = "2019-06-01";
         return service.listArpTable(this.client.getHost(), resourceGroupName, circuitName, peeringName, devicePath, this.client.getSubscriptionId(), apiVersion);
     }
@@ -397,14 +394,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ExpressRouteCircuitsArpTableListResultInner> listArpTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return listArpTableWithResponseAsync(resourceGroupName, circuitName, peeringName, devicePath)
-            .flatMap((SimpleResponse<ExpressRouteCircuitsArpTableListResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = listArpTableWithResponseAsync(resourceGroupName, circuitName, peeringName, devicePath);
+        return client.<ExpressRouteCircuitsArpTableListResultInner, ExpressRouteCircuitsArpTableListResultInner>getLroResultAsync(response, client.getHttpPipeline(), ExpressRouteCircuitsArpTableListResultInner.class, ExpressRouteCircuitsArpTableListResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -435,7 +428,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRouteCircuitsRoutesTableListResultInner>> listRoutesTableWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> listRoutesTableWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
         final String apiVersion = "2019-06-01";
         return service.listRoutesTable(this.client.getHost(), resourceGroupName, circuitName, peeringName, devicePath, this.client.getSubscriptionId(), apiVersion);
     }
@@ -453,14 +446,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ExpressRouteCircuitsRoutesTableListResultInner> listRoutesTableAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return listRoutesTableWithResponseAsync(resourceGroupName, circuitName, peeringName, devicePath)
-            .flatMap((SimpleResponse<ExpressRouteCircuitsRoutesTableListResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = listRoutesTableWithResponseAsync(resourceGroupName, circuitName, peeringName, devicePath);
+        return client.<ExpressRouteCircuitsRoutesTableListResultInner, ExpressRouteCircuitsRoutesTableListResultInner>getLroResultAsync(response, client.getHttpPipeline(), ExpressRouteCircuitsRoutesTableListResultInner.class, ExpressRouteCircuitsRoutesTableListResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -491,7 +480,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner>> listRoutesTableSummaryWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> listRoutesTableSummaryWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
         final String apiVersion = "2019-06-01";
         return service.listRoutesTableSummary(this.client.getHost(), resourceGroupName, circuitName, peeringName, devicePath, this.client.getSubscriptionId(), apiVersion);
     }
@@ -509,14 +498,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ExpressRouteCircuitsRoutesTableSummaryListResultInner> listRoutesTableSummaryAsync(String resourceGroupName, String circuitName, String peeringName, String devicePath) {
-        return listRoutesTableSummaryWithResponseAsync(resourceGroupName, circuitName, peeringName, devicePath)
-            .flatMap((SimpleResponse<ExpressRouteCircuitsRoutesTableSummaryListResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = listRoutesTableSummaryWithResponseAsync(resourceGroupName, circuitName, peeringName, devicePath);
+        return client.<ExpressRouteCircuitsRoutesTableSummaryListResultInner, ExpressRouteCircuitsRoutesTableSummaryListResultInner>getLroResultAsync(response, client.getHttpPipeline(), ExpressRouteCircuitsRoutesTableSummaryListResultInner.class, ExpressRouteCircuitsRoutesTableSummaryListResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

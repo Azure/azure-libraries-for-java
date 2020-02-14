@@ -28,18 +28,21 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * VirtualNetworks.
  */
-public final class VirtualNetworksInner implements InnerSupportsListing<VirtualNetworkInner>, InnerSupportsDelete<Void>, InnerSupportsGet<VirtualNetworkInner> {
+public final class VirtualNetworksInner implements InnerSupportsGet<VirtualNetworkInner>, InnerSupportsListing<VirtualNetworkInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -60,16 +63,6 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
         this.client = client;
     }
 
-    @Override
-    public VirtualNetworkInner getByResourceGroup(String resourceGroupName, String resourceName) {
-        return this.getByResourceGroup(resourceGroupName, resourceName, null);
-    }
-
-    @Override
-    public Mono<VirtualNetworkInner> getByResourceGroupAsync(String resourceGroupName, String resourceName) {
-        return this.getByResourceGroupAsync(resourceGroupName, resourceName, null);
-    }
-
     /**
      * The interface defining all the services for
      * NetworkManagementClientVirtualNetworks to be used by the proxy service
@@ -81,7 +74,7 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}")
         @ExpectedResponses({200})
@@ -91,12 +84,12 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VirtualNetworkInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VirtualNetworkInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VirtualNetworkInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VirtualNetworkInner>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworks")
         @ExpectedResponses({200})
@@ -159,7 +152,7 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String virtualNetworkName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String virtualNetworkName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, virtualNetworkName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -175,8 +168,10 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String virtualNetworkName) {
-        return deleteWithResponseAsync(resourceGroupName, virtualNetworkName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, virtualNetworkName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -236,6 +231,29 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
      * 
      * @param resourceGroupName 
      * @param virtualNetworkName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<VirtualNetworkInner> getByResourceGroupAsync(String resourceGroupName, String virtualNetworkName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return getByResourceGroupWithResponseAsync(resourceGroupName, virtualNetworkName, expand)
+            .flatMap((SimpleResponse<VirtualNetworkInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified virtual network by resource group.
+     * 
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -243,6 +261,22 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public VirtualNetworkInner getByResourceGroup(String resourceGroupName, String virtualNetworkName, String expand) {
+        return getByResourceGroupAsync(resourceGroupName, virtualNetworkName, expand).block();
+    }
+
+    /**
+     * Gets the specified virtual network by resource group.
+     * 
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public VirtualNetworkInner getByResourceGroup(String resourceGroupName, String virtualNetworkName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
         return getByResourceGroupAsync(resourceGroupName, virtualNetworkName, expand).block();
     }
 
@@ -257,7 +291,7 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualNetworkName, VirtualNetworkInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualNetworkName, VirtualNetworkInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, virtualNetworkName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -274,14 +308,10 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VirtualNetworkInner> createOrUpdateAsync(String resourceGroupName, String virtualNetworkName, VirtualNetworkInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, virtualNetworkName, parameters)
-            .flatMap((SimpleResponse<VirtualNetworkInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, virtualNetworkName, parameters);
+        return client.<VirtualNetworkInner, VirtualNetworkInner>getLroResultAsync(response, client.getHttpPipeline(), VirtualNetworkInner.class, VirtualNetworkInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -310,7 +340,7 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
@@ -329,14 +359,10 @@ public final class VirtualNetworksInner implements InnerSupportsListing<VirtualN
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VirtualNetworkInner> updateTagsAsync(String resourceGroupName, String virtualNetworkName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, virtualNetworkName, tags)
-            .flatMap((SimpleResponse<VirtualNetworkInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, virtualNetworkName, tags);
+        return client.<VirtualNetworkInner, VirtualNetworkInner>getLroResultAsync(response, client.getHttpPipeline(), VirtualNetworkInner.class, VirtualNetworkInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

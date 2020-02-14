@@ -16,7 +16,6 @@ import com.azure.management.resources.fluentcore.model.implementation.IndexableW
 import com.azure.management.resources.models.SubscriptionInner;
 import com.azure.management.resources.models.SubscriptionsInner;
 
-
 /**
  * The implementation of {@link Subscription}.
  */
@@ -54,16 +53,15 @@ final class SubscriptionImpl extends
 
     @Override
     public PagedIterable<Location> listLocations() {
-        return client.listLocations(this.subscriptionId());
+        return client.listLocations(this.subscriptionId()).mapPage(LocationImpl::new);
     }
 
     @Override
     public Location getLocationByRegion(Region region) {
         if (region != null) {
             PagedIterable<Location> locations = listLocations();
-            // TODO: Fix region and location comparison.
             for (Location location : locations) {
-                if (region.equals(location.getName())) {
+                if (region.equals(location.region())) {
                     return location;
                 }
             }

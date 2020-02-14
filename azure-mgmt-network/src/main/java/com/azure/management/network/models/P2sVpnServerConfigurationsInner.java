@@ -26,18 +26,21 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.ErrorException;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
- * P2sVpnServerConfigurations.
+ * P2SVpnServerConfigurations.
  */
-public final class P2sVpnServerConfigurationsInner {
+public final class P2SVpnServerConfigurationsInner {
     /**
      * The proxy service used to perform REST calls.
      */
-    private P2sVpnServerConfigurationsService service;
+    private P2SVpnServerConfigurationsService service;
 
     /**
      * The service client containing this operation class.
@@ -45,23 +48,23 @@ public final class P2sVpnServerConfigurationsInner {
     private NetworkManagementClientImpl client;
 
     /**
-     * Initializes an instance of P2sVpnServerConfigurationsInner.
+     * Initializes an instance of P2SVpnServerConfigurationsInner.
      * 
      * @param client the instance of the service client containing this operation class.
      */
-    public P2sVpnServerConfigurationsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(P2sVpnServerConfigurationsService.class, client.getHttpPipeline());
+    public P2SVpnServerConfigurationsInner(NetworkManagementClientImpl client) {
+        this.service = RestProxy.create(P2SVpnServerConfigurationsService.class, client.getHttpPipeline());
         this.client = client;
     }
 
     /**
      * The interface defining all the services for
-     * NetworkManagementClientP2sVpnServerConfigurations to be used by the
+     * NetworkManagementClientP2SVpnServerConfigurations to be used by the
      * proxy service to perform REST calls.
      */
     @Host("{$host}")
-    @ServiceInterface(name = "NetworkManagementClientP2sVpnServerConfigurations")
-    private interface P2sVpnServerConfigurationsService {
+    @ServiceInterface(name = "NetworkManagementClientP2SVpnServerConfigurations")
+    private interface P2SVpnServerConfigurationsService {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations/{p2SVpnServerConfigurationName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(ErrorException.class)
@@ -70,12 +73,12 @@ public final class P2sVpnServerConfigurationsInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations/{p2SVpnServerConfigurationName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<P2SVpnServerConfigurationInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualWanName") String virtualWanName, @PathParam("p2SVpnServerConfigurationName") String p2SVpnServerConfigurationName, @BodyParam("application/json") P2SVpnServerConfigurationInner p2SVpnServerConfigurationParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualWanName") String virtualWanName, @PathParam("p2SVpnServerConfigurationName") String p2SVpnServerConfigurationName, @BodyParam("application/json") P2SVpnServerConfigurationInner p2SVpnServerConfigurationParameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations/{p2SVpnServerConfigurationName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualWanName") String virtualWanName, @PathParam("p2SVpnServerConfigurationName") String p2SVpnServerConfigurationName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualWanName") String virtualWanName, @PathParam("p2SVpnServerConfigurationName") String p2SVpnServerConfigurationName, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWanName}/p2sVpnServerConfigurations")
         @ExpectedResponses({200})
@@ -163,7 +166,7 @@ public final class P2sVpnServerConfigurationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<P2SVpnServerConfigurationInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualWanName, String p2SVpnServerConfigurationName, P2SVpnServerConfigurationInner p2SVpnServerConfigurationParameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualWanName, String p2SVpnServerConfigurationName, P2SVpnServerConfigurationInner p2SVpnServerConfigurationParameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualWanName, p2SVpnServerConfigurationName, p2SVpnServerConfigurationParameters, apiVersion);
     }
@@ -181,14 +184,10 @@ public final class P2sVpnServerConfigurationsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<P2SVpnServerConfigurationInner> createOrUpdateAsync(String resourceGroupName, String virtualWanName, String p2SVpnServerConfigurationName, P2SVpnServerConfigurationInner p2SVpnServerConfigurationParameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, virtualWanName, p2SVpnServerConfigurationName, p2SVpnServerConfigurationParameters)
-            .flatMap((SimpleResponse<P2SVpnServerConfigurationInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, virtualWanName, p2SVpnServerConfigurationName, p2SVpnServerConfigurationParameters);
+        return client.<P2SVpnServerConfigurationInner, P2SVpnServerConfigurationInner>getLroResultAsync(response, client.getHttpPipeline(), P2SVpnServerConfigurationInner.class, P2SVpnServerConfigurationInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -218,7 +217,7 @@ public final class P2sVpnServerConfigurationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String virtualWanName, String p2SVpnServerConfigurationName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String virtualWanName, String p2SVpnServerConfigurationName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualWanName, p2SVpnServerConfigurationName, apiVersion);
     }
@@ -235,8 +234,10 @@ public final class P2sVpnServerConfigurationsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String virtualWanName, String p2SVpnServerConfigurationName) {
-        return deleteWithResponseAsync(resourceGroupName, virtualWanName, p2SVpnServerConfigurationName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, virtualWanName, p2SVpnServerConfigurationName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

@@ -6,72 +6,69 @@
 
 package com.azure.management.storage;
 
+import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
 
 /**
  * Defines values for SkuName.
  */
-public enum SkuName {
+public final class SkuName extends ExpandableStringEnum<SkuName> {
     /**
-     * Enum value Standard_LRS.
+     * Static value Standard_LRS for SkuName.
      */
-    STANDARD_LRS("Standard_LRS"),
+    public static final SkuName STANDARD_LRS = fromString("Standard_LRS");
 
     /**
-     * Enum value Standard_GRS.
+     * Static value Standard_GRS for SkuName.
      */
-    STANDARD_GRS("Standard_GRS"),
+    public static final SkuName STANDARD_GRS = fromString("Standard_GRS");
 
     /**
-     * Enum value Standard_RAGRS.
+     * Static value Standard_RAGRS for SkuName.
      */
-    STANDARD_RAGRS("Standard_RAGRS"),
+    public static final SkuName STANDARD_RAGRS = fromString("Standard_RAGRS");
 
     /**
-     * Enum value Standard_ZRS.
+     * Static value Standard_ZRS for SkuName.
      */
-    STANDARD_ZRS("Standard_ZRS"),
+    public static final SkuName STANDARD_ZRS = fromString("Standard_ZRS");
 
     /**
-     * Enum value Premium_LRS.
+     * Static value Premium_LRS for SkuName.
      */
-    PREMIUM_LRS("Premium_LRS"),
+    public static final SkuName PREMIUM_LRS = fromString("Premium_LRS");
 
     /**
-     * Enum value Premium_ZRS.
+     * Static value Premium_ZRS for SkuName.
      */
-    PREMIUM_ZRS("Premium_ZRS");
+    public static final SkuName PREMIUM_ZRS = fromString("Premium_ZRS");
 
     /**
-     * The actual serialized value for a SkuName instance.
+     * Static value Standard_GZRS for SkuName.
      */
-    private final String value;
-
-    SkuName(String value) {
-        this.value = value;
-    }
+    public static final SkuName STANDARD_GZRS = fromString("Standard_GZRS");
 
     /**
-     * Parses a serialized value to a SkuName instance.
+     * Static value Standard_RAGZRS for SkuName.
+     */
+    public static final SkuName STANDARD_RAGZRS = fromString("Standard_RAGZRS");
+
+    /**
+     * Creates or finds a SkuName from its string representation.
      * 
-     * @param value the serialized value to parse.
-     * @return the parsed SkuName object, or null if unable to parse.
+     * @param name a name to look for.
+     * @return the corresponding SkuName.
      */
     @JsonCreator
-    public static SkuName fromString(String value) {
-        SkuName[] items = SkuName.values();
-        for (SkuName item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
+    public static SkuName fromString(String name) {
+        return fromString(name, SkuName.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    /**
+     * @return known SkuName values.
+     */
+    public static Collection<SkuName> values() {
+        return values(SkuName.class);
     }
 }

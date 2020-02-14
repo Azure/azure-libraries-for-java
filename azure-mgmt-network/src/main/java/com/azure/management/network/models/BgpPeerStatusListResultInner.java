@@ -7,6 +7,7 @@
 package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.network.BgpPeerStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,14 +20,14 @@ public final class BgpPeerStatusListResultInner {
      * List of BGP peers.
      */
     @JsonProperty(value = "value")
-    private List<BgpPeerStatusInner> value;
+    private List<BgpPeerStatus> value;
 
     /**
      * Get the value property: List of BGP peers.
      * 
      * @return the value value.
      */
-    public List<BgpPeerStatusInner> value() {
+    public List<BgpPeerStatus> value() {
         return this.value;
     }
 
@@ -36,7 +37,7 @@ public final class BgpPeerStatusListResultInner {
      * @param value the value value to set.
      * @return the BgpPeerStatusListResultInner object itself.
      */
-    public BgpPeerStatusListResultInner withValue(List<BgpPeerStatusInner> value) {
+    public BgpPeerStatusListResultInner withValue(List<BgpPeerStatus> value) {
         this.value = value;
         return this;
     }

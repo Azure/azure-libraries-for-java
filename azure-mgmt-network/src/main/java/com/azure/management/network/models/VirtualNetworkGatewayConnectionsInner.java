@@ -29,10 +29,13 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -71,7 +74,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VirtualNetworkGatewayConnectionInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VirtualNetworkGatewayConnectionInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VirtualNetworkGatewayConnectionInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}")
         @ExpectedResponses({200})
@@ -81,17 +84,17 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VirtualNetworkGatewayConnectionInner>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ConnectionSharedKeyInner>> setSharedKey(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectionSharedKeyInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> setSharedKey(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectionSharedKeyInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey")
         @ExpectedResponses({200})
@@ -106,7 +109,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ConnectionResetSharedKeyInner>> resetSharedKey(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectionResetSharedKeyInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> resetSharedKey(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkGatewayConnectionName") String virtualNetworkGatewayConnectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectionResetSharedKeyInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}")
         @ExpectedResponses({200, 201})
@@ -150,7 +153,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkGatewayConnectionInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, VirtualNetworkGatewayConnectionInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, VirtualNetworkGatewayConnectionInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, virtualNetworkGatewayConnectionName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -167,14 +170,10 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VirtualNetworkGatewayConnectionInner> createOrUpdateAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, VirtualNetworkGatewayConnectionInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters)
-            .flatMap((SimpleResponse<VirtualNetworkGatewayConnectionInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters);
+        return client.<VirtualNetworkGatewayConnectionInner, VirtualNetworkGatewayConnectionInner>getLroResultAsync(response, client.getHttpPipeline(), VirtualNetworkGatewayConnectionInner.class, VirtualNetworkGatewayConnectionInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -252,7 +251,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, virtualNetworkGatewayConnectionName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -268,8 +267,10 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName) {
-        return deleteWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -297,7 +298,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkGatewayConnectionInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
@@ -316,14 +317,10 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VirtualNetworkGatewayConnectionInner> updateTagsAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, tags)
-            .flatMap((SimpleResponse<VirtualNetworkGatewayConnectionInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, tags);
+        return client.<VirtualNetworkGatewayConnectionInner, VirtualNetworkGatewayConnectionInner>getLroResultAsync(response, client.getHttpPipeline(), VirtualNetworkGatewayConnectionInner.class, VirtualNetworkGatewayConnectionInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -352,7 +349,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ConnectionSharedKeyInner>> setSharedKeyWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, ConnectionSharedKeyInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> setSharedKeyWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, ConnectionSharedKeyInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.setSharedKey(this.client.getHost(), resourceGroupName, virtualNetworkGatewayConnectionName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -369,14 +366,10 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ConnectionSharedKeyInner> setSharedKeyAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, ConnectionSharedKeyInner parameters) {
-        return setSharedKeyWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters)
-            .flatMap((SimpleResponse<ConnectionSharedKeyInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = setSharedKeyWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters);
+        return client.<ConnectionSharedKeyInner, ConnectionSharedKeyInner>getLroResultAsync(response, client.getHttpPipeline(), ConnectionSharedKeyInner.class, ConnectionSharedKeyInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -503,7 +496,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ConnectionResetSharedKeyInner>> resetSharedKeyWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, int keyLength) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> resetSharedKeyWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, int keyLength) {
         final String apiVersion = "2019-06-01";
         ConnectionResetSharedKeyInner parameters = new ConnectionResetSharedKeyInner();
         parameters.withKeyLength(keyLength);
@@ -522,14 +515,10 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ConnectionResetSharedKeyInner> resetSharedKeyAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, int keyLength) {
-        return resetSharedKeyWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, keyLength)
-            .flatMap((SimpleResponse<ConnectionResetSharedKeyInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = resetSharedKeyWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, keyLength);
+        return client.<ConnectionResetSharedKeyInner, ConnectionResetSharedKeyInner>getLroResultAsync(response, client.getHttpPipeline(), ConnectionResetSharedKeyInner.class, ConnectionResetSharedKeyInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

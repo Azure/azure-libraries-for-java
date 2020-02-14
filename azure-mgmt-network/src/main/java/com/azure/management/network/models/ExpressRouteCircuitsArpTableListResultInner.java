@@ -7,6 +7,7 @@
 package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.network.ExpressRouteCircuitArpTable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public final class ExpressRouteCircuitsArpTableListResultInner {
      * Gets list of the ARP table.
      */
     @JsonProperty(value = "value")
-    private List<ExpressRouteCircuitArpTableInner> value;
+    private List<ExpressRouteCircuitArpTable> value;
 
     /*
      * The URL to get the next set of results.
@@ -32,7 +33,7 @@ public final class ExpressRouteCircuitsArpTableListResultInner {
      * 
      * @return the value value.
      */
-    public List<ExpressRouteCircuitArpTableInner> value() {
+    public List<ExpressRouteCircuitArpTable> value() {
         return this.value;
     }
 
@@ -42,7 +43,7 @@ public final class ExpressRouteCircuitsArpTableListResultInner {
      * @param value the value value to set.
      * @return the ExpressRouteCircuitsArpTableListResultInner object itself.
      */
-    public ExpressRouteCircuitsArpTableListResultInner withValue(List<ExpressRouteCircuitArpTableInner> value) {
+    public ExpressRouteCircuitsArpTableListResultInner withValue(List<ExpressRouteCircuitArpTable> value) {
         this.value = value;
         return this;
     }

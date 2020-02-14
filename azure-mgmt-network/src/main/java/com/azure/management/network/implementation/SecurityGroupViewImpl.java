@@ -38,7 +38,7 @@ class SecurityGroupViewImpl extends RefreshableWrapperImpl<SecurityGroupViewResu
         List<SecurityGroupNetworkInterface> securityGroupNetworkInterfaces = this.inner().networkInterfaces();
         if (securityGroupNetworkInterfaces != null) {
             for (SecurityGroupNetworkInterface networkInterface : securityGroupNetworkInterfaces) {
-                this.networkInterfaces.put(networkInterface.id(), networkInterface);
+                this.networkInterfaces.put(networkInterface.getId(), networkInterface);
             }
         }
     }

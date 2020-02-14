@@ -27,6 +27,9 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -65,7 +68,7 @@ public final class ExpressRouteCircuitConnectionsInner {
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("connectionName") String connectionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("connectionName") String connectionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}")
         @ExpectedResponses({200})
@@ -75,7 +78,7 @@ public final class ExpressRouteCircuitConnectionsInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ExpressRouteCircuitConnectionInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("connectionName") String connectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ExpressRouteCircuitConnectionInner expressRouteCircuitConnectionParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("circuitName") String circuitName, @PathParam("peeringName") String peeringName, @PathParam("connectionName") String connectionName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ExpressRouteCircuitConnectionInner expressRouteCircuitConnectionParameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections")
         @ExpectedResponses({200})
@@ -110,7 +113,7 @@ public final class ExpressRouteCircuitConnectionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String connectionName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String connectionName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, circuitName, peeringName, connectionName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -128,8 +131,10 @@ public final class ExpressRouteCircuitConnectionsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String circuitName, String peeringName, String connectionName) {
-        return deleteWithResponseAsync(resourceGroupName, circuitName, peeringName, connectionName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, circuitName, peeringName, connectionName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -217,7 +222,7 @@ public final class ExpressRouteCircuitConnectionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRouteCircuitConnectionInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String connectionName, ExpressRouteCircuitConnectionInner expressRouteCircuitConnectionParameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String circuitName, String peeringName, String connectionName, ExpressRouteCircuitConnectionInner expressRouteCircuitConnectionParameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, circuitName, peeringName, connectionName, this.client.getSubscriptionId(), expressRouteCircuitConnectionParameters, apiVersion);
     }
@@ -236,14 +241,10 @@ public final class ExpressRouteCircuitConnectionsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ExpressRouteCircuitConnectionInner> createOrUpdateAsync(String resourceGroupName, String circuitName, String peeringName, String connectionName, ExpressRouteCircuitConnectionInner expressRouteCircuitConnectionParameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, circuitName, peeringName, connectionName, expressRouteCircuitConnectionParameters)
-            .flatMap((SimpleResponse<ExpressRouteCircuitConnectionInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, circuitName, peeringName, connectionName, expressRouteCircuitConnectionParameters);
+        return client.<ExpressRouteCircuitConnectionInner, ExpressRouteCircuitConnectionInner>getLroResultAsync(response, client.getHttpPipeline(), ExpressRouteCircuitConnectionInner.class, ExpressRouteCircuitConnectionInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

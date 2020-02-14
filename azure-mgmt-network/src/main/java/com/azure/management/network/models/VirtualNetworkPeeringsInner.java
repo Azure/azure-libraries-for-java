@@ -27,6 +27,9 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -65,7 +68,7 @@ public final class VirtualNetworkPeeringsInner {
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("virtualNetworkPeeringName") String virtualNetworkPeeringName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("virtualNetworkPeeringName") String virtualNetworkPeeringName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}")
         @ExpectedResponses({200})
@@ -75,7 +78,7 @@ public final class VirtualNetworkPeeringsInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VirtualNetworkPeeringInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("virtualNetworkPeeringName") String virtualNetworkPeeringName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VirtualNetworkPeeringInner virtualNetworkPeeringParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualNetworkName") String virtualNetworkName, @PathParam("virtualNetworkPeeringName") String virtualNetworkPeeringName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VirtualNetworkPeeringInner virtualNetworkPeeringParameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings")
         @ExpectedResponses({200})
@@ -109,7 +112,7 @@ public final class VirtualNetworkPeeringsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String virtualNetworkName, String virtualNetworkPeeringName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String virtualNetworkName, String virtualNetworkPeeringName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, virtualNetworkName, virtualNetworkPeeringName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -126,8 +129,10 @@ public final class VirtualNetworkPeeringsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String virtualNetworkName, String virtualNetworkPeeringName) {
-        return deleteWithResponseAsync(resourceGroupName, virtualNetworkName, virtualNetworkPeeringName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, virtualNetworkName, virtualNetworkPeeringName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -210,7 +215,7 @@ public final class VirtualNetworkPeeringsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkPeeringInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualNetworkName, String virtualNetworkPeeringName, VirtualNetworkPeeringInner virtualNetworkPeeringParameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String virtualNetworkName, String virtualNetworkPeeringName, VirtualNetworkPeeringInner virtualNetworkPeeringParameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, virtualNetworkName, virtualNetworkPeeringName, this.client.getSubscriptionId(), virtualNetworkPeeringParameters, apiVersion);
     }
@@ -228,14 +233,10 @@ public final class VirtualNetworkPeeringsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VirtualNetworkPeeringInner> createOrUpdateAsync(String resourceGroupName, String virtualNetworkName, String virtualNetworkPeeringName, VirtualNetworkPeeringInner virtualNetworkPeeringParameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, virtualNetworkName, virtualNetworkPeeringName, virtualNetworkPeeringParameters)
-            .flatMap((SimpleResponse<VirtualNetworkPeeringInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, virtualNetworkName, virtualNetworkPeeringName, virtualNetworkPeeringParameters);
+        return client.<VirtualNetworkPeeringInner, VirtualNetworkPeeringInner>getLroResultAsync(response, client.getHttpPipeline(), VirtualNetworkPeeringInner.class, VirtualNetworkPeeringInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

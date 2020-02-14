@@ -126,14 +126,12 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
 
     @Override
     public CheckNameAvailabilityResult checkNameAvailability(String name) {
-        VaultCheckNameAvailabilityParameters parameters = new VaultCheckNameAvailabilityParameters().setName(name);
-        return new CheckNameAvailabilityResultImpl(inner().checkNameAvailability(parameters));
+        return new CheckNameAvailabilityResultImpl(inner().checkNameAvailability(name));
     }
 
     @Override
     public Mono<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
-        VaultCheckNameAvailabilityParameters parameters = new VaultCheckNameAvailabilityParameters().setName(name);
-        return inner().checkNameAvailabilityAsync(parameters).map(CheckNameAvailabilityResultImpl::new);
+        return inner().checkNameAvailabilityAsync(name).map(CheckNameAvailabilityResultImpl::new);
     }
 
     @Override

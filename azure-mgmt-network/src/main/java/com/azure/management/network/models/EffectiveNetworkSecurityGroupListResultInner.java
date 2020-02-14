@@ -7,6 +7,7 @@
 package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.network.EffectiveNetworkSecurityGroup;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public final class EffectiveNetworkSecurityGroupListResultInner {
      * A list of effective network security groups.
      */
     @JsonProperty(value = "value")
-    private List<EffectiveNetworkSecurityGroupInner> value;
+    private List<EffectiveNetworkSecurityGroup> value;
 
     /*
      * The URL to get the next set of results.
@@ -32,7 +33,7 @@ public final class EffectiveNetworkSecurityGroupListResultInner {
      * 
      * @return the value value.
      */
-    public List<EffectiveNetworkSecurityGroupInner> value() {
+    public List<EffectiveNetworkSecurityGroup> value() {
         return this.value;
     }
 
@@ -42,7 +43,7 @@ public final class EffectiveNetworkSecurityGroupListResultInner {
      * @param value the value value to set.
      * @return the EffectiveNetworkSecurityGroupListResultInner object itself.
      */
-    public EffectiveNetworkSecurityGroupListResultInner withValue(List<EffectiveNetworkSecurityGroupInner> value) {
+    public EffectiveNetworkSecurityGroupListResultInner withValue(List<EffectiveNetworkSecurityGroup> value) {
         this.value = value;
         return this;
     }

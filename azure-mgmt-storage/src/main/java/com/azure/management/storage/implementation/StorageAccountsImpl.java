@@ -40,8 +40,7 @@ class StorageAccountsImpl
 
     @Override
     public Mono<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
-        StorageAccountCheckNameAvailabilityParameters parameters = new StorageAccountCheckNameAvailabilityParameters().setName(name);
-        return this.inner().checkNameAvailabilityAsync(parameters).map(checkNameAvailabilityResultInner -> new CheckNameAvailabilityResult(checkNameAvailabilityResultInner));
+        return this.inner().checkNameAvailabilityAsync(name).map(checkNameAvailabilityResultInner -> new CheckNameAvailabilityResult(checkNameAvailabilityResultInner));
     }
 
     @Override

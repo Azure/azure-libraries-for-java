@@ -121,7 +121,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Integer daysAfterBaseBlobModificationUntilCooling() {
+    public Float daysAfterBaseBlobModificationUntilCooling() {
         if (this.inner.getDefinition().getActions().getBaseBlob() == null || this.inner.getDefinition().getActions().getBaseBlob().getTierToCool() == null) {
             return null;
         }
@@ -129,7 +129,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Integer daysAfterBaseBlobModificationUntilArchiving() {
+    public Float daysAfterBaseBlobModificationUntilArchiving() {
         if (this.inner.getDefinition().getActions().getBaseBlob() == null || this.inner.getDefinition().getActions().getBaseBlob().getTierToArchive() == null) {
             return null;
         }
@@ -137,7 +137,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Integer daysAfterBaseBlobModificationUntilDeleting() {
+    public Float daysAfterBaseBlobModificationUntilDeleting() {
         if (this.inner.getDefinition().getActions().getBaseBlob() == null || this.inner.getDefinition().getActions().getBaseBlob().getDelete() == null) {
             return null;
         }
@@ -145,7 +145,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Integer daysAfterSnapShotCreationUntilDeleting() {
+    public Float daysAfterSnapShotCreationUntilDeleting() {
         if (this.inner.getDefinition().getActions().getSnapshot() == null || this.inner.getDefinition().getActions().getSnapshot().getDelete() == null) {
             return null;
         }
@@ -223,7 +223,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withTierToCoolActionOnBaseBlob(int daysAfterBaseBlobModificationUntilCooling) {
+    public PolicyRuleImpl withTierToCoolActionOnBaseBlob(float daysAfterBaseBlobModificationUntilCooling) {
         ManagementPolicyBaseBlob currentBaseBlob = this.inner.getDefinition().getActions().getBaseBlob();
         if (currentBaseBlob == null) {
             currentBaseBlob = new ManagementPolicyBaseBlob();
@@ -234,7 +234,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withTierToArchiveActionOnBaseBlob(int daysAfterBaseBlobModificationUntilArchiving) {
+    public PolicyRuleImpl withTierToArchiveActionOnBaseBlob(float daysAfterBaseBlobModificationUntilArchiving) {
         ManagementPolicyBaseBlob currentBaseBlob = this.inner.getDefinition().getActions().getBaseBlob();
         if (currentBaseBlob == null) {
             currentBaseBlob = new ManagementPolicyBaseBlob();
@@ -245,7 +245,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withDeleteActionOnBaseBlob(int daysAfterBaseBlobModificationUntilDeleting) {
+    public PolicyRuleImpl withDeleteActionOnBaseBlob(float daysAfterBaseBlobModificationUntilDeleting) {
         ManagementPolicyBaseBlob currentBaseBlob = this.inner.getDefinition().getActions().getBaseBlob();
         if (currentBaseBlob == null) {
             currentBaseBlob = new ManagementPolicyBaseBlob();
@@ -256,7 +256,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting) {
+    public PolicyRuleImpl withDeleteActionOnSnapShot(float daysAfterSnapShotCreationUntilDeleting) {
         ManagementPolicySnapShot currentSnapShot = new ManagementPolicySnapShot();
         if (currentSnapShot == null) {
             currentSnapShot = new ManagementPolicySnapShot();

@@ -37,7 +37,7 @@ class TopologyImpl extends ExecutableImpl<Topology>
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override
@@ -65,7 +65,7 @@ class TopologyImpl extends ExecutableImpl<Topology>
         List<TopologyResource> topologyResources = this.inner().resources();
         if (topologyResources != null) {
             for (TopologyResource resource : topologyResources) {
-                this.resources.put(resource.id(), resource);
+                this.resources.put(resource.getId(), resource);
             }
         }
     }

@@ -7,15 +7,17 @@
 package com.azure.management.keyvault.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.azure.management.keyvault.OperationDisplay;
-import com.azure.management.keyvault.OperationProperties;
+import com.azure.management.keyvault.ServiceSpecification;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The Operation model.
  */
+@JsonFlatten
 @Fluent
-public final class OperationInner {
+public class OperationInner {
     /*
      * Operation name: {provider}/{resource}/{operation}
      */
@@ -35,10 +37,10 @@ public final class OperationInner {
     private String origin;
 
     /*
-     * Properties of operation, include metric specifications.
+     * One property of operation, include log specifications.
      */
-    @JsonProperty(value = "properties")
-    private OperationProperties operationProperties;
+    @JsonProperty(value = "properties.serviceSpecification")
+    private ServiceSpecification serviceSpecification;
 
     /**
      * Get the name property: Operation name:
@@ -105,24 +107,24 @@ public final class OperationInner {
     }
 
     /**
-     * Get the operationProperties property: Properties of operation, include
-     * metric specifications.
+     * Get the serviceSpecification property: One property of operation,
+     * include log specifications.
      * 
-     * @return the operationProperties value.
+     * @return the serviceSpecification value.
      */
-    public OperationProperties getOperationProperties() {
-        return this.operationProperties;
+    public ServiceSpecification getServiceSpecification() {
+        return this.serviceSpecification;
     }
 
     /**
-     * Set the operationProperties property: Properties of operation, include
-     * metric specifications.
+     * Set the serviceSpecification property: One property of operation,
+     * include log specifications.
      * 
-     * @param operationProperties the operationProperties value to set.
+     * @param serviceSpecification the serviceSpecification value to set.
      * @return the OperationInner object itself.
      */
-    public OperationInner setOperationProperties(OperationProperties operationProperties) {
-        this.operationProperties = operationProperties;
+    public OperationInner setServiceSpecification(ServiceSpecification serviceSpecification) {
+        this.serviceSpecification = serviceSpecification;
         return this;
     }
 }

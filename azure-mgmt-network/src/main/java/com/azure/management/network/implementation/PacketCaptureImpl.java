@@ -132,7 +132,7 @@ public class PacketCaptureImpl extends
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
@@ -143,7 +143,7 @@ public class PacketCaptureImpl extends
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override

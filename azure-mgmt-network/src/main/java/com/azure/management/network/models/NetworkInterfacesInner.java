@@ -29,18 +29,21 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * NetworkInterfaces.
  */
-public final class NetworkInterfacesInner implements InnerSupportsListing<NetworkInterfaceInner>, InnerSupportsDelete<Void>, InnerSupportsGet<NetworkInterfaceInner> {
+public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterfaceInner>, InnerSupportsListing<NetworkInterfaceInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -61,16 +64,6 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
         this.client = client;
     }
 
-    @Override
-    public NetworkInterfaceInner getByResourceGroup(String resourceGroupName, String resourceName) {
-        return this.getByResourceGroup(resourceGroupName, resourceName, null);
-    }
-
-    @Override
-    public Mono<NetworkInterfaceInner> getByResourceGroupAsync(String resourceGroupName, String resourceName) {
-        return this.getByResourceGroupAsync(resourceGroupName, resourceName, null);
-    }
-
     /**
      * The interface defining all the services for
      * NetworkManagementClientNetworkInterfaces to be used by the proxy service
@@ -82,7 +75,7 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}")
         @ExpectedResponses({200})
@@ -92,12 +85,12 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<NetworkInterfaceInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") NetworkInterfaceInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") NetworkInterfaceInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<NetworkInterfaceInner>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkInterfaces")
         @ExpectedResponses({200})
@@ -112,12 +105,12 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<EffectiveRouteListResultInner>> getEffectiveRouteTable(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getEffectiveRouteTable(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<EffectiveNetworkSecurityGroupListResultInner>> listEffectiveNetworkSecurityGroups(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> listEffectiveNetworkSecurityGroups(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkInterfaceName") String networkInterfaceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces")
         @ExpectedResponses({200})
@@ -205,7 +198,7 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String networkInterfaceName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String networkInterfaceName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, networkInterfaceName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -221,8 +214,10 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String networkInterfaceName) {
-        return deleteWithResponseAsync(resourceGroupName, networkInterfaceName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, networkInterfaceName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -282,6 +277,29 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      * 
      * @param resourceGroupName 
      * @param networkInterfaceName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<NetworkInterfaceInner> getByResourceGroupAsync(String resourceGroupName, String networkInterfaceName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return getByResourceGroupWithResponseAsync(resourceGroupName, networkInterfaceName, expand)
+            .flatMap((SimpleResponse<NetworkInterfaceInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets information about the specified network interface.
+     * 
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -289,6 +307,22 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public NetworkInterfaceInner getByResourceGroup(String resourceGroupName, String networkInterfaceName, String expand) {
+        return getByResourceGroupAsync(resourceGroupName, networkInterfaceName, expand).block();
+    }
+
+    /**
+     * Gets information about the specified network interface.
+     * 
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public NetworkInterfaceInner getByResourceGroup(String resourceGroupName, String networkInterfaceName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
         return getByResourceGroupAsync(resourceGroupName, networkInterfaceName, expand).block();
     }
 
@@ -303,7 +337,7 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NetworkInterfaceInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String networkInterfaceName, NetworkInterfaceInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String networkInterfaceName, NetworkInterfaceInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, networkInterfaceName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -320,14 +354,10 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<NetworkInterfaceInner> createOrUpdateAsync(String resourceGroupName, String networkInterfaceName, NetworkInterfaceInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, networkInterfaceName, parameters)
-            .flatMap((SimpleResponse<NetworkInterfaceInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, networkInterfaceName, parameters);
+        return client.<NetworkInterfaceInner, NetworkInterfaceInner>getLroResultAsync(response, client.getHttpPipeline(), NetworkInterfaceInner.class, NetworkInterfaceInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -356,7 +386,7 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NetworkInterfaceInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkInterfaceName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String networkInterfaceName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
@@ -375,14 +405,10 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<NetworkInterfaceInner> updateTagsAsync(String resourceGroupName, String networkInterfaceName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, networkInterfaceName, tags)
-            .flatMap((SimpleResponse<NetworkInterfaceInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, networkInterfaceName, tags);
+        return client.<NetworkInterfaceInner, NetworkInterfaceInner>getLroResultAsync(response, client.getHttpPipeline(), NetworkInterfaceInner.class, NetworkInterfaceInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -500,7 +526,7 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<EffectiveRouteListResultInner>> getEffectiveRouteTableWithResponseAsync(String resourceGroupName, String networkInterfaceName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getEffectiveRouteTableWithResponseAsync(String resourceGroupName, String networkInterfaceName) {
         final String apiVersion = "2019-06-01";
         return service.getEffectiveRouteTable(this.client.getHost(), resourceGroupName, networkInterfaceName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -516,14 +542,10 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<EffectiveRouteListResultInner> getEffectiveRouteTableAsync(String resourceGroupName, String networkInterfaceName) {
-        return getEffectiveRouteTableWithResponseAsync(resourceGroupName, networkInterfaceName)
-            .flatMap((SimpleResponse<EffectiveRouteListResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getEffectiveRouteTableWithResponseAsync(resourceGroupName, networkInterfaceName);
+        return client.<EffectiveRouteListResultInner, EffectiveRouteListResultInner>getLroResultAsync(response, client.getHttpPipeline(), EffectiveRouteListResultInner.class, EffectiveRouteListResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -550,7 +572,7 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<EffectiveNetworkSecurityGroupListResultInner>> listEffectiveNetworkSecurityGroupsWithResponseAsync(String resourceGroupName, String networkInterfaceName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> listEffectiveNetworkSecurityGroupsWithResponseAsync(String resourceGroupName, String networkInterfaceName) {
         final String apiVersion = "2019-06-01";
         return service.listEffectiveNetworkSecurityGroups(this.client.getHost(), resourceGroupName, networkInterfaceName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -566,14 +588,10 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<EffectiveNetworkSecurityGroupListResultInner> listEffectiveNetworkSecurityGroupsAsync(String resourceGroupName, String networkInterfaceName) {
-        return listEffectiveNetworkSecurityGroupsWithResponseAsync(resourceGroupName, networkInterfaceName)
-            .flatMap((SimpleResponse<EffectiveNetworkSecurityGroupListResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = listEffectiveNetworkSecurityGroupsWithResponseAsync(resourceGroupName, networkInterfaceName);
+        return client.<EffectiveNetworkSecurityGroupListResultInner, EffectiveNetworkSecurityGroupListResultInner>getLroResultAsync(response, client.getHttpPipeline(), EffectiveNetworkSecurityGroupListResultInner.class, EffectiveNetworkSecurityGroupListResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -744,6 +762,31 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      * @param virtualMachineScaleSetName 
      * @param virtualmachineIndex 
      * @param networkInterfaceName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<NetworkInterfaceInner> getVirtualMachineScaleSetNetworkInterfaceAsync(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName) {
+        final String expand = null;
+        final String apiVersion = "2017-03-30";
+        return getVirtualMachineScaleSetNetworkInterfaceWithResponseAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, expand)
+            .flatMap((SimpleResponse<NetworkInterfaceInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Get the specified network interface in a virtual machine scale set.
+     * 
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -751,6 +794,24 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public NetworkInterfaceInner getVirtualMachineScaleSetNetworkInterface(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName, String expand) {
+        return getVirtualMachineScaleSetNetworkInterfaceAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, expand).block();
+    }
+
+    /**
+     * Get the specified network interface in a virtual machine scale set.
+     * 
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public NetworkInterfaceInner getVirtualMachineScaleSetNetworkInterface(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName) {
+        final String expand = null;
+        final String apiVersion = "2017-03-30";
         return getVirtualMachineScaleSetNetworkInterfaceAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, expand).block();
     }
 
@@ -804,6 +865,26 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      * @param virtualMachineScaleSetName 
      * @param virtualmachineIndex 
      * @param networkInterfaceName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<NetworkInterfaceIPConfigurationInner> listVirtualMachineScaleSetIpConfigurationsAsync(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName) {
+        final String expand = null;
+        final String apiVersion = "2017-03-30";
+        return new PagedFlux<>(
+            () -> listVirtualMachineScaleSetIpConfigurationsSinglePageAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, expand),
+            nextLink -> listVirtualMachineScaleSetIpConfigurationsNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Get the specified network interface ip configuration in a virtual machine scale set.
+     * 
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -811,6 +892,24 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<NetworkInterfaceIPConfigurationInner> listVirtualMachineScaleSetIpConfigurations(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName, String expand) {
+        return new PagedIterable<>(listVirtualMachineScaleSetIpConfigurationsAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, expand));
+    }
+
+    /**
+     * Get the specified network interface ip configuration in a virtual machine scale set.
+     * 
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<NetworkInterfaceIPConfigurationInner> listVirtualMachineScaleSetIpConfigurations(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName) {
+        final String expand = null;
+        final String apiVersion = "2017-03-30";
         return new PagedIterable<>(listVirtualMachineScaleSetIpConfigurationsAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, expand));
     }
 
@@ -866,6 +965,32 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      * @param virtualmachineIndex 
      * @param networkInterfaceName 
      * @param ipConfigurationName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<NetworkInterfaceIPConfigurationInner> getVirtualMachineScaleSetIpConfigurationAsync(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName, String ipConfigurationName) {
+        final String expand = null;
+        final String apiVersion = "2017-03-30";
+        return getVirtualMachineScaleSetIpConfigurationWithResponseAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, expand)
+            .flatMap((SimpleResponse<NetworkInterfaceIPConfigurationInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Get the specified network interface ip configuration in a virtual machine scale set.
+     * 
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -873,6 +998,25 @@ public final class NetworkInterfacesInner implements InnerSupportsListing<Networ
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public NetworkInterfaceIPConfigurationInner getVirtualMachineScaleSetIpConfiguration(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName, String ipConfigurationName, String expand) {
+        return getVirtualMachineScaleSetIpConfigurationAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, expand).block();
+    }
+
+    /**
+     * Get the specified network interface ip configuration in a virtual machine scale set.
+     * 
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public NetworkInterfaceIPConfigurationInner getVirtualMachineScaleSetIpConfiguration(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName, String ipConfigurationName) {
+        final String expand = null;
+        final String apiVersion = "2017-03-30";
         return getVirtualMachineScaleSetIpConfigurationAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, expand).block();
     }
 

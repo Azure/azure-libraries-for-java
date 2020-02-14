@@ -28,9 +28,12 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -69,7 +72,7 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("azureFirewallName") String azureFirewallName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("azureFirewallName") String azureFirewallName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}")
         @ExpectedResponses({200})
@@ -79,7 +82,7 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<AzureFirewallInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("azureFirewallName") String azureFirewallName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") AzureFirewallInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("azureFirewallName") String azureFirewallName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") AzureFirewallInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}")
         @ExpectedResponses({200})
@@ -127,7 +130,7 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String azureFirewallName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String azureFirewallName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, azureFirewallName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -143,8 +146,10 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String azureFirewallName) {
-        return deleteWithResponseAsync(resourceGroupName, azureFirewallName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, azureFirewallName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -222,7 +227,7 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<AzureFirewallInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String azureFirewallName, AzureFirewallInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String azureFirewallName, AzureFirewallInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, azureFirewallName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -239,14 +244,10 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<AzureFirewallInner> createOrUpdateAsync(String resourceGroupName, String azureFirewallName, AzureFirewallInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, azureFirewallName, parameters)
-            .flatMap((SimpleResponse<AzureFirewallInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, azureFirewallName, parameters);
+        return client.<AzureFirewallInner, AzureFirewallInner>getLroResultAsync(response, client.getHttpPipeline(), AzureFirewallInner.class, AzureFirewallInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

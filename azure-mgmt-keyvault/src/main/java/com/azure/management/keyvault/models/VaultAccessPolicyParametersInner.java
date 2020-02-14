@@ -7,6 +7,7 @@
 package com.azure.management.keyvault.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.management.ProxyResource;
 import com.azure.management.keyvault.VaultAccessPolicyProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,25 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The VaultAccessPolicyParameters model.
  */
 @Fluent
-public final class VaultAccessPolicyParametersInner {
-    /*
-     * The resource id of the access policy.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /*
-     * The resource name of the access policy.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /*
-     * The resource name of the access policy.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
+public final class VaultAccessPolicyParametersInner extends ProxyResource {
     /*
      * The resource type of the access policy.
      */
@@ -44,33 +27,6 @@ public final class VaultAccessPolicyParametersInner {
      */
     @JsonProperty(value = "properties", required = true)
     private VaultAccessPolicyProperties properties;
-
-    /**
-     * Get the id property: The resource id of the access policy.
-     * 
-     * @return the id value.
-     */
-    public String getId() {
-        return this.id;
-    }
-
-    /**
-     * Get the name property: The resource name of the access policy.
-     * 
-     * @return the name value.
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Get the type property: The resource name of the access policy.
-     * 
-     * @return the type value.
-     */
-    public String getType() {
-        return this.type;
-    }
 
     /**
      * Get the location property: The resource type of the access policy.

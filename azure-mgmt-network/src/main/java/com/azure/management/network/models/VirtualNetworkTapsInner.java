@@ -28,11 +28,14 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -71,7 +74,7 @@ public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNe
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("tapName") String tapName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("tapName") String tapName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
         @ExpectedResponses({200})
@@ -81,12 +84,12 @@ public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNe
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VirtualNetworkTapInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("tapName") String tapName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VirtualNetworkTapInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("tapName") String tapName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VirtualNetworkTapInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VirtualNetworkTapInner>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("tapName") String tapName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject tapParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("tapName") String tapName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject tapParameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps")
         @ExpectedResponses({200})
@@ -134,7 +137,7 @@ public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNe
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String tapName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String tapName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, tapName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -150,8 +153,10 @@ public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNe
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String tapName) {
-        return deleteWithResponseAsync(resourceGroupName, tapName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, tapName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -229,7 +234,7 @@ public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNe
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkTapInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String tapName, VirtualNetworkTapInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String tapName, VirtualNetworkTapInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, tapName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -246,14 +251,10 @@ public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNe
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VirtualNetworkTapInner> createOrUpdateAsync(String resourceGroupName, String tapName, VirtualNetworkTapInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, tapName, parameters)
-            .flatMap((SimpleResponse<VirtualNetworkTapInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, tapName, parameters);
+        return client.<VirtualNetworkTapInner, VirtualNetworkTapInner>getLroResultAsync(response, client.getHttpPipeline(), VirtualNetworkTapInner.class, VirtualNetworkTapInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -282,7 +283,7 @@ public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNe
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkTapInner>> updateTagsWithResponseAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject tapParameters = new TagsObject();
         tapParameters.withTags(tags);
@@ -301,14 +302,10 @@ public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNe
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VirtualNetworkTapInner> updateTagsAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, tapName, tags)
-            .flatMap((SimpleResponse<VirtualNetworkTapInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, tapName, tags);
+        return client.<VirtualNetworkTapInner, VirtualNetworkTapInner>getLroResultAsync(response, client.getHttpPipeline(), VirtualNetworkTapInner.class, VirtualNetworkTapInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

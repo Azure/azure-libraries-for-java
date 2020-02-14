@@ -28,18 +28,21 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * PublicIPAddresses.
  */
-public final class PublicIPAddressesInner implements InnerSupportsListing<PublicIPAddressInner>, InnerSupportsDelete<Void>, InnerSupportsGet<PublicIPAddressInner> {
+public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAddressInner>, InnerSupportsListing<PublicIPAddressInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -60,16 +63,6 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
         this.client = client;
     }
 
-    @Override
-    public PublicIPAddressInner getByResourceGroup(String resourceGroupName, String resourceName) {
-        return this.getByResourceGroup(resourceGroupName, resourceName, null);
-    }
-
-    @Override
-    public Mono<PublicIPAddressInner> getByResourceGroupAsync(String resourceGroupName, String resourceName) {
-        return  this.getByResourceGroupAsync(resourceGroupName, resourceName, null);
-    }
-
     /**
      * The interface defining all the services for
      * NetworkManagementClientPublicIPAddresses to be used by the proxy service
@@ -81,7 +74,7 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("publicIpAddressName") String publicIpAddressName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("publicIpAddressName") String publicIpAddressName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}")
         @ExpectedResponses({200})
@@ -91,12 +84,12 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<PublicIPAddressInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("publicIpAddressName") String publicIpAddressName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PublicIPAddressInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("publicIpAddressName") String publicIpAddressName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PublicIPAddressInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<PublicIPAddressInner>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("publicIpAddressName") String publicIpAddressName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("publicIpAddressName") String publicIpAddressName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TagsObject parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses")
         @ExpectedResponses({200})
@@ -169,7 +162,7 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String publicIpAddressName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String publicIpAddressName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, publicIpAddressName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -185,8 +178,10 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String publicIpAddressName) {
-        return deleteWithResponseAsync(resourceGroupName, publicIpAddressName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, publicIpAddressName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -246,6 +241,29 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      * 
      * @param resourceGroupName 
      * @param publicIpAddressName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PublicIPAddressInner> getByResourceGroupAsync(String resourceGroupName, String publicIpAddressName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return getByResourceGroupWithResponseAsync(resourceGroupName, publicIpAddressName, expand)
+            .flatMap((SimpleResponse<PublicIPAddressInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified public IP address in a specified resource group.
+     * 
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -253,6 +271,22 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public PublicIPAddressInner getByResourceGroup(String resourceGroupName, String publicIpAddressName, String expand) {
+        return getByResourceGroupAsync(resourceGroupName, publicIpAddressName, expand).block();
+    }
+
+    /**
+     * Gets the specified public IP address in a specified resource group.
+     * 
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PublicIPAddressInner getByResourceGroup(String resourceGroupName, String publicIpAddressName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
         return getByResourceGroupAsync(resourceGroupName, publicIpAddressName, expand).block();
     }
 
@@ -267,7 +301,7 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PublicIPAddressInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String publicIpAddressName, PublicIPAddressInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String publicIpAddressName, PublicIPAddressInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, publicIpAddressName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -284,14 +318,10 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PublicIPAddressInner> createOrUpdateAsync(String resourceGroupName, String publicIpAddressName, PublicIPAddressInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, publicIpAddressName, parameters)
-            .flatMap((SimpleResponse<PublicIPAddressInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, publicIpAddressName, parameters);
+        return client.<PublicIPAddressInner, PublicIPAddressInner>getLroResultAsync(response, client.getHttpPipeline(), PublicIPAddressInner.class, PublicIPAddressInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -320,7 +350,7 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PublicIPAddressInner>> updateTagsWithResponseAsync(String resourceGroupName, String publicIpAddressName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String publicIpAddressName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
@@ -339,14 +369,10 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PublicIPAddressInner> updateTagsAsync(String resourceGroupName, String publicIpAddressName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, publicIpAddressName, tags)
-            .flatMap((SimpleResponse<PublicIPAddressInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, publicIpAddressName, tags);
+        return client.<PublicIPAddressInner, PublicIPAddressInner>getLroResultAsync(response, client.getHttpPipeline(), PublicIPAddressInner.class, PublicIPAddressInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -620,6 +646,33 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      * @param networkInterfaceName 
      * @param ipConfigurationName 
      * @param publicIpAddressName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PublicIPAddressInner> getVirtualMachineScaleSetPublicIPAddressAsync(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName, String ipConfigurationName, String publicIpAddressName) {
+        final String expand = null;
+        final String apiVersion = "2017-03-30";
+        return getVirtualMachineScaleSetPublicIPAddressWithResponseAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, publicIpAddressName, expand)
+            .flatMap((SimpleResponse<PublicIPAddressInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Get the specified public IP address in a virtual machine scale set.
+     * 
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
+     * @param publicIpAddressName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -627,6 +680,26 @@ public final class PublicIPAddressesInner implements InnerSupportsListing<Public
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public PublicIPAddressInner getVirtualMachineScaleSetPublicIPAddress(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName, String ipConfigurationName, String publicIpAddressName, String expand) {
+        return getVirtualMachineScaleSetPublicIPAddressAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, publicIpAddressName, expand).block();
+    }
+
+    /**
+     * Get the specified public IP address in a virtual machine scale set.
+     * 
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
+     * @param publicIpAddressName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PublicIPAddressInner getVirtualMachineScaleSetPublicIPAddress(String resourceGroupName, String virtualMachineScaleSetName, String virtualmachineIndex, String networkInterfaceName, String ipConfigurationName, String publicIpAddressName) {
+        final String expand = null;
+        final String apiVersion = "2017-03-30";
         return getVirtualMachineScaleSetPublicIPAddressAsync(resourceGroupName, virtualMachineScaleSetName, virtualmachineIndex, networkInterfaceName, ipConfigurationName, publicIpAddressName, expand).block();
     }
 

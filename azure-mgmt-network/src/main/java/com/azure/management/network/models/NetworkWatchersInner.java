@@ -28,6 +28,7 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.AvailableProvidersListParameters;
 import com.azure.management.network.AzureReachabilityReportParameters;
 import com.azure.management.network.ConnectivityParameters;
@@ -44,7 +45,9 @@ import com.azure.management.network.VerificationIPFlowParameters;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -93,7 +96,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}")
         @ExpectedResponses({200})
@@ -118,57 +121,57 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/ipFlowVerify")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<VerificationIPFlowResultInner>> verifyIPFlow(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VerificationIPFlowParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> verifyIPFlow(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VerificationIPFlowParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<NextHopResultInner>> getNextHop(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") NextHopParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getNextHop(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") NextHopParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/securityGroupView")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<SecurityGroupViewResultInner>> getVMSecurityRules(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") SecurityGroupViewParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getVMSecurityRules(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") SecurityGroupViewParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/troubleshoot")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<TroubleshootingResultInner>> getTroubleshooting(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TroubleshootingParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getTroubleshooting(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") TroubleshootingParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryTroubleshootResult")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<TroubleshootingResultInner>> getTroubleshootingResult(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") QueryTroubleshootingParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getTroubleshootingResult(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") QueryTroubleshootingParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/configureFlowLog")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<FlowLogInformationInner>> setFlowLogConfiguration(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") FlowLogInformationInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> setFlowLogConfiguration(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") FlowLogInformationInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<FlowLogInformationInner>> getFlowLogStatus(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") FlowLogStatusParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getFlowLogStatus(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") FlowLogStatusParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectivityCheck")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<ConnectivityInformationInner>> checkConnectivity(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectivityParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> checkConnectivity(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectivityParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<AzureReachabilityReportInner>> getAzureReachabilityReport(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") AzureReachabilityReportParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getAzureReachabilityReport(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") AzureReachabilityReportParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/availableProvidersList")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<AvailableProvidersListInner>> listAvailableProviders(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") AvailableProvidersListParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> listAvailableProviders(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") AvailableProvidersListParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<NetworkConfigurationDiagnosticResponseInner>> getNetworkConfigurationDiagnostic(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") NetworkConfigurationDiagnosticParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getNetworkConfigurationDiagnostic(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") NetworkConfigurationDiagnosticParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}")
         @ExpectedResponses({202, 204})
@@ -344,7 +347,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String networkWatcherName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String networkWatcherName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -360,8 +363,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String networkWatcherName) {
-        return deleteWithResponseAsync(resourceGroupName, networkWatcherName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, networkWatcherName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -585,7 +590,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VerificationIPFlowResultInner>> verifyIPFlowWithResponseAsync(String resourceGroupName, String networkWatcherName, VerificationIPFlowParameters parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> verifyIPFlowWithResponseAsync(String resourceGroupName, String networkWatcherName, VerificationIPFlowParameters parameters) {
         final String apiVersion = "2019-06-01";
         return service.verifyIPFlow(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -602,14 +607,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VerificationIPFlowResultInner> verifyIPFlowAsync(String resourceGroupName, String networkWatcherName, VerificationIPFlowParameters parameters) {
-        return verifyIPFlowWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
-            .flatMap((SimpleResponse<VerificationIPFlowResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = verifyIPFlowWithResponseAsync(resourceGroupName, networkWatcherName, parameters);
+        return client.<VerificationIPFlowResultInner, VerificationIPFlowResultInner>getLroResultAsync(response, client.getHttpPipeline(), VerificationIPFlowResultInner.class, VerificationIPFlowResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -638,7 +639,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NextHopResultInner>> getNextHopWithResponseAsync(String resourceGroupName, String networkWatcherName, NextHopParameters parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getNextHopWithResponseAsync(String resourceGroupName, String networkWatcherName, NextHopParameters parameters) {
         final String apiVersion = "2019-06-01";
         return service.getNextHop(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -655,14 +656,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<NextHopResultInner> getNextHopAsync(String resourceGroupName, String networkWatcherName, NextHopParameters parameters) {
-        return getNextHopWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
-            .flatMap((SimpleResponse<NextHopResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getNextHopWithResponseAsync(resourceGroupName, networkWatcherName, parameters);
+        return client.<NextHopResultInner, NextHopResultInner>getLroResultAsync(response, client.getHttpPipeline(), NextHopResultInner.class, NextHopResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -691,7 +688,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<SecurityGroupViewResultInner>> getVMSecurityRulesWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getVMSecurityRulesWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
         final String apiVersion = "2019-06-01";
         SecurityGroupViewParameters parameters = new SecurityGroupViewParameters();
         parameters.withTargetResourceId(targetResourceId);
@@ -710,14 +707,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SecurityGroupViewResultInner> getVMSecurityRulesAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
-        return getVMSecurityRulesWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId)
-            .flatMap((SimpleResponse<SecurityGroupViewResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getVMSecurityRulesWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId);
+        return client.<SecurityGroupViewResultInner, SecurityGroupViewResultInner>getLroResultAsync(response, client.getHttpPipeline(), SecurityGroupViewResultInner.class, SecurityGroupViewResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -746,7 +739,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<TroubleshootingResultInner>> getTroubleshootingWithResponseAsync(String resourceGroupName, String networkWatcherName, TroubleshootingParameters parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getTroubleshootingWithResponseAsync(String resourceGroupName, String networkWatcherName, TroubleshootingParameters parameters) {
         final String apiVersion = "2019-06-01";
         return service.getTroubleshooting(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -763,14 +756,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<TroubleshootingResultInner> getTroubleshootingAsync(String resourceGroupName, String networkWatcherName, TroubleshootingParameters parameters) {
-        return getTroubleshootingWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
-            .flatMap((SimpleResponse<TroubleshootingResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getTroubleshootingWithResponseAsync(resourceGroupName, networkWatcherName, parameters);
+        return client.<TroubleshootingResultInner, TroubleshootingResultInner>getLroResultAsync(response, client.getHttpPipeline(), TroubleshootingResultInner.class, TroubleshootingResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -799,7 +788,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<TroubleshootingResultInner>> getTroubleshootingResultWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getTroubleshootingResultWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
         final String apiVersion = "2019-06-01";
         QueryTroubleshootingParameters parameters = new QueryTroubleshootingParameters();
         parameters.withTargetResourceId(targetResourceId);
@@ -818,14 +807,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<TroubleshootingResultInner> getTroubleshootingResultAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
-        return getTroubleshootingResultWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId)
-            .flatMap((SimpleResponse<TroubleshootingResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getTroubleshootingResultWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId);
+        return client.<TroubleshootingResultInner, TroubleshootingResultInner>getLroResultAsync(response, client.getHttpPipeline(), TroubleshootingResultInner.class, TroubleshootingResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -854,7 +839,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<FlowLogInformationInner>> setFlowLogConfigurationWithResponseAsync(String resourceGroupName, String networkWatcherName, FlowLogInformationInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> setFlowLogConfigurationWithResponseAsync(String resourceGroupName, String networkWatcherName, FlowLogInformationInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.setFlowLogConfiguration(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -871,14 +856,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<FlowLogInformationInner> setFlowLogConfigurationAsync(String resourceGroupName, String networkWatcherName, FlowLogInformationInner parameters) {
-        return setFlowLogConfigurationWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
-            .flatMap((SimpleResponse<FlowLogInformationInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = setFlowLogConfigurationWithResponseAsync(resourceGroupName, networkWatcherName, parameters);
+        return client.<FlowLogInformationInner, FlowLogInformationInner>getLroResultAsync(response, client.getHttpPipeline(), FlowLogInformationInner.class, FlowLogInformationInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -907,7 +888,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<FlowLogInformationInner>> getFlowLogStatusWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getFlowLogStatusWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
         final String apiVersion = "2019-06-01";
         FlowLogStatusParameters parameters = new FlowLogStatusParameters();
         parameters.withTargetResourceId(targetResourceId);
@@ -926,14 +907,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<FlowLogInformationInner> getFlowLogStatusAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
-        return getFlowLogStatusWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId)
-            .flatMap((SimpleResponse<FlowLogInformationInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getFlowLogStatusWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId);
+        return client.<FlowLogInformationInner, FlowLogInformationInner>getLroResultAsync(response, client.getHttpPipeline(), FlowLogInformationInner.class, FlowLogInformationInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -962,7 +939,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ConnectivityInformationInner>> checkConnectivityWithResponseAsync(String resourceGroupName, String networkWatcherName, ConnectivityParameters parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> checkConnectivityWithResponseAsync(String resourceGroupName, String networkWatcherName, ConnectivityParameters parameters) {
         final String apiVersion = "2019-06-01";
         return service.checkConnectivity(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -979,14 +956,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ConnectivityInformationInner> checkConnectivityAsync(String resourceGroupName, String networkWatcherName, ConnectivityParameters parameters) {
-        return checkConnectivityWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
-            .flatMap((SimpleResponse<ConnectivityInformationInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = checkConnectivityWithResponseAsync(resourceGroupName, networkWatcherName, parameters);
+        return client.<ConnectivityInformationInner, ConnectivityInformationInner>getLroResultAsync(response, client.getHttpPipeline(), ConnectivityInformationInner.class, ConnectivityInformationInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -1015,7 +988,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<AzureReachabilityReportInner>> getAzureReachabilityReportWithResponseAsync(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParameters parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getAzureReachabilityReportWithResponseAsync(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParameters parameters) {
         final String apiVersion = "2019-06-01";
         return service.getAzureReachabilityReport(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -1032,14 +1005,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<AzureReachabilityReportInner> getAzureReachabilityReportAsync(String resourceGroupName, String networkWatcherName, AzureReachabilityReportParameters parameters) {
-        return getAzureReachabilityReportWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
-            .flatMap((SimpleResponse<AzureReachabilityReportInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getAzureReachabilityReportWithResponseAsync(resourceGroupName, networkWatcherName, parameters);
+        return client.<AzureReachabilityReportInner, AzureReachabilityReportInner>getLroResultAsync(response, client.getHttpPipeline(), AzureReachabilityReportInner.class, AzureReachabilityReportInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -1068,7 +1037,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<AvailableProvidersListInner>> listAvailableProvidersWithResponseAsync(String resourceGroupName, String networkWatcherName, AvailableProvidersListParameters parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> listAvailableProvidersWithResponseAsync(String resourceGroupName, String networkWatcherName, AvailableProvidersListParameters parameters) {
         final String apiVersion = "2019-06-01";
         return service.listAvailableProviders(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -1085,14 +1054,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<AvailableProvidersListInner> listAvailableProvidersAsync(String resourceGroupName, String networkWatcherName, AvailableProvidersListParameters parameters) {
-        return listAvailableProvidersWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
-            .flatMap((SimpleResponse<AvailableProvidersListInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = listAvailableProvidersWithResponseAsync(resourceGroupName, networkWatcherName, parameters);
+        return client.<AvailableProvidersListInner, AvailableProvidersListInner>getLroResultAsync(response, client.getHttpPipeline(), AvailableProvidersListInner.class, AvailableProvidersListInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -1121,7 +1086,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NetworkConfigurationDiagnosticResponseInner>> getNetworkConfigurationDiagnosticWithResponseAsync(String resourceGroupName, String networkWatcherName, NetworkConfigurationDiagnosticParameters parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> getNetworkConfigurationDiagnosticWithResponseAsync(String resourceGroupName, String networkWatcherName, NetworkConfigurationDiagnosticParameters parameters) {
         final String apiVersion = "2019-06-01";
         return service.getNetworkConfigurationDiagnostic(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -1138,14 +1103,10 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<NetworkConfigurationDiagnosticResponseInner> getNetworkConfigurationDiagnosticAsync(String resourceGroupName, String networkWatcherName, NetworkConfigurationDiagnosticParameters parameters) {
-        return getNetworkConfigurationDiagnosticWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
-            .flatMap((SimpleResponse<NetworkConfigurationDiagnosticResponseInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = getNetworkConfigurationDiagnosticWithResponseAsync(resourceGroupName, networkWatcherName, parameters);
+        return client.<NetworkConfigurationDiagnosticResponseInner, NetworkConfigurationDiagnosticResponseInner>getLroResultAsync(response, client.getHttpPipeline(), NetworkConfigurationDiagnosticResponseInner.class, NetworkConfigurationDiagnosticResponseInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

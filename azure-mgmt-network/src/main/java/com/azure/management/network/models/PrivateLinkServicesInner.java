@@ -28,17 +28,21 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.CheckPrivateLinkServiceVisibilityRequest;
 import com.azure.management.network.ErrorException;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * PrivateLinkServices.
  */
-public final class PrivateLinkServicesInner implements InnerSupportsListing<PrivateLinkServiceInner>, InnerSupportsDelete<Void> {
+public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkServiceInner>, InnerSupportsListing<PrivateLinkServiceInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -70,7 +74,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serviceName") String serviceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serviceName") String serviceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}")
         @ExpectedResponses({200})
@@ -80,7 +84,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<PrivateLinkServiceInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serviceName") String serviceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PrivateLinkServiceInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serviceName") String serviceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PrivateLinkServiceInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices")
         @ExpectedResponses({200})
@@ -100,7 +104,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<Response<Void>> deletePrivateEndpointConnection(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serviceName") String serviceName, @PathParam("peConnectionName") String peConnectionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deletePrivateEndpointConnection(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serviceName") String serviceName, @PathParam("peConnectionName") String peConnectionName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility")
         @ExpectedResponses({200})
@@ -168,7 +172,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String serviceName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String serviceName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), resourceGroupName, serviceName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -184,8 +188,10 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String serviceName) {
-        return deleteWithResponseAsync(resourceGroupName, serviceName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, serviceName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -245,6 +251,29 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
      * 
      * @param resourceGroupName 
      * @param serviceName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<PrivateLinkServiceInner> getByResourceGroupAsync(String resourceGroupName, String serviceName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
+        return getByResourceGroupWithResponseAsync(resourceGroupName, serviceName, expand)
+            .flatMap((SimpleResponse<PrivateLinkServiceInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Gets the specified private link service by resource group.
+     * 
+     * @param resourceGroupName 
+     * @param serviceName 
      * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -252,6 +281,22 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public PrivateLinkServiceInner getByResourceGroup(String resourceGroupName, String serviceName, String expand) {
+        return getByResourceGroupAsync(resourceGroupName, serviceName, expand).block();
+    }
+
+    /**
+     * Gets the specified private link service by resource group.
+     * 
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws ErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public PrivateLinkServiceInner getByResourceGroup(String resourceGroupName, String serviceName) {
+        final String expand = null;
+        final String apiVersion = "2019-06-01";
         return getByResourceGroupAsync(resourceGroupName, serviceName, expand).block();
     }
 
@@ -266,7 +311,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PrivateLinkServiceInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String serviceName, PrivateLinkServiceInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String serviceName, PrivateLinkServiceInner parameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, serviceName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
@@ -283,14 +328,10 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PrivateLinkServiceInner> createOrUpdateAsync(String resourceGroupName, String serviceName, PrivateLinkServiceInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, serviceName, parameters)
-            .flatMap((SimpleResponse<PrivateLinkServiceInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, serviceName, parameters);
+        return client.<PrivateLinkServiceInner, PrivateLinkServiceInner>getLroResultAsync(response, client.getHttpPipeline(), PrivateLinkServiceInner.class, PrivateLinkServiceInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -465,7 +506,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deletePrivateEndpointConnectionWithResponseAsync(String resourceGroupName, String serviceName, String peConnectionName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deletePrivateEndpointConnectionWithResponseAsync(String resourceGroupName, String serviceName, String peConnectionName) {
         final String apiVersion = "2019-06-01";
         return service.deletePrivateEndpointConnection(this.client.getHost(), resourceGroupName, serviceName, peConnectionName, this.client.getSubscriptionId(), apiVersion);
     }
@@ -482,8 +523,10 @@ public final class PrivateLinkServicesInner implements InnerSupportsListing<Priv
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deletePrivateEndpointConnectionAsync(String resourceGroupName, String serviceName, String peConnectionName) {
-        return deletePrivateEndpointConnectionWithResponseAsync(resourceGroupName, serviceName, peConnectionName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deletePrivateEndpointConnectionWithResponseAsync(resourceGroupName, serviceName, peConnectionName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

@@ -26,16 +26,16 @@ public class WhatIfOperationResultInner {
     private String status;
 
     /*
-     * List of resource changes predicted by What-If operation.
-     */
-    @JsonProperty(value = "properties.changes")
-    private List<WhatIfChange> changes;
-
-    /*
      * The resource management error response.
      */
     @JsonProperty(value = "error")
     private ErrorResponse error;
+
+    /*
+     * List of resource changes predicted by What-If operation.
+     */
+    @JsonProperty(value = "properties.changes")
+    private List<WhatIfChange> changes;
 
     /**
      * Get the status property: Status of the What-If operation.
@@ -58,6 +58,26 @@ public class WhatIfOperationResultInner {
     }
 
     /**
+     * Get the error property: The resource management error response.
+     * 
+     * @return the error value.
+     */
+    public ErrorResponse getError() {
+        return this.error;
+    }
+
+    /**
+     * Set the error property: The resource management error response.
+     * 
+     * @param error the error value to set.
+     * @return the WhatIfOperationResultInner object itself.
+     */
+    public WhatIfOperationResultInner setError(ErrorResponse error) {
+        this.error = error;
+        return this;
+    }
+
+    /**
      * Get the changes property: List of resource changes predicted by What-If
      * operation.
      * 
@@ -76,26 +96,6 @@ public class WhatIfOperationResultInner {
      */
     public WhatIfOperationResultInner setChanges(List<WhatIfChange> changes) {
         this.changes = changes;
-        return this;
-    }
-
-    /**
-     * Get the error property: The resource management error response.
-     * 
-     * @return the error value.
-     */
-    public ErrorResponse getError() {
-        return this.error;
-    }
-
-    /**
-     * Set the error property: The resource management error response.
-     * 
-     * @param error the error value to set.
-     * @return the WhatIfOperationResultInner object itself.
-     */
-    public WhatIfOperationResultInner setError(ErrorResponse error) {
-        this.error = error;
         return this;
     }
 }

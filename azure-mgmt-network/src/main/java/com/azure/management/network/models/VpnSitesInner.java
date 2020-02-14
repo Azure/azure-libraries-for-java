@@ -27,12 +27,15 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.ErrorException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.nio.ByteBuffer;
 import java.util.Map;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -76,17 +79,17 @@ public final class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, Inne
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<VpnSiteInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vpnSiteName") String vpnSiteName, @BodyParam("application/json") VpnSiteInner vpnSiteParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vpnSiteName") String vpnSiteName, @BodyParam("application/json") VpnSiteInner vpnSiteParameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<SimpleResponse<VpnSiteInner>> updateTags(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vpnSiteName") String vpnSiteName, @BodyParam("application/json") TagsObject vpnSiteParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTags(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vpnSiteName") String vpnSiteName, @BodyParam("application/json") TagsObject vpnSiteParameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vpnSiteName") String vpnSiteName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vpnSiteName") String vpnSiteName, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites")
         @ExpectedResponses({200})
@@ -185,7 +188,7 @@ public final class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, Inne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VpnSiteInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String vpnSiteName, VpnSiteInner vpnSiteParameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String vpnSiteName, VpnSiteInner vpnSiteParameters) {
         final String apiVersion = "2019-06-01";
         return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, vpnSiteName, vpnSiteParameters, apiVersion);
     }
@@ -202,14 +205,10 @@ public final class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, Inne
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VpnSiteInner> createOrUpdateAsync(String resourceGroupName, String vpnSiteName, VpnSiteInner vpnSiteParameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, vpnSiteName, vpnSiteParameters)
-            .flatMap((SimpleResponse<VpnSiteInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, vpnSiteName, vpnSiteParameters);
+        return client.<VpnSiteInner, VpnSiteInner>getLroResultAsync(response, client.getHttpPipeline(), VpnSiteInner.class, VpnSiteInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -238,7 +237,7 @@ public final class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, Inne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VpnSiteInner>> updateTagsWithResponseAsync(String resourceGroupName, String vpnSiteName, Map<String, String> tags) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTagsWithResponseAsync(String resourceGroupName, String vpnSiteName, Map<String, String> tags) {
         final String apiVersion = "2019-06-01";
         TagsObject vpnSiteParameters = new TagsObject();
         vpnSiteParameters.withTags(tags);
@@ -257,14 +256,10 @@ public final class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, Inne
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VpnSiteInner> updateTagsAsync(String resourceGroupName, String vpnSiteName, Map<String, String> tags) {
-        return updateTagsWithResponseAsync(resourceGroupName, vpnSiteName, tags)
-            .flatMap((SimpleResponse<VpnSiteInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateTagsWithResponseAsync(resourceGroupName, vpnSiteName, tags);
+        return client.<VpnSiteInner, VpnSiteInner>getLroResultAsync(response, client.getHttpPipeline(), VpnSiteInner.class, VpnSiteInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**
@@ -292,7 +287,7 @@ public final class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, Inne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String vpnSiteName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String vpnSiteName) {
         final String apiVersion = "2019-06-01";
         return service.delete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, vpnSiteName, apiVersion);
     }
@@ -308,8 +303,10 @@ public final class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, Inne
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String vpnSiteName) {
-        return deleteWithResponseAsync(resourceGroupName, vpnSiteName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, vpnSiteName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

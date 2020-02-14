@@ -19,8 +19,12 @@ import com.azure.core.annotation.ServiceMethod;
 import com.azure.core.annotation.UnexpectedResponseExceptionType;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
+import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.network.ErrorException;
 import com.azure.management.network.GetVpnSitesConfigurationRequest;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -59,7 +63,7 @@ public final class VpnSitesConfigurationsInner {
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorException.class)
-        Mono<Response<Void>> download(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualWANName") String virtualWANName, @BodyParam("application/json") GetVpnSitesConfigurationRequest request, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> download(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("virtualWANName") String virtualWANName, @BodyParam("application/json") GetVpnSitesConfigurationRequest request, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration")
         @ExpectedResponses({200, 202})
@@ -78,7 +82,7 @@ public final class VpnSitesConfigurationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> downloadWithResponseAsync(String resourceGroupName, String virtualWANName, GetVpnSitesConfigurationRequest request) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> downloadWithResponseAsync(String resourceGroupName, String virtualWANName, GetVpnSitesConfigurationRequest request) {
         final String apiVersion = "2019-06-01";
         return service.download(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualWANName, request, apiVersion);
     }
@@ -95,8 +99,10 @@ public final class VpnSitesConfigurationsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> downloadAsync(String resourceGroupName, String virtualWANName, GetVpnSitesConfigurationRequest request) {
-        return downloadWithResponseAsync(resourceGroupName, virtualWANName, request)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = downloadWithResponseAsync(resourceGroupName, virtualWANName, request);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
     /**

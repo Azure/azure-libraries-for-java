@@ -7,6 +7,7 @@
 package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.network.ResourceNavigationLink;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public final class ResourceNavigationLinksListResultInner {
      * The resource navigation links in a subnet.
      */
     @JsonProperty(value = "value")
-    private List<ResourceNavigationLinkInner> value;
+    private List<ResourceNavigationLink> value;
 
     /*
      * The URL to get the next set of results.
@@ -32,7 +33,7 @@ public final class ResourceNavigationLinksListResultInner {
      * 
      * @return the value value.
      */
-    public List<ResourceNavigationLinkInner> value() {
+    public List<ResourceNavigationLink> value() {
         return this.value;
     }
 
@@ -42,7 +43,7 @@ public final class ResourceNavigationLinksListResultInner {
      * @param value the value value to set.
      * @return the ResourceNavigationLinksListResultInner object itself.
      */
-    public ResourceNavigationLinksListResultInner withValue(List<ResourceNavigationLinkInner> value) {
+    public ResourceNavigationLinksListResultInner withValue(List<ResourceNavigationLink> value) {
         this.value = value;
         return this;
     }

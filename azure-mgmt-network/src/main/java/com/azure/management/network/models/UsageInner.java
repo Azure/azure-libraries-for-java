@@ -57,7 +57,7 @@ public final class UsageInner {
      * 
      * @return the id value.
      */
-    public String id() {
+    public String getId() {
         return this.id;
     }
 

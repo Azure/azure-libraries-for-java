@@ -10,7 +10,6 @@ import com.azure.management.appservice.AppServiceCertificate;
 import com.azure.management.appservice.AppServiceCertificateKeyVaultBinding;
 import com.azure.management.appservice.AppServiceCertificateOrder;
 import com.azure.management.appservice.HostingEnvironmentProfile;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;

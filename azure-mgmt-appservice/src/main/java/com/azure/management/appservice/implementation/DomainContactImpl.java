@@ -9,7 +9,6 @@ import com.azure.management.appservice.Address;
 import com.azure.management.appservice.AppServiceDomain;
 import com.azure.management.appservice.Contact;
 import com.azure.management.appservice.DomainContact;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;

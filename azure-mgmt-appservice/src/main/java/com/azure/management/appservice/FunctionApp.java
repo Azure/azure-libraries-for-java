@@ -39,13 +39,11 @@ public interface FunctionApp extends
     /**
      * @return the master key for the function app
      */
-    @Method
     String getMasterKey();
 
     /**
      * @return the master key for the function app
      */
-    @Method
     Observable<String> getMasterKeyAsync();
 
     /**
@@ -98,14 +96,12 @@ public interface FunctionApp extends
     /**
      * Syncs the triggers on the function app.
      */
-    @Method
     void syncTriggers();
 
     /**
      * Syncs the triggers on the function app.
      * @return a completable for the operation
      */
-    @Method
     Completable syncTriggersAsync();
 
     /**************************************************************

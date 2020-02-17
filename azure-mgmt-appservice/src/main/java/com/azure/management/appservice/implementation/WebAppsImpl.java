@@ -7,7 +7,6 @@
 package com.azure.management.appservice.implementation;
 
 import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.WebApp;
 import com.azure.management.appservice.WebApps;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;

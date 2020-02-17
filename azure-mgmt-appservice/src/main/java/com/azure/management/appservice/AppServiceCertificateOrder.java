@@ -117,13 +117,11 @@ public interface AppServiceCertificateOrder extends
     /**
      * @return the state of the Key Vault secret
      */
-    @Method
     AppServiceCertificateKeyVaultBinding getKeyVaultBinding();
 
     /**
      * @return the state of the Key Vault secret
      */
-    @Method
     Observable<AppServiceCertificateKeyVaultBinding> getKeyVaultBindingAsync();
 
     /**

@@ -15,7 +15,6 @@ import com.azure.management.appservice.CertificateOrderStatus;
 import com.azure.management.appservice.CertificateProductType;
 import com.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.Page;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.keyvault.SecretPermissions;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.arm.Region;

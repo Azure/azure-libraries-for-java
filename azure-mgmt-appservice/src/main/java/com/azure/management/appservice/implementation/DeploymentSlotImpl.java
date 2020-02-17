@@ -8,7 +8,6 @@ package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.DeploymentSlot;
 import com.azure.management.appservice.WebApp;
-import com.azure.management.apigeneration.LangDefinition;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

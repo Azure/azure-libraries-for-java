@@ -6,7 +6,6 @@
 package com.azure.management.appservice.implementation;
 
 import com.google.common.io.BaseEncoding;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.AppServiceCertificate;
 import com.azure.management.appservice.AppServiceCertificateOrder;
 import com.azure.management.appservice.HostNameSslBinding;

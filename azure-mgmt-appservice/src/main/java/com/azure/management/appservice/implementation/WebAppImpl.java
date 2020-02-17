@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.DeploymentSlots;
 import com.azure.management.appservice.OperatingSystem;
@@ -14,8 +13,14 @@ import com.azure.management.appservice.PricingTier;
 import com.azure.management.appservice.RuntimeStack;
 import com.azure.management.appservice.WebApp;
 import com.azure.management.appservice.WebAppRuntimeStack;
+import com.azure.management.appservice.models.SiteConfigResourceInner;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
+import com.azure.management.appservice.models.StringDictionaryInner;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
+import reactor.core.publisher.Mono;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -158,7 +163,7 @@ class WebAppImpl
     }
 
     @Override
-    public Completable warDeployAsync(File warFile) {
+    public Mono<Void> warDeployAsync(File warFile) {
         return warDeployAsync(warFile, null);
     }
 
@@ -168,7 +173,7 @@ class WebAppImpl
     }
 
     @Override
-    public Completable warDeployAsync(InputStream warFile) {
+    public Mono<Void> warDeployAsync(InputStream warFile) {
         return warDeployAsync(warFile, null);
     }
 
@@ -178,11 +183,11 @@ class WebAppImpl
     }
 
     @Override
-    public Completable warDeployAsync(File warFile, String appName) {
+    public Mono<Void> warDeployAsync(File warFile, String appName) {
         try {
             return warDeployAsync(new FileInputStream(warFile), appName);
         } catch (IOException e) {
-            return Completable.error(e);
+            return Mono.error(e);
         }
     }
 
@@ -196,16 +201,16 @@ class WebAppImpl
     }
 
     @Override
-    public Completable warDeployAsync(InputStream warFile, String appName) {
+    public Mono<Void> warDeployAsync(InputStream warFile, String appName) {
         return kuduClient.warDeployAsync(warFile, appName);
     }
 
     @Override
-    public Completable zipDeployAsync(File zipFile) {
+    public Mono<Void> zipDeployAsync(File zipFile) {
         try {
             return zipDeployAsync(new FileInputStream(zipFile));
         } catch (IOException e) {
-            return Completable.error(e);
+            return Mono.error(e);
         }
     }
 
@@ -215,7 +220,7 @@ class WebAppImpl
     }
 
     @Override
-    public Completable zipDeployAsync(InputStream zipFile) {
+    public Mono<Void> zipDeployAsync(InputStream zipFile) {
         return kuduClient.zipDeployAsync(zipFile).concatWith(WebAppImpl.this.stopAsync()).concatWith(WebAppImpl.this.startAsync());
     }
 
@@ -225,8 +230,8 @@ class WebAppImpl
     }
 
     @Override
-    Observable<Indexable> submitMetadata() {
-        Observable<Indexable> observable = super.submitMetadata();
+    Mono<Indexable> submitMetadata() {
+        Mono<Indexable> observable = super.submitMetadata();
         if (runtimeStackOnWindowsOSToUpdate != null) {
             observable = observable.flatMap(new Func1<Indexable, Observable<StringDictionaryInner>>() {
                 // list metadata
@@ -259,11 +264,11 @@ class WebAppImpl
         return observable;
     }
 
-    Observable<StringDictionaryInner> listMetadata() {
+    Mono<StringDictionaryInner> listMetadata() {
         return this.manager().inner().webApps().listMetadataAsync(resourceGroupName(), name());
     }
 
-    Observable<StringDictionaryInner> updateMetadata(StringDictionaryInner inner) {
+    Mono<StringDictionaryInner> updateMetadata(StringDictionaryInner inner) {
         return this.manager().inner().webApps().updateMetadataAsync(resourceGroupName(), name(), inner);
     }
 }

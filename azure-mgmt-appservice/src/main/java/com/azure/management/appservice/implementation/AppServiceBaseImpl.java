@@ -21,7 +21,6 @@ import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.microsoft.azure.Page;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.SitePatchResource;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.model.Creatable;

@@ -191,7 +191,6 @@ public interface AppServiceDomain extends
              *
              * @return the first stage of the domain contact definition
              */
-            @Method
             DomainContact.DefinitionStages.Blank<WithCreate> defineRegistrantContact();
         }
 

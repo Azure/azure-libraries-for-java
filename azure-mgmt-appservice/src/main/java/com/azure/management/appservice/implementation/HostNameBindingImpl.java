@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.AppServiceDomain;
 import com.azure.management.appservice.AzureResourceType;
 import com.azure.management.appservice.CustomHostNameDnsRecordType;

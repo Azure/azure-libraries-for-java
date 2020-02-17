@@ -11,7 +11,6 @@ import com.azure.management.appservice.AppServiceDomains;
 import com.azure.management.appservice.DomainLegalAgreement;
 import com.azure.management.appservice.TopLevelDomainAgreementOption;
 import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.azure.management.resources.fluentcore.utils.PagedListConverter;
 /**

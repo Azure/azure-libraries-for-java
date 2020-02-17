@@ -15,7 +15,6 @@ import com.azure.management.appservice.TopLevelDomainAgreementOption;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.microsoft.azure.Page;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;

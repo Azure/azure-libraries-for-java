@@ -7,18 +7,20 @@
 package com.azure.management.appservice;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.apigeneration.Method;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.azure.management.appservice.implementation.SiteInner;
+import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.msi.Identity;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import org.joda.time.DateTime;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 import java.io.File;
 import java.io.InputStream;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -79,7 +81,7 @@ public interface WebAppBase extends
     /**
      * @return Last time web app was modified in UTC
      */
-    DateTime lastModifiedTime();
+    OffsetDateTime lastModifiedTime();
 
     /**
      * @return list of Azure Traffic manager host names associated with web
@@ -278,7 +280,7 @@ public interface WebAppBase extends
     /**
      * @return the app settings defined on the web app
      */
-    Observable<Map<String, AppSetting>> getAppSettingsAsync();
+    Mono<Map<String, AppSetting>> getAppSettingsAsync();
 
     /**
      * @return the connection strings defined on the web app
@@ -288,7 +290,7 @@ public interface WebAppBase extends
     /**
      * @return the connection strings defined on the web app
      */
-    Observable<Map<String, ConnectionString>> getConnectionStringsAsync();
+    Mono<Map<String, ConnectionString>> getConnectionStringsAsync();
 
     /**
      * @return the authentication configuration defined on the web app
@@ -298,7 +300,7 @@ public interface WebAppBase extends
     /**
      * @return the authentication configuration defined on the web app
      */
-    Observable<WebAppAuthentication> getAuthenticationConfigAsync();
+    Mono<WebAppAuthentication> getAuthenticationConfigAsync();
 
     /**
      * @return the operating system the web app is running on
@@ -323,129 +325,108 @@ public interface WebAppBase extends
     /**
      * @return the mapping from host names and the host name bindings
      */
-    @Method
     Map<String, HostNameBinding> getHostNameBindings();
 
     /**
      * @return the mapping from host names and the host name bindings
      */
-    @Method
-    Observable<Map<String, HostNameBinding>> getHostNameBindingsAsync();
+    Mono<Map<String, HostNameBinding>> getHostNameBindingsAsync();
 
     /**
      * @return the URL and credentials for publishing through FTP or Git
      */
-    @Method
     PublishingProfile getPublishingProfile();
 
     /**
      * @return the URL and credentials for publishing through FTP or Git
      */
-    @Method
-    Observable<PublishingProfile> getPublishingProfileAsync();
+    Mono<PublishingProfile> getPublishingProfileAsync();
 
     /**
      * @return the source control information for the web app
      */
-    @Method
     WebAppSourceControl getSourceControl();
 
     /**
      * @return the source control information for the web app
      */
-    @Method
-    Observable<WebAppSourceControl> getSourceControlAsync();
+    Mono<WebAppSourceControl> getSourceControlAsync();
 
     /**
      * First step specifying the parameters to make a web deployment (MS Deploy) to the web app.
      * @return a stage to create web deployment
      */
-    @Method
     WebDeployment.DefinitionStages.WithPackageUri deploy();
 
     /**
      * @return the last lines of docker logs for a Linux web app
      */
-    @Method
     byte[] getContainerLogs();
 
     /**
      * @return the last lines of docker logs for a Linux web app
      */
-    @Method
-    Observable<byte[]> getContainerLogsAsync();
+    Mono<byte[]> getContainerLogsAsync();
 
     /**
      * @return the zipped archive of docker logs for a Linux web app
      */
-    @Method
     byte[] getContainerLogsZip();
 
     /**
      * @return the zipped archive of docker logs for a Linux web app
      */
-    @Method
-    Observable<byte[]> getContainerLogsZipAsync();
+    Mono<byte[]> getContainerLogsZipAsync();
 
     /**
      * @return a open stream to the application logs
      */
-    @Method
     InputStream streamApplicationLogs();
 
     /**
      * @return a open stream to the HTTP logs
      */
-    @Method
     InputStream streamHttpLogs();
 
     /**
      * @return a open stream to the trace logs
      */
-    @Method
     InputStream streamTraceLogs();
 
     /**
      * @return a open stream to the deployment logs
      */
-    @Method
     InputStream streamDeploymentLogs();
 
     /**
      * @return a open stream to all logs
      */
-    @Method
     InputStream streamAllLogs();
 
     /**
      * @return an Observable streaming application logs
      */
-    @Method
-    Observable<String> streamApplicationLogsAsync();
+    Flux<String> streamApplicationLogsAsync();
 
     /**
      * @return an Observable streaming HTTP logs
      */
-    @Method
-    Observable<String> streamHttpLogsAsync();
+    Flux<String> streamHttpLogsAsync();
 
     /**
      * @return an Observable streaming trace logs
      */
-    @Method
-    Observable<String> streamTraceLogsAsync();
+    Flux<String> streamTraceLogsAsync();
 
     /**
      * @return an Observable streaming deployment logs
      */
-    @Method
-    Observable<String> streamDeploymentLogsAsync();
+    Flux<String> streamDeploymentLogsAsync();
 
     /**
      * @return an Observable streaming all logs
      */
-    @Method
-    Observable<String> streamAllLogsAsync();
+    Flux<String> streamAllLogsAsync();
 
     /**
      * Verifies the ownership of the domain for a certificate order by verifying a hostname
@@ -462,46 +443,40 @@ public interface WebAppBase extends
      * @param domainVerificationToken the domain verification token for the certificate order
      * @return a representation of the deferred computation of this call
      */
-    Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken);
+    Mono<Void> verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken);
 
     /**
      * Starts the web app or deployment slot.
      */
-    @Method
     void start();
 
     /**
      * Starts the web app or deployment slot.
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable startAsync();
+    Mono<Void> startAsync();
 
     /**
      * Stops the web app or deployment slot.
      */
-    @Method
     void stop();
 
     /**
      * Stops the web app or deployment slot.
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable stopAsync();
+    Mono<Void> stopAsync();
 
     /**
      * Restarts the web app or deployment slot.
      */
-    @Method
     void restart();
 
     /**
      * Restarts the web app or deployment slot.
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable restartAsync();
+    Mono<Void> restartAsync();
 
     /**
      * Swaps the app running in the current web app / slot with the app
@@ -518,7 +493,7 @@ public interface WebAppBase extends
      *                 the production slot.
      * @return a representation of the deferred computation of this call
      */
-    Completable swapAsync(String slotName);
+    Mono<Void> swapAsync(String slotName);
 
     /**
      * Apply the slot (or sticky) configurations from the specified slot
@@ -533,20 +508,18 @@ public interface WebAppBase extends
      * @param slotName the target slot to apply configurations from
      * @return a representation of the deferred computation of this call
      */
-    Completable applySlotConfigurationsAsync(String slotName);
+    Mono<Void> applySlotConfigurationsAsync(String slotName);
 
     /**
      * Reset the slot to its original configurations.
      */
-    @Method
     void resetSlotConfigurations();
 
     /**
      * Reset the slot to its original configurations.
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable resetSlotConfigurationsAsync();
+    Mono<Void> resetSlotConfigurationsAsync();
 
     /**
      * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
@@ -559,7 +532,7 @@ public interface WebAppBase extends
      * @param zipFile the ZIP file to upload
      * @return a completable of the operation
      */
-    Completable zipDeployAsync(File zipFile);
+    Mono<Void> zipDeployAsync(File zipFile);
 
     /**
      * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
@@ -572,7 +545,7 @@ public interface WebAppBase extends
      * @param zipFile the ZIP file to upload
      * @return a completable of the operation
      */
-    Completable zipDeployAsync(InputStream zipFile);
+    Mono<Void> zipDeployAsync(InputStream zipFile);
 
     /**************************************************************
      * Fluent interfaces to provision a Web App or deployment slot.
@@ -603,7 +576,6 @@ public interface WebAppBase extends
              * Starts the definition of a new host name binding.
              * @return the first stage of a hostname binding definition
              */
-            @Method
             HostNameBinding.DefinitionStages.Blank<WithCreate<FluentT>> defineHostnameBinding();
 
             /**
@@ -634,7 +606,6 @@ public interface WebAppBase extends
              * Starts a definition of an SSL binding.
              * @return the first stage of an SSL binding definition
              */
-            @Method
             HostNameSslBinding.DefinitionStages.Blank<WithCreate<FluentT>> defineSslBinding();
         }
 
@@ -920,7 +891,6 @@ public interface WebAppBase extends
              * Starts the definition of a new source control.
              * @return the first stage of a source control definition
              */
-            @Method
             WebAppSourceControl.DefinitionStages.Blank<WithCreate<FluentT>> defineSourceControl();
 
             /**
@@ -940,7 +910,6 @@ public interface WebAppBase extends
              * @return the first stage of an authentication definition
              */
 
-            @Method
             WebAppAuthentication.DefinitionStages.Blank<WithCreate<FluentT>> defineAuthentication();
         }
 
@@ -968,14 +937,12 @@ public interface WebAppBase extends
              * Logs will be stored on the file system for up to 35 MB.
              * @return the next stage of the web app definition
              */
-            @Method
             WithCreate<FluentT> withContainerLoggingEnabled();
 
             /**
              * Disable the container logging for Linux web apps.
              * @return the next stage of the web app definition
              */
-            @Method
             WithCreate<FluentT> withContainerLoggingDisabled();
         }
 
@@ -988,14 +955,12 @@ public interface WebAppBase extends
              * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app.
              * @return the next stage of the web app definition
              */
-            @Method
             WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedManagedServiceIdentity();
 
             /**
              * Specifies that User Assigned Managed Service Identity needs to be enabled in the web app.
              * @return the next stage of the web app definition
              */
-            @Method
             WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> withUserAssignedManagedServiceIdentity();
 
             /**
@@ -1003,7 +968,6 @@ public interface WebAppBase extends
              *
              * @return the next stage of the update
              */
-            @Method
             Update<FluentT> withoutSystemAssignedManagedServiceIdentity();
 
         }
@@ -1123,7 +1087,6 @@ public interface WebAppBase extends
              * Starts the definition of a new host name binding.
              * @return the first stage of a hostname binding update
              */
-            @Method
             HostNameBinding.UpdateDefinitionStages.Blank<Update<FluentT>> defineHostnameBinding();
 
             /**
@@ -1161,7 +1124,6 @@ public interface WebAppBase extends
              * Starts a definition of an SSL binding.
              * @return the first stage of an SSL binding definition
              */
-            @Method
             HostNameSslBinding.UpdateDefinitionStages.Blank<Update<FluentT>> defineSslBinding();
 
             /**
@@ -1490,7 +1452,6 @@ public interface WebAppBase extends
              * Starts the definition of a new source control.
              * @return the first stage of a source control definition
              */
-            @Method
             WebAppSourceControl.UpdateDefinitionStages.Blank<Update<FluentT>> defineSourceControl();
 
             /**
@@ -1516,7 +1477,6 @@ public interface WebAppBase extends
              * Specifies the definition of a new authentication configuration.
              * @return the first stage of an authentication definition
              */
-            @Method
             WebAppAuthentication.UpdateDefinitionStages.Blank<Update<FluentT>> defineAuthentication();
 
             /**
@@ -1550,14 +1510,12 @@ public interface WebAppBase extends
              * Logs will be stored on the file system for up to 35 MB.
              * @return the next stage of the web app update
              */
-            @Method
             Update<FluentT> withContainerLoggingEnabled();
 
             /**
              * Disable the container logging for Linux web apps.
              * @return the next stage of the web app update
              */
-            @Method
             Update<FluentT> withContainerLoggingDisabled();
         }
 
@@ -1570,14 +1528,12 @@ public interface WebAppBase extends
              * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app.
              * @return the next stage of the web app definition
              */
-            @Method
             Update<FluentT> withSystemAssignedManagedServiceIdentity();
 
             /**
              * Specifies that User Assigned Managed Service Identity needs to be enabled in the web app.
              * @return the next stage of the web app definition
              */
-            @Method
             Update<FluentT> withUserAssignedManagedServiceIdentity();
         }
 

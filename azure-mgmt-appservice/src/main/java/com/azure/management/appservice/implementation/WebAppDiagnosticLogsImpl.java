@@ -5,7 +5,6 @@
  */
 package com.azure.management.appservice.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.ApplicationLogsConfig;
 import com.azure.management.appservice.AzureBlobStorageApplicationLogsConfig;
 import com.azure.management.appservice.AzureBlobStorageHttpLogsConfig;

@@ -10,7 +10,6 @@ import com.azure.management.appservice.AppServiceCertificateKeyVaultBinding;
 import com.azure.management.appservice.AppServiceCertificateOrder;
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.KeyVaultSecretStatus;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.IndependentChildResourceImpl;
 /**
  * The implementation for {@link AppServicePlan}.

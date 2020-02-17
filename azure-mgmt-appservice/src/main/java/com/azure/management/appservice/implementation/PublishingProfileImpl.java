@@ -5,7 +5,6 @@
  */
 package com.azure.management.appservice.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.DeploymentSlot;
 import com.azure.management.appservice.PublishingProfile;
 import com.azure.management.appservice.WebAppBase;

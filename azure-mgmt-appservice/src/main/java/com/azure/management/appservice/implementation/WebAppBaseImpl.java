@@ -6,11 +6,17 @@
 
 package com.azure.management.appservice.implementation;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.microsoft.azure.AzureEnvironment;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.management.appservice.models.ConnectionStringDictionaryInner;
+import com.azure.management.appservice.models.MSDeployStatusInner;
+import com.azure.management.appservice.models.SiteAuthSettingsInner;
+import com.azure.management.appservice.models.SiteConfigResourceInner;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
+import com.azure.management.appservice.models.SitePatchResourceInner;
+import com.azure.management.appservice.models.SiteSourceControlInner;
+import com.azure.management.appservice.models.SlotConfigNamesResourceInner;
+import com.azure.management.appservice.models.StringDictionaryInner;
 import com.azure.management.appservice.AppServiceCertificate;
 import com.azure.management.appservice.AppServiceDomain;
 import com.azure.management.appservice.AppSetting;
@@ -35,8 +41,6 @@ import com.azure.management.appservice.PythonVersion;
 import com.azure.management.appservice.RemoteVisualStudioVersion;
 import com.azure.management.appservice.ScmType;
 import com.azure.management.appservice.SiteAvailabilityState;
-import com.azure.management.appservice.SiteConfig;
-import com.azure.management.appservice.SitePatchResource;
 import com.azure.management.appservice.SslState;
 import com.azure.management.appservice.SupportedTlsVersions;
 import com.azure.management.appservice.UsageState;
@@ -54,12 +58,16 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.RestException;
-import org.joda.time.DateTime;
+import reactor.core.Disposable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -274,7 +282,7 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public DateTime lastModifiedTime() {
+    public OffsetDateTime lastModifiedTime() {
         return inner().lastModifiedTimeUtc();
     }
 
@@ -577,7 +585,7 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public Observable<String> streamApplicationLogsAsync() {
+    public Flux<String> streamApplicationLogsAsync() {
         return kuduClient.streamApplicationLogsAsync();
     }
 
@@ -587,7 +595,7 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public Observable<String> streamHttpLogsAsync() {
+    public Flux<String> streamHttpLogsAsync() {
         return kuduClient.streamHttpLogsAsync();
     }
 
@@ -597,7 +605,7 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public Observable<String> streamTraceLogsAsync() {
+    public Flux<String> streamTraceLogsAsync() {
         return kuduClient.streamTraceLogsAsync();
     }
 
@@ -607,7 +615,7 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public Observable<String> streamDeploymentLogsAsync() {
+    public Flux<String> streamDeploymentLogsAsync() {
         return kuduClient.streamDeploymentLogsAsync();
     }
 
@@ -617,11 +625,11 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public Observable<String> streamAllLogsAsync() {
+    public Flux<String> streamAllLogsAsync() {
         return kuduClient.streamAllLogsAsync();
     }
 
-    private InputStream pipeObservableToInputStream(Observable<String> observable) {
+    private InputStream pipeObservableToInputStream(Flux<String> observable) {
         PipedInputStreamWithCallback in = new PipedInputStreamWithCallback();
         final PipedOutputStream out = new PipedOutputStream();
         try {
@@ -629,30 +637,24 @@ abstract class WebAppBaseImpl<
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        final Subscription subscription = observable
+        final Disposable subscription = observable
                 // Do not block current thread
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        try {
-                            out.write(s.getBytes());
-                            out.write('\n');
-                            out.flush();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+                .subscribeOn(Schedulers.elastic())
+                .subscribe(s -> {
+                    try {
+                        out.write(s.getBytes());
+                        out.write('\n');
+                        out.flush();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 });
-        in.addCallback(new Action0() {
-            @Override
-            public void call() {
-                subscription.unsubscribe();
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        in.addCallback(() -> {
+            subscription.dispose();
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
         return in;
@@ -708,54 +710,49 @@ abstract class WebAppBaseImpl<
 
     @Override
     public WebAppAuthentication getAuthenticationConfig() {
-        return getAuthenticationConfigAsync().toBlocking().single();
+        return getAuthenticationConfigAsync().block();
     }
 
     @Override
-    public Observable<WebAppAuthentication> getAuthenticationConfigAsync() {
-        return getAuthentication().map(new Func1<SiteAuthSettingsInner, WebAppAuthentication>() {
-            @Override
-            public WebAppAuthentication call(SiteAuthSettingsInner siteAuthSettingsInner) {
-                return new WebAppAuthenticationImpl<>(siteAuthSettingsInner, WebAppBaseImpl.this);
-            }
-        });
+    public Mono<WebAppAuthentication> getAuthenticationConfigAsync() {
+        return getAuthentication().map(siteAuthSettingsInner -> new WebAppAuthenticationImpl<>(siteAuthSettingsInner, WebAppBaseImpl.this));
     }
 
-    abstract Observable<SiteInner> createOrUpdateInner(SiteInner site);
+    abstract Mono<SiteInner> createOrUpdateInner(SiteInner site);
 
-    abstract Observable<SiteInner> updateInner(SitePatchResource siteUpdate);
+    abstract Mono<SiteInner> updateInner(SitePatchResourceInner siteUpdate);
 
-    abstract Observable<SiteInner> getInner();
+    abstract Mono<SiteInner> getInner();
 
-    abstract Observable<SiteConfigResourceInner> getConfigInner();
+    abstract Mono<SiteConfigResourceInner> getConfigInner();
 
-    abstract Observable<SiteConfigResourceInner> createOrUpdateSiteConfig(SiteConfigResourceInner siteConfig);
+    abstract Mono<SiteConfigResourceInner> createOrUpdateSiteConfig(SiteConfigResourceInner siteConfig);
 
-    abstract Observable<Void> deleteHostNameBinding(String hostname);
+    abstract Mono<Void> deleteHostNameBinding(String hostname);
 
-    abstract Observable<StringDictionaryInner> listAppSettings();
+    abstract Mono<StringDictionaryInner> listAppSettings();
 
-    abstract Observable<StringDictionaryInner> updateAppSettings(StringDictionaryInner inner);
+    abstract Mono<StringDictionaryInner> updateAppSettings(StringDictionaryInner inner);
 
-    abstract Observable<ConnectionStringDictionaryInner> listConnectionStrings();
+    abstract Mono<ConnectionStringDictionaryInner> listConnectionStrings();
 
-    abstract Observable<ConnectionStringDictionaryInner> updateConnectionStrings(ConnectionStringDictionaryInner inner);
+    abstract Mono<ConnectionStringDictionaryInner> updateConnectionStrings(ConnectionStringDictionaryInner inner);
 
-    abstract Observable<SlotConfigNamesResourceInner> listSlotConfigurations();
+    abstract Mono<SlotConfigNamesResourceInner> listSlotConfigurations();
 
-    abstract Observable<SlotConfigNamesResourceInner> updateSlotConfigurations(SlotConfigNamesResourceInner inner);
+    abstract Mono<SlotConfigNamesResourceInner> updateSlotConfigurations(SlotConfigNamesResourceInner inner);
 
-    abstract Observable<SiteSourceControlInner> createOrUpdateSourceControl(SiteSourceControlInner inner);
+    abstract Mono<SiteSourceControlInner> createOrUpdateSourceControl(SiteSourceControlInner inner);
 
-    abstract Observable<Void> deleteSourceControl();
+    abstract Mono<Void> deleteSourceControl();
 
-    abstract Observable<SiteAuthSettingsInner> updateAuthentication(SiteAuthSettingsInner inner);
+    abstract Mono<SiteAuthSettingsInner> updateAuthentication(SiteAuthSettingsInner inner);
 
-    abstract Observable<SiteAuthSettingsInner> getAuthentication();
+    abstract Mono<SiteAuthSettingsInner> getAuthentication();
 
-    abstract Observable<MSDeployStatusInner> createMSDeploy(MSDeploy msDeployInner);
+    abstract Mono<MSDeployStatusInner> createMSDeploy(MSDeploy msDeployInner);
 
-    abstract Observable<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner);
+    abstract Mono<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner);
 
     @Override
     public void beforeGroupCreateOrUpdate() {
@@ -1646,7 +1643,7 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    protected Observable<SiteInner> getInnerAsync() {
+    protected Mono<SiteInner> getInnerAsync() {
         return getInner();
     }
 
@@ -1771,15 +1768,15 @@ abstract class WebAppBaseImpl<
     }
 
     private static class PipedInputStreamWithCallback extends PipedInputStream {
-        private Action0 callback;
+        private Runnable callback;
 
-        private void addCallback(Action0 action) {
+        private void addCallback(Runnable action) {
             this.callback = action;
         }
 
         @Override
         public void close() throws IOException {
-            callback.call();
+            callback.run();
             super.close();
         }
     }

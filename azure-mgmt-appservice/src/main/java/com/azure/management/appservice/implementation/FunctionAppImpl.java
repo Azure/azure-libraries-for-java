@@ -18,7 +18,6 @@ import com.azure.management.appservice.SkuName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.io.BaseEncoding;
 import com.microsoft.azure.CloudException;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;

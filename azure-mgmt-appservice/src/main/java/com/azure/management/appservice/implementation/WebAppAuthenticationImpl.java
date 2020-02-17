@@ -5,7 +5,6 @@
  */
 package com.azure.management.appservice.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.BuiltInAuthenticationProvider;
 import com.azure.management.appservice.UnauthenticatedClientAction;
 import com.azure.management.appservice.WebAppAuthentication;

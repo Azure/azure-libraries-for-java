@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.ManagedServiceIdentity;
 import com.azure.management.appservice.ManagedServiceIdentityType;
 import com.azure.management.appservice.ManagedServiceIdentityUserAssignedIdentitiesValue;

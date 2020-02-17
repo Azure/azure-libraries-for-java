@@ -7,7 +7,6 @@
 package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.DomainLegalAgreement;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.Tenant;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 

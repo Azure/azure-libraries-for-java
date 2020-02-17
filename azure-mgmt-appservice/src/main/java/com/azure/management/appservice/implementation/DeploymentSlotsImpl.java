@@ -10,7 +10,6 @@ import com.azure.management.appservice.DeploymentSlot;
 import com.azure.management.appservice.DeploymentSlots;
 import com.azure.management.appservice.WebApp;
 import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.IndependentChildResourcesImpl;
 import com.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.rest.ServiceCallback;

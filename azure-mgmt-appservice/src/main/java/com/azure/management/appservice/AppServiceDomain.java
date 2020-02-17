@@ -17,8 +17,6 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
-import rx.Completable;
-
 import java.util.List;
 import java.util.Map;
 

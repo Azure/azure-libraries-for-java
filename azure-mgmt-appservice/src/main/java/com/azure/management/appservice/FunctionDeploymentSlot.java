@@ -20,7 +20,6 @@ import com.azure.management.resources.fluentcore.model.Updatable;
  * An immutable client-side representation of an Azure Function App deployment slot.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_3_0)
 public interface FunctionDeploymentSlot extends
     IndependentChildResource<AppServiceManager, SiteInner>,
     WebAppBase,

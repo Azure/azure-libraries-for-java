@@ -15,11 +15,6 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.I
 import com.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
-import rx.functions.Func2;
-
 /**
  * The implementation DeploymentSlots.
  */

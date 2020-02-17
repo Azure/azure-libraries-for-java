@@ -5,7 +5,6 @@
  */
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta.SinceVersion;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.azure.management.resources.fluentcore.model.Executable;
@@ -15,7 +14,7 @@ import org.joda.time.DateTime;
  * A client-side representation allowing user to deploy to a web app through web deployment (MSDeploy).
  */
 @Fluent
-@Beta(SinceVersion.V1_2_0)
+
 public interface WebDeployment extends Executable<WebDeployment>,
         HasParent<WebAppBase> {
     /**

@@ -14,7 +14,6 @@ import java.util.Objects;
  * Defines function app runtime for Linux operating system.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_28_0)
 public class FunctionRuntimeStack {
 
     /** JAVA 8. */

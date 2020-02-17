@@ -19,9 +19,6 @@ import com.azure.management.appservice.implementation.AppServiceCertificateOrder
 import com.azure.management.appservice.implementation.AppServiceManager;
 
 import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-
 /**
  * An immutable client-side representation of an Azure App Service certificate order.
  */

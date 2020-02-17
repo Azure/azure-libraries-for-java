@@ -12,9 +12,6 @@ import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.KeyVaultSecretStatus;
 import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.IndependentChildResourceImpl;
-import rx.Observable;
-import rx.functions.Func1;
-
 /**
  * The implementation for {@link AppServicePlan}.
  */

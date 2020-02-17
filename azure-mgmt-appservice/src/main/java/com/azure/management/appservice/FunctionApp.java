@@ -15,9 +15,6 @@ import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountSkuType;
-import rx.Completable;
-import rx.Observable;
-
 import java.util.Map;
 
 /**
@@ -32,7 +29,6 @@ public interface FunctionApp extends
     /**
      * @return the entry point to deployment slot management API under the function app
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
     FunctionDeploymentSlots deploymentSlots();
 
     /**

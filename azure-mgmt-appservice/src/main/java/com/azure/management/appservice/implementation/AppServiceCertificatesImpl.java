@@ -11,9 +11,6 @@ import com.azure.management.appservice.AppServiceCertificates;
 import com.microsoft.azure.PagedList;
 import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import rx.Completable;
-import rx.Observable;
-
 /**
  * The implementation for AppServiceCertificates.
  */

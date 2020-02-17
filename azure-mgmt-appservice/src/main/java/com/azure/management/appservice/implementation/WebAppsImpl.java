@@ -12,10 +12,6 @@ import com.azure.management.appservice.WebApp;
 import com.azure.management.appservice.WebApps;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Observable;
-import rx.functions.Func1;
-import rx.functions.Func2;
-
 import java.util.Arrays;
 
 /**

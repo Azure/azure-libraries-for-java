@@ -21,15 +21,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
-import rx.Completable;
-import rx.Emitter;
-import rx.Emitter.BackpressureMode;
-import rx.Observable;
-import rx.exceptions.Exceptions;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.Func2;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;

@@ -12,8 +12,6 @@ import com.azure.management.appservice.PricingTier;
 import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-
 /**
  * The implementation for AppServicePlan.
  */

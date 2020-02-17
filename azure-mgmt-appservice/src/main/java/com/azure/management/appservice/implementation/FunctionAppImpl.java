@@ -39,12 +39,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Action0;
-import rx.functions.Func1;
-import rx.functions.Func2;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

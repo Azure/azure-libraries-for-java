@@ -26,11 +26,6 @@ import com.azure.management.appservice.SitePatchResource;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Completable;
-import rx.Observable;
-import rx.exceptions.Exceptions;
-import rx.functions.Func1;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;

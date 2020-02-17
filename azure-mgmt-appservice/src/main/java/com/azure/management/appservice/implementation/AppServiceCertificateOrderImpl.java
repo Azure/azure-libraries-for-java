@@ -23,10 +23,6 @@ import com.azure.management.resources.fluentcore.arm.models.implementation.Group
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
-
 /**
  * The implementation for {@link AppServicePlan}.
  */

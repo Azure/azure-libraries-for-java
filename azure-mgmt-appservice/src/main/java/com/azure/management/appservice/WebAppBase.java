@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta.SinceVersion;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.apigeneration.Method;
 import com.azure.management.appservice.implementation.AppServiceManager;
@@ -18,9 +17,6 @@ import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
@@ -322,7 +318,6 @@ public interface WebAppBase extends
     /**
      * @return the diagnostic logs configuration
      */
-    @Beta(SinceVersion.V1_18_0)
     WebAppDiagnosticLogs diagnosticLogsConfig();
 
     /**
@@ -371,98 +366,84 @@ public interface WebAppBase extends
     /**
      * @return the last lines of docker logs for a Linux web app
      */
-    @Beta(SinceVersion.V1_5_0)
     @Method
     byte[] getContainerLogs();
 
     /**
      * @return the last lines of docker logs for a Linux web app
      */
-    @Beta(SinceVersion.V1_5_0)
     @Method
     Observable<byte[]> getContainerLogsAsync();
 
     /**
      * @return the zipped archive of docker logs for a Linux web app
      */
-    @Beta(SinceVersion.V1_5_0)
     @Method
     byte[] getContainerLogsZip();
 
     /**
      * @return the zipped archive of docker logs for a Linux web app
      */
-    @Beta(SinceVersion.V1_5_0)
     @Method
     Observable<byte[]> getContainerLogsZipAsync();
 
     /**
      * @return a open stream to the application logs
      */
-    @Beta(SinceVersion.V1_6_0)
     @Method
     InputStream streamApplicationLogs();
 
     /**
      * @return a open stream to the HTTP logs
      */
-    @Beta(SinceVersion.V1_18_0)
     @Method
     InputStream streamHttpLogs();
 
     /**
      * @return a open stream to the trace logs
      */
-    @Beta(SinceVersion.V1_18_0)
     @Method
     InputStream streamTraceLogs();
 
     /**
      * @return a open stream to the deployment logs
      */
-    @Beta(SinceVersion.V1_18_0)
     @Method
     InputStream streamDeploymentLogs();
 
     /**
      * @return a open stream to all logs
      */
-    @Beta(SinceVersion.V1_18_0)
     @Method
     InputStream streamAllLogs();
 
     /**
      * @return an Observable streaming application logs
      */
-    @Beta(SinceVersion.V1_6_0)
     @Method
     Observable<String> streamApplicationLogsAsync();
 
     /**
      * @return an Observable streaming HTTP logs
      */
-    @Beta(SinceVersion.V1_18_0)
     @Method
     Observable<String> streamHttpLogsAsync();
 
     /**
      * @return an Observable streaming trace logs
      */
-    @Beta(SinceVersion.V1_18_0)
     @Method
     Observable<String> streamTraceLogsAsync();
 
     /**
      * @return an Observable streaming deployment logs
      */
-    @Beta(SinceVersion.V1_18_0)
     @Method
     Observable<String> streamDeploymentLogsAsync();
 
     /**
      * @return an Observable streaming all logs
      */
-    @Beta(SinceVersion.V1_18_0)
     @Method
     Observable<String> streamAllLogsAsync();
 
@@ -571,7 +552,6 @@ public interface WebAppBase extends
      * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
      * @param zipFile the ZIP file to upload
      */
-    @Beta(SinceVersion.V1_14_0)
     void zipDeploy(File zipFile);
 
     /**
@@ -579,14 +559,12 @@ public interface WebAppBase extends
      * @param zipFile the ZIP file to upload
      * @return a completable of the operation
      */
-    @Beta(SinceVersion.V1_14_0)
     Completable zipDeployAsync(File zipFile);
 
     /**
      * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
      * @param zipFile the ZIP file to upload
      */
-    @Beta(SinceVersion.V1_14_0)
     void zipDeploy(InputStream zipFile);
 
     /**
@@ -594,7 +572,6 @@ public interface WebAppBase extends
      * @param zipFile the ZIP file to upload
      * @return a completable of the operation
      */
-    @Beta(SinceVersion.V1_14_0)
     Completable zipDeployAsync(InputStream zipFile);
 
     /**************************************************************
@@ -971,13 +948,11 @@ public interface WebAppBase extends
          * A web app definition stage allowing diagnostic logging to be set.
          * @param <FluentT> the type of the resource
          */
-        @Beta(SinceVersion.V1_5_0)
         interface WithDiagnosticLogging<FluentT> {
             /**
              * Specifies the definition of a new diagnostic logs configuration.
              * @return the first stage of an diagnostic logs definition
              */
-            @Beta(SinceVersion.V1_18_0)
             WebAppDiagnosticLogs.DefinitionStages.Blank<WithCreate<FluentT>> defineDiagnosticLogsConfiguration();
 
             /**
@@ -1555,13 +1530,11 @@ public interface WebAppBase extends
          * A web app definition stage allowing diagnostic logging to be set.
          * @param <FluentT> the type of the resource
          */
-        @Beta(SinceVersion.V1_5_0)
         interface WithDiagnosticLogging<FluentT> {
             /**
              * Specifies the update of an existing diagnostic logs configuration.
              * @return the first stage of an diagnostic logs update
              */
-            @Beta(SinceVersion.V1_18_0)
             WebAppDiagnosticLogs.UpdateStages.Blank<Update<FluentT>> updateDiagnosticLogsConfiguration();
 
             /**

@@ -12,9 +12,6 @@ import com.azure.management.appservice.WebAppBase;
 import com.azure.management.appservice.WebDeployment;
 import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Func1;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

@@ -21,9 +21,6 @@ import com.azure.management.resources.fluentcore.model.implementation.IndexableW
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
-
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -11,8 +11,6 @@ import com.azure.management.resources.fluentcore.model.implementation.IndexableW
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.appservice.WebAppBase;
 import com.azure.management.appservice.WebAppSourceControl;
-import rx.Observable;
-
 /**
  *  Implementation for WebAppSourceControl and its create and update interfaces.
  *  @param <FluentT> the fluent interface of the parent web app

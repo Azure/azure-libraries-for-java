@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta.SinceVersion;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceManager;
 import com.azure.management.appservice.implementation.SiteInner;
@@ -16,8 +15,6 @@ import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import rx.Completable;
-
 import java.io.File;
 import java.io.InputStream;
 
@@ -36,7 +33,6 @@ public interface DeploymentSlot extends
      * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
      * @param warFile the WAR file to upload
      */
-    @Beta(SinceVersion.V1_7_0)
     void warDeploy(File warFile);
 
     /**
@@ -44,14 +40,12 @@ public interface DeploymentSlot extends
      * @param warFile the WAR file to upload
      * @return a completable of the operation
      */
-    @Beta(SinceVersion.V1_7_0)
     Completable warDeployAsync(File warFile);
 
     /**
      * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
      * @param warFile the WAR file to upload
      */
-    @Beta(SinceVersion.V1_7_0)
     void warDeploy(InputStream warFile);
 
     /**
@@ -59,7 +53,6 @@ public interface DeploymentSlot extends
      * @param warFile the WAR file to upload
      * @return a completable of the operation
      */
-    @Beta(SinceVersion.V1_7_0)
     Completable warDeployAsync(InputStream warFile);
 
     /**
@@ -67,7 +60,6 @@ public interface DeploymentSlot extends
      * @param warFile the WAR file to upload
      * @param appName the name of the app, default to "ROOT" when not provided
      */
-    @Beta(SinceVersion.V1_7_0)
     void warDeploy(File warFile, String appName);
 
     /**
@@ -76,7 +68,6 @@ public interface DeploymentSlot extends
      * @param appName the name of the app, default to "ROOT" when not provided
      * @return a completable of the operation
      */
-    @Beta(SinceVersion.V1_7_0)
     Completable warDeployAsync(File warFile, String appName);
 
     /**
@@ -84,7 +75,6 @@ public interface DeploymentSlot extends
      * @param warFile the WAR file to upload
      * @param appName the name of the app, default to "ROOT" when not provided
      */
-    @Beta(SinceVersion.V1_7_0)
     void warDeploy(InputStream warFile, String appName);
 
     /**
@@ -93,7 +83,6 @@ public interface DeploymentSlot extends
      * @param appName the name of the app, default to "ROOT" when not provided
      * @return a completable of the operation
      */
-    @Beta(SinceVersion.V1_7_0)
     Completable warDeployAsync(InputStream warFile, String appName);
 
     /**************************************************************

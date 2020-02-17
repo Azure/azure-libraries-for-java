@@ -56,16 +56,6 @@ import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.RestException;
 import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.Subscription;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.Func2;
-import rx.functions.FuncN;
-import rx.schedulers.Schedulers;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;

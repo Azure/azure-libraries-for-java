@@ -19,10 +19,6 @@ import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
-
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;

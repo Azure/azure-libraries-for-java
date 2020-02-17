@@ -16,10 +16,6 @@ import com.azure.management.appservice.WebApp;
 import com.azure.management.appservice.WebAppRuntimeStack;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

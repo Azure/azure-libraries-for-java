@@ -14,7 +14,6 @@ import java.util.Objects;
  * Defines web app runtime stack on Windows operating system.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_30_0)
 public class WebAppRuntimeStack {
 
     /** .NET Core. */

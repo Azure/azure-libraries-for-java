@@ -14,9 +14,6 @@ import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Func1;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

@@ -18,10 +18,6 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

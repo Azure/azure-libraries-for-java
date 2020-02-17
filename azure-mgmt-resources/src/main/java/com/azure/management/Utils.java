@@ -19,19 +19,19 @@ public class Utils {
      * @return the default scope
      */
     public static String getDefaultScopeFromRequest(HttpRequest request, AzureEnvironment environment) {
-        return getDefaultScopeFromHost(request.getUrl().getHost().toLowerCase(), environment);
+        return getDefaultScopeFromUrl(request.getUrl().toString().toLowerCase(), environment);
     }
 
     /**
      * Generates default scope for oauth2 from the specific request
-     * @param host the host in lower case of a http request
+     * @param url the url in lower case of a http request
      * @param environment the azure environment with current request
      * @return the default scope
      */
-    public static String getDefaultScopeFromHost(String host, AzureEnvironment environment) {
+    public static String getDefaultScopeFromUrl(String url, AzureEnvironment environment) {
         String resource = environment.getManagementEndpoint();
         for (Map.Entry<String, String> endpoint : environment.endpoints().entrySet()) {
-            if (endpoint.getValue().contains(host)) {
+            if (url.contains(endpoint.getValue())) {
                 if (endpoint.getKey().equals(AzureEnvironment.Endpoint.KEYVAULT.identifier())) {
                     resource = String.format("https://%s/", endpoint.getValue().replaceAll("^\\.*", ""));
                     break;

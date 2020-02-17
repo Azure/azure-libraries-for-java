@@ -62,7 +62,7 @@ public final class RestClientBuilder {
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
         policies.add(new UserAgentPolicy(httpLogOptions, configuration));
         if (this.credential != null) {
-            policies.add(new BearerTokenAuthenticationPolicy(this.credential, this.getScopes()));
+            policies.add(new AuthenticationPolicy(this.credential, this.getScopes()));
         }
         policies.add(new HttpLoggingPolicy(httpLogOptions));
 

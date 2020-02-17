@@ -160,7 +160,7 @@ public abstract class TestBase {
         String defaultSubscription;
 
         if (isPlaybackMode()) {
-            credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, true);
+            credentials = new AzureTestCredential(playbackUri, ZERO_TENANT, true);
             restClient = buildRestClient(new RestClientBuilder()
                     .withBaseUrl(playbackUri + "/")
                     .withSerializerAdapter(new AzureJacksonAdapter())

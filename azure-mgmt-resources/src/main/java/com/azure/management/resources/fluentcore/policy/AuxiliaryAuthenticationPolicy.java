@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.azure.management.resources.fluentcore.utils;
+package com.azure.management.resources.fluentcore.policy;
 
 import com.azure.core.credential.TokenRequestContext;
 import com.azure.core.http.HttpPipelineCallContext;

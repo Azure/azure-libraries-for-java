@@ -8,6 +8,11 @@ package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.DeploymentSlot;
 import com.azure.management.appservice.WebApp;
+import com.azure.management.appservice.models.SiteConfigResourceInner;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
+import reactor.core.publisher.Mono;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,70 +50,72 @@ class DeploymentSlotImpl
     }
 
     @Override
-    public Completable warDeployAsync(File warFile) {
+    public Mono<Void> warDeployAsync(File warFile) {
         return warDeployAsync(warFile, null);
     }
 
     @Override
     public void warDeploy(File warFile) {
-        warDeployAsync(warFile).await();
+        warDeployAsync(warFile).block();
     }
 
     @Override
-    public Completable warDeployAsync(InputStream warFile) {
+    public Mono<Void> warDeployAsync(InputStream warFile) {
         return warDeployAsync(warFile, null);
     }
 
     @Override
     public void warDeploy(InputStream warFile) {
-        warDeployAsync(warFile).await();
+        warDeployAsync(warFile).block();
     }
 
     @Override
-    public Completable warDeployAsync(File warFile, String appName) {
+    public Mono<Void> warDeployAsync(File warFile, String appName) {
         try {
             return warDeployAsync(new FileInputStream(warFile), appName);
         } catch (IOException e) {
-            return Completable.error(e);
+            return Mono.error(e);
         }
     }
 
     @Override
     public void warDeploy(File warFile, String appName) {
-        warDeployAsync(warFile, appName).await();
+        warDeployAsync(warFile, appName).block();
     }
 
     @Override
-    public Completable warDeployAsync(InputStream warFile, String appName) {
+    public Mono<Void> warDeployAsync(InputStream warFile, String appName) {
         return kuduClient.warDeployAsync(warFile, appName);
     }
 
     @Override
     public void warDeploy(InputStream warFile, String appName) {
-        warDeployAsync(warFile, appName).await();
+        warDeployAsync(warFile, appName).block();
     }
 
     @Override
     public void zipDeploy(File zipFile) {
-        zipDeployAsync(zipFile).await();
+        zipDeployAsync(zipFile).block();
     }
 
     @Override
     public void zipDeploy(InputStream zipFile) {
-        zipDeployAsync(zipFile).await();
+        zipDeployAsync(zipFile).block();
     }
 
     @Override
-    public Completable zipDeployAsync(InputStream zipFile) {
-        return kuduClient.zipDeployAsync(zipFile).concatWith(stopAsync()).concatWith(startAsync());
+    public Mono<Void> zipDeployAsync(InputStream zipFile) {
+        return kuduClient.zipDeployAsync(zipFile)
+                .then(stopAsync())
+                .then(startAsync());
     }
 
     @Override
-    public Completable zipDeployAsync(File zipFile) {
+    public Mono<Void> zipDeployAsync(File zipFile) {
         try {
             return zipDeployAsync(new FileInputStream(zipFile));
         } catch (IOException e) {
-            return Completable.error(e);
+            return Mono.error(e);
         }
     }
 }

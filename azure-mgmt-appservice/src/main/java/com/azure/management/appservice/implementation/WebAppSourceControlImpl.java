@@ -38,7 +38,7 @@ class WebAppSourceControlImpl<
 
     @Override
     public String name() {
-        return inner().name();
+        return inner().getName();
     }
 
     @Override
@@ -119,7 +119,7 @@ class WebAppSourceControlImpl<
 
     Mono<SourceControlInner> registerGithubAccessToken() {
         if (githubAccessToken == null) {
-            return Observable.just(null);
+            return Mono.empty();
         }
         SourceControlInner sourceControlInner = new SourceControlInner().withToken(githubAccessToken);
         return this.parent().manager().inner().updateSourceControlAsync("Github", sourceControlInner);

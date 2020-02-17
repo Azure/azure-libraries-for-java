@@ -16,6 +16,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okio.BufferedSource;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -157,7 +158,7 @@ class KuduClient {
         }, BackpressureMode.BUFFER);
     }
 
-    Completable warDeployAsync(InputStream warFile, String appName) {
+    Mono<Void> warDeployAsync(InputStream warFile, String appName) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(warFile));
             return getCompletable(service.warDeploy(body, appName));
@@ -166,7 +167,7 @@ class KuduClient {
         }
     }
 
-    Completable zipDeployAsync(InputStream zipFile) {
+    Mono<Void> zipDeployAsync(InputStream zipFile) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
             return getCompletable(service.zipDeploy(body));
@@ -175,7 +176,7 @@ class KuduClient {
         }
     }
 
-    private Completable getCompletable(Observable<Void> observable) {
+    private Mono<Void> getCompletable(Observable<Void> observable) {
         return observable
                 .toCompletable()
                 .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {

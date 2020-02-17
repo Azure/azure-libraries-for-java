@@ -324,12 +324,7 @@ abstract class DeploymentSlotBaseImpl<
     @Override
     public Mono<WebAppSourceControl> getSourceControlAsync() {
         return manager().inner().webApps().getSourceControlSlotAsync(resourceGroupName(), parent().name(), name())
-                .map(new Func1<SiteSourceControlInner, WebAppSourceControl>() {
-                    @Override
-                    public WebAppSourceControl call(SiteSourceControlInner siteSourceControlInner) {
-                        return new WebAppSourceControlImpl<>(siteSourceControlInner, DeploymentSlotBaseImpl.this);
-                    }
-                });
+                .map(siteSourceControlInner -> new WebAppSourceControlImpl<>(siteSourceControlInner, DeploymentSlotBaseImpl.this));
     }
 
     @Override

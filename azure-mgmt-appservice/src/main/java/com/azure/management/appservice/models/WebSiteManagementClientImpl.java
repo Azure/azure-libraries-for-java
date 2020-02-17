@@ -499,7 +499,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<UserInner>> getPublishingUserWithResponseAsync() {
-        return service.getPublishingUser(this.client.getHost(), this.client.getApiVersion());
+        return service.getPublishingUser(this.getHost(), this.getApiVersion());
     }
 
     /**
@@ -541,7 +541,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<UserInner>> updatePublishingUserWithResponseAsync(UserInner userDetails) {
-        return service.updatePublishingUser(this.client.getHost(), userDetails, this.client.getApiVersion());
+        return service.updatePublishingUser(this.getHost(), userDetails, this.getApiVersion());
     }
 
     /**
@@ -585,7 +585,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<SourceControlInner>> listSourceControlsSinglePageAsync() {
-        return service.listSourceControls(this.client.getHost(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+        return service.listSourceControls(this.getHost(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -628,7 +628,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SourceControlInner>> getSourceControlWithResponseAsync(String sourceControlType) {
-        return service.getSourceControl(this.client.getHost(), sourceControlType, this.client.getApiVersion());
+        return service.getSourceControl(this.getHost(), sourceControlType, this.getApiVersion());
     }
 
     /**
@@ -675,7 +675,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SourceControlInner>> updateSourceControlWithResponseAsync(String sourceControlType, SourceControlInner requestMessage) {
-        return service.updateSourceControl(this.client.getHost(), sourceControlType, requestMessage, this.client.getApiVersion());
+        return service.updateSourceControl(this.getHost(), sourceControlType, requestMessage, this.getApiVersion());
     }
 
     /**
@@ -724,7 +724,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<BillingMeterInner>> listSinglePageAsync(String billingLocation, String osType) {
-        return service.list(this.client.getHost(), billingLocation, osType, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+        return service.list(this.getHost(), billingLocation, osType, this.getSubscriptionId(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -807,7 +807,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
         request.withName(name);
         request.withType(type);
         request.withIsFqdn(isFqdn);
-        return service.checkNameAvailability(this.client.getHost(), this.client.getSubscriptionId(), request, this.client.getApiVersion());
+        return service.checkNameAvailability(this.getHost(), this.getSubscriptionId(), request, this.getApiVersion());
     }
 
     /**
@@ -855,7 +855,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentLocationsInner>> getSubscriptionDeploymentLocationsWithResponseAsync() {
-        return service.getSubscriptionDeploymentLocations(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion());
+        return service.getSubscriptionDeploymentLocations(this.getHost(), this.getSubscriptionId(), this.getApiVersion());
     }
 
     /**
@@ -900,7 +900,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<GeoRegionInner>> listGeoRegionsSinglePageAsync(SkuName sku, Boolean linuxWorkersEnabled, Boolean xenonWorkersEnabled, Boolean linuxDynamicWorkersEnabled) {
-        return service.listGeoRegions(this.client.getHost(), sku, linuxWorkersEnabled, xenonWorkersEnabled, linuxDynamicWorkersEnabled, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+        return service.listGeoRegions(this.getHost(), sku, linuxWorkersEnabled, xenonWorkersEnabled, linuxDynamicWorkersEnabled, this.getSubscriptionId(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -985,7 +985,9 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<IdentifierInner>> listSiteIdentifiersAssignedToHostNameSinglePageAsync(String name) {
-        return service.listSiteIdentifiersAssignedToHostName(this.client.getHost(), this.client.getSubscriptionId(), nameIdentifier, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+        NameIdentifierInner nameIdentifier = new NameIdentifierInner();
+        nameIdentifier.withName(name);
+        return service.listSiteIdentifiersAssignedToHostName(this.getHost(), this.getSubscriptionId(), nameIdentifier, this.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -1030,7 +1032,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<PremierAddOnOfferInner>> listPremierAddOnOffersSinglePageAsync() {
-        return service.listPremierAddOnOffers(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+        return service.listPremierAddOnOffers(this.getHost(), this.getSubscriptionId(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -1071,7 +1073,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SkuInfosInner>> listSkusWithResponseAsync() {
-        return service.listSkus(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion());
+        return service.listSkus(this.getHost(), this.getSubscriptionId(), this.getApiVersion());
     }
 
     /**
@@ -1113,7 +1115,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<VnetValidationFailureDetailsInner>> verifyHostingEnvironmentVnetWithResponseAsync(VnetParameters parameters) {
-        return service.verifyHostingEnvironmentVnet(this.client.getHost(), this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+        return service.verifyHostingEnvironmentVnet(this.getHost(), this.getSubscriptionId(), parameters, this.getApiVersion());
     }
 
     /**
@@ -1160,7 +1162,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> moveWithResponseAsync(String resourceGroupName, CsmMoveResourceEnvelope moveResourceEnvelope) {
-        return service.move(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), moveResourceEnvelope, this.client.getApiVersion());
+        return service.move(this.getHost(), resourceGroupName, this.getSubscriptionId(), moveResourceEnvelope, this.getApiVersion());
     }
 
     /**
@@ -1203,7 +1205,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ValidateResponseInner>> validateWithResponseAsync(String resourceGroupName, ValidateRequest validateRequest) {
-        return service.validate(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), validateRequest, this.client.getApiVersion());
+        return service.validate(this.getHost(), resourceGroupName, this.getSubscriptionId(), validateRequest, this.getApiVersion());
     }
 
     /**
@@ -1252,7 +1254,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> validateMoveWithResponseAsync(String resourceGroupName, CsmMoveResourceEnvelope moveResourceEnvelope) {
-        return service.validateMove(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), moveResourceEnvelope, this.client.getApiVersion());
+        return service.validateMove(this.getHost(), resourceGroupName, this.getSubscriptionId(), moveResourceEnvelope, this.getApiVersion());
     }
 
     /**

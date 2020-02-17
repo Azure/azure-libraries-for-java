@@ -6,7 +6,6 @@
 
 package com.azure.management.resources.fluentcore.utils;
 
-import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
@@ -96,6 +95,22 @@ public class SdkContext {
     }
 
     /**
+     * Wrapper for long-running operation retry timeout.
+     *
+     * @param lroRetryTimeout timeout value in seconds
+     */
+    public static void setLroRetryTimeOut(int lroRetryTimeout) {
+        delayProvider.setLroRetryTimeout(lroRetryTimeout);
+    }
+
+    /**
+     * Get long-running operation retry timeout.
+     */
+    public static int getLroRetryTimeOut() {
+        return delayProvider.getLroRetryTimeout();
+    }
+
+    /**
      * @return the current date time.
      */
     public static OffsetDateTime dateTimeNow() {
@@ -103,17 +118,6 @@ public class SdkContext {
         return resourceNamer.dateTimeNow();
     }
 
-    /**
-     * Wrapper delayed emission, based on delayProvider.
-     *
-     * @param event        the event to emit
-     * @param milliseconds the delay in milliseconds
-     * @param <T>          the type of event
-     * @return delayed observable
-     */
-    public static <T> Mono<T> delayedEmitAsync(T event, int milliseconds) {
-        return delayProvider.delayedEmitAsync(event, milliseconds);
-    }
 
     /**
      * Gets the current Rx Scheduler for the SDK framework.

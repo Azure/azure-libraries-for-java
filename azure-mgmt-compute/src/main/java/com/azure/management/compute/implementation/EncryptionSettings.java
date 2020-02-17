@@ -6,7 +6,7 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.SubResource;
+import com.azure.core.management.SubResource;
 import com.azure.management.compute.DiskEncryptionSettings;
 import com.azure.management.compute.DiskVolumeType;
 import com.azure.management.compute.KeyVaultKeyReference;
@@ -75,7 +75,7 @@ abstract class EncryptionSettings {
                 keyEncryptionKey = new KeyVaultKeyReference();
                 keyEncryptionKey.withKeyUrl(config.keyEncryptionKeyURL());
                 if (config.keyEncryptionKeyVaultId() != null) {
-                    keyEncryptionKey.withSourceVault(new SubResource().withId(config.keyEncryptionKeyVaultId()));
+                    keyEncryptionKey.withSourceVault(new SubResource().setId(config.keyEncryptionKeyVaultId()));
                 }
             }
             DiskEncryptionSettings diskEncryptionSettings = new DiskEncryptionSettings();
@@ -84,7 +84,7 @@ abstract class EncryptionSettings {
                     .withKeyEncryptionKey(keyEncryptionKey)
                     .withDiskEncryptionKey(new KeyVaultSecretReference())
                     .diskEncryptionKey()
-                    .withSourceVault(new SubResource().withId(config.keyVaultId()));
+                    .withSourceVault(new SubResource().setId(config.keyVaultId()));
             return diskEncryptionSettings;
         }
 

@@ -6,22 +6,18 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.AccessLevel;
 import com.azure.management.compute.GrantAccessData;
 import com.azure.management.compute.Snapshot;
 import com.azure.management.compute.Snapshots;
+import com.azure.management.compute.models.SnapshotInner;
+import com.azure.management.compute.models.SnapshotsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for Snapshots.
  */
-@LangDefinition
 class SnapshotsImpl
     extends TopLevelModifiableResourcesImpl<
         Snapshot,
@@ -36,22 +32,13 @@ class SnapshotsImpl
     }
 
     @Override
-    public Observable<String> grantAccessAsync(String resourceGroupName, String snapshotName, AccessLevel accessLevel, int accessDuration) {
+    public Mono<String> grantAccessAsync(String resourceGroupName, String snapshotName, AccessLevel accessLevel, int accessDuration) {
         GrantAccessData grantAccessDataInner = new GrantAccessData();
         grantAccessDataInner.withAccess(accessLevel)
                 .withDurationInSeconds(accessDuration);
-        return this.inner().grantAccessAsync(resourceGroupName, snapshotName, grantAccessDataInner)
-                .map(new Func1<AccessUriInner, String>() {
-                    @Override
-                    public String call(AccessUriInner accessUriInner) {
-                        return accessUriInner.accessSAS();
-                    }
-                });
-    }
-
-    @Override
-    public ServiceFuture<String> grantAccessAsync(String resourceGroupName, String snapshotName, AccessLevel accessLevel, int accessDuration, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(this.grantAccessAsync(resourceGroupName, snapshotName, accessLevel, accessDuration), callback);
+        return inner().grantAccessAsync(resourceGroupName, snapshotName, grantAccessDataInner)
+                .onErrorResume(e -> Mono.empty())
+                .map(accessUriInner -> accessUriInner.accessSAS());
     }
 
     @Override
@@ -60,23 +47,17 @@ class SnapshotsImpl
                               AccessLevel accessLevel,
                               int accessDuration) {
         return this.grantAccessAsync(resourceGroupName, snapshotName, accessLevel, accessDuration)
-                .toBlocking()
-                .last();
+                .block();
     }
 
     @Override
-    public Completable revokeAccessAsync(String resourceGroupName, String snapName) {
-        return this.inner().revokeAccessAsync(resourceGroupName, snapName).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> revokeAccessAsync(String resourceGroupName, String snapName, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.revokeAccessAsync(resourceGroupName, snapName), callback);
+    public Mono<Void> revokeAccessAsync(String resourceGroupName, String snapName) {
+        return this.inner().revokeAccessAsync(resourceGroupName, snapName);
     }
 
     @Override
     public void revokeAccess(String resourceGroupName, String snapName) {
-        this.revokeAccessAsync(resourceGroupName, snapName).await();
+        this.revokeAccessAsync(resourceGroupName, snapName).block();
     }
 
     @Override
@@ -89,7 +70,7 @@ class SnapshotsImpl
         if (inner == null) {
             return null;
         }
-        return new SnapshotImpl(inner.name(), inner, this.manager());
+        return new SnapshotImpl(inner.getName(), inner, this.manager());
     }
 
     @Override

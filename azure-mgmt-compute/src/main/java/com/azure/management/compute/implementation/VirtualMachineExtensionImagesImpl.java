@@ -5,6 +5,9 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.util.FluxUtil;
 import com.microsoft.azure.PagedList;
 import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachineExtensionImage;
@@ -21,7 +24,6 @@ import rx.functions.Func1;
 /**
  * The implementation for {@link VirtualMachineExtensionImages}.
  */
-@LangDefinition
 class VirtualMachineExtensionImagesImpl
         implements VirtualMachineExtensionImages {
     private final VirtualMachinePublishers publishers;
@@ -31,13 +33,13 @@ class VirtualMachineExtensionImagesImpl
     }
 
     @Override
-    public PagedList<VirtualMachineExtensionImage> listByRegion(Region region) {
+    public PagedIterable<VirtualMachineExtensionImage> listByRegion(Region region) {
         return listByRegion(region.toString());
     }
 
     @Override
-    public PagedList<VirtualMachineExtensionImage> listByRegion(String regionName) {
-        PagedList<VirtualMachinePublisher> publishers = this.publishers().listByRegion(regionName);
+    public PagedIterable<VirtualMachineExtensionImage> listByRegion(String regionName) {
+        PagedIterable<VirtualMachinePublisher> publishers = this.publishers().listByRegion(regionName);
 
         PagedList<VirtualMachineExtensionImageType> extensionTypes =
                 new ChildListFlattener<>(publishers, new ChildListFlattener.ChildListLoader<VirtualMachinePublisher, VirtualMachineExtensionImageType>() {
@@ -67,13 +69,16 @@ class VirtualMachineExtensionImagesImpl
     }
 
     @Override
-    public Observable<VirtualMachineExtensionImage> listByRegionAsync(Region region) {
+    public PagedFlux<VirtualMachineExtensionImage> listByRegionAsync(Region region) {
         return listByRegionAsync(region.name());
     }
 
     @Override
-    public Observable<VirtualMachineExtensionImage> listByRegionAsync(String regionName) {
+    public PagedFlux<VirtualMachineExtensionImage> listByRegionAsync(String regionName) {
         return this.publishers().listByRegionAsync(regionName)
+                .flatMap(virtualMachinePublisher -> virtualMachinePublisher.extensionTypes().listAsync())
+                .flatMap(virtualMachineExtensionImageType -> virtualMachineExtensionImageType.versions().listAsync())
+                .flatMap(virtualMachineExtensionImageVersion -> virtualMachineExtensionImageVersion.getImageAsync());
                 .flatMap(new Func1<VirtualMachinePublisher, Observable<VirtualMachineExtensionImageType>>() {
                     @Override
                     public Observable<VirtualMachineExtensionImageType> call(VirtualMachinePublisher virtualMachinePublisher) {

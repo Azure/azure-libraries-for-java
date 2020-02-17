@@ -15,6 +15,7 @@ import com.azure.management.compute.InstanceViewStatus;
 import com.azure.management.compute.InstanceViewTypes;
 import com.azure.management.compute.OperatingSystemTypes;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import reactor.core.publisher.Mono;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -140,7 +141,7 @@ class WindowsVolumeNoAADEncryptionMonitorImpl implements DiskVolumeEncryptionMon
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> refreshAsync() {
+    public Mono<DiskVolumeEncryptionMonitor> refreshAsync() {
         final WindowsVolumeNoAADEncryptionMonitorImpl self = this;
         // Refreshes the cached virtual machine and installed encryption extension
         //

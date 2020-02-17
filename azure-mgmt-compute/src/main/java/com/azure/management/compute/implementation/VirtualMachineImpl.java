@@ -5,6 +5,7 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.management.AzureEnvironment;
 import com.google.gson.Gson;
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.Page;

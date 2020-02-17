@@ -5,16 +5,15 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.ComputeUsage;
 import com.azure.management.compute.ComputeUsageUnit;
 import com.azure.management.compute.UsageName;
+import com.azure.management.compute.models.UsageInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * The implementation of ComputeUsage.
  */
-@LangDefinition
 class ComputeUsageImpl extends WrapperImpl<UsageInner> implements ComputeUsage {
     ComputeUsageImpl(UsageInner innerObject) {
         super(innerObject);

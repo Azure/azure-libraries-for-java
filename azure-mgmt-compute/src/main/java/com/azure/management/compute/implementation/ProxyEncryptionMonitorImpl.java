@@ -11,9 +11,10 @@ import com.azure.management.compute.EncryptionStatus;
 import com.azure.management.compute.InstanceViewStatus;
 import com.azure.management.compute.OperatingSystemTypes;
 import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.models.VirtualMachineExtensionInner;
+import com.azure.management.compute.models.VirtualMachineInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,37 +75,30 @@ class ProxyEncryptionMonitorImpl implements DiskVolumeEncryptionMonitor {
 
     @Override
     public DiskVolumeEncryptionMonitor refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().block();
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> refreshAsync() {
+    public Mono<DiskVolumeEncryptionMonitor> refreshAsync() {
         if (this.resolvedEncryptionMonitor != null) {
             return this.resolvedEncryptionMonitor.refreshAsync();
         } else {
             final ProxyEncryptionMonitorImpl self = this;
             return retrieveVirtualMachineAsync()
-                    .flatMap(new Func1<VirtualMachineInner, Observable<DiskVolumeEncryptionMonitor>>() {
-                        @Override
-                        public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachineInner virtualMachine) {
-                            VirtualMachineExtensionInner extension = encryptionExtension(virtualMachine);
-                            if (extension != null) {
-                                if (EncryptionExtensionIdentifier.isNoAADVersion(osType(), extension.typeHandlerVersion())) {
-                                    self.resolvedEncryptionMonitor = (osType() == OperatingSystemTypes.LINUX)
-                                            ? new LinuxDiskVolumeNoAADEncryptionMonitorImpl(virtualMachine.id(), computeManager)
-                                            : new WindowsVolumeNoAADEncryptionMonitorImpl(virtualMachine.id(), computeManager);
-
-                                } else {
-                                    self.resolvedEncryptionMonitor = (osType() == OperatingSystemTypes.LINUX)
-                                            ? new LinuxDiskVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), computeManager)
-                                            : new WindowsVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), computeManager);
-                                }
-                                return self.resolvedEncryptionMonitor.refreshAsync();
-                            } else {
-                                return Observable.<DiskVolumeEncryptionMonitor>just(self);
-                            }
+                    .flatMap(virtualMachine -> {
+                        VirtualMachineExtensionInner extension = encryptionExtension(virtualMachine);
+                        if (EncryptionExtensionIdentifier.isNoAADVersion(osType(), extension.typeHandlerVersion())) {
+                            self.resolvedEncryptionMonitor = (osType() == OperatingSystemTypes.LINUX)
+                                    ? new LinuxDiskVolumeNoAADEncryptionMonitorImpl(virtualMachine.getId(), computeManager)
+                                    : new WindowsVolumeNoAADEncryptionMonitorImpl(virtualMachine.getId(), computeManager);
+                        } else {
+                            self.resolvedEncryptionMonitor = (osType() == OperatingSystemTypes.LINUX)
+                                    ? new LinuxDiskVolumeLegacyEncryptionMonitorImpl(virtualMachine.getId(), computeManager)
+                                    : new WindowsVolumeLegacyEncryptionMonitorImpl(virtualMachine.getId(), computeManager);
                         }
-                    });
+                        return self.resolvedEncryptionMonitor.refreshAsync();
+                    })
+                    .switchIfEmpty(Mono.just(self));
         }
     }
 
@@ -114,21 +108,13 @@ class ProxyEncryptionMonitorImpl implements DiskVolumeEncryptionMonitor {
      *
      * @return the retrieved virtual machine
      */
-    private Observable<VirtualMachineInner> retrieveVirtualMachineAsync() {
-        return this.computeManager
-                .inner()
-                .virtualMachines()
-                .getByResourceGroupAsync(ResourceUtils.groupFromResourceId(vmId), ResourceUtils.nameFromResourceId(vmId))
-                .flatMap(new Func1<VirtualMachineInner, Observable<VirtualMachineInner>>() {
-                    @Override
-                    public Observable<VirtualMachineInner> call(VirtualMachineInner virtualMachine) {
-                        if (virtualMachine == null) {
-                            return Observable.error(new Exception(String.format("VM with id '%s' not found.",
-                                    vmId)));
-                        }
-                        return Observable.just(virtualMachine);
-                    }
-                });
+    private Mono<VirtualMachineInner> retrieveVirtualMachineAsync() {
+        return computeManager.inner().virtualMachines()
+                .getByResourceGroupAsync(
+                        ResourceUtils.groupFromResourceId(vmId),
+                        ResourceUtils.nameFromResourceId(vmId)
+                )
+                .onErrorResume(e -> Mono.error(new Exception(String.format("VM with id '%s' not found.", vmId))));
     }
 
     /**

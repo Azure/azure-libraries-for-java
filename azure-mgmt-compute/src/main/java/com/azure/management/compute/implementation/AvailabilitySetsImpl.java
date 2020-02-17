@@ -5,24 +5,19 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.AvailabilitySetInner;
+import com.azure.management.compute.models.AvailabilitySetsInner;
 import com.azure.management.compute.AvailabilitySet;
 import com.azure.management.compute.AvailabilitySetSkuTypes;
 import com.azure.management.compute.AvailabilitySets;
-import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
-
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for AvailabilitySets.
  */
-@LangDefinition
 class AvailabilitySetsImpl
     extends GroupableResourcesImpl<
         AvailabilitySet,
@@ -37,39 +32,31 @@ class AvailabilitySetsImpl
     }
 
     @Override
-    public PagedList<AvailabilitySet> list() {
-        final AvailabilitySetsImpl self = this;
-        return new GroupPagedList<AvailabilitySet>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<AvailabilitySet> listNextGroup(String resourceGroupName) {
-                return wrapList(self.inner().listByResourceGroup(resourceGroupName));
-            }
-        };
+    public PagedIterable<AvailabilitySet> list() {
+        //TODO validate in tests
+        return manager().inner().availabilitySets().list()
+                .mapPage(this::wrapModel);
     }
 
     @Override
-    public Observable<AvailabilitySet> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<AvailabilitySet>>() {
-                    @Override
-                    public Observable<AvailabilitySet> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+    public PagedFlux<AvailabilitySet> listAsync() {
+        //TODO validate in tests
+        return this.manager().inner().availabilitySets().listAsync()
+                .mapPage(this::wrapModel);
     }
 
     @Override
-    public PagedList<AvailabilitySet> listByResourceGroup(String groupName) {
+    public PagedIterable<AvailabilitySet> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
     }
 
     @Override
-    public Observable<AvailabilitySet> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<AvailabilitySet> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
     }
 
     @Override
-    protected Observable<AvailabilitySetInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Mono<AvailabilitySetInner> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
@@ -79,8 +66,8 @@ class AvailabilitySetsImpl
     }
 
     @Override
-    protected Completable deleteInnerAsync(String groupName, String name) {
-        return this.inner().deleteAsync(groupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String groupName, String name) {
+        return this.inner().deleteAsync(groupName, name);
     }
 
     /**************************************************************
@@ -99,7 +86,7 @@ class AvailabilitySetsImpl
         if (availabilitySetInner == null) {
             return null;
         }
-        return new AvailabilitySetImpl(availabilitySetInner.name(),
+        return new AvailabilitySetImpl(availabilitySetInner.getName(),
                 availabilitySetInner,
                 this.manager());
     }

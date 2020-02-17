@@ -6,7 +6,6 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.AccessLevel;
 import com.azure.management.compute.CreationData;
 import com.azure.management.compute.CreationSource;
@@ -18,16 +17,13 @@ import com.azure.management.compute.EncryptionSettingsCollection;
 import com.azure.management.compute.GrantAccessData;
 import com.azure.management.compute.OperatingSystemTypes;
 import com.azure.management.compute.Snapshot;
+import com.azure.management.compute.models.DiskInner;
 import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.storage.StorageAccount;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +33,6 @@ import java.util.Set;
 /**
  * The implementation for {@link Disk} and its create and update interfaces.
  */
-@LangDefinition
 class DiskImpl
         extends GroupableResourceImpl<
         Disk,
@@ -112,45 +107,29 @@ class DiskImpl
 
     @Override
     public String grantAccess(int accessDurationInSeconds) {
-        return this.grantAccessAsync(accessDurationInSeconds).toBlocking().last();
+        return this.grantAccessAsync(accessDurationInSeconds).block();
     }
 
     @Override
-    public Observable<String> grantAccessAsync(int accessDurationInSeconds) {
+    public Mono<String> grantAccessAsync(int accessDurationInSeconds) {
         GrantAccessData grantAccessDataInner = new GrantAccessData();
         grantAccessDataInner.withAccess(AccessLevel.READ)
                 .withDurationInSeconds(accessDurationInSeconds);
 
-        return this.manager().inner().disks().grantAccessAsync(this.resourceGroupName(),
-                this.name(), grantAccessDataInner).map(new Func1<AccessUriInner, String>() {
-            @Override
-            public String call(AccessUriInner accessUriInner) {
-                if (accessUriInner == null) {
-                    return null;
-                }
-                return accessUriInner.accessSAS();
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<String> grantAccessAsync(int accessDurationInSeconds, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(this.grantAccessAsync(accessDurationInSeconds), callback);
+        return this.manager().inner().disks()
+                .grantAccessAsync(this.resourceGroupName(), this.name(), grantAccessDataInner)
+                .onErrorResume(e -> Mono.empty())
+                .map(accessUriInner -> accessUriInner.accessSAS());
     }
 
     @Override
     public void revokeAccess() {
-        this.revokeAccessAsync().await();
+        this.revokeAccessAsync().block();
     }
 
     @Override
-    public Completable revokeAccessAsync() {
-        return this.manager().inner().disks().revokeAccessAsync(this.resourceGroupName(), this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> revokeAccessAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.revokeAccessAsync(), callback);
+    public Mono<Void> revokeAccessAsync() {
+        return this.manager().inner().disks().revokeAccessAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -346,7 +325,7 @@ class DiskImpl
 
     @Override
     public DiskImpl withStorageAccountName(String storageAccountName) {
-        String id = ResourceUtils.constructResourceId(this.myManager.subscriptionId(),
+        String id = ResourceUtils.constructResourceId(this.myManager.getSubscriptionId(),
                 this.resourceGroupName(),
                 "Microsoft.Storage",
                 "storageAccounts",
@@ -375,13 +354,13 @@ class DiskImpl
     }
 
     @Override
-    public Observable<Disk> createResourceAsync() {
+    public Mono<Disk> createResourceAsync() {
         return manager().inner().disks().createOrUpdateAsync(resourceGroupName(), name(), this.inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<DiskInner> getInnerAsync() {
+    protected Mono<DiskInner> getInnerAsync() {
         return this.manager().inner().disks().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 }

@@ -5,12 +5,9 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
-
 /**
  * Shared managed vs unmanaged disks errors between virtual machine and virtual machine scale set.
  */
-@LangDefinition
 class ManagedUnmanagedDiskErrors {
     static final String VM_BOTH_MANAGED_AND_UNMANAGED_DISK_NOT_ALLOWED = "This virtual machine is based on managed disk(s), both un-managed and managed disk cannot exists together in a virtual machine";
     static final String VMSS_BOTH_MANAGED_AND_UNMANAGED_DISK_NOT_ALLOWED = "This virtual machine scale set is based on managed disk(s), both un-managed and managed cannot exists together in a virtual machine scale set";

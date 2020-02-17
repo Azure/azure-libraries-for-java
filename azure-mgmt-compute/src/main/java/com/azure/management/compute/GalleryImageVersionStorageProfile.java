@@ -15,6 +15,11 @@ import java.util.List;
  */
 @Immutable
 public final class GalleryImageVersionStorageProfile {
+    /**
+     * The source property.
+     */
+    @JsonProperty(value = "source")
+    private GalleryArtifactVersionSource source;
     /*
      * This is the OS disk image.
      */
@@ -26,6 +31,26 @@ public final class GalleryImageVersionStorageProfile {
      */
     @JsonProperty(value = "dataDiskImages", access = JsonProperty.Access.WRITE_ONLY)
     private List<GalleryDataDiskImage> dataDiskImages;
+
+    /**
+     * Get the source value.
+     *
+     * @return the source value
+     */
+    public GalleryArtifactVersionSource source() {
+        return this.source;
+    }
+
+    /**
+     * Set the source value.
+     *
+     * @param source the source value to set
+     * @return the GalleryImageVersionStorageProfile object itself.
+     */
+    public GalleryImageVersionStorageProfile withSource(GalleryArtifactVersionSource source) {
+        this.source = source;
+        return this;
+    }
 
     /**
      * Get the osDiskImage property: This is the OS disk image.

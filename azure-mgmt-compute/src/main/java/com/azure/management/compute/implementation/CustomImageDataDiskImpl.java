@@ -6,8 +6,7 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.compute.CachingTypes;
 import com.azure.management.compute.Disk;
 import com.azure.management.compute.ImageDataDisk;
@@ -17,7 +16,6 @@ import com.azure.management.resources.fluentcore.arm.models.implementation.Child
 /**
  * The implementation for {@link VirtualMachineCustomImage.CustomImageDataDisk}.
  */
-@LangDefinition
 class CustomImageDataDiskImpl
         extends ChildResourceImpl<ImageDataDisk, VirtualMachineCustomImageImpl, VirtualMachineCustomImage>
         implements
@@ -54,19 +52,19 @@ class CustomImageDataDiskImpl
 
     @Override
     public CustomImageDataDiskImpl fromSnapshot(String sourceSnapshotId) {
-        this.inner().withSnapshot(new SubResource().withId(sourceSnapshotId));
+        this.inner().withSnapshot(new SubResource().setId(sourceSnapshotId));
         return this;
     }
 
     @Override
     public CustomImageDataDiskImpl fromManagedDisk(String sourceManagedDiskId) {
-        this.inner().withManagedDisk(new SubResource().withId(sourceManagedDiskId));
+        this.inner().withManagedDisk(new SubResource().setId(sourceManagedDiskId));
         return this;
     }
 
     @Override
     public CustomImageDataDiskImpl fromManagedDisk(Disk sourceManagedDisk) {
-        this.inner().withManagedDisk(new SubResource().withId(sourceManagedDisk.id()));
+        this.inner().withManagedDisk(new SubResource().setId(sourceManagedDisk.id()));
         return this;
     }
 

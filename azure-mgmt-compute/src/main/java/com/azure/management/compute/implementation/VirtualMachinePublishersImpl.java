@@ -5,6 +5,8 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.management.compute.models.VirtualMachineExtensionImagesInner;
+import com.azure.management.compute.models.VirtualMachineImagesInner;
 import com.microsoft.azure.PagedList;
 import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachinePublisher;

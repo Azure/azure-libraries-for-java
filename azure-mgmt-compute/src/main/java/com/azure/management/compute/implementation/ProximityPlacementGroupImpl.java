@@ -6,8 +6,8 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
+import com.azure.management.compute.models.ProximityPlacementGroupInner;
 import com.azure.management.compute.ComputeSku;
 import com.azure.management.compute.ProximityPlacementGroup;
 import com.azure.management.compute.ProximityPlacementGroupType;
@@ -20,7 +20,6 @@ import java.util.List;
 /**
  * The implementation for {@link ComputeSku}.
  */
-@LangDefinition
 final class ProximityPlacementGroupImpl implements ProximityPlacementGroup {
     private final ProximityPlacementGroupInner inner;
 
@@ -50,7 +49,7 @@ final class ProximityPlacementGroupImpl implements ProximityPlacementGroup {
 
     @Override
     public String location() {
-        return this.inner().location();
+        return this.inner().getLocation();
     }
 
     @Override
@@ -60,7 +59,7 @@ final class ProximityPlacementGroupImpl implements ProximityPlacementGroup {
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -76,7 +75,7 @@ final class ProximityPlacementGroupImpl implements ProximityPlacementGroup {
             stringList = new ArrayList<>();
             Iterator<SubResource> iter = subList.iterator();
             while (iter.hasNext()) {
-                stringList.add(iter.next().id());
+                stringList.add(iter.next().getId());
             }
         }
 

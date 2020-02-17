@@ -6,10 +6,11 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.azure.management.apigeneration.Beta;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.AzureTokenCredential;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
 import com.azure.management.compute.AvailabilitySets;
 import com.azure.management.compute.ComputeSkus;
 import com.azure.management.compute.ComputeUsages;
@@ -23,16 +24,14 @@ import com.azure.management.compute.VirtualMachineExtensionImages;
 import com.azure.management.compute.VirtualMachineImages;
 import com.azure.management.compute.VirtualMachineScaleSets;
 import com.azure.management.compute.VirtualMachines;
+import com.azure.management.compute.models.ComputeManagementClientBuilder;
+import com.azure.management.compute.models.ComputeManagementClientImpl;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.network.implementation.NetworkManager;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
 
 /**
  * Entry point to Azure compute resource management.
@@ -70,19 +69,16 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * Creates an instance of ComputeManager that exposes Compute resource management API entry points.
      *
-     * @param credentials the credentials to use
+     * @param credential the credentials to use
      * @param subscriptionId the subscription
      * @return the ComputeManager
      */
-    public static ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new ComputeManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
+    public static ComputeManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+        return new ComputeManager(new RestClientBuilder()
+                .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), subscriptionId);
+                .buildClient(), subscriptionId);
     }
 
     /**
@@ -107,7 +103,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
          * @param subscriptionId the subscription
          * @return the ComputeManager
          */
-        ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
+        ComputeManager authenticate(AzureTokenCredential credentials, String subscriptionId);
     }
 
     /**
@@ -115,8 +111,8 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements  Configurable {
         @Override
-        public ComputeManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return ComputeManager.authenticate(buildRestClient(credentials), subscriptionId);
+        public ComputeManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+            return ComputeManager.authenticate(buildRestClient(credential), subscriptionId);
         }
     }
 
@@ -124,10 +120,14 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
         super(
                 restClient,
                 subscriptionId,
-                new ComputeManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+                new ComputeManagementClientBuilder()
+                        .pipeline(restClient.getHttpPipeline())
+                        .subscriptionId(subscriptionId)
+                        .build()
+        );
         storageManager = StorageManager.authenticate(restClient, subscriptionId);
         networkManager = NetworkManager.authenticate(restClient, subscriptionId);
-        rbacManager = GraphRbacManager.authenticate(restClient, ((AzureTokenCredentials) (restClient.credentials())).domain());
+        rbacManager = GraphRbacManager.authenticate(restClient, ((AzureTokenCredential) (restClient.getCredential())).getDomain());
     }
 
     /**
@@ -244,7 +244,6 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * @return the compute service gallery management entry point
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     public Galleries galleries() {
         if (galleries == null) {
             galleries = new GalleriesImpl(this);
@@ -255,7 +254,6 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * @return the compute service gallery image management entry point
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     public GalleryImages galleryImages() {
         if (galleryImages == null) {
             galleryImages = new GalleryImagesImpl(this);
@@ -266,7 +264,6 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
     /**
      * @return the compute service gallery image version management entry point
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     public GalleryImageVersions galleryImageVersions() {
         if (galleryImageVersions == null) {
             galleryImageVersions = new GalleryImageVersionsImpl(this);

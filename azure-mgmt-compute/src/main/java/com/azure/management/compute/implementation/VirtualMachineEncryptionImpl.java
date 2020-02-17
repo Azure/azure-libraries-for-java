@@ -13,7 +13,7 @@ import com.azure.management.compute.OperatingSystemTypes;
 import com.azure.management.compute.VirtualMachine;
 import com.azure.management.compute.VirtualMachineEncryption;
 import com.azure.management.compute.WindowsVMDiskEncryptionConfiguration;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation of VirtualMachineEncryption.
@@ -33,7 +33,7 @@ class VirtualMachineEncryptionImpl implements VirtualMachineEncryption {
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId, String aadClientId, String aadSecret) {
+    public Mono<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId, String aadClientId, String aadSecret) {
         if (this.virtualMachine.osType() == OperatingSystemTypes.LINUX) {
             return enableAsync(new LinuxVMDiskEncryptionConfiguration(keyVaultId, aadClientId, aadSecret));
         } else {
@@ -42,7 +42,7 @@ class VirtualMachineEncryptionImpl implements VirtualMachineEncryption {
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId) {
+    public Mono<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId) {
         if (this.virtualMachine.osType() == OperatingSystemTypes.LINUX) {
             return enableAsync(new LinuxVMDiskEncryptionConfiguration(keyVaultId));
         } else {
@@ -51,47 +51,47 @@ class VirtualMachineEncryptionImpl implements VirtualMachineEncryption {
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> enableAsync(WindowsVMDiskEncryptionConfiguration encryptionSettings) {
+    public Mono<DiskVolumeEncryptionMonitor> enableAsync(WindowsVMDiskEncryptionConfiguration encryptionSettings) {
         return virtualMachineEncryptionHelper.enableEncryptionAsync(encryptionSettings);
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> enableAsync(LinuxVMDiskEncryptionConfiguration encryptionSettings) {
+    public Mono<DiskVolumeEncryptionMonitor> enableAsync(LinuxVMDiskEncryptionConfiguration encryptionSettings) {
         return virtualMachineEncryptionHelper.enableEncryptionAsync(encryptionSettings);
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> disableAsync(final DiskVolumeType volumeType) {
+    public Mono<DiskVolumeEncryptionMonitor> disableAsync(final DiskVolumeType volumeType) {
         return virtualMachineEncryptionHelper.disableEncryptionAsync(volumeType);
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> getMonitorAsync() {
+    public Mono<DiskVolumeEncryptionMonitor> getMonitorAsync() {
         return new ProxyEncryptionMonitorImpl(this.virtualMachine).refreshAsync();
     }
 
     @Override
     public DiskVolumeEncryptionMonitor enable(String keyVaultId, String aadClientId, String aadSecret) {
-        return enableAsync(keyVaultId, aadClientId, aadSecret).toBlocking().last();
+        return enableAsync(keyVaultId, aadClientId, aadSecret).block();
     }
 
     @Override
     public DiskVolumeEncryptionMonitor enable(WindowsVMDiskEncryptionConfiguration encryptionSettings) {
-        return enableAsync(encryptionSettings).toBlocking().last();
+        return enableAsync(encryptionSettings).block();
     }
 
     @Override
     public DiskVolumeEncryptionMonitor enable(LinuxVMDiskEncryptionConfiguration encryptionSettings) {
-        return enableAsync(encryptionSettings).toBlocking().last();
+        return enableAsync(encryptionSettings).block();
     }
 
     @Override
     public DiskVolumeEncryptionMonitor disable(final DiskVolumeType volumeType) {
-        return disableAsync(volumeType).toBlocking().last();
+        return disableAsync(volumeType).block();
     }
 
     @Override
     public DiskVolumeEncryptionMonitor getMonitor() {
-        return getMonitorAsync().toBlocking().last();
+        return getMonitorAsync().block();
     }
 }

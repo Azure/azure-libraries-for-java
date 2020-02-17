@@ -5,9 +5,9 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.InstanceViewStatus;
 import com.azure.management.compute.RunCommandResult;
+import com.azure.management.compute.models.RunCommandResultInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.List;
 /**
  * The implementation of ComputeUsage.
  */
-@LangDefinition
 class RunCommandResultImpl extends WrapperImpl<RunCommandResultInner> implements RunCommandResult {
     RunCommandResultImpl(RunCommandResultInner innerObject) {
         super(innerObject);

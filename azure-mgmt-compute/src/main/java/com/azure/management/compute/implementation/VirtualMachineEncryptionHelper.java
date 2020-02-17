@@ -13,10 +13,7 @@ import com.azure.management.compute.OperatingSystemTypes;
 import com.azure.management.compute.VirtualMachine;
 import com.azure.management.compute.VirtualMachineEncryptionConfiguration;
 import com.azure.management.compute.VirtualMachineExtension;
-import com.azure.management.compute.VirtualMachineExtensionInstanceView;
-import rx.Observable;
-import rx.functions.Func0;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 /**
  * Helper type to enable or disable virtual machine disk (OS, Data) encryption.
@@ -51,28 +48,19 @@ class VirtualMachineEncryptionHelper {
      * @param <T> the Windows or Linux encryption settings
      * @return an observable that emits the encryption status
      */
-    <T extends VirtualMachineEncryptionConfiguration<T>> Observable<DiskVolumeEncryptionMonitor> enableEncryptionAsync(final VirtualMachineEncryptionConfiguration<T> encryptionConfig) {
+    <T extends VirtualMachineEncryptionConfiguration<T>> Mono<DiskVolumeEncryptionMonitor> enableEncryptionAsync(final VirtualMachineEncryptionConfiguration<T> encryptionConfig) {
         final EncryptionSettings.Enable<T> encryptSettings = EncryptionSettings.<T>createEnable(encryptionConfig);
-        //
         // If encryption extension is already installed then ensure user input aligns with state of the extension
         return validateBeforeEncryptAsync(encryptSettings)
                 // If encryption extension is already installed then update it
-                .flatMap(new Func1<VirtualMachineExtension, Observable<VirtualMachine>>() {
-                    @Override
-                    public Observable<VirtualMachine> call(VirtualMachineExtension virtualMachineExtension) {
-                        return updateEncryptionExtensionAsync(encryptSettings, virtualMachineExtension);
-                    }
-                })
+                .flatMap(virtualMachineExtension -> updateEncryptionExtensionAsync(encryptSettings, virtualMachineExtension))
                 // If encryption extension is not installed then install it
                 .switchIfEmpty(installEncryptionExtensionAsync(encryptSettings))
-                .flatMap(new Func1<VirtualMachine, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachine virtualMachine) {
-                        if (encryptSettings.requestedForNoAADEncryptExtension()) {
-                            return noAADExtensionEncryptPostProcessingAsync(virtualMachine);
-                        } else {
-                            return legacyExtensionEncryptPostProcessingAsync(encryptSettings);
-                        }
+                .flatMap(virtualMachine -> {
+                    if (encryptSettings.requestedForNoAADEncryptExtension()) {
+                        return noAADExtensionEncryptPostProcessingAsync(virtualMachine);
+                    } else {
+                        return legacyExtensionEncryptPostProcessingAsync(encryptSettings);
                     }
                 });
     }
@@ -83,31 +71,18 @@ class VirtualMachineEncryptionHelper {
      * @param volumeType the disk volume
      * @return an observable that emits the decryption status
      */
-    Observable<DiskVolumeEncryptionMonitor> disableEncryptionAsync(final DiskVolumeType volumeType) {
+    Mono<DiskVolumeEncryptionMonitor> disableEncryptionAsync(final DiskVolumeType volumeType) {
         final EncryptionSettings.Disable encryptSettings = EncryptionSettings.createDisable(volumeType);
         //
         return validateBeforeDecryptAsync(volumeType)
                 // Update the encryption extension
-                .flatMap(new Func1<VirtualMachineExtension, Observable<VMExtTuple>>() {
-                    @Override
-                    public Observable<VMExtTuple> call(final VirtualMachineExtension virtualMachineExtension) {
-                        return updateEncryptionExtensionAsync(encryptSettings, virtualMachineExtension)
-                                .map(new Func1<VirtualMachine, VMExtTuple>() {
-                                    @Override
-                                    public VMExtTuple call(VirtualMachine virtualMachine) {
-                                        return new VMExtTuple(virtualMachine, virtualMachineExtension);
-                                    }
-                                });
-                    }
-                })
-                .flatMap(new Func1<VMExtTuple, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VMExtTuple vmExt) {
-                        if (EncryptionExtensionIdentifier.isNoAADVersion(osType, vmExt.encryptExtension.versionName())) {
-                            return noAADExtensionDecryptPostProcessingAsync(vmExt.virtualMachine);
-                        } else {
-                            return legacyExtensionDecryptPostProcessingAsync(encryptSettings);
-                        }
+                .flatMap(virtualMachineExtension -> updateEncryptionExtensionAsync(encryptSettings, virtualMachineExtension)
+                        .map(virtualMachine -> new VMExtTuple(virtualMachine, virtualMachineExtension)))
+                .flatMap(vmExt -> {
+                    if (EncryptionExtensionIdentifier.isNoAADVersion(osType, vmExt.encryptExtension.versionName())) {
+                        return noAADExtensionDecryptPostProcessingAsync(vmExt.virtualMachine);
+                    } else {
+                        return legacyExtensionDecryptPostProcessingAsync(encryptSettings);
                     }
                 });
     }
@@ -118,7 +93,7 @@ class VirtualMachineEncryptionHelper {
      * @param virtualMachine the encrypted virtual machine
      * @return the encryption progress monitor
      */
-    private Observable<DiskVolumeEncryptionMonitor> noAADExtensionEncryptPostProcessingAsync(final VirtualMachine virtualMachine) {
+    private Mono<DiskVolumeEncryptionMonitor> noAADExtensionEncryptPostProcessingAsync(final VirtualMachine virtualMachine) {
         // Gets the encryption status
         return osType == OperatingSystemTypes.LINUX
                 ? new LinuxDiskVolumeNoAADEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync()
@@ -131,25 +106,15 @@ class VirtualMachineEncryptionHelper {
      * @param encryptConfig the user provided encryption config
      * @return the encryption progress monitor
      */
-    private <T extends VirtualMachineEncryptionConfiguration<T>> Observable<DiskVolumeEncryptionMonitor> legacyExtensionEncryptPostProcessingAsync(final EncryptionSettings.Enable<T> encryptConfig) {
+    private <T extends VirtualMachineEncryptionConfiguration<T>> Mono<DiskVolumeEncryptionMonitor> legacyExtensionEncryptPostProcessingAsync(final EncryptionSettings.Enable<T> encryptConfig) {
         // Retrieve the encryption key URL after extension install or update
         return retrieveEncryptionExtensionStatusStringAsync(ERROR_EXPECTED_KEY_VAULT_URL_NOT_FOUND)
                 // Update the VM's OS Disk (in storage profile) with the encryption metadata
-                .flatMap(new Func1<String, Observable<VirtualMachine>>() {
-                    @Override
-                    public Observable<VirtualMachine> call(String keyVaultSecretUrl) {
-                        return updateVMStorageProfileAsync(encryptConfig, keyVaultSecretUrl);
-                    }
-                })
+                .flatMap(keyVaultSecretUrl -> updateVMStorageProfileAsync(encryptConfig, keyVaultSecretUrl))
                 // Gets the encryption status
-                .flatMap(new Func1<VirtualMachine, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachine virtualMachine) {
-                        return osType == OperatingSystemTypes.LINUX
-                                ? new LinuxDiskVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync()
-                                : new WindowsVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync();
-                    }
-                });
+                .flatMap(virtualMachine -> osType == OperatingSystemTypes.LINUX
+                        ? new LinuxDiskVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync()
+                        : new WindowsVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync());
     }
 
     /**
@@ -158,7 +123,7 @@ class VirtualMachineEncryptionHelper {
      * @param virtualMachine the decrypted virtual machine
      * @return the decryption progress monitor
      */
-    private Observable<DiskVolumeEncryptionMonitor> noAADExtensionDecryptPostProcessingAsync(final VirtualMachine virtualMachine) {
+    private Mono<DiskVolumeEncryptionMonitor> noAADExtensionDecryptPostProcessingAsync(final VirtualMachine virtualMachine) {
         // Gets the encryption status
         return osType == OperatingSystemTypes.LINUX
                 ? new LinuxDiskVolumeNoAADEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync()
@@ -171,24 +136,14 @@ class VirtualMachineEncryptionHelper {
      * @param encryptConfig the user provided encryption config
      * @return the encryption progress monitor
      */
-    private Observable<DiskVolumeEncryptionMonitor> legacyExtensionDecryptPostProcessingAsync(final EncryptionSettings.Disable encryptConfig) {
+    private Mono<DiskVolumeEncryptionMonitor> legacyExtensionDecryptPostProcessingAsync(final EncryptionSettings.Disable encryptConfig) {
         return retrieveEncryptionExtensionStatusStringAsync(ERROR_ENCRYPTION_EXTENSION_STATUS_IS_EMPTY)
                 // Update the VM's OS profile by marking encryption disabled
-                .flatMap(new Func1<String, Observable<VirtualMachine>>() {
-                    @Override
-                    public Observable<VirtualMachine> call(String status) {
-                        return updateVMStorageProfileAsync(encryptConfig);
-                    }
-                })
+                .flatMap(s -> updateVMStorageProfileAsync(encryptConfig))
                 // Gets the encryption status
-                .flatMap(new Func1<VirtualMachine, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachine virtualMachine) {
-                        return osType == OperatingSystemTypes.LINUX
-                                ? new LinuxDiskVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync()
-                                : new WindowsVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync();
-                    }
-                });
+                .flatMap(virtualMachine -> osType == OperatingSystemTypes.LINUX
+                        ? new LinuxDiskVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync()
+                        : new WindowsVolumeLegacyEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync());
     }
 
     /**
@@ -199,25 +154,22 @@ class VirtualMachineEncryptionHelper {
      * @param encryptSettings the user provided configuration
      * @return observable emitting error, extension or empty.
      */
-    private <T extends VirtualMachineEncryptionConfiguration<T>> Observable<VirtualMachineExtension> validateBeforeEncryptAsync(final EncryptionSettings.Enable<T> encryptSettings) {
+    private <T extends VirtualMachineEncryptionConfiguration<T>> Mono<VirtualMachineExtension> validateBeforeEncryptAsync(final EncryptionSettings.Enable<T> encryptSettings) {
         if (this.virtualMachine.storageProfile().osDisk().encryptionSettings() != null && encryptSettings.requestedForNoAADEncryptExtension()) {
-            return Observable.error(new RuntimeException(ERROR_LEGACY_ENCRYPTION_EXTENSION_FOUND_AAD_PARAMS_REQUIRED));
+            return Mono.error(new RuntimeException(ERROR_LEGACY_ENCRYPTION_EXTENSION_FOUND_AAD_PARAMS_REQUIRED));
         }
         return getEncryptionExtensionInstalledInVMAsync()
-                .flatMap(new Func1<VirtualMachineExtension, Observable<VirtualMachineExtension>>() {
-                    @Override
-                    public Observable<VirtualMachineExtension> call(VirtualMachineExtension extension) {
-                        if (EncryptionExtensionIdentifier.isNoAADVersion(osType, extension.versionName())) {
-                            // NoAAD-Encrypt-Extension exists so Legacy-Encrypt-Extension cannot be installed hence AAD params are not required.
-                            return encryptSettings.requestedForNoAADEncryptExtension()
-                                    ? Observable.just(extension)
-                                    : Observable.<VirtualMachineExtension>error(new RuntimeException(ERROR_NOAAD_ENCRYPTION_EXTENSION_FOUND_AAD_PARAMS_NOT_REQUIRED));
-                        } else {
-                            // Legacy-Encrypt-Extension exists so NoAAD-Encrypt-Extension cannot be installed hence AAD params are required.
-                            return encryptSettings.requestedForNoAADEncryptExtension()
-                                    ? Observable.<VirtualMachineExtension>error(new RuntimeException(ERROR_LEGACY_ENCRYPTION_EXTENSION_FOUND_AAD_PARAMS_REQUIRED))
-                                    : Observable.just(extension);
-                        }
+                .flatMap(extension -> {
+                    if (EncryptionExtensionIdentifier.isNoAADVersion(osType, extension.versionName())) {
+                        // NoAAD-Encrypt-Extension exists so Legacy-Encrypt-Extension cannot be installed hence AAD params are not required.
+                        return encryptSettings.requestedForNoAADEncryptExtension()
+                                ? Mono.just(extension)
+                                : Mono.error(new RuntimeException(ERROR_NOAAD_ENCRYPTION_EXTENSION_FOUND_AAD_PARAMS_NOT_REQUIRED));
+                    } else {
+                        // Legacy-Encrypt-Extension exists so NoAAD-Encrypt-Extension cannot be installed hence AAD params are required.
+                        return encryptSettings.requestedForNoAADEncryptExtension()
+                                ? Mono.error(new RuntimeException(ERROR_LEGACY_ENCRYPTION_EXTENSION_FOUND_AAD_PARAMS_REQUIRED))
+                                : Mono.just(extension);
                     }
                 });
     }
@@ -228,12 +180,12 @@ class VirtualMachineEncryptionHelper {
      * @param volumeType the volume type to decrypt
      * @return observable that emit existing encryption extension if installed else empty observable
      */
-    private Observable<VirtualMachineExtension> validateBeforeDecryptAsync(final DiskVolumeType volumeType) {
+    private Mono<VirtualMachineExtension> validateBeforeDecryptAsync(final DiskVolumeType volumeType) {
         if (osType == OperatingSystemTypes.LINUX && volumeType != DiskVolumeType.DATA) {
-            return toErrorObservable(ERROR_ON_LINUX_ONLY_DATA_DISK_CAN_BE_DECRYPTED);
+            return toErrorMono(ERROR_ON_LINUX_ONLY_DATA_DISK_CAN_BE_DECRYPTED);
         }
         return getEncryptionExtensionInstalledInVMAsync()
-                .switchIfEmpty(this.<VirtualMachineExtension>toErrorObservable(ERROR_NO_DECRYPT_ENCRYPTION_EXTENSION_NOT_FOUND));
+                .switchIfEmpty(this.toErrorMono(ERROR_NO_DECRYPT_ENCRYPTION_EXTENSION_NOT_FOUND));
     }
 
     /**
@@ -242,26 +194,13 @@ class VirtualMachineEncryptionHelper {
      *
      * @return an observable that emits the encryption extension installed in the virtual machine
      */
-    private Observable<VirtualMachineExtension> getEncryptionExtensionInstalledInVMAsync() {
+    private Mono<VirtualMachineExtension> getEncryptionExtensionInstalledInVMAsync() {
         return virtualMachine.listExtensionsAsync()
                 // firstOrDefault() is used intentionally here instead of first() to ensure
                 // this method return empty observable if matching extension is not found.
-                //
-                .firstOrDefault(null, new Func1<VirtualMachineExtension, Boolean>() {
-                    @Override
-                    public Boolean call(final VirtualMachineExtension extension) {
-                        return EncryptionExtensionIdentifier.isEncryptionPublisherName(extension.publisherName())
-                                && EncryptionExtensionIdentifier.isEncryptionTypeName(extension.typeName(), osType);
-                    }
-                }).flatMap(new Func1<VirtualMachineExtension, Observable<VirtualMachineExtension>>() {
-                    @Override
-                    public Observable<VirtualMachineExtension> call(VirtualMachineExtension extension) {
-                        if (extension == null) {
-                            return Observable.empty();
-                        }
-                        return Observable.just(extension);
-                    }
-                });
+                .filter(extension -> EncryptionExtensionIdentifier.isEncryptionPublisherName(extension.publisherName())
+                        && EncryptionExtensionIdentifier.isEncryptionTypeName(extension.typeName(), osType))
+                .singleOrEmpty();
     }
 
     /**
@@ -272,7 +211,7 @@ class VirtualMachineEncryptionHelper {
      * @param encryptionExtension existing encryption extension
      * @return an observable that emits updated virtual machine if extension was already installed otherwise an empty observable.
      */
-    private Observable<VirtualMachine> updateEncryptionExtensionAsync(final EncryptionSettings encryptSettings, VirtualMachineExtension encryptionExtension) {
+    private Mono<VirtualMachine> updateEncryptionExtensionAsync(final EncryptionSettings encryptSettings, VirtualMachineExtension encryptionExtension) {
         return virtualMachine.update()
                 .updateExtension(encryptionExtension.name())
                     .withPublicSettings(encryptSettings.extensionPublicSettings())
@@ -287,22 +226,19 @@ class VirtualMachineEncryptionHelper {
      * @param encryptSettings the volume encryption configuration
      * @return an observable that emits updated virtual machine
      */
-    private <T extends VirtualMachineEncryptionConfiguration<T>> Observable<VirtualMachine> installEncryptionExtensionAsync(final EncryptionSettings.Enable<T> encryptSettings) {
-        return Observable.defer(new Func0<Observable<VirtualMachine>>() {
-            @Override
-            public Observable<VirtualMachine> call() {
-                final String typeName = EncryptionExtensionIdentifier.typeName(osType);
-                return virtualMachine.update()
-                        .defineNewExtension(typeName)
-                            .withPublisher(EncryptionExtensionIdentifier.publisherName())
-                            .withType(typeName)
-                            .withVersion(encryptSettings.encryptionExtensionVersion())
-                            .withPublicSettings(encryptSettings.extensionPublicSettings())
-                            .withProtectedSettings(encryptSettings.extensionProtectedSettings())
-                            .withMinorVersionAutoUpgrade()
-                            .attach()
-                        .applyAsync();
-            }
+    private <T extends VirtualMachineEncryptionConfiguration<T>> Mono<VirtualMachine> installEncryptionExtensionAsync(final EncryptionSettings.Enable<T> encryptSettings) {
+        return Mono.defer(() -> {
+            final String typeName = EncryptionExtensionIdentifier.typeName(osType);
+            return virtualMachine.update()
+                    .defineNewExtension(typeName)
+                    .withPublisher(EncryptionExtensionIdentifier.publisherName())
+                    .withType(typeName)
+                    .withVersion(encryptSettings.encryptionExtensionVersion())
+                    .withPublicSettings(encryptSettings.extensionPublicSettings())
+                    .withProtectedSettings(encryptSettings.extensionProtectedSettings())
+                    .withMinorVersionAutoUpgrade()
+                    .attach()
+                    .applyAsync();
         });
     }
 
@@ -316,34 +252,24 @@ class VirtualMachineEncryptionHelper {
      * @param statusEmptyErrorMessage the error message to emit if unable to locate the status
      * @return an observable that emits status message
      */
-    private Observable<String> retrieveEncryptionExtensionStatusStringAsync(final String statusEmptyErrorMessage) {
+    private Mono<String> retrieveEncryptionExtensionStatusStringAsync(final String statusEmptyErrorMessage) {
         final VirtualMachineEncryptionHelper self = this;
         return getEncryptionExtensionInstalledInVMAsync()
-                .switchIfEmpty(self.<VirtualMachineExtension>toErrorObservable(ERROR_ENCRYPTION_EXTENSION_NOT_FOUND))
-                .flatMap(new Func1<VirtualMachineExtension, Observable<VirtualMachineExtensionInstanceView>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionInstanceView> call(VirtualMachineExtension extension) {
-                        if (!extension.provisioningState().equalsIgnoreCase("Succeeded")) {
-                            return self.toErrorObservable((String.format(ERROR_NON_SUCCESS_PROVISIONING_STATE, extension.provisioningState())));
-                        }
-                        return extension.getInstanceViewAsync();
+                .switchIfEmpty(self.toErrorMono(ERROR_ENCRYPTION_EXTENSION_NOT_FOUND))
+                .flatMap(extension -> {
+                    if (!extension.provisioningState().equalsIgnoreCase("Succeeded")) {
+                        return self.toErrorMono((String.format(ERROR_NON_SUCCESS_PROVISIONING_STATE, extension.provisioningState())));
                     }
+                    return extension.getInstanceViewAsync();
                 })
-                .flatMap(new Func1<VirtualMachineExtensionInstanceView, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(VirtualMachineExtensionInstanceView instanceView) {
-                        if (instanceView == null
-                                || instanceView.statuses() == null
-                                || instanceView.statuses().size() == 0) {
-                            return self.toErrorObservable(ERROR_EXPECTED_ENCRYPTION_EXTENSION_STATUS_NOT_FOUND);
-                        }
-                        String extensionStatus = instanceView.statuses().get(0).message();
-                        if (extensionStatus == null) {
-                            return self.toErrorObservable(statusEmptyErrorMessage);
-                        }
-                        return Observable.just(extensionStatus);
+                .flatMap(instanceView -> {
+                    String extensionStatus = instanceView.statuses().get(0).message();
+                    if (extensionStatus == null) {
+                        return self.toErrorMono(statusEmptyErrorMessage);
                     }
-                });
+                    return Mono.just(extensionStatus);
+                })
+                .switchIfEmpty(self.toErrorMono(ERROR_EXPECTED_ENCRYPTION_EXTENSION_STATUS_NOT_FOUND));
     }
 
     /**
@@ -354,7 +280,7 @@ class VirtualMachineEncryptionHelper {
      * @param encryptionSecretKeyVaultUrl the keyVault URL pointing to secret holding disk encryption key
      * @return an observable that emits updated virtual machine
      */
-    private Observable<VirtualMachine> updateVMStorageProfileAsync(final EncryptionSettings encryptSettings,
+    private Mono<VirtualMachine> updateVMStorageProfileAsync(final EncryptionSettings encryptSettings,
                                                                    final String encryptionSecretKeyVaultUrl) {
         DiskEncryptionSettings diskEncryptionSettings = encryptSettings.storageProfileEncryptionSettings();
         diskEncryptionSettings.diskEncryptionKey()
@@ -370,7 +296,7 @@ class VirtualMachineEncryptionHelper {
      * @param encryptSettings the configuration specific to disabling the encryption
      * @return an observable that emits updated virtual machine
      */
-    private Observable<VirtualMachine> updateVMStorageProfileAsync(final EncryptionSettings encryptSettings) {
+    private Mono<VirtualMachine> updateVMStorageProfileAsync(final EncryptionSettings encryptSettings) {
         DiskEncryptionSettings diskEncryptionSettings = encryptSettings.storageProfileEncryptionSettings();
         return virtualMachine.update()
                 .withOSDiskEncryptionSettings(diskEncryptionSettings)
@@ -378,14 +304,14 @@ class VirtualMachineEncryptionHelper {
     }
 
     /**
-     * Wraps the given message in an error observable.
+     * Wraps the given message in an error Mono.
      *
      * @param message the error message
-     * @param <ResultT> observable type
-     * @return error observable with message wrapped
+     * @param <ResultT> Mono type
+     * @return error Mono with message wrapped
      */
-    private <ResultT> Observable<ResultT> toErrorObservable(String message) {
-        return Observable.error(new Exception(message));
+    private <ResultT> Mono<ResultT> toErrorMono(String message) {
+        return Mono.error(new Exception(message));
     }
 
     private class VMExtTuple {

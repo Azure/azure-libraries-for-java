@@ -49,7 +49,7 @@ public interface ComputeSkus
      * @param resourceType the resource type
      * @return the skus list
      */
-    PagedIterable<ComputeSku> listbyRegionAndResourceType(Region region, ComputeResourceType resourceType);
+    PagedIterable<ComputeSku> listByRegionAndResourceType(Region region, ComputeResourceType resourceType);
 
     /**
      * Lists all the skus with the specified resource type in the given region.
@@ -58,5 +58,5 @@ public interface ComputeSkus
      * @param resourceType the resource type
      * @return an observable that emits skus
      */
-    PagedFlux<ComputeSku> listbyRegionAndResourceTypeAsync(Region region, ComputeResourceType resourceType);
+    PagedFlux<ComputeSku> listByRegionAndResourceTypeAsync(Region region, ComputeResourceType resourceType);
 }

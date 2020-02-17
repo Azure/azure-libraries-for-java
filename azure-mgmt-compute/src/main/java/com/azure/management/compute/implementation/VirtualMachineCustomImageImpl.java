@@ -6,8 +6,8 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
+import com.azure.management.compute.models.ImageInner;
 import com.azure.management.compute.CachingTypes;
 import com.azure.management.compute.Disk;
 import com.azure.management.compute.HyperVGenerationTypes;
@@ -20,7 +20,7 @@ import com.azure.management.compute.Snapshot;
 import com.azure.management.compute.VirtualMachine;
 import com.azure.management.compute.VirtualMachineCustomImage;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +31,6 @@ import java.util.Map;
 /**
  * The implementation for VirtualMachineCustomImage.
  */
-@LangDefinition
 class VirtualMachineCustomImageImpl
         extends GroupableResourceImpl<
             VirtualMachineCustomImage,
@@ -63,7 +62,7 @@ class VirtualMachineCustomImageImpl
         if (this.inner().sourceVirtualMachine() == null) {
             return null;
         }
-        return this.inner().sourceVirtualMachine().id();
+        return this.inner().sourceVirtualMachine().getId();
     }
 
     @Override
@@ -77,7 +76,7 @@ class VirtualMachineCustomImageImpl
     @Override
     public Map<Integer, ImageDataDisk> dataDiskImages() {
         if (this.inner().storageProfile() == null || this.inner().storageProfile().dataDisks() == null) {
-            return Collections.unmodifiableMap(new HashMap<Integer, ImageDataDisk>());
+            return Collections.unmodifiableMap(new HashMap<>());
         }
         HashMap<Integer, ImageDataDisk> diskImages = new HashMap<>();
         for (ImageDataDisk dataDisk : this.inner().storageProfile().dataDisks()) {
@@ -88,7 +87,7 @@ class VirtualMachineCustomImageImpl
 
     @Override
     public VirtualMachineCustomImageImpl fromVirtualMachine(String virtualMachineId) {
-        this.inner().withSourceVirtualMachine(new SubResource().withId(virtualMachineId));
+        this.inner().withSourceVirtualMachine(new SubResource().setId(virtualMachineId));
         return this;
     }
 
@@ -121,7 +120,7 @@ class VirtualMachineCustomImageImpl
         this.ensureOsDiskImage()
                 .withOsState(osState)
                 .withOsType(OperatingSystemTypes.WINDOWS)
-                .withSnapshot(new SubResource().withId(sourceSnapshotId));
+                .withSnapshot(new SubResource().setId(sourceSnapshotId));
         return this;
     }
 
@@ -130,7 +129,7 @@ class VirtualMachineCustomImageImpl
         this.ensureOsDiskImage()
                 .withOsState(osState)
                 .withOsType(OperatingSystemTypes.LINUX)
-                .withSnapshot(new SubResource().withId(sourceSnapshotId));
+                .withSnapshot(new SubResource().setId(sourceSnapshotId));
 
         return this;
     }
@@ -150,7 +149,7 @@ class VirtualMachineCustomImageImpl
         this.ensureOsDiskImage()
                 .withOsState(osState)
                 .withOsType(OperatingSystemTypes.WINDOWS)
-                .withManagedDisk(new SubResource().withId(sourceManagedDiskId));
+                .withManagedDisk(new SubResource().setId(sourceManagedDiskId));
         return this;
     }
 
@@ -159,7 +158,7 @@ class VirtualMachineCustomImageImpl
         this.ensureOsDiskImage()
                 .withOsState(osState)
                 .withOsType(OperatingSystemTypes.LINUX)
-                .withManagedDisk(new SubResource().withId(sourceManagedDiskId));
+                .withManagedDisk(new SubResource().setId(sourceManagedDiskId));
         return this;
     }
 
@@ -227,14 +226,14 @@ class VirtualMachineCustomImageImpl
     }
 
     @Override
-    public Observable<VirtualMachineCustomImage> createResourceAsync() {
+    public Mono<VirtualMachineCustomImage> createResourceAsync() {
         ensureDefaultLuns();
         return this.manager().inner().images().createOrUpdateAsync(resourceGroupName(), name(), this.inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<ImageInner> getInnerAsync() {
+    protected Mono<ImageInner> getInnerAsync() {
         return this.manager().inner().images().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 

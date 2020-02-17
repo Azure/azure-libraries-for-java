@@ -6,15 +6,15 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachineCustomImage;
 import com.azure.management.compute.VirtualMachineCustomImages;
+import com.azure.management.compute.models.ImageInner;
+import com.azure.management.compute.models.ImagesInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  * The implementation for VirtualMachineCustomImages.
  */
-@LangDefinition
 class VirtualMachineCustomImagesImpl extends TopLevelModifiableResourcesImpl<
         VirtualMachineCustomImage,
         VirtualMachineCustomImageImpl,
@@ -37,7 +37,7 @@ class VirtualMachineCustomImagesImpl extends TopLevelModifiableResourcesImpl<
         if (inner == null) {
             return null;
         }
-        return new VirtualMachineCustomImageImpl(inner.name(), inner, this.manager());
+        return new VirtualMachineCustomImageImpl(inner.getName(), inner, this.manager());
     }
 
     @Override

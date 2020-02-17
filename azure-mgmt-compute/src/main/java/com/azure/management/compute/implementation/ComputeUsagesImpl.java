@@ -5,18 +5,18 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.ComputeManagementClientImpl;
+import com.azure.management.compute.models.UsageInner;
 import com.azure.management.compute.ComputeUsage;
 import com.azure.management.compute.ComputeUsages;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
 
 /**
  * The implementation of {@link ComputeUsages}.
  */
-@LangDefinition
 class ComputeUsagesImpl extends ReadableWrappersImpl<ComputeUsage, ComputeUsageImpl, UsageInner>
         implements ComputeUsages {
     private final ComputeManagementClientImpl client;
@@ -26,22 +26,22 @@ class ComputeUsagesImpl extends ReadableWrappersImpl<ComputeUsage, ComputeUsageI
     }
 
     @Override
-    public PagedList<ComputeUsage> listByRegion(Region region) {
+    public PagedIterable<ComputeUsage> listByRegion(Region region) {
         return listByRegion(region.name());
     }
 
     @Override
-    public PagedList<ComputeUsage> listByRegion(String regionName) {
+    public PagedIterable<ComputeUsage> listByRegion(String regionName) {
         return wrapList(client.usages().list(regionName));
     }
 
     @Override
-    public Observable<ComputeUsage> listByRegionAsync(Region region) {
+    public PagedFlux<ComputeUsage> listByRegionAsync(Region region) {
         return listByRegionAsync(region.name());
     }
 
     @Override
-    public Observable<ComputeUsage> listByRegionAsync(String regionName) {
+    public PagedFlux<ComputeUsage> listByRegionAsync(String regionName) {
         return wrapPageAsync(client.usages().listAsync(regionName));
     }
 

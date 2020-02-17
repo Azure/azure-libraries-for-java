@@ -5,17 +5,16 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.ComputeRoles;
 import com.azure.management.compute.OperatingSystemTypes;
 import com.azure.management.compute.VirtualMachineExtensionImage;
 import com.azure.management.compute.VirtualMachineExtensionImageVersion;
+import com.azure.management.compute.models.VirtualMachineExtensionImageInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * The implementation for {@link VirtualMachineExtensionImage}.
  */
-@LangDefinition
 class VirtualMachineExtensionImageImpl
         extends WrapperImpl<VirtualMachineExtensionImageInner>
         implements VirtualMachineExtensionImage {
@@ -28,12 +27,12 @@ class VirtualMachineExtensionImageImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
     public String regionName() {
-        return this.inner().location();
+        return this.inner().getLocation();
     }
 
     @Override

@@ -6,8 +6,9 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.GalleryImageInner;
 import com.azure.management.compute.Disallowed;
 import com.azure.management.compute.DiskSkuTypes;
 import com.azure.management.compute.DiskStorageAccountTypes;
@@ -22,9 +23,9 @@ import com.azure.management.compute.RecommendedMachineConfiguration;
 import com.azure.management.compute.ResourceRange;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import org.joda.time.DateTime;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,7 +36,6 @@ import java.util.Map;
 /**
  * The implementation for GalleryImage and its create and update interfaces.
  */
-@LangDefinition
 class GalleryImageImpl
         extends CreatableUpdatableImpl<GalleryImage, GalleryImageInner, GalleryImageImpl>
         implements GalleryImage, GalleryImage.Definition, GalleryImage.Update {
@@ -53,19 +53,19 @@ class GalleryImageImpl
     }
 
     GalleryImageImpl(GalleryImageInner inner, ComputeManager manager) {
-        super(inner.name(), inner);
+        super(inner.getName(), inner);
         this.manager = manager;
         // Set resource name
-        this.galleryImageName = inner.name();
+        this.galleryImageName = inner.getName();
         // resource ancestor names
-        this.resourceGroupName = getValueFromIdByName(inner.id(), "resourceGroups");
-        this.galleryName = getValueFromIdByName(inner.id(), "galleries");
-        this.galleryImageName = getValueFromIdByName(inner.id(), "images");
+        this.resourceGroupName = getValueFromIdByName(inner.getId(), "resourceGroups");
+        this.galleryName = getValueFromIdByName(inner.getId(), "galleries");
+        this.galleryImageName = getValueFromIdByName(inner.getId(), "images");
         //
     }
 
     @Override
-    public Observable<GalleryImageVersion> getVersionAsync(String versionName) {
+    public Mono<GalleryImageVersion> getVersionAsync(String versionName) {
         return this.manager().galleryImageVersions().getByGalleryImageAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, versionName);
     }
 
@@ -75,12 +75,12 @@ class GalleryImageImpl
     }
 
     @Override
-    public Observable<GalleryImageVersion> listVersionsAsync() {
+    public PagedFlux<GalleryImageVersion> listVersionsAsync() {
         return this.manager().galleryImageVersions().listByGalleryImageAsync(this.resourceGroupName, this.galleryName, this.galleryImageName);
     }
 
     @Override
-    public PagedList<GalleryImageVersion> listVersions() {
+    public PagedIterable<GalleryImageVersion> listVersions() {
         return this.manager().galleryImageVersions().listByGalleryImage(this.resourceGroupName, this.galleryName, this.galleryImageName);
     }
 
@@ -90,28 +90,25 @@ class GalleryImageImpl
     }
 
     @Override
-    public Observable<GalleryImage> createResourceAsync() {
-        GalleryImagesInner client = this.manager().inner().galleryImages();
-        return client.createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.inner())
+    public Mono<GalleryImage> createResourceAsync() {
+        return manager().inner().galleryImages().createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.inner())
             .map(innerToFluentMap(this));
     }
 
     @Override
-    public Observable<GalleryImage> updateResourceAsync() {
-        GalleryImagesInner client = this.manager().inner().galleryImages();
-        return client.createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.inner())
+    public Mono<GalleryImage> updateResourceAsync() {
+        return manager().inner().galleryImages().createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.inner())
             .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<GalleryImageInner> getInnerAsync() {
-        GalleryImagesInner client = this.manager().inner().galleryImages();
-        return client.getAsync(this.resourceGroupName, this.galleryName, this.galleryImageName);
+    protected Mono<GalleryImageInner> getInnerAsync() {
+        return manager().inner().galleryImages().getAsync(this.resourceGroupName, this.galleryName, this.galleryImageName);
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
 
@@ -139,7 +136,7 @@ class GalleryImageImpl
     }
 
     @Override
-    public DateTime endOfLifeDate() {
+    public OffsetDateTime endOfLifeDate() {
         return this.inner().endOfLifeDate();
     }
 
@@ -150,7 +147,7 @@ class GalleryImageImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -160,12 +157,12 @@ class GalleryImageImpl
 
     @Override
     public String location() {
-        return this.inner().location();
+        return this.inner().getLocation();
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
@@ -185,7 +182,7 @@ class GalleryImageImpl
 
     @Override
     public String provisioningState() {
-        return this.inner().provisioningState();
+        return this.inner().provisioningState().toString();
     }
 
     @Override
@@ -210,7 +207,7 @@ class GalleryImageImpl
 
     @Override
     public String type() {
-        return this.inner().type();
+        return this.inner().getType();
     }
 
     @Override
@@ -229,13 +226,13 @@ class GalleryImageImpl
 
     @Override
     public GalleryImageImpl withLocation(String location) {
-        this.inner().withLocation(location);
+        this.inner().setLocation(location);
         return this;
     }
 
     @Override
     public GalleryImageImpl withLocation(Region location) {
-        this.inner().withLocation(location.toString());
+        this.inner().setLocation(location.toString());
         return this;
     }
 
@@ -347,7 +344,7 @@ class GalleryImageImpl
     }
 
     @Override
-    public GalleryImageImpl withEndOfLifeDate(DateTime endOfLifeDate) {
+    public GalleryImageImpl withEndOfLifeDate(OffsetDateTime endOfLifeDate) {
         this.inner().withEndOfLifeDate(endOfLifeDate);
         return this;
     }
@@ -468,7 +465,7 @@ class GalleryImageImpl
 
     @Override
     public GalleryImageImpl withTags(Map<String, String> tags) {
-        this.inner().withTags(tags);
+        this.inner().setTags(tags);
         return this;
     }
 

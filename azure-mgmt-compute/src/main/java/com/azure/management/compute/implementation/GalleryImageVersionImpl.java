@@ -6,7 +6,6 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.GalleryArtifactVersionSource;
 import com.azure.management.compute.GalleryImageVersion;
 import com.azure.management.compute.GalleryImageVersionPublishingProfile;
@@ -14,11 +13,12 @@ import com.azure.management.compute.GalleryImageVersionStorageProfile;
 import com.azure.management.compute.ReplicationStatus;
 import com.azure.management.compute.TargetRegion;
 import com.azure.management.compute.VirtualMachineCustomImage;
+import com.azure.management.compute.models.GalleryImageVersionInner;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import org.joda.time.DateTime;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,7 +29,6 @@ import java.util.Map;
 /**
  * The implementation for GalleryImageVersion and its create and update interfaces.
  */
-@LangDefinition
 class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion, GalleryImageVersionInner, GalleryImageVersionImpl>
         implements GalleryImageVersion, GalleryImageVersion.Definition, GalleryImageVersion.Update {
     private final ComputeManager manager;
@@ -47,15 +46,15 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     GalleryImageVersionImpl(GalleryImageVersionInner inner, ComputeManager manager) {
-        super(inner.name(), inner);
+        super(inner.getName(), inner);
         this.manager = manager;
         // Set resource name
-        this.galleryImageVersionName = inner.name();
+        this.galleryImageVersionName = inner.getName();
         // resource ancestor names
-        this.resourceGroupName = getValueFromIdByName(inner.id(), "resourceGroups");
-        this.galleryName = getValueFromIdByName(inner.id(), "galleries");
-        this.galleryImageName = getValueFromIdByName(inner.id(), "images");
-        this.galleryImageVersionName = getValueFromIdByName(inner.id(), "versions");
+        this.resourceGroupName = getValueFromIdByName(inner.getId(), "resourceGroups");
+        this.galleryName = getValueFromIdByName(inner.getId(), "galleries");
+        this.galleryImageName = getValueFromIdByName(inner.getId(), "images");
+        this.galleryImageVersionName = getValueFromIdByName(inner.getId(), "versions");
         //
     }
 
@@ -65,48 +64,45 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public Observable<GalleryImageVersion> createResourceAsync() {
-        GalleryImageVersionsInner client = this.manager().inner().galleryImageVersions();
-        return client.createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.galleryImageVersionName, this.inner())
+    public Mono<GalleryImageVersion> createResourceAsync() {
+        return manager().inner().galleryImageVersions().createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.galleryImageVersionName, this.inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    public Observable<GalleryImageVersion> updateResourceAsync() {
-        GalleryImageVersionsInner client = this.manager().inner().galleryImageVersions();
-        return client.createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.galleryImageVersionName, this.inner())
+    public Mono<GalleryImageVersion> updateResourceAsync() {
+        return manager().inner().galleryImageVersions().createOrUpdateAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.galleryImageVersionName, this.inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<GalleryImageVersionInner> getInnerAsync() {
-        GalleryImageVersionsInner client = this.manager().inner().galleryImageVersions();
-        return client.getAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.galleryImageVersionName);
+    protected Mono<GalleryImageVersionInner> getInnerAsync() {
+        return manager().inner().galleryImageVersions().getAsync(this.resourceGroupName, this.galleryName, this.galleryImageName, this.galleryImageVersionName);
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
     public String location() {
-        return this.inner().location();
+        return this.inner().getLocation();
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String provisioningState() {
-        return this.inner().provisioningState();
+        return this.inner().provisioningState().toString();
     }
 
     @Override
@@ -126,7 +122,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public DateTime endOfLifeDate() {
+    public OffsetDateTime endOfLifeDate() {
         if (this.inner().publishingProfile() != null) {
             return this.inner().publishingProfile().endOfLifeDate();
         } else {
@@ -160,7 +156,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
 
     @Override
     public String type() {
-        return this.inner().type();
+        return this.inner().getType();
     }
 
     @Override
@@ -173,13 +169,13 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
 
     @Override
     public GalleryImageVersionImpl withLocation(String location) {
-        this.inner().withLocation(location);
+        this.inner().setLocation(location);
         return this;
     }
 
     @Override
     public DefinitionStages.WithSource withLocation(Region location) {
-        this.inner().withLocation(location.toString());
+        this.inner().setLocation(location.toString());
         return this;
     }
 
@@ -206,7 +202,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
             this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
         }
         if (this.inner().publishingProfile().targetRegions() == null) {
-            this.inner().publishingProfile().withTargetRegions(new ArrayList<TargetRegion>());
+            this.inner().publishingProfile().withTargetRegions(new ArrayList<>());
         }
 
         boolean found = false;
@@ -304,7 +300,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public GalleryImageVersionImpl withEndOfLifeDate(DateTime endOfLifeDate) {
+    public GalleryImageVersionImpl withEndOfLifeDate(OffsetDateTime endOfLifeDate) {
         if (this.inner().publishingProfile() == null) {
             this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
         }
@@ -333,7 +329,7 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
 
     @Override
     public GalleryImageVersionImpl withTags(Map<String, String> tags) {
-        this.inner().withTags(tags);
+        this.inner().setTags(tags);
         return this;
     }
 

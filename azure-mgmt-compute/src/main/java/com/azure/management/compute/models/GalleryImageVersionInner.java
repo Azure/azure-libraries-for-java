@@ -88,6 +88,17 @@ public class GalleryImageVersionInner extends Resource {
     }
 
     /**
+     * Set the storageProfile value.
+     *
+     * @param storageProfile the storageProfile value to set
+     * @return the GalleryImageVersionInner object itself.
+     */
+    public GalleryImageVersionInner withStorageProfile(GalleryImageVersionStorageProfile storageProfile) {
+        this.storageProfile = storageProfile;
+        return this;
+    }
+
+    /**
      * Get the replicationStatus property: This is the replication status of
      * the gallery Image Version.
      * 

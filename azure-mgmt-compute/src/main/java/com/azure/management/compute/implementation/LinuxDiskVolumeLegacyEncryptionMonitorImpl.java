@@ -6,15 +6,13 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.Beta;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.DiskVolumeEncryptionMonitor;
 import com.azure.management.compute.EncryptionStatus;
 import com.azure.management.compute.InstanceViewStatus;
 import com.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.models.VirtualMachineExtensionInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +21,6 @@ import java.util.Map;
  * The implementation for DiskVolumeEncryptionStatus for Linux virtual machine.
  * This implementation monitor status of encrypt-decrypt through legacy encryption extension.
  */
-@LangDefinition
 class LinuxDiskVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryptionMonitor {
     private final String rgName;
     private final String vmName;
@@ -71,7 +68,6 @@ class LinuxDiskVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryption
         return LinuxEncryptionExtensionUtil.dataDiskStatus(this.encryptionExtension.instanceView());
     }
 
-    @Beta
     @Override
     public Map<String, InstanceViewStatus> diskInstanceViewEncryptionStatuses() {
         // Not available for legacy based encryption
@@ -80,23 +76,19 @@ class LinuxDiskVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryption
 
     @Override
     public DiskVolumeEncryptionMonitor refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().block();
     }
 
     @Override
-    public Observable<DiskVolumeEncryptionMonitor> refreshAsync() {
+    public Mono<DiskVolumeEncryptionMonitor> refreshAsync() {
         // Refreshes the cached encryption extension installed in the Linux virtual machine.
-        //
         final DiskVolumeEncryptionMonitor self = this;
         return retrieveEncryptExtensionWithInstanceViewAsync()
-                .flatMap(new Func1<VirtualMachineExtensionInner, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachineExtensionInner virtualMachineExtensionInner) {
-                        encryptionExtension = virtualMachineExtensionInner;
-                        return Observable.just(self);
-                    }
+                .flatMap(virtualMachineExtensionInner -> {
+                    encryptionExtension = virtualMachineExtensionInner;
+                    return Mono.just(self);
                 })
-                .switchIfEmpty(Observable.just(self));
+                .switchIfEmpty(Mono.just(self));
     }
 
     /**
@@ -104,15 +96,13 @@ class LinuxDiskVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryption
      *
      * @return the retrieved extension
      */
-    private Observable<VirtualMachineExtensionInner> retrieveEncryptExtensionWithInstanceViewAsync() {
+    private Mono<VirtualMachineExtensionInner> retrieveEncryptExtensionWithInstanceViewAsync() {
         if (encryptionExtension != null) {
             // If there is already a cached extension simply retrieve it again with instance view.
-            //
             return retrieveExtensionWithInstanceViewAsync(encryptionExtension);
         } else {
             // Extension is not cached already so retrieve name from the virtual machine and
             // then get the extension with instance view.
-            //
             return retrieveEncryptExtensionWithInstanceViewFromVMAsync();
         }
     }
@@ -124,20 +114,10 @@ class LinuxDiskVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryption
      * @param extension the extension name
      * @return an observable that emits the retrieved extension
      */
-    private Observable<VirtualMachineExtensionInner> retrieveExtensionWithInstanceViewAsync(VirtualMachineExtensionInner extension) {
-        return this.computeManager
-                .inner()
-                .virtualMachineExtensions()
-                .getAsync(rgName, vmName, extension.name(), "instanceView")
-                .flatMap(new Func1<VirtualMachineExtensionInner, Observable<VirtualMachineExtensionInner>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionInner> call(VirtualMachineExtensionInner virtualMachineExtensionInner) {
-                        if (virtualMachineExtensionInner == null) {
-                            return Observable.empty();
-                        }
-                        return Observable.just(virtualMachineExtensionInner);
-                    }
-                });
+    private Mono<VirtualMachineExtensionInner> retrieveExtensionWithInstanceViewAsync(VirtualMachineExtensionInner extension) {
+        return computeManager.inner().virtualMachineExtensions()
+                .getAsync(rgName, vmName, extension.getName(), "instanceView")
+                .onErrorResume(e -> Mono.empty());
     }
 
     /**
@@ -147,28 +127,20 @@ class LinuxDiskVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryption
      *
      * @return the retrieved extension
      */
-    private Observable<VirtualMachineExtensionInner> retrieveEncryptExtensionWithInstanceViewFromVMAsync() {
-        return this.computeManager
-                .inner()
-                .virtualMachines()
+    private Mono<VirtualMachineExtensionInner> retrieveEncryptExtensionWithInstanceViewFromVMAsync() {
+        return computeManager.inner().virtualMachines()
                 .getByResourceGroupAsync(rgName, vmName)
-                .flatMap(new Func1<VirtualMachineInner, Observable<VirtualMachineExtensionInner>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionInner> call(VirtualMachineInner virtualMachine) {
-                        if (virtualMachine == null) {
-                            return Observable.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')",
-                                    vmName, rgName)));
-                        }
-                        if (virtualMachine.resources() != null) {
-                            for (VirtualMachineExtensionInner extension : virtualMachine.resources()) {
-                                if (EncryptionExtensionIdentifier.isEncryptionPublisherName(extension.publisher())
-                                        && EncryptionExtensionIdentifier.isEncryptionTypeName(extension.virtualMachineExtensionType(), OperatingSystemTypes.LINUX)) {
-                                    return retrieveExtensionWithInstanceViewAsync(extension);
-                                }
+                .onErrorResume(e -> Mono.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')", vmName, rgName))))
+                .flatMap(virtualMachine -> {
+                    if (virtualMachine.resources() != null) {
+                        for (VirtualMachineExtensionInner extension : virtualMachine.resources()) {
+                            if (EncryptionExtensionIdentifier.isEncryptionPublisherName(extension.publisher())
+                                    && EncryptionExtensionIdentifier.isEncryptionTypeName(extension.virtualMachineExtensionType(), OperatingSystemTypes.LINUX)) {
+                                return retrieveExtensionWithInstanceViewAsync(extension);
                             }
                         }
-                        return Observable.empty();
                     }
+                    return Mono.empty();
                 });
     }
 

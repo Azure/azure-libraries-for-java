@@ -6,8 +6,7 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.AzureEnvironment;
 import com.azure.management.compute.CachingTypes;
 import com.azure.management.compute.DataDisk;
 import com.azure.management.compute.DiskCreateOptionTypes;
@@ -25,7 +24,6 @@ import java.util.UUID;
 /**
  * The implementation for {@link DataDisk} and its create and update interfaces.
  */
-@LangDefinition
 class UnmanagedDataDiskImpl
         extends ChildResourceImpl<DataDisk, VirtualMachineImpl, VirtualMachine>
         implements
@@ -179,7 +177,7 @@ class UnmanagedDataDiskImpl
                 //New empty and from image data disk requires Vhd Uri to be set
                 if (dataDisk.inner().vhd() == null) {
                     dataDisk.inner().withVhd(new VirtualHardDisk());
-                    dataDisk.inner().vhd().withUri(storageAccount.endPoints().primary().blob()
+                    dataDisk.inner().vhd().withUri(storageAccount.endPoints().primary().getBlob()
                             + "vhds/"
                             + namePrefix + "-data-disk-" + dataDisk.lun() + "-" + UUID.randomUUID().toString() + ".vhd");
                 }
@@ -212,6 +210,6 @@ class UnmanagedDataDiskImpl
 
     private String blobUrl(String storageAccountName, String containerName, String blobName) {
         AzureEnvironment azureEnvironment = this.parent().environment();
-        return  "https://" + storageAccountName + ".blob" + azureEnvironment.storageEndpointSuffix() + "/" + containerName + "/" + blobName;
+        return  "https://" + storageAccountName + ".blob" + azureEnvironment.getStorageEndpointSuffix() + "/" + containerName + "/" + blobName;
     }
 }

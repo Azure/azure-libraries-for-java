@@ -6,17 +6,17 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.GalleryInner;
 import com.azure.management.compute.Gallery;
 import com.azure.management.compute.GalleryImage;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for Gallery and its create and update interfaces.
  */
-@LangDefinition
 class GalleryImpl
         extends GroupableResourceImpl<Gallery, GalleryInner, GalleryImpl, ComputeManager>
         implements Gallery, Gallery.Definition, Gallery.Update {
@@ -25,28 +25,25 @@ class GalleryImpl
     }
 
     @Override
-    public Observable<Gallery> createResourceAsync() {
-        GalleriesInner client = this.manager().inner().galleries();
-        return client.createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+    public Mono<Gallery> createResourceAsync() {
+        return manager().inner().galleries().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
             .map(innerToFluentMap(this));
     }
 
     @Override
-    public Observable<Gallery> updateResourceAsync() {
-        GalleriesInner client = this.manager().inner().galleries();
-        return client.createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+    public Mono<Gallery> updateResourceAsync() {
+        return manager().inner().galleries().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
             .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<GalleryInner> getInnerAsync() {
-        GalleriesInner client = this.manager().inner().galleries();
-        return client.getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    protected Mono<GalleryInner> getInnerAsync() {
+        return manager().inner().galleries().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
@@ -61,11 +58,11 @@ class GalleryImpl
 
     @Override
     public String provisioningState() {
-        return this.inner().provisioningState();
+        return this.inner().provisioningState().toString();
     }
 
     @Override
-    public Observable<GalleryImage> getImageAsync(String imageName) {
+    public Mono<GalleryImage> getImageAsync(String imageName) {
         return this.manager().galleryImages().getByGalleryAsync(this.resourceGroupName(), this.name(), imageName);
     }
 
@@ -75,12 +72,12 @@ class GalleryImpl
     }
 
     @Override
-    public Observable<GalleryImage> listImagesAsync() {
+    public PagedFlux<GalleryImage> listImagesAsync() {
         return this.manager().galleryImages().listByGalleryAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public PagedList<GalleryImage> listImages() {
+    public PagedIterable<GalleryImage> listImages() {
         return this.manager().galleryImages().listByGallery(this.resourceGroupName(), this.name());
     }
 

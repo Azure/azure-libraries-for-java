@@ -6,7 +6,6 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.AvailabilitySetSkuTypes;
 import com.azure.management.compute.ComputeResourceType;
 import com.azure.management.compute.ComputeSku;
@@ -20,6 +19,7 @@ import com.azure.management.compute.ResourceSkuCosts;
 import com.azure.management.compute.ResourceSkuLocationInfo;
 import com.azure.management.compute.ResourceSkuRestrictions;
 import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.compute.models.ResourceSkuInner;
 import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.azure.management.resources.fluentcore.arm.Region;
 
@@ -34,7 +34,6 @@ import java.util.Set;
 /**
  * The implementation for {@link ComputeSku}.
  */
-@LangDefinition
 final class ComputeSkuImpl implements ComputeSku {
     private final ResourceSkuInner inner;
 
@@ -121,7 +120,7 @@ final class ComputeSkuImpl implements ComputeSku {
                 if (info.location() != null) {
                     Region region = Region.fromName(info.location());
                     if (!regionToZones.containsKey(region)) {
-                        regionToZones.put(region, new HashSet<AvailabilityZoneId>());
+                        regionToZones.put(region, new HashSet<>());
                     }
                     Set<AvailabilityZoneId> availabilityZoneIds = new HashSet<>();
                     if (info.zones() != null) {
@@ -146,7 +145,7 @@ final class ComputeSkuImpl implements ComputeSku {
         if (this.inner.apiVersions() != null) {
             return Collections.unmodifiableList(this.inner.apiVersions());
         } else {
-            return Collections.unmodifiableList(new ArrayList<String>());
+            return Collections.unmodifiableList(new ArrayList<>());
         }
     }
 
@@ -155,7 +154,7 @@ final class ComputeSkuImpl implements ComputeSku {
         if (this.inner.costs() != null) {
             return Collections.unmodifiableList(this.inner.costs());
         } else {
-            return Collections.unmodifiableList(new ArrayList<ResourceSkuCosts>());
+            return Collections.unmodifiableList(new ArrayList<>());
         }
     }
 
@@ -164,7 +163,7 @@ final class ComputeSkuImpl implements ComputeSku {
         if (this.inner.capabilities() != null) {
             return Collections.unmodifiableList(this.inner.capabilities());
         } else {
-            return Collections.unmodifiableList(new ArrayList<ResourceSkuCapabilities>());
+            return Collections.unmodifiableList(new ArrayList<>());
         }
     }
 
@@ -173,7 +172,7 @@ final class ComputeSkuImpl implements ComputeSku {
         if (this.inner.capabilities() != null) {
             return Collections.unmodifiableList(this.inner.restrictions());
         } else {
-            return Collections.unmodifiableList(new ArrayList<ResourceSkuRestrictions>());
+            return Collections.unmodifiableList(new ArrayList<>());
         }
     }
 

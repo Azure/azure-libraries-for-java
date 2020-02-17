@@ -6,7 +6,6 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.AccessLevel;
 import com.azure.management.compute.CreationData;
 import com.azure.management.compute.CreationSource;
@@ -20,18 +19,14 @@ import com.azure.management.compute.Snapshot;
 import com.azure.management.compute.SnapshotSku;
 import com.azure.management.compute.SnapshotSkuType;
 import com.azure.management.compute.SnapshotStorageAccountTypes;
+import com.azure.management.compute.models.SnapshotInner;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for Snapshot and its create and update interfaces.
  */
-@LangDefinition
 class SnapshotImpl
         extends GroupableResourceImpl<
         Snapshot,
@@ -94,45 +89,27 @@ class SnapshotImpl
 
     @Override
     public String grantAccess(int accessDurationInSeconds) {
-        return this.grantAccessAsync(accessDurationInSeconds).toBlocking().last();
+        return this.grantAccessAsync(accessDurationInSeconds).block();
     }
 
     @Override
-    public Observable<String> grantAccessAsync(int accessDurationInSeconds) {
+    public Mono<String> grantAccessAsync(int accessDurationInSeconds) {
         GrantAccessData grantAccessDataInner = new GrantAccessData();
         grantAccessDataInner.withAccess(AccessLevel.READ)
                 .withDurationInSeconds(accessDurationInSeconds);
-
-        return this.manager().inner().snapshots().grantAccessAsync(this.resourceGroupName(),
-                this.name(), grantAccessDataInner).map(new Func1<AccessUriInner, String>() {
-            @Override
-            public String call(AccessUriInner accessUriInner) {
-                if (accessUriInner == null) {
-                    return null;
-                }
-                return accessUriInner.accessSAS();
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<String> grantAccessAsync(int accessDurationInSeconds, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(this.grantAccessAsync(accessDurationInSeconds), callback);
+        return manager().inner().snapshots().grantAccessAsync(resourceGroupName(), name(), grantAccessDataInner)
+                .onErrorResume(e -> Mono.empty())
+                .map(accessUriInner -> accessUriInner.accessSAS());
     }
 
     @Override
     public void revokeAccess() {
-        this.revokeAccessAsync().await();
+        this.revokeAccessAsync().block();
     }
 
     @Override
-    public Completable revokeAccessAsync() {
-        return this.manager().inner().snapshots().revokeAccessAsync(this.resourceGroupName(), this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> revokeAccessAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.revokeAccessAsync(), callback);
+    public Mono<Void> revokeAccessAsync() {
+        return this.manager().inner().snapshots().revokeAccessAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
@@ -316,13 +293,13 @@ class SnapshotImpl
     }
 
     @Override
-    public Observable<Snapshot> createResourceAsync() {
+    public Mono<Snapshot> createResourceAsync() {
         return this.manager().inner().snapshots().createOrUpdateAsync(resourceGroupName(), name(), this.inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<SnapshotInner> getInnerAsync() {
+    protected Mono<SnapshotInner> getInnerAsync() {
         return this.manager().inner().snapshots().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 }

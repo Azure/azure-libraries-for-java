@@ -6,21 +6,18 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.GalleryImageInner;
+import com.azure.management.compute.models.GalleryImagesInner;
 import com.azure.management.compute.GalleryImage;
 import com.azure.management.compute.GalleryImages;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for GalleryImages.
  */
-@LangDefinition
 class GalleryImagesImpl extends WrapperImpl<GalleryImagesInner> implements GalleryImages {
     private final ComputeManager manager;
 
@@ -47,58 +44,36 @@ class GalleryImagesImpl extends WrapperImpl<GalleryImagesInner> implements Galle
     }
 
     @Override
-    public Observable<GalleryImage> listByGalleryAsync(final String resourceGroupName, final String galleryName) {
-        GalleryImagesInner client = this.inner();
-        return client.listByGalleryAsync(resourceGroupName, galleryName)
-        .flatMapIterable(new Func1<Page<GalleryImageInner>, Iterable<GalleryImageInner>>() {
-            @Override
-            public Iterable<GalleryImageInner> call(Page<GalleryImageInner> page) {
-                return page.items();
-            }
-        })
-        .map(new Func1<GalleryImageInner, GalleryImage>() {
-            @Override
-            public GalleryImage call(GalleryImageInner inner) {
-                return wrapModel(inner);
-            }
-        });
+    public PagedFlux<GalleryImage> listByGalleryAsync(final String resourceGroupName, final String galleryName) {
+        return inner().listByGalleryAsync(resourceGroupName, galleryName)
+                .mapPage(this::wrapModel);
     }
 
     @Override
-    public PagedList<GalleryImage> listByGallery(String resourceGroupName, String galleryName) {
-        return (new PagedListConverter<GalleryImageInner, GalleryImage>() {
-            @Override
-            public Observable<GalleryImage> typeConvertAsync(final GalleryImageInner inner) {
-                return Observable.<GalleryImage>just(wrapModel(inner));
-            }
-        }).convert(inner().listByGallery(resourceGroupName, galleryName));
+    public PagedIterable<GalleryImage> listByGallery(String resourceGroupName, String galleryName) {
+        return inner().listByGallery(resourceGroupName, galleryName)
+                .mapPage(this::wrapModel);
     }
 
     @Override
-    public Observable<GalleryImage> getByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName) {
-        GalleryImagesInner client = this.inner();
-        return client.getAsync(resourceGroupName, galleryName, galleryImageName)
-        .map(new Func1<GalleryImageInner, GalleryImage>() {
-            @Override
-            public GalleryImage call(GalleryImageInner inner) {
-                return wrapModel(inner);
-            }
-       });
+    public Mono<GalleryImage> getByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName) {
+        return inner().getAsync(resourceGroupName, galleryName, galleryImageName)
+                .onErrorResume(e -> Mono.empty())
+                .map(this::wrapModel);
     }
 
     @Override
     public GalleryImage getByGallery(String resourceGroupName, String galleryName, String galleryImageName) {
-        return this.getByGalleryAsync(resourceGroupName, galleryName, galleryImageName).toBlocking().last();
+        return this.getByGalleryAsync(resourceGroupName, galleryName, galleryImageName).block();
     }
 
     @Override
-    public Completable deleteByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName) {
-        GalleryImagesInner client = this.inner();
-        return client.deleteAsync(resourceGroupName, galleryName, galleryImageName).toCompletable();
+    public Mono<Void> deleteByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName) {
+        return inner().deleteAsync(resourceGroupName, galleryName, galleryImageName);
     }
 
     @Override
     public void deleteByGallery(String resourceGroupName, String galleryName, String galleryImageName) {
-        this.deleteByGalleryAsync(resourceGroupName, galleryName, galleryImageName).await();
+        this.deleteByGalleryAsync(resourceGroupName, galleryName, galleryImageName).block();
     }
 }

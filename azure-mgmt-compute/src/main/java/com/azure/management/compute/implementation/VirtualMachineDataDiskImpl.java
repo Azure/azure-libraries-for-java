@@ -6,7 +6,6 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.CachingTypes;
 import com.azure.management.compute.DataDisk;
 import com.azure.management.compute.DiskCreateOptionTypes;
@@ -18,7 +17,6 @@ import com.azure.management.resources.fluentcore.utils.Utils;
 /**
  * The implementation for {@link VirtualMachineDataDisk} interface.
  */
-@LangDefinition
 class VirtualMachineDataDiskImpl
         extends WrapperImpl<DataDisk>
         implements VirtualMachineDataDisk  {
@@ -60,7 +58,7 @@ class VirtualMachineDataDiskImpl
         if (this.inner().managedDisk() == null) {
             return null;
         }
-        return this.inner().managedDisk().id();
+        return this.inner().managedDisk().getId();
     }
 
     @Override

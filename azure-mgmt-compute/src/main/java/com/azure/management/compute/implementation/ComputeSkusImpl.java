@@ -6,26 +6,19 @@
 
 package com.azure.management.compute.implementation;
 
-import com.google.common.collect.Lists;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.ResourceSkuInner;
+import com.azure.management.compute.models.ResourceSkusInner;
 import com.azure.management.compute.ComputeResourceType;
 import com.azure.management.compute.ComputeSku;
 import com.azure.management.compute.ComputeSkus;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.RestException;
-import rx.Observable;
-import rx.functions.Func1;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * The implementation for {@link ComputeSkus}.
  */
-@LangDefinition
 final class ComputeSkusImpl
         extends
         ReadableWrappersImpl<ComputeSku, ComputeSkuImpl, ResourceSkuInner>
@@ -43,39 +36,34 @@ final class ComputeSkusImpl
     }
 
     @Override
-    public PagedList<ComputeSku> list() {
+    public PagedIterable<ComputeSku> list() {
         return wrapList(this.inner().list());
     }
 
     @Override
-    public Observable<ComputeSku> listAsync() {
+    public PagedFlux<ComputeSku> listAsync() {
         return wrapPageAsync(this.inner().listAsync());
     }
 
     @Override
-    public PagedList<ComputeSku> listByRegion(String regionName) {
+    public PagedIterable<ComputeSku> listByRegion(String regionName) {
         return this.listByRegion(Region.fromName(regionName));
     }
 
     @Override
-    public PagedList<ComputeSku> listByRegion(Region region) {
-        return toPagedList(listByRegionAsync(region));
+    public PagedIterable<ComputeSku> listByRegion(Region region) {
+        return new PagedIterable<>(listByRegionAsync(region));
     }
 
     @Override
-    public Observable<ComputeSku> listByRegionAsync(String regionName) {
+    public PagedFlux<ComputeSku> listByRegionAsync(String regionName) {
         return this.listByRegionAsync(Region.fromName(regionName));
     }
 
     @Override
-    public Observable<ComputeSku> listByRegionAsync(final Region region) {
-        return this.listAsync()
-                .filter(new Func1<ComputeSku, Boolean>() {
-                    @Override
-                    public Boolean call(ComputeSku computeSku) {
-                        return computeSku.regions() != null && computeSku.regions().contains(region);
-                    }
-                });
+    public PagedFlux<ComputeSku> listByRegionAsync(final Region region) {
+        return inner().listAsync(String.format("location eq '%s'", region.name()))
+                .mapPage(this::wrapModel);
     }
 
     @Override
@@ -89,64 +77,24 @@ final class ComputeSkusImpl
     }
 
     @Override
-    public PagedList<ComputeSku> listByResourceType(ComputeResourceType resourceType) {
-        return toPagedList(listByResourceTypeAsync(resourceType));
+    public PagedIterable<ComputeSku> listByResourceType(ComputeResourceType resourceType) {
+        return new PagedIterable<>(listByResourceTypeAsync(resourceType));
     }
 
     @Override
-    public Observable<ComputeSku> listByResourceTypeAsync(final ComputeResourceType resourceType) {
-        return this.listAsync()
-                .filter(new Func1<ComputeSku, Boolean>() {
-                    @Override
-                    public Boolean call(ComputeSku computeSku) {
-                        return computeSku.resourceType() != null && computeSku.resourceType().equals(resourceType);
-                    }
-                });
+    public PagedFlux<ComputeSku> listByResourceTypeAsync(final ComputeResourceType resourceType) {
+        return inner().listAsync(String.format("resourceType eq '%s'", resourceType.toString()))
+                .mapPage(this::wrapModel);
     }
 
     @Override
-    public PagedList<ComputeSku> listbyRegionAndResourceType(Region region, ComputeResourceType resourceType) {
-        return toPagedList(listbyRegionAndResourceTypeAsync(region, resourceType));
+    public PagedIterable<ComputeSku> listByRegionAndResourceType(Region region, ComputeResourceType resourceType) {
+        return new PagedIterable<>(listByRegionAndResourceTypeAsync(region, resourceType));
     }
 
     @Override
-    public Observable<ComputeSku> listbyRegionAndResourceTypeAsync(final Region region, final ComputeResourceType resourceType) {
-        return this.listAsync()
-                .filter(new Func1<ComputeSku, Boolean>() {
-                    @Override
-                    public Boolean call(ComputeSku computeSku) {
-                        return computeSku.resourceType() != null
-                                && computeSku.resourceType().equals(resourceType)
-                                && computeSku.regions() != null
-                                && computeSku.regions().contains(region);
-                    }
-                });
-    }
-
-    /**
-     * Util function to block on an observable and turn that to a paged list with one page.
-     *
-     * @param skuObservable the observable
-     * @param <T> the item type
-     * @return a paged list with items collected from the given observable
-     */
-    private static <T> PagedList<T> toPagedList(final Observable<T> skuObservable) {
-        Page<T> singlePage = new Page<T>() {
-            @Override
-            public List<T> items() {
-                return Lists.newArrayList(skuObservable.toBlocking().toIterable());
-            }
-
-            @Override
-            public String nextPageLink() {
-                return null;
-            }
-        };
-        return new PagedList<T>(singlePage) {
-            @Override
-            public Page<T> nextPage(String s) throws RestException, IOException {
-                return null;
-            }
-        };
+    public PagedFlux<ComputeSku> listByRegionAndResourceTypeAsync(final Region region, final ComputeResourceType resourceType) {
+        return inner().listAsync(String.format("location eq '%s' and resourceType eq '%s'", region.name(), resourceType.toString()))
+                .mapPage(this::wrapModel);
     }
 }

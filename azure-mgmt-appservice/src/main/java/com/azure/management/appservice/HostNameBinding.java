@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
@@ -17,8 +16,7 @@ import com.azure.management.appservice.implementation.HostNameBindingInner;
 /**
  * An immutable representation of a host name binding.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface HostNameBinding
         extends
         HasInner<HostNameBindingInner>,

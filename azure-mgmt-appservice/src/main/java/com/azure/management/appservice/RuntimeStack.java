@@ -13,7 +13,7 @@ import java.util.Collection;
 /**
  * Defines App service pricing tiers.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
+@Fluent
 public class RuntimeStack {
     private static final AttributeCollection<RuntimeStack> COLLECTION = new AttributeCollection<>();
 

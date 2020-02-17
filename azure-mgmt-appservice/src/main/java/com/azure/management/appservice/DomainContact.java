@@ -5,7 +5,6 @@
  */
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
@@ -16,8 +15,7 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 /**
  * A domain contact definition.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface DomainContact extends
     HasInner<Contact>,
     ChildResource<AppServiceDomain> {

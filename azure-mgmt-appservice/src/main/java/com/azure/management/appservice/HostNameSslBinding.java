@@ -5,7 +5,6 @@
  */
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.arm.models.ChildResource;
@@ -17,8 +16,7 @@ import java.io.File;
 /**
  * An immutable representation of an host name SSL binding.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface HostNameSslBinding extends
     HasInner<HostNameSslState>,
     ChildResource<WebAppBase> {

@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.apigeneration.Method;
 import com.azure.management.resources.ResourceGroup;
@@ -24,8 +23,7 @@ import java.util.Map;
 /**
  * An immutable client-side representation of an Azure Function App.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface FunctionApp extends
     WebAppBase,
     Refreshable<FunctionApp>,

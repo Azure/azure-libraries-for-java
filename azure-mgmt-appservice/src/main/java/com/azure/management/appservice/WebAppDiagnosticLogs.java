@@ -5,7 +5,6 @@
  */
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.WebAppDiagnosticLogs.UpdateStages.Update;
 import com.azure.management.appservice.implementation.SiteLogsConfigInner;
@@ -18,8 +17,7 @@ import com.azure.management.resources.fluentcore.model.Settable;
 /**
  * A web app diagnostic log configuration in a web app.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface WebAppDiagnosticLogs extends
         HasInner<SiteLogsConfigInner>,
         Indexable,

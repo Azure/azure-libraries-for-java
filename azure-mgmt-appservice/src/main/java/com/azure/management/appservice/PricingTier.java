@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  * Defines App service pricing tiers.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
+@Fluent
 public final class PricingTier {
     private static final AttributeCollection<PricingTier> COLLECTION = new AttributeCollection<>();
 

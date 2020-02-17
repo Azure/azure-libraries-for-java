@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceCertificateOrdersInner;
 import com.azure.management.appservice.implementation.AppServiceManager;
@@ -23,8 +22,7 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 /**
  * Entry point for app service certificate order management API.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface AppServiceCertificateOrders extends
         SupportsCreating<AppServiceCertificateOrder.DefinitionStages.Blank>,
         SupportsDeletingById,

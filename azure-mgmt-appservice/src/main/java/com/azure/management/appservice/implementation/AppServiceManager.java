@@ -6,31 +6,29 @@
 
 package com.azure.management.appservice.implementation;
 
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.AzureTokenCredential;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
 import com.azure.management.appservice.AppServiceCertificateOrders;
 import com.azure.management.appservice.AppServiceCertificates;
 import com.azure.management.appservice.AppServiceDomains;
 import com.azure.management.appservice.AppServicePlans;
 import com.azure.management.appservice.FunctionApps;
 import com.azure.management.appservice.WebApps;
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.azure.management.apigeneration.Beta;
+import com.azure.management.appservice.models.WebSiteManagementClientBuilder;
+import com.azure.management.appservice.models.WebSiteManagementClientImpl;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.keyvault.implementation.KeyVaultManager;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
 
 /**
  * Entry point to Azure storage resource management.
  */
-@Beta
 public final class AppServiceManager extends Manager<AppServiceManager, WebSiteManagementClientImpl> {
     // Managers
     private GraphRbacManager rbacManager;
@@ -57,19 +55,18 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
     /**
      * Creates an instance of StorageManager that exposes storage resource management API entry points.
      *
-     * @param credentials the credentials to use
+     * @param credential the credentials to use
      * @param subscriptionId the subscription UUID
      * @return the StorageManager
      */
-    public static AppServiceManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new AppServiceManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
+    public static AppServiceManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+        return new AppServiceManager(new RestClientBuilder()
+                .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), credentials.domain(), subscriptionId);
+//                .withPolicy(new ProviderRegistrationPolicy())
+//                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .buildClient(), credential.getDomain(), subscriptionId);
     }
 
     /**
@@ -91,19 +88,19 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
         /**
          * Creates an instance of StorageManager that exposes storage management API entry points.
          *
-         * @param credentials the credentials to use
+         * @param credential the credentials to use
          * @param subscriptionId the subscription UUID
          * @return the interface exposing AppService management API entry points that work across subscriptions
          */
-        AppServiceManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
+        AppServiceManager authenticate(AzureTokenCredential credential, String subscriptionId);
     }
 
     /**
      * The implementation for Configurable interface.
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
-        public AppServiceManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return AppServiceManager.authenticate(buildRestClient(credentials), credentials.domain(), subscriptionId);
+        public AppServiceManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+            return AppServiceManager.authenticate(buildRestClient(credential), credential.getDomain(), subscriptionId);
         }
     }
 
@@ -111,7 +108,10 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
         super(
                 restClient,
                 subscriptionId,
-                new WebSiteManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+                new WebSiteManagementClientBuilder()
+                        .pipeline(restClient.getHttpPipeline())
+                        .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                        .subscriptionId(subscriptionId).build());
         keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId);
         storageManager = StorageManager.authenticate(restClient, subscriptionId);
         rbacManager = GraphRbacManager.authenticate(restClient, tenantId);

@@ -7,7 +7,6 @@
 package com.azure.management.appservice;
 
 import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceManager;
 import com.azure.management.appservice.implementation.DomainsInner;
@@ -24,8 +23,7 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 /**
  * Entry point for domain management API.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface AppServiceDomains extends
         SupportsCreating<AppServiceDomain.DefinitionStages.Blank>,
         SupportsListing<AppServiceDomain>,

@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceManager;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
@@ -21,8 +20,7 @@ import com.azure.management.resources.fluentcore.collection.SupportsListing;
 /**
  * Entry point for Azure web app deployment slot management API.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface DeploymentSlots extends
         SupportsCreating<DeploymentSlot.DefinitionStages.Blank>,
         SupportsListing<DeploymentSlot>,

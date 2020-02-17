@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.apigeneration.Method;
 import com.azure.management.appservice.implementation.AppServiceManager;
@@ -30,8 +29,7 @@ import java.util.Map;
  * {@link Creatable#create()} or {@link Creatable#createAsync()} you agree to
  * the agreements listed in {@link AppServiceDomains#listAgreements(String)}.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface AppServiceDomain extends
         GroupableResource<AppServiceManager, DomainInner>,
         HasName,

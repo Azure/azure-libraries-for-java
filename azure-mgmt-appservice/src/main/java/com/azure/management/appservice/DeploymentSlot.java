@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.management.apigeneration.Beta.SinceVersion;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceManager;
@@ -25,8 +24,7 @@ import java.io.InputStream;
 /**
  * An immutable client-side representation of an Azure Web App deployment slot.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface DeploymentSlot extends
         IndependentChildResource<AppServiceManager, SiteInner>,
         WebAppBase,

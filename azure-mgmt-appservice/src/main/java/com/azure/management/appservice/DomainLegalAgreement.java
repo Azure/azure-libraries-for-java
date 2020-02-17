@@ -7,7 +7,6 @@
 package com.azure.management.appservice;
 
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.appservice.implementation.TldLegalAgreementInner;
@@ -15,8 +14,7 @@ import com.azure.management.appservice.implementation.TldLegalAgreementInner;
 /**
  * An immutable client-side representation of an Azure domain legal agreement.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface DomainLegalAgreement
     extends HasInner<TldLegalAgreementInner> {
     /**

@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceManager;
 import com.azure.management.appservice.implementation.CertificatesInner;
@@ -23,8 +22,7 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 /**
  * Entry point for certificate management API.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface AppServiceCertificates extends
         SupportsCreating<AppServiceCertificate.DefinitionStages.Blank>,
         SupportsDeletingById,

@@ -6,23 +6,21 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
+import com.azure.management.appservice.models.CertificateInner;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.azure.management.appservice.implementation.CertificateInner;
-import org.joda.time.DateTime;
 
 import java.io.File;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
  * An immutable client-side representation of an Azure app service certificate.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface AppServiceCertificate extends
         GroupableResource<AppServiceManager, CertificateInner>,
         Refreshable<AppServiceCertificate> {
@@ -64,12 +62,12 @@ public interface AppServiceCertificate extends
     /**
      * @return the certificate issue Date
      */
-    DateTime issueDate();
+    OffsetDateTime issueDate();
 
     /**
      * @return the certificate expriration date
      */
-    DateTime expirationDate();
+    OffsetDateTime expirationDate();
 
     /**
      * @return the certificate password

@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.management.apigeneration.Beta.SinceVersion;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.ResourceGroup;
@@ -23,8 +22,7 @@ import java.io.InputStream;
 /**
  * An immutable client-side representation of an Azure Web App.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface WebApp extends
         WebAppBase,
         Refreshable<WebApp>,

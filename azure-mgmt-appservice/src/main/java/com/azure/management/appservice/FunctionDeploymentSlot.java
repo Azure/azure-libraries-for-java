@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceManager;
 import com.azure.management.appservice.implementation.SiteInner;
@@ -20,7 +19,7 @@ import com.azure.management.resources.fluentcore.model.Updatable;
 /**
  * An immutable client-side representation of an Azure Function App deployment slot.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
+@Fluent
 @Beta(Beta.SinceVersion.V1_3_0)
 public interface FunctionDeploymentSlot extends
     IndependentChildResource<AppServiceManager, SiteInner>,

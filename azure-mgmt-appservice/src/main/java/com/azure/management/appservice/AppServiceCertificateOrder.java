@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.apigeneration.Method;
 import com.azure.management.keyvault.Vault;
@@ -26,8 +25,7 @@ import rx.Observable;
 /**
  * An immutable client-side representation of an Azure App Service certificate order.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface AppServiceCertificateOrder extends
         GroupableResource<AppServiceManager, AppServiceCertificateOrderInner>,
         Refreshable<AppServiceCertificateOrder>,

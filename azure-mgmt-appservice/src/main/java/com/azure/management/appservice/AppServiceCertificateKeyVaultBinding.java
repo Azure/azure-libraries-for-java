@@ -6,7 +6,6 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceCertificateResourceInner;
 import com.azure.management.appservice.implementation.AppServiceManager;
@@ -15,8 +14,7 @@ import com.azure.management.resources.fluentcore.arm.models.IndependentChildReso
 /**
  * An immutable client-side representation of an Azure App Service Key Vault binding.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface AppServiceCertificateKeyVaultBinding extends
         IndependentChildResource<AppServiceManager, AppServiceCertificateResourceInner> {
     /**

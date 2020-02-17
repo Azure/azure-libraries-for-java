@@ -6,14 +6,12 @@
 
 package com.azure.management.appservice;
 
-import com.azure.management.apigeneration.Beta;
 import com.azure.core.annotation.Fluent;
 
 /**
  * An immutable client-side representation of an app setting on a web app.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-@Beta
+@Fluent
 public interface AppSetting {
     /**
      * @return the key of the setting

@@ -804,7 +804,7 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/publishxml")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(DefaultErrorResponseException.class)
-        Mono<Response<Void>> listPublishingProfileXmlWithSecrets(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("name") String name, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") CsmPublishingProfileOptions publishingProfileOptions, @QueryParam("api-version") String apiVersion);
+        Mono<StreamResponse> listPublishingProfileXmlWithSecrets(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("name") String name, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") CsmPublishingProfileOptions publishingProfileOptions, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resetSlotConfig")
         @ExpectedResponses({200})
@@ -9743,7 +9743,7 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> listPublishingProfileXmlWithSecretsWithResponseAsync(String resourceGroupName, String name, CsmPublishingProfileOptions publishingProfileOptions) {
+    public Mono<StreamResponse> listPublishingProfileXmlWithSecretsWithResponseAsync(String resourceGroupName, String name, CsmPublishingProfileOptions publishingProfileOptions) {
         return service.listPublishingProfileXmlWithSecrets(this.client.getHost(), resourceGroupName, name, this.client.getSubscriptionId(), publishingProfileOptions, this.client.getApiVersion());
     }
 
@@ -9758,9 +9758,9 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> listPublishingProfileXmlWithSecretsAsync(String resourceGroupName, String name, CsmPublishingProfileOptions publishingProfileOptions) {
+    public Flux<ByteBuffer> listPublishingProfileXmlWithSecretsAsync(String resourceGroupName, String name, CsmPublishingProfileOptions publishingProfileOptions) {
         return listPublishingProfileXmlWithSecretsWithResponseAsync(resourceGroupName, name, publishingProfileOptions)
-            .flatMap((Response<Void> res) -> Mono.empty());
+                .flatMapMany(StreamResponse::getValue);
     }
 
     /**
@@ -9774,7 +9774,7 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void listPublishingProfileXmlWithSecrets(String resourceGroupName, String name, CsmPublishingProfileOptions publishingProfileOptions) {
+    public InputStream listPublishingProfileXmlWithSecrets(String resourceGroupName, String name, CsmPublishingProfileOptions publishingProfileOptions) {
         listPublishingProfileXmlWithSecretsAsync(resourceGroupName, name, publishingProfileOptions).block();
     }
 

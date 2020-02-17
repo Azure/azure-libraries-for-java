@@ -20,7 +20,7 @@ public class AzureTestCredentials extends ApplicationTokenCredential {
     boolean isPlaybackMode;
 
     public AzureTestCredentials(final String mockUrl, String mockTenant, boolean isPlaybackMode) {
-        super("", mockTenant, "", new AzureEnvironment(new HashMap<String, String>() {{
+        super("test", mockTenant, "test", new AzureEnvironment(new HashMap<String, String>() {{
             put("managementEndpointUrl", mockUrl);
             put("resourceManagerEndpointUrl", mockUrl);
             put("sqlManagementEndpointUrl", mockUrl);

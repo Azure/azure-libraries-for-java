@@ -19,7 +19,7 @@ import java.util.Objects;
 /**
  * Rewrite the BearerTokenAuthenticationPolicy, it will use default scope when scopes parameter is empty.
  */
-public class BearerTokenAuthenticationPolicy implements HttpPipelinePolicy {
+public class AuthenticationPolicy implements HttpPipelinePolicy {
     private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
     private static final String AUTHORIZATION_HEADER_VALUE_FORMAT = "Bearer %s";
 
@@ -27,7 +27,7 @@ public class BearerTokenAuthenticationPolicy implements HttpPipelinePolicy {
     private final String[] scopes;
     private AzureEnvironment environment;
 
-    public BearerTokenAuthenticationPolicy(TokenCredential credential, String... scopes) {
+    public AuthenticationPolicy(TokenCredential credential, String... scopes) {
         Objects.requireNonNull(credential);
         this.credential = credential;
         this.scopes = scopes;

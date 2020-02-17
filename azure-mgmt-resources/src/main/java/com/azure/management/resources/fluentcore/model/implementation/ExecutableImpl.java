@@ -217,7 +217,7 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
 
 
     @Override
-    public Flux<FluentModelT> afterPostRunAsync(boolean isGroupFaulted) {
-        return Flux.empty();
+    public Mono<Void> afterPostRunAsync(boolean isGroupFaulted) {
+        return Mono.empty();
     }
 }

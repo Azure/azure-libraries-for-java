@@ -62,7 +62,7 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
     }
 
     @Override
-    public Flux invokeAfterPostRunAsync(boolean isGroupFaulted) {
+    public Mono<Void> invokeAfterPostRunAsync(boolean isGroupFaulted) {
         return this.executor.afterPostRunAsync(isGroupFaulted);
     }
 
@@ -102,6 +102,6 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
          *                       to are in faulted state.
          * @return a {@link Flux} represents the asynchronous action
          */
-        Flux<T> afterPostRunAsync(boolean isGroupFaulted);
+        Mono<Void> afterPostRunAsync(boolean isGroupFaulted);
     }
 }

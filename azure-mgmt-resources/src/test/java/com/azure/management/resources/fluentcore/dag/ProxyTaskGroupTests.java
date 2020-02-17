@@ -1616,8 +1616,8 @@ public class ProxyTaskGroupTests {
         }
 
         @Override
-        public Flux invokeAfterPostRunAsync(boolean isGroupFaulted) {
-            return Flux.empty();
+        public Mono<Void> invokeAfterPostRunAsync(boolean isGroupFaulted) {
+            return Mono.empty();
         }
     }
 

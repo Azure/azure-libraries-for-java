@@ -6,10 +6,10 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.PagedList;
 import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.azure.management.appservice.implementation.DomainsInner;
+import com.azure.management.appservice.models.DomainsInner;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
@@ -40,5 +40,5 @@ public interface AppServiceDomains extends
      * @param topLevelExtension the top level extension of the domain, e.g., "com", "net", "org"
      * @return the list of agreements required for the purchase
      */
-    PagedList<DomainLegalAgreement> listAgreements(String topLevelExtension);
+    PagedIterable<DomainLegalAgreement> listAgreements(String topLevelExtension);
 }

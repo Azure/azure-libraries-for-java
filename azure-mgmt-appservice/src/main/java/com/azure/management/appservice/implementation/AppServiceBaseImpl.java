@@ -6,6 +6,7 @@
 
 package com.azure.management.appservice.implementation;
 
+import com.azure.core.util.FluxUtil;
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.CsmPublishingProfileOptions;
 import com.azure.management.appservice.CsmSlotEntity;
@@ -16,20 +17,24 @@ import com.azure.management.appservice.PricingTier;
 import com.azure.management.appservice.PublishingProfile;
 import com.azure.management.appservice.WebAppBase;
 import com.azure.management.appservice.WebAppSourceControl;
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.CharStreams;
-import com.microsoft.azure.Page;
-import com.azure.management.appservice.SitePatchResource;
+import com.azure.management.appservice.models.ConnectionStringDictionaryInner;
+import com.azure.management.appservice.models.IdentifierInner;
+import com.azure.management.appservice.models.MSDeployStatusInner;
+import com.azure.management.appservice.models.SiteAuthSettingsInner;
+import com.azure.management.appservice.models.SiteConfigResourceInner;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
+import com.azure.management.appservice.models.SitePatchResourceInner;
+import com.azure.management.appservice.models.SiteSourceControlInner;
+import com.azure.management.appservice.models.SlotConfigNamesResourceInner;
+import com.azure.management.appservice.models.StringDictionaryInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Collections;
-import java.util.List;
+import reactor.core.publisher.Mono;
+
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -57,321 +62,251 @@ abstract class AppServiceBaseImpl<
     }
 
     @Override
-    Observable<SiteInner> createOrUpdateInner(SiteInner site) {
+    Mono<SiteInner> createOrUpdateInner(SiteInner site) {
         return this.manager().inner().webApps().createOrUpdateAsync(resourceGroupName(), name(), site);
     }
 
     @Override
-    Observable<SiteInner> updateInner(SitePatchResource siteUpdate) {
+    Mono<SiteInner> updateInner(SitePatchResourceInner siteUpdate) {
         return this.manager().inner().webApps().updateAsync(resourceGroupName(), name(), siteUpdate);
     }
 
     @Override
-    Observable<SiteInner> getInner() {
+    Mono<SiteInner> getInner() {
         return this.manager().inner().webApps().getByResourceGroupAsync(resourceGroupName(), name());
     }
 
     @Override
-    Observable<SiteConfigResourceInner> getConfigInner() {
+    Mono<SiteConfigResourceInner> getConfigInner() {
         return this.manager().inner().webApps().getConfigurationAsync(resourceGroupName(), name());
     }
 
     @Override
-    Observable<SiteConfigResourceInner> createOrUpdateSiteConfig(SiteConfigResourceInner siteConfig) {
+    Mono<SiteConfigResourceInner> createOrUpdateSiteConfig(SiteConfigResourceInner siteConfig) {
         return this.manager().inner().webApps().createOrUpdateConfigurationAsync(resourceGroupName(), name(), siteConfig);
     }
 
     @Override
-    Observable<Void> deleteHostNameBinding(String hostname) {
+    Mono<Void> deleteHostNameBinding(String hostname) {
         return this.manager().inner().webApps().deleteHostNameBindingAsync(resourceGroupName(), name(), hostname);
     }
 
     @Override
-    Observable<StringDictionaryInner> listAppSettings() {
+    Mono<StringDictionaryInner> listAppSettings() {
         return this.manager().inner().webApps().listApplicationSettingsAsync(resourceGroupName(), name());
     }
 
     @Override
-    Observable<StringDictionaryInner> updateAppSettings(StringDictionaryInner inner) {
+    Mono<StringDictionaryInner> updateAppSettings(StringDictionaryInner inner) {
         return this.manager().inner().webApps().updateApplicationSettingsAsync(resourceGroupName(), name(), inner);
     }
 
     @Override
-    Observable<ConnectionStringDictionaryInner> listConnectionStrings() {
+    Mono<ConnectionStringDictionaryInner> listConnectionStrings() {
         return this.manager().inner().webApps().listConnectionStringsAsync(resourceGroupName(), name());
     }
 
     @Override
-    Observable<ConnectionStringDictionaryInner> updateConnectionStrings(ConnectionStringDictionaryInner inner) {
+    Mono<ConnectionStringDictionaryInner> updateConnectionStrings(ConnectionStringDictionaryInner inner) {
         return this.manager().inner().webApps().updateConnectionStringsAsync(resourceGroupName(), name(), inner);
     }
 
     @Override
-    Observable<SlotConfigNamesResourceInner> listSlotConfigurations() {
+    Mono<SlotConfigNamesResourceInner> listSlotConfigurations() {
         return this.manager().inner().webApps().listSlotConfigurationNamesAsync(resourceGroupName(), name());
     }
 
     @Override
-    Observable<SlotConfigNamesResourceInner> updateSlotConfigurations(SlotConfigNamesResourceInner inner) {
+    Mono<SlotConfigNamesResourceInner> updateSlotConfigurations(SlotConfigNamesResourceInner inner) {
         return this.manager().inner().webApps().updateSlotConfigurationNamesAsync(resourceGroupName(), name(), inner);
     }
 
     @Override
-    Observable<SiteSourceControlInner> createOrUpdateSourceControl(SiteSourceControlInner inner) {
+    Mono<SiteSourceControlInner> createOrUpdateSourceControl(SiteSourceControlInner inner) {
         return this.manager().inner().webApps().createOrUpdateSourceControlAsync(resourceGroupName(), name(), inner);
     }
 
     @Override
-    Observable<Void> deleteSourceControl() {
-        return this.manager().inner().webApps().deleteSourceControlAsync(resourceGroupName(), name()).map(new Func1<Object, Void>() {
-            @Override
-            public Void call(Object o) {
-                return null;
-            }
-        });
+    Mono<Void> deleteSourceControl() {
+        return this.manager().inner().webApps().deleteSourceControlAsync(resourceGroupName(), name());
     }
 
     @Override
-    Observable<SiteAuthSettingsInner> updateAuthentication(SiteAuthSettingsInner inner) {
+    Mono<SiteAuthSettingsInner> updateAuthentication(SiteAuthSettingsInner inner) {
         return manager().inner().webApps().updateAuthSettingsAsync(resourceGroupName(), name(), inner);
     }
 
     @Override
-    Observable<SiteAuthSettingsInner> getAuthentication() {
+    Mono<SiteAuthSettingsInner> getAuthentication() {
         return manager().inner().webApps().getAuthSettingsAsync(resourceGroupName(), name());
     }
 
     @Override
     public Map<String, HostNameBinding> getHostNameBindings() {
-        return getHostNameBindingsAsync().toBlocking().single();
+        return getHostNameBindingsAsync().block();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Observable<Map<String, HostNameBinding>> getHostNameBindingsAsync() {
+    public Mono<Map<String, HostNameBinding>> getHostNameBindingsAsync() {
         return this.manager().inner().webApps().listHostNameBindingsAsync(resourceGroupName(), name())
-                .flatMap(new Func1<Page<HostNameBindingInner>, Observable<HostNameBindingInner>>() {
-                    @Override
-                    public Observable<HostNameBindingInner> call(Page<HostNameBindingInner> hostNameBindingInnerPage) {
-                        return Observable.from(hostNameBindingInnerPage.items());
+                .mapPage(hostNameBindingInner -> new HostNameBindingImpl<>(hostNameBindingInner, (FluentImplT) AppServiceBaseImpl.this))
+                .collectList()
+                .map(hostNameBindings -> {
+                    Map<String, HostNameBinding> hostNameBindingMap = new HashMap<>();
+                    for (HostNameBinding binding : hostNameBindings) {
+                        hostNameBindingMap.put(binding.name().replace(name() + "/", ""), binding);
                     }
-                })
-                .map(new Func1<HostNameBindingInner, HostNameBinding>() {
-                    @Override
-                    public HostNameBinding call(HostNameBindingInner hostNameBindingInner) {
-                        return new HostNameBindingImpl<>(hostNameBindingInner, (FluentImplT) AppServiceBaseImpl.this);
-                    }
-                }).toList()
-                .map(new Func1<List<HostNameBinding>, Map<String, HostNameBinding>>() {
-                    @Override
-                    public Map<String, HostNameBinding> call(List<HostNameBinding> hostNameBindings) {
-                        return Collections.unmodifiableMap(Maps.uniqueIndex(hostNameBindings, new Function<HostNameBinding, String>() {
-                            @Override
-                            public String apply(HostNameBinding input) {
-                                return input.name().replace(name() + "/", "");
-                            }
-                        }));
-                    }
+                    return hostNameBindingMap;
                 });
     }
 
     @Override
     public PublishingProfile getPublishingProfile() {
-        return getPublishingProfileAsync().toBlocking().single();
+        return getPublishingProfileAsync().block();
     }
 
-    public Observable<PublishingProfile> getPublishingProfileAsync() {
-        return manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name(), new CsmPublishingProfileOptions())
-                .map(new Func1<InputStream, PublishingProfile>() {
-                    @Override
-                    public PublishingProfile call(InputStream stream) {
-                        try {
-                            String xml = CharStreams.toString(new InputStreamReader(stream));
-                            return new PublishingProfileImpl(xml, AppServiceBaseImpl.this);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
+    public Mono<PublishingProfile> getPublishingProfileAsync() {
+        return FluxUtil.collectBytesInByteBufferStream(
+                manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name(), new CsmPublishingProfileOptions()))
+                .map(bytes -> new PublishingProfileImpl(new String(bytes, StandardCharsets.UTF_8), AppServiceBaseImpl.this));
     }
 
     @Override
     public WebAppSourceControl getSourceControl() {
-        return getSourceControlAsync().toBlocking().single();
+        return getSourceControlAsync().block();
     }
 
     @Override
-    public Observable<WebAppSourceControl> getSourceControlAsync() {
+    public Mono<WebAppSourceControl> getSourceControlAsync() {
         return manager().inner().webApps().getSourceControlAsync(resourceGroupName(), name())
-                .map(new Func1<SiteSourceControlInner, WebAppSourceControl>() {
-                    @Override
-                    public WebAppSourceControl call(SiteSourceControlInner siteSourceControlInner) {
-                        return new WebAppSourceControlImpl<>(siteSourceControlInner, AppServiceBaseImpl.this);
-                    }
-                });
+                .map(siteSourceControlInner -> new WebAppSourceControlImpl<>(siteSourceControlInner, AppServiceBaseImpl.this));
     }
 
     @Override
-    Observable<MSDeployStatusInner> createMSDeploy(MSDeploy msDeployInner) {
+    Mono<MSDeployStatusInner> createMSDeploy(MSDeploy msDeployInner) {
         return manager().inner().webApps()
                 .createMSDeployOperationAsync(resourceGroupName(), name(), msDeployInner);
     }
 
     @Override
     public void verifyDomainOwnership(String certificateOrderName, String domainVerificationToken) {
-        verifyDomainOwnershipAsync(certificateOrderName, domainVerificationToken).toObservable().toBlocking().subscribe();
+        verifyDomainOwnershipAsync(certificateOrderName, domainVerificationToken).block();
     }
 
     @Override
-    public Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
+    public Mono<Void> verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
         IdentifierInner identifierInner = new IdentifierInner().withValue(domainVerificationToken);
         return this.manager().inner().webApps().createOrUpdateDomainOwnershipIdentifierAsync(resourceGroupName(), name(), certificateOrderName, identifierInner)
-                .map(new Func1<IdentifierInner, Void>() {
-                    @Override
-                    public Void call(IdentifierInner identifierInner) {
-                        return null;
-                    }
-                }).toCompletable();
+                .then(Mono.empty());
     }
 
     @Override
     public void start() {
-        startAsync().toObservable().toBlocking().subscribe();
+        startAsync().block();
     }
 
     @Override
-    public Completable startAsync() {
+    public Mono<Void> startAsync() {
         return manager().inner().webApps().startAsync(resourceGroupName(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .then(Mono.defer(() -> {
+                    refreshAsync();
+                    return null;
+                }));
     }
 
     @Override
     public void stop() {
-        stopAsync().toObservable().toBlocking().subscribe();
+        stopAsync().block();
     }
 
     @Override
-    public Completable stopAsync() {
+    public Mono<Void> stopAsync() {
         return manager().inner().webApps().stopAsync(resourceGroupName(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .then(Mono.defer(() -> {
+                    refreshAsync();
+                    return null;
+                }));
     }
 
     @Override
     public void restart() {
-        restartAsync().toObservable().toBlocking().subscribe();
+        restartAsync().block();
     }
 
     @Override
-    public Completable restartAsync() {
+    public Mono<Void> restartAsync() {
         return manager().inner().webApps().restartAsync(resourceGroupName(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .then(Mono.defer(() -> {
+                    refreshAsync();
+                    return null;
+                }));
     }
 
     @Override
     public void swap(String slotName) {
-        swapAsync(slotName).toObservable().toBlocking().subscribe();
+        swapAsync(slotName).block();
     }
 
     @Override
-    public Completable swapAsync(String slotName) {
+    public Mono<Void> swapAsync(String slotName) {
         return manager().inner().webApps().swapSlotWithProductionAsync(resourceGroupName(), name(), new CsmSlotEntity().withTargetSlot(slotName))
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .then(Mono.defer(() -> {
+                    refreshAsync();
+                    return null;
+                }));
     }
 
     @Override
     public void applySlotConfigurations(String slotName) {
-        applySlotConfigurationsAsync(slotName).toObservable().toBlocking().subscribe();
+        applySlotConfigurationsAsync(slotName).block();
     }
 
     @Override
-    public Completable applySlotConfigurationsAsync(String slotName) {
+    public Mono<Void> applySlotConfigurationsAsync(String slotName) {
         return manager().inner().webApps().applySlotConfigToProductionAsync(resourceGroupName(), name(), new CsmSlotEntity().withTargetSlot(slotName))
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .then(Mono.defer(() -> {
+                    refreshAsync();
+                    return null;
+                }));
     }
 
     @Override
     public void resetSlotConfigurations() {
-        resetSlotConfigurationsAsync().toObservable().toBlocking().subscribe();
+        resetSlotConfigurationsAsync().block();
     }
 
     @Override
-    public Completable resetSlotConfigurationsAsync() {
+    public Mono<Void> resetSlotConfigurationsAsync() {
         return manager().inner().webApps().resetProductionSlotConfigAsync(resourceGroupName(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .then(Mono.defer(() -> {
+                    refreshAsync();
+                    return null;
+                }));
     }
 
     @Override
     public byte[] getContainerLogs() {
-        return getContainerLogsAsync().toBlocking().single();
+        return getContainerLogsAsync().block();
     }
 
     @Override
-    public Observable<byte[]> getContainerLogsAsync() {
-        return manager().inner().webApps().getWebSiteContainerLogsAsync(resourceGroupName(), name())
-                .map(new Func1<InputStream, byte[]>() {
-                    @Override
-                    public byte[] call(InputStream inputStream) {
-                        try {
-                            return ByteStreams.toByteArray(inputStream);
-                        } catch (IOException e) {
-                            throw Exceptions.propagate(e);
-                        }
-                    }
-                });
+    public Mono<byte[]> getContainerLogsAsync() {
+        return FluxUtil.collectBytesInByteBufferStream(manager().inner().webApps().getWebSiteContainerLogsAsync(resourceGroupName(), name()));
     }
 
     @Override
     public byte[] getContainerLogsZip() {
-        return getContainerLogsZipAsync().toBlocking().single();
+        return getContainerLogsZipAsync().block();
     }
 
     @Override
-    public Observable<byte[]> getContainerLogsZipAsync() {
-        return manager().inner().webApps().getContainerLogsZipAsync(resourceGroupName(), name())
-                .map(new Func1<InputStream, byte[]>() {
-                    @Override
-                    public byte[] call(InputStream inputStream) {
-                        try {
-                            return ByteStreams.toByteArray(inputStream);
-                        } catch (IOException e) {
-                            throw Exceptions.propagate(e);
-                        }
-                    }
-                });
+    public Mono<byte[]> getContainerLogsZipAsync() {
+        return FluxUtil.collectBytesInByteBufferStream(manager().inner().webApps().getContainerLogsZipAsync(resourceGroupName(), name()));
     }
 
     @Override
-    Observable<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner) {
+    Mono<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner) {
         return manager().inner().webApps().updateDiagnosticLogsConfigAsync(resourceGroupName(), name(), siteLogsConfigInner);
     }
 
@@ -418,7 +353,7 @@ abstract class AppServiceBaseImpl<
 
     public FluentImplT withNewAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable) {
         this.addDependency(appServicePlanCreatable);
-        String id = ResourceUtils.constructResourceId(this.manager().subscriptionId(),
+        String id = ResourceUtils.constructResourceId(this.manager().getSubscriptionId(),
                 resourceGroupName(), "Microsoft.Web", "serverFarms", appServicePlanCreatable.name(), "");
         inner().withServerFarmId(id);
         return withOperatingSystem(((AppServicePlanImpl) appServicePlanCreatable).operatingSystem());

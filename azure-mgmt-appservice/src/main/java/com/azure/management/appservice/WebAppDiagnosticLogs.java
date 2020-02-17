@@ -7,7 +7,7 @@ package com.azure.management.appservice;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.WebAppDiagnosticLogs.UpdateStages.Update;
-import com.azure.management.appservice.implementation.SiteLogsConfigInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.azure.management.resources.fluentcore.model.Attachable;
 import com.azure.management.resources.fluentcore.model.HasInner;

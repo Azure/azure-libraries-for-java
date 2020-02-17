@@ -6,10 +6,10 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.PagedList;
 import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.azure.management.appservice.implementation.WebAppsInner;
+import com.azure.management.appservice.models.WebAppsInner;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
@@ -42,5 +42,5 @@ public interface FunctionApps extends
      * @param name              function app name
      * @return list of function information elements
      */
-    PagedList<FunctionEnvelope> listFunctions(String resourceGroupName, String name);
+    PagedIterable<FunctionEnvelope> listFunctions(String resourceGroupName, String name);
 }

@@ -8,7 +8,7 @@ package com.azure.management.appservice;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.azure.management.appservice.implementation.SiteInner;
+import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
 import com.azure.management.resources.fluentcore.model.Appliable;

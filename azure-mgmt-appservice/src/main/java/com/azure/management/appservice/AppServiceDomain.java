@@ -7,16 +7,17 @@
 package com.azure.management.appservice;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.apigeneration.Method;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.azure.management.appservice.implementation.DomainInner;
+import com.azure.management.appservice.models.DomainInner;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import org.joda.time.DateTime;
+import reactor.core.publisher.Mono;
+
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -72,17 +73,17 @@ public interface AppServiceDomain extends
     /**
      * @return domain creation timestamp.
      */
-    DateTime createdTime();
+    OffsetDateTime createdTime();
 
     /**
      * @return domain expiration timestamp.
      */
-    DateTime expirationTime();
+    OffsetDateTime expirationTime();
 
     /**
      * @return timestamp when the domain was renewed last time
      */
-    DateTime lastRenewedTime();
+    OffsetDateTime lastRenewedTime();
 
     /**
      * @return true if domain will renewed automatically
@@ -119,7 +120,7 @@ public interface AppServiceDomain extends
      * @param domainVerificationToken the domain verification token for the certificate order
      * @return a representation of the deferred computation of this call
      */
-    Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken);
+    Mono<Void> verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken);
 
     /**************************************************************
      * Fluent interfaces to provision a domain

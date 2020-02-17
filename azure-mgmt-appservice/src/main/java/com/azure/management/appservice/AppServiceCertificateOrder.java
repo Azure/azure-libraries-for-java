@@ -7,7 +7,6 @@
 package com.azure.management.appservice;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.apigeneration.Method;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -15,10 +14,12 @@ import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.appservice.implementation.AppServiceCertificateOrderInner;
+import com.azure.management.appservice.models.AppServiceCertificateOrderInner;
 import com.azure.management.appservice.implementation.AppServiceManager;
+import reactor.core.publisher.Mono;
 
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
+
 /**
  * An immutable client-side representation of an Azure App Service certificate order.
  */
@@ -91,12 +92,12 @@ public interface AppServiceCertificateOrder extends
     /**
      * @return last issuance time
      */
-    DateTime lastCertificateIssuanceTime();
+    OffsetDateTime lastCertificateIssuanceTime();
 
     /**
      * @return expiration time
      */
-    DateTime expirationTime();
+    OffsetDateTime expirationTime();
 
     /**
      * Bind a Key Vault secret to a certificate store that will be used for storing the certificate once it's ready.
@@ -112,7 +113,7 @@ public interface AppServiceCertificateOrder extends
      * @param vault the key vault to store the certificate
      * @return a binding containing the key vault information
      */
-    Observable<AppServiceCertificateKeyVaultBinding> createKeyVaultBindingAsync(String certificateName, Vault vault);
+    Mono<AppServiceCertificateKeyVaultBinding> createKeyVaultBindingAsync(String certificateName, Vault vault);
 
     /**
      * @return the state of the Key Vault secret
@@ -122,7 +123,7 @@ public interface AppServiceCertificateOrder extends
     /**
      * @return the state of the Key Vault secret
      */
-    Observable<AppServiceCertificateKeyVaultBinding> getKeyVaultBindingAsync();
+    Mono<AppServiceCertificateKeyVaultBinding> getKeyVaultBindingAsync();
 
     /**
      * Verifies the ownership of the domain by providing the Azure purchased domain.
@@ -135,7 +136,7 @@ public interface AppServiceCertificateOrder extends
      * @param domain the Azure managed domain
      * @return an Observable to the result
      */
-    Completable verifyDomainOwnershipAsync(AppServiceDomain domain);
+    Mono<Void> verifyDomainOwnershipAsync(AppServiceDomain domain);
 
     /**************************************************************
      * Fluent interfaces to provision a App service certificate order

@@ -6,7 +6,7 @@
 package com.azure.management.appservice;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.appservice.implementation.SiteAuthSettingsInner;
+import com.azure.management.appservice.models.SiteAuthSettingsInner;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.azure.management.resources.fluentcore.model.Attachable;
 import com.azure.management.resources.fluentcore.model.HasInner;

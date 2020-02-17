@@ -14,7 +14,7 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.azure.management.appservice.implementation.AppServicePlanInner;
+import com.azure.management.appservice.models.AppServicePlanInner;
 
 /**
  * An immutable client-side representation of an Azure App service plan.

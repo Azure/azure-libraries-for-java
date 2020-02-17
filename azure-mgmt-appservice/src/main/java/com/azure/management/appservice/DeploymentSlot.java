@@ -8,13 +8,15 @@ package com.azure.management.appservice;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.azure.management.appservice.implementation.SiteInner;
+import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
+import reactor.core.publisher.Mono;
+
 import java.io.File;
 import java.io.InputStream;
 
@@ -40,7 +42,7 @@ public interface DeploymentSlot extends
      * @param warFile the WAR file to upload
      * @return a completable of the operation
      */
-    Completable warDeployAsync(File warFile);
+    Mono<Void> warDeployAsync(File warFile);
 
     /**
      * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
@@ -53,7 +55,7 @@ public interface DeploymentSlot extends
      * @param warFile the WAR file to upload
      * @return a completable of the operation
      */
-    Completable warDeployAsync(InputStream warFile);
+    Mono<Void> warDeployAsync(InputStream warFile);
 
     /**
      * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
@@ -68,7 +70,7 @@ public interface DeploymentSlot extends
      * @param appName the name of the app, default to "ROOT" when not provided
      * @return a completable of the operation
      */
-    Completable warDeployAsync(File warFile, String appName);
+    Mono<Void> warDeployAsync(File warFile, String appName);
 
     /**
      * Deploys a WAR file onto the Azure specialized Tomcat on this web app.
@@ -83,7 +85,7 @@ public interface DeploymentSlot extends
      * @param appName the name of the app, default to "ROOT" when not provided
      * @return a completable of the operation
      */
-    Completable warDeployAsync(InputStream warFile, String appName);
+    Mono<Void> warDeployAsync(InputStream warFile, String appName);
 
     /**************************************************************
      * Fluent interfaces to provision a deployment slot

@@ -8,7 +8,8 @@ package com.azure.management.appservice;
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.azure.management.resources.fluentcore.model.Executable;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * A client-side representation allowing user to deploy to a web app through web deployment (MSDeploy).
@@ -25,12 +26,12 @@ public interface WebDeployment extends Executable<WebDeployment>,
     /**
      * @return the start time of the deploy operation
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the end time of the deploy operation
      */
-    DateTime endTime();
+    OffsetDateTime endTime();
 
     /**
      * @return whether the deployment operation has completed

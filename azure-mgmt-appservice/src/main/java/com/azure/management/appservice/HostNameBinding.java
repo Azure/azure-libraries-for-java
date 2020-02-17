@@ -11,7 +11,7 @@ import com.azure.management.resources.fluentcore.arm.models.ExternalChildResourc
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Attachable;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.appservice.implementation.HostNameBindingInner;
+import com.azure.management.appservice.models.HostNameBindingInner;
 
 /**
  * An immutable representation of a host name binding.

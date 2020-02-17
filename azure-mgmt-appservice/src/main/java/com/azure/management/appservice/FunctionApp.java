@@ -7,7 +7,6 @@
 package com.azure.management.appservice;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.apigeneration.Method;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.azure.management.resources.fluentcore.model.Creatable;
@@ -15,6 +14,8 @@ import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountSkuType;
+import reactor.core.publisher.Mono;
+
 import java.util.Map;
 
 /**
@@ -44,7 +45,7 @@ public interface FunctionApp extends
     /**
      * @return the master key for the function app
      */
-    Observable<String> getMasterKeyAsync();
+    Mono<String> getMasterKeyAsync();
 
     /**
      * Retrieve the function key for a specific function.
@@ -58,7 +59,7 @@ public interface FunctionApp extends
      * @param functionName the name of the function
      * @return the function key
      */
-    Observable<Map<String, String>> listFunctionKeysAsync(String functionName);
+    Mono<Map<String, String>> listFunctionKeysAsync(String functionName);
 
     /**
      * Adds a key to a function in this function app.
@@ -76,7 +77,7 @@ public interface FunctionApp extends
      * @param keyValue optional. If not provided, a value will be generated.
      * @return the added function key
      */
-    Observable<NameValuePair> addFunctionKeyAsync(String functionName, String keyName, String keyValue);
+    Mono<NameValuePair> addFunctionKeyAsync(String functionName, String keyName, String keyValue);
 
     /**
      * Removes a key to a function in this function app.
@@ -91,7 +92,7 @@ public interface FunctionApp extends
      * @param keyName the name of the key to remove
      * @return the completable of the operation
      */
-    Completable removeFunctionKeyAsync(String functionName, String keyName);
+    Mono<Void> removeFunctionKeyAsync(String functionName, String keyName);
 
     /**
      * Syncs the triggers on the function app.
@@ -102,7 +103,7 @@ public interface FunctionApp extends
      * Syncs the triggers on the function app.
      * @return a completable for the operation
      */
-    Completable syncTriggersAsync();
+    Mono<Void> syncTriggersAsync();
 
     /**************************************************************
      * Fluent interfaces to provision a Function App
@@ -303,7 +304,7 @@ public interface FunctionApp extends
              * @return the next stage of the definition
              */
             @Deprecated
-            WithCreate withNewStorageAccount(String name, com.microsoft.azure.management.storage.SkuName sku);
+            WithCreate withNewStorageAccount(String name, com.azure.management.storage.SkuName sku);
 
             /**
              * Creates a new storage account to use for the function app.
@@ -623,7 +624,7 @@ public interface FunctionApp extends
              * @return the next stage of the function app update
              */
             @Deprecated
-            Update withNewStorageAccount(String name, com.microsoft.azure.management.storage.SkuName sku);
+            Update withNewStorageAccount(String name, com.azure.management.storage.SkuName sku);
 
             /**
              * Creates a new storage account to use for the function app.

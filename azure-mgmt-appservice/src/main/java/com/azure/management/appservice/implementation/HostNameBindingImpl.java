@@ -13,6 +13,7 @@ import com.azure.management.appservice.DeploymentSlot;
 import com.azure.management.appservice.HostNameBinding;
 import com.azure.management.appservice.HostNameType;
 import com.azure.management.appservice.WebAppBase;
+import com.azure.management.appservice.models.HostNameBindingInner;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
@@ -20,6 +21,8 @@ import com.azure.management.resources.fluentcore.model.implementation.IndexableW
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
+import reactor.core.publisher.Mono;
+
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -165,7 +168,7 @@ class HostNameBindingImpl<
     }
 
     @Override
-    public Observable<Indexable> createAsync() {
+    public Mono<Indexable> createAsync() {
         final HostNameBinding self = this;
         Func1<HostNameBindingInner, HostNameBinding> mapper = new Func1<HostNameBindingInner, HostNameBinding>() {
             @Override

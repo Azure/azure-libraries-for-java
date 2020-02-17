@@ -15,6 +15,7 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okio.BufferedSource;
+import reactor.core.publisher.Flux;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -85,7 +86,7 @@ class KuduClient {
         Observable<Void> zipDeploy(@Body RequestBody zipFile);
     }
 
-    Observable<String> streamApplicationLogsAsync() {
+    Flux<String> streamApplicationLogsAsync() {
         return service.streamApplicationLogs()
                 .flatMap(new Func1<ResponseBody, Observable<String>>() {
                     @Override
@@ -96,7 +97,7 @@ class KuduClient {
                 });
     }
 
-    Observable<String> streamHttpLogsAsync() {
+    Flux<String> streamHttpLogsAsync() {
         return service.streamHttpLogs()
                 .flatMap(new Func1<ResponseBody, Observable<String>>() {
                     @Override
@@ -107,7 +108,7 @@ class KuduClient {
                 });
     }
 
-    Observable<String> streamTraceLogsAsync() {
+    Flux<String> streamTraceLogsAsync() {
         return service.streamTraceLogs()
                 .flatMap(new Func1<ResponseBody, Observable<String>>() {
                     @Override
@@ -118,7 +119,7 @@ class KuduClient {
                 });
     }
 
-    Observable<String> streamDeploymentLogsAsync() {
+    Flux<String> streamDeploymentLogsAsync() {
         return service.streamDeploymentLogs()
                 .flatMap(new Func1<ResponseBody, Observable<String>>() {
                     @Override
@@ -129,7 +130,7 @@ class KuduClient {
                 });
     }
 
-    Observable<String> streamAllLogsAsync() {
+    Flux<String> streamAllLogsAsync() {
         return service.streamAllLogs()
                 .flatMap(new Func1<ResponseBody, Observable<String>>() {
                     @Override
@@ -140,7 +141,7 @@ class KuduClient {
                 });
     }
 
-    private Observable<String> streamFromBufferedSource(final BufferedSource source) {
+    private Flux<String> streamFromBufferedSource(final BufferedSource source) {
         return Observable.create(new Action1<Emitter<String>>() {
             @Override
             public void call(Emitter<String> stringEmitter) {

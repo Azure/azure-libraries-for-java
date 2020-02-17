@@ -17,6 +17,8 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -158,7 +160,7 @@ class HostNameSslBindingImpl<
         return this;
     }
 
-    Observable<AppServiceCertificate> newCertificate() {
+    Mono<AppServiceCertificate> newCertificate() {
         return newCertificate.doOnNext(new Action1<AppServiceCertificate>() {
             @Override
             public void call(AppServiceCertificate appServiceCertificate) {

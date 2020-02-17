@@ -6,10 +6,14 @@
 package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.RepositoryType;
+import com.azure.management.appservice.models.SiteSourceControlInner;
+import com.azure.management.appservice.models.SourceControlInner;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.appservice.WebAppBase;
 import com.azure.management.appservice.WebAppSourceControl;
+import reactor.core.publisher.Mono;
+
 /**
  *  Implementation for WebAppSourceControl and its create and update interfaces.
  *  @param <FluentT> the fluent interface of the parent web app
@@ -113,7 +117,7 @@ class WebAppSourceControlImpl<
         return this;
     }
 
-    Observable<SourceControlInner> registerGithubAccessToken() {
+    Mono<SourceControlInner> registerGithubAccessToken() {
         if (githubAccessToken == null) {
             return Observable.just(null);
         }

@@ -10,6 +10,8 @@ import com.azure.management.appservice.ManagedServiceIdentity;
 import com.azure.management.appservice.ManagedServiceIdentityType;
 import com.azure.management.appservice.ManagedServiceIdentityUserAssignedIdentitiesValue;
 import com.azure.management.appservice.SitePatchResource;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SitePatchResourceInner;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.azure.management.msi.Identity;
@@ -143,7 +145,7 @@ public class WebAppMsiHandler  extends RoleAssignmentHelper {
         }
     }
 
-    void handleExternalIdentities(SitePatchResource siteUpdate) {
+    void handleExternalIdentities(SitePatchResourceInner siteUpdate) {
         if (this.handleRemoveAllExternalIdentitiesCase(siteUpdate)) {
             return;
         } else {

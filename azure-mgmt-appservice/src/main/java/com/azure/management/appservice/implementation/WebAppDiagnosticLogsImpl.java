@@ -15,6 +15,7 @@ import com.azure.management.appservice.HttpLogsConfig;
 import com.azure.management.appservice.LogLevel;
 import com.azure.management.appservice.WebAppBase;
 import com.azure.management.appservice.WebAppDiagnosticLogs;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 

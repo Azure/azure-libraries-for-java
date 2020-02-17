@@ -9,6 +9,7 @@ import com.azure.management.appservice.BuiltInAuthenticationProvider;
 import com.azure.management.appservice.UnauthenticatedClientAction;
 import com.azure.management.appservice.WebAppAuthentication;
 import com.azure.management.appservice.WebAppBase;
+import com.azure.management.appservice.models.SiteAuthSettingsInner;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.util.ArrayList;

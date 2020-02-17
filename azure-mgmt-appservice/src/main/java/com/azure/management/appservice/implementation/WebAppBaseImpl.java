@@ -6,10 +6,13 @@
 
 package com.azure.management.appservice.implementation;
 
+import com.azure.core.exception.HttpResponseException;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.management.appservice.models.ConnectionStringDictionaryInner;
+import com.azure.management.appservice.models.HostNameBindingInner;
 import com.azure.management.appservice.models.MSDeployStatusInner;
 import com.azure.management.appservice.models.SiteAuthSettingsInner;
+import com.azure.management.appservice.models.SiteConfigInner;
 import com.azure.management.appservice.models.SiteConfigResourceInner;
 import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.appservice.models.SiteLogsConfigInner;
@@ -67,13 +70,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.Callable;
@@ -145,7 +151,7 @@ abstract class WebAppBaseImpl<
 
         webAppMsiHandler = new WebAppMsiHandler(manager.rbacManager(), this);
         normalizeProperties();
-        isInCreateMode = inner() == null || inner().id() == null;
+        isInCreateMode = inner() == null || inner().getId() == null;
         if (!isInCreateMode) {
             initializeKuduClient();
         }
@@ -183,7 +189,7 @@ abstract class WebAppBaseImpl<
             @Override
             public String resourceId() {
                 if (inner() != null) {
-                    return inner().id();
+                    return inner().getId();
                 } else {
                     return null;
                 }
@@ -208,16 +214,16 @@ abstract class WebAppBaseImpl<
         this.sslBindingsToCreate = new TreeMap<>();
         this.msiHandler = null;
         if (inner().hostNames() != null) {
-            this.hostNamesSet = Sets.newHashSet(inner().hostNames());
+            this.hostNamesSet = new HashSet<>(inner().hostNames());
         }
         if (inner().enabledHostNames() != null) {
-            this.enabledHostNamesSet = Sets.newHashSet(inner().enabledHostNames());
+            this.enabledHostNamesSet = new HashSet<>(inner().enabledHostNames());
         }
         if (inner().trafficManagerHostNames() != null) {
-            this.trafficManagerHostNamesSet = Sets.newHashSet(inner().trafficManagerHostNames());
+            this.trafficManagerHostNamesSet = new HashSet<>(inner().trafficManagerHostNames());
         }
         if (inner().outboundIpAddresses() != null) {
-            this.outboundIPAddressesSet = Sets.newHashSet(inner().outboundIpAddresses().split(",[ ]*"));
+            this.outboundIPAddressesSet = new HashSet<>(Arrays.asList(inner().outboundIpAddresses().split(",[ ]*")));
         }
         this.hostNameSslStateMap = new HashMap<>();
         if (inner().hostNameSslStates() != null) {
@@ -662,49 +668,37 @@ abstract class WebAppBaseImpl<
 
     @Override
     public Map<String, AppSetting> getAppSettings() {
-        return getAppSettingsAsync().toBlocking().single();
+        return getAppSettingsAsync().block();
     }
 
     @Override
-    public Observable<Map<String, AppSetting>> getAppSettingsAsync() {
-        return Observable.zip(listAppSettings(), listSlotConfigurations(), new Func2<StringDictionaryInner, SlotConfigNamesResourceInner, Map<String, AppSetting>>() {
-            @Override
-            public Map<String, AppSetting> call(final StringDictionaryInner appSettingsInner, final SlotConfigNamesResourceInner slotConfigs) {
-                if (appSettingsInner == null || appSettingsInner.properties() == null) {
-                    return null;
-                }
-                return Maps.asMap(appSettingsInner.properties().keySet(), new Function<String, AppSetting>() {
-                    @Override
-                    public AppSetting apply(String input) {
-                        return new AppSettingImpl(input, appSettingsInner.properties().get(input),
-                                slotConfigs != null && slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(input));
-                    }
-                });
+    public Mono<Map<String, AppSetting>> getAppSettingsAsync() {
+        return Mono.zip(listAppSettings(), listSlotConfigurations(), (final StringDictionaryInner appSettingsInner, final SlotConfigNamesResourceInner slotConfigs) -> {
+            Map<String, AppSetting> appSettingMap = new HashMap<>();
+            for (Map.Entry<String, String> entry : appSettingsInner.properties().entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                appSettingMap.put(key, new AppSettingImpl(key, value, slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(key)));
             }
+            return appSettingMap;
         });
     }
 
     @Override
     public Map<String, ConnectionString> getConnectionStrings() {
-        return getConnectionStringsAsync().toBlocking().single();
+        return getConnectionStringsAsync().block();
     }
 
     @Override
-    public Observable<Map<String, ConnectionString>> getConnectionStringsAsync() {
-        return Observable.zip(listConnectionStrings(), listSlotConfigurations(), new Func2<ConnectionStringDictionaryInner, SlotConfigNamesResourceInner, Map<String, ConnectionString>>() {
-            @Override
-            public Map<String, ConnectionString> call(final ConnectionStringDictionaryInner connectionStringsInner, final SlotConfigNamesResourceInner slotConfigs) {
-                if (connectionStringsInner == null || connectionStringsInner.properties() == null) {
-                    return null;
-                }
-                return Maps.asMap(connectionStringsInner.properties().keySet(), new Function<String, ConnectionString>() {
-                    @Override
-                    public ConnectionString apply(String input) {
-                        return new ConnectionStringImpl(input, connectionStringsInner.properties().get(input),
-                                slotConfigs != null && slotConfigs.connectionStringNames() != null && slotConfigs.connectionStringNames().contains(input));
-                    }
-                });
+    public Mono<Map<String, ConnectionString>> getConnectionStringsAsync() {
+        return Mono.zip(listConnectionStrings(), listSlotConfigurations(), (final ConnectionStringDictionaryInner connectionStringsInner, final SlotConfigNamesResourceInner slotConfigs) -> {
+            Map<String, ConnectionString> connectionStringMap = new HashMap<>();
+            for (Map.Entry<String, ConnStringValueTypePair> entry : connectionStringsInner.properties().entrySet()) {
+                String key = entry.getKey();
+                ConnStringValueTypePair value = entry.getValue();
+                connectionStringMap.put(key, new ConnectionStringImpl(key, value, slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(key)));
             }
+            return connectionStringMap;
         });
     }
 
@@ -762,67 +756,49 @@ abstract class WebAppBaseImpl<
         // Hostname and SSL bindings
         IndexableTaskItem rootTaskItem = wrapTask(new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(Context context) {
+            public Mono<Indexable> apply(Context context) {
                 // Submit hostname bindings
                 return submitHostNameBindings()
                         // Submit SSL bindings
-                        .flatMap(new Func1<FluentT, Observable<Indexable>>() {
-                            @Override
-                            public Observable<Indexable> call(FluentT fluentT) {
-                                return submitSslBindings(fluentT.inner());
-                            }
-                        });
+                        .flatMap(fluentT -> submitSslBindings(fluentT.inner()));
             }
         });
         IndexableTaskItem lastTaskItem = rootTaskItem;
         // Site config
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(Context context) {
+            public Mono<Indexable> apply(Context context) {
                 return submitSiteConfig();
             }
         });
         // Metadata, app settings, and connection strings
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(Context context) {
-                return submitMetadata().flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call(Indexable indexable) {
-                        return submitAppSettings().mergeWith(submitConnectionStrings())
-                                .last();
-                    }
-                }).flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call(Indexable indexable) {
-                        return submitStickiness();
-                    }
-                });
+            public Mono<Indexable> apply(Context context) {
+                return submitMetadata()
+                        .flatMap(ignored -> submitAppSettings().mergeWith(submitConnectionStrings())
+                        .last())
+                        .flatMap(ignored -> submitStickiness());
             }
         });
         // Source control
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(Context context) {
-                return submitSourceControlToDelete().flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call(Indexable indexable) {
-                        return submitSourceControlToCreate();
-                    }
-                });
+            public Mono<Indexable> apply(Context context) {
+                return submitSourceControlToDelete().flatMap(indexable -> submitSourceControlToCreate());
             }
         });
         // Authentication
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(Context context) {
+            public Mono<Indexable> apply(Context context) {
                 return submitAuthentication();
             }
         });
         // Log configuration
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
-            public Observable<Indexable> call(Context context) {
+            public Mono<Indexable> apply(Context context) {
                 return submitLogConfiguration();
             }
         });
@@ -846,22 +822,20 @@ abstract class WebAppBaseImpl<
 
     @Override
     @SuppressWarnings("unchecked")
-    public Observable<FluentT> createResourceAsync() {
+    public Mono<FluentT> createResourceAsync() {
         this.webAppMsiHandler.processCreatedExternalIdentities();
         this.webAppMsiHandler.handleExternalIdentities();
-        return submitSite(inner()).map(new Func1<SiteInner, FluentT>() {
-            @Override
-            public FluentT call(SiteInner siteInner) {
-                setInner(siteInner);
-                return (FluentT) WebAppBaseImpl.this;
-            }
+        return submitSite(inner()).map(siteInner -> {
+            setInner(siteInner);
+            return (FluentT) WebAppBaseImpl.this;
         });
     }
 
     @Override
-    public Observable<FluentT> updateResourceAsync() {
+    @SuppressWarnings("unchecked")
+    public Mono<FluentT> updateResourceAsync() {
         SiteInner siteInner = (SiteInner) this.inner();
-        SitePatchResource siteUpdate = new SitePatchResource();
+        SitePatchResourceInner siteUpdate = new SitePatchResourceInner();
         siteUpdate.withHostNameSslStates(siteInner.hostNameSslStates());
         siteUpdate.withKind(siteInner.kind());
         siteUpdate.withEnabled(siteInner.enabled());
@@ -882,329 +856,215 @@ abstract class WebAppBaseImpl<
         siteUpdate.withRedundancyMode(siteInner.redundancyMode());
 
         this.webAppMsiHandler.handleExternalIdentities(siteUpdate);
-        return submitSite(siteUpdate).map(new Func1<SiteInner, FluentT>() {
-            @Override
-            @SuppressWarnings("unchecked")
-            public FluentT call(SiteInner siteInner) {
-                setInner(siteInner);
-                webAppMsiHandler.clear();
-                return (FluentT) WebAppBaseImpl.this;
-            }
+        return submitSite(siteUpdate).map(siteInner1 -> {
+            setInner(siteInner1);
+            webAppMsiHandler.clear();
+            return (FluentT) WebAppBaseImpl.this;
         });
     }
 
     @Override
-    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+    public Mono<Void> afterPostRunAsync(final boolean isGroupFaulted) {
         if (!isGroupFaulted) {
             isInCreateMode = false;
             initializeKuduClient();
         }
-        return Completable.fromAction(new Action0() {
-            @Override
-            public void call() {
-                normalizeProperties();
-            }
+        return Mono.fromCallable(() -> {
+            normalizeProperties();
+            return null;
         });
     }
 
-    Observable<SiteInner> submitSite(final SiteInner site) {
-        site.withSiteConfig(new SiteConfig());
+    Mono<SiteInner> submitSite(final SiteInner site) {
+        site.withSiteConfig(new SiteConfigInner());
         // Construct web app observable
         return createOrUpdateInner(site)
-                .map(new Func1<SiteInner, SiteInner>() {
-                    @Override
-                    public SiteInner call(SiteInner siteInner) {
-                        site.withSiteConfig(null);
-                        return siteInner;
-                    }
+                .map(siteInner -> {
+                    site.withSiteConfig(null);
+                    return siteInner;
                 });
     }
 
-    Observable<SiteInner> submitSite(final SitePatchResource siteUpdate) {
+    Mono<SiteInner> submitSite(final SitePatchResourceInner siteUpdate) {
         // Construct web app observable
         return updateInner(siteUpdate)
-                .map(new Func1<SiteInner, SiteInner>() {
-                    @Override
-                    public SiteInner call(SiteInner siteInner) {
-                        siteInner.withSiteConfig(null);
-                        return siteInner;
-                    }
+                .map(siteInner -> {
+                    siteInner.withSiteConfig(null);
+                    return siteInner;
                 });
     }
 
     @SuppressWarnings("unchecked")
-    Observable<FluentT> submitHostNameBindings() {
-        final List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
+    Mono<FluentT> submitHostNameBindings() {
+        final List<Mono<HostNameBinding>> bindingObservables = new ArrayList<>();
         for (HostNameBindingImpl<FluentT, FluentImplT> binding : hostNameBindingsToCreate.values()) {
             bindingObservables.add(Utils.<HostNameBinding>rootResource(binding.createAsync()));
         }
         for (String binding : hostNameBindingsToDelete) {
-            bindingObservables.add(deleteHostNameBinding(binding).map(new Func1<Object, HostNameBinding>() {
-                @Override
-                public HostNameBinding call(Object o) {
-                    return null;
-                }
-            }));
+            bindingObservables.add(deleteHostNameBinding(binding).then(Mono.empty()));
         }
         if (bindingObservables.isEmpty()) {
-            return Observable.just((FluentT) this);
+            return Mono.just((FluentT) this);
         } else {
-            return Observable.zip(bindingObservables, new FuncN<WebAppBaseImpl>() {
-                @Override
-                public WebAppBaseImpl call(Object... args) {
-                    return WebAppBaseImpl.this;
-                }
-            }).onErrorResumeNext(new Func1<Throwable, Observable<? extends WebAppBaseImpl>>() {
-                @Override
-                public Observable<? extends WebAppBaseImpl> call(Throwable throwable) {
-                    if (throwable instanceof RestException && ((RestException) throwable).response().code() == 400) {
-                        return submitSite(inner()).flatMap(new Func1<SiteInner, Observable<WebAppBaseImpl>>() {
-                            @Override
-                            public Observable<WebAppBaseImpl> call(SiteInner siteInner) {
-                                return Observable.zip(bindingObservables, new FuncN<WebAppBaseImpl>() {
-                                    @Override
-                                    public WebAppBaseImpl call(Object... args) {
-                                        return WebAppBaseImpl.this;
-                                    }
-                                });
-                            }
-                        });
-                    } else {
-                        return Observable.error(throwable);
-                    }
-                }
-            }).flatMap(new Func1<WebAppBaseImpl, Observable<FluentT>>() {
-                @Override
-                @SuppressWarnings("unchecked")
-                public Observable<FluentT> call(WebAppBaseImpl webAppBase) {
-                    return webAppBase.refreshAsync();
-                }
-            });
+            return Flux.zip(bindingObservables, ignored -> WebAppBaseImpl.this).last()
+                    .onErrorResume(throwable -> {
+                        if (throwable instanceof HttpResponseException && ((HttpResponseException) throwable).getResponse().getStatusCode() == 400) {
+                            return submitSite(inner()).flatMap(ignored -> Flux.zip(bindingObservables, ignored1 -> WebAppBaseImpl.this).last());
+                        } else {
+                            return Mono.error(throwable);
+                        }
+                    }).flatMap(WebAppBaseImpl::refreshAsync);
         }
     }
 
-    Observable<Indexable> submitSslBindings(final SiteInner site) {
-        List<Observable<AppServiceCertificate>> certs = new ArrayList<>();
+    Mono<Indexable> submitSslBindings(final SiteInner site) {
+        List<Mono<AppServiceCertificate>> certs = new ArrayList<>();
         for (final HostNameSslBindingImpl<FluentT, FluentImplT> binding : sslBindingsToCreate.values()) {
             certs.add(binding.newCertificate());
             hostNameSslStateMap.put(binding.inner().name(), binding.inner().withToUpdate(true));
         }
         if (certs.isEmpty()) {
-            return Observable.just((Indexable) this);
+            return Mono.just((Indexable) this);
         } else {
             site.withHostNameSslStates(new ArrayList<>(hostNameSslStateMap.values()));
-            return Observable.zip(certs, new FuncN<SiteInner>() {
-                @Override
-                public SiteInner call(Object... args) {
-                    return site;
-                }
-            }).flatMap(new Func1<SiteInner, Observable<SiteInner>>() {
-                @Override
-                public Observable<SiteInner> call(SiteInner inner) {
-                    return createOrUpdateInner(inner);
-                }
-            }).map(new Func1<SiteInner, Indexable>() {
-                @Override
-                public Indexable call(SiteInner siteInner) {
-                    setInner(siteInner);
-                    return WebAppBaseImpl.this;
-                }
+            return Flux.zip(certs, ignored -> site).last().flatMap(this::createOrUpdateInner).map(siteInner -> {
+                setInner(siteInner);
+                return WebAppBaseImpl.this;
             });
         }
     }
 
-    Observable<Indexable> submitSiteConfig() {
+    Mono<Indexable> submitSiteConfig() {
         if (siteConfig == null) {
-            return Observable.just((Indexable) this);
+            return Mono.just((Indexable) this);
         }
         return createOrUpdateSiteConfig(siteConfig)
-                .flatMap(new Func1<SiteConfigResourceInner, Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call(SiteConfigResourceInner returnedSiteConfig) {
-                        siteConfig = returnedSiteConfig;
-                        return Observable.just((Indexable) WebAppBaseImpl.this);
-                    }
+                .flatMap(returnedSiteConfig -> {
+                    siteConfig = returnedSiteConfig;
+                    return Mono.just((Indexable) WebAppBaseImpl.this);
                 });
     }
 
-    Observable<Indexable> submitAppSettings() {
-        Observable<Indexable> observable = Observable.just((Indexable) this);
+    Mono<Indexable> submitAppSettings() {
+        Mono<Indexable> observable = Mono.just((Indexable) this);
         if (!appSettingsToAdd.isEmpty() || !appSettingsToRemove.isEmpty()) {
             observable = listAppSettings()
-                    .flatMap(new Func1<StringDictionaryInner, Observable<StringDictionaryInner>>() {
-                        @Override
-                        public Observable<StringDictionaryInner> call(StringDictionaryInner stringDictionaryInner) {
-                            if (stringDictionaryInner == null) {
-                                stringDictionaryInner = new StringDictionaryInner();
-                            }
-                            if (stringDictionaryInner.properties() == null) {
-                                stringDictionaryInner.withProperties(new HashMap<String, String>());
-                            }
-                            for (String appSettingKey : appSettingsToRemove) {
-                                stringDictionaryInner.properties().remove(appSettingKey);
-                            }
-                            stringDictionaryInner.properties().putAll(appSettingsToAdd);
-                            return updateAppSettings(stringDictionaryInner);
+                    .flatMap(stringDictionaryInner -> {
+                        if (stringDictionaryInner == null) {
+                            stringDictionaryInner = new StringDictionaryInner();
                         }
-                    }).map(new Func1<StringDictionaryInner, Indexable>() {
-                        @Override
-                        public Indexable call(StringDictionaryInner stringDictionaryInner) {
-                            return WebAppBaseImpl.this;
+                        if (stringDictionaryInner.properties() == null) {
+                            stringDictionaryInner.withProperties(new HashMap<String, String>());
                         }
-                    });
+                        for (String appSettingKey : appSettingsToRemove) {
+                            stringDictionaryInner.properties().remove(appSettingKey);
+                        }
+                        stringDictionaryInner.properties().putAll(appSettingsToAdd);
+                        return updateAppSettings(stringDictionaryInner);
+                    }).map(ignored -> WebAppBaseImpl.this);
         }
         return observable;
     }
 
-    Observable<Indexable> submitMetadata() {
+    Mono<Indexable> submitMetadata() {
         // NOOP
-        Observable<Indexable> observable = Observable.just((Indexable) this);
-        return observable;
+        return Mono.just((Indexable) this);
     }
 
-    Observable<Indexable> submitConnectionStrings() {
-        Observable<Indexable> observable = Observable.just((Indexable) this);
+    Mono<Indexable> submitConnectionStrings() {
+        Mono<Indexable> observable = Mono.just((Indexable) this);
         if (!connectionStringsToAdd.isEmpty() || !connectionStringsToRemove.isEmpty()) {
             observable = listConnectionStrings()
-                    .flatMap(new Func1<ConnectionStringDictionaryInner, Observable<ConnectionStringDictionaryInner>>() {
-                        @Override
-                        public Observable<ConnectionStringDictionaryInner> call(ConnectionStringDictionaryInner dictionaryInner) {
-                            if (dictionaryInner == null) {
-                                dictionaryInner = new ConnectionStringDictionaryInner();
-                            }
-                            if (dictionaryInner.properties() == null) {
-                                dictionaryInner.withProperties(new HashMap<String, ConnStringValueTypePair>());
-                            }
-                            for (String connectionString : connectionStringsToRemove) {
-                                dictionaryInner.properties().remove(connectionString);
-                            }
-                            dictionaryInner.properties().putAll(connectionStringsToAdd);
-                            return updateConnectionStrings(dictionaryInner);
+                    .flatMap(dictionaryInner -> {
+                        if (dictionaryInner == null) {
+                            dictionaryInner = new ConnectionStringDictionaryInner();
                         }
-                    }).map(new Func1<ConnectionStringDictionaryInner, Indexable>() {
-                        @Override
-                        public Indexable call(ConnectionStringDictionaryInner stringDictionaryInner) {
-                            return WebAppBaseImpl.this;
+                        if (dictionaryInner.properties() == null) {
+                            dictionaryInner.withProperties(new HashMap<String, ConnStringValueTypePair>());
                         }
-                    });
+                        for (String connectionString : connectionStringsToRemove) {
+                            dictionaryInner.properties().remove(connectionString);
+                        }
+                        dictionaryInner.properties().putAll(connectionStringsToAdd);
+                        return updateConnectionStrings(dictionaryInner);
+                    }).map(ignored -> WebAppBaseImpl.this);
         }
         return observable;
     }
 
-    Observable<Indexable> submitStickiness() {
-        Observable<Indexable> observable = Observable.just((Indexable) this);
+    Mono<Indexable> submitStickiness() {
+        Mono<Indexable> observable = Mono.just((Indexable) this);
         if (!appSettingStickiness.isEmpty() || !connectionStringStickiness.isEmpty()) {
             observable = listSlotConfigurations()
-                    .flatMap(new Func1<SlotConfigNamesResourceInner, Observable<SlotConfigNamesResourceInner>>() {
-                        @Override
-                        public Observable<SlotConfigNamesResourceInner> call(SlotConfigNamesResourceInner slotConfigNamesResourceInner) {
-                            if (slotConfigNamesResourceInner == null) {
-                                slotConfigNamesResourceInner = new SlotConfigNamesResourceInner();
-                            }
-                            if (slotConfigNamesResourceInner.appSettingNames() == null) {
-                                slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<String>());
-                            }
-                            if (slotConfigNamesResourceInner.connectionStringNames() == null) {
-                                slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<String>());
-                            }
-                            Set<String> stickyAppSettingKeys = new HashSet<>(slotConfigNamesResourceInner.appSettingNames());
-                            Set<String> stickyConnectionStringNames = new HashSet<>(slotConfigNamesResourceInner.connectionStringNames());
-                            for (Map.Entry<String, Boolean> stickiness : appSettingStickiness.entrySet()) {
-                                if (stickiness.getValue()) {
-                                    stickyAppSettingKeys.add(stickiness.getKey());
-                                } else {
-                                    stickyAppSettingKeys.remove(stickiness.getKey());
-                                }
-                            }
-                            for (Map.Entry<String, Boolean> stickiness : connectionStringStickiness.entrySet()) {
-                                if (stickiness.getValue()) {
-                                    stickyConnectionStringNames.add(stickiness.getKey());
-                                } else {
-                                    stickyConnectionStringNames.remove(stickiness.getKey());
-                                }
-                            }
-                            slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<>(stickyAppSettingKeys));
-                            slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<>(stickyConnectionStringNames));
-                            return updateSlotConfigurations(slotConfigNamesResourceInner);
+                    .flatMap(slotConfigNamesResourceInner -> {
+                        if (slotConfigNamesResourceInner == null) {
+                            slotConfigNamesResourceInner = new SlotConfigNamesResourceInner();
                         }
-                    }).map(new Func1<SlotConfigNamesResourceInner, Indexable>() {
-                        @Override
-                        public Indexable call(SlotConfigNamesResourceInner slotConfigNamesResourceInner) {
-                            return WebAppBaseImpl.this;
+                        if (slotConfigNamesResourceInner.appSettingNames() == null) {
+                            slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<String>());
                         }
-                    });
+                        if (slotConfigNamesResourceInner.connectionStringNames() == null) {
+                            slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<String>());
+                        }
+                        Set<String> stickyAppSettingKeys = new HashSet<>(slotConfigNamesResourceInner.appSettingNames());
+                        Set<String> stickyConnectionStringNames = new HashSet<>(slotConfigNamesResourceInner.connectionStringNames());
+                        for (Map.Entry<String, Boolean> stickiness : appSettingStickiness.entrySet()) {
+                            if (stickiness.getValue()) {
+                                stickyAppSettingKeys.add(stickiness.getKey());
+                            } else {
+                                stickyAppSettingKeys.remove(stickiness.getKey());
+                            }
+                        }
+                        for (Map.Entry<String, Boolean> stickiness : connectionStringStickiness.entrySet()) {
+                            if (stickiness.getValue()) {
+                                stickyConnectionStringNames.add(stickiness.getKey());
+                            } else {
+                                stickyConnectionStringNames.remove(stickiness.getKey());
+                            }
+                        }
+                        slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<>(stickyAppSettingKeys));
+                        slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<>(stickyConnectionStringNames));
+                        return updateSlotConfigurations(slotConfigNamesResourceInner);
+                    }).map(ignored -> WebAppBaseImpl.this);
         }
         return observable;
     }
 
-    Observable<Indexable> submitSourceControlToCreate() {
+    Mono<Indexable> submitSourceControlToCreate() {
         if (sourceControl == null || sourceControlToDelete) {
-            return Observable.just((Indexable) this);
+            return Mono.just((Indexable) this);
         }
         return sourceControl.registerGithubAccessToken()
-                .flatMap(new Func1<SourceControlInner, Observable<SiteSourceControlInner>>() {
-                    @Override
-                    public Observable<SiteSourceControlInner> call(SourceControlInner sourceControlInner) {
-                        return createOrUpdateSourceControl(sourceControl.inner());
-                    }
-                })
-                .delay(new Func1<SiteSourceControlInner, Observable<Long>>() {
-                    @Override
-                    public Observable<Long> call(SiteSourceControlInner siteSourceControlInner) {
-                        return Observable.fromCallable(new Callable<Long>() {
-                            @Override
-                            public Long call() throws Exception {
-                                SdkContext.sleep(30000);
-                                return 30000L;
-                            }
-                        });
-                    }
-                })
-                .map(new Func1<SiteSourceControlInner, Indexable>() {
-                    @Override
-                    public Indexable call(SiteSourceControlInner siteSourceControlInner) {
-                        return WebAppBaseImpl.this;
-                    }
-                });
+                .flatMap(sourceControlInner -> createOrUpdateSourceControl(sourceControl.inner()))
+                .flatMap(sourceControlInner -> SdkContext.delayedEmitAsync(sourceControlInner, 30000))
+                .map(ignored -> WebAppBaseImpl.this);
     }
 
-    Observable<Indexable> submitSourceControlToDelete() {
+    Mono<Indexable> submitSourceControlToDelete() {
         if (!sourceControlToDelete) {
-            return Observable.just((Indexable) this);
+            return Mono.just((Indexable) this);
         }
-        return deleteSourceControl().map(new Func1<Void, Indexable>() {
-            @Override
-            public Indexable call(Void aVoid) {
-                return WebAppBaseImpl.this;
-            }
-        });
+        return deleteSourceControl().map(ignored -> WebAppBaseImpl.this);
     }
 
-    Observable<Indexable> submitAuthentication() {
+    Mono<Indexable> submitAuthentication() {
         if (!authenticationToUpdate) {
-            return Observable.just((Indexable) this);
+            return Mono.just((Indexable) this);
         }
-        return updateAuthentication(authentication.inner()).map(new Func1<SiteAuthSettingsInner, Indexable>() {
-            @Override
-            public Indexable call(SiteAuthSettingsInner siteAuthSettingsInner) {
-                WebAppBaseImpl.this.authentication = new WebAppAuthenticationImpl<>(siteAuthSettingsInner, WebAppBaseImpl.this);
-                return WebAppBaseImpl.this;
-            }
+        return updateAuthentication(authentication.inner()).map(siteAuthSettingsInner -> {
+            WebAppBaseImpl.this.authentication = new WebAppAuthenticationImpl<>(siteAuthSettingsInner, WebAppBaseImpl.this);
+            return WebAppBaseImpl.this;
         });
     }
 
-    Observable<Indexable> submitLogConfiguration() {
+    Mono<Indexable> submitLogConfiguration() {
         if (!diagnosticLogsToUpdate) {
-            return Observable.just((Indexable) this);
+            return Mono.just((Indexable) this);
         }
-        return updateDiagnosticLogsConfig(diagnosticLogs.inner())
-                .map(new Func1<SiteLogsConfigInner, Indexable>() {
-                    @Override
-                    public Indexable call(SiteLogsConfigInner siteLogsConfigInner) {
-                        WebAppBaseImpl.this.diagnosticLogs = new WebAppDiagnosticLogsImpl<>(siteLogsConfigInner, WebAppBaseImpl.this);
-                        return WebAppBaseImpl.this;
-                    }
-                });
+        return updateDiagnosticLogsConfig(diagnosticLogs.inner()).map(siteLogsConfigInner -> {
+            WebAppBaseImpl.this.diagnosticLogs = new WebAppDiagnosticLogsImpl<>(siteLogsConfigInner, WebAppBaseImpl.this);
+            return WebAppBaseImpl.this;
+        });
     }
 
     @Override
@@ -1461,7 +1321,7 @@ abstract class WebAppBaseImpl<
             siteConfig = new SiteConfigResourceInner();
         }
         if (siteConfig.defaultDocuments() == null) {
-            siteConfig.withDefaultDocuments(new ArrayList<String>());
+            siteConfig.withDefaultDocuments(new ArrayList<>());
         }
         siteConfig.defaultDocuments().addAll(documents);
         return (FluentImplT) this;
@@ -1541,12 +1401,9 @@ abstract class WebAppBaseImpl<
     @SuppressWarnings("unchecked")
     public FluentImplT withStickyAppSettings(Map<String, String> settings) {
         withAppSettings(settings);
-        appSettingStickiness.putAll(Maps.asMap(settings.keySet(), new Function<String, Boolean>() {
-            @Override
-            public Boolean apply(String input) {
-                return true;
-            }
-        }));
+        for (String key : settings.keySet()) {
+            appSettingStickiness.put(key, true);
+        }
         return (FluentImplT) this;
     }
 
@@ -1627,19 +1484,11 @@ abstract class WebAppBaseImpl<
 
     @Override
     @SuppressWarnings("unchecked")
-    public Observable<FluentT> refreshAsync() {
-        return super.refreshAsync().flatMap(new Func1<FluentT, Observable<FluentT>>() {
-            @Override
-            public Observable<FluentT> call(final FluentT fluentT) {
-                return getConfigInner().map(new Func1<SiteConfigResourceInner, FluentT>() {
-                    @Override
-                    public FluentT call(SiteConfigResourceInner returnedSiteConfig) {
-                        siteConfig = returnedSiteConfig;
-                        return fluentT;
-                    }
-                });
-            }
-        });
+    public Mono<FluentT> refreshAsync() {
+        return super.refreshAsync().flatMap(fluentT -> getConfigInner().map(returnedSiteConfig -> {
+            siteConfig = returnedSiteConfig;
+            return fluentT;
+        }));
     }
 
     @Override

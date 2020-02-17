@@ -29,6 +29,7 @@ import com.microsoft.rest.credentials.TokenCredentials;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
 import org.joda.time.DateTime;
+import reactor.core.publisher.Mono;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -605,7 +606,7 @@ class FunctionAppImpl
     }
 
     @Override
-    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+    public Mono<Void> afterPostRunAsync(final boolean isGroupFaulted) {
         if (!isGroupFaulted) {
             initializeFunctionService();
         }

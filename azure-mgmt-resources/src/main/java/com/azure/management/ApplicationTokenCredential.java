@@ -4,6 +4,7 @@
 package com.azure.management;
 
 import com.azure.core.credential.AccessToken;
+import com.azure.core.credential.SimpleTokenCache;
 import com.azure.core.credential.TokenRequestContext;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.identity.ClientSecretCredential;
@@ -13,10 +14,13 @@ import reactor.core.publisher.Mono;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 
 public class ApplicationTokenCredential extends AzureTokenCredential {
 
-    private TokenCache cache = new TokenCache();
+    private ConcurrentMap<String, SimpleTokenCache> cache = new ConcurrentHashMap<>();
 
     private String clientId;
     private String clientSecret;
@@ -68,6 +72,10 @@ public class ApplicationTokenCredential extends AzureTokenCredential {
         List<String> scopes = request.getScopes();
         String digest = String.join(" ", scopes);
 
-        return cache.getTokenWithCache(digest, () -> clientSecretCredential.getToken(request));
+        Function<String, SimpleTokenCache> computeSimpleTokenCache = key ->
+                new SimpleTokenCache(() -> clientSecretCredential.getToken(request));
+
+        return Mono.just(cache.computeIfAbsent(digest, computeSimpleTokenCache))
+                .flatMap(simpleTokenCache -> simpleTokenCache.getToken());
     }
 }

@@ -11,6 +11,9 @@ import com.azure.core.annotation.PathParam;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpResponse;
 import com.azure.core.http.rest.RestProxy;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.management.AzureTokenCredential;
+import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import reactor.core.publisher.Mono;
@@ -192,32 +195,32 @@ public final class Utils {
             list.remove(foundIndex);
         }
     }
-//
-//    /**
-//     * Try to extract the environment the client is authenticated to based
-//     * on the information on the rest client.
-//     *
-//     * @param restClient the RestClient instance
-//     * @return the non-null AzureEnvironment
-//     */
-//    public static AzureEnvironment extractAzureEnvironment(RestClient restClient) {
-//        AzureEnvironment environment = null;
-//        if (restClient.credentials() instanceof AzureTokenCredentials) {
-//            environment = ((AzureTokenCredentials) restClient.credentials()).environment();
-//        } else {
-//            String baseUrl = restClient.retrofit().baseUrl().toString();
-//            for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
-//                if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
-//                    environment = env;
-//                    break;
-//                }
-//            }
-//            if (environment == null) {
-//                throw new IllegalArgumentException("Unknown resource manager endpoint " + baseUrl);
-//            }
-//        }
-//        return environment;
-//    }
+
+    /**
+     * Try to extract the environment the client is authenticated to based
+     * on the information on the rest client.
+     *
+     * @param restClient the RestClient instance
+     * @return the non-null AzureEnvironment
+     */
+    public static AzureEnvironment extractAzureEnvironment(RestClient restClient) {
+        AzureEnvironment environment = null;
+        if (restClient.getCredential() instanceof AzureTokenCredential) {
+            environment = ((AzureTokenCredential) restClient.getCredential()).getEnvironment();
+        } else {
+            String baseUrl = restClient.getBaseUrl().toString();
+            for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
+                if (env.getResourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
+                    environment = env;
+                    break;
+                }
+            }
+            if (environment == null) {
+                throw new IllegalArgumentException("Unknown resource manager endpoint " + baseUrl);
+            }
+        }
+        return environment;
+    }
 
     /**
      * @param id resource id

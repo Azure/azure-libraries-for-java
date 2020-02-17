@@ -53,5 +53,5 @@ public interface TaskItem {
      *                       to are in faulted state.
      * @return a {@link Flux} representing any asynchronous work initiated
      */
-    Flux invokeAfterPostRunAsync(boolean isGroupFaulted);
+    Mono<Void> invokeAfterPostRunAsync(boolean isGroupFaulted);
 }

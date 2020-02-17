@@ -283,10 +283,10 @@ public abstract class CreatableUpdatableImpl<
     }
 
     @Override
-    public Flux<FluentModelT> afterPostRunAsync(boolean isGroupFaulted) {
+    public Mono<Void> afterPostRunAsync(boolean isGroupFaulted) {
         // The types extending from this type can override this method and perform
         // any activities that needs to be done after the processing of all
         // post-run tasks.
-        return Flux.empty();
+        return Mono.empty();
     }
 }

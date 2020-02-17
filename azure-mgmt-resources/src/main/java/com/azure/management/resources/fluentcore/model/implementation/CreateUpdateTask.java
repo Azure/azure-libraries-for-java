@@ -65,8 +65,8 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
     }
 
     @Override
-    public Flux<Indexable> invokeAfterPostRunAsync(boolean isGroupFaulted) {
-        return this.resourceCreatorUpdater.afterPostRunAsync(isGroupFaulted).map(resourceT -> resourceT);
+    public Mono<Void> invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        return this.resourceCreatorUpdater.afterPostRunAsync(isGroupFaulted);
     }
 
     @Override
@@ -125,6 +125,6 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
          *                       belongs to are in faulted state.
          * @return a completable represents the asynchronous action
          */
-        Flux<T> afterPostRunAsync(boolean isGroupFaulted);
+        Mono<Void> afterPostRunAsync(boolean isGroupFaulted);
     }
 }

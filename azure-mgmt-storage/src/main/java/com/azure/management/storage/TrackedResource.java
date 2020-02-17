@@ -7,7 +7,7 @@
 package com.azure.management.storage;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.management.Resource;
+import com.azure.core.management.ProxyResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
@@ -15,7 +15,7 @@ import java.util.Map;
  * The TrackedResource model.
  */
 @Fluent
-public class TrackedResource extends Resource {
+public class TrackedResource extends ProxyResource {
     /*
      * Resource tags.
      */

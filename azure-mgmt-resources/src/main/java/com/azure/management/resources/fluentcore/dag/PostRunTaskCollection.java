@@ -34,7 +34,7 @@ public final class PostRunTaskCollection {
      * @param taskItem the "Post Run" task
      */
     public void add(final IndexableTaskItem taskItem) {
-        this.dependsOnTaskGroup.addPostRunDependentTaskGroup(taskItem.getTaskGroup());
+        this.dependsOnTaskGroup.addPostRunDependentTaskGroup(taskItem.taskGroup());
         this.collection.add(taskItem);
     }
 

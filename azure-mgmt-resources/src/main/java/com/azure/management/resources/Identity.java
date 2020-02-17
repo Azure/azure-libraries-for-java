@@ -39,7 +39,7 @@ public final class Identity {
      * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
      */
     @JsonProperty(value = "userAssignedIdentities")
-    private Map<String, Componentsschemasidentitypropertiesuserassignedidentitiesadditionalproperties> userAssignedIdentities;
+    private Map<String, IdentityUserAssignedIdentities> userAssignedIdentities;
 
     /**
      * Get the principalId property: The principal ID of resource identity.
@@ -87,7 +87,7 @@ public final class Identity {
      * 
      * @return the userAssignedIdentities value.
      */
-    public Map<String, Componentsschemasidentitypropertiesuserassignedidentitiesadditionalproperties> getUserAssignedIdentities() {
+    public Map<String, IdentityUserAssignedIdentities> getUserAssignedIdentities() {
         return this.userAssignedIdentities;
     }
 
@@ -100,7 +100,7 @@ public final class Identity {
      * @param userAssignedIdentities the userAssignedIdentities value to set.
      * @return the Identity object itself.
      */
-    public Identity setUserAssignedIdentities(Map<String, Componentsschemasidentitypropertiesuserassignedidentitiesadditionalproperties> userAssignedIdentities) {
+    public Identity setUserAssignedIdentities(Map<String, IdentityUserAssignedIdentities> userAssignedIdentities) {
         this.userAssignedIdentities = userAssignedIdentities;
         return this;
     }

@@ -31,6 +31,14 @@ public final class EncryptionService {
     @JsonProperty(value = "lastEnabledTime", access = JsonProperty.Access.WRITE_ONLY)
     private OffsetDateTime lastEnabledTime;
 
+    /*
+     * Encryption key type to be used for the encryption service. 'Account' key
+     * type implies that an account-scoped encryption key will be used.
+     * 'Service' key type implies that a default service key is used.
+     */
+    @JsonProperty(value = "keyType")
+    private KeyType keyType;
+
     /**
      * Get the enabled property: A boolean indicating whether or not the
      * service encrypts the data as it is stored.
@@ -63,5 +71,31 @@ public final class EncryptionService {
      */
     public OffsetDateTime getLastEnabledTime() {
         return this.lastEnabledTime;
+    }
+
+    /**
+     * Get the keyType property: Encryption key type to be used for the
+     * encryption service. 'Account' key type implies that an account-scoped
+     * encryption key will be used. 'Service' key type implies that a default
+     * service key is used.
+     * 
+     * @return the keyType value.
+     */
+    public KeyType getKeyType() {
+        return this.keyType;
+    }
+
+    /**
+     * Set the keyType property: Encryption key type to be used for the
+     * encryption service. 'Account' key type implies that an account-scoped
+     * encryption key will be used. 'Service' key type implies that a default
+     * service key is used.
+     * 
+     * @param keyType the keyType value to set.
+     * @return the EncryptionService object itself.
+     */
+    public EncryptionService setKeyType(KeyType keyType) {
+        this.keyType = keyType;
+        return this;
     }
 }

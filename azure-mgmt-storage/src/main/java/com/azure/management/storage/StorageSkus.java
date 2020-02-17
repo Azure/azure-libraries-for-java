@@ -10,7 +10,6 @@ import com.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.storage.implementation.StorageManager;
-import com.azure.management.storage.models.SkuInner;
 import com.azure.management.storage.models.SkusInner;
 
 /**
@@ -18,7 +17,7 @@ import com.azure.management.storage.models.SkusInner;
  */
 public interface StorageSkus
         extends
-        SupportsListing<SkuInner>,
+        SupportsListing<StorageSku>,
         HasInner<SkusInner>,
         HasManager<StorageManager> {
 }

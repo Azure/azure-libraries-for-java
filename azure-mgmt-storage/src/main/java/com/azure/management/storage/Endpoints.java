@@ -6,13 +6,13 @@
 
 package com.azure.management.storage;
 
-import com.azure.core.annotation.Immutable;
+import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The Endpoints model.
  */
-@Immutable
+@Fluent
 public final class Endpoints {
     /*
      * Gets the blob endpoint.
@@ -49,6 +49,20 @@ public final class Endpoints {
      */
     @JsonProperty(value = "dfs", access = JsonProperty.Access.WRITE_ONLY)
     private String dfs;
+
+    /*
+     * The URIs that are used to perform a retrieval of a public blob, queue,
+     * table, web or dfs object via a microsoft routing endpoint.
+     */
+    @JsonProperty(value = "microsoftEndpoints")
+    private StorageAccountMicrosoftEndpoints microsoftEndpoints;
+
+    /*
+     * The URIs that are used to perform a retrieval of a public blob, file,
+     * web or dfs object via a internet routing endpoint.
+     */
+    @JsonProperty(value = "internetEndpoints")
+    private StorageAccountInternetEndpoints internetEndpoints;
 
     /**
      * Get the blob property: Gets the blob endpoint.
@@ -102,5 +116,53 @@ public final class Endpoints {
      */
     public String getDfs() {
         return this.dfs;
+    }
+
+    /**
+     * Get the microsoftEndpoints property: The URIs that are used to perform a
+     * retrieval of a public blob, queue, table, web or dfs object via a
+     * microsoft routing endpoint.
+     * 
+     * @return the microsoftEndpoints value.
+     */
+    public StorageAccountMicrosoftEndpoints getMicrosoftEndpoints() {
+        return this.microsoftEndpoints;
+    }
+
+    /**
+     * Set the microsoftEndpoints property: The URIs that are used to perform a
+     * retrieval of a public blob, queue, table, web or dfs object via a
+     * microsoft routing endpoint.
+     * 
+     * @param microsoftEndpoints the microsoftEndpoints value to set.
+     * @return the Endpoints object itself.
+     */
+    public Endpoints setMicrosoftEndpoints(StorageAccountMicrosoftEndpoints microsoftEndpoints) {
+        this.microsoftEndpoints = microsoftEndpoints;
+        return this;
+    }
+
+    /**
+     * Get the internetEndpoints property: The URIs that are used to perform a
+     * retrieval of a public blob, file, web or dfs object via a internet
+     * routing endpoint.
+     * 
+     * @return the internetEndpoints value.
+     */
+    public StorageAccountInternetEndpoints getInternetEndpoints() {
+        return this.internetEndpoints;
+    }
+
+    /**
+     * Set the internetEndpoints property: The URIs that are used to perform a
+     * retrieval of a public blob, file, web or dfs object via a internet
+     * routing endpoint.
+     * 
+     * @param internetEndpoints the internetEndpoints value to set.
+     * @return the Endpoints object itself.
+     */
+    public Endpoints setInternetEndpoints(StorageAccountInternetEndpoints internetEndpoints) {
+        this.internetEndpoints = internetEndpoints;
+        return this;
     }
 }

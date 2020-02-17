@@ -19,7 +19,7 @@ public interface TaskItem {
     /**
      * @return the result of the task invocation
      */
-    Indexable getResult();
+    Indexable result();
 
     /**
      * The method that gets called before invoking all the tasks in the {@link TaskGroup}

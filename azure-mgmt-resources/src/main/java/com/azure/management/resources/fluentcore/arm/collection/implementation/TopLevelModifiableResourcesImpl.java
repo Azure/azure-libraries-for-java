@@ -63,12 +63,12 @@ public abstract class TopLevelModifiableResourcesImpl<
 
     @Override
     protected final Mono<InnerT> getInnerAsync(String resourceGroupName, String name) {
-        return this.getInner().getByResourceGroupAsync(resourceGroupName, name);
+        return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
     protected Mono<?> deleteInnerAsync(String resourceGroupName, String name) {
-        return getInner().deleteAsync(resourceGroupName, name);
+        return inner().deleteAsync(resourceGroupName, name);
     }
 
     @Override
@@ -86,7 +86,7 @@ public abstract class TopLevelModifiableResourcesImpl<
         for (String id : ids) {
             final String resourceGroupName = ResourceUtils.groupFromResourceId(id);
             final String name = ResourceUtils.nameFromResourceId(id);
-            Mono<String> o = ReactorMapper.map(this.getInner().deleteAsync(resourceGroupName, name), id);
+            Mono<String> o = ReactorMapper.map(this.inner().deleteAsync(resourceGroupName, name), id);
             observables.add(o);
         }
 
@@ -107,12 +107,12 @@ public abstract class TopLevelModifiableResourcesImpl<
 
     @Override
     public PagedFlux<T> listAsync() {
-        return getInner().listAsync().mapPage(innerT -> wrapModel(innerT));
+        return inner().listAsync().mapPage(innerT -> wrapModel(innerT));
     }
 
     @Override
     public PagedFlux<T> listByResourceGroupAsync(String resourceGroupName) {
-        return getInner().listByResourceGroupAsync(resourceGroupName).mapPage(innerT -> wrapModel(innerT));
+        return inner().listByResourceGroupAsync(resourceGroupName).mapPage(innerT -> wrapModel(innerT));
     }
 
     @Override

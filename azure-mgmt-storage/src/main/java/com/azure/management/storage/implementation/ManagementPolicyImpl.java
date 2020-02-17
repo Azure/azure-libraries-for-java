@@ -62,16 +62,14 @@ class ManagementPolicyImpl extends
     }
 
     @Override
-    public StorageManager getManager() {
+    public StorageManager manager() {
         return this.manager;
     }
 
     @Override
     public Mono<ManagementPolicy> createResourceAsync() {
-        ManagementPoliciesInner client = this.getManager().getInner().managementPolicies();
-        ManagementPolicyInner inner = new ManagementPolicyInner();
-        inner.setPolicy(this.cpolicy);
-        return client.createOrUpdateAsync(this.resourceGroupName, this.accountName, inner)
+        ManagementPoliciesInner client = this.manager().inner().managementPolicies();
+        return client.createOrUpdateAsync(this.resourceGroupName, this.accountName, cpolicy)
                 .map(resource -> {
                     resetCreateUpdateParameters();
                     return resource;
@@ -81,10 +79,8 @@ class ManagementPolicyImpl extends
 
     @Override
     public Mono<ManagementPolicy> updateResourceAsync() {
-        ManagementPoliciesInner client = this.getManager().getInner().managementPolicies();
-        ManagementPolicyInner inner = new ManagementPolicyInner();
-        inner.setPolicy(this.upolicy);
-        return client.createOrUpdateAsync(this.resourceGroupName, this.accountName, inner)
+        ManagementPoliciesInner client = this.manager().inner().managementPolicies();
+        return client.createOrUpdateAsync(this.resourceGroupName, this.accountName, upolicy)
                 .map(resource -> {
                     resetCreateUpdateParameters();
                     return resource;
@@ -94,13 +90,13 @@ class ManagementPolicyImpl extends
 
     @Override
     protected Mono<ManagementPolicyInner> getInnerAsync() {
-        ManagementPoliciesInner client = this.getManager().getInner().managementPolicies();
+        ManagementPoliciesInner client = this.manager().inner().managementPolicies();
         return client.getAsync(this.resourceGroupName, this.accountName);
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.getInner().getId() == null;
+        return this.inner().getId() == null;
     }
 
     private void resetCreateUpdateParameters() {
@@ -110,27 +106,27 @@ class ManagementPolicyImpl extends
 
     @Override
     public String id() {
-        return this.getInner().getId();
+        return this.inner().getId();
     }
 
     @Override
     public OffsetDateTime lastModifiedTime() {
-        return this.getInner().getLastModifiedTime();
+        return this.inner().getLastModifiedTime();
     }
 
     @Override
     public String name() {
-        return this.getInner().getName();
+        return this.inner().getName();
     }
 
     @Override
     public ManagementPolicySchema policy() {
-        return this.getInner().getPolicy();
+        return this.inner().getPolicy();
     }
 
     @Override
     public String type() {
-        return this.getInner().getType();
+        return this.inner().getType();
     }
 
     @Override
@@ -206,14 +202,14 @@ class ManagementPolicyImpl extends
                 this.cpolicy.setRules(new ArrayList<ManagementPolicyRule>());
             }
             List<ManagementPolicyRule> rules = this.cpolicy.getRules();
-            rules.add(policyRuleImpl.getInner());
+            rules.add(policyRuleImpl.inner());
             this.cpolicy.setRules(rules);
         } else {
             if (this.upolicy.getRules() == null) {
                 this.upolicy.setRules(new ArrayList<ManagementPolicyRule>());
             }
             List<ManagementPolicyRule> rules = this.upolicy.getRules();
-            rules.add(policyRuleImpl.getInner());
+            rules.add(policyRuleImpl.inner());
             this.upolicy.setRules(rules);
         }
     }

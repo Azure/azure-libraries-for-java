@@ -8,6 +8,7 @@ package com.azure.management.graphrbac.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.CloudException;
 import com.azure.management.graphrbac.RoleDefinition;
 import com.azure.management.graphrbac.RoleDefinitions;
 import com.azure.management.graphrbac.models.RoleDefinitionInner;
@@ -15,8 +16,6 @@ import com.azure.management.graphrbac.models.RoleDefinitionsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import reactor.core.publisher.Mono;
-
-import java.util.function.Function;
 
 /**
  * The implementation of RoleDefinitions and its parent interfaces.
@@ -40,79 +39,64 @@ class RoleDefinitionsImpl
         if (roleDefinitionInner == null) {
             return null;
         }
-        return new RoleDefinitionImpl(roleDefinitionInner, getManager());
+        return new RoleDefinitionImpl(roleDefinitionInner, manager());
     }
 
     @Override
-    public RoleDefinitionImpl getById(String objectId) {
-        return (RoleDefinitionImpl) getByIdAsync(objectId).block();
+    public RoleDefinition getById(String objectId) {
+        return getByIdAsync(objectId).block();
     }
 
     @Override
     public Mono<RoleDefinition> getByIdAsync(String id) {
-        return getInner().getByIdAsync(id).map(roleDefinitionInner -> {
-            if (roleDefinitionInner == null) {
-                return null;
-            } else {
-                return new RoleDefinitionImpl(roleDefinitionInner, getManager());
-            }
-        });
+        return inner().getByIdAsync(id)
+                .onErrorResume(CloudException.class, e -> Mono.empty())
+                .map(roleDefinitionInner -> new RoleDefinitionImpl(roleDefinitionInner, manager()));
     }
 
     @Override
-    public RoleDefinitionImpl getByScope(String scope,  String name) {
-        return (RoleDefinitionImpl) getByScopeAsync(scope, name).block();
+    public RoleDefinition getByScope(String scope,  String name) {
+        return getByScopeAsync(scope, name).block();
     }
 
     @Override
     public Mono<RoleDefinition> getByScopeAsync(String scope,  String name) {
-        return getInner().getAsync(scope, name)
-                .map(roleDefinitionInner -> {
-                    if (roleDefinitionInner == null) {
-                        return null;
-                    }
-                    return new RoleDefinitionImpl(roleDefinitionInner, getManager());
-                });
+        return inner().getAsync(scope, name)
+                .onErrorResume(CloudException.class, e -> Mono.empty())
+                .map(roleDefinitionInner -> new RoleDefinitionImpl(roleDefinitionInner, manager()));
     }
 
     @Override
-    public RoleDefinitionImpl getByScopeAndRoleName(String scope,  String roleName) {
-        return (RoleDefinitionImpl) getByScopeAndRoleNameAsync(scope, roleName).block();
+    public RoleDefinition getByScopeAndRoleName(String scope,  String roleName) {
+        return getByScopeAndRoleNameAsync(scope, roleName).block();
     }
 
     @Override
     public PagedFlux<RoleDefinition> listByScopeAsync(String scope) {
-        return getInner().listAsync(scope, null).mapPage(roleDefinitionInner -> {
-            if (roleDefinitionInner == null) {
-                return null;
-            }
-            return new RoleDefinitionImpl(roleDefinitionInner, getManager());
-        });
+        return inner().listAsync(scope, null)
+                .mapPage(roleDefinitionInner -> new RoleDefinitionImpl(roleDefinitionInner, manager()));
     }
 
     @Override
     public PagedIterable<RoleDefinition> listByScope(String scope) {
-        return wrapList(getInner().list(scope, null));
+        return wrapList(inner().list(scope, null));
     }
 
     @Override
     public Mono<RoleDefinition> getByScopeAndRoleNameAsync(String scope,  String roleName) {
-        return getInner().listAsync(scope, String.format("roleName eq '%s'", roleName))
-                .map((Function<RoleDefinitionInner, RoleDefinition>) roleDefinitionInner -> {
-                    if (roleDefinitionInner == null) {
-                        return null;
-                    }
-                    return new RoleDefinitionImpl(roleDefinitionInner, getManager());
-                }).last();
+        return inner().listAsync(scope, String.format("roleName eq '%s'", roleName))
+                .onErrorResume(CloudException.class, e -> Mono.empty())
+                .singleOrEmpty()
+                .map(roleDefinitionInner -> new RoleDefinitionImpl(roleDefinitionInner, manager()));
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 
     @Override
-    public RoleDefinitionsInner getInner() {
-        return getManager().roleInner().roleDefinitions();
+    public RoleDefinitionsInner inner() {
+        return manager().roleInner().roleDefinitions();
     }
 }

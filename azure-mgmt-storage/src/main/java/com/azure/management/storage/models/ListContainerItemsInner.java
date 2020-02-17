@@ -6,23 +6,30 @@
 
 package com.azure.management.storage.models;
 
-import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.Immutable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
  * The ListContainerItems model.
  */
-@Fluent
+@Immutable
 public final class ListContainerItemsInner {
     /*
-     * The list of blob containers.
+     * List of blobs containers returned.
      */
-    @JsonProperty(value = "value")
+    @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
     private List<ListContainerItemInner> value;
 
+    /*
+     * Request URL that can be used to query next page of containers. Returned
+     * when total number of requested containers exceed maximum page size.
+     */
+    @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
+    private String nextLink;
+
     /**
-     * Get the value property: The list of blob containers.
+     * Get the value property: List of blobs containers returned.
      * 
      * @return the value value.
      */
@@ -31,13 +38,13 @@ public final class ListContainerItemsInner {
     }
 
     /**
-     * Set the value property: The list of blob containers.
+     * Get the nextLink property: Request URL that can be used to query next
+     * page of containers. Returned when total number of requested containers
+     * exceed maximum page size.
      * 
-     * @param value the value value to set.
-     * @return the ListContainerItemsInner object itself.
+     * @return the nextLink value.
      */
-    public ListContainerItemsInner setValue(List<ListContainerItemInner> value) {
-        this.value = value;
-        return this;
+    public String getNextLink() {
+        return this.nextLink;
     }
 }

@@ -18,20 +18,6 @@ import java.util.List;
 @Fluent
 public class ImmutabilityPolicyProperties {
     /*
-     * The immutability period for the blobs in the container since the policy
-     * creation, in days.
-     */
-    @JsonProperty(value = "properties.immutabilityPeriodSinceCreationInDays", required = true)
-    private int immutabilityPeriodSinceCreationInDays;
-
-    /*
-     * The ImmutabilityPolicy state of a blob container, possible values
-     * include: Locked and Unlocked.
-     */
-    @JsonProperty(value = "properties.state", access = JsonProperty.Access.WRITE_ONLY)
-    private ImmutabilityPolicyState state;
-
-    /*
      * ImmutabilityPolicy Etag.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
@@ -43,40 +29,19 @@ public class ImmutabilityPolicyProperties {
     @JsonProperty(value = "updateHistory", access = JsonProperty.Access.WRITE_ONLY)
     private List<UpdateHistoryProperty> updateHistory;
 
-    /**
-     * Get the immutabilityPeriodSinceCreationInDays property: The immutability
-     * period for the blobs in the container since the policy creation, in
-     * days.
-     * 
-     * @return the immutabilityPeriodSinceCreationInDays value.
+    /*
+     * The immutability period for the blobs in the container since the policy
+     * creation, in days.
      */
-    public int getImmutabilityPeriodSinceCreationInDays() {
-        return this.immutabilityPeriodSinceCreationInDays;
-    }
+    @JsonProperty(value = "properties.immutabilityPeriodSinceCreationInDays")
+    private Integer immutabilityPeriodSinceCreationInDays;
 
-    /**
-     * Set the immutabilityPeriodSinceCreationInDays property: The immutability
-     * period for the blobs in the container since the policy creation, in
-     * days.
-     * 
-     * @param immutabilityPeriodSinceCreationInDays the
-     * immutabilityPeriodSinceCreationInDays value to set.
-     * @return the ImmutabilityPolicyProperties object itself.
+    /*
+     * The ImmutabilityPolicy state of a blob container, possible values
+     * include: Locked and Unlocked.
      */
-    public ImmutabilityPolicyProperties setImmutabilityPeriodSinceCreationInDays(int immutabilityPeriodSinceCreationInDays) {
-        this.immutabilityPeriodSinceCreationInDays = immutabilityPeriodSinceCreationInDays;
-        return this;
-    }
-
-    /**
-     * Get the state property: The ImmutabilityPolicy state of a blob
-     * container, possible values include: Locked and Unlocked.
-     * 
-     * @return the state value.
-     */
-    public ImmutabilityPolicyState getState() {
-        return this.state;
-    }
+    @JsonProperty(value = "properties.state", access = JsonProperty.Access.WRITE_ONLY)
+    private ImmutabilityPolicyState state;
 
     /**
      * Get the etag property: ImmutabilityPolicy Etag.
@@ -95,5 +60,40 @@ public class ImmutabilityPolicyProperties {
      */
     public List<UpdateHistoryProperty> getUpdateHistory() {
         return this.updateHistory;
+    }
+
+    /**
+     * Get the immutabilityPeriodSinceCreationInDays property: The immutability
+     * period for the blobs in the container since the policy creation, in
+     * days.
+     * 
+     * @return the immutabilityPeriodSinceCreationInDays value.
+     */
+    public Integer getImmutabilityPeriodSinceCreationInDays() {
+        return this.immutabilityPeriodSinceCreationInDays;
+    }
+
+    /**
+     * Set the immutabilityPeriodSinceCreationInDays property: The immutability
+     * period for the blobs in the container since the policy creation, in
+     * days.
+     * 
+     * @param immutabilityPeriodSinceCreationInDays the
+     * immutabilityPeriodSinceCreationInDays value to set.
+     * @return the ImmutabilityPolicyProperties object itself.
+     */
+    public ImmutabilityPolicyProperties setImmutabilityPeriodSinceCreationInDays(Integer immutabilityPeriodSinceCreationInDays) {
+        this.immutabilityPeriodSinceCreationInDays = immutabilityPeriodSinceCreationInDays;
+        return this;
+    }
+
+    /**
+     * Get the state property: The ImmutabilityPolicy state of a blob
+     * container, possible values include: Locked and Unlocked.
+     * 
+     * @return the state value.
+     */
+    public ImmutabilityPolicyState getState() {
+        return this.state;
     }
 }

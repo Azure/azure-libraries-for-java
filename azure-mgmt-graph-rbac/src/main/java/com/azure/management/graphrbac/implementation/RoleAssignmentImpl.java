@@ -17,14 +17,11 @@ import com.azure.management.graphrbac.models.RoleAssignmentInner;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableImpl;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.reactivestreams.Publisher;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.time.Duration;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -50,7 +47,7 @@ class RoleAssignmentImpl
 
     @Override
     public boolean isInCreateMode() {
-        return getInner().getId() == null;
+        return inner().getId() == null;
     }
 
     @Override
@@ -60,10 +57,10 @@ class RoleAssignmentImpl
             objectIdObservable = Mono.just(objectId);
         } else if (userName != null) {
             objectIdObservable = manager.users().getByNameAsync(userName)
-                    .map(user -> user.getId());
+                    .map(user -> user.id());
         } else if (servicePrincipalName != null) {
             objectIdObservable = manager.servicePrincipals().getByNameAsync(servicePrincipalName)
-                    .map(sp -> sp.getId());
+                    .map(sp -> sp.id());
         } else {
             throw new IllegalArgumentException("Please pass a non-null value for either object Id, user, group, or service principal");
         }
@@ -72,25 +69,22 @@ class RoleAssignmentImpl
         if (roleDefinitionId != null) {
             roleDefinitionIdObservable = Mono.just(roleDefinitionId);
         } else if (roleName != null) {
-            roleDefinitionIdObservable = getManager().roleDefinitions().getByScopeAndRoleNameAsync(scope(), roleName)
-                    .map(roleDefinition -> roleDefinition.getId());
+            roleDefinitionIdObservable = manager().roleDefinitions().getByScopeAndRoleNameAsync(scope(), roleName)
+                    .map(roleDefinition -> roleDefinition.id());
         } else {
             throw new IllegalArgumentException("Please pass a non-null value for either role name or role definition ID");
         }
 
-        return Mono.zip(objectIdObservable, roleDefinitionIdObservable, new BiFunction<String, String, RoleAssignmentCreateParameters>() {
-            @Override
-            public RoleAssignmentCreateParameters apply(String objectId, String roleDefinitionId) {
-                return new RoleAssignmentCreateParameters()
-                        .setPrincipalId(objectId).setRoleDefinitionId(roleDefinitionId);
-            }
-        }).flatMap((Function<RoleAssignmentCreateParameters, Mono<RoleAssignmentInner>>) roleAssignmentPropertiesInner -> getManager().roleInner().roleAssignments()
-                .createAsync(scope(), getName(), roleAssignmentPropertiesInner)
+        return Mono.zip(objectIdObservable,
+                    roleDefinitionIdObservable,
+                    (objectId, roleDefinitionId) -> new RoleAssignmentCreateParameters().setPrincipalId(objectId).setRoleDefinitionId(roleDefinitionId))
+                .flatMap(roleAssignmentPropertiesInner -> manager().roleInner().roleAssignments()
+                .createAsync(scope(), name(), roleAssignmentPropertiesInner)
                 .retryWhen(throwableFlux -> throwableFlux.zipWith(Flux.range(1, 30), (throwable, integer) -> {
                     if (throwable instanceof  CloudException) {
                         CloudException cloudException = (CloudException) throwable;
-                        if ((cloudException.getValue().getCode() != null && cloudException.getValue().getCode().equalsIgnoreCase("PrincipalNotFound"))
-                            || (cloudException.getValue()).getMessage() != null && cloudException.getValue().getMessage().toLowerCase().contains("does not exist in the directory")) {
+                        String exceptionMessage = cloudException.getMessage().toLowerCase();
+                        if (exceptionMessage.contains("principalnotfound") || exceptionMessage.contains("does not exist in the directory")) {
                             // ref: https://github.com/Azure/azure-cli/blob/dev/src/command_modules/azure-cli-role/azure/cli/command_modules/role/custom.py#L1048-L1065
                             return integer;
                         } else {
@@ -99,27 +93,27 @@ class RoleAssignmentImpl
                     } else {
                         throw Exceptions.propagate(throwable);
                     }
-                }).flatMap((Function<Integer, Publisher<?>>) i -> SdkContext.delayedEmitAsync(i, i * 1000)))).map(innerToFluentMap(this));
+                }).flatMap(i -> Mono.delay(Duration.ofSeconds(i))))).map(innerToFluentMap(this));
     }
 
     @Override
     protected Mono<RoleAssignmentInner> getInnerAsync() {
-        return manager.roleInner().roleAssignments().getAsync(scope(), getName());
+        return manager.roleInner().roleAssignments().getAsync(scope(), name());
     }
 
     @Override
     public String scope() {
-        return getInner().getScope();
+        return inner().getScope();
     }
 
     @Override
     public String roleDefinitionId() {
-        return getInner().getRoleDefinitionId();
+        return inner().getRoleDefinitionId();
     }
 
     @Override
     public String principalId() {
-        return getInner().getPrincipalId();
+        return inner().getPrincipalId();
     }
 
     @Override
@@ -130,7 +124,7 @@ class RoleAssignmentImpl
 
     @Override
     public RoleAssignmentImpl forUser(ActiveDirectoryUser user) {
-        this.objectId = user.getId();
+        this.objectId = user.id();
         return this;
     }
 
@@ -142,13 +136,13 @@ class RoleAssignmentImpl
 
     @Override
     public RoleAssignmentImpl forGroup(ActiveDirectoryGroup activeDirectoryGroup) {
-        this.objectId = activeDirectoryGroup.getId();
+        this.objectId = activeDirectoryGroup.id();
         return this;
     }
 
     @Override
     public RoleAssignmentImpl forServicePrincipal(ServicePrincipal servicePrincipal) {
-        this.objectId = servicePrincipal.getId();
+        this.objectId = servicePrincipal.id();
         return this;
     }
 
@@ -172,18 +166,18 @@ class RoleAssignmentImpl
 
     @Override
     public RoleAssignmentImpl withScope(String scope) {
-        this.getInner().setScope(scope);
+        this.inner().setScope(scope);
         return this;
     }
 
     @Override
     public RoleAssignmentImpl withResourceGroupScope(ResourceGroup resourceGroup) {
-        return withScope(resourceGroup.getId());
+        return withScope(resourceGroup.id());
     }
 
     @Override
     public RoleAssignmentImpl withResourceScope(Resource resource) {
-        return withScope(resource.getId());
+        return withScope(resource.id());
     }
 
     @Override
@@ -192,12 +186,12 @@ class RoleAssignmentImpl
     }
 
     @Override
-    public String getId() {
-        return getInner().getId();
+    public String id() {
+        return inner().getId();
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 }

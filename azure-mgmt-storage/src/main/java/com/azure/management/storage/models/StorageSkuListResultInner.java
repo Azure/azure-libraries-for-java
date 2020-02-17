@@ -19,7 +19,7 @@ public final class StorageSkuListResultInner {
      * Get the list result of storage SKUs and their properties.
      */
     @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
-    private List<SkuInner> value;
+    private List<SkuInformationInner> value;
 
     /**
      * Get the value property: Get the list result of storage SKUs and their
@@ -27,7 +27,7 @@ public final class StorageSkuListResultInner {
      * 
      * @return the value value.
      */
-    public List<SkuInner> getValue() {
+    public List<SkuInformationInner> getValue() {
         return this.value;
     }
 }

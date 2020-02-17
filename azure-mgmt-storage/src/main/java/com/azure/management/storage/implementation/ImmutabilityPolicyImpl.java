@@ -46,68 +46,64 @@ class ImmutabilityPolicyImpl
     }
 
     @Override
-    public StorageManager getManager() {
+    public StorageManager manager() {
         return this.manager;
     }
 
     @Override
     public Mono<ImmutabilityPolicy> createResourceAsync() {
-        BlobContainersInner client = this.getManager().getInner().blobContainers();
-        ImmutabilityPolicyInner inner = new ImmutabilityPolicyInner();
-        inner.setImmutabilityPeriodSinceCreationInDays(this.cimmutabilityPeriodSinceCreationInDays);
-        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.cifMatch, inner)
+        BlobContainersInner client = this.manager().inner().blobContainers();
+        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.cimmutabilityPeriodSinceCreationInDays, this.cifMatch)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public Mono<ImmutabilityPolicy> updateResourceAsync() {
-        BlobContainersInner client = this.getManager().getInner().blobContainers();
-        ImmutabilityPolicyInner inner = new ImmutabilityPolicyInner();
-        inner.setImmutabilityPeriodSinceCreationInDays(this.uimmutabilityPeriodSinceCreationInDays);
-        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.uifMatch, inner)
+        BlobContainersInner client = this.manager().inner().blobContainers();
+        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.uimmutabilityPeriodSinceCreationInDays, this.uifMatch)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     protected Mono<ImmutabilityPolicyInner> getInnerAsync() {
-        BlobContainersInner client = this.getManager().getInner().blobContainers();
+        BlobContainersInner client = this.manager().inner().blobContainers();
         return client.getImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.uifMatch);
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.getInner().getId() == null;
+        return this.inner().getId() == null;
     }
 
 
     @Override
     public String etag() {
-        return this.getInner().getEtag();
+        return this.inner().getEtag();
     }
 
     @Override
     public String id() {
-        return this.getInner().getId();
+        return this.inner().getId();
     }
 
     @Override
     public int immutabilityPeriodSinceCreationInDays() {
-        return this.getInner().getImmutabilityPeriodSinceCreationInDays();
+        return this.inner().getImmutabilityPeriodSinceCreationInDays();
     }
 
     @Override
     public String name() {
-        return this.getInner().getName();
+        return this.inner().getName();
     }
 
     @Override
     public ImmutabilityPolicyState state() {
-        return this.getInner().getState();
+        return this.inner().getState();
     }
 
     @Override
     public String type() {
-        return this.getInner().getType();
+        return this.inner().getType();
     }
 
     @Override

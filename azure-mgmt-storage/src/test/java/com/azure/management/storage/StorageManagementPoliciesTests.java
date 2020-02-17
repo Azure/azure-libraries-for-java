@@ -153,7 +153,7 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
                     .withTierToArchiveActionOnBaseBlob(90)
                     .withDeleteActionOnBaseBlob(2555)
                     .withDeleteActionOnSnapShot(90)
-                    .getParent()
+                    .parent()
                 .withoutRule("rule2")
                 .apply();
 

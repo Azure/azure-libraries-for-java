@@ -59,18 +59,18 @@ class PizzaImpl
     public void beforeGroupCreateOrUpdate() {
         Assert.assertFalse("PizzaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
         prepareCalled = true;
-        int oldCount = this.getTaskGroup().getNode(this.getKey()).dependencyKeys().size();
+        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         for (Creatable<IPizza> pizza : this.delayedPizzas) {
             this.addDependency(pizza);
         }
-        int newCount = this.getTaskGroup().getNode(this.getKey()).dependencyKeys().size();
-        System.out.println("Pizza(" + this.getName() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPizzas.size()
+        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        System.out.println("Pizza(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPizzas.size()
                 + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override
     public Mono<IPizza> createResourceAsync() {
-        System.out.println("Pizza(" + this.getName() + ")::createResourceAsync()");
+        System.out.println("Pizza(" + this.name() + ")::createResourceAsync()");
         return Mono.just(this)
                 .delayElement(Duration.ofMillis(250))
                 .map(pizza -> pizza);
@@ -83,6 +83,6 @@ class PizzaImpl
 
     @Override
     protected Mono<PizzaInner> getInnerAsync() {
-        return Mono.just(this.getInner());
+        return Mono.just(this.inner());
     }
 }

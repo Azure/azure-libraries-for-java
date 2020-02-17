@@ -177,12 +177,12 @@ public interface StorageAccount extends
     boolean isHnsEnabled();
 
 
-//    /**
-//     * Checks whether large file shares enabled on this storage account.
-//     *
-//     * @return true if large file shares is enabled, false otherwise
-//     */
-//    boolean isLargeFileSharesEnabled();
+    /**
+     * Checks whether large file shares enabled on this storage account.
+     *
+     * @return true if large file shares is enabled, false otherwise
+     */
+    boolean isLargeFileSharesEnabled();
 
     /**
      * Fetch the up-to-date access keys from Azure for this storage account.
@@ -512,18 +512,18 @@ public interface StorageAccount extends
         }
 
 
-//        /**
-//         * The stage of storage account definition allowing to specify whether large file shares will be enabled.
-//         */
-//        interface WithLargeFileShares {
-//            /**
-//             * Allow large file shares if sets to enabled. It cannot be disabled once it is enabled.
-//             *
-//             * @param enabled whether large file shares will be enabled or not
-//             * @return the next stage of storage account definition
-//             */
-//            WithCreate withLargeFileShares(boolean enabled);
-//        }
+        /**
+         * The stage of storage account definition allowing to specify whether large file shares will be enabled.
+         */
+        interface WithLargeFileShares {
+            /**
+             * Allow large file shares if sets to enabled. It cannot be disabled once it is enabled.
+             *
+             * @param enabled whether large file shares will be enabled or not
+             * @return the next stage of storage account definition
+             */
+            WithCreate withLargeFileShares(boolean enabled);
+        }
 
         /**
          * The stage of the storage account definition allowing to specify whether Hns is enabled.
@@ -556,7 +556,7 @@ public interface StorageAccount extends
                 DefinitionStages.WithAccessTraffic,
                 DefinitionStages.WithNetworkAccess,
                 DefinitionStages.WithAzureFilesAadIntegration,
-//                DefinitionStages.WithLargeFileShares,
+                DefinitionStages.WithLargeFileShares,
                 DefinitionStages.WithHns,
                 Resource.DefinitionWithTags<WithCreate> {
         }

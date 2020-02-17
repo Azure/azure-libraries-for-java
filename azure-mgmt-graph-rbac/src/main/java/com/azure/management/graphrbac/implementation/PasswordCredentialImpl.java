@@ -62,17 +62,17 @@ class PasswordCredentialImpl<T>
 
     @Override
     public OffsetDateTime startDate() {
-        return getInner().getStartDate();
+        return inner().getStartDate();
     }
 
     @Override
     public OffsetDateTime endDate() {
-        return getInner().getEndDate();
+        return inner().getEndDate();
     }
 
     @Override
     public String value() {
-        return getInner().getValue();
+        return inner().getValue();
     }
 
 
@@ -85,14 +85,14 @@ class PasswordCredentialImpl<T>
 
     @Override
     public PasswordCredentialImpl<T> withPasswordValue(String password) {
-        getInner().setValue(password);
+        inner().setValue(password);
         return this;
     }
 
     @Override
     public PasswordCredentialImpl<T> withStartDate(OffsetDateTime startDate) {
         OffsetDateTime original = startDate();
-        getInner().setStartDate(startDate);
+        inner().setStartDate(startDate);
         // Adjust end time
         withDuration(Duration.between(original, endDate()));
         return this;
@@ -100,7 +100,7 @@ class PasswordCredentialImpl<T>
 
     @Override
     public PasswordCredentialImpl<T> withDuration(Duration duration) {
-        getInner().setEndDate(startDate().plus(duration));
+        inner().setEndDate(startDate().plus(duration));
         return this;
     }
 
@@ -119,7 +119,7 @@ class PasswordCredentialImpl<T>
         StringBuilder builder = new StringBuilder("{\n");
         builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");
         builder.append("  ").append(String.format("\"clientSecret\": \"%s\",", value())).append("\n");
-        builder.append("  ").append(String.format("\"tenantId\": \"%s\",", servicePrincipal.getManager().tenantId())).append("\n");
+        builder.append("  ").append(String.format("\"tenantId\": \"%s\",", servicePrincipal.manager().tenantId())).append("\n");
         builder.append("  ").append(String.format("\"subscriptionId\": \"%s\",", servicePrincipal.assignedSubscription)).append("\n");
         builder.append("  ").append(String.format("\"activeDirectoryEndpointUrl\": \"%s\",", environment.getActiveDirectoryEndpoint())).append("\n");
         builder.append("  ").append(String.format("\"resourceManagerEndpointUrl\": \"%s\",", environment.getResourceManagerEndpoint())).append("\n");
@@ -140,12 +140,12 @@ class PasswordCredentialImpl<T>
     }
 
     @Override
-    public String getId() {
-        return getInner().getKeyId();
+    public String id() {
+        return inner().getKeyId();
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return this.name;
     }
 }

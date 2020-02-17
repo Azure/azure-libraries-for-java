@@ -109,9 +109,9 @@ var codegen = function(project, cb) {
 
     // path.join won't work if specRoot is a URL
     const readmeFile = specRoot + '/' + mappings[project].source;
-    const transcodedReadmeFile = readmeFile + '.temp.md';
-    const tag = findTag(mappings[project].package + ' ' + mappings[project].args);
-    transcodeReadme(readmeFile, transcodedReadmeFile, tag);
+//    const transcribedReadmeFile = readmeFile + '.temp.md';
+//    const tag = findTag(mappings[project].package + ' ' + mappings[project].args);
+//    transcribeReadme(readmeFile, transcribedReadmeFile, tag);
 
     console.log('Generating "' + project + '" from spec file ' + readmeFile);
     var generator = '--fluent=true';
@@ -126,10 +126,10 @@ var codegen = function(project, cb) {
     const regenManager = args['regenerate-manager'] ? ' --regenerate-manager=true ' : '';
 
     const outDir = path.resolve(mappings[project].dir);
-    cmd = autoRestExe + ' ' + transcodedReadmeFile +
+    cmd = autoRestExe + ' ' + readmeFile +
                         ' --java ' +
                         ' --azure-arm=true ' +
-                        ' --generate-client-as-impl=true --implementation-subpackage=models --sync-methods=all ' +
+                        ' --generate-client-as-impl=true --implementation-subpackage=models --sync-methods=all --required-parameter-client-methods=true ' +
                         generator +
                         ` --namespace=${mappings[project].package} ` +
                         ` --java.output-folder=${outDir} ` +
@@ -155,33 +155,57 @@ var findTag = function(stringContainsTag) {
     return stringContainsTag.match(regex)[1];
 }
 
-var transcodeReadme = function(inputFile, outputFile, tag) {
-    const lines = fs.readFileSync(inputFile).toString('utf8').split("\n")
+var transcribeReadme = function(inputFile, outputFile, tag) {
+    const lines = fs.readFileSync(inputFile).toString('utf8').split("\n");
     const outputHeader = `# Resource
 > see https://aka.ms/autorest
 This is the AutoRest configuration file for Resource.
 ---
 `;
-    const outputLines = []
+
+    const outputLines = [];
+
+    // transcribe common config
+    let commonFound = false;
+    const commonFields = ['title', 'description', 'openapi-type']
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (!commonFound && line.trim() === '``` yaml') {
+            commonFound = true;
+            outputLines.push('``` yaml');
+        } else if (commonFound && line.trim() === '```') {
+            outputLines.push('```');
+            break;
+        } else if (commonFound) {
+            commonFields.forEach(field => {
+                if (line.trim().startsWith(field + ':')) {
+                    outputLines.push(line);
+                }
+            });
+        }
+    }
+
+    // transcribe input-file config from java with specified tag
     let tagFound = false;
     let inputFileFound = false;
     for (let i = 0; i < lines.length; i++) {
-        const line = lines[i]
+        const line = lines[i];
         if (!tagFound && line.indexOf('yaml $(tag)') >= 0 && line.indexOf(tag) >= 0) {
             tagFound = true;
-            outputLines.push('``` yaml $(java)')
+            outputLines.push('``` yaml $(java)');
         } else if (tagFound && !inputFileFound && line.indexOf('input-file:') >= 0) {
             inputFileFound = true;
-            outputLines.push(line)
+            outputLines.push(line);
         } else if (inputFileFound) {
             if (line.trim().startsWith('- ')) {
-                outputLines.push(line)
+                outputLines.push(line);
             } else {
-                outputLines.push('```')
+                outputLines.push('```');
                 break;
             }
         }
     }
+
     fs.writeFileSync(outputFile, outputHeader + outputLines.join('\n'));
 }
 

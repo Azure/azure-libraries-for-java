@@ -98,7 +98,7 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
      * @param dependencyGraph the dependency DAG
      */
     public void addDependencyGraph(DAGraph<DataT, NodeT> dependencyGraph) {
-        this.rootNode.addDependency(dependencyGraph.rootNode.getKey());
+        this.rootNode.addDependency(dependencyGraph.rootNode.key());
         Map<String, NodeT> sourceNodeTable = dependencyGraph.nodeTable;
         Map<String, NodeT> targetNodeTable = this.nodeTable;
         this.merge(sourceNodeTable, targetNodeTable);
@@ -157,14 +157,14 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
      */
     public void reportCompletion(NodeT completed) {
         completed.setPreparer(true);
-        String dependency = completed.getKey();
+        String dependency = completed.key();
         for (String dependentKey : nodeTable.get(dependency).dependentKeys()) {
             DAGNode<DataT, NodeT> dependent = nodeTable.get(dependentKey);
             dependent.lock().lock();
             try {
                 dependent.onSuccessfulResolution(dependency);
                 if (dependent.hasAllResolved()) {
-                    queue.add(dependent.getKey());
+                    queue.add(dependent.key());
                 }
             } finally {
                 dependent.lock().unlock();
@@ -180,14 +180,14 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
      */
     public void reportError(NodeT faulted, Throwable throwable) {
         faulted.setPreparer(true);
-        String dependency = faulted.getKey();
+        String dependency = faulted.key();
         for (String dependentKey : nodeTable.get(dependency).dependentKeys()) {
             DAGNode<DataT, NodeT> dependent = nodeTable.get(dependentKey);
             dependent.lock().lock();
             try {
                 dependent.onFaultedResolution(dependency, throwable);
                 if (dependent.hasAllResolved()) {
-                    queue.add(dependent.getKey());
+                    queue.add(dependent.key());
                 }
             } finally {
                 dependent.lock().unlock();
@@ -210,7 +210,7 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
                     return;
                 }
 
-                String dependentKey = node.getKey();
+                String dependentKey = node.key();
                 for (String dependencyKey : node.dependencyKeys()) {
                     nodeTable.get(dependencyKey)
                             .addDependent(dependentKey);
@@ -261,11 +261,11 @@ public class DAGraph<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Graph<D
      * Propagates node table of given DAG to all of it ancestors.
      */
     private void bubbleUpNodeTable(DAGraph<DataT, NodeT> from, LinkedList<String> path) {
-        if (path.contains(from.rootNode.getKey())) {
-            path.push(from.rootNode.getKey()); // For better error message
+        if (path.contains(from.rootNode.key())) {
+            path.push(from.rootNode.key()); // For better error message
             throw new IllegalStateException("Detected circular dependency: " + String.join(" -> ", path));
         }
-        path.push(from.rootNode.getKey());
+        path.push(from.rootNode.key());
         for (DAGraph<DataT, NodeT> to : from.parentDAGs) {
             this.merge(from.nodeTable, to.nodeTable);
             this.bubbleUpNodeTable(to, path);

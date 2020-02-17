@@ -7,7 +7,6 @@
 package com.azure.management.resources.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.resources.TenantIdDescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public final class TenantListResultInner {
      * An array of tenants.
      */
     @JsonProperty(value = "value")
-    private List<TenantIdDescription> value;
+    private List<TenantIdDescriptionInner> value;
 
     /*
      * The URL to use for getting the next set of results.
@@ -33,7 +32,7 @@ public final class TenantListResultInner {
      * 
      * @return the value value.
      */
-    public List<TenantIdDescription> getValue() {
+    public List<TenantIdDescriptionInner> getValue() {
         return this.value;
     }
 
@@ -43,7 +42,7 @@ public final class TenantListResultInner {
      * @param value the value value to set.
      * @return the TenantListResultInner object itself.
      */
-    public TenantListResultInner setValue(List<TenantIdDescription> value) {
+    public TenantListResultInner setValue(List<TenantIdDescriptionInner> value) {
         this.value = value;
         return this;
     }

@@ -163,7 +163,7 @@
   "features": {
     "dir": "azure-mgmt-resources",
     "source": "specification/resources/resource-manager/readme.md",
-    "package": "com.microsoft.azure.management.resources --tag=package-features-2015-12"
+    "package": "com.azure.management.resources --tag=package-features-2015-12"
   },
   "graphrbac": {
     "dir": "azure-mgmt-graph-rbac",
@@ -211,8 +211,8 @@
   "network": {
     "dir": "azure-mgmt-network",
     "source": "specification/network/resource-manager/readme.md",
-    "package": "com.microsoft.azure.management.network",
-    "args": "--payload-flattening-threshold=1 --tag=package-2019-06 --add-inner=ApplicationGatewayIPConfiguration,ApplicationGatewayPathRule,ApplicationGatewayProbe,ApplicationGatewayRedirectConfiguration,ApplicationGatewayRequestRoutingRule,ApplicationGatewaySslCertificate,ApplicationGatewayUrlPathMap,ApplicationGatewayAuthenticationCertificate,VirtualNetworkGatewayIPConfiguration"
+    "package": "com.azure.management.network",
+    "args": "--track1-naming=true --payload-flattening-threshold=1 --tag=package-2019-06 --add-inner=ApplicationGatewayIPConfiguration,ApplicationGatewayPathRule,ApplicationGatewayProbe,ApplicationGatewayRedirectConfiguration,ApplicationGatewayRequestRoutingRule,ApplicationGatewaySslCertificate,ApplicationGatewayUrlPathMap,ApplicationGatewayAuthenticationCertificate,VirtualNetworkGatewayIPConfiguration,ConnectionMonitor,PacketCapture"
   },
   "notificationhubs": {
     "dir": "azure-mgmt-notificationhubs",
@@ -265,7 +265,7 @@
     "dir": "azure-mgmt-resources",
     "source": "specification/resources/resource-manager/readme.md",
     "package": "com.azure.management.resources --tag=package-resources-2019-08",
-    "args": "--add-inner=Deployment"
+    "args": "--payload-flattening-threshold=0 --add-inner=Deployment"
   },
   "scheduler": {
     "dir": "azure-mgmt-scheduler",
@@ -307,7 +307,7 @@
     "dir": "azure-mgmt-storage",
     "source": "specification/storage/resource-manager/readme.md",
     "package": "com.azure.management.storage",
-    "args": "--payload-flattening-threshold=2 --tag=package-2018-11"
+    "args": "--payload-flattening-threshold=2 --tag=package-2019-06"
   },
   "storsimple8000series": {
     "dir": "azure-mgmt-storsimple8000series",
@@ -324,8 +324,8 @@
   "subscriptions": {
     "dir": "azure-mgmt-resources",
     "source": "specification/resources/resource-manager/readme.md",
-    "package": "com.microsoft.azure.management.resources",
-    "args": "--tag=package-subscriptions-2016-06"
+    "package": "com.azure.management.resources --tag=package-subscriptions-2016-06",
+    "args": ""
   },
   "trafficmanager": {
     "dir": "azure-mgmt-trafficmanager",

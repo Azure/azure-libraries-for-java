@@ -78,11 +78,11 @@ class KeyImpl
         createKeyRequest = null;
         updateKeyRequest = null;
         this.updateKeyRequest = new UpdateKeyOptions();
-        if (getInner() != null) {
-            updateKeyRequest.keyProperties = getInner().getProperties();
+        if (inner() != null) {
+            updateKeyRequest.keyProperties = inner().getProperties();
             if (createNewCryptographyClient) {
                 cryptographyClient = new CryptographyClientBuilder()
-                        .keyIdentifier(getInner().getKey().getId())
+                        .keyIdentifier(inner().getKey().getId())
                         .pipeline(vault.vaultRestClient().getHttpPipeline())
                         .buildAsyncClient();
             }
@@ -94,28 +94,28 @@ class KeyImpl
     }
 
     @Override
-    public String getId() {
-        return this.getInner() == null ? null : this.getInner().getId();
+    public String id() {
+        return this.inner() == null ? null : this.inner().getId();
     }
 
     @Override
     public JsonWebKey getJsonWebKey() {
-        return getInner().getKey();
+        return inner().getKey();
     }
 
     @Override
     public KeyProperties getAttributes() {
-        return getInner().getProperties();
+        return inner().getProperties();
     }
 
     @Override
     public Map<String, String> getTags() {
-        return getInner().getProperties().getTags();
+        return inner().getProperties().getTags();
     }
 
     @Override
     public boolean isManaged() {
-        return Utils.toPrimitiveBoolean(getInner().getProperties().isManaged());
+        return Utils.toPrimitiveBoolean(inner().getProperties().isManaged());
     }
 
     @Override
@@ -125,7 +125,7 @@ class KeyImpl
 
     @Override
     public Flux<Key> listVersionsAsync() {
-        return vault.keyClient().listPropertiesOfKeyVersions(this.getName())
+        return vault.keyClient().listPropertiesOfKeyVersions(this.name())
                 .flatMap(p -> vault.keyClient().getKey(p.getName(), p.getVersion()))
                 .map(this::wrapModel);
     }
@@ -137,7 +137,7 @@ class KeyImpl
 
     @Override
     public Mono<byte[]> backupAsync() {
-        return vault.keyClient().backupKey(this.getName());
+        return vault.keyClient().backupKey(this.name());
     }
 
     @Override
@@ -202,7 +202,7 @@ class KeyImpl
 
     @Override
     protected Mono<KeyVaultKey> getInnerAsync() {
-        return vault.keyClient().getKey(this.getName());
+        return vault.keyClient().getKey(this.name());
     }
 
     @Override
@@ -221,7 +221,7 @@ class KeyImpl
 
     @Override
     public boolean isInCreateMode() {
-        return getId() == null;
+        return id() == null;
     }
 
     @Override
@@ -296,24 +296,24 @@ class KeyImpl
     @Override
     public KeyImpl withKeyTypeToCreate(KeyType keyType) {
         if (keyType == KeyType.EC || keyType == KeyType.EC_HSM) {
-            CreateEcKeyOptions request = new CreateEcKeyOptions(getName());
+            CreateEcKeyOptions request = new CreateEcKeyOptions(name());
             request.setHardwareProtected(keyType == KeyType.EC_HSM);
 
             createKeyRequest = request;
         } else if (keyType == KeyType.RSA || keyType == KeyType.RSA_HSM) {
-            CreateRsaKeyOptions request = new CreateRsaKeyOptions(getName());
+            CreateRsaKeyOptions request = new CreateRsaKeyOptions(name());
             request.setHardwareProtected(keyType == KeyType.RSA_HSM);
 
             createKeyRequest = request;
         } else {
-            createKeyRequest = new CreateKeyOptions(getName(), keyType);
+            createKeyRequest = new CreateKeyOptions(name(), keyType);
         }
         return this;
     }
 
     @Override
     public KeyImpl withLocalKeyToImport(JsonWebKey key) {
-        importKeyRequest = new ImportKeyOptions(getName(), key);
+        importKeyRequest = new ImportKeyOptions(name(), key);
         return this;
     }
 

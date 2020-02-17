@@ -71,24 +71,24 @@ class PancakeImpl
     public void beforeGroupCreateOrUpdate() {
         Assert.assertFalse("PancakeImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
         prepareCalled = true;
-        int oldCount = this.getTaskGroup().getNode(this.getKey()).dependencyKeys().size();
+        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         for (Creatable<IPancake> pancake : this.delayedPancakes) {
             this.addDependency(pancake);
         }
-        int newCount = this.getTaskGroup().getNode(this.getKey()).dependencyKeys().size();
-        System.out.println("Pancake(" + this.getName() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPancakes.size()
+        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        System.out.println("Pancake(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPancakes.size()
                 + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override
     public Mono<IPancake> createResourceAsync() {
         if (this.errorToThrow == null) {
-            System.out.println("Pancake(" + this.getName() + ")::createResourceAsync() 'onNext()'");
+            System.out.println("Pancake(" + this.name() + ")::createResourceAsync() 'onNext()'");
             return Mono.just(this)
                     .delayElement(Duration.ofMillis(this.eventDelayInMilliseconds))
                     .map(pancake -> pancake);
         } else {
-            System.out.println("Pancake(" + this.getName() + ")::createResourceAsync() 'onError()'");
+            System.out.println("Pancake(" + this.name() + ")::createResourceAsync() 'onError()'");
             return Mono.just(this)
                     .delayElement(Duration.ofMillis(this.eventDelayInMilliseconds))
                     .flatMap(pancake -> toErrorMono(errorToThrow));

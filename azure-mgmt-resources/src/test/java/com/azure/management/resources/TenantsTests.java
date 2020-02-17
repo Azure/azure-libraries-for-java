@@ -11,6 +11,7 @@ import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.implementation.ResourceManager;
+import com.azure.management.resources.models.TenantIdDescriptionInner;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,7 +31,7 @@ public class TenantsTests extends TestBase {
 
     @Test
     public void canListTenants() throws Exception {
-        PagedIterable<TenantIdDescription> tenants = resourceManager.tenants().list();
+        PagedIterable<TenantIdDescriptionInner> tenants = resourceManager.tenants().list();
         Assert.assertTrue(TestUtilities.getPagedIterableSize(tenants) > 0);
     }
 }

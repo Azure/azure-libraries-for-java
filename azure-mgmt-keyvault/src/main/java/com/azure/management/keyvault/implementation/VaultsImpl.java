@@ -7,8 +7,6 @@
 
 package com.azure.management.keyvault.implementation;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import com.azure.core.http.rest.PagedFlux;
@@ -40,34 +38,34 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
     
 
     VaultsImpl(final KeyVaultManager keyVaultManager, final GraphRbacManager graphRbacManager, final String tenantId) {
-        super(keyVaultManager.getInner().vaults(), keyVaultManager);
+        super(keyVaultManager.inner().vaults(), keyVaultManager);
         this.graphRbacManager = graphRbacManager;
         this.tenantId = tenantId;
     }
 
     @Override
     public PagedIterable<Vault> listByResourceGroup(String groupName) {
-        return wrapList(this.getInner().listByResourceGroup(groupName, null));
+        return wrapList(this.inner().listByResourceGroup(groupName, null));
     }
 
     @Override
     public PagedFlux<Vault> listByResourceGroupAsync(String resourceGroupName) {
-        return wrapPageAsync(this.getInner().listByResourceGroupAsync(resourceGroupName, null));
+        return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName, null));
     }
 
     @Override
     protected Mono<VaultInner> getInnerAsync(String resourceGroupName, String name) {
-        return this.getInner().getByResourceGroupAsync(resourceGroupName, name);
+        return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
     protected Mono<Void> deleteInnerAsync(String resourceGroupName, String name) {
-        return this.getInner().deleteAsync(resourceGroupName, name);
+        return this.inner().deleteAsync(resourceGroupName, name);
     }
 
     @Override
     public Mono<Void> deleteByResourceGroupAsync(String groupName, String name) {
-        return this.getInner().deleteAsync(groupName, name);
+        return this.inner().deleteAsync(groupName, name);
     }
 
     @Override
@@ -79,7 +77,7 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
     protected VaultImpl wrapModel(String name) {
         VaultInner inner = new VaultInner().setProperties(new VaultProperties());
         inner.getProperties().setTenantId(UUID.fromString(tenantId));
-        return new VaultImpl(name, inner, this.getManager(), graphRbacManager);
+        return new VaultImpl(name, inner, this.manager(), graphRbacManager);
     }
 
     @Override
@@ -87,17 +85,17 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
         if (vaultInner == null) {
             return null;
         }
-        return new VaultImpl(vaultInner.getName(), vaultInner, super.getManager(), graphRbacManager);
+        return new VaultImpl(vaultInner.getName(), vaultInner, this.manager(), graphRbacManager);
     }
 
     @Override
     public PagedIterable<DeletedVault> listDeleted() {
-        return this.getInner().listDeleted().mapPage(DeletedVaultImpl::new);
+        return this.inner().listDeleted().mapPage(DeletedVaultImpl::new);
     }
 
     @Override
     public DeletedVault getDeleted(String vaultName, String location) {
-        DeletedVaultInner deletedVault = getInner().getDeleted(vaultName, location);
+        DeletedVaultInner deletedVault = inner().getDeleted(vaultName, location);
         if (deletedVault == null) {
             return null;
         }
@@ -106,36 +104,34 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
 
     @Override
     public void purgeDeleted(String vaultName, String location) {
-        getInner().purgeDeleted(vaultName, location);
+        inner().purgeDeleted(vaultName, location);
     }
 
     @Override
     public Mono<DeletedVault> getDeletedAsync(String vaultName, String location) {
-        VaultsInner client = this.getInner();
+        VaultsInner client = this.inner();
         return client.getDeletedAsync(vaultName, location).map(DeletedVaultImpl::new);
     }
 
     @Override
     public Mono<Void> purgeDeletedAsync(String vaultName, String location) {
-        return this.getInner().purgeDeletedAsync(vaultName, location);
+        return this.inner().purgeDeletedAsync(vaultName, location);
     }
 
     @Override
     public PagedFlux<DeletedVault> listDeletedAsync() {
-        VaultsInner client = this.getInner();
+        VaultsInner client = this.inner();
         return client.listDeletedAsync().mapPage(DeletedVaultImpl::new);
     }
 
     @Override
     public CheckNameAvailabilityResult checkNameAvailability(String name) {
-        VaultCheckNameAvailabilityParameters parameters = new VaultCheckNameAvailabilityParameters().setName(name);
-        return new CheckNameAvailabilityResultImpl(getInner().checkNameAvailability(parameters));
+        return new CheckNameAvailabilityResultImpl(inner().checkNameAvailability(name));
     }
 
     @Override
     public Mono<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
-        VaultCheckNameAvailabilityParameters parameters = new VaultCheckNameAvailabilityParameters().setName(name);
-        return getInner().checkNameAvailabilityAsync(parameters).map(CheckNameAvailabilityResultImpl::new);
+        return inner().checkNameAvailabilityAsync(name).map(CheckNameAvailabilityResultImpl::new);
     }
 
     @Override
@@ -145,17 +141,17 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
     
     @Override
     public Mono<Vault> recoverSoftDeletedVaultAsync(final String resourceGroupName, final String vaultName, String location) {
-        final KeyVaultManager manager = this.getManager();
+        final KeyVaultManager manager = this.manager();
         return getDeletedAsync(vaultName, location).flatMap(deletedVault -> {
             VaultCreateOrUpdateParameters parameters = new VaultCreateOrUpdateParameters();
             parameters.setLocation(deletedVault.location());
-            parameters.setTags(deletedVault.getInner().getProperties().getTags());
+            parameters.setTags(deletedVault.inner().getProperties().getTags());
             parameters.setProperties(new VaultProperties()
                     .setCreateMode(CreateMode.RECOVER)
                     .setSku(new Sku().setName(SkuName.STANDARD))
                     .setTenantId(UUID.fromString(tenantId))
             );
-            return getInner().createOrUpdateAsync(resourceGroupName, vaultName, parameters).map(inner -> (Vault) new VaultImpl(inner.getId(), inner, manager, graphRbacManager));
+            return inner().createOrUpdateAsync(resourceGroupName, vaultName, parameters).map(inner -> (Vault) new VaultImpl(inner.getId(), inner, manager, graphRbacManager));
         });
     }
 }

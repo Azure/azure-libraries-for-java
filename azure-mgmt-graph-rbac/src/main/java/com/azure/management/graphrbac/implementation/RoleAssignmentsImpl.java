@@ -8,6 +8,7 @@ package com.azure.management.graphrbac.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.CloudException;
 import com.azure.management.graphrbac.RoleAssignment;
 import com.azure.management.graphrbac.RoleAssignments;
 import com.azure.management.graphrbac.models.RoleAssignmentInner;
@@ -39,7 +40,7 @@ class RoleAssignmentsImpl
         if (roleAssignmentInner == null) {
             return null;
         }
-        return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
+        return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager());
     }
 
     @Override
@@ -49,13 +50,9 @@ class RoleAssignmentsImpl
 
     @Override
     public Mono<RoleAssignment> getByIdAsync(String id) {
-        return getInner().getByIdAsync(id).map(roleAssignmentInner -> {
-            if (roleAssignmentInner == null) {
-                return null;
-            } else {
-                return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
-            }
-        });
+        return inner().getByIdAsync(id)
+                .onErrorResume(CloudException.class, e -> Mono.empty())
+                .map(roleAssignmentInner -> new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager()));
     }
 
     @Override
@@ -65,43 +62,31 @@ class RoleAssignmentsImpl
 
     @Override
     public PagedFlux<RoleAssignment> listByScopeAsync(String scope) {
-        return getInner().listForScopeAsync(scope, null).mapPage(roleAssignmentInner -> {
-            if (roleAssignmentInner == null) {
-                return null;
-            }
-            return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
-        });
+        return inner().listForScopeAsync(scope, null).mapPage(roleAssignmentInner -> wrapModel(roleAssignmentInner));
     }
 
     @Override
     public PagedIterable<RoleAssignment> listByScope(String scope) {
-        return wrapList(getInner().listForScope(scope, null));
+        return wrapList(inner().listForScope(scope, null));
     }
 
     @Override
     public Mono<RoleAssignment> getByScopeAsync(String scope,  String name) {
-        return getInner().getAsync(scope, name)
-                .map(roleAssignmentInner -> {
-                    if (roleAssignmentInner == null) {
-                        return null;
-                    }
-                    return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
-                });
+        return inner().getAsync(scope, name)
+                .onErrorResume(CloudException.class, e-> Mono.empty())
+                .map(roleAssignmentInner -> new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager()));
     }
 
     @Override
     protected RoleAssignmentImpl wrapModel(String name) {
-        return new RoleAssignmentImpl(name, new RoleAssignmentInner(), getManager());
+        return new RoleAssignmentImpl(name, new RoleAssignmentInner(), manager());
     }
 
     @Override
     public Mono<RoleAssignment> deleteByIdAsync(String id) {
-        return getInner().deleteByIdAsync(id).map(roleAssignmentInner -> {
-            if (roleAssignmentInner == null) {
-                return null;
-            }
-            return new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, getManager());
-        });
+        return inner().deleteByIdAsync(id)
+                .onErrorResume(CloudException.class, e -> Mono.empty())
+                .map(roleAssignmentInner -> new RoleAssignmentImpl(roleAssignmentInner.getName(), roleAssignmentInner, manager()));
     }
 
     @Override
@@ -110,12 +95,12 @@ class RoleAssignmentsImpl
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 
     @Override
-    public RoleAssignmentsInner getInner() {
-        return getManager().roleInner().roleAssignments();
+    public RoleAssignmentsInner inner() {
+        return manager().roleInner().roleAssignments();
     }
 }

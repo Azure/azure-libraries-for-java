@@ -8,9 +8,8 @@ package com.azure.management.resources.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
-import com.azure.management.resources.TenantIdDescription;
 import com.azure.management.resources.Tenants;
-import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.azure.management.resources.models.TenantIdDescriptionInner;
 import com.azure.management.resources.models.TenantsInner;
 
 /**
@@ -25,12 +24,12 @@ final class TenantsImpl
     }
 
     @Override
-    public PagedIterable<TenantIdDescription> list() {
+    public PagedIterable<TenantIdDescriptionInner> list() {
         return client.list();
     }
 
     @Override
-    public PagedFlux<TenantIdDescription> listAsync() {
+    public PagedFlux<TenantIdDescriptionInner> listAsync() {
         return client.listAsync();
     }
 }

@@ -52,7 +52,7 @@ class ActiveDirectoryApplicationImpl
 
     @Override
     public boolean isInCreateMode() {
-        return this.getId() == null;
+        return this.id() == null;
     }
 
     @Override
@@ -61,28 +61,28 @@ class ActiveDirectoryApplicationImpl
             createParameters.setIdentifierUris(new ArrayList<String>());
             createParameters.getIdentifierUris().add(createParameters.getHomepage());
         }
-        return manager.getInner().applications().createAsync(createParameters)
+        return manager.inner().applications().createAsync(createParameters)
                 .map(innerToFluentMap(this))
-                .flatMap((Function<ActiveDirectoryApplication, Mono<ActiveDirectoryApplication>>) application -> refreshCredentialsAsync());
+                .flatMap(application -> refreshCredentialsAsync());
     }
 
     @Override
     public Mono<ActiveDirectoryApplication> updateResourceAsync() {
-        return manager.getInner().applications().patchAsync(getId(), updateParameters).then(Mono.just(this));
+        return manager.inner().applications().patchAsync(id(), updateParameters).then(Mono.just(this));
     }
 
     Mono<ActiveDirectoryApplication> refreshCredentialsAsync() {
-        final Mono<ActiveDirectoryApplication> keyCredentials = manager.getInner().applications().listKeyCredentialsAsync(getId())
+        final Mono<ActiveDirectoryApplication> keyCredentials = manager.inner().applications().listKeyCredentialsAsync(id())
                 .map((Function<KeyCredentialInner, CertificateCredential>) keyCredentialInner -> new CertificateCredentialImpl<ActiveDirectoryApplication>(keyCredentialInner))
-                .collectMap(certificateCredential -> certificateCredential.getName())
+                .collectMap(certificateCredential -> certificateCredential.name())
                 .map(stringCertificateCredentialMap -> {
                     ActiveDirectoryApplicationImpl.this.cachedCertificateCredentials = stringCertificateCredentialMap;
                     return ActiveDirectoryApplicationImpl.this;
                 });
 
-        final Mono<ActiveDirectoryApplication> passwordCredentials = manager.getInner().applications().listPasswordCredentialsAsync(getId())
+        final Mono<ActiveDirectoryApplication> passwordCredentials = manager.inner().applications().listPasswordCredentialsAsync(id())
                 .map((Function<PasswordCredentialInner, PasswordCredential>) passwordCredentialInner -> new PasswordCredentialImpl<ActiveDirectoryApplication>(passwordCredentialInner))
-                .collectMap(passwordCredential -> passwordCredential.getName())
+                .collectMap(passwordCredential -> passwordCredential.name())
                 .map(stringPasswordCredentialMap -> {
                     ActiveDirectoryApplicationImpl.this.cachedPasswordCredentials = stringPasswordCredentialMap;
                     return ActiveDirectoryApplicationImpl.this;
@@ -95,47 +95,47 @@ class ActiveDirectoryApplicationImpl
     public Mono<ActiveDirectoryApplication> refreshAsync() {
         return getInnerAsync()
                 .map(innerToFluentMap(this))
-                .flatMap((Function<ActiveDirectoryApplication, Mono<ActiveDirectoryApplication>>) application -> refreshCredentialsAsync());
+                .flatMap(application -> refreshCredentialsAsync());
     }
 
     @Override
     public String applicationId() {
-        return getInner().getAppId();
+        return inner().getAppId();
     }
 
     @Override
     public List<String> applicationPermissions() {
-        if (getInner().getAppPermissions() == null) {
+        if (inner().getAppPermissions() == null) {
             return null;
         }
-        return Collections.unmodifiableList(getInner().getAppPermissions());
+        return Collections.unmodifiableList(inner().getAppPermissions());
     }
 
     @Override
     public boolean availableToOtherTenants() {
-        return getInner().isAvailableToOtherTenants();
+        return inner().isAvailableToOtherTenants();
     }
 
     @Override
     public Set<String> identifierUris() {
-        if (getInner().getIdentifierUris() == null) {
+        if (inner().getIdentifierUris() == null) {
             return null;
         }
-        return Collections.unmodifiableSet(new HashSet(getInner().getIdentifierUris()));
+        return Collections.unmodifiableSet(new HashSet(inner().getIdentifierUris()));
     }
 
     @Override
     public Set<String> replyUrls() {
-        if (getInner().getReplyUrls() == null) {
+        if (inner().getReplyUrls() == null) {
             return null;
         }
-        return Collections.unmodifiableSet(new HashSet(getInner().getReplyUrls()));
+        return Collections.unmodifiableSet(new HashSet(inner().getReplyUrls()));
     }
 
     @Override
     public URL signOnUrl() {
         try {
-            return new URL(getInner().getHomepage());
+            return new URL(inner().getHomepage());
         } catch (MalformedURLException e) {
             return null;
         }
@@ -159,7 +159,7 @@ class ActiveDirectoryApplicationImpl
 
     @Override
     protected Mono<ApplicationInner> getInnerAsync() {
-        return manager.getInner().applications().getAsync(getId());
+        return manager.inner().applications().getAsync(id());
     }
 
     @Override
@@ -238,14 +238,14 @@ class ActiveDirectoryApplicationImpl
             cachedPasswordCredentials.remove(name);
             List<PasswordCredentialInner> updatePasswordCredentials = new ArrayList<>();
             for (PasswordCredential passwordCredential: cachedPasswordCredentials.values()) {
-                updatePasswordCredentials.add(passwordCredential.getInner());
+                updatePasswordCredentials.add(passwordCredential.inner());
             }
             updateParameters.setPasswordCredentials(updatePasswordCredentials);
         } else if (cachedCertificateCredentials.containsKey(name)) {
             cachedCertificateCredentials.remove(name);
             List<KeyCredentialInner> updateCertificateCredentials = new ArrayList<>();
             for (CertificateCredential certificateCredential: cachedCertificateCredentials.values()) {
-                updateCertificateCredentials.add(certificateCredential.getInner());
+                updateCertificateCredentials.add(certificateCredential.inner());
             }
             updateParameters.setKeyCredentials(updateCertificateCredentials);
         }
@@ -258,12 +258,12 @@ class ActiveDirectoryApplicationImpl
             if (createParameters.getKeyCredentials() == null) {
                 createParameters.setKeyCredentials(new ArrayList<>());
             }
-            createParameters.getKeyCredentials().add(credential.getInner());
+            createParameters.getKeyCredentials().add(credential.inner());
         } else {
             if (updateParameters.getKeyCredentials() == null) {
                 updateParameters.setKeyCredentials(new ArrayList<>());
             }
-            updateParameters.getKeyCredentials().add(credential.getInner());
+            updateParameters.getKeyCredentials().add(credential.inner());
         }
         return this;
     }
@@ -274,12 +274,12 @@ class ActiveDirectoryApplicationImpl
             if (createParameters.getPasswordCredentials() == null) {
                 createParameters.setPasswordCredentials(new ArrayList<>());
             }
-            createParameters.getPasswordCredentials().add(credential.getInner());
+            createParameters.getPasswordCredentials().add(credential.inner());
         } else {
             if (updateParameters.getPasswordCredentials() == null) {
                 updateParameters.setPasswordCredentials(new ArrayList<>());
             }
-            updateParameters.getPasswordCredentials().add(credential.getInner());
+            updateParameters.getPasswordCredentials().add(credential.inner());
         }
         return this;
     }
@@ -295,12 +295,12 @@ class ActiveDirectoryApplicationImpl
     }
 
     @Override
-    public String getId() {
-        return getInner().getObjectId();
+    public String id() {
+        return inner().getObjectId();
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 }

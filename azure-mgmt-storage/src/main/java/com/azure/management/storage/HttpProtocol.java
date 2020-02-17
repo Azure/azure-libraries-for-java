@@ -16,7 +16,7 @@ public enum HttpProtocol {
     /**
      * Enum value https,http.
      */
-    HTTPSHTTP("https,http"),
+    HTTPS_HTTP("https,http"),
 
     /**
      * Enum value https.

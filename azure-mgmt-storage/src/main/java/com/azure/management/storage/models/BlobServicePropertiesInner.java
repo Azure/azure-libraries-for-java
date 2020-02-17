@@ -8,9 +8,12 @@ package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
-import com.azure.core.management.Resource;
+import com.azure.core.management.ProxyResource;
+import com.azure.management.storage.ChangeFeed;
 import com.azure.management.storage.CorsRules;
 import com.azure.management.storage.DeleteRetentionPolicy;
+import com.azure.management.storage.RestorePolicyProperties;
+import com.azure.management.storage.Sku;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -18,7 +21,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonFlatten
 @Fluent
-public class BlobServicePropertiesInner extends Resource {
+public class BlobServicePropertiesInner extends ProxyResource {
+    /*
+     * The SKU of the storage account.
+     */
+    @JsonProperty(value = "sku", access = JsonProperty.Access.WRITE_ONLY)
+    private Sku sku;
+
     /*
      * Sets the CORS rules. You can include up to five CorsRule elements in the
      * request.
@@ -35,10 +44,37 @@ public class BlobServicePropertiesInner extends Resource {
     private String defaultServiceVersion;
 
     /*
-     * The blob service properties for soft delete.
+     * The service properties for soft delete.
      */
     @JsonProperty(value = "properties.deleteRetentionPolicy")
     private DeleteRetentionPolicy deleteRetentionPolicy;
+
+    /*
+     * Automatic Snapshot is enabled if set to true.
+     */
+    @JsonProperty(value = "properties.automaticSnapshotPolicyEnabled")
+    private Boolean automaticSnapshotPolicyEnabled;
+
+    /*
+     * The blob service properties for change feed events.
+     */
+    @JsonProperty(value = "properties.changeFeed")
+    private ChangeFeed changeFeed;
+
+    /*
+     * The blob service properties for blob restore policy
+     */
+    @JsonProperty(value = "properties.restorePolicy")
+    private RestorePolicyProperties restorePolicy;
+
+    /**
+     * Get the sku property: The SKU of the storage account.
+     * 
+     * @return the sku value.
+     */
+    public Sku getSku() {
+        return this.sku;
+    }
 
     /**
      * Get the cors property: Sets the CORS rules. You can include up to five
@@ -89,8 +125,8 @@ public class BlobServicePropertiesInner extends Resource {
     }
 
     /**
-     * Get the deleteRetentionPolicy property: The blob service properties for
-     * soft delete.
+     * Get the deleteRetentionPolicy property: The service properties for soft
+     * delete.
      * 
      * @return the deleteRetentionPolicy value.
      */
@@ -99,14 +135,81 @@ public class BlobServicePropertiesInner extends Resource {
     }
 
     /**
-     * Set the deleteRetentionPolicy property: The blob service properties for
-     * soft delete.
+     * Set the deleteRetentionPolicy property: The service properties for soft
+     * delete.
      * 
      * @param deleteRetentionPolicy the deleteRetentionPolicy value to set.
      * @return the BlobServicePropertiesInner object itself.
      */
     public BlobServicePropertiesInner setDeleteRetentionPolicy(DeleteRetentionPolicy deleteRetentionPolicy) {
         this.deleteRetentionPolicy = deleteRetentionPolicy;
+        return this;
+    }
+
+    /**
+     * Get the automaticSnapshotPolicyEnabled property: Automatic Snapshot is
+     * enabled if set to true.
+     * 
+     * @return the automaticSnapshotPolicyEnabled value.
+     */
+    public Boolean isAutomaticSnapshotPolicyEnabled() {
+        return this.automaticSnapshotPolicyEnabled;
+    }
+
+    /**
+     * Set the automaticSnapshotPolicyEnabled property: Automatic Snapshot is
+     * enabled if set to true.
+     * 
+     * @param automaticSnapshotPolicyEnabled the automaticSnapshotPolicyEnabled
+     * value to set.
+     * @return the BlobServicePropertiesInner object itself.
+     */
+    public BlobServicePropertiesInner setAutomaticSnapshotPolicyEnabled(Boolean automaticSnapshotPolicyEnabled) {
+        this.automaticSnapshotPolicyEnabled = automaticSnapshotPolicyEnabled;
+        return this;
+    }
+
+    /**
+     * Get the changeFeed property: The blob service properties for change feed
+     * events.
+     * 
+     * @return the changeFeed value.
+     */
+    public ChangeFeed getChangeFeed() {
+        return this.changeFeed;
+    }
+
+    /**
+     * Set the changeFeed property: The blob service properties for change feed
+     * events.
+     * 
+     * @param changeFeed the changeFeed value to set.
+     * @return the BlobServicePropertiesInner object itself.
+     */
+    public BlobServicePropertiesInner setChangeFeed(ChangeFeed changeFeed) {
+        this.changeFeed = changeFeed;
+        return this;
+    }
+
+    /**
+     * Get the restorePolicy property: The blob service properties for blob
+     * restore policy.
+     * 
+     * @return the restorePolicy value.
+     */
+    public RestorePolicyProperties getRestorePolicy() {
+        return this.restorePolicy;
+    }
+
+    /**
+     * Set the restorePolicy property: The blob service properties for blob
+     * restore policy.
+     * 
+     * @param restorePolicy the restorePolicy value to set.
+     * @return the BlobServicePropertiesInner object itself.
+     */
+    public BlobServicePropertiesInner setRestorePolicy(RestorePolicyProperties restorePolicy) {
+        this.restorePolicy = restorePolicy;
         return this;
     }
 }

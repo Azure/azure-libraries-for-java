@@ -53,7 +53,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
                 .withAzureFilesAadIntegrationEnabled(false)
                 .createAsync();
         StorageAccount storageAccount = Utils.<StorageAccount>rootResource(resourceStream.last()).block();
-        Assert.assertEquals(RG_NAME, storageAccount.getResourceGroupName());
+        Assert.assertEquals(RG_NAME, storageAccount.resourceGroupName());
         Assert.assertEquals(SkuName.STANDARD_GRS, storageAccount.skuType().name());
         Assert.assertTrue(storageAccount.isHnsEnabled());
         // Assert.assertFalse(storageAccount.isAzureFilesAadIntegrationEnabled());
@@ -61,12 +61,12 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
         PagedIterable<StorageAccount> accounts = storageManager.storageAccounts().listByResourceGroup(RG_NAME);
         boolean found = false;
         for (StorageAccount account : accounts) {
-            if (account.getName().equals(SA_NAME)) {
+            if (account.name().equals(SA_NAME)) {
                 found = true;
             }
         }
         Assert.assertTrue(found);
-        Assert.assertEquals(1, storageAccount.getTags().size());
+        Assert.assertEquals(1, storageAccount.tags().size());
 
         // Get
         storageAccount = storageManager.storageAccounts().getByResourceGroup(RG_NAME, SA_NAME);
@@ -107,7 +107,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
                 .withTag("tag2", "value2")
                 .apply();
         Assert.assertEquals(SkuName.STANDARD_LRS, storageAccount.skuType().name());
-        Assert.assertEquals(2, storageAccount.getTags().size());
+        Assert.assertEquals(2, storageAccount.tags().size());
     }
 
     @Test
@@ -143,20 +143,18 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
     }
 
 
-    // FIXME: Update Storage API service
-//
-//    @Test
-//    public void canEnableLargeFileSharesOnStorageAccount() throws Exception {
-//        StorageAccount storageAccount = storageManager.storageAccounts()
-//                .define(SA_NAME)
-//                .withRegion(Region.US_EAST2)
-//                .withNewResourceGroup(RG_NAME)
-//                .withSku(StorageAccountSkuType.STANDARD_LRS)
-//                // .withLargeFileShares(true)
-//                .create();
-//
-//        Assert.assertTrue(storageAccount.isLargeFileSharesEnabled());
-//    }
+    @Test
+    public void canEnableLargeFileSharesOnStorageAccount() throws Exception {
+        StorageAccount storageAccount = storageManager.storageAccounts()
+                .define(SA_NAME)
+                .withRegion(Region.US_EAST2)
+                .withNewResourceGroup(RG_NAME)
+                .withSku(StorageAccountSkuType.STANDARD_LRS)
+                .withLargeFileShares(true)
+                .create();
+
+        Assert.assertTrue(storageAccount.isLargeFileSharesEnabled());
+    }
 
     @Test
     public void canEnableDisableFileEncryptionOnStorageAccount() throws Exception {

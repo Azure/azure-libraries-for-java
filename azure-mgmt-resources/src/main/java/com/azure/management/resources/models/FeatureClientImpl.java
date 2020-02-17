@@ -170,7 +170,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
         super(httpPipeline, environment);
         this.httpPipeline = httpPipeline;
         this.features = new FeaturesInner(this);
-        this.service = RestProxy.create(FeatureClientService.class, httpPipeline);
+        this.service = RestProxy.create(FeatureClientService.class, this.httpPipeline);
     }
 
     /**
@@ -191,6 +191,12 @@ public final class FeatureClientImpl extends AzureServiceClient {
         Mono<SimpleResponse<OperationListResultInner>> listOperationsNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Lists all of the available Microsoft.Features REST API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<OperationInner>> listOperationsSinglePageAsync() {
         return service.listOperations(this.getHost(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -202,6 +208,12 @@ public final class FeatureClientImpl extends AzureServiceClient {
             null));
     }
 
+    /**
+     * Lists all of the available Microsoft.Features REST API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<OperationInner> listOperationsAsync() {
         return new PagedFlux<>(
@@ -210,6 +222,8 @@ public final class FeatureClientImpl extends AzureServiceClient {
     }
 
     /**
+     * Lists all of the available Microsoft.Features REST API operations.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -218,6 +232,14 @@ public final class FeatureClientImpl extends AzureServiceClient {
         return new PagedIterable<>(listOperationsAsync());
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<OperationInner>> listOperationsNextSinglePageAsync(String nextLink) {
         return service.listOperationsNext(nextLink).map(res -> new PagedResponseBase<>(

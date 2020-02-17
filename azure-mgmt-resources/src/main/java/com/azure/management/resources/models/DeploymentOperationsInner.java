@@ -138,7 +138,7 @@ public final class DeploymentOperationsInner {
      * Gets a deployments operation.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -153,7 +153,7 @@ public final class DeploymentOperationsInner {
      * Gets a deployments operation.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -175,7 +175,7 @@ public final class DeploymentOperationsInner {
      * Gets a deployments operation.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -190,8 +190,8 @@ public final class DeploymentOperationsInner {
      * Gets all deployments operations for a deployment.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -211,8 +211,8 @@ public final class DeploymentOperationsInner {
      * Gets all deployments operations for a deployment.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -228,8 +228,25 @@ public final class DeploymentOperationsInner {
      * Gets all deployments operations for a deployment.
      * 
      * @param scope The additional properties.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentOperationInner> listAtScopeAsync(String scope, String deploymentName) {
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listAtScopeSinglePageAsync(scope, deploymentName, top),
+            nextLink -> listAtScopeNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -240,9 +257,24 @@ public final class DeploymentOperationsInner {
     }
 
     /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentOperationInner> listAtScope(String scope, String deploymentName) {
+        final Integer top = null;
+        return new PagedIterable<>(listAtScopeAsync(scope, deploymentName, top));
+    }
+
+    /**
      * Gets a deployments operation.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -256,7 +288,7 @@ public final class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -277,7 +309,7 @@ public final class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -291,8 +323,8 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -311,8 +343,8 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -327,8 +359,24 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentOperationInner> listAtTenantScopeAsync(String deploymentName) {
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listAtTenantScopeSinglePageAsync(deploymentName, top),
+            nextLink -> listAtTenantScopeNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -339,10 +387,24 @@ public final class DeploymentOperationsInner {
     }
 
     /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentOperationInner> listAtTenantScope(String deploymentName) {
+        final Integer top = null;
+        return new PagedIterable<>(listAtTenantScopeAsync(deploymentName, top));
+    }
+
+    /**
      * Gets a deployments operation.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -356,8 +418,8 @@ public final class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -378,8 +440,8 @@ public final class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param groupId 
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -393,9 +455,9 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param groupId 
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -414,9 +476,9 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param groupId 
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -431,9 +493,26 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param groupId 
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentOperationInner> listAtManagementGroupScopeAsync(String groupId, String deploymentName) {
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listAtManagementGroupScopeSinglePageAsync(groupId, deploymentName, top),
+            nextLink -> listAtManagementGroupScopeNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param groupId 
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -444,9 +523,24 @@ public final class DeploymentOperationsInner {
     }
 
     /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param groupId 
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentOperationInner> listAtManagementGroupScope(String groupId, String deploymentName) {
+        final Integer top = null;
+        return new PagedIterable<>(listAtManagementGroupScopeAsync(groupId, deploymentName, top));
+    }
+
+    /**
      * Gets a deployments operation.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -460,7 +554,7 @@ public final class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -481,7 +575,7 @@ public final class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -495,8 +589,8 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -515,8 +609,8 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -531,8 +625,24 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentOperationInner> listAtSubscriptionScopeAsync(String deploymentName) {
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listAtSubscriptionScopeSinglePageAsync(deploymentName, top),
+            nextLink -> listAtSubscriptionScopeNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -543,10 +653,24 @@ public final class DeploymentOperationsInner {
     }
 
     /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentOperationInner> listAtSubscriptionScope(String deploymentName) {
+        final Integer top = null;
+        return new PagedIterable<>(listAtSubscriptionScopeAsync(deploymentName, top));
+    }
+
+    /**
      * Gets a deployments operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -560,8 +684,8 @@ public final class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -582,8 +706,8 @@ public final class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param deploymentName 
      * @param operationId The additional properties.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -597,9 +721,9 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param resourceGroupName 
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -618,9 +742,9 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param resourceGroupName 
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -635,15 +759,47 @@ public final class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param resourceGroupName 
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<DeploymentOperationInner> listByResourceGroupAsync(String resourceGroupName, String deploymentName) {
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listByResourceGroupSinglePageAsync(resourceGroupName, deploymentName, top),
+            nextLink -> listNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param resourceGroupName 
+     * @param deploymentName 
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<DeploymentOperationInner> listByResourceGroup(String resourceGroupName, String deploymentName, Integer top) {
+        return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, deploymentName, top));
+    }
+
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param resourceGroupName 
+     * @param deploymentName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentOperationInner> listByResourceGroup(String resourceGroupName, String deploymentName) {
+        final Integer top = null;
         return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, deploymentName, top));
     }
 

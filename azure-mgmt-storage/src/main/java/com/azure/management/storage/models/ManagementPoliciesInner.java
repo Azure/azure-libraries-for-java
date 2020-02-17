@@ -23,13 +23,15 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.storage.ManagementPolicySchema;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * ManagementPolicies.
  */
-public final class ManagementPoliciesInner {
+public final class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -77,8 +79,8 @@ public final class ManagementPoliciesInner {
     /**
      * Gets the managementpolicy associated with the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -92,8 +94,8 @@ public final class ManagementPoliciesInner {
     /**
      * Gets the managementpolicy associated with the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -113,8 +115,8 @@ public final class ManagementPoliciesInner {
     /**
      * Gets the managementpolicy associated with the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -127,32 +129,34 @@ public final class ManagementPoliciesInner {
     /**
      * Sets the managementpolicy to the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param properties The Get Storage Account ManagementPolicies operation response.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param policy The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ManagementPolicyInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String accountName, ManagementPolicyInner properties) {
+    public Mono<SimpleResponse<ManagementPolicyInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String accountName, ManagementPolicySchema policy) {
         final String managementPolicyName = "default";
+        ManagementPolicyInner properties = new ManagementPolicyInner();
+        properties.setPolicy(policy);
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), managementPolicyName, properties, this.client.getApiVersion());
     }
 
     /**
      * Sets the managementpolicy to the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param properties The Get Storage Account ManagementPolicies operation response.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param policy The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ManagementPolicyInner> createOrUpdateAsync(String resourceGroupName, String accountName, ManagementPolicyInner properties) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, accountName, properties)
+    public Mono<ManagementPolicyInner> createOrUpdateAsync(String resourceGroupName, String accountName, ManagementPolicySchema policy) {
+        return createOrUpdateWithResponseAsync(resourceGroupName, accountName, policy)
             .flatMap((SimpleResponse<ManagementPolicyInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -165,23 +169,23 @@ public final class ManagementPoliciesInner {
     /**
      * Sets the managementpolicy to the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param properties The Get Storage Account ManagementPolicies operation response.
+     * @param resourceGroupName 
+     * @param accountName 
+     * @param policy The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ManagementPolicyInner createOrUpdate(String resourceGroupName, String accountName, ManagementPolicyInner properties) {
-        return createOrUpdateAsync(resourceGroupName, accountName, properties).block();
+    public ManagementPolicyInner createOrUpdate(String resourceGroupName, String accountName, ManagementPolicySchema policy) {
+        return createOrUpdateAsync(resourceGroupName, accountName, policy).block();
     }
 
     /**
      * Deletes the managementpolicy associated with the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -195,8 +199,8 @@ public final class ManagementPoliciesInner {
     /**
      * Deletes the managementpolicy associated with the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -210,8 +214,8 @@ public final class ManagementPoliciesInner {
     /**
      * Deletes the managementpolicy associated with the specified storage account.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param accountName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

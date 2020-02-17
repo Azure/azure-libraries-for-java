@@ -33,7 +33,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
 
         BlobServices blobServices = this.storageManager.blobServices();
         BlobServiceProperties blobService = blobServices.define("blobServicesTest")
-                .withExistingStorageAccount(storageAccount.getResourceGroupName(), storageAccount.getName())
+                .withExistingStorageAccount(storageAccount.resourceGroupName(), storageAccount.name())
                 .withDeleteRetentionPolicyEnabled(5)
                 .create();
 
@@ -54,7 +54,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
 
         BlobServices blobServices = this.storageManager.blobServices();
         BlobServiceProperties blobService = blobServices.define("blobServicesTest")
-                .withExistingStorageAccount(storageAccount.getResourceGroupName(), storageAccount.getName())
+                .withExistingStorageAccount(storageAccount.resourceGroupName(), storageAccount.name())
                 .withDeleteRetentionPolicyEnabled(5)
                 .create();
 

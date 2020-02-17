@@ -29,7 +29,7 @@ final class DeploymentExportResultImpl extends
 
     @Override
     public Object template() {
-        return getInner().getTemplate();
+        return inner().getTemplate();
     }
 
     @Override

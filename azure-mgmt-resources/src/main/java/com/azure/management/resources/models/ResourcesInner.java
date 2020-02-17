@@ -32,6 +32,7 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.ResourcesMoveInfo;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import java.nio.ByteBuffer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -40,7 +41,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * Resources.
  */
-public final class ResourcesInner {
+public final class ResourcesInner implements InnerSupportsListing<GenericResourceInner> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -92,7 +93,7 @@ public final class ResourcesInner {
         @Head("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> checkExistence(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Boolean>> checkExistence(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 202, 204})
@@ -117,7 +118,7 @@ public final class ResourcesInner {
         @Head("/{resourceId}")
         @ExpectedResponses({204, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> checkExistenceById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Boolean>> checkExistenceById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion);
 
         @Delete("/{resourceId}")
         @ExpectedResponses({200, 202, 204})
@@ -193,10 +194,10 @@ public final class ResourcesInner {
     /**
      * Get all the resources for a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param filter The additional properties.
      * @param expand The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -215,10 +216,10 @@ public final class ResourcesInner {
     /**
      * Get all the resources for a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param filter The additional properties.
      * @param expand The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -233,10 +234,28 @@ public final class ResourcesInner {
     /**
      * Get all the resources for a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<GenericResourceInner> listByResourceGroupAsync(String resourceGroupName) {
+        final String filter = null;
+        final String expand = null;
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listByResourceGroupSinglePageAsync(resourceGroupName, filter, expand, top),
+            nextLink -> listByResourceGroupNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Get all the resources for a resource group.
+     * 
+     * @param resourceGroupName 
      * @param filter The additional properties.
      * @param expand The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -247,9 +266,25 @@ public final class ResourcesInner {
     }
 
     /**
+     * Get all the resources for a resource group.
+     * 
+     * @param resourceGroupName 
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<GenericResourceInner> listByResourceGroup(String resourceGroupName) {
+        final String filter = null;
+        final String expand = null;
+        final Integer top = null;
+        return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, filter, expand, top));
+    }
+
+    /**
      * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -263,7 +298,7 @@ public final class ResourcesInner {
     /**
      * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -280,7 +315,7 @@ public final class ResourcesInner {
     /**
      * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -294,7 +329,7 @@ public final class ResourcesInner {
     /**
      * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -308,7 +343,7 @@ public final class ResourcesInner {
     /**
      * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -325,7 +360,7 @@ public final class ResourcesInner {
     /**
      * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -341,7 +376,7 @@ public final class ResourcesInner {
      * 
      * @param filter The additional properties.
      * @param expand The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -362,7 +397,7 @@ public final class ResourcesInner {
      * 
      * @param filter The additional properties.
      * @param expand The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -377,9 +412,25 @@ public final class ResourcesInner {
     /**
      * Get all the resources in a subscription.
      * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedFlux<GenericResourceInner> listAsync() {
+        final String filter = null;
+        final String expand = null;
+        final Integer top = null;
+        return new PagedFlux<>(
+            () -> listSinglePageAsync(filter, expand, top),
+            nextLink -> listNextSinglePageAsync(nextLink));
+    }
+
+    /**
+     * Get all the resources in a subscription.
+     * 
      * @param filter The additional properties.
      * @param expand The additional properties.
-     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @param top 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -390,9 +441,23 @@ public final class ResourcesInner {
     }
 
     /**
+     * Get all the resources in a subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<GenericResourceInner> list() {
+        final String filter = null;
+        final String expand = null;
+        final Integer top = null;
+        return new PagedIterable<>(listAsync(filter, expand, top));
+    }
+
+    /**
      * Checks whether a resource exists.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -402,14 +467,14 @@ public final class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> checkExistenceWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+    public Mono<SimpleResponse<Boolean>> checkExistenceWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return service.checkExistence(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
     /**
      * Checks whether a resource exists.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -421,13 +486,19 @@ public final class ResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return checkExistenceWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName)
-            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
+            .flatMap((SimpleResponse<Boolean> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
     }
 
     /**
      * Checks whether a resource exists.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -444,7 +515,7 @@ public final class ResourcesInner {
     /**
      * Deletes a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -461,7 +532,7 @@ public final class ResourcesInner {
     /**
      * Deletes a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -481,7 +552,7 @@ public final class ResourcesInner {
     /**
      * Deletes a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -498,7 +569,7 @@ public final class ResourcesInner {
     /**
      * Creates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -516,7 +587,7 @@ public final class ResourcesInner {
     /**
      * Creates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -537,7 +608,7 @@ public final class ResourcesInner {
     /**
      * Creates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -555,7 +626,7 @@ public final class ResourcesInner {
     /**
      * Updates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -573,7 +644,7 @@ public final class ResourcesInner {
     /**
      * Updates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -594,7 +665,7 @@ public final class ResourcesInner {
     /**
      * Updates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -612,7 +683,7 @@ public final class ResourcesInner {
     /**
      * Gets a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -629,7 +700,7 @@ public final class ResourcesInner {
     /**
      * Gets a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -653,7 +724,7 @@ public final class ResourcesInner {
     /**
      * Gets a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -676,7 +747,7 @@ public final class ResourcesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> checkExistenceByIdWithResponseAsync(String resourceId) {
+    public Mono<SimpleResponse<Boolean>> checkExistenceByIdWithResponseAsync(String resourceId) {
         return service.checkExistenceById(this.client.getHost(), resourceId, this.client.getApiVersion());
     }
 
@@ -691,7 +762,13 @@ public final class ResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceByIdAsync(String resourceId) {
         return checkExistenceByIdWithResponseAsync(resourceId)
-            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
+            .flatMap((SimpleResponse<Boolean> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
     }
 
     /**
@@ -888,7 +965,7 @@ public final class ResourcesInner {
     /**
      * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -902,7 +979,7 @@ public final class ResourcesInner {
     /**
      * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -917,7 +994,7 @@ public final class ResourcesInner {
     /**
      * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -931,7 +1008,7 @@ public final class ResourcesInner {
     /**
      * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -945,7 +1022,7 @@ public final class ResourcesInner {
     /**
      * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -960,7 +1037,7 @@ public final class ResourcesInner {
     /**
      * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
      * 
-     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param sourceResourceGroupName 
      * @param parameters Parameters of move resources.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -974,7 +1051,7 @@ public final class ResourcesInner {
     /**
      * Deletes a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -991,7 +1068,7 @@ public final class ResourcesInner {
     /**
      * Deletes a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -1009,7 +1086,7 @@ public final class ResourcesInner {
     /**
      * Deletes a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -1026,7 +1103,7 @@ public final class ResourcesInner {
     /**
      * Creates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -1044,7 +1121,7 @@ public final class ResourcesInner {
     /**
      * Creates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -1069,7 +1146,7 @@ public final class ResourcesInner {
     /**
      * Creates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -1087,7 +1164,7 @@ public final class ResourcesInner {
     /**
      * Updates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -1105,7 +1182,7 @@ public final class ResourcesInner {
     /**
      * Updates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.
@@ -1130,7 +1207,7 @@ public final class ResourcesInner {
     /**
      * Updates a resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @param resourceProviderNamespace The additional properties.
      * @param parentResourcePath The additional properties.
      * @param resourceType The additional properties.

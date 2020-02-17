@@ -6,6 +6,7 @@
 
 package com.azure.management.storage.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.storage.BlobContainer;
 import com.azure.management.storage.BlobContainers;
@@ -25,7 +26,7 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
     private final StorageManager manager;
 
     BlobContainersImpl(StorageManager manager) {
-        super(manager.getInner().blobContainers());
+        super(manager.inner().blobContainers());
         this.manager = manager;
     }
 
@@ -63,75 +64,66 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
         String resourceGroupName = IdParsingUtils.getValueFromIdByName(id, "resourceGroups");
         String accountName = IdParsingUtils.getValueFromIdByName(id, "storageAccounts");
         String containerName = IdParsingUtils.getValueFromIdByName(id, "containers");
-        BlobContainersInner client = this.getInner();
-        // FIXME: Last parameter
-        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, null);
+        BlobContainersInner client = this.inner();
+        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName);
     }
 
     @Override
-    public Flux<ListContainerItemInner> listAsync(String resourceGroupName, String accountName) {
-        BlobContainersInner client = this.getInner();
-        return client.listAsync(resourceGroupName, accountName)
-                .flatMapMany(inners -> Flux.fromIterable(inners.getValue()));
+    public PagedFlux<ListContainerItemInner> listAsync(String resourceGroupName, String accountName) {
+        BlobContainersInner client = this.inner();
+        return client.listAsync(resourceGroupName, accountName);
     }
 
     @Override
     public Mono<BlobContainer> getAsync(String resourceGroupName, String accountName, String containerName) {
-        BlobContainersInner client = this.getInner();
+        BlobContainersInner client = this.inner();
         return client.getAsync(resourceGroupName, accountName, containerName)
                 .map(inner -> new BlobContainerImpl(inner, manager()));
     }
 
     @Override
     public Mono<Void> deleteAsync(String resourceGroupName, String accountName, String containerName) {
-        BlobContainersInner client = this.getInner();
+        BlobContainersInner client = this.inner();
         return client.deleteAsync(resourceGroupName, accountName, containerName);
     }
 
     @Override
     public Mono<LegalHold> setLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags) {
-        BlobContainersInner client = this.getInner();
-        LegalHoldInner inner = new LegalHoldInner();
-        inner.setTags(tags);
-        return client.setLegalHoldAsync(resourceGroupName, accountName, containerName, inner)
+        BlobContainersInner client = this.inner();
+        return client.setLegalHoldAsync(resourceGroupName, accountName, containerName, tags)
                 .map(legalHoldInner -> new LegalHoldImpl(legalHoldInner, manager()));
     }
 
     @Override
     public Mono<LegalHold> clearLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags) {
-        BlobContainersInner client = this.getInner();
-        LegalHoldInner inner = new LegalHoldInner();
-        inner.setTags(tags);
-        return client.clearLegalHoldAsync(resourceGroupName, accountName, containerName, inner)
+        BlobContainersInner client = this.inner();
+        return client.clearLegalHoldAsync(resourceGroupName, accountName, containerName, tags)
                 .map(legalHoldInner -> new LegalHoldImpl(legalHoldInner, manager()));
     }
 
     @Override
     public Mono<ImmutabilityPolicy> getImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName) {
-        BlobContainersInner client = this.getInner();
-        // FIXME: If-match
-        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, null)
+        BlobContainersInner client = this.inner();
+        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName)
                 .map(inner -> wrapImmutabilityPolicyModel(inner));
     }
 
     @Override
     public Mono<ImmutabilityPolicyInner> deleteImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch) {
-        return getInner().deleteImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch);
+        return inner().deleteImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch);
     }
 
     @Override
     public Mono<ImmutabilityPolicy> lockImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch) {
-        BlobContainersInner client = this.getInner();
+        BlobContainersInner client = this.inner();
         return client.lockImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch)
                 .map(inner -> new ImmutabilityPolicyImpl(inner, manager()));
     }
 
     @Override
     public Mono<ImmutabilityPolicy> extendImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, int immutabilityPeriodSinceCreationInDays) {
-        BlobContainersInner client = this.getInner();
-        ImmutabilityPolicyInner inner = new ImmutabilityPolicyInner();
-        inner.setImmutabilityPeriodSinceCreationInDays(immutabilityPeriodSinceCreationInDays);
-        return client.extendImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch, inner)
+        BlobContainersInner client = this.inner();
+        return client.extendImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch, immutabilityPeriodSinceCreationInDays)
                 .map(policyInner -> new ImmutabilityPolicyImpl(policyInner, this.manager));
     }
 }

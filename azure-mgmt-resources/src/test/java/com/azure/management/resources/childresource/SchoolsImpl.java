@@ -77,7 +77,7 @@ class SchoolsImpl {
         }
 
         @Override
-        public String getKey() {
+        public String key() {
             return this.key;
         }
 
@@ -114,7 +114,7 @@ class SchoolsImpl {
         }
 
         @Override
-        public Indexable getResult() {
+        public Indexable result() {
             return this;
         }
 
@@ -171,8 +171,8 @@ class SchoolsImpl {
         }
 
         @Override
-        public String getId() {
-            return getName();
+        public String id() {
+            return name();
         }
 
         public boolean isInvoked() {
@@ -204,7 +204,7 @@ class SchoolsImpl {
         }
 
         public SchoolImpl attach() {
-            return this.getParent().withTeacher(this);
+            return this.parent().withTeacher(this);
         }
     }
 
@@ -270,7 +270,7 @@ class SchoolsImpl {
 
         StudentImpl withTeacher(String teacherRefName) {
             this.teacherName = teacherRefName;
-            TaskGroup.HasTaskGroup teacher = this.getParent().inlineTeachers.findTeacher(teacherRefName);
+            TaskGroup.HasTaskGroup teacher = this.parent().inlineTeachers.findTeacher(teacherRefName);
             if (teacher == null) {
                 throw new IllegalStateException("Expected teacher not found in the inline collection");
             }
@@ -279,14 +279,14 @@ class SchoolsImpl {
         }
 
         StudentImpl withTeacher(Creatable<TeacherImpl> newTeacher) {
-            this.teacherName = newTeacher.getName();
+            this.teacherName = newTeacher.name();
             this.addDependency(newTeacher);
             return this;
         }
 
         @Override
-        public String getId() {
-            return getName();
+        public String id() {
+            return name();
         }
 
         public boolean isInvoked() {
@@ -295,7 +295,7 @@ class SchoolsImpl {
 
         @Override
         public Mono<StudentImpl> createResourceAsync() {
-            Indexable teacher = this.getTaskGroup().taskResult(teacherName);
+            Indexable teacher = this.taskGroup().taskResult(teacherName);
             if (teacher == null) {
                 throw new IllegalStateException("Expected dependency teacher not found");
             }
@@ -329,7 +329,7 @@ class SchoolsImpl {
         }
 
         public SchoolImpl attach() {
-            return this.getParent().withStudent(this);
+            return this.parent().withStudent(this);
         }
     }
 

@@ -17,7 +17,7 @@ class ManagementPoliciesImpl extends WrapperImpl<ManagementPoliciesInner> implem
     private final StorageManager manager;
 
     ManagementPoliciesImpl(StorageManager manager) {
-        super(manager.getInner().managementPolicies());
+        super(manager.inner().managementPolicies());
         this.manager = manager;
     }
 
@@ -40,12 +40,12 @@ class ManagementPoliciesImpl extends WrapperImpl<ManagementPoliciesInner> implem
 
     @Override
     public Mono<ManagementPolicy> getAsync(String resourceGroupName, String accountName) {
-        return this.getInner().getAsync(resourceGroupName, accountName)
+        return this.inner().getAsync(resourceGroupName, accountName)
                 .map(inner -> wrapModel(inner));
     }
 
     @Override
     public Mono<Void> deleteAsync(String resourceGroupName, String accountName) {
-        return this.getInner().deleteAsync(resourceGroupName, accountName);
+        return this.inner().deleteAsync(resourceGroupName, accountName);
     }
 }

@@ -16,10 +16,10 @@ import reactor.core.publisher.Mono;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 
-public class AzureTestCredentials extends ApplicationTokenCredential {
+public class AzureTestCredential extends ApplicationTokenCredential {
     boolean isPlaybackMode;
 
-    public AzureTestCredentials(final String mockUrl, String mockTenant, boolean isPlaybackMode) {
+    public AzureTestCredential(final String mockUrl, String mockTenant, boolean isPlaybackMode) {
         super("test", mockTenant, "test", new AzureEnvironment(new HashMap<String, String>() {{
             put("managementEndpointUrl", mockUrl);
             put("resourceManagerEndpointUrl", mockUrl);

@@ -6,13 +6,13 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.apigeneration.Beta;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.microsoft.azure.management.appservice.implementation.CertificateInner;
+import com.azure.management.appservice.implementation.CertificateInner;
 import org.joda.time.DateTime;
 
 import java.io.File;

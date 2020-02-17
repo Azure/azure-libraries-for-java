@@ -5,15 +5,15 @@
  */
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.management.apigeneration.Beta;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.appservice.WebAppDiagnosticLogs.UpdateStages.Update;
-import com.microsoft.azure.management.appservice.implementation.SiteLogsConfigInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
+import com.azure.management.appservice.implementation.SiteLogsConfigInner;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 /**
  * A web app diagnostic log configuration in a web app.

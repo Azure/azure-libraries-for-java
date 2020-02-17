@@ -6,7 +6,7 @@
 
 package com.azure.management.appservice.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.AppServiceDomain;
 import com.azure.management.appservice.AzureResourceType;
 import com.azure.management.appservice.CustomHostNameDnsRecordType;
@@ -14,11 +14,11 @@ import com.azure.management.appservice.DeploymentSlot;
 import com.azure.management.appservice.HostNameBinding;
 import com.azure.management.appservice.HostNameType;
 import com.azure.management.appservice.WebAppBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Observable;

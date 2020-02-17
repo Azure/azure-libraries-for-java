@@ -6,7 +6,7 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 import java.util.Collection;
 

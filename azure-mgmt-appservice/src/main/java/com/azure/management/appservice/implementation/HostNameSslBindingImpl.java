@@ -6,18 +6,18 @@
 package com.azure.management.appservice.implementation;
 
 import com.google.common.io.BaseEncoding;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.AppServiceCertificate;
 import com.azure.management.appservice.AppServiceCertificateOrder;
 import com.azure.management.appservice.HostNameSslBinding;
 import com.azure.management.appservice.HostNameSslState;
 import com.azure.management.appservice.SslState;
 import com.azure.management.appservice.WebAppBase;
-import com.microsoft.azure.management.keyvault.Vault;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.keyvault.Vault;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;

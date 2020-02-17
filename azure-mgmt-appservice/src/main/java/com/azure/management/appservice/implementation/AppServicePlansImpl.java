@@ -8,8 +8,8 @@ package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.AppServicePlans;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  * The implementation for AppServicePlans.

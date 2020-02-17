@@ -5,8 +5,8 @@
  */
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.management.apigeneration.Beta;
+import com.azure.core.annotation.Fluent;
 
 /**
  * Endpoints and credentials for publishing to a web app.

@@ -9,7 +9,7 @@ package com.azure.management.appservice.implementation;
 import com.azure.management.appservice.ConnStringValueTypePair;
 import com.azure.management.appservice.ConnectionString;
 import com.azure.management.appservice.ConnectionStringType;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 
 /**
  * An immutable client-side representation of a connection string on a web app.

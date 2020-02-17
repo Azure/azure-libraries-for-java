@@ -5,12 +5,12 @@
  */
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.appservice.implementation.SiteSourceControlInner;
+import com.azure.management.apigeneration.Beta;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.appservice.implementation.SiteSourceControlInner;
 
 /**
  * An immutable representation of a web app source control configuration in a web app.

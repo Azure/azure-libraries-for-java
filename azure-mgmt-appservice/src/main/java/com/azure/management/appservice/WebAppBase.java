@@ -6,18 +6,18 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
+import com.azure.management.apigeneration.Beta;
+import com.azure.management.apigeneration.Beta.SinceVersion;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.apigeneration.Method;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.microsoft.azure.management.appservice.implementation.SiteInner;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.appservice.implementation.SiteInner;
+import com.azure.management.graphrbac.BuiltInRole;
+import com.azure.management.msi.Identity;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.HasName;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;

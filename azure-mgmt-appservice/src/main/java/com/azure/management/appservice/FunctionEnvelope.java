@@ -6,8 +6,8 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.appservice.implementation.FunctionEnvelopeInner;
-    import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.appservice.implementation.FunctionEnvelopeInner;
+    import com.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.Map;
 

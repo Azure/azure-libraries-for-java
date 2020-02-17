@@ -7,9 +7,9 @@
 package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.DomainLegalAgreement;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.Tenant;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.resources.Tenant;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * Implementation for {@link Tenant}.

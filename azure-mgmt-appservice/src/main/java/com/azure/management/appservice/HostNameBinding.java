@@ -6,13 +6,13 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.appservice.implementation.HostNameBindingInner;
+import com.azure.management.apigeneration.Beta;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.appservice.implementation.HostNameBindingInner;
 
 /**
  * An immutable representation of a host name binding.

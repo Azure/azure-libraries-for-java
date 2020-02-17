@@ -6,16 +6,16 @@
 
 package com.azure.management.appservice.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.ManagedServiceIdentity;
 import com.azure.management.appservice.ManagedServiceIdentityType;
-import com.microsoft.azure.management.appservice.ManagedServiceIdentityUserAssignedIdentitiesValue;
-import com.microsoft.azure.management.appservice.SitePatchResource;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.appservice.ManagedServiceIdentityUserAssignedIdentitiesValue;
+import com.azure.management.appservice.SitePatchResource;
+import com.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.azure.management.graphrbac.implementation.RoleAssignmentHelper;
+import com.azure.management.msi.Identity;
+import com.azure.management.resources.fluentcore.dag.TaskGroup;
+import com.azure.management.resources.fluentcore.model.Creatable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -6,8 +6,8 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryPhoneCode;
+import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
 import org.junit.*;
 
 public class DomainsTests extends AppServiceTest {

@@ -9,10 +9,10 @@ import com.azure.management.appservice.Address;
 import com.azure.management.appservice.AppServiceDomain;
 import com.azure.management.appservice.Contact;
 import com.azure.management.appservice.DomainContact;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryPhoneCode;
+import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
 
 /**
  *  Implementation for {@link DomainContact} and its create and update interfaces.

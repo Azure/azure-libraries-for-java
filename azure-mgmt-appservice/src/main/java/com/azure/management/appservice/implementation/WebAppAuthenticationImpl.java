@@ -5,12 +5,12 @@
  */
 package com.azure.management.appservice.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.BuiltInAuthenticationProvider;
 import com.azure.management.appservice.UnauthenticatedClientAction;
 import com.azure.management.appservice.WebAppAuthentication;
 import com.azure.management.appservice.WebAppBase;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.util.ArrayList;
 

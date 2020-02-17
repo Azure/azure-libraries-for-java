@@ -5,7 +5,7 @@
  */
 package com.azure.management.appservice.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.ApplicationLogsConfig;
 import com.azure.management.appservice.AzureBlobStorageApplicationLogsConfig;
 import com.azure.management.appservice.AzureBlobStorageHttpLogsConfig;
@@ -16,8 +16,8 @@ import com.azure.management.appservice.HttpLogsConfig;
 import com.azure.management.appservice.LogLevel;
 import com.azure.management.appservice.WebAppBase;
 import com.azure.management.appservice.WebAppDiagnosticLogs;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
  *  Implementation for WebAppDiagnosticLogs and its create and update interfaces.

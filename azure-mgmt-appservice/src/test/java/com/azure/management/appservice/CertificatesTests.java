@@ -6,8 +6,8 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.keyvault.Vault;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.keyvault.Vault;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.*;
 
 import java.io.File;

@@ -7,7 +7,7 @@
 package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.AppSetting;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 
 /**
  * An immutable client-side representation of an app setting on a web app.

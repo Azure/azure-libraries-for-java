@@ -6,11 +6,11 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.appservice.implementation.AppServiceCertificateResourceInner;
+import com.azure.management.apigeneration.Beta;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.appservice.implementation.AppServiceCertificateResourceInner;
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
+import com.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
 
 /**
  * An immutable client-side representation of an Azure App Service Key Vault binding.

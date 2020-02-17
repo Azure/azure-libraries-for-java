@@ -5,12 +5,12 @@
  */
 package com.azure.management.appservice.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.appservice.MSDeploy;
 import com.azure.management.appservice.MSDeployCore;
 import com.azure.management.appservice.WebAppBase;
 import com.azure.management.appservice.WebDeployment;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
 import rx.functions.Func1;

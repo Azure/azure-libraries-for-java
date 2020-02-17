@@ -8,7 +8,7 @@ package com.azure.management.appservice;
 
 import java.util.Collection;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+import com.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 /**
  * Defines values for Python version.

@@ -7,12 +7,12 @@
 package com.azure.management.appservice;
 
 import com.azure.management.appservice.implementation.AppServiceManager;
-import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryPhoneCode;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
+import com.azure.management.keyvault.implementation.KeyVaultManager;
+import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.RestClient;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

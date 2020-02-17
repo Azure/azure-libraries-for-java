@@ -8,7 +8,7 @@ package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.FunctionApp;
 import com.azure.management.appservice.FunctionDeploymentSlot;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.apigeneration.LangDefinition;
 import rx.Completable;
 
 import java.io.File;

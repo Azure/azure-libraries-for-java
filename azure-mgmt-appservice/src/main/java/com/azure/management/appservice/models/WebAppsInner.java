@@ -34,6 +34,7 @@ import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.util.ByteBufferBackedInputStream;
 import com.azure.management.appservice.CsmPublishingProfileOptions;
 import com.azure.management.appservice.CsmSlotEntity;
@@ -8417,7 +8418,7 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<List<NetworkTraceInner>> startWebSiteNetworkTraceOperationAsync(String resourceGroupName, String name, Integer durationInSeconds, Integer maxFrameLength, String sasUrl) {
         Mono<SimpleResponse<Flux<ByteBuffer>>> response = startWebSiteNetworkTraceOperationWithResponseAsync(resourceGroupName, name, durationInSeconds, maxFrameLength, sasUrl);
-        return client.<List<NetworkTraceInner>, List<NetworkTraceInner>>getLroResultAsync(response, client.getHttpPipeline(), List<NetworkTraceInner>.class, List<NetworkTraceInner>.class)
+        return client.<List<NetworkTraceInner>, List<NetworkTraceInner>>getLroResultAsync(response, client.getHttpPipeline(), new TypeReference<List<NetworkTraceInner>>() {}.getType(), new TypeReference<List<NetworkTraceInner>>() {}.getType())
             .last()
             .flatMap(AsyncPollResponse::getFinalResult);
     }
@@ -16334,7 +16335,7 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<List<NetworkTraceInner>> startWebSiteNetworkTraceOperationSlotAsync(String resourceGroupName, String name, String slot, Integer durationInSeconds, Integer maxFrameLength, String sasUrl) {
         Mono<SimpleResponse<Flux<ByteBuffer>>> response = startWebSiteNetworkTraceOperationSlotWithResponseAsync(resourceGroupName, name, slot, durationInSeconds, maxFrameLength, sasUrl);
-        return client.<List<NetworkTraceInner>, List<NetworkTraceInner>>getLroResultAsync(response, client.getHttpPipeline(), List<NetworkTraceInner>.class, List<NetworkTraceInner>.class)
+        return client.<List<NetworkTraceInner>, List<NetworkTraceInner>>getLroResultAsync(response, client.getHttpPipeline(), new TypeReference<List<NetworkTraceInner>>() {}.getType(), new TypeReference<List<NetworkTraceInner>>() {}.getType())
             .last()
             .flatMap(AsyncPollResponse::getFinalResult);
     }
@@ -18817,7 +18818,7 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<List<NetworkTraceInner>> startNetworkTraceSlotAsync(String resourceGroupName, String name, String slot, Integer durationInSeconds, Integer maxFrameLength, String sasUrl) {
         Mono<SimpleResponse<Flux<ByteBuffer>>> response = startNetworkTraceSlotWithResponseAsync(resourceGroupName, name, slot, durationInSeconds, maxFrameLength, sasUrl);
-        return client.<List<NetworkTraceInner>, List<NetworkTraceInner>>getLroResultAsync(response, client.getHttpPipeline(), List<NetworkTraceInner>.class, List<NetworkTraceInner>.class)
+        return client.<List<NetworkTraceInner>, List<NetworkTraceInner>>getLroResultAsync(response, client.getHttpPipeline(), new TypeReference<List<NetworkTraceInner>>() {}.getType(), new TypeReference<List<NetworkTraceInner>>() {}.getType())
             .last()
             .flatMap(AsyncPollResponse::getFinalResult);
     }
@@ -20462,7 +20463,7 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<List<NetworkTraceInner>> startNetworkTraceAsync(String resourceGroupName, String name, Integer durationInSeconds, Integer maxFrameLength, String sasUrl) {
         Mono<SimpleResponse<Flux<ByteBuffer>>> response = startNetworkTraceWithResponseAsync(resourceGroupName, name, durationInSeconds, maxFrameLength, sasUrl);
-        return client.<List<NetworkTraceInner>, List<NetworkTraceInner>>getLroResultAsync(response, client.getHttpPipeline(), List<NetworkTraceInner>.class, List<NetworkTraceInner>.class)
+        return client.<List<NetworkTraceInner>, List<NetworkTraceInner>>getLroResultAsync(response, client.getHttpPipeline(), new TypeReference<List<NetworkTraceInner>>() {}.getType(), new TypeReference<List<NetworkTraceInner>>() {}.getType())
             .last()
             .flatMap(AsyncPollResponse::getFinalResult);
     }

@@ -209,10 +209,8 @@ abstract class AppServiceBaseImpl<
     @Override
     public Mono<Void> startAsync() {
         return manager().inner().webApps().startAsync(resourceGroupName(), name())
-                .then(Mono.defer(() -> {
-                    refreshAsync();
-                    return null;
-                }));
+                .then(refreshAsync())
+                .then(Mono.empty());
     }
 
     @Override
@@ -223,10 +221,8 @@ abstract class AppServiceBaseImpl<
     @Override
     public Mono<Void> stopAsync() {
         return manager().inner().webApps().stopAsync(resourceGroupName(), name())
-                .then(Mono.defer(() -> {
-                    refreshAsync();
-                    return null;
-                }));
+                .then(refreshAsync())
+                .then(Mono.empty());
     }
 
     @Override
@@ -237,10 +233,8 @@ abstract class AppServiceBaseImpl<
     @Override
     public Mono<Void> restartAsync() {
         return manager().inner().webApps().restartAsync(resourceGroupName(), name())
-                .then(Mono.defer(() -> {
-                    refreshAsync();
-                    return null;
-                }));
+                .then(refreshAsync())
+                .then(Mono.empty());
     }
 
     @Override
@@ -251,10 +245,8 @@ abstract class AppServiceBaseImpl<
     @Override
     public Mono<Void> swapAsync(String slotName) {
         return manager().inner().webApps().swapSlotWithProductionAsync(resourceGroupName(), name(), new CsmSlotEntity().withTargetSlot(slotName))
-                .then(Mono.defer(() -> {
-                    refreshAsync();
-                    return null;
-                }));
+                .then(refreshAsync())
+                .then(Mono.empty());
     }
 
     @Override
@@ -265,10 +257,8 @@ abstract class AppServiceBaseImpl<
     @Override
     public Mono<Void> applySlotConfigurationsAsync(String slotName) {
         return manager().inner().webApps().applySlotConfigToProductionAsync(resourceGroupName(), name(), new CsmSlotEntity().withTargetSlot(slotName))
-                .then(Mono.defer(() -> {
-                    refreshAsync();
-                    return null;
-                }));
+                .then(refreshAsync())
+                .then(Mono.empty());
     }
 
     @Override
@@ -279,10 +269,8 @@ abstract class AppServiceBaseImpl<
     @Override
     public Mono<Void> resetSlotConfigurationsAsync() {
         return manager().inner().webApps().resetProductionSlotConfigAsync(resourceGroupName(), name())
-                .then(Mono.defer(() -> {
-                    refreshAsync();
-                    return null;
-                }));
+                .then(refreshAsync())
+                .then(Mono.empty());
     }
 
     @Override

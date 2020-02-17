@@ -8,6 +8,8 @@ package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.AppServicePlans;
+import com.azure.management.appservice.models.AppServicePlanInner;
+import com.azure.management.appservice.models.AppServicePlansInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
@@ -36,7 +38,7 @@ class AppServicePlansImpl
         if (inner == null) {
             return null;
         }
-        return new AppServicePlanImpl(inner.name(), inner, this.manager());
+        return new AppServicePlanImpl(inner.getName(), inner, this.manager());
     }
 
     @Override

@@ -19,11 +19,11 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,7 +49,7 @@ class HostNameBindingImpl<
     HostNameBindingImpl(HostNameBindingInner innerObject, FluentImplT parent) {
         super(innerObject);
         this.parent = parent;
-        this.name = innerObject.name();
+        this.name = innerObject.getName();
         if (name != null && name.contains("/")) {
             this.name = name.replace(parent.name() + "/", "");
         }
@@ -57,12 +57,12 @@ class HostNameBindingImpl<
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override
     public String type() {
-        return inner().type();
+        return inner().getType();
     }
 
     @Override
@@ -134,9 +134,9 @@ class HostNameBindingImpl<
     }
 
     @Override
-    public Observable<HostNameBinding> refreshAsync() {
+    public Mono<HostNameBinding> refreshAsync() {
         final HostNameBindingImpl<FluentT, FluentImplT> self = this;
-        Observable<HostNameBindingInner> observable = null;
+        Mono<HostNameBindingInner> observable = null;
 
         if (parent instanceof DeploymentSlot) {
             observable = this.parent().manager().inner().webApps().getHostNameBindingSlotAsync(
@@ -146,39 +146,27 @@ class HostNameBindingImpl<
                     parent().name(), name());
         }
 
-        return observable.map(new Func1<HostNameBindingInner, HostNameBinding>() {
-            @Override
-            public HostNameBinding call(HostNameBindingInner hostNameBindingInner) {
-                self.setInner(hostNameBindingInner);
-                return self;
-            }
+        return observable.map(hostNameBindingInner -> {
+            self.setInner(hostNameBindingInner);
+            return self;
         });
     }
 
     @Override
     public HostNameBinding create() {
-        createAsync().toBlocking().subscribe();
+        createAsync().blockLast();
         return this;
     }
 
     @Override
-    public ServiceFuture<HostNameBinding> createAsync(ServiceCallback<HostNameBinding> callback) {
-        Observable<Indexable> indexableObservable = createAsync();
-        return ServiceFuture.fromBody(Utils.<HostNameBinding>rootResource(indexableObservable), callback);
-    }
-
-    @Override
-    public Mono<Indexable> createAsync() {
+    public Flux<Indexable> createAsync() {
         final HostNameBinding self = this;
-        Func1<HostNameBindingInner, HostNameBinding> mapper = new Func1<HostNameBindingInner, HostNameBinding>() {
-            @Override
-            public HostNameBinding call(HostNameBindingInner hostNameBindingInner) {
-                setInner(hostNameBindingInner);
-                return self;
-            }
+        Function<HostNameBindingInner, HostNameBinding> mapper = hostNameBindingInner -> {
+            setInner(hostNameBindingInner);
+            return self;
         };
 
-        Observable<HostNameBinding> hostNameBindingObservable;
+        Mono<Indexable> hostNameBindingObservable;
         if (parent instanceof DeploymentSlot) {
             hostNameBindingObservable = this.parent().manager().inner().webApps().createOrUpdateHostNameBindingSlotAsync(
                     parent().resourceGroupName(),
@@ -190,12 +178,7 @@ class HostNameBindingImpl<
                     parent().resourceGroupName(), parent().name(), name, inner()).map(mapper);
         }
 
-        return hostNameBindingObservable.map(new Func1<HostNameBinding, Indexable>() {
-            @Override
-            public Indexable call(HostNameBinding hostNameBinding) {
-                return hostNameBinding;
-            }
-        });
+        return Flux.from(hostNameBindingObservable);
     }
 
     private String normalizeHostNameBindingName(String hostname, String domainName) {

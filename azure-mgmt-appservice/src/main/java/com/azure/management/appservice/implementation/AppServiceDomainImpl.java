@@ -12,15 +12,19 @@ import com.azure.management.appservice.DomainPurchaseConsent;
 import com.azure.management.appservice.DomainStatus;
 import com.azure.management.appservice.HostName;
 import com.azure.management.appservice.TopLevelDomainAgreementOption;
+import com.azure.management.appservice.models.DomainInner;
+import com.azure.management.appservice.models.DomainOwnershipIdentifierInner;
+import com.azure.management.appservice.models.DomainsInner;
+import com.azure.management.appservice.models.TldLegalAgreementInner;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
-import com.microsoft.azure.Page;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import org.joda.time.DateTime;
+import reactor.core.publisher.Mono;
+
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +48,7 @@ class AppServiceDomainImpl
 
     AppServiceDomainImpl(String name, DomainInner innerObject, AppServiceManager manager) {
         super(name, innerObject, manager);
-        inner().withLocation("global");
+        inner().setLocation("global");
         if (inner().managedHostNames() != null) {
             this.hostNameMap = Maps.uniqueIndex(inner().managedHostNames(), new Function<HostName, String>() {
                 @Override
@@ -56,42 +60,31 @@ class AppServiceDomainImpl
     }
 
     @Override
-    public Observable<AppServiceDomain> createResourceAsync() {
+    public Mono<AppServiceDomain> createResourceAsync() {
         String[] domainParts = this.name().split("\\.");
         String topLevel = domainParts[domainParts.length - 1];
         final DomainsInner client = this.manager().inner().domains();
         return this.manager().inner().topLevelDomains().listAgreementsAsync(topLevel, new TopLevelDomainAgreementOption())
                 // Step 1: Consent to agreements
-                .flatMap(new Func1<Page<TldLegalAgreementInner>, Observable<List<String>>>() {
-                    @Override
-                    public Observable<List<String>> call(Page<TldLegalAgreementInner> tldLegalAgreementInnerPage) {
-                        List<String> agreementKeys = new ArrayList<String>();
-                        for (TldLegalAgreementInner agreementInner : tldLegalAgreementInnerPage.items()) {
-                            agreementKeys.add(agreementInner.agreementKey());
-                        }
-                        return Observable.just(agreementKeys);
-                    }
-                })
+                .mapPage(TldLegalAgreementInner::agreementKey)
+                .collectList()
                 // Step 2: Create domain
-                .flatMap(new Func1<List<String>, Observable<DomainInner>>() {
-                    @Override
-                    public Observable<DomainInner> call(List<String> keys) {
-                        try {
-                            inner().withConsent(new DomainPurchaseConsent()
-                                    .withAgreedAt(new DateTime())
-                                    .withAgreedBy(Inet4Address.getLocalHost().getHostAddress())
-                                    .withAgreementKeys(keys));
-                        } catch (UnknownHostException e) {
-                            return Observable.error(e);
-                        }
-                        return client.createOrUpdateAsync(resourceGroupName(), name(), inner());
+                .flatMap(keys -> {
+                    try {
+                        inner().withConsent(new DomainPurchaseConsent()
+                                .withAgreedAt(OffsetDateTime.now())
+                                .withAgreedBy(Inet4Address.getLocalHost().getHostAddress())
+                                .withAgreementKeys(keys));
+                    } catch (UnknownHostException e) {
+                        return Mono.error(e);
                     }
+                    return client.createOrUpdateAsync(resourceGroupName(), name(), inner());
                 })
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<DomainInner> getInnerAsync() {
+    protected Mono<DomainInner> getInnerAsync() {
         return this.manager().inner().domains().getByResourceGroupAsync(resourceGroupName(), name());
     }
 
@@ -131,17 +124,17 @@ class AppServiceDomainImpl
     }
 
     @Override
-    public DateTime createdTime() {
+    public OffsetDateTime createdTime() {
         return inner().createdTime();
     }
 
     @Override
-    public DateTime expirationTime() {
+    public OffsetDateTime expirationTime() {
         return inner().expirationTime();
     }
 
     @Override
-    public DateTime lastRenewedTime() {
+    public OffsetDateTime lastRenewedTime() {
         return inner().lastRenewedTime();
     }
 
@@ -170,19 +163,14 @@ class AppServiceDomainImpl
 
     @Override
     public void verifyDomainOwnership(String certificateOrderName, String domainVerificationToken) {
-        verifyDomainOwnershipAsync(certificateOrderName, domainVerificationToken).toObservable().toBlocking().subscribe();
+        verifyDomainOwnershipAsync(certificateOrderName, domainVerificationToken).block();
     }
 
     @Override
-    public Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
+    public Mono<Void> verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
         DomainOwnershipIdentifierInner identifierInner = new DomainOwnershipIdentifierInner().withOwnershipId(domainVerificationToken);
         return this.manager().inner().domains().createOrUpdateOwnershipIdentifierAsync(resourceGroupName(), name(), certificateOrderName, identifierInner)
-                .map(new Func1<DomainOwnershipIdentifierInner, Void>() {
-                    @Override
-                    public Void call(DomainOwnershipIdentifierInner domainOwnershipIdentifierInner) {
-                        return null;
-                    }
-                }).toCompletable();
+                .then(Mono.empty());
     }
 
     @Override

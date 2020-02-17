@@ -9,8 +9,11 @@ package com.azure.management.appservice.implementation;
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.OperatingSystem;
 import com.azure.management.appservice.PricingTier;
+import com.azure.management.appservice.models.AppServicePlanInner;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
+
 /**
  * The implementation for AppServicePlan.
  */
@@ -31,13 +34,13 @@ class AppServicePlanImpl
     }
 
     @Override
-    public Observable<AppServicePlan> createResourceAsync() {
+    public Mono<AppServicePlan> createResourceAsync() {
         return this.manager().inner().appServicePlans().createOrUpdateAsync(resourceGroupName(), name(), inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<AppServicePlanInner> getInnerAsync() {
+    protected Mono<AppServicePlanInner> getInnerAsync() {
         return this.manager().inner().appServicePlans().getByResourceGroupAsync(resourceGroupName(), name());
     }
 

@@ -9,6 +9,8 @@ package com.azure.management.appservice.implementation;
 import com.azure.management.appservice.AppServiceCertificateOrder;
 import com.azure.management.appservice.AppServiceCertificateOrders;
 import com.azure.management.appservice.AppServicePlans;
+import com.azure.management.appservice.models.AppServiceCertificateOrderInner;
+import com.azure.management.appservice.models.AppServiceCertificateOrdersInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
@@ -16,7 +18,7 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.T
  */
 class AppServiceCertificateOrdersImpl
         extends TopLevelModifiableResourcesImpl<
-        AppServiceCertificateOrder,
+                AppServiceCertificateOrder,
                 AppServiceCertificateOrderImpl,
                 AppServiceCertificateOrderInner,
                 AppServiceCertificateOrdersInner,
@@ -37,7 +39,7 @@ class AppServiceCertificateOrdersImpl
         if (inner == null) {
             return null;
         }
-        return new AppServiceCertificateOrderImpl(inner.name(), inner, this.manager());
+        return new AppServiceCertificateOrderImpl(inner.getName(), inner, this.manager());
     }
 
     @Override

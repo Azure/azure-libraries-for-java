@@ -9,8 +9,11 @@ import com.azure.management.appservice.MSDeploy;
 import com.azure.management.appservice.MSDeployCore;
 import com.azure.management.appservice.WebAppBase;
 import com.azure.management.appservice.WebDeployment;
+import com.azure.management.appservice.models.MSDeployStatusInner;
 import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import org.joda.time.DateTime;
+import reactor.core.publisher.Mono;
+
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -45,12 +48,12 @@ public class WebDeploymentImpl<
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return result.startTime();
     }
 
     @Override
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return result.endTime();
     }
 
@@ -67,14 +70,11 @@ public class WebDeploymentImpl<
     }
 
     @Override
-    public Observable<WebDeployment> executeWorkAsync() {
+    public Mono<WebDeployment> executeWorkAsync() {
         return parent.createMSDeploy(request)
-                .map(new Func1<MSDeployStatusInner, WebDeployment>() {
-                    @Override
-                    public WebDeployment call(MSDeployStatusInner msDeployStatusInner) {
-                        result = msDeployStatusInner;
-                        return WebDeploymentImpl.this;
-                    }
+                .map(msDeployStatusInner -> {
+                    result = msDeployStatusInner;
+                    return WebDeploymentImpl.this;
                 });
     }
 

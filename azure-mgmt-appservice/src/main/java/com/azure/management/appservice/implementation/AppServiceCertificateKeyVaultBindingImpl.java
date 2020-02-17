@@ -10,7 +10,10 @@ import com.azure.management.appservice.AppServiceCertificateKeyVaultBinding;
 import com.azure.management.appservice.AppServiceCertificateOrder;
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.KeyVaultSecretStatus;
+import com.azure.management.appservice.models.AppServiceCertificateResourceInner;
 import com.azure.management.resources.fluentcore.arm.models.implementation.IndependentChildResourceImpl;
+import reactor.core.publisher.Mono;
+
 /**
  * The implementation for {@link AppServicePlan}.
  */
@@ -28,26 +31,23 @@ class AppServiceCertificateKeyVaultBindingImpl
     private final AppServiceCertificateOrderImpl parent;
 
     AppServiceCertificateKeyVaultBindingImpl(AppServiceCertificateResourceInner innerObject, AppServiceCertificateOrderImpl parent) {
-        super(innerObject.name(), innerObject, (parent != null) ? parent.manager() : null);
+        super(innerObject.getName(), innerObject, (parent != null) ? parent.manager() : null);
         this.parent = parent;
     }
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override
-    public Observable<AppServiceCertificateKeyVaultBinding> createChildResourceAsync() {
+    public Mono<AppServiceCertificateKeyVaultBinding> createChildResourceAsync() {
         final AppServiceCertificateKeyVaultBinding self = this;
         return parent.manager().inner().appServiceCertificateOrders().createOrUpdateCertificateAsync(
                 parent.resourceGroupName(), parent.name(), name(), inner())
-                .map(new Func1<AppServiceCertificateResourceInner, AppServiceCertificateKeyVaultBinding>() {
-                    @Override
-                    public AppServiceCertificateKeyVaultBinding call(AppServiceCertificateResourceInner appServiceCertificateInner) {
-                        setInner(appServiceCertificateInner);
-                        return self;
-                    }
+                .map(appServiceCertificateInner -> {
+                    setInner(appServiceCertificateInner);
+                    return self;
                 });
     }
 
@@ -67,7 +67,7 @@ class AppServiceCertificateKeyVaultBindingImpl
     }
 
     @Override
-    protected Observable<AppServiceCertificateResourceInner> getInnerAsync() {
+    protected Mono<AppServiceCertificateResourceInner> getInnerAsync() {
         return parent.manager().inner().appServiceCertificateOrders().getCertificateAsync(
                 parent.resourceGroupName(), parent.name(), name());
     }

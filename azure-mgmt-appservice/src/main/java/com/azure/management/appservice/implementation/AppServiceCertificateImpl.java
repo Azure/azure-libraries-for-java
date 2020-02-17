@@ -7,15 +7,18 @@
 package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.AppServiceCertificate;
-import com.azure.management.appservice.AppServiceCertificateKeyVaultBinding;
 import com.azure.management.appservice.AppServiceCertificateOrder;
 import com.azure.management.appservice.HostingEnvironmentProfile;
+import com.azure.management.appservice.models.CertificateInner;
+import com.azure.management.appservice.models.CertificatesInner;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import org.joda.time.DateTime;
+import reactor.core.publisher.Mono;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -76,12 +79,12 @@ class AppServiceCertificateImpl
     }
 
     @Override
-    public DateTime issueDate() {
+    public OffsetDateTime issueDate() {
         return inner().issueDate();
     }
 
     @Override
-    public DateTime expirationDate() {
+    public OffsetDateTime expirationDate() {
         return inner().expirationDate();
     }
 
@@ -116,42 +119,32 @@ class AppServiceCertificateImpl
     }
 
     @Override
-    protected Observable<CertificateInner> getInnerAsync() {
+    protected Mono<CertificateInner> getInnerAsync() {
         return this.manager().inner().certificates().getByResourceGroupAsync(resourceGroupName(), name());
     }
 
     @Override
-    public Observable<AppServiceCertificate> createResourceAsync() {
-        Observable<Void> pfxBytes = Observable.just(null);
+    public Mono<AppServiceCertificate> createResourceAsync() {
+        Mono<Void> pfxBytes = Mono.empty();
         if (pfxFileUrl != null) {
-            pfxBytes = Utils.downloadFileAsync(pfxFileUrl, this.manager().restClient().retrofit())
-                    .map(new Func1<byte[], Void>() {
-                        @Override
-                        public Void call(byte[] bytes) {
-                            inner().withPfxBlob(bytes);
-                            return null;
-                        }
+            pfxBytes = Utils.downloadFileAsync(pfxFileUrl, this.manager().restClient().getHttpPipeline())
+                    .map(bytes -> {
+                        inner().withPfxBlob(bytes);
+                        return null;
                     });
         }
-        Observable<Void> keyVaultBinding = Observable.just(null);
+        Mono<Void> keyVaultBinding = Mono.empty();
         if (certificateOrder != null) {
             keyVaultBinding = certificateOrder.getKeyVaultBindingAsync()
-                    .map(new Func1<AppServiceCertificateKeyVaultBinding, Void>() {
-                        @Override
-                        public Void call(AppServiceCertificateKeyVaultBinding keyVaultBinding) {
-                            inner().withKeyVaultId(keyVaultBinding.keyVaultId()).withKeyVaultSecretName(keyVaultBinding.keyVaultSecretName());
-                            return null;
-                        }
+                    .map(keyVaultBinding1 -> {
+                        inner().withKeyVaultId(keyVaultBinding1.keyVaultId()).withKeyVaultSecretName(keyVaultBinding1.keyVaultSecretName());
+                        return null;
                     });
         }
         final CertificatesInner client = this.manager().inner().certificates();
-        return pfxBytes.concatWith(keyVaultBinding).last()
-                .flatMap(new Func1<Void, Observable<CertificateInner>>() {
-                    @Override
-                    public Observable<CertificateInner> call(Void aVoid) {
-                        return client.createOrUpdateAsync(resourceGroupName(), name(), inner());
-                    }
-                }).map(innerToFluentMap(this));
+        return pfxBytes
+                .then(keyVaultBinding)
+                .then(client.createOrUpdateAsync(resourceGroupName(), name(), inner())).map(innerToFluentMap(this));
     }
 
     @Override

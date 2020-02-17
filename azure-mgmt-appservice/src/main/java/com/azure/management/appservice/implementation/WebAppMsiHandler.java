@@ -8,10 +8,9 @@ package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.ManagedServiceIdentity;
 import com.azure.management.appservice.ManagedServiceIdentityType;
-import com.azure.management.appservice.ManagedServiceIdentityUserAssignedIdentitiesValue;
-import com.azure.management.appservice.SitePatchResource;
-import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.ManagedServiceIdentityUserAssignedIdentities;
 import com.azure.management.appservice.models.SitePatchResourceInner;
+import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.azure.management.msi.Identity;
@@ -35,7 +34,7 @@ public class WebAppMsiHandler  extends RoleAssignmentHelper {
     private WebAppBaseImpl webAppBase;
 
     private List<String> creatableIdentityKeys;
-    private Map<String, ManagedServiceIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
+    private Map<String, ManagedServiceIdentityUserAssignedIdentities> userAssignedIdentities;
 
     /**
      * Creates VirtualMachineMsiHandler.
@@ -113,7 +112,7 @@ public class WebAppMsiHandler  extends RoleAssignmentHelper {
      */
     WebAppMsiHandler withExistingExternalManagedServiceIdentity(Identity identity) {
         this.initSiteIdentity(ManagedServiceIdentityType.USER_ASSIGNED);
-        this.userAssignedIdentities.put(identity.id(), new ManagedServiceIdentityUserAssignedIdentitiesValue());
+        this.userAssignedIdentities.put(identity.id(), new ManagedServiceIdentityUserAssignedIdentities());
         return this;
     }
 
@@ -133,7 +132,7 @@ public class WebAppMsiHandler  extends RoleAssignmentHelper {
         for (String key : this.creatableIdentityKeys) {
             Identity identity = (Identity) this.webAppBase.taskGroup().taskResult(key);
             Objects.requireNonNull(identity);
-            this.userAssignedIdentities.put(identity.id(), new ManagedServiceIdentityUserAssignedIdentitiesValue());
+            this.userAssignedIdentities.put(identity.id(), new ManagedServiceIdentityUserAssignedIdentities());
         }
         this.creatableIdentityKeys.clear();
     }
@@ -194,11 +193,11 @@ public class WebAppMsiHandler  extends RoleAssignmentHelper {
      * @param siteUpdate the vm update payload model
      * @return true if user indented to remove all the identities.
      */
-    private boolean handleRemoveAllExternalIdentitiesCase(SitePatchResource siteUpdate) {
+    private boolean handleRemoveAllExternalIdentitiesCase(SitePatchResourceInner siteUpdate) {
         SiteInner siteInner = (SiteInner) this.webAppBase.inner();
         if (!this.userAssignedIdentities.isEmpty()) {
             int rmCount = 0;
-            for (ManagedServiceIdentityUserAssignedIdentitiesValue v : this.userAssignedIdentities.values()) {
+            for (ManagedServiceIdentityUserAssignedIdentities v : this.userAssignedIdentities.values()) {
                 if (v == null) {
                     rmCount++;
                 } else {
@@ -216,7 +215,7 @@ public class WebAppMsiHandler  extends RoleAssignmentHelper {
                     }
                 }
                 Set<String> removeIds = new HashSet<>();
-                for (Map.Entry<String, ManagedServiceIdentityUserAssignedIdentitiesValue> entrySet : this.userAssignedIdentities.entrySet()) {
+                for (Map.Entry<String, ManagedServiceIdentityUserAssignedIdentities> entrySet : this.userAssignedIdentities.entrySet()) {
                     if (entrySet.getValue() == null) {
                         removeIds.add(entrySet.getKey().toLowerCase());
                     }

@@ -7,11 +7,11 @@
 package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.DomainLegalAgreement;
-import com.azure.management.resources.Tenant;
+import com.azure.management.appservice.models.TldLegalAgreementInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
- * Implementation for {@link Tenant}.
+ * Implementation for {@link DomainLegalAgreement}.
  */
 final class DomainLegalAgreementImpl extends
         WrapperImpl<TldLegalAgreementInner>

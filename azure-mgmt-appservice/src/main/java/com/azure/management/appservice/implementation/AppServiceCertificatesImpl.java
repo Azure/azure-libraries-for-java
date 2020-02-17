@@ -6,16 +6,21 @@
 
 package com.azure.management.appservice.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.appservice.AppServiceCertificate;
 import com.azure.management.appservice.AppServiceCertificates;
-import com.microsoft.azure.PagedList;
+import com.azure.management.appservice.models.CertificateInner;
+import com.azure.management.appservice.models.CertificatesInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Mono;
+
 /**
  * The implementation for AppServiceCertificates.
  */
 class AppServiceCertificatesImpl
         extends GroupableResourcesImpl<
-        AppServiceCertificate,
+            AppServiceCertificate,
             AppServiceCertificateImpl,
             CertificateInner,
             CertificatesInner,
@@ -27,23 +32,23 @@ class AppServiceCertificatesImpl
     }
 
     @Override
-    protected Observable<CertificateInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Mono<CertificateInner> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
-    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-        return this.inner().deleteAsync(resourceGroupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String resourceGroupName, String name) {
+        return this.inner().deleteAsync(resourceGroupName, name);
 
     }
 
     @Override
-    public PagedList<AppServiceCertificate> listByResourceGroup(String resourceGroupName) {
+    public PagedIterable<AppServiceCertificate> listByResourceGroup(String resourceGroupName) {
         return wrapList(this.inner().listByResourceGroup(resourceGroupName));
     }
 
     @Override
-    public Observable<AppServiceCertificate> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<AppServiceCertificate> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroupName));
     }
 
@@ -57,7 +62,7 @@ class AppServiceCertificatesImpl
         if (inner == null) {
             return null;
         }
-        return new AppServiceCertificateImpl(inner.name(), inner, this.manager());
+        return new AppServiceCertificateImpl(inner.getName(), inner, this.manager());
     }
 
     @Override
@@ -66,12 +71,12 @@ class AppServiceCertificatesImpl
     }
 
     @Override
-    public PagedList<AppServiceCertificate> list() {
+    public PagedIterable<AppServiceCertificate> list() {
         return wrapList(inner().list());
     }
 
     @Override
-    public Observable<AppServiceCertificate> listAsync() {
+    public PagedFlux<AppServiceCertificate> listAsync() {
         return wrapPageAsync(inner().listAsync());
     }
 }

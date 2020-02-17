@@ -14,14 +14,18 @@ import com.azure.management.appservice.CertificateDetails;
 import com.azure.management.appservice.CertificateOrderStatus;
 import com.azure.management.appservice.CertificateProductType;
 import com.azure.management.appservice.WebAppBase;
-import com.microsoft.azure.Page;
+import com.azure.management.appservice.models.AppServiceCertificateOrderInner;
+import com.azure.management.appservice.models.AppServiceCertificateResourceInner;
 import com.azure.management.keyvault.SecretPermissions;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import org.joda.time.DateTime;
+import reactor.core.publisher.Mono;
+
+import java.time.OffsetDateTime;
+
 /**
  * The implementation for {@link AppServicePlan}.
  */
@@ -39,7 +43,7 @@ class AppServiceCertificateOrderImpl
 
     private WebAppBase domainVerifyWebApp;
     private AppServiceDomain domainVerifyDomain;
-    private Observable<Vault> bindingVault;
+    private Mono<Vault> bindingVault;
 
     AppServiceCertificateOrderImpl(
             String key,
@@ -50,39 +54,30 @@ class AppServiceCertificateOrderImpl
     }
 
     @Override
-    protected Observable<AppServiceCertificateOrderInner> getInnerAsync() {
+    protected Mono<AppServiceCertificateOrderInner> getInnerAsync() {
         return this.manager().inner().appServiceCertificateOrders().getByResourceGroupAsync(resourceGroupName(), name());
     }
 
     @Override
     public AppServiceCertificateKeyVaultBinding getKeyVaultBinding() {
-        return getKeyVaultBindingAsync().toBlocking().single();
+        return getKeyVaultBindingAsync().block();
     }
 
     @Override
-    public Observable<AppServiceCertificateKeyVaultBinding> getKeyVaultBindingAsync() {
-        final AppServiceCertificateOrderImpl self = this;
+    public Mono<AppServiceCertificateKeyVaultBinding> getKeyVaultBindingAsync() {
         return this.manager().inner().appServiceCertificateOrders().listCertificatesAsync(resourceGroupName(), name())
-                .map(new Func1<Page<AppServiceCertificateResourceInner>, AppServiceCertificateKeyVaultBinding>() {
-                    @Override
-                    public AppServiceCertificateKeyVaultBinding call(Page<AppServiceCertificateResourceInner> appServiceCertificateInnerPage) {
-                        // There can only be one binding associated with an order
-                        if (appServiceCertificateInnerPage.items() == null || appServiceCertificateInnerPage.items().isEmpty()) {
-                            return null;
-                        } else {
-                            return new AppServiceCertificateKeyVaultBindingImpl(appServiceCertificateInnerPage.items().get(0), self);
-                        }
-                    }
-                });
+                .switchIfEmpty(Mono.empty())
+                .take(1).singleOrEmpty()
+                .map(inner -> new AppServiceCertificateKeyVaultBindingImpl(inner, this));
     }
 
     @Override
     public void verifyDomainOwnership(AppServiceDomain domain) {
-        verifyDomainOwnershipAsync(domain).toObservable().toBlocking().subscribe();
+        verifyDomainOwnershipAsync(domain).block();
     }
 
     @Override
-    public Completable verifyDomainOwnershipAsync(AppServiceDomain domain) {
+    public Mono<Void> verifyDomainOwnershipAsync(AppServiceDomain domain) {
         return domain.verifyDomainOwnershipAsync(name(), domainVerificationToken());
     }
 
@@ -147,35 +142,29 @@ class AppServiceCertificateOrderImpl
     }
 
     @Override
-    public DateTime lastCertificateIssuanceTime() {
+    public OffsetDateTime lastCertificateIssuanceTime() {
         return inner().lastCertificateIssuanceTime();
     }
 
     @Override
-    public DateTime expirationTime() {
+    public OffsetDateTime expirationTime() {
         return inner().expirationTime();
     }
 
     @Override
     public AppServiceCertificateKeyVaultBinding createKeyVaultBinding(String certificateName, Vault vault) {
-        return createKeyVaultBindingAsync(certificateName, vault).toBlocking().single();
+        return createKeyVaultBindingAsync(certificateName, vault).block();
     }
 
     @Override
-    public Observable<AppServiceCertificateKeyVaultBinding> createKeyVaultBindingAsync(String certificateName, Vault vault) {
+    public Mono<AppServiceCertificateKeyVaultBinding> createKeyVaultBindingAsync(String certificateName, Vault vault) {
         AppServiceCertificateResourceInner certInner = new AppServiceCertificateResourceInner();
-        certInner.withLocation(vault.regionName());
+        certInner.setLocation(vault.regionName());
         certInner.withKeyVaultId(vault.id());
         certInner.withKeyVaultSecretName(certificateName);
-        final AppServiceCertificateOrderImpl self = this;
         return this.manager().inner().appServiceCertificateOrders().createOrUpdateCertificateAsync(
                 resourceGroupName(), name(), certificateName, certInner)
-                .map(new Func1<AppServiceCertificateResourceInner, AppServiceCertificateKeyVaultBinding>() {
-                    @Override
-                    public AppServiceCertificateKeyVaultBinding call(AppServiceCertificateResourceInner appServiceCertificateInner) {
-                        return new AppServiceCertificateKeyVaultBindingImpl(appServiceCertificateInner, self);
-                    }
-                });
+                .map(appServiceCertificateInner -> new AppServiceCertificateKeyVaultBindingImpl(appServiceCertificateInner, this));
     }
 
     @Override
@@ -203,42 +192,23 @@ class AppServiceCertificateOrderImpl
     }
 
     @Override
-    public Observable<AppServiceCertificateOrder> createResourceAsync() {
-        final AppServiceCertificateOrder self = this;
+    public Mono<AppServiceCertificateOrder> createResourceAsync() {
         return this.manager().inner().appServiceCertificateOrders().createOrUpdateAsync(
                 resourceGroupName(), name(), inner())
                 .map(innerToFluentMap(this))
-                .flatMap(new Func1<AppServiceCertificateOrder, Observable<Void>>() {
-                    @Override
-                    public Observable<Void> call(AppServiceCertificateOrder certificateOrder) {
-                        if (domainVerifyWebApp != null) {
-                            return domainVerifyWebApp.verifyDomainOwnershipAsync(name(), domainVerificationToken()).toObservable();
-                        } else if (domainVerifyDomain != null) {
-                            return domainVerifyDomain.verifyDomainOwnershipAsync(name(), domainVerificationToken()).toObservable();
-                        } else {
-                            throw new IllegalArgumentException(
-                                    "Please specify a non-null web app or domain to verify the domain ownership "
-                                            + "for hostname " + distinguishedName());
-                        }
+                .then(Mono.defer(() -> {
+                    if (domainVerifyWebApp != null) {
+                        return domainVerifyWebApp.verifyDomainOwnershipAsync(name(), domainVerificationToken());
+                    } else if (domainVerifyDomain != null) {
+                        return domainVerifyDomain.verifyDomainOwnershipAsync(name(), domainVerificationToken());
+                    } else {
+                        return Mono.error(new IllegalArgumentException(
+                                "Please specify a non-null web app or domain to verify the domain ownership "
+                                        + "for hostname " + distinguishedName()));
                     }
-                })
-                .flatMap(new Func1<Void, Observable<AppServiceCertificateKeyVaultBinding>>() {
-                    @Override
-                    public Observable<AppServiceCertificateKeyVaultBinding> call(Void aVoid) {
-                        return bindingVault.flatMap(new Func1<Vault, Observable<AppServiceCertificateKeyVaultBinding>>() {
-                            @Override
-                            public Observable<AppServiceCertificateKeyVaultBinding> call(Vault vault) {
-                                return createKeyVaultBindingAsync(name(), vault);
-                            }
-                        });
-                    }
-                })
-                .map(new Func1<AppServiceCertificateKeyVaultBinding, AppServiceCertificateOrder>() {
-                    @Override
-                    public AppServiceCertificateOrder call(AppServiceCertificateKeyVaultBinding appServiceCertificateKeyVaultBinding) {
-                        return self;
-                    }
-                });
+                }))
+                .then(bindingVault.flatMap(vault -> createKeyVaultBindingAsync(name(), vault)))
+                .then(Mono.just(this));
     }
 
     @Override
@@ -261,13 +231,13 @@ class AppServiceCertificateOrderImpl
 
     @Override
     public AppServiceCertificateOrderImpl withExistingKeyVault(Vault vault) {
-        this.bindingVault = Observable.just(vault);
+        this.bindingVault = Mono.just(vault);
         return this;
     }
 
     @Override
     public AppServiceCertificateOrderImpl withNewKeyVault(String vaultName, Region region) {
-        Observable<Indexable> resourceStream = myManager.keyVaultManager().vaults().define(vaultName)
+        Mono<Indexable> resourceStream = myManager.keyVaultManager().vaults().define(vaultName)
                 .withRegion(region)
                 .withExistingResourceGroup(resourceGroupName())
                 .defineAccessPolicy()
@@ -278,7 +248,7 @@ class AppServiceCertificateOrderImpl
                     .forServicePrincipal("abfa0a7c-a6b6-4736-8310-5855508787cd")
                     .allowSecretPermissions(SecretPermissions.GET)
                     .attach()
-                .createAsync();
+                .createAsync().last();
         this.bindingVault = Utils.rootResource(resourceStream);
         return this;
     }

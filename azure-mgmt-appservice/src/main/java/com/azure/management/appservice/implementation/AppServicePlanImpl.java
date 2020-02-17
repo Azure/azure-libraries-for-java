@@ -15,7 +15,6 @@ import com.azure.management.resources.fluentcore.utils.Utils;
 /**
  * The implementation for AppServicePlan.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class AppServicePlanImpl
         extends
         GroupableResourceImpl<

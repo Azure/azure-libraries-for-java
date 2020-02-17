@@ -41,7 +41,6 @@ import java.util.Map;
  * @param <FluentWithCreateT> the definition stage that derives from Creatable
  * @param <FluentUpdateT> The definition stage that derives from Appliable
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 abstract class AppServiceBaseImpl<
     FluentT extends WebAppBase,
     FluentImplT extends AppServiceBaseImpl<FluentT, FluentImplT, FluentWithCreateT, FluentUpdateT>,

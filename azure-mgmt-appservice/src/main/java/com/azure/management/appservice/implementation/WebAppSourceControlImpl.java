@@ -16,7 +16,6 @@ import com.azure.management.appservice.WebAppSourceControl;
  *  @param <FluentT> the fluent interface of the parent web app
  *  @param <FluentImplT> the fluent implementation of the parent web app
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class WebAppSourceControlImpl<
         FluentT extends WebAppBase,
         FluentImplT extends WebAppBaseImpl<FluentT, FluentImplT>>

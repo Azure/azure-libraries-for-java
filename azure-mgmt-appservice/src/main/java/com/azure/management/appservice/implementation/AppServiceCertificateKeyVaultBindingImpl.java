@@ -15,7 +15,6 @@ import com.azure.management.resources.fluentcore.arm.models.implementation.Indep
 /**
  * The implementation for {@link AppServicePlan}.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class AppServiceCertificateKeyVaultBindingImpl
         extends
         IndependentChildResourceImpl<

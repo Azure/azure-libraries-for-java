@@ -14,7 +14,6 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.G
 /**
  * The implementation for AppServiceCertificates.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class AppServiceCertificatesImpl
         extends GroupableResourcesImpl<
         AppServiceCertificate,

@@ -15,7 +15,6 @@ import java.util.Map;
 /**
  * Implementation for {@link FunctionEnvelope}.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 public class FunctionEnvelopeImpl extends
         WrapperImpl<FunctionEnvelopeInner> implements FunctionEnvelope {
 

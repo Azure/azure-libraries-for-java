@@ -17,7 +17,6 @@ import java.util.Arrays;
 /**
  * The implementation for WebApps.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class WebAppsImpl
         extends TopLevelModifiableResourcesImpl<
                     WebApp,

@@ -25,7 +25,6 @@ import java.util.HashMap;
 /**
  * The implementation for WebApp.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class WebAppImpl
         extends AppServiceBaseImpl<WebApp, WebAppImpl, WebApp.DefinitionStages.WithCreate, WebApp.Update>
         implements

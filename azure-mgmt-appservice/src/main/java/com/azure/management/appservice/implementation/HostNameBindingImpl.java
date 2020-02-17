@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
  *  @param <FluentT> the fluent interface of the parent web app
  *  @param <FluentImplT> the fluent implementation of the parent web app
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class HostNameBindingImpl<
             FluentT extends WebAppBase,
             FluentImplT extends WebAppBaseImpl<FluentT, FluentImplT>>

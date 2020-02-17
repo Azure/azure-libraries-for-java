@@ -19,7 +19,6 @@ import java.util.ArrayList;
  *  @param <FluentT> the fluent interface of the parent web app
  *  @param <FluentImplT> the fluent implementation of the parent web app
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class WebAppAuthenticationImpl<
         FluentT extends WebAppBase,
         FluentImplT extends WebAppBaseImpl<FluentT, FluentImplT>>

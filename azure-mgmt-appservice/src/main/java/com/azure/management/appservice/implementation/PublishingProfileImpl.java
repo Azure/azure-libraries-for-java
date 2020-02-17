@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 /**
  * A credential for publishing to a web app.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class PublishingProfileImpl implements PublishingProfile {
 
     private String ftpUrl;

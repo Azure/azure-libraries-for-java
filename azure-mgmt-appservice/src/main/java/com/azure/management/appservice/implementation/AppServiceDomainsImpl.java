@@ -17,7 +17,6 @@ import com.azure.management.resources.fluentcore.utils.PagedListConverter;
 /**
  * The implementation for AppServiceDomains.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class AppServiceDomainsImpl
         extends TopLevelModifiableResourcesImpl<
         AppServiceDomain,

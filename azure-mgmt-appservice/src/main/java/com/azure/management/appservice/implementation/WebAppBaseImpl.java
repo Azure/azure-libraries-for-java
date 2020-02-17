@@ -75,7 +75,6 @@ import java.util.concurrent.Callable;
  * @param <FluentT> the fluent interface of the web app or deployment slot or function app
  * @param <FluentImplT> the fluent implementation of the web app or deployment slot or function app
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 abstract class WebAppBaseImpl<
         FluentT extends WebAppBase,
         FluentImplT extends WebAppBaseImpl<FluentT, FluentImplT>>

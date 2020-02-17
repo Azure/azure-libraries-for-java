@@ -14,7 +14,6 @@ import com.azure.management.apigeneration.LangDefinition;
 /**
  * An immutable client-side representation of a connection string on a web app.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 public class ConnectionStringImpl implements ConnectionString {
     private String name;
     private ConnStringValueTypePair valueTypePair;

@@ -23,7 +23,6 @@ import java.util.List;
 /**
  * The implementation for AppServiceCertificate.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class AppServiceCertificateImpl
         extends
         GroupableResourceImpl<

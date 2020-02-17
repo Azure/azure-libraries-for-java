@@ -26,7 +26,6 @@ import org.joda.time.DateTime;
 /**
  * The implementation for {@link AppServicePlan}.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class AppServiceCertificateOrderImpl
         extends
         GroupableResourceImpl<

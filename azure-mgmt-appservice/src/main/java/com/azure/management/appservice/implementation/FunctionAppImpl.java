@@ -52,7 +52,6 @@ import java.util.regex.Pattern;
 /**
  * The implementation for FunctionApp.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class FunctionAppImpl
     extends AppServiceBaseImpl<FunctionApp, FunctionAppImpl, FunctionApp.DefinitionStages.WithCreate, FunctionApp.Update>
     implements

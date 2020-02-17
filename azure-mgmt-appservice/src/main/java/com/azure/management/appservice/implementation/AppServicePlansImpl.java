@@ -14,7 +14,6 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.T
 /**
  * The implementation for AppServicePlans.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class AppServicePlansImpl
         extends TopLevelModifiableResourcesImpl<
         AppServicePlan,

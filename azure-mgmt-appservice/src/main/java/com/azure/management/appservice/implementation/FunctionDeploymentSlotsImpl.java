@@ -18,7 +18,6 @@ import com.microsoft.rest.ServiceFuture;
 /**
  * The implementation DeploymentSlots.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class FunctionDeploymentSlotsImpl
         extends IndependentChildResourcesImpl<
         FunctionDeploymentSlot,

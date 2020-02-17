@@ -15,7 +15,6 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.T
 /**
  * The implementation for {@link AppServicePlans}.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class AppServiceCertificateOrdersImpl
         extends TopLevelModifiableResourcesImpl<
         AppServiceCertificateOrder,

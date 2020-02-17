@@ -24,7 +24,6 @@ import com.azure.management.resources.fluentcore.utils.Utils;
  *  @param <FluentT> the fluent interface of the parent web app
  *  @param <FluentImplT> the fluent implementation of the parent web app
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class WebAppDiagnosticLogsImpl<
         FluentT extends WebAppBase,
         FluentImplT extends WebAppBaseImpl<FluentT, FluentImplT>>

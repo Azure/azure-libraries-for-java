@@ -30,7 +30,6 @@ import java.util.Set;
  * install or update MSI extension and create role assignments for the service principal
  * associated with the web app.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 public class WebAppMsiHandler  extends RoleAssignmentHelper {
     private WebAppBaseImpl webAppBase;
 

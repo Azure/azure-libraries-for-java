@@ -17,7 +17,6 @@ import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
 /**
  *  Implementation for {@link DomainContact} and its create and update interfaces.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class DomainContactImpl
     extends ChildResourceImpl<Contact, AppServiceDomainImpl, AppServiceDomain>
     implements

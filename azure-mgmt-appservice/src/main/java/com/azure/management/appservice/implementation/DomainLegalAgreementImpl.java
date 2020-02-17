@@ -14,7 +14,6 @@ import com.azure.management.resources.fluentcore.model.implementation.WrapperImp
 /**
  * Implementation for {@link Tenant}.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 final class DomainLegalAgreementImpl extends
         WrapperImpl<TldLegalAgreementInner>
         implements

@@ -21,7 +21,6 @@ import java.util.HashMap;
  * @param <FluentT> the fluent interface, web app, function app, or deployment slot
  * @param <FluentImplT> the implementation class for FluentT
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 public class WebDeploymentImpl<
         FluentT extends WebAppBase,
         FluentImplT extends WebAppBaseImpl<FluentT, FluentImplT>>

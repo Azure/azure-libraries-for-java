@@ -17,7 +17,6 @@ import java.io.InputStream;
 /**
  * The implementation for FunctionDeploymentSlot.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 class FunctionDeploymentSlotImpl
         extends DeploymentSlotBaseImpl<
         FunctionDeploymentSlot,

@@ -169,7 +169,7 @@ class WebAppImpl
 
     @Override
     public void warDeploy(File warFile) {
-        warDeployAsync(warFile).await();
+        warDeployAsync(warFile).block();
     }
 
     @Override
@@ -179,7 +179,7 @@ class WebAppImpl
 
     @Override
     public void warDeploy(InputStream warFile) {
-        warDeployAsync(warFile).await();
+        warDeployAsync(warFile).block();
     }
 
     @Override
@@ -193,11 +193,11 @@ class WebAppImpl
 
     @Override
     public void warDeploy(File warFile, String appName) {
-        warDeployAsync(warFile, appName).await();
+        warDeployAsync(warFile, appName).block();
     }
     @Override
     public void warDeploy(InputStream warFile, String appName) {
-        warDeployAsync(warFile, appName).await();
+        warDeployAsync(warFile, appName).block();
     }
 
     @Override
@@ -216,50 +216,41 @@ class WebAppImpl
 
     @Override
     public void zipDeploy(File zipFile) {
-        zipDeployAsync(zipFile).await();
+        zipDeployAsync(zipFile).block();
     }
 
     @Override
     public Mono<Void> zipDeployAsync(InputStream zipFile) {
-        return kuduClient.zipDeployAsync(zipFile).concatWith(WebAppImpl.this.stopAsync()).concatWith(WebAppImpl.this.startAsync());
+        return kuduClient.zipDeployAsync(zipFile)
+                .then(WebAppImpl.this.stopAsync())
+                .then(WebAppImpl.this.startAsync());
     }
 
     @Override
     public void zipDeploy(InputStream zipFile) {
-        zipDeployAsync(zipFile).await();
+        zipDeployAsync(zipFile).block();
     }
 
     @Override
     Mono<Indexable> submitMetadata() {
         Mono<Indexable> observable = super.submitMetadata();
         if (runtimeStackOnWindowsOSToUpdate != null) {
-            observable = observable.flatMap(new Func1<Indexable, Observable<StringDictionaryInner>>() {
-                // list metadata
-                @Override
-                public Observable<StringDictionaryInner> call(Indexable indexable) {
-                    return listMetadata();
-                }
-            }).flatMap(new Func1<StringDictionaryInner, Observable<StringDictionaryInner>>() {
-                // merge with change, then update
-                @Override
-                public Observable<StringDictionaryInner> call(StringDictionaryInner stringDictionaryInner) {
-                    if (stringDictionaryInner == null) {
-                        stringDictionaryInner = new StringDictionaryInner();
-                    }
-                    if (stringDictionaryInner.properties() == null) {
-                        stringDictionaryInner.withProperties(new HashMap<String, String>());
-                    }
-                    stringDictionaryInner.properties().put("CURRENT_STACK", runtimeStackOnWindowsOSToUpdate.runtime());
-                    return updateMetadata(stringDictionaryInner);
-                }
-            }).map(new Func1<StringDictionaryInner, Indexable>() {
-                // clean up
-                @Override
-                public Indexable call(StringDictionaryInner stringDictionaryInner) {
-                    runtimeStackOnWindowsOSToUpdate = null;
-                    return WebAppImpl.this;
-                }
-            });
+            observable = observable
+                    // list metadata
+                    .then(listMetadata())
+                    // merge with change, then update
+                    .flatMap(stringDictionaryInner -> {
+                        if (stringDictionaryInner.properties() == null) {
+                            stringDictionaryInner.withProperties(new HashMap<String, String>());
+                        }
+                        stringDictionaryInner.properties().put("CURRENT_STACK", runtimeStackOnWindowsOSToUpdate.runtime());
+                        return updateMetadata(stringDictionaryInner);
+                    })
+                    // clean up
+                    .then(Mono.fromCallable(() -> {
+                        runtimeStackOnWindowsOSToUpdate = null;
+                        return WebAppImpl.this;
+                    }));
         }
         return observable;
     }

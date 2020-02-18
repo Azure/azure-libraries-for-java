@@ -6,14 +6,18 @@
 
 package com.azure.management.appservice.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.appservice.FunctionApp;
 import com.azure.management.appservice.FunctionDeploymentSlot;
 import com.azure.management.appservice.FunctionDeploymentSlots;
-import com.microsoft.azure.PagedList;
+import com.azure.management.appservice.models.SiteConfigResourceInner;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
+import com.azure.management.appservice.models.WebAppsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.IndependentChildResourcesImpl;
-import com.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import reactor.core.publisher.Mono;
+
 /**
  * The implementation DeploymentSlots.
  */
@@ -27,28 +31,28 @@ class FunctionDeploymentSlotsImpl
         FunctionApp>
         implements FunctionDeploymentSlots {
 
-    private final PagedListConverter<SiteInner, FunctionDeploymentSlot> converter;
     private final FunctionAppImpl parent;
 
     FunctionDeploymentSlotsImpl(final FunctionAppImpl parent) {
         super(parent.manager().inner().webApps(), parent.manager());
 
         this.parent = parent;
-        final WebAppsInner innerCollection = this.inner();
-        converter = new PagedListConverter<SiteInner, FunctionDeploymentSlot>() {
-            @Override
-            public Observable<FunctionDeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
-                return Observable.zip(
-                        innerCollection.getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
-                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
-                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionDeploymentSlot>() {
-                            @Override
-                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
-                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
-                            }
-                        });
-            }
-        };
+        // FIXME
+//        final WebAppsInner innerCollection = this.inner();
+//        converter = new PagedListConverter<SiteInner, FunctionDeploymentSlot>() {
+//            @Override
+//            public Observable<FunctionDeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
+//                return Observable.zip(
+//                        innerCollection.getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
+//                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
+//                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionDeploymentSlot>() {
+//                            @Override
+//                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
+//                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
+//                            }
+//                        });
+//            }
+//        };
     }
 
     @Override
@@ -66,8 +70,9 @@ class FunctionDeploymentSlotsImpl
         return wrapModel(inner, null, null);
     }
 
-    protected PagedList<FunctionDeploymentSlot> wrapList(PagedList<SiteInner> pagedList) {
-        return converter.convert(pagedList);
+    protected PagedIterable<FunctionDeploymentSlot> wrapList(PagedIterable<SiteInner> pagedList) {
+        // TODO
+        return pagedList.mapPage(this::wrapModel);
     }
 
     @Override
@@ -76,34 +81,21 @@ class FunctionDeploymentSlotsImpl
     }
 
     @Override
-    public Observable<FunctionDeploymentSlot> getByParentAsync(final String resourceGroup, final String parentName, final String name) {
-        return innerCollection.getSlotAsync(resourceGroup, parentName, name).flatMap(new Func1<SiteInner, Observable<FunctionDeploymentSlot>>() {
-            @Override
-            public Observable<FunctionDeploymentSlot> call(final SiteInner siteInner) {
-                if (siteInner == null) {
-                    return null;
-                }
-                return Observable.zip(
-                        innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name),
-                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(resourceGroup, parentName, name),
-                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionDeploymentSlot>() {
-                            @Override
-                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
-                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
-                            }
-                        });
-            }
-        });
+    public Mono<FunctionDeploymentSlot> getByParentAsync(final String resourceGroup, final String parentName, final String name) {
+        return innerCollection.getSlotAsync(resourceGroup, parentName, name).flatMap(siteInner -> Mono.zip(
+                innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name),
+                innerCollection.getDiagnosticLogsConfigurationSlotAsync(resourceGroup, parentName, name),
+                (SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) -> wrapModel(siteInner, siteConfigResourceInner, logsConfigInner)));
     }
 
     @Override
-    public PagedList<FunctionDeploymentSlot> listByParent(String resourceGroupName, String parentName) {
+    public PagedIterable<FunctionDeploymentSlot> listByParent(String resourceGroupName, String parentName) {
         return wrapList(innerCollection.listSlots(resourceGroupName, parentName));
     }
 
     @Override
-    public Completable deleteByParentAsync(String groupName, String parentName, String name) {
-        return innerCollection.deleteSlotAsync(groupName, parentName, name).toCompletable();
+    public Mono<Void> deleteByParentAsync(String groupName, String parentName, String name) {
+        return innerCollection.deleteSlotAsync(groupName, parentName, name);
     }
 
     @Override
@@ -112,17 +104,12 @@ class FunctionDeploymentSlotsImpl
     }
 
     @Override
-    public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
-        return deleteByParentAsync(parent.resourceGroupName(), parent.name(), name, callback);
-    }
-
-    @Override
-    public Completable deleteByNameAsync(String name) {
+    public Mono<Void> deleteByNameAsync(String name) {
         return deleteByParentAsync(parent.resourceGroupName(), parent.name(), name);
     }
 
     @Override
-    public PagedList<FunctionDeploymentSlot> list() {
+    public PagedIterable<FunctionDeploymentSlot> list() {
         return listByParent(parent.resourceGroupName(), parent.name());
     }
 
@@ -132,25 +119,24 @@ class FunctionDeploymentSlotsImpl
     }
 
     @Override
+    public Mono<FunctionDeploymentSlot> getByNameAsync(String name) {
+        return getByParentAsync(parent.resourceGroupName(), parent.name(), name);
+    }
+
+    @Override
     public FunctionApp parent() {
         return this.parent;
     }
 
     @Override
-    public Observable<FunctionDeploymentSlot> listAsync() {
-        return convertPageToInnerAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()))
-                .flatMap(new Func1<SiteInner, Observable<FunctionDeploymentSlot>>() {
-                    @Override
-                    public Observable<FunctionDeploymentSlot> call(SiteInner siteInner) {
-                        return converter.typeConvertAsync(siteInner);
-                    }
-                });
+    public PagedFlux<FunctionDeploymentSlot> listAsync() {
+        return innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()).mapPage(this::wrapModel);
     }
 
     private FunctionDeploymentSlotImpl wrapModel(SiteInner inner, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig) {
         if (inner == null) {
             return null;
         }
-        return new FunctionDeploymentSlotImpl(inner.name(), inner, siteConfig, logConfig, parent);
+        return new FunctionDeploymentSlotImpl(inner.getName(), inner, siteConfig, logConfig, parent);
     }
 }

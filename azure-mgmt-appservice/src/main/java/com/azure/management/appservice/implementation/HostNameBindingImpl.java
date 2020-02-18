@@ -178,7 +178,7 @@ class HostNameBindingImpl<
                     parent().resourceGroupName(), parent().name(), name, inner()).map(mapper);
         }
 
-        return Flux.from(hostNameBindingObservable);
+        return hostNameBindingObservable.flux();
     }
 
     private String normalizeHostNameBindingName(String hostname, String domainName) {

@@ -6,12 +6,18 @@
 
 package com.azure.management.appservice.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.appservice.WebApp;
 import com.azure.management.appservice.WebApps;
+import com.azure.management.appservice.models.SiteConfigResourceInner;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
+import com.azure.management.appservice.models.WebAppsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import com.azure.management.resources.fluentcore.utils.PagedListConverter;
+import reactor.core.publisher.Mono;
+
 import java.util.Arrays;
+import java.util.Observable;
 
 /**
  * The implementation for WebApps.
@@ -25,52 +31,38 @@ class WebAppsImpl
                     AppServiceManager>
         implements WebApps {
 
-    private final PagedListConverter<SiteInner, WebApp> converter;
 
     WebAppsImpl(final AppServiceManager manager) {
         super(manager.inner().webApps(), manager);
-        converter = new PagedListConverter<SiteInner, WebApp>() {
-            @Override
-            protected boolean filter(SiteInner inner) {
-                return inner.kind() == null || Arrays.asList(inner.kind().split(",")).contains("app");
-            }
-
-            @Override
-            public Observable<WebApp> typeConvertAsync(final SiteInner siteInner) {
-                return Observable.zip(
-                        manager().inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
-                        manager().inner().webApps().getDiagnosticLogsConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
-                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, WebApp>() {
-                            @Override
-                            public WebApp call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
-                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
-                            }
-                        });
-            }
-        };
+        // FIXME
+//        converter = new PagedListConverter<SiteInner, WebApp>() {
+//            @Override
+//            protected boolean filter(SiteInner inner) {
+//                return inner.kind() == null || Arrays.asList(inner.kind().split(",")).contains("app");
+//            }
+//
+//            @Override
+//            public Observable<WebApp> typeConvertAsync(final SiteInner siteInner) {
+//                return Observable.zip(
+//                        manager().inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
+//                        manager().inner().webApps().getDiagnosticLogsConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
+//                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, WebApp>() {
+//                            @Override
+//                            public WebApp call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
+//                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
+//                            }
+//                        });
+//            }
+//        };
     }
 
     @Override
-    public Observable<WebApp> getByResourceGroupAsync(final String groupName, final String name) {
+    public Mono<WebApp> getByResourceGroupAsync(final String groupName, final String name) {
         final WebAppsImpl self = this;
-        return this.inner().getByResourceGroupAsync(groupName, name).flatMap(new Func1<SiteInner, Observable<WebApp>>() {
-            @Override
-            public Observable<WebApp> call(final SiteInner siteInner) {
-                if (siteInner == null) {
-                    return Observable.just(null);
-                }
-                return Observable.zip(
-                        self.inner().getConfigurationAsync(groupName, name),
-                        self.inner().getDiagnosticLogsConfigurationAsync(groupName, name),
-                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, WebApp>() {
-                            @Override
-                            public WebApp call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
-                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
-                            }
-                        });
-            }
-        });
-
+        return this.inner().getByResourceGroupAsync(groupName, name).flatMap(siteInner -> Mono.zip(
+                self.inner().getConfigurationAsync(groupName, name),
+                self.inner().getDiagnosticLogsConfigurationAsync(groupName, name),
+                (SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) -> wrapModel(siteInner, siteConfigResourceInner, logsConfigInner)));
     }
 
     @Override
@@ -82,7 +74,7 @@ class WebAppsImpl
         if (inner == null) {
             return null;
         }
-        return new WebAppImpl(inner.name(), inner, siteConfig, logConfig, this.manager());
+        return new WebAppImpl(inner.getName(), inner, siteConfig, logConfig, this.manager());
     }
 
     @Override
@@ -90,8 +82,8 @@ class WebAppsImpl
         return wrapModel(inner, null, null);
     }
 
-    protected PagedList<WebApp> wrapList(PagedList<SiteInner> pagedList) {
-        return converter.convert(pagedList);
+    protected PagedIterable<WebApp> wrapList(PagedIterable<SiteInner> pagedList) {
+        return pagedList.mapPage(this::wrapModel);
     }
 
 

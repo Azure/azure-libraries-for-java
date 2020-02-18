@@ -8,6 +8,11 @@ package com.azure.management.appservice.implementation;
 
 import com.azure.management.appservice.FunctionApp;
 import com.azure.management.appservice.FunctionDeploymentSlot;
+import com.azure.management.appservice.models.SiteConfigResourceInner;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
+import reactor.core.publisher.Mono;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,12 +38,12 @@ class FunctionDeploymentSlotImpl
     }
 
     @Override
-    public DefinitionStages.WithCreate withConfigurationFromParent() {
+    public FunctionDeploymentSlot.DefinitionStages.WithCreate withConfigurationFromParent() {
         return withConfigurationFromFunctionApp(this.parent());
     }
 
     @Override
-    public DefinitionStages.WithCreate withConfigurationFromFunctionApp(FunctionApp app) {
+    public FunctionDeploymentSlot.DefinitionStages.WithCreate withConfigurationFromFunctionApp(FunctionApp app) {
         this.siteConfig = ((WebAppBaseImpl) app).siteConfig;
         configurationSource = app;
         return this;
@@ -46,25 +51,25 @@ class FunctionDeploymentSlotImpl
 
     @Override
     public void zipDeploy(File zipFile) {
-        zipDeployAsync(zipFile).await();
+        zipDeployAsync(zipFile).block();
     }
 
     @Override
     public void zipDeploy(InputStream zipFile) {
-        zipDeployAsync(zipFile).await();
+        zipDeployAsync(zipFile).block();
     }
 
     @Override
-    public Completable zipDeployAsync(InputStream zipFile) {
+    public Mono<Void> zipDeployAsync(InputStream zipFile) {
         return kuduClient.zipDeployAsync(zipFile);
     }
 
     @Override
-    public Completable zipDeployAsync(File zipFile) {
+    public Mono<Void> zipDeployAsync(File zipFile) {
         try {
             return zipDeployAsync(new FileInputStream(zipFile));
         } catch (IOException e) {
-            return Completable.error(e);
+            return Mono.error(e);
         }
     }
 }

@@ -9775,7 +9775,11 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public InputStream listPublishingProfileXmlWithSecrets(String resourceGroupName, String name, CsmPublishingProfileOptions publishingProfileOptions) {
-        listPublishingProfileXmlWithSecretsAsync(resourceGroupName, name, publishingProfileOptions).block();
+        return listPublishingProfileXmlWithSecretsAsync(resourceGroupName, name, publishingProfileOptions)
+                .map(ByteBufferBackedInputStream::new)
+                .collectList()
+                .map(list -> new SequenceInputStream(Collections.enumeration(list)))
+                .block();
     }
 
     /**
@@ -17773,7 +17777,11 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public InputStream listPublishingProfileXmlWithSecretsSlot(String resourceGroupName, String name, String slot, CsmPublishingProfileOptions publishingProfileOptions) {
-        listPublishingProfileXmlWithSecretsSlotAsync(resourceGroupName, name, slot, publishingProfileOptions).block();
+        return listPublishingProfileXmlWithSecretsSlotAsync(resourceGroupName, name, slot, publishingProfileOptions)
+                .map(ByteBufferBackedInputStream::new)
+                .collectList()
+                .map(list -> new SequenceInputStream(Collections.enumeration(list)))
+                .block();
     }
 
     /**

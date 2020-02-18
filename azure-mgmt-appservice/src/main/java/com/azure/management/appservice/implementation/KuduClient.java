@@ -6,31 +6,35 @@
 
 package com.azure.management.appservice.implementation;
 
+import com.azure.core.annotation.BodyParam;
+import com.azure.core.annotation.Get;
+import com.azure.core.annotation.Headers;
+import com.azure.core.annotation.Host;
+import com.azure.core.annotation.HostParam;
+import com.azure.core.annotation.Post;
+import com.azure.core.annotation.QueryParam;
+import com.azure.core.annotation.ServiceInterface;
+import com.azure.core.http.rest.RestProxy;
+import com.azure.core.http.rest.StreamResponse;
+import com.azure.core.management.CloudException;
+import com.azure.management.RestClient;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.google.common.base.Joiner;
-import com.google.common.io.ByteStreams;
-import com.microsoft.azure.CloudException;
 import com.azure.management.appservice.WebAppBase;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import okio.BufferedSource;
+import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import retrofit2.http.Streaming;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 /**
  * A client which interacts with Kudu service.
  */
 class KuduClient {
+    private String host;
     private KuduService service;
 
     KuduClient(WebAppBase webAppBase) {
@@ -42,163 +46,105 @@ class KuduClient {
                 .replace("https://", "");
         String[] parts = host.split("\\.", 2);
         host = Joiner.on('.').join(parts[0], "scm", parts[1]);
-        service = webAppBase.manager().restClient().newBuilder()
+        this.host = host;
+        RestClient client = webAppBase.manager().restClient().newBuilder()
                 .withBaseUrl("https://" + host)
-                .withConnectionTimeout(3, TimeUnit.MINUTES)
-                .withReadTimeout(3, TimeUnit.MINUTES)
-                .build()
-                .retrofit().create(KuduService.class);
+                // FIXME
+//                .withConnectionTimeout(3, TimeUnit.MINUTES)
+//                .withReadTimeout(3, TimeUnit.MINUTES)
+                .buildClient();
+
+        service = RestProxy.create(KuduService.class, client.getHttpPipeline());
     }
 
+    @Host("{$host}")
+    @ServiceInterface(name = "KuduService")
     private interface KuduService {
         @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamApplicationLogs", "x-ms-body-logging: false" })
-        @GET("api/logstream/application")
-        @Streaming
-        Observable<ResponseBody> streamApplicationLogs();
+        @Get("api/logstream/application")
+        Mono<StreamResponse> streamApplicationLogs(@HostParam("$host") String host);
 
         @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamHttpLogs", "x-ms-body-logging: false" })
-        @GET("api/logstream/http")
-        @Streaming
-        Observable<ResponseBody> streamHttpLogs();
+        @Get("api/logstream/http")
+        Mono<StreamResponse> streamHttpLogs(@HostParam("$host") String host);
 
         @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamTraceLogs", "x-ms-body-logging: false" })
-        @GET("api/logstream/kudu/trace")
-        @Streaming
-        Observable<ResponseBody> streamTraceLogs();
+        @Get("api/logstream/kudu/trace")
+        Mono<StreamResponse> streamTraceLogs(@HostParam("$host") String host);
 
         @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamDeploymentLogs", "x-ms-body-logging: false" })
-        @GET("api/logstream/kudu/deployment")
-        @Streaming
-        Observable<ResponseBody> streamDeploymentLogs();
+        @Get("api/logstream/kudu/deployment")
+        Mono<StreamResponse> streamDeploymentLogs(@HostParam("$host") String host);
 
         @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamAllLogs", "x-ms-body-logging: false" })
-        @GET("api/logstream")
-        @Streaming
-        Observable<ResponseBody> streamAllLogs();
+        @Get("api/logstream")
+        Mono<StreamResponse> streamAllLogs(@HostParam("$host") String host);
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps warDeploy", "x-ms-body-logging: false" })
-        @POST("api/wardeploy")
-        @Streaming
-        Observable<Void> warDeploy(@Body RequestBody warFile, @Query("name") String appName);
+        @Post("api/wardeploy")
+        Mono<Void> warDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") InputStream warFile, @QueryParam("name") String appName);
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
-        @POST("api/zipdeploy")
-        @Streaming
-        Observable<Void> zipDeploy(@Body RequestBody zipFile);
+        @Post("api/zipdeploy")
+        Mono<Void> zipDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") InputStream zipFile);
     }
 
     Flux<String> streamApplicationLogsAsync() {
-        return service.streamApplicationLogs()
-                .flatMap(new Func1<ResponseBody, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(ResponseBody responseBody) {
-                        final BufferedSource source = responseBody.source();
-                        return streamFromBufferedSource(source);
-                    }
-                });
+        return streamFromFluxBytes(service.streamApplicationLogs(host).flatMapMany(StreamResponse::getValue));
     }
 
     Flux<String> streamHttpLogsAsync() {
-        return service.streamHttpLogs()
-                .flatMap(new Func1<ResponseBody, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(ResponseBody responseBody) {
-                        final BufferedSource source = responseBody.source();
-                        return streamFromBufferedSource(source);
-                    }
-                });
+        return streamFromFluxBytes(service.streamHttpLogs(host).flatMapMany(StreamResponse::getValue));
     }
 
     Flux<String> streamTraceLogsAsync() {
-        return service.streamTraceLogs()
-                .flatMap(new Func1<ResponseBody, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(ResponseBody responseBody) {
-                        final BufferedSource source = responseBody.source();
-                        return streamFromBufferedSource(source);
-                    }
-                });
+        return streamFromFluxBytes(service.streamTraceLogs(host).flatMapMany(StreamResponse::getValue));
     }
 
     Flux<String> streamDeploymentLogsAsync() {
-        return service.streamDeploymentLogs()
-                .flatMap(new Func1<ResponseBody, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(ResponseBody responseBody) {
-                        final BufferedSource source = responseBody.source();
-                        return streamFromBufferedSource(source);
-                    }
-                });
+        return streamFromFluxBytes(service.streamDeploymentLogs(host).flatMapMany(StreamResponse::getValue));
     }
 
     Flux<String> streamAllLogsAsync() {
-        return service.streamAllLogs()
-                .flatMap(new Func1<ResponseBody, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(ResponseBody responseBody) {
-                        final BufferedSource source = responseBody.source();
-                        return streamFromBufferedSource(source);
-                    }
-                });
+        return streamFromFluxBytes(service.streamAllLogs(host).flatMapMany(StreamResponse::getValue));
     }
 
-    private Flux<String> streamFromBufferedSource(final BufferedSource source) {
-        return Observable.create(new Action1<Emitter<String>>() {
-            @Override
-            public void call(Emitter<String> stringEmitter) {
-                try {
-                    while (!source.exhausted()) {
-                        stringEmitter.onNext(source.readUtf8Line());
-                    }
-                    stringEmitter.onCompleted();
-                } catch (IOException e) {
-                    stringEmitter.onError(e);
-                }
-            }
-        }, BackpressureMode.BUFFER);
+    private Flux<String> streamFromFluxBytes(final Flux<ByteBuffer> source) {
+        // FIXME
+        return source.map(StandardCharsets.UTF_8::decode).map(CharBuffer::toString);
+
+//        return Observable.create(new Action1<Emitter<String>>() {
+//            @Override
+//            public void call(Emitter<String> stringEmitter) {
+//                try {
+//                    while (!source.exhausted()) {
+//                        stringEmitter.onNext(source.readUtf8Line());
+//                    }
+//                    stringEmitter.onCompleted();
+//                } catch (IOException e) {
+//                    stringEmitter.onError(e);
+//                }
+//            }
+//        }, BackpressureMode.BUFFER);
     }
 
     Mono<Void> warDeployAsync(InputStream warFile, String appName) {
-        try {
-            RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(warFile));
-            return getCompletable(service.warDeploy(body, appName));
-        } catch (IOException e) {
-            return Completable.error(e);
-        }
+        return withRetry(service.warDeploy(host, warFile, appName));
     }
 
     Mono<Void> zipDeployAsync(InputStream zipFile) {
-        try {
-            RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
-            return getCompletable(service.zipDeploy(body));
-        } catch (IOException e) {
-            return Completable.error(e);
-        }
+        return withRetry(service.zipDeploy(host, zipFile));
     }
 
-    private Mono<Void> getCompletable(Observable<Void> observable) {
+    private Mono<Void> withRetry(Mono<Void> observable) {
         return observable
-                .toCompletable()
-                .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Observable<? extends Throwable> observable) {
-                        return observable.zipWith(Observable.range(1, 30), new Func2<Throwable, Integer, Integer>() {
-                            @Override
-                            public Integer call(Throwable throwable, Integer integer) {
-                                if (throwable instanceof CloudException
-                                        && ((CloudException) throwable).response().code() == 502 || throwable instanceof JsonParseException) {
-                                    return integer;
-                                } else {
-                                    throw Exceptions.propagate(throwable);
-                                }
-                            }
-                        }).flatMap(new Func1<Integer, Observable<?>>() {
-                            @Override
-                            public Observable<?> call(Integer i) {
-                                return Observable.timer(i, TimeUnit.SECONDS);
-                            }
-                        });
+                .retryWhen(flux -> flux.zipWith(Flux.range(1, 30), (Throwable throwable, Integer integer) -> {
+                    if (throwable instanceof CloudException
+                            && ((CloudException) throwable).getResponse().getStatusCode() == 502 || throwable instanceof JsonParseException) {
+                        return integer;
+                    } else {
+                        throw Exceptions.propagate(throwable);
                     }
-                });
+                }).flatMap(i -> Mono.delay(Duration.ofSeconds(i))));
     }
 }

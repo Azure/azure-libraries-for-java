@@ -6,8 +6,6 @@
 
 package com.azure.management.appservice.implementation;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.Pattern;
@@ -50,12 +48,32 @@ class Utils {
     }
 
     private static String completePrivateRegistryImage(String imageAndTag, String registryServer, String path) {
-        path = StringUtils.strip(path, "/");
+        path = removeLeadingChar(removeTrailingChar(path, '/'), '/');
         if (path.isEmpty()) {
             imageAndTag = String.format("%s/%s", registryServer, imageAndTag.trim());
         } else {
             imageAndTag = String.format("%s/%s/%s", registryServer, path, imageAndTag.trim());
         }
         return imageAndTag;
+    }
+
+    private static String removeLeadingChar(String s, char c) {
+        int index;
+        for (index = 0; index < s.length(); index++) {
+            if (s.charAt(index) != c) {
+                break;
+            }
+        }
+        return s.substring(index);
+    }
+
+    private static String removeTrailingChar(String s, char c) {
+        int index;
+        for (index = s.length() - 1; index >= 0; index--) {
+            if (s.charAt(index) != c) {
+                break;
+            }
+        }
+        return s.substring(0, index + 1);
     }
 }

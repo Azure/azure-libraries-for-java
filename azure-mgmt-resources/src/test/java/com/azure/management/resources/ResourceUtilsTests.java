@@ -49,7 +49,7 @@ public class ResourceUtilsTests {
     }
 
     @Test
-    public void canGetDefaultScopeFromHost() throws Exception {
+    public void canGetDefaultScopeFromUrl() throws Exception {
         Assertions.assertEquals("https://graph.windows.net/.default", com.azure.management.Utils.getDefaultScopeFromUrl("https://graph.windows.net/random", AzureEnvironment.AZURE));
         Assertions.assertEquals("https://vault.azure.net/.default", com.azure.management.Utils.getDefaultScopeFromUrl("https://random.vault.azure.net/random", AzureEnvironment.AZURE));
         Assertions.assertEquals("https://api.applicationinsights.io/.default", com.azure.management.Utils.getDefaultScopeFromUrl("https://api.applicationinsights.io/random", AzureEnvironment.AZURE));

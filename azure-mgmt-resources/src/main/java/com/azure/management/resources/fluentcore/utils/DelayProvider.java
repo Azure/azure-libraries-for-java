@@ -54,4 +54,14 @@ public class DelayProvider {
     public int getLroRetryTimeout() {
         return longRunningOperationRetryTimeout;
     }
+
+    /**
+     * Wrapper for the duration for delay.
+     *
+     * @param delay the duration of proposed delay.
+     * @return the duration of delay.
+     */
+    public Duration getDelayDuration(Duration delay) {
+        return delay;
+    }
 }

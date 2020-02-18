@@ -1,0 +1,150 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
+package com.azure.management.appservice.implementation;
+
+import com.azure.core.annotation.BodyParam;
+import com.azure.core.annotation.Get;
+import com.azure.core.annotation.Headers;
+import com.azure.core.annotation.Host;
+import com.azure.core.annotation.HostParam;
+import com.azure.core.annotation.Post;
+import com.azure.core.annotation.QueryParam;
+import com.azure.core.annotation.ServiceInterface;
+import com.azure.core.http.rest.RestProxy;
+import com.azure.core.http.rest.StreamResponse;
+import com.azure.core.management.CloudException;
+import com.azure.management.RestClient;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.google.common.base.Joiner;
+import com.azure.management.appservice.WebAppBase;
+import reactor.core.Exceptions;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+
+/**
+ * A client which interacts with Kudu service.
+ */
+class KuduClient {
+    private String host;
+    private KuduService service;
+
+    KuduClient(WebAppBase webAppBase) {
+        if (webAppBase.defaultHostName() == null) {
+            throw new UnsupportedOperationException("Cannot initialize kudu client before web app is created");
+        }
+        String host = webAppBase.defaultHostName().toLowerCase()
+                .replace("http://", "")
+                .replace("https://", "");
+        String[] parts = host.split("\\.", 2);
+        host = Joiner.on('.').join(parts[0], "scm", parts[1]);
+        this.host = host;
+        RestClient client = webAppBase.manager().restClient().newBuilder()
+                .withBaseUrl("https://" + host)
+                // FIXME
+//                .withConnectionTimeout(3, TimeUnit.MINUTES)
+//                .withReadTimeout(3, TimeUnit.MINUTES)
+                .buildClient();
+
+        service = RestProxy.create(KuduService.class, client.getHttpPipeline());
+    }
+
+    @Host("{$host}")
+    @ServiceInterface(name = "KuduService")
+    private interface KuduService {
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamApplicationLogs", "x-ms-body-logging: false" })
+        @Get("api/logstream/application")
+        Mono<StreamResponse> streamApplicationLogs(@HostParam("$host") String host);
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamHttpLogs", "x-ms-body-logging: false" })
+        @Get("api/logstream/http")
+        Mono<StreamResponse> streamHttpLogs(@HostParam("$host") String host);
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamTraceLogs", "x-ms-body-logging: false" })
+        @Get("api/logstream/kudu/trace")
+        Mono<StreamResponse> streamTraceLogs(@HostParam("$host") String host);
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamDeploymentLogs", "x-ms-body-logging: false" })
+        @Get("api/logstream/kudu/deployment")
+        Mono<StreamResponse> streamDeploymentLogs(@HostParam("$host") String host);
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps streamAllLogs", "x-ms-body-logging: false" })
+        @Get("api/logstream")
+        Mono<StreamResponse> streamAllLogs(@HostParam("$host") String host);
+
+        @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps warDeploy", "x-ms-body-logging: false" })
+        @Post("api/wardeploy")
+        Mono<Void> warDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") InputStream warFile, @QueryParam("name") String appName);
+
+        @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
+        @Post("api/zipdeploy")
+        Mono<Void> zipDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") InputStream zipFile);
+    }
+
+    Flux<String> streamApplicationLogsAsync() {
+        return streamFromFluxBytes(service.streamApplicationLogs(host).flatMapMany(StreamResponse::getValue));
+    }
+
+    Flux<String> streamHttpLogsAsync() {
+        return streamFromFluxBytes(service.streamHttpLogs(host).flatMapMany(StreamResponse::getValue));
+    }
+
+    Flux<String> streamTraceLogsAsync() {
+        return streamFromFluxBytes(service.streamTraceLogs(host).flatMapMany(StreamResponse::getValue));
+    }
+
+    Flux<String> streamDeploymentLogsAsync() {
+        return streamFromFluxBytes(service.streamDeploymentLogs(host).flatMapMany(StreamResponse::getValue));
+    }
+
+    Flux<String> streamAllLogsAsync() {
+        return streamFromFluxBytes(service.streamAllLogs(host).flatMapMany(StreamResponse::getValue));
+    }
+
+    private Flux<String> streamFromFluxBytes(final Flux<ByteBuffer> source) {
+        // FIXME
+        return source.map(StandardCharsets.UTF_8::decode).map(CharBuffer::toString);
+
+//        return Observable.create(new Action1<Emitter<String>>() {
+//            @Override
+//            public void call(Emitter<String> stringEmitter) {
+//                try {
+//                    while (!source.exhausted()) {
+//                        stringEmitter.onNext(source.readUtf8Line());
+//                    }
+//                    stringEmitter.onCompleted();
+//                } catch (IOException e) {
+//                    stringEmitter.onError(e);
+//                }
+//            }
+//        }, BackpressureMode.BUFFER);
+    }
+
+    Mono<Void> warDeployAsync(InputStream warFile, String appName) {
+        return withRetry(service.warDeploy(host, warFile, appName));
+    }
+
+    Mono<Void> zipDeployAsync(InputStream zipFile) {
+        return withRetry(service.zipDeploy(host, zipFile));
+    }
+
+    private Mono<Void> withRetry(Mono<Void> observable) {
+        return observable
+                .retryWhen(flux -> flux.zipWith(Flux.range(1, 30), (Throwable throwable, Integer integer) -> {
+                    if (throwable instanceof CloudException
+                            && ((CloudException) throwable).getResponse().getStatusCode() == 502 || throwable instanceof JsonParseException) {
+                        return integer;
+                    } else {
+                        throw Exceptions.propagate(throwable);
+                    }
+                }).flatMap(i -> Mono.delay(Duration.ofSeconds(i))));
+    }
+}

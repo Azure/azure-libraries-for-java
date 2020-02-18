@@ -340,8 +340,8 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
 
     protected abstract Mono<InnerModelT> getInnerAsync();
 
-    protected Flux<Indexable> afterPostRunAsync(boolean isGroupFaulted) {
-        return Flux.empty();
+    protected Mono<Void> afterPostRunAsync(boolean isGroupFaulted) {
+        return Mono.empty();
     }
 
     /**
@@ -434,7 +434,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
         }
 
         @Override
-        public Flux<Indexable> invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        public Mono<Void> invokeAfterPostRunAsync(boolean isGroupFaulted) {
             return this.externalChild.afterPostRunAsync(isGroupFaulted);
         }
     }

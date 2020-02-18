@@ -138,8 +138,8 @@ class SchoolsImpl {
         }
 
         @Override
-        public Flux invokeAfterPostRunAsync(boolean isGroupFaulted) {
-            return Flux.empty();
+        public Mono<Void> invokeAfterPostRunAsync(boolean isGroupFaulted) {
+            return Mono.empty();
         }
 
         public SchoolImpl withTeacher(TeacherImpl teacher) {

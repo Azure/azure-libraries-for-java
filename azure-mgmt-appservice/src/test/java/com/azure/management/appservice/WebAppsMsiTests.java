@@ -15,8 +15,8 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import okhttp3.Response;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
@@ -59,14 +59,14 @@ public class WebAppsMsiTests extends AppServiceTest {
                 .withJavaVersion(JavaVersion.JAVA_8_NEWEST)
                 .withWebContainer(WebContainer.TOMCAT_8_0_NEWEST)
                 .create();
-        Assert.assertNotNull(webApp);
-        Assert.assertEquals(Region.US_WEST, webApp.region());
+        Assertions.assertNotNull(webApp);
+        Assertions.assertEquals(Region.US_WEST, webApp.region());
         AppServicePlan plan = appServiceManager.appServicePlans().getById(webApp.appServicePlanId());
-        Assert.assertNotNull(plan);
-        Assert.assertEquals(Region.US_WEST, plan.region());
-        Assert.assertEquals(PricingTier.BASIC_B1, plan.pricingTier());
-        Assert.assertNotNull(webApp.systemAssignedManagedServiceIdentityPrincipalId());
-        Assert.assertNotNull(webApp.systemAssignedManagedServiceIdentityTenantId());
+        Assertions.assertNotNull(plan);
+        Assertions.assertEquals(Region.US_WEST, plan.region());
+        Assertions.assertEquals(PricingTier.BASIC_B1, plan.pricingTier());
+        Assertions.assertNotNull(webApp.systemAssignedManagedServiceIdentityPrincipalId());
+        Assertions.assertNotNull(webApp.systemAssignedManagedServiceIdentityTenantId());
 
         if (!isPlaybackMode()) {
             // Check availability of environment variables
@@ -75,11 +75,11 @@ public class WebAppsMsiTests extends AppServiceTest {
             SdkContext.sleep(10000);
 
             Response response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
-            Assert.assertEquals(200, response.code());
+            Assertions.assertEquals(200, response.code());
             String body = response.body().string();
-            Assert.assertNotNull(body);
-            Assert.assertTrue(body.contains(webApp.resourceGroupName()));
-            Assert.assertTrue(body.contains(webApp.id()));
+            Assertions.assertNotNull(body);
+            Assertions.assertTrue(body.contains(webApp.resourceGroupName()));
+            Assertions.assertTrue(body.contains(webApp.id()));
         }
     }
 
@@ -127,19 +127,19 @@ public class WebAppsMsiTests extends AppServiceTest {
                 .withNewUserAssignedManagedServiceIdentity(creatableIdentity)
                 .withExistingUserAssignedManagedServiceIdentity(createdIdentity)
                 .create();
-        Assert.assertNotNull(webApp);
-        Assert.assertEquals(Region.US_WEST, webApp.region());
+        Assertions.assertNotNull(webApp);
+        Assertions.assertEquals(Region.US_WEST, webApp.region());
         AppServicePlan plan = appServiceManager.appServicePlans().getById(webApp.appServicePlanId());
-        Assert.assertNotNull(plan);
-        Assert.assertEquals(Region.US_WEST, plan.region());
-        Assert.assertEquals(PricingTier.BASIC_B1, plan.pricingTier());
-        Assert.assertNotNull(webApp.systemAssignedManagedServiceIdentityPrincipalId());
-        Assert.assertNotNull(webApp.systemAssignedManagedServiceIdentityTenantId());
+        Assertions.assertNotNull(plan);
+        Assertions.assertEquals(Region.US_WEST, plan.region());
+        Assertions.assertEquals(PricingTier.BASIC_B1, plan.pricingTier());
+        Assertions.assertNotNull(webApp.systemAssignedManagedServiceIdentityPrincipalId());
+        Assertions.assertNotNull(webApp.systemAssignedManagedServiceIdentityTenantId());
         Set<String> identityIds = webApp.userAssignedManagedServiceIdentityIds();
-        Assert.assertNotNull(identityIds);
-        Assert.assertEquals(identityIds.size(), 2);
-        Assert.assertTrue(setContainsValue(identityIds, identityName1));
-        Assert.assertTrue(setContainsValue(identityIds, identityName2));
+        Assertions.assertNotNull(identityIds);
+        Assertions.assertEquals(identityIds.size(), 2);
+        Assertions.assertTrue(setContainsValue(identityIds, identityName1));
+        Assertions.assertTrue(setContainsValue(identityIds, identityName2));
 
         if (!isPlaybackMode()) {
             // Check availability of environment variables
@@ -148,11 +148,11 @@ public class WebAppsMsiTests extends AppServiceTest {
             SdkContext.sleep(10000);
 
             Response response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
-            Assert.assertEquals(200, response.code());
+            Assertions.assertEquals(200, response.code());
             String body = response.body().string();
-            Assert.assertNotNull(body);
-            Assert.assertTrue(body.contains(webApp.resourceGroupName()));
-            Assert.assertTrue(body.contains(webApp.id()));
+            Assertions.assertNotNull(body);
+            Assertions.assertTrue(body.contains(webApp.resourceGroupName()));
+            Assertions.assertTrue(body.contains(webApp.id()));
         }
     }
 

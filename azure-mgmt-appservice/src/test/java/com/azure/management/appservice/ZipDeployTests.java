@@ -11,8 +11,8 @@ import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
@@ -36,17 +36,17 @@ public class ZipDeployTests extends AppServiceTest {
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup(RG_NAME)
                 .create();
-        Assert.assertNotNull(functionApp);
+        Assertions.assertNotNull(functionApp);
         SdkContext.sleep(5000);
         functionApp.zipDeploy(new File(FunctionAppsTests.class.getResource("/square-function-app.zip").getPath()));
         SdkContext.sleep(5000);
         String response = post("http://" + WEBAPP_NAME_4 + ".azurewebsites.net" + "/api/square", "25");
-        Assert.assertNotNull(response);
-        Assert.assertEquals("625", response);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals("625", response);
 
         PagedIterable<FunctionEnvelope> envelopes = appServiceManager.functionApps().listFunctions(RG_NAME, functionApp.name());
-        Assert.assertNotNull(envelopes);
-        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(envelopes));
-        Assert.assertEquals(envelopes.iterator().next().href(), "https://" + WEBAPP_NAME_4 +".scm.azurewebsites.net/api/functions/square");
+        Assertions.assertNotNull(envelopes);
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(envelopes));
+        Assertions.assertEquals(envelopes.iterator().next().href(), "https://" + WEBAPP_NAME_4 +".scm.azurewebsites.net/api/functions/square");
     }
 }

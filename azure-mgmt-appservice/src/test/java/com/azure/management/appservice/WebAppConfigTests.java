@@ -8,8 +8,8 @@ package com.azure.management.appservice;
 
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
@@ -35,10 +35,10 @@ public class WebAppConfigTests extends AppServiceTest {
                 .create();
 
         WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Assert.assertNotNull(webApp);
-        Assert.assertEquals(Region.US_EAST, webApp.region());
-        Assert.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
-        Assert.assertEquals(SupportedTlsVersions.ONE_ONE, webApp.minTlsVersion());
+        Assertions.assertNotNull(webApp);
+        Assertions.assertEquals(Region.US_EAST, webApp.region());
+        Assertions.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
+        Assertions.assertEquals(SupportedTlsVersions.ONE_ONE, webApp.minTlsVersion());
 
         // Java version
         webApp.update()
@@ -46,14 +46,14 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withWebContainer(WebContainer.TOMCAT_7_0_50)
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Assert.assertEquals(JavaVersion.JAVA_1_7_0_51, webApp.javaVersion());
+        Assertions.assertEquals(JavaVersion.JAVA_1_7_0_51, webApp.javaVersion());
 
         // Python version
         webApp.update()
                 .withPythonVersion(PythonVersion.PYTHON_34)
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Assert.assertEquals(PythonVersion.PYTHON_34, webApp.pythonVersion());
+        Assertions.assertEquals(PythonVersion.PYTHON_34, webApp.pythonVersion());
 
 
         // Default documents
@@ -62,8 +62,8 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withDefaultDocument("somedocument.html")
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Assert.assertEquals(documentSize + 1, webApp.defaultDocuments().size());
-        Assert.assertTrue(webApp.defaultDocuments().contains("somedocument.html"));
+        Assertions.assertEquals(documentSize + 1, webApp.defaultDocuments().size());
+        Assertions.assertTrue(webApp.defaultDocuments().contains("somedocument.html"));
 
         // App settings
         webApp.update()
@@ -72,10 +72,10 @@ public class WebAppConfigTests extends AppServiceTest {
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Map<String, AppSetting> appSettingMap = webApp.getAppSettings();
-        Assert.assertEquals("appvalue", appSettingMap.get("appkey").value());
-        Assert.assertEquals(false, appSettingMap.get("appkey").sticky());
-        Assert.assertEquals("stickyvalue", appSettingMap.get("stickykey").value());
-        Assert.assertEquals(true, appSettingMap.get("stickykey").sticky());
+        Assertions.assertEquals("appvalue", appSettingMap.get("appkey").value());
+        Assertions.assertEquals(false, appSettingMap.get("appkey").sticky());
+        Assertions.assertEquals("stickyvalue", appSettingMap.get("stickykey").value());
+        Assertions.assertEquals(true, appSettingMap.get("stickykey").sticky());
 
         // Connection strings
         webApp.update()
@@ -84,38 +84,38 @@ public class WebAppConfigTests extends AppServiceTest {
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Map<String, ConnectionString> connectionStringMap = webApp.getConnectionStrings();
-        Assert.assertEquals("connectionValue", connectionStringMap.get("connectionName").value());
-        Assert.assertEquals(false, connectionStringMap.get("connectionName").sticky());
-        Assert.assertEquals("stickyValue", connectionStringMap.get("stickyName").value());
-        Assert.assertEquals(true, connectionStringMap.get("stickyName").sticky());
+        Assertions.assertEquals("connectionValue", connectionStringMap.get("connectionName").value());
+        Assertions.assertEquals(false, connectionStringMap.get("connectionName").sticky());
+        Assertions.assertEquals("stickyValue", connectionStringMap.get("stickyName").value());
+        Assertions.assertEquals(true, connectionStringMap.get("stickyName").sticky());
 
         // HTTPS only
         webApp = webApp.update()
                 .withHttpsOnly(true)
                 .apply();
-        Assert.assertTrue(webApp.httpsOnly());
+        Assertions.assertTrue(webApp.httpsOnly());
 
         // FTPS
         webApp = webApp.update()
                 .withFtpsState(FtpsState.FTPS_ONLY)
                 .apply();
-        Assert.assertEquals(FtpsState.FTPS_ONLY, webApp.ftpsState());
+        Assertions.assertEquals(FtpsState.FTPS_ONLY, webApp.ftpsState());
 
         // Min TLS version
         webApp = webApp.update()
                 .withMinTlsVersion(SupportedTlsVersions.ONE_TWO)
                 .apply();
-        Assert.assertEquals(SupportedTlsVersions.ONE_TWO, webApp.minTlsVersion());
+        Assertions.assertEquals(SupportedTlsVersions.ONE_TWO, webApp.minTlsVersion());
 
         // Logs
         webApp = webApp.update()
                 .withContainerLoggingEnabled()
                 .apply();
-        Assert.assertTrue(webApp.diagnosticLogsConfig().inner().httpLogs().fileSystem().enabled());
+        Assertions.assertTrue(webApp.diagnosticLogsConfig().inner().httpLogs().fileSystem().enabled());
         // verify on new instance
         // https://github.com/Azure/azure-libraries-for-java/issues/759
         webApp = appServiceManager.webApps().getById(webApp.id());
-        Assert.assertTrue(webApp.diagnosticLogsConfig().inner().httpLogs().fileSystem().enabled());
+        Assertions.assertTrue(webApp.diagnosticLogsConfig().inner().httpLogs().fileSystem().enabled());
     }
 
     @Test
@@ -129,9 +129,9 @@ public class WebAppConfigTests extends AppServiceTest {
                 .create();
 
         WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Assert.assertNotNull(webApp);
-        Assert.assertEquals(Region.US_EAST, webApp.region());
-        Assert.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
+        Assertions.assertNotNull(webApp);
+        Assertions.assertEquals(Region.US_EAST, webApp.region());
+        Assertions.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
 
         // Java version
         webApp.update()
@@ -139,14 +139,14 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withWebContainer(WebContainer.TOMCAT_9_0_NEWEST)
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Assert.assertEquals(JavaVersion.JAVA_11, webApp.javaVersion());
+        Assertions.assertEquals(JavaVersion.JAVA_11, webApp.javaVersion());
 
         // Python version
         webApp.update()
                 .withPythonVersion(PythonVersion.PYTHON_34)
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Assert.assertEquals(PythonVersion.PYTHON_34, webApp.pythonVersion());
+        Assertions.assertEquals(PythonVersion.PYTHON_34, webApp.pythonVersion());
 
 
         // Default documents
@@ -155,8 +155,8 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withDefaultDocument("somedocument.html")
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Assert.assertEquals(documentSize + 1, webApp.defaultDocuments().size());
-        Assert.assertTrue(webApp.defaultDocuments().contains("somedocument.html"));
+        Assertions.assertEquals(documentSize + 1, webApp.defaultDocuments().size());
+        Assertions.assertTrue(webApp.defaultDocuments().contains("somedocument.html"));
 
         // App settings
         webApp.update()
@@ -165,10 +165,10 @@ public class WebAppConfigTests extends AppServiceTest {
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Map<String, AppSetting> appSettingMap = webApp.getAppSettings();
-        Assert.assertEquals("appvalue", appSettingMap.get("appkey").value());
-        Assert.assertEquals(false, appSettingMap.get("appkey").sticky());
-        Assert.assertEquals("stickyvalue", appSettingMap.get("stickykey").value());
-        Assert.assertEquals(true, appSettingMap.get("stickykey").sticky());
+        Assertions.assertEquals("appvalue", appSettingMap.get("appkey").value());
+        Assertions.assertEquals(false, appSettingMap.get("appkey").sticky());
+        Assertions.assertEquals("stickyvalue", appSettingMap.get("stickykey").value());
+        Assertions.assertEquals(true, appSettingMap.get("stickykey").sticky());
 
         // Connection strings
         webApp.update()
@@ -177,22 +177,22 @@ public class WebAppConfigTests extends AppServiceTest {
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Map<String, ConnectionString> connectionStringMap = webApp.getConnectionStrings();
-        Assert.assertEquals("connectionValue", connectionStringMap.get("connectionName").value());
-        Assert.assertEquals(false, connectionStringMap.get("connectionName").sticky());
-        Assert.assertEquals("stickyValue", connectionStringMap.get("stickyName").value());
-        Assert.assertEquals(true, connectionStringMap.get("stickyName").sticky());
+        Assertions.assertEquals("connectionValue", connectionStringMap.get("connectionName").value());
+        Assertions.assertEquals(false, connectionStringMap.get("connectionName").sticky());
+        Assertions.assertEquals("stickyValue", connectionStringMap.get("stickyName").value());
+        Assertions.assertEquals(true, connectionStringMap.get("stickyName").sticky());
 
         // HTTPS only
         webApp = webApp.update()
                 .withHttpsOnly(true)
                 .apply();
-        Assert.assertTrue(webApp.httpsOnly());
+        Assertions.assertTrue(webApp.httpsOnly());
 
         // FTPS
         webApp = webApp.update()
                 .withFtpsState(FtpsState.FTPS_ONLY)
                 .apply();
-        Assert.assertEquals(FtpsState.FTPS_ONLY, webApp.ftpsState());
+        Assertions.assertEquals(FtpsState.FTPS_ONLY, webApp.ftpsState());
     }
 
 }

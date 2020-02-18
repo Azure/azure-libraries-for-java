@@ -8,9 +8,9 @@ package com.azure.management.appservice;
 
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.*;
-
-import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class CertificateOrdersTests extends AppServiceTest {
     private static final String CERTIFICATE_NAME = "graphwildcert319";
@@ -21,7 +21,7 @@ public class CertificateOrdersTests extends AppServiceTest {
     }
 
     @Test
-    @Ignore("Test is failing fix it. we may not intent to create a resource here but just to fetch existing resource.")
+    @Disabled("Test is failing fix it. we may not intent to create a resource here but just to fetch existing resource.")
     public void canCRUDCertificateOrder() throws Exception {
         // CREATE
         AppServiceCertificateOrder certificateOrder = appServiceManager.certificateOrders()
@@ -33,9 +33,9 @@ public class CertificateOrdersTests extends AppServiceTest {
                 .withNewKeyVault("graphvault", Region.US_WEST)
                 .withValidYears(1)
                 .create();
-        Assert.assertNotNull(certificateOrder);
+        Assertions.assertNotNull(certificateOrder);
         // GET
-        Assert.assertNotNull(appServiceManager.certificateOrders().getByResourceGroup(RG_NAME, CERTIFICATE_NAME));
+        Assertions.assertNotNull(appServiceManager.certificateOrders().getByResourceGroup(RG_NAME, CERTIFICATE_NAME));
         // LIST
         PagedIterable<AppServiceCertificateOrder> certificateOrders = appServiceManager.certificateOrders().listByResourceGroup(RG_NAME);
         boolean found = false;
@@ -45,7 +45,7 @@ public class CertificateOrdersTests extends AppServiceTest {
                 break;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
         // UPDATE
     }
 }

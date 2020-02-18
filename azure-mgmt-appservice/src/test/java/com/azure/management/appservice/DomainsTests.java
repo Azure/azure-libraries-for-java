@@ -8,7 +8,9 @@ package com.azure.management.appservice;
 
 import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
-import org.junit.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class DomainsTests extends AppServiceTest {
     private static final String DOMAIN_NAME = "javatest720.com";
@@ -19,7 +21,7 @@ public class DomainsTests extends AppServiceTest {
     }
 
     @Test
-    @Ignore("Test is failing fix it. we may not intent to create a resource here but just to fetch existing resource.")
+    @Disabled("Test is failing fix it. we may not intent to create a resource here but just to fetch existing resource.")
     public void canCRUDDomain() throws Exception {
         // CREATE
         AppServiceDomain domain = appServiceManager.domains().define(DOMAIN_NAME)
@@ -40,7 +42,7 @@ public class DomainsTests extends AppServiceTest {
                 .withAutoRenewEnabled(true)
                 .create();
 //        Domain domain = appServiceManager.domains().getByGroup(RG_NAME, DOMAIN_NAME);
-        Assert.assertNotNull(domain);
+        Assertions.assertNotNull(domain);
         domain.update()
                 .withAutoRenewEnabled(false)
                 .apply();

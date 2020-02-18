@@ -6,8 +6,8 @@
 
 package com.azure.management.appservice.implementation;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class UtilsTests {
 

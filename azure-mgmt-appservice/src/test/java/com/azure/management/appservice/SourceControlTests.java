@@ -9,8 +9,8 @@ package com.azure.management.appservice;
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
 import okhttp3.Response;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SourceControlTests extends AppServiceTest {
     private static String WEBAPP_NAME = "";
@@ -34,13 +34,13 @@ public class SourceControlTests extends AppServiceTest {
                     .withBranch("master")
                     .attach()
                 .create();
-        Assert.assertNotNull(webApp);
+        Assertions.assertNotNull(webApp);
         if (!isPlaybackMode()) {
             Response response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net");
-            Assert.assertEquals(200, response.code());
+            Assertions.assertEquals(200, response.code());
             String body = response.body().string();
-            Assert.assertNotNull(body);
-            Assert.assertTrue(body.contains("Hello world from linux 4"));
+            Assertions.assertNotNull(body);
+            Assertions.assertTrue(body.contains("Hello world from linux 4"));
         }
     }
 }

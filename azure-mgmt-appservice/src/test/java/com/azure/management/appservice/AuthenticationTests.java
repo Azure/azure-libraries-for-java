@@ -10,9 +10,9 @@ import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +34,7 @@ public class AuthenticationTests extends AppServiceTest {
     }
 
     @Test
-    @Ignore("Need facebook developer account")
+    @Disabled("Need facebook developer account")
     public void canCRUDWebAppWithAuthentication() throws Exception {
         // Create with new app service plan
         WebApp webApp1 = appServiceManager.webApps().define(WEBAPP_NAME_1)
@@ -46,16 +46,16 @@ public class AuthenticationTests extends AppServiceTest {
                     .withFacebook("appId", "appSecret")
                     .attach()
                 .create();
-        Assert.assertNotNull(webApp1);
-        Assert.assertEquals(Region.US_WEST, webApp1.region());
+        Assertions.assertNotNull(webApp1);
+        Assertions.assertEquals(Region.US_WEST, webApp1.region());
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(webApp1.appServicePlanId());
-        Assert.assertNotNull(plan1);
-        Assert.assertEquals(Region.US_WEST, plan1.region());
-        Assert.assertEquals(PricingTier.BASIC_B1, plan1.pricingTier());
+        Assertions.assertNotNull(plan1);
+        Assertions.assertEquals(Region.US_WEST, plan1.region());
+        Assertions.assertEquals(PricingTier.BASIC_B1, plan1.pricingTier());
 
         Request request = new Request.Builder().url("http://" + webApp1.defaultHostName()).get().build();
         String response = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build().newCall(request).execute().body().string();
-        Assert.assertTrue(response.contains("do not have permission"));
+        Assertions.assertTrue(response.contains("do not have permission"));
 
         // Update
         webApp1.update()
@@ -67,7 +67,7 @@ public class AuthenticationTests extends AppServiceTest {
 
         request = new Request.Builder().url("http://" + webApp1.defaultHostName()).get().build();
         response = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build().newCall(request).execute().body().string();
-        Assert.assertFalse(response.contains("do not have permission"));
+        Assertions.assertFalse(response.contains("do not have permission"));
 
     }
 }

@@ -9,10 +9,11 @@ package com.azure.management.appservice;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.List;
 
 public class CertificatesTests extends AppServiceTest {
     private static final String CERTIFICATE_NAME = "javagoodcert319";
@@ -23,7 +24,7 @@ public class CertificatesTests extends AppServiceTest {
     }
 
     @Test
-    @Ignore("Test is failing fix it, this is based on Existing RG and settings.")
+    @Disabled("Test is failing fix it, this is based on Existing RG and settings.")
     public void canCRDCertificate() throws Exception {
         Vault vault = keyVaultManager.vaults().getByResourceGroup(RG_NAME, "bananagraphwebapp319com");
         AppServiceCertificate certificate = appServiceManager.certificates().define("bananacert")
@@ -31,7 +32,7 @@ public class CertificatesTests extends AppServiceTest {
                 .withExistingResourceGroup(RG_NAME)
                 .withExistingCertificateOrder(appServiceManager.certificateOrders().getByResourceGroup(RG_NAME, "graphwebapp319"))
                 .create();
-        Assert.assertNotNull(certificate);
+        Assertions.assertNotNull(certificate);
 
         // CREATE
         certificate = appServiceManager.certificates().define(CERTIFICATE_NAME)
@@ -40,7 +41,7 @@ public class CertificatesTests extends AppServiceTest {
                 .withPfxFile(new File("/Users/jianghlu/Documents/code/certs/myserver.pfx"))
                 .withPfxPassword("StrongPass!123")
                 .create();
-        Assert.assertNotNull(certificate);
+        Assertions.assertNotNull(certificate);
     }
 
     @Test

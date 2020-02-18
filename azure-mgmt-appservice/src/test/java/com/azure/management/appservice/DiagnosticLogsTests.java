@@ -8,8 +8,8 @@ package com.azure.management.appservice;
 
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DiagnosticLogsTests extends AppServiceTest {
     private static String RG_NAME_1 = "";
@@ -47,25 +47,25 @@ public class DiagnosticLogsTests extends AppServiceTest {
                     .withUnlimitedLogRetentionDays()
                     .attach()
                 .create();
-        Assert.assertNotNull(webApp1);
-        Assert.assertEquals(Region.US_WEST, webApp1.region());
+        Assertions.assertNotNull(webApp1);
+        Assertions.assertEquals(Region.US_WEST, webApp1.region());
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(webApp1.appServicePlanId());
-        Assert.assertNotNull(plan1);
-        Assert.assertEquals(Region.US_WEST, plan1.region());
-        Assert.assertEquals(PricingTier.BASIC_B1, plan1.pricingTier());
+        Assertions.assertNotNull(plan1);
+        Assertions.assertEquals(Region.US_WEST, plan1.region());
+        Assertions.assertEquals(PricingTier.BASIC_B1, plan1.pricingTier());
 
-        Assert.assertNotNull(webApp1.diagnosticLogsConfig());
-        Assert.assertEquals(LogLevel.INFORMATION, webApp1.diagnosticLogsConfig().applicationLoggingFileSystemLogLevel());
-        Assert.assertEquals(LogLevel.OFF, webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobLogLevel());
-        Assert.assertNull(webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobContainer());
-        Assert.assertEquals(0, webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobRetentionDays());
-        Assert.assertEquals(50, webApp1.diagnosticLogsConfig().webServerLoggingFileSystemQuotaInMB());
+        Assertions.assertNotNull(webApp1.diagnosticLogsConfig());
+        Assertions.assertEquals(LogLevel.INFORMATION, webApp1.diagnosticLogsConfig().applicationLoggingFileSystemLogLevel());
+        Assertions.assertEquals(LogLevel.OFF, webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobLogLevel());
+        Assertions.assertNull(webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobContainer());
+        Assertions.assertEquals(0, webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobRetentionDays());
+        Assertions.assertEquals(50, webApp1.diagnosticLogsConfig().webServerLoggingFileSystemQuotaInMB());
         // 0 means unlimited
-        Assert.assertEquals(0, webApp1.diagnosticLogsConfig().webServerLoggingFileSystemRetentionDays());
-        Assert.assertNull(webApp1.diagnosticLogsConfig().webServerLoggingStorageBlobContainer());
-        Assert.assertEquals(0, webApp1.diagnosticLogsConfig().webServerLoggingStorageBlobRetentionDays());
-        Assert.assertFalse(webApp1.diagnosticLogsConfig().detailedErrorMessages());
-        Assert.assertFalse(webApp1.diagnosticLogsConfig().failedRequestsTracing());
+        Assertions.assertEquals(0, webApp1.diagnosticLogsConfig().webServerLoggingFileSystemRetentionDays());
+        Assertions.assertNull(webApp1.diagnosticLogsConfig().webServerLoggingStorageBlobContainer());
+        Assertions.assertEquals(0, webApp1.diagnosticLogsConfig().webServerLoggingStorageBlobRetentionDays());
+        Assertions.assertFalse(webApp1.diagnosticLogsConfig().detailedErrorMessages());
+        Assertions.assertFalse(webApp1.diagnosticLogsConfig().failedRequestsTracing());
 
         // Update
         webApp1.update()
@@ -81,16 +81,16 @@ public class DiagnosticLogsTests extends AppServiceTest {
                     .parent()
                 .apply();
 
-        Assert.assertNotNull(webApp1.diagnosticLogsConfig());
-        Assert.assertEquals(LogLevel.OFF, webApp1.diagnosticLogsConfig().applicationLoggingFileSystemLogLevel());
-        Assert.assertEquals(LogLevel.OFF, webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobLogLevel());
-        Assert.assertNull(webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobContainer());
-        Assert.assertEquals(0, webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobRetentionDays());
-        Assert.assertEquals(80, webApp1.diagnosticLogsConfig().webServerLoggingFileSystemQuotaInMB());
-        Assert.assertEquals(3, webApp1.diagnosticLogsConfig().webServerLoggingFileSystemRetentionDays());
-        Assert.assertNull(webApp1.diagnosticLogsConfig().webServerLoggingStorageBlobContainer());
-        Assert.assertEquals(3, webApp1.diagnosticLogsConfig().webServerLoggingStorageBlobRetentionDays());
-        Assert.assertTrue(webApp1.diagnosticLogsConfig().detailedErrorMessages());
-        Assert.assertFalse(webApp1.diagnosticLogsConfig().failedRequestsTracing());
+        Assertions.assertNotNull(webApp1.diagnosticLogsConfig());
+        Assertions.assertEquals(LogLevel.OFF, webApp1.diagnosticLogsConfig().applicationLoggingFileSystemLogLevel());
+        Assertions.assertEquals(LogLevel.OFF, webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobLogLevel());
+        Assertions.assertNull(webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobContainer());
+        Assertions.assertEquals(0, webApp1.diagnosticLogsConfig().applicationLoggingStorageBlobRetentionDays());
+        Assertions.assertEquals(80, webApp1.diagnosticLogsConfig().webServerLoggingFileSystemQuotaInMB());
+        Assertions.assertEquals(3, webApp1.diagnosticLogsConfig().webServerLoggingFileSystemRetentionDays());
+        Assertions.assertNull(webApp1.diagnosticLogsConfig().webServerLoggingStorageBlobContainer());
+        Assertions.assertEquals(3, webApp1.diagnosticLogsConfig().webServerLoggingStorageBlobRetentionDays());
+        Assertions.assertTrue(webApp1.diagnosticLogsConfig().detailedErrorMessages());
+        Assertions.assertFalse(webApp1.diagnosticLogsConfig().failedRequestsTracing());
     }
 }

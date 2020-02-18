@@ -15,16 +15,15 @@ import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountSkuType;
 import com.azure.management.storage.implementation.StorageManager;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class FunctionAppsTests extends AppServiceTest {
@@ -77,20 +76,20 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup(RG_NAME_1)
                 .create();
-        Assert.assertNotNull(functionApp1);
-        Assert.assertEquals(Region.US_WEST, functionApp1.region());
+        Assertions.assertNotNull(functionApp1);
+        Assertions.assertEquals(Region.US_WEST, functionApp1.region());
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(functionApp1.appServicePlanId());
-        Assert.assertNotNull(plan1);
-        Assert.assertEquals(Region.US_WEST, plan1.region());
-        Assert.assertEquals(new PricingTier("Dynamic", "Y1"), plan1.pricingTier());
+        Assertions.assertNotNull(plan1);
+        Assertions.assertEquals(Region.US_WEST, plan1.region());
+        Assertions.assertEquals(new PricingTier("Dynamic", "Y1"), plan1.pricingTier());
 
         FunctionAppResource functionAppResource1 = getStorageAccount(storageManager, functionApp1);
         // consumption plan requires this 2 settings
-        Assert.assertTrue(functionAppResource1.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
-        Assert.assertTrue(functionAppResource1.appSettings.containsKey(KEY_CONTENT_SHARE));
-        Assert.assertEquals(functionAppResource1.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource1.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
+        Assertions.assertTrue(functionAppResource1.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
+        Assertions.assertTrue(functionAppResource1.appSettings.containsKey(KEY_CONTENT_SHARE));
+        Assertions.assertEquals(functionAppResource1.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource1.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
         // verify accountKey
-        Assert.assertEquals(functionAppResource1.storageAccount.getKeys().get(0).getValue(), functionAppResource1.accountKey);
+        Assertions.assertEquals(functionAppResource1.storageAccount.getKeys().get(0).getValue(), functionAppResource1.accountKey);
 
         // Create with the same consumption plan
         FunctionApp functionApp2 = appServiceManager.functionApps().define(WEBAPP_NAME_2)
@@ -98,8 +97,8 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewResourceGroup(RG_NAME_2)
                 .withExistingStorageAccount(functionApp1.storageAccount())
                 .create();
-        Assert.assertNotNull(functionApp2);
-        Assert.assertEquals(Region.US_WEST, functionApp2.region());
+        Assertions.assertNotNull(functionApp2);
+        Assertions.assertEquals(Region.US_WEST, functionApp2.region());
 
         // Create with app service plan
         FunctionApp functionApp3 = appServiceManager.functionApps().define(WEBAPP_NAME_3)
@@ -108,41 +107,41 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewAppServicePlan(PricingTier.BASIC_B1)
                 .withExistingStorageAccount(functionApp1.storageAccount())
                 .create();
-        Assert.assertNotNull(functionApp2);
-        Assert.assertEquals(Region.US_WEST, functionApp2.region());
+        Assertions.assertNotNull(functionApp2);
+        Assertions.assertEquals(Region.US_WEST, functionApp2.region());
 
         // app service plan does not have this 2 settings
         // https://github.com/Azure/azure-libraries-for-net/issues/485
         FunctionAppResource functionAppResource3 = getStorageAccount(storageManager, functionApp3);
-        Assert.assertFalse(functionAppResource3.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
-        Assert.assertFalse(functionAppResource3.appSettings.containsKey(KEY_CONTENT_SHARE));
+        Assertions.assertFalse(functionAppResource3.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
+        Assertions.assertFalse(functionAppResource3.appSettings.containsKey(KEY_CONTENT_SHARE));
         // verify accountKey
-        Assert.assertEquals(functionAppResource3.storageAccount.getKeys().get(0).getValue(), functionAppResource3.accountKey);
+        Assertions.assertEquals(functionAppResource3.storageAccount.getKeys().get(0).getValue(), functionAppResource3.accountKey);
 
         // Get
         FunctionApp functionApp = appServiceManager.functionApps().getByResourceGroup(RG_NAME_1, functionApp1.name());
-        Assert.assertEquals(functionApp1.id(), functionApp.id());
+        Assertions.assertEquals(functionApp1.id(), functionApp.id());
         functionApp = appServiceManager.functionApps().getById(functionApp2.id());
-        Assert.assertEquals(functionApp2.name(), functionApp.name());
+        Assertions.assertEquals(functionApp2.name(), functionApp.name());
 
         // List
         PagedIterable<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
-        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functionApps));
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functionApps));
         functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_2);
-        Assert.assertEquals(2, TestUtilities.getPagedIterableSize(functionApps));
+        Assertions.assertEquals(2, TestUtilities.getPagedIterableSize(functionApps));
 
         // Update
         functionApp2.update()
                 .withNewStorageAccount(STORAGE_ACCOUNT_NAME_1, StorageAccountSkuType.STANDARD_GRS)
                 .apply();
-        Assert.assertEquals(STORAGE_ACCOUNT_NAME_1, functionApp2.storageAccount().name());
+        Assertions.assertEquals(STORAGE_ACCOUNT_NAME_1, functionApp2.storageAccount().name());
 
         FunctionAppResource functionAppResource2 = getStorageAccount(storageManager, functionApp2);
-        Assert.assertTrue(functionAppResource2.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
-        Assert.assertTrue(functionAppResource2.appSettings.containsKey(KEY_CONTENT_SHARE));
-        Assert.assertEquals(functionAppResource2.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource2.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
-        Assert.assertEquals(STORAGE_ACCOUNT_NAME_1, functionAppResource2.storageAccount.name());
-        Assert.assertEquals(functionAppResource2.storageAccount.getKeys().get(0).getValue(), functionAppResource2.accountKey);
+        Assertions.assertTrue(functionAppResource2.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
+        Assertions.assertTrue(functionAppResource2.appSettings.containsKey(KEY_CONTENT_SHARE));
+        Assertions.assertEquals(functionAppResource2.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource2.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
+        Assertions.assertEquals(STORAGE_ACCOUNT_NAME_1, functionAppResource2.storageAccount.name());
+        Assertions.assertEquals(functionAppResource2.storageAccount.getKeys().get(0).getValue(), functionAppResource2.accountKey);
 
         // Update, verify modify AppSetting does not create new storage account
         // https://github.com/Azure/azure-libraries-for-net/issues/457
@@ -151,19 +150,19 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withAppSetting("newKey", "newValue")
                 .apply();
         int numStorageAccountAfter = TestUtilities.getPagedIterableSize(storageManager.storageAccounts().listByResourceGroup(RG_NAME_1));
-        Assert.assertEquals(numStorageAccountBefore, numStorageAccountAfter);
+        Assertions.assertEquals(numStorageAccountBefore, numStorageAccountAfter);
         FunctionAppResource functionAppResource1Updated = getStorageAccount(storageManager, functionApp1);
-        Assert.assertTrue(functionAppResource1Updated.appSettings.containsKey("newKey"));
-        Assert.assertEquals(functionAppResource1.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource1Updated.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value());
-        Assert.assertEquals(functionAppResource1.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value(), functionAppResource1Updated.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
-        Assert.assertEquals(functionAppResource1.appSettings.get(KEY_CONTENT_SHARE).value(), functionAppResource1Updated.appSettings.get(KEY_CONTENT_SHARE).value());
-        Assert.assertEquals(functionAppResource1.storageAccount.name(), functionAppResource1Updated.storageAccount.name());
+        Assertions.assertTrue(functionAppResource1Updated.appSettings.containsKey("newKey"));
+        Assertions.assertEquals(functionAppResource1.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource1Updated.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value());
+        Assertions.assertEquals(functionAppResource1.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value(), functionAppResource1Updated.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
+        Assertions.assertEquals(functionAppResource1.appSettings.get(KEY_CONTENT_SHARE).value(), functionAppResource1Updated.appSettings.get(KEY_CONTENT_SHARE).value());
+        Assertions.assertEquals(functionAppResource1.storageAccount.name(), functionAppResource1Updated.storageAccount.name());
 
         // Scale
         functionApp3.update()
                 .withNewAppServicePlan(PricingTier.STANDARD_S2)
                 .apply();
-        Assert.assertNotEquals(functionApp3.appServicePlanId(), functionApp1.appServicePlanId());
+        Assertions.assertNotEquals(functionApp3.appServicePlanId(), functionApp1.appServicePlanId());
     }
 
     @Test
@@ -177,15 +176,15 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewLinuxConsumptionPlan()
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
                 .create();
-        Assert.assertNotNull(functionApp1);
+        Assertions.assertNotNull(functionApp1);
         assertLinuxJava8(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForConsumptionPlan());
 
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(functionApp1.appServicePlanId());
-        Assert.assertNotNull(plan1);
-        Assert.assertEquals(Region.US_EAST, plan1.region());
-        Assert.assertEquals(new PricingTier(SkuName.DYNAMIC.toString(), "Y1"), plan1.pricingTier());
-        Assert.assertTrue(plan1.inner().reserved());
-        Assert.assertTrue(Arrays.asList(functionApp1.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
+        Assertions.assertNotNull(plan1);
+        Assertions.assertEquals(Region.US_EAST, plan1.region());
+        Assertions.assertEquals(new PricingTier(SkuName.DYNAMIC.toString(), "Y1"), plan1.pricingTier());
+        Assertions.assertTrue(plan1.inner().reserved());
+        Assertions.assertTrue(Arrays.asList(functionApp1.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
 
         // deploy (zip deploy is not recommended for linux consumption plan)
         functionApp1.update()
@@ -197,7 +196,7 @@ public class FunctionAppsTests extends AppServiceTest {
         }
 
         PagedIterable<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
-        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functionApps));
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functionApps));
 
         // function app with app service plan
         FunctionApp functionApp2 = appServiceManager.functionApps().define(WEBAPP_NAME_2)
@@ -207,13 +206,13 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
                 .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
                 .create();
-        Assert.assertNotNull(functionApp2);
+        Assertions.assertNotNull(functionApp2);
         assertLinuxJava8(functionApp2, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
         AppServicePlan plan2 = appServiceManager.appServicePlans().getById(functionApp2.appServicePlanId());
-        Assert.assertNotNull(plan2);
-        Assert.assertEquals(PricingTier.STANDARD_S1, plan2.pricingTier());
-        Assert.assertTrue(plan2.inner().reserved());
+        Assertions.assertNotNull(plan2);
+        Assertions.assertEquals(PricingTier.STANDARD_S1, plan2.pricingTier());
+        Assertions.assertTrue(plan2.inner().reserved());
 
         // one more function app using existing app service plan
         FunctionApp functionApp3 = appServiceManager.functionApps().define(WEBAPP_NAME_3)
@@ -222,7 +221,7 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
                 .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
                 .create();
-        Assert.assertNotNull(functionApp3);
+        Assertions.assertNotNull(functionApp3);
         assertLinuxJava8(functionApp3, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
         // deploy
@@ -233,17 +232,17 @@ public class FunctionAppsTests extends AppServiceTest {
         }
 
         functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
-        Assert.assertEquals(3, TestUtilities.getPagedIterableSize(functionApps));
+        Assertions.assertEquals(3, TestUtilities.getPagedIterableSize(functionApps));
 
         // verify deploy
         PagedIterable<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
-        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
 
         functions = appServiceManager.functionApps().listFunctions(functionApp2.resourceGroupName(), functionApp2.name());
-        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
 
         functions = appServiceManager.functionApps().listFunctions(functionApp3.resourceGroupName(), functionApp3.name());
-        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
     }
 
     @Test
@@ -257,11 +256,11 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewLinuxAppServicePlan(new PricingTier(SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
                 .create();
-        Assert.assertNotNull(functionApp1);
+        Assertions.assertNotNull(functionApp1);
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(functionApp1.appServicePlanId());
-        Assert.assertNotNull(plan1);
-        Assert.assertEquals(new PricingTier(SkuName.ELASTIC_PREMIUM.toString(), "EP1"), plan1.pricingTier());
-        Assert.assertTrue(plan1.inner().reserved());
+        Assertions.assertNotNull(plan1);
+        Assertions.assertEquals(new PricingTier(SkuName.ELASTIC_PREMIUM.toString(), "EP1"), plan1.pricingTier());
+        Assertions.assertTrue(plan1.inner().reserved());
         assertLinuxJava8(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
         // deploy (zip deploy is not recommended for linux premium plan)
@@ -272,11 +271,11 @@ public class FunctionAppsTests extends AppServiceTest {
 
         // verify deploy
         PagedIterable<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
-        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
     }
 
     @Test
-    @Ignore("Need container registry")
+    @Disabled("Need container registry")
     public void canCRUDLinuxFunctionAppPremiumDocker() {
         // function app with premium plan with private docker
         FunctionApp functionApp1 = appServiceManager.functionApps().define(WEBAPP_NAME_1)
@@ -296,15 +295,15 @@ public class FunctionAppsTests extends AppServiceTest {
     }
 
     private static Map<String, AppSetting> assertLinuxJava8(FunctionApp functionApp, String linuxFxVersion) {
-        Assert.assertEquals(linuxFxVersion, functionApp.linuxFxVersion());
-        Assert.assertTrue(Arrays.asList(functionApp.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
-        Assert.assertTrue(functionApp.inner().reserved());
+        Assertions.assertEquals(linuxFxVersion, functionApp.linuxFxVersion());
+        Assertions.assertTrue(Arrays.asList(functionApp.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
+        Assertions.assertTrue(functionApp.inner().reserved());
 
         Map<String, AppSetting> appSettings = functionApp.getAppSettings();
-        Assert.assertNotNull(appSettings);
-        Assert.assertNotNull(appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE));
-        Assert.assertEquals(FunctionRuntimeStack.JAVA_8.runtime(), appSettings.get(KEY_FUNCTIONS_WORKER_RUNTIME).value());
-        Assert.assertEquals(FunctionRuntimeStack.JAVA_8.version(), appSettings.get(KEY_FUNCTIONS_EXTENSION_VERSION).value());
+        Assertions.assertNotNull(appSettings);
+        Assertions.assertNotNull(appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE));
+        Assertions.assertEquals(FunctionRuntimeStack.JAVA_8.runtime(), appSettings.get(KEY_FUNCTIONS_WORKER_RUNTIME).value());
+        Assertions.assertEquals(FunctionRuntimeStack.JAVA_8.version(), appSettings.get(KEY_FUNCTIONS_EXTENSION_VERSION).value());
 
         return appSettings;
     }

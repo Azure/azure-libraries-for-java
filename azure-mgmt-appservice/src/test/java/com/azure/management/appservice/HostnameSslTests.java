@@ -11,14 +11,12 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import javax.net.ssl.SSLPeerUnverifiedException;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.fail;
 
 public class HostnameSslTests extends AppServiceTest {
     private static String WEBAPP_NAME = "";
@@ -37,7 +35,7 @@ public class HostnameSslTests extends AppServiceTest {
     }
 
     @Test
-    @Ignore("Need a domain and a certificate")
+    @Disabled("Need a domain and a certificate")
     public void canBindHostnameAndSsl() throws Exception {
         // hostname binding
         appServiceManager.webApps().define(WEBAPP_NAME)
@@ -52,11 +50,11 @@ public class HostnameSslTests extends AppServiceTest {
                 .create();
 
         WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
-        Assert.assertNotNull(webApp);
+        Assertions.assertNotNull(webApp);
         if (!isPlaybackMode()) {
             Response response = curl("http://" + WEBAPP_NAME + "." + DOMAIN);
-            Assert.assertEquals(200, response.code());
-            Assert.assertNotNull(response.body().string());
+            Assertions.assertEquals(200, response.code());
+            Assertions.assertNotNull(response.body().string());
         }
         // hostname binding shortcut
         webApp.update()
@@ -64,11 +62,11 @@ public class HostnameSslTests extends AppServiceTest {
                 .apply();
         if (!isPlaybackMode()) {
             Response response = curl("http://" + WEBAPP_NAME + "-1." + DOMAIN);
-            Assert.assertEquals(200, response.code());
-            Assert.assertNotNull(response.body().string());
+            Assertions.assertEquals(200, response.code());
+            Assertions.assertNotNull(response.body().string());
             response = curl("http://" + WEBAPP_NAME + "-2." + DOMAIN);
-            Assert.assertEquals(200, response.code());
-            Assert.assertNotNull(response.body().string());
+            Assertions.assertEquals(200, response.code());
+            Assertions.assertNotNull(response.body().string());
         }
         // SSL binding
         webApp.update()
@@ -90,10 +88,10 @@ public class HostnameSslTests extends AppServiceTest {
                 }
             }
             if (retryCount == 0) {
-                fail();
+                Assertions.fail();
             }
-            Assert.assertEquals(200, response.code());
-            Assert.assertNotNull(response.body().string());
+            Assertions.assertEquals(200, response.code());
+            Assertions.assertNotNull(response.body().string());
         }
     }
 }

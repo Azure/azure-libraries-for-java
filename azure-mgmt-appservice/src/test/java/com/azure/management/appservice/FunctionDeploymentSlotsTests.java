@@ -10,10 +10,9 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 
-import java.util.List;
 import java.util.Map;
 
 public class FunctionDeploymentSlotsTests extends AppServiceTest {
@@ -34,7 +33,7 @@ public class FunctionDeploymentSlotsTests extends AppServiceTest {
         super.initializeClients(restClient, defaultSubscription, domain);
     }
 
-    @Ignore("Contains connection string in request payload")
+    @Disabled("Contains connection string in request payload")
     public void canCRUDFunctionSwapSlots() throws Exception {
         // Create with consumption
         FunctionApp functionApp1 = appServiceManager.functionApps().define(WEBAPP_NAME_1)
@@ -48,43 +47,43 @@ public class FunctionDeploymentSlotsTests extends AppServiceTest {
                 .withJavaVersion(JavaVersion.JAVA_1_7_0_51)
                 .withWebContainer(WebContainer.TOMCAT_7_0_50)
                 .create();
-        Assert.assertNotNull(functionApp1);
-        Assert.assertEquals(Region.US_WEST, functionApp1.region());
+        Assertions.assertNotNull(functionApp1);
+        Assertions.assertEquals(Region.US_WEST, functionApp1.region());
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(functionApp1.appServicePlanId());
-        Assert.assertNotNull(plan1);
-        Assert.assertEquals(Region.US_WEST, plan1.region());
+        Assertions.assertNotNull(plan1);
+        Assertions.assertEquals(Region.US_WEST, plan1.region());
 
         // Create a deployment slot with empty config
         FunctionDeploymentSlot slot1 = functionApp1.deploymentSlots().define(SLOT_NAME_1)
                 .withBrandNewConfiguration()
                 .withPythonVersion(PythonVersion.PYTHON_27)
                 .create();
-        Assert.assertNotNull(slot1);
-        Assert.assertNotEquals(JavaVersion.JAVA_1_7_0_51, slot1.javaVersion());
-        Assert.assertEquals(PythonVersion.PYTHON_27, slot1.pythonVersion());
+        Assertions.assertNotNull(slot1);
+        Assertions.assertNotEquals(JavaVersion.JAVA_1_7_0_51, slot1.javaVersion());
+        Assertions.assertEquals(PythonVersion.PYTHON_27, slot1.pythonVersion());
         Map<String, AppSetting> appSettingMap = slot1.getAppSettings();
-        Assert.assertFalse(appSettingMap.containsKey("appkey"));
-        Assert.assertFalse(appSettingMap.containsKey("stickykey"));
+        Assertions.assertFalse(appSettingMap.containsKey("appkey"));
+        Assertions.assertFalse(appSettingMap.containsKey("stickykey"));
         Map<String, ConnectionString> connectionStringMap = slot1.getConnectionStrings();
-        Assert.assertFalse(connectionStringMap.containsKey("connectionName"));
-        Assert.assertFalse(connectionStringMap.containsKey("stickyName"));
+        Assertions.assertFalse(connectionStringMap.containsKey("connectionName"));
+        Assertions.assertFalse(connectionStringMap.containsKey("stickyName"));
 
         // Create a deployment slot with web app's config
         FunctionDeploymentSlot slot2 = functionApp1.deploymentSlots().define(SLOT_NAME_2)
                 .withConfigurationFromParent()
                 .create();
-        Assert.assertNotNull(slot2);
-        Assert.assertEquals(JavaVersion.JAVA_1_7_0_51, slot2.javaVersion());
+        Assertions.assertNotNull(slot2);
+        Assertions.assertEquals(JavaVersion.JAVA_1_7_0_51, slot2.javaVersion());
         appSettingMap = slot2.getAppSettings();
-        Assert.assertEquals("appvalue", appSettingMap.get("appkey").value());
-        Assert.assertEquals(false, appSettingMap.get("appkey").sticky());
-        Assert.assertEquals("stickyvalue", appSettingMap.get("stickykey").value());
-        Assert.assertEquals(true, appSettingMap.get("stickykey").sticky());
+        Assertions.assertEquals("appvalue", appSettingMap.get("appkey").value());
+        Assertions.assertEquals(false, appSettingMap.get("appkey").sticky());
+        Assertions.assertEquals("stickyvalue", appSettingMap.get("stickykey").value());
+        Assertions.assertEquals(true, appSettingMap.get("stickykey").sticky());
         connectionStringMap = slot2.getConnectionStrings();
-        Assert.assertEquals("connectionValue", connectionStringMap.get("connectionName").value());
-        Assert.assertEquals(false, connectionStringMap.get("connectionName").sticky());
-        Assert.assertEquals("stickyValue", connectionStringMap.get("stickyName").value());
-        Assert.assertEquals(true, connectionStringMap.get("stickyName").sticky());
+        Assertions.assertEquals("connectionValue", connectionStringMap.get("connectionName").value());
+        Assertions.assertEquals(false, connectionStringMap.get("connectionName").sticky());
+        Assertions.assertEquals("stickyValue", connectionStringMap.get("stickyName").value());
+        Assertions.assertEquals(true, connectionStringMap.get("stickyName").sticky());
 
         // Update deployment slot
         slot2.update()
@@ -93,41 +92,41 @@ public class FunctionDeploymentSlotsTests extends AppServiceTest {
                 .withAppSetting("slot2key", "slot2value")
                 .withStickyAppSetting("sticky2key", "sticky2value")
                 .apply();
-        Assert.assertNotNull(slot2);
-        Assert.assertEquals(JavaVersion.OFF, slot2.javaVersion());
-        Assert.assertEquals(PythonVersion.PYTHON_34, slot2.pythonVersion());
+        Assertions.assertNotNull(slot2);
+        Assertions.assertEquals(JavaVersion.OFF, slot2.javaVersion());
+        Assertions.assertEquals(PythonVersion.PYTHON_34, slot2.pythonVersion());
         appSettingMap = slot2.getAppSettings();
-        Assert.assertEquals("slot2value", appSettingMap.get("slot2key").value());
+        Assertions.assertEquals("slot2value", appSettingMap.get("slot2key").value());
 
         // Create 3rd deployment slot with configuration from slot 2
         FunctionDeploymentSlot slot3 = functionApp1.deploymentSlots().define(SLOT_NAME_3)
                 .withConfigurationFromDeploymentSlot(slot2)
                 .create();
-        Assert.assertNotNull(slot3);
-        Assert.assertEquals(JavaVersion.OFF, slot3.javaVersion());
-        Assert.assertEquals(PythonVersion.PYTHON_34, slot3.pythonVersion());
+        Assertions.assertNotNull(slot3);
+        Assertions.assertEquals(JavaVersion.OFF, slot3.javaVersion());
+        Assertions.assertEquals(PythonVersion.PYTHON_34, slot3.pythonVersion());
         appSettingMap = slot3.getAppSettings();
-        Assert.assertEquals("slot2value", appSettingMap.get("slot2key").value());
+        Assertions.assertEquals("slot2value", appSettingMap.get("slot2key").value());
 
         // Get
         FunctionDeploymentSlot deploymentSlot = functionApp1.deploymentSlots().getByName(SLOT_NAME_3);
-        Assert.assertEquals(slot3.id(), deploymentSlot.id());
+        Assertions.assertEquals(slot3.id(), deploymentSlot.id());
 
         // List
         PagedIterable<FunctionDeploymentSlot> deploymentSlots = functionApp1.deploymentSlots().list();
-        Assert.assertEquals(3, TestUtilities.getPagedIterableSize(deploymentSlots));
+        Assertions.assertEquals(3, TestUtilities.getPagedIterableSize(deploymentSlots));
 
         // Swap
         slot3.swap(slot1.name());
         slot1 = functionApp1.deploymentSlots().getByName(SLOT_NAME_1);
-        Assert.assertEquals(JavaVersion.OFF, slot1.javaVersion());
-        Assert.assertEquals(PythonVersion.PYTHON_34, slot1.pythonVersion());
-        Assert.assertEquals(PythonVersion.PYTHON_27, slot3.pythonVersion());
+        Assertions.assertEquals(JavaVersion.OFF, slot1.javaVersion());
+        Assertions.assertEquals(PythonVersion.PYTHON_34, slot1.pythonVersion());
+        Assertions.assertEquals(PythonVersion.PYTHON_27, slot3.pythonVersion());
         Map<String, AppSetting> slot1AppSettings = slot1.getAppSettings();
         Map<String, AppSetting> slot3AppSettings = slot3.getAppSettings();
-        Assert.assertEquals("appvalue", slot1AppSettings.get("appkey").value());
-        Assert.assertEquals("slot2value", slot1AppSettings.get("slot2key").value());
-        Assert.assertEquals("sticky2value", slot3AppSettings.get("sticky2key").value());
-        Assert.assertEquals("stickyvalue", slot3AppSettings.get("stickykey").value());
+        Assertions.assertEquals("appvalue", slot1AppSettings.get("appkey").value());
+        Assertions.assertEquals("slot2value", slot1AppSettings.get("slot2key").value());
+        Assertions.assertEquals("sticky2value", slot3AppSettings.get("sticky2key").value());
+        Assertions.assertEquals("stickyvalue", slot3AppSettings.get("stickykey").value());
     }
 }

@@ -9,11 +9,9 @@ package com.azure.management.appservice;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.Ignore;
-
-import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class AppServicePlansTests extends AppServiceTest {
     private static String APP_SERVICE_PLAN_NAME = "";
@@ -30,7 +28,7 @@ public class AppServicePlansTests extends AppServiceTest {
     }
 
     @Test
-    @Ignore("Permanent server side issue: Cannot modify this web hosting plan because another operation is in progress")
+    @Disabled("Permanent server side issue: Cannot modify this web hosting plan because another operation is in progress")
     public void canCRUDAppServicePlan() throws Exception {
         // CREATE
         AppServicePlan appServicePlan = appServiceManager.appServicePlans()
@@ -42,14 +40,14 @@ public class AppServicePlansTests extends AppServiceTest {
                 .withPerSiteScaling(false)
                 .withCapacity(2)
                 .create();
-        Assert.assertNotNull(appServicePlan);
-        Assert.assertEquals(PricingTier.PREMIUM_P1, appServicePlan.pricingTier());
-        Assert.assertEquals(false, appServicePlan.perSiteScaling());
-        Assert.assertEquals(2, appServicePlan.capacity());
-        Assert.assertEquals(0, appServicePlan.numberOfWebApps());
-        Assert.assertEquals(20, appServicePlan.maxInstances());
+        Assertions.assertNotNull(appServicePlan);
+        Assertions.assertEquals(PricingTier.PREMIUM_P1, appServicePlan.pricingTier());
+        Assertions.assertEquals(false, appServicePlan.perSiteScaling());
+        Assertions.assertEquals(2, appServicePlan.capacity());
+        Assertions.assertEquals(0, appServicePlan.numberOfWebApps());
+        Assertions.assertEquals(20, appServicePlan.maxInstances());
         // GET
-        Assert.assertNotNull(appServiceManager.appServicePlans().getByResourceGroup(RG_NAME, APP_SERVICE_PLAN_NAME));
+        Assertions.assertNotNull(appServiceManager.appServicePlans().getByResourceGroup(RG_NAME, APP_SERVICE_PLAN_NAME));
         // LIST
         PagedIterable<AppServicePlan> appServicePlans = appServiceManager.appServicePlans().listByResourceGroup(RG_NAME);
         boolean found = false;
@@ -59,16 +57,16 @@ public class AppServicePlansTests extends AppServiceTest {
                 break;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
         // UPDATE
         appServicePlan = appServicePlan.update()
                 .withPricingTier(PricingTier.STANDARD_S1)
                 .withPerSiteScaling(true)
                 .withCapacity(3)
                 .apply();
-        Assert.assertNotNull(appServicePlan);
-        Assert.assertEquals(PricingTier.STANDARD_S1, appServicePlan.pricingTier());
-        Assert.assertEquals(true, appServicePlan.perSiteScaling());
-        Assert.assertEquals(3, appServicePlan.capacity());
+        Assertions.assertNotNull(appServicePlan);
+        Assertions.assertEquals(PricingTier.STANDARD_S1, appServicePlan.pricingTier());
+        Assertions.assertEquals(true, appServicePlan.perSiteScaling());
+        Assertions.assertEquals(3, appServicePlan.capacity());
     }
 }

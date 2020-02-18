@@ -24,12 +24,10 @@ public class TestDelayProvider extends DelayProvider {
     }
 
     @Override
-    public <T> Mono<T> delayedEmitAsync(T event, int milliseconds) {
+    public int getLroRetryTimeout() {
         if (isLiveMode) {
-            return super.delayedEmitAsync(event, milliseconds);
-        } else {
-            return Mono.just(event);
+            super.getLroRetryTimeout();
         }
+        return 1;
     }
-
 }

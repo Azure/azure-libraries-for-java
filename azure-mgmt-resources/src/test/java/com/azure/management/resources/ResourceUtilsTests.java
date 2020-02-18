@@ -6,8 +6,8 @@
 
 package com.azure.management.resources;
 
+import com.azure.core.management.AzureEnvironment;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.azure.management.resources.fluentcore.utils.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -46,5 +46,13 @@ public class ResourceUtilsTests {
 //        byte[] content = Utils.downloadFileAsync("http://google.com/humans.txt", retrofit).toBlocking().single();
 //        String contentString = new String(content);
 //        Assert.assertNotNull(contentString);
+    }
+
+    @Test
+    public void canGetDefaultScopeFromHost() throws Exception {
+        Assert.assertEquals("https://graph.windows.net/.default", com.azure.management.Utils.getDefaultScopeFromUrl("https://graph.windows.net/random", AzureEnvironment.AZURE));
+        Assert.assertEquals("https://vault.azure.net/.default", com.azure.management.Utils.getDefaultScopeFromUrl("https://random.vault.azure.net/random", AzureEnvironment.AZURE));
+        Assert.assertEquals("https://api.applicationinsights.io/.default", com.azure.management.Utils.getDefaultScopeFromUrl("https://api.applicationinsights.io/random", AzureEnvironment.AZURE));
+        Assert.assertEquals("https://api.loganalytics.io/.default", com.azure.management.Utils.getDefaultScopeFromUrl("https://api.loganalytics.io/random", AzureEnvironment.AZURE));
     }
 }

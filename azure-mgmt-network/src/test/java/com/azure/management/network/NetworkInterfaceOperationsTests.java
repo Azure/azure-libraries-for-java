@@ -206,7 +206,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
                 Assertions.assertTrue("subnet1".equalsIgnoreCase(secondaryIPConfig.subnetName()));
                 Assertions.assertTrue(network.id().equalsIgnoreCase(secondaryIPConfig.networkId()));
             } else {
-                Assertions.assertTrue("Unrecognized NIC ID", false);
+                Assertions.assertTrue(false, "Unrecognized NIC ID");
             }
         }
     }

@@ -155,8 +155,8 @@ public abstract class TestTemplate<
             e.printStackTrace();
             failedDelete = true;
         }
-        Assertions.assertFalse(message, failedUpdate);
-        Assertions.assertFalse(message,  failedDelete);
+        Assertions.assertFalse(failedUpdate, message);
+        Assertions.assertFalse(failedDelete, message);
     }
 
     /**
@@ -209,7 +209,7 @@ public abstract class TestTemplate<
             e.printStackTrace();
             failedDelete = true;
         }
-        Assertions.assertFalse(message, failedUpdate);
-        Assertions.assertFalse(message,  failedDelete);
+        Assertions.assertFalse(failedUpdate, message);
+        Assertions.assertFalse(failedDelete, message);
     }
 }

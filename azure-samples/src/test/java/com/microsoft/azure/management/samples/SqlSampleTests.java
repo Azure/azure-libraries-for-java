@@ -120,7 +120,7 @@ public class SqlSampleTests extends SamplesTestBase {
                 try {
                     servicePrincipalClientId = Utils.getSecondaryServicePrincipalClientID(envSecondaryServicePrincipal);
                 } catch (Exception e) {
-                    Assertions.assertFalse("Unexpected exception trying to retrieve the client ID", true);
+                    Assertions.assertFalse(true, "Unexpected exception trying to retrieve the client ID");
                 }
             }
 

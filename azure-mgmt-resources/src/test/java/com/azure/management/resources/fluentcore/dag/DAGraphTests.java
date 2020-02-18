@@ -161,7 +161,7 @@ public class DAGraphTests {
         } catch (IllegalStateException exception) {
             dlDetected = exception.getMessage().contains("X -> ") && exception.getMessage().contains(" -> X");
         }
-        Assertions.assertTrue("Expected exception is not thrown",  dlDetected);
+        Assertions.assertTrue(dlDetected, "Expected exception is not thrown");
 
         // ----------------------------------------------------
         /**
@@ -184,7 +184,7 @@ public class DAGraphTests {
         } catch (IllegalStateException exception) {
             dlDetected = exception.getMessage().contains("B -> ") && exception.getMessage().contains(" -> B");
         }
-        Assertions.assertTrue("Expected exception is not thrown",  dlDetected);
+        Assertions.assertTrue(dlDetected, "Expected exception is not thrown");
 
         // ----------------------------------------------------
         /**
@@ -206,7 +206,7 @@ public class DAGraphTests {
         } catch (IllegalStateException exception) {
             dlDetected = exception.getMessage().contains("3 -> ") && exception.getMessage().contains(" -> 3");
         }
-        Assertions.assertTrue("Expected exception is not thrown",  dlDetected);
+        Assertions.assertTrue(dlDetected, "Expected exception is not thrown");
     }
 
     @Test
@@ -475,7 +475,7 @@ public class DAGraphTests {
 
         s.removeAll(Arrays.asList(values));
         if (s.size() != 0) {
-            Assertions.assertTrue("Content of set " + set + " does not match with provided array " + Arrays.asList(values), false);
+            Assertions.assertTrue(false, "Content of set " + set + " does not match with provided array " + Arrays.asList(values));
         }
     }
 }

@@ -57,7 +57,7 @@ class PizzaImpl
 
     @Override
     public void beforeGroupCreateOrUpdate() {
-        Assertions.assertFalse("PizzaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
+        Assertions.assertFalse(this.prepareCalled, "PizzaImpl::beforeGroupCreateOrUpdate() should not be called multiple times");
         prepareCalled = true;
         int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         for (Creatable<IPizza> pizza : this.delayedPizzas) {

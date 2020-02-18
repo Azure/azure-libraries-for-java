@@ -35,11 +35,11 @@ public class ExternalChildResourceTests {
         //
         pullets.commitAsync()
                 .subscribe(
-                        pullet -> Assertions.assertTrue("nothing to commit onNext should not be invoked", false),
+                        pullet -> Assertions.assertTrue(false, "nothing to commit onNext should not be invoked"),
 
                         throwable -> {
                             monitor.countDown();
-                            Assertions.assertTrue("nothing to commit onError should not be invoked", false);
+                            Assertions.assertTrue(false, "nothing to commit onError should not be invoked");
                         },
                         () -> monitor.countDown()
                 );
@@ -66,7 +66,7 @@ public class ExternalChildResourceTests {
                 pullet -> changedPuppets.add(pullet),
                 throwable -> {
                     monitor.countDown();
-                    Assertions.assertTrue("onError should not be invoked", false);
+                    Assertions.assertTrue(false, "onError should not be invoked");
                 },
                 () -> monitor.countDown()
         );
@@ -115,7 +115,7 @@ public class ExternalChildResourceTests {
                         },
                         () -> {
                             monitor.countDown();
-                            Assertions.assertTrue("onCompleted should not be invoked", false);
+                            Assertions.assertTrue(false, "onCompleted should not be invoked");
                         }
                 );
 
@@ -143,7 +143,7 @@ public class ExternalChildResourceTests {
                         throwable ->
                         {
                             monitor.countDown();
-                            Assertions.assertTrue("onError should not be invoked", false);
+                            Assertions.assertTrue(false, "onError should not be invoked");
                         },
                         () -> monitor.countDown()
                 );

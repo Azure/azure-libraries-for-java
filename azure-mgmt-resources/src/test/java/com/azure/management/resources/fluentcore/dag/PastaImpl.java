@@ -70,7 +70,7 @@ class PastaImpl
 
     @Override
     public void beforeGroupCreateOrUpdate() {
-        Assertions.assertFalse("PastaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
+        Assertions.assertFalse(this.prepareCalled, "PastaImpl::beforeGroupCreateOrUpdate() should not be called multiple times");
         prepareCalled = true;
         int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         for (Creatable<IPasta> pancake : this.delayedPastas) {

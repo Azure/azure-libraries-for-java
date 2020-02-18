@@ -1293,6 +1293,6 @@ public class AzureTests extends TestBase {
             }
         }
 
-        Assertions.assertTrue(sb.toString(), sb.length() == 0);
+        Assertions.assertTrue(sb.length() == 0, sb.toString());
     }
 }

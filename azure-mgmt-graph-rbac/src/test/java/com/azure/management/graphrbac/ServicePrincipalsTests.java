@@ -21,8 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
 
-import static org.junit.Assertions.fail;
-
 public class ServicePrincipalsTests extends GraphRbacManagementTest {
 
     @Test
@@ -122,7 +120,7 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
             try {
                 resourceManager.resourceGroups().define(rgName + "2")
                         .withRegion(Region.US_WEST).create();
-                fail();
+                Assertions.fail();
             } catch (Exception e) {
                 // expected
             }

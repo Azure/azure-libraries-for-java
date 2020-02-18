@@ -60,8 +60,8 @@ public class MSIIdentityManagementTests extends TestBase {
 
         Assertions.assertNotNull(identity);
         Assertions.assertNotNull(identity.inner());
-        Assertions.assertTrue(String.format("%s == %s", identityName, identity.name()), identityName.equalsIgnoreCase(identity.name()));
-        Assertions.assertTrue(String.format("%s == %s", RG_NAME, identity.resourceGroupName()), RG_NAME.equalsIgnoreCase(identity.resourceGroupName()));
+        Assertions.assertTrue(identityName.equalsIgnoreCase(identity.name()), String.format("%s == %s", identityName, identity.name()));
+        Assertions.assertTrue(RG_NAME.equalsIgnoreCase(identity.resourceGroupName()), String.format("%s == %s", RG_NAME, identity.resourceGroupName()));
 
         Assertions.assertNotNull(identity.clientId());
         Assertions.assertNotNull(identity.principalId());
@@ -124,7 +124,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 break;
             }
         }
-        Assertions.assertTrue("Expected role assignment not found for the resource group that identity belongs to", found);
+        Assertions.assertTrue(found, "Expected role assignment not found for the resource group that identity belongs to");
 
         identity.update()
                 .withoutAccessTo(resourceGroup.id(), BuiltInRole.READER)
@@ -142,7 +142,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 break;
             }
         }
-        Assertions.assertTrue("Role assignment to access resource group is not removed", notFound);
+        Assertions.assertTrue(notFound, "Role assignment to access resource group is not removed");
 
         msiManager.identities()
                 .deleteById(identity.id());
@@ -209,7 +209,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 break;
             }
         }
-        Assertions.assertTrue("Expected role assignment not found for the resource group that identity belongs to", found);
+        Assertions.assertTrue(found, "Expected role assignment not found for the resource group that identity belongs to");
 
         roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(anotherResourceGroup.id());
         found = false;
@@ -219,7 +219,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 break;
             }
         }
-        Assertions.assertTrue("Expected role assignment not found for the resource group resource", found);
+        Assertions.assertTrue(found, "Expected role assignment not found for the resource group resource");
 
         identity = identity
                 .update()

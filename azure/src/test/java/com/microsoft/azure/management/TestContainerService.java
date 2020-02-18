@@ -73,7 +73,7 @@ public class TestContainerService extends TestTemplate<ContainerService, Contain
 
         Assertions.assertEquals(resource.agentPools().size(), 1);
         String agentPoolName = new ArrayList<>(resource.agentPools().keySet()).get(0);
-        Assertions.assertTrue("Agent pool count was not updated.", resource.agentPools().get(agentPoolName).count() == 5);
+        Assertions.assertTrue(resource.agentPools().get(agentPoolName).count() == 5, "Agent pool count was not updated.");
         Assertions.assertTrue(resource.tags().containsKey("tag2"));
         Assertions.assertTrue(!resource.tags().containsKey("tag1"));
         return resource;

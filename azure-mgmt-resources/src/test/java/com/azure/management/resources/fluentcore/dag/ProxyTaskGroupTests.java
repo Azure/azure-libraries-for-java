@@ -87,7 +87,7 @@ public class ProxyTaskGroupTests {
         for (TaskGroupEntry<TaskItem> entry = group.getNext(); entry != null; entry = group.getNext()) {
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group.reportCompletion(entry);
@@ -211,7 +211,7 @@ public class ProxyTaskGroupTests {
         for (TaskGroupEntry<TaskItem> entry = group1.getNext(); entry != null; entry = group1.getNext()) {
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group1.reportCompletion(entry);
@@ -358,7 +358,7 @@ public class ProxyTaskGroupTests {
             Assertions.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group2.reportCompletion(entry);
@@ -513,7 +513,7 @@ public class ProxyTaskGroupTests {
             Assertions.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group1.proxyTaskGroupWrapper.taskGroup().reportCompletion(entry);
@@ -672,7 +672,7 @@ public class ProxyTaskGroupTests {
             Assertions.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group2.reportCompletion(entry);
@@ -898,7 +898,7 @@ public class ProxyTaskGroupTests {
             Assertions.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group2.reportCompletion(entry);
@@ -924,7 +924,7 @@ public class ProxyTaskGroupTests {
             Assertions.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group1Proxy.reportCompletion(entry);
@@ -1330,7 +1330,7 @@ public class ProxyTaskGroupTests {
             Assertions.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group1Proxy.reportCompletion(entry);
@@ -1359,7 +1359,7 @@ public class ProxyTaskGroupTests {
             Assertions.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group4Proxy.reportCompletion(entry);
@@ -1386,7 +1386,7 @@ public class ProxyTaskGroupTests {
             Assertions.assertFalse(seen.contains(entry.key()));
             Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assertions.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
+                Assertions.assertTrue(false, "The entries " + common + " must be emitted before " + entry.key());
             }
             seen.add(entry.key());
             group2.reportCompletion(entry);
@@ -1465,7 +1465,7 @@ public class ProxyTaskGroupTests {
         boolean b2 = seen.equals(new ArrayList<>(Arrays.asList(new String[]{"C", "A", "B", "C"})));
 
         if (!b1 && !b2) {
-            Assertions.assertTrue("Emission order should be either [A, C, B, C] or [C, A, B, C] but got " + seen, false);
+            Assertions.assertTrue(false, "Emission order should be either [A, C, B, C] or [C, A, B, C] but got " + seen);
         }
 
         Assertions.assertEquals(beforeGroupInvokeCntB[0], 1);
@@ -1527,7 +1527,7 @@ public class ProxyTaskGroupTests {
         monitor.await();
 
         b1 = seen.equals(new ArrayList<>(Arrays.asList(new String[]{"E", "D", "E", "F"})));
-        Assertions.assertTrue("Emission order should be [E, D, E, F] but got " + seen, b1);
+        Assertions.assertTrue(b1, "Emission order should be [E, D, E, F] but got " + seen);
 
         Assertions.assertEquals(beforeGroupInvokeCntE[0], 1);
         Assertions.assertEquals(beforeGroupInvokeCntF[0], 1);

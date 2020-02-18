@@ -12,8 +12,8 @@ import com.microsoft.azure.management.graphrbac.samples.ManageServicePrincipalCr
 import com.microsoft.azure.management.graphrbac.samples.ManageUsersGroupsAndRoles;
 import com.azure.management.resources.core.TestBase;
 import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class GraphRbacTests extends TestBase {
     private Azure.Authenticated authenticated;
@@ -25,17 +25,17 @@ public class GraphRbacTests extends TestBase {
 
     @Test
     public void testManageUsersGroupsAndRoles() {
-        Assert.assertTrue(ManageUsersGroupsAndRoles.runSample(authenticated, defaultSubscription));
+        Assertions.assertTrue(ManageUsersGroupsAndRoles.runSample(authenticated, defaultSubscription));
     }
 
     @Test
     public void testManageServicePrincipal() {
-        Assert.assertTrue(ManageServicePrincipal.runSample(authenticated, defaultSubscription));
+        Assertions.assertTrue(ManageServicePrincipal.runSample(authenticated, defaultSubscription));
     }
 
     @Test
     public void testManageServicePrincipalCredentials() {
-        Assert.assertTrue(ManageServicePrincipalCredentials.runSample(authenticated, defaultSubscription, AzureEnvironment.AZURE));
+        Assertions.assertTrue(ManageServicePrincipalCredentials.runSample(authenticated, defaultSubscription, AzureEnvironment.AZURE));
     }
 
     @Override

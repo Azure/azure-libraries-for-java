@@ -18,12 +18,11 @@ import com.azure.management.ApplicationTokenCredential;
 import com.azure.management.RestClient;
 import com.azure.management.RestClientBuilder;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.rules.TestName;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.BeforeAll;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,9 +128,6 @@ public abstract class TestBase {
         return !isPlaybackMode();
     }
 
-    @Rule
-    public TestName testName = new TestName();
-
     protected InterceptorManager interceptorManager = null;
 
     private static void printThreadInfo(String what) {
@@ -140,20 +136,21 @@ public abstract class TestBase {
         System.out.println(String.format("\n***\n*** [%s:%s] - %s\n***\n", name, id, what));
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws IOException {
         printThreadInfo("beforeClass");
         initTestMode();
         initPlaybackUri();
     }
 
-    @Before
-    public void beforeTest() throws IOException {
-        printThreadInfo(String.format("%s: %s", "beforeTest", testName.getMethodName()));
+    @BeforeEach
+    public void beforeTest(TestInfo testInfo) throws IOException {
+        String testMothodName = testInfo.getTestMethod().get().getName();
+        printThreadInfo(String.format("%s: %s", "beforeTest", testMothodName));
         final String skipMessage = shouldCancelTest(isPlaybackMode());
-        Assume.assumeTrue(skipMessage, skipMessage == null);
+        Assumptions.assumeTrue(skipMessage == null, skipMessage);
 
-        interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
+        interceptorManager = InterceptorManager.create(testMothodName, testMode);
 
         ApplicationTokenCredential credentials;
         RestClient restClient;
@@ -216,7 +213,7 @@ public abstract class TestBase {
         initializeClients(restClient, defaultSubscription, credentials.getDomain());
     }
 
-    @After
+    @AfterEach
     public void afterTest() throws IOException {
         if (shouldCancelTest(isPlaybackMode()) != null) {
             return;

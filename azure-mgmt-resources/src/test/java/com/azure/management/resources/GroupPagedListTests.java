@@ -14,8 +14,8 @@
 //import com.azure.management.resources.implementation.ResourceGroupInner;
 //import com.microsoft.rest.ServiceCallback;
 //import com.microsoft.rest.ServiceFuture;
-//import org.junit.Assert;
-//import org.junit.Test;
+//import org.junit.jupiter.api.Assertions;
+//import org.junit.jupiter.api.Test;
 //import rx.Observable;
 //
 //import java.util.ArrayList;
@@ -92,7 +92,7 @@
 //        PagedList<ResourceGroup> pagedResourceList = new PagedList<ResourceGroup>(pages.get(0)) {
 //            @Override
 //            public Page<ResourceGroup> nextPage(String nextLink) {
-//                Assert.assertSame(itr.next(), nextLink);
+//                Assertions.assertSame(itr.next(), nextLink);
 //                int index = Integer.parseInt(nextLink);
 //                return pages.get(index);
 //            }

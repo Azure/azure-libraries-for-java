@@ -7,8 +7,8 @@
 package com.azure.management.graphrbac;
 
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -44,14 +44,14 @@ public class GroupsTests extends GraphRbacManagementTest {
                     .withMember(group1.id())
                     .create();
 
-            Assert.assertNotNull(group2);
-            Assert.assertNotNull(group2.id());
+            Assertions.assertNotNull(group2);
+            Assertions.assertNotNull(group2.id());
             Set<ActiveDirectoryObject> members = group2.listMembers();
-            Assert.assertEquals(3, members.size());
+            Assertions.assertEquals(3, members.size());
             Iterator<ActiveDirectoryObject> iterator = members.iterator();
-            Assert.assertNotNull(iterator.next().id());
-            Assert.assertNotNull(iterator.next().id());
-            Assert.assertNotNull(iterator.next().id());
+            Assertions.assertNotNull(iterator.next().id());
+            Assertions.assertNotNull(iterator.next().id());
+            Assertions.assertNotNull(iterator.next().id());
         } finally {
             if (servicePrincipal != null) {
                 graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());

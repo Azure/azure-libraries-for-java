@@ -8,8 +8,8 @@
 //import com.azure.management.resources.fluentcore.arm.Region;
 //import com.azure.management.resources.fluentcore.utils.SdkContext;
 //import com.microsoft.rest.RestClient;
-//import org.junit.Ignore;
-//import org.junit.Test;
+//import org.junit.jupiter.api.Disabled;
+//import org.junit.jupiter.api.Test;
 //import rx.Observable;
 //import rx.Subscriber;
 //import rx.functions.Func1;
@@ -40,7 +40,7 @@
 //        resourceGroups.beginDeleteByName(rgName);
 //    }
 //
-//    @Ignore("Not for every testing")
+//    @Disabled("Not for every testing")
 //    public void canGenerate429() throws Exception {
 //        Observable.range(1, 1250).flatMap(new Func1<Integer, Observable<Void>>() {
 //            @Override

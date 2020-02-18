@@ -10,8 +10,8 @@ import com.azure.management.ApplicationTokenCredential;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
@@ -37,7 +37,7 @@ public class SecretTests extends KeyVaultManagementTest {
                     .attach()
                 .create();
 
-        Assert.assertNotNull(vault);
+        Assertions.assertNotNull(vault);
 
         SdkContext.sleep(10000);
 
@@ -45,15 +45,15 @@ public class SecretTests extends KeyVaultManagementTest {
                 .withValue("Some secret value")
                 .create();
 
-        Assert.assertNotNull(secret);
-        Assert.assertNotNull(secret.id());
-        Assert.assertEquals("Some secret value", secret.value());
+        Assertions.assertNotNull(secret);
+        Assertions.assertNotNull(secret.id());
+        Assertions.assertEquals("Some secret value", secret.value());
 
         secret = secret.update()
                 .withValue("Some updated value")
                 .apply();
 
-        Assert.assertEquals("Some updated value", secret.value());
+        Assertions.assertEquals("Some updated value", secret.value());
 
         Iterable<Secret> versions = secret.listVersions();
 
@@ -66,7 +66,7 @@ public class SecretTests extends KeyVaultManagementTest {
                 count --;
             }
         }
-        Assert.assertEquals(0, count);
+        Assertions.assertEquals(0, count);
 
     }
 }

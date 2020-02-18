@@ -15,9 +15,9 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class VirtualNetworkGatewayTests extends TestBase {
     private Azure azure;
@@ -33,7 +33,7 @@ public class VirtualNetworkGatewayTests extends TestBase {
     }
 
     @Test
-    @Ignore("Service has bug that cause 'InternalServerError' - record this once service is fixed")
+    @Disabled("Service has bug that cause 'InternalServerError' - record this once service is fixed")
     //
 
     public void testNetworkWatcherTroubleshooting() throws Exception {
@@ -79,7 +79,7 @@ public class VirtualNetworkGatewayTests extends TestBase {
                 .withStorageAccount(storageAccount.id())
                 .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
                 .execute();
-        Assert.assertEquals("UnHealthy", troubleshooting.code());
+        Assertions.assertEquals("UnHealthy", troubleshooting.code());
 
         // Create corresponding connection on second gateway to make it work
         vngw2.connections()
@@ -94,7 +94,7 @@ public class VirtualNetworkGatewayTests extends TestBase {
                 .withStorageAccount(storageAccount.id())
                 .withStoragePath(storageAccount.endPoints().primary().blob() + "results")
                 .execute();
-        Assert.assertEquals("Healthy", troubleshooting.code());
+        Assertions.assertEquals("Healthy", troubleshooting.code());
 
         azure.resourceGroups().deleteByName(resourceGroup);
     }

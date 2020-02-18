@@ -8,9 +8,9 @@ package com.azure.management.network;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 public class NetworkWatcherTests extends NetworkManagementTest {
 
     @Test
-    @Ignore("https://github.com/Azure/azure-rest-api-specs/issues/7579")
+    @Disabled("https://github.com/Azure/azure-rest-api-specs/issues/7579")
     public void canListProvidersAndGetReachabilityReport() throws Exception {
         String nwName = SdkContext.randomResourceName("nw", 8);
         Region region = Region.US_WEST;
@@ -36,17 +36,17 @@ public class NetworkWatcherTests extends NetworkManagementTest {
                 .create();
         AvailableProviders providers = nw.availableProviders()
                 .execute();
-        Assert.assertTrue(providers.providersByCountry().size() > 1);
-        Assert.assertNotNull(providers.providersByCountry().get("United States"));
+        Assertions.assertTrue(providers.providersByCountry().size() > 1);
+        Assertions.assertNotNull(providers.providersByCountry().get("United States"));
 
         providers = nw.availableProviders()
                 .withAzureLocation("West US")
                 .withCountry("United States")
                 .withState("washington")
                 .execute();
-        Assert.assertEquals(1, providers.providersByCountry().size());
-        Assert.assertEquals("washington", providers.providersByCountry().get("United States").states().get(0).stateName());
-        Assert.assertTrue(providers.providersByCountry().get("United States").states().get(0).providers().size() > 0);
+        Assertions.assertEquals(1, providers.providersByCountry().size());
+        Assertions.assertEquals("washington", providers.providersByCountry().get("United States").states().get(0).stateName());
+        Assertions.assertTrue(providers.providersByCountry().get("United States").states().get(0).providers().size() > 0);
 
         String localProvider = providers.providersByCountry().get("United States").states().get(0).providers().get(0);
         AzureReachabilityReport report = nw.azureReachabilityReport()
@@ -56,7 +56,7 @@ public class NetworkWatcherTests extends NetworkManagementTest {
                 .withProviders(localProvider)
                 .withAzureLocations("West US")
                 .execute();
-        Assert.assertEquals("State", report.aggregationLevel());
-        Assert.assertTrue(report.reachabilityReport().size() > 0);
+        Assertions.assertEquals("State", report.aggregationLevel());
+        Assertions.assertTrue(report.reachabilityReport().size() > 0);
     }
 }

@@ -12,13 +12,13 @@
 //import com.azure.management.resources.fluentcore.arm.Region;
 //import com.azure.management.resources.implementation.ResourceManager;
 //import com.microsoft.rest.RestClient;
-//import org.junit.Assert;
-//import org.junit.Ignore;
-//import org.junit.Test;
+//import org.junit.jupiter.api.Assertions;
+//import org.junit.jupiter.api.Disabled;
+//import org.junit.jupiter.api.Test;
 //
 //import java.util.List;
 //
-//import static org.junit.Assert.fail;
+//import static org.junit.Assertions.fail;
 //
 //public class PolicyTests extends TestBase {
 //    protected static ResourceManager resourceManager;
@@ -37,7 +37,7 @@
 //    }
 //
 //    @Test
-//    @Ignore("Not authorized for scope - 'Microsoft.Authorization/policydefinitions/write'")
+//    @Disabled("Not authorized for scope - 'Microsoft.Authorization/policydefinitions/write'")
 //    public void canCRUDPolicyDefinition() throws Exception {
 //        // Create
 //        PolicyDefinition definition = resourceManager.policyDefinitions().define("policy1")
@@ -46,10 +46,10 @@
 //                .withDisplayName("My Policy")
 //                .withDescription("This is my policy")
 //                .create();
-//        Assert.assertEquals("policy1", definition.name());
-//        Assert.assertEquals(PolicyType.CUSTOM, definition.policyType());
-//        Assert.assertEquals("My Policy", definition.displayName());
-//        Assert.assertEquals("This is my policy", definition.description());
+//        Assertions.assertEquals("policy1", definition.name());
+//        Assertions.assertEquals(PolicyType.CUSTOM, definition.policyType());
+//        Assertions.assertEquals("My Policy", definition.displayName());
+//        Assertions.assertEquals("This is my policy", definition.description());
 //        // List
 //        List<PolicyDefinition> definitions = resourceManager.policyDefinitions().list();
 //        boolean found = false;
@@ -58,17 +58,17 @@
 //                found = true;
 //            }
 //        }
-//        Assert.assertTrue(found);
+//        Assertions.assertTrue(found);
 //        // Get
 //        definition = resourceManager.policyDefinitions().getByName("policy1");
-//        Assert.assertNotNull(definition);
-//        Assert.assertEquals("My Policy", definition.displayName());
+//        Assertions.assertNotNull(definition);
+//        Assertions.assertEquals("My Policy", definition.displayName());
 //        // Delete
 //        resourceManager.policyDefinitions().deleteById(definition.id());
 //    }
 //
 //    @Test
-//    @Ignore("Not authorized for scope - 'Microsoft.Authorization/policydefinitions/write'")
+//    @Disabled("Not authorized for scope - 'Microsoft.Authorization/policydefinitions/write'")
 //    public void canCRUDPolicyAssignment() throws Exception {
 //        // Create definition
 //        PolicyDefinition definition = resourceManager.policyDefinitions().define("policy1")
@@ -101,7 +101,7 @@
 //            fail();
 //        } catch (CloudException ce) {
 //            // expected
-//            Assert.assertTrue(ce.getMessage().contains("disallowed"));
+//            Assertions.assertTrue(ce.getMessage().contains("disallowed"));
 //        }
 //        // Delete
 //        resourceManager.resourceGroups().define(group.name());

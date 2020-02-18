@@ -8,7 +8,7 @@ package com.microsoft.azure.management;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatRule;
@@ -47,20 +47,20 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
                 .create();
 
         // Verify NIC settings
-        Assert.assertTrue(nic.isAcceleratedNetworkingEnabled());
-        Assert.assertTrue(nic.isIPForwardingEnabled());
+        Assertions.assertTrue(nic.isAcceleratedNetworkingEnabled());
+        Assertions.assertTrue(nic.isIPForwardingEnabled());
 
         // Verify IP configs
         NicIPConfiguration ipConfig = nic.primaryIPConfiguration();
-        Assert.assertNotNull(ipConfig);
+        Assertions.assertNotNull(ipConfig);
         network = ipConfig.getNetwork();
-        Assert.assertNotNull(network);
+        Assertions.assertNotNull(network);
         Subnet subnet = network.subnets().get(ipConfig.subnetName());
-        Assert.assertNotNull(subnet);
-        Assert.assertEquals(1, subnet.networkInterfaceIPConfigurationCount());
+        Assertions.assertNotNull(subnet);
+        Assertions.assertEquals(1, subnet.networkInterfaceIPConfigurationCount());
         Collection<NicIPConfiguration> ipConfigs = subnet.listNetworkInterfaceIPConfigurations();
-        Assert.assertNotNull(ipConfigs);
-        Assert.assertEquals(1, ipConfigs.size());
+        Assertions.assertNotNull(ipConfigs);
+        Assertions.assertEquals(1, ipConfigs.size());
         NicIPConfiguration ipConfig2 = null;
         for (NicIPConfiguration i : ipConfigs) {
             if (i.name().equalsIgnoreCase(ipConfig.name())) {
@@ -68,8 +68,8 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
                 break;
             }
         }
-        Assert.assertNotNull(ipConfig2);
-        Assert.assertTrue(ipConfig.name().equalsIgnoreCase(ipConfig2.name()));
+        Assertions.assertNotNull(ipConfig2);
+        Assertions.assertTrue(ipConfig.name().equalsIgnoreCase(ipConfig2.name()));
 
         return nic;
     }
@@ -89,23 +89,23 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
                 .apply();
 
         // Verifications
-        Assert.assertFalse(resource.isAcceleratedNetworkingEnabled());
-        Assert.assertFalse(resource.isIPForwardingEnabled());
+        Assertions.assertFalse(resource.isAcceleratedNetworkingEnabled());
+        Assertions.assertFalse(resource.isIPForwardingEnabled());
         NicIPConfiguration primaryIpConfig = resource.primaryIPConfiguration();
-        Assert.assertNotNull(primaryIpConfig);
-        Assert.assertTrue(primaryIpConfig.isPrimary());
-        Assert.assertTrue("subnet2".equalsIgnoreCase(primaryIpConfig.subnetName()));
-        Assert.assertNull(primaryIpConfig.publicIPAddressId());
-        Assert.assertTrue(resource.tags().containsKey("tag1"));
+        Assertions.assertNotNull(primaryIpConfig);
+        Assertions.assertTrue(primaryIpConfig.isPrimary());
+        Assertions.assertTrue("subnet2".equalsIgnoreCase(primaryIpConfig.subnetName()));
+        Assertions.assertNull(primaryIpConfig.publicIPAddressId());
+        Assertions.assertTrue(resource.tags().containsKey("tag1"));
 
-        Assert.assertEquals(1,  resource.ipConfigurations().size());
+        Assertions.assertEquals(1,  resource.ipConfigurations().size());
 
         resource.updateTags()
                 .withoutTag("tag1")
                 .withTag("tag3", "value3")
                 .applyTags();
-        Assert.assertFalse(resource.tags().containsKey("tag1"));
-        Assert.assertEquals("value3", resource.tags().get("tag3"));
+        Assertions.assertFalse(resource.tags().containsKey("tag1"));
+        Assertions.assertEquals("value3", resource.tags().get("tag3"));
         return resource;
     }
 

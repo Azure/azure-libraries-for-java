@@ -8,8 +8,8 @@ package com.azure.management.resources.fluentcore.dag;
 
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
@@ -36,15 +36,15 @@ public class InvokeRootTests {
                     return item;
                 }).blockLast();
 
-        Assert.assertEquals(2, seen.size());
-        Assert.assertTrue(seen.containsKey("A"));
-        Assert.assertTrue(seen.containsKey("B"));
-        Assert.assertEquals(1, (long) seen.get("A"));
-        Assert.assertEquals(1, (long) seen.get("B"));
+        Assertions.assertEquals(2, seen.size());
+        Assertions.assertTrue(seen.containsKey("A"));
+        Assertions.assertTrue(seen.containsKey("B"));
+        Assertions.assertEquals(1, (long) seen.get("A"));
+        Assertions.assertEquals(1, (long) seen.get("B"));
 
 
-        Assert.assertEquals(1, taskItem1.getCallCount());
-        Assert.assertEquals(1, taskItem2.getCallCount());
+        Assertions.assertEquals(1, taskItem1.getCallCount());
+        Assertions.assertEquals(1, taskItem2.getCallCount());
 
         seen.clear();
 
@@ -60,15 +60,15 @@ public class InvokeRootTests {
                     return item;
                 }).blockLast();
 
-        Assert.assertEquals(2, seen.size());
-        Assert.assertTrue(seen.containsKey("A"));
-        Assert.assertTrue(seen.containsKey("B"));
-        Assert.assertEquals(1, (long) seen.get("A"));
-        Assert.assertEquals(1, (long) seen.get("B"));
+        Assertions.assertEquals(2, seen.size());
+        Assertions.assertTrue(seen.containsKey("A"));
+        Assertions.assertTrue(seen.containsKey("B"));
+        Assertions.assertEquals(1, (long) seen.get("A"));
+        Assertions.assertEquals(1, (long) seen.get("B"));
 
 
-        Assert.assertEquals(2, taskItem1.getCallCount());
-        Assert.assertEquals(1, taskItem2.getCallCount());
+        Assertions.assertEquals(2, taskItem1.getCallCount());
+        Assertions.assertEquals(1, taskItem2.getCallCount());
     }
 
     @Test
@@ -94,18 +94,18 @@ public class InvokeRootTests {
                     return item;
                 }).blockLast();
 
-        Assert.assertEquals(3, seen.size()); // X, Y, Z
+        Assertions.assertEquals(3, seen.size()); // X, Y, Z
 
-        Assert.assertTrue(seen.containsKey("X"));
-        Assert.assertTrue(seen.containsKey("Y"));
-        Assert.assertTrue(seen.containsKey("Z"));
-        Assert.assertEquals(2, (long) seen.get("X"));   // Due to proxy two Xs
-        Assert.assertEquals(1, (long) seen.get("Y"));
-        Assert.assertEquals(1, (long) seen.get("Z"));
+        Assertions.assertTrue(seen.containsKey("X"));
+        Assertions.assertTrue(seen.containsKey("Y"));
+        Assertions.assertTrue(seen.containsKey("Z"));
+        Assertions.assertEquals(2, (long) seen.get("X"));   // Due to proxy two Xs
+        Assertions.assertEquals(1, (long) seen.get("Y"));
+        Assertions.assertEquals(1, (long) seen.get("Z"));
 
-        Assert.assertEquals(1, taskItem1.getCallCount());
-        Assert.assertEquals(1, taskItem2.getCallCount());
-        Assert.assertEquals(1, taskItem3.getCallCount());
+        Assertions.assertEquals(1, taskItem1.getCallCount());
+        Assertions.assertEquals(1, taskItem2.getCallCount());
+        Assertions.assertEquals(1, taskItem3.getCallCount());
 
         seen.clear();
 
@@ -121,20 +121,20 @@ public class InvokeRootTests {
                     return item;
                 }).blockLast();
 
-        Assert.assertEquals(3, seen.size());
+        Assertions.assertEquals(3, seen.size());
 
-        Assert.assertTrue(seen.containsKey("X"));
-        Assert.assertTrue(seen.containsKey("Y"));
-        Assert.assertTrue(seen.containsKey("Z"));
-        Assert.assertEquals(2, (long) seen.get("X")); // Due to proxy two Xs
-        Assert.assertEquals(1, (long) seen.get("Y"));
-        Assert.assertEquals(1, (long) seen.get("Z"));
+        Assertions.assertTrue(seen.containsKey("X"));
+        Assertions.assertTrue(seen.containsKey("Y"));
+        Assertions.assertTrue(seen.containsKey("Z"));
+        Assertions.assertEquals(2, (long) seen.get("X")); // Due to proxy two Xs
+        Assertions.assertEquals(1, (long) seen.get("Y"));
+        Assertions.assertEquals(1, (long) seen.get("Z"));
 
         // Though proxy is the root still actual must be called twice
         //
-        Assert.assertEquals(2, taskItem1.getCallCount());
-        Assert.assertEquals(1, taskItem2.getCallCount());
-        Assert.assertEquals(1, taskItem3.getCallCount());
+        Assertions.assertEquals(2, taskItem1.getCallCount());
+        Assertions.assertEquals(1, taskItem2.getCallCount());
+        Assertions.assertEquals(1, taskItem3.getCallCount());
     }
 
     @Test
@@ -164,25 +164,25 @@ public class InvokeRootTests {
                     return item;
                 }).blockLast();
 
-        Assert.assertEquals(5, seen.size());
+        Assertions.assertEquals(5, seen.size());
 
-        Assert.assertTrue(seen.containsKey("1"));
-        Assert.assertTrue(seen.containsKey("2"));
-        Assert.assertTrue(seen.containsKey("3"));
-        Assert.assertTrue(seen.containsKey("4"));
-        Assert.assertTrue(seen.containsKey("5"));
+        Assertions.assertTrue(seen.containsKey("1"));
+        Assertions.assertTrue(seen.containsKey("2"));
+        Assertions.assertTrue(seen.containsKey("3"));
+        Assertions.assertTrue(seen.containsKey("4"));
+        Assertions.assertTrue(seen.containsKey("5"));
 
-        Assert.assertEquals(2, (long) seen.get("1")); // Due to proxy two 1s
-        Assert.assertEquals(1, (long) seen.get("2"));
-        Assert.assertEquals(1, (long) seen.get("3"));
-        Assert.assertEquals(2, (long) seen.get("4")); // Due to proxy two 1s
-        Assert.assertEquals(1, (long) seen.get("5"));
+        Assertions.assertEquals(2, (long) seen.get("1")); // Due to proxy two 1s
+        Assertions.assertEquals(1, (long) seen.get("2"));
+        Assertions.assertEquals(1, (long) seen.get("3"));
+        Assertions.assertEquals(2, (long) seen.get("4")); // Due to proxy two 1s
+        Assertions.assertEquals(1, (long) seen.get("5"));
 
-        Assert.assertEquals(1, taskItem1.getCallCount());
-        Assert.assertEquals(1, taskItem2.getCallCount());
-        Assert.assertEquals(1, taskItem3.getCallCount());
-        Assert.assertEquals(1, taskItem4.getCallCount());
-        Assert.assertEquals(1, taskItem5.getCallCount());
+        Assertions.assertEquals(1, taskItem1.getCallCount());
+        Assertions.assertEquals(1, taskItem2.getCallCount());
+        Assertions.assertEquals(1, taskItem3.getCallCount());
+        Assertions.assertEquals(1, taskItem4.getCallCount());
+        Assertions.assertEquals(1, taskItem5.getCallCount());
 
         seen.clear();
 
@@ -198,25 +198,25 @@ public class InvokeRootTests {
                     return item;
                 }).blockLast();
 
-        Assert.assertEquals(5, seen.size());
+        Assertions.assertEquals(5, seen.size());
 
-        Assert.assertTrue(seen.containsKey("1"));
-        Assert.assertTrue(seen.containsKey("2"));
-        Assert.assertTrue(seen.containsKey("3"));
-        Assert.assertTrue(seen.containsKey("4"));
-        Assert.assertTrue(seen.containsKey("5"));
+        Assertions.assertTrue(seen.containsKey("1"));
+        Assertions.assertTrue(seen.containsKey("2"));
+        Assertions.assertTrue(seen.containsKey("3"));
+        Assertions.assertTrue(seen.containsKey("4"));
+        Assertions.assertTrue(seen.containsKey("5"));
 
-        Assert.assertEquals(2, (long) seen.get("1")); // Due to proxy two 1s
-        Assert.assertEquals(1, (long) seen.get("2"));
-        Assert.assertEquals(1, (long) seen.get("3"));
-        Assert.assertEquals(2, (long) seen.get("4")); // Due to proxy two 1s
-        Assert.assertEquals(1, (long) seen.get("5"));
+        Assertions.assertEquals(2, (long) seen.get("1")); // Due to proxy two 1s
+        Assertions.assertEquals(1, (long) seen.get("2"));
+        Assertions.assertEquals(1, (long) seen.get("3"));
+        Assertions.assertEquals(2, (long) seen.get("4")); // Due to proxy two 1s
+        Assertions.assertEquals(1, (long) seen.get("5"));
 
-        Assert.assertEquals(1, taskItem1.getCallCount());
-        Assert.assertEquals(1, taskItem2.getCallCount());
-        Assert.assertEquals(1, taskItem3.getCallCount());
-        Assert.assertEquals(2, taskItem4.getCallCount());   // Only Root must be called twice
-        Assert.assertEquals(1, taskItem5.getCallCount());
+        Assertions.assertEquals(1, taskItem1.getCallCount());
+        Assertions.assertEquals(1, taskItem2.getCallCount());
+        Assertions.assertEquals(1, taskItem3.getCallCount());
+        Assertions.assertEquals(2, taskItem4.getCallCount());   // Only Root must be called twice
+        Assertions.assertEquals(1, taskItem5.getCallCount());
     }
 
     class TestTaskItem extends IndexableTaskItem implements SupportCountingAndHasName {

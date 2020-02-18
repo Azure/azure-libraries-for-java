@@ -24,8 +24,8 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.CreatedResources;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,9 +130,9 @@ public class ApplicationGatewayTests extends TestBase {
 
             // Connect the 1st VM via NIC IP config
             NetworkInterface nic = vms[0].getPrimaryNetworkInterface();
-            Assert.assertNotNull(nic);
+            Assertions.assertNotNull(nic);
             ApplicationGatewayBackend appGatewayBackend = appGateway.backends().get("nicBackend");
-            Assert.assertNotNull(appGatewayBackend);
+            Assertions.assertNotNull(appGatewayBackend);
             nic.update().updateIPConfiguration(nic.primaryIPConfiguration().name())
                     .withExistingApplicationGatewayBackend(appGateway, appGatewayBackend.name())
                     .parent()
@@ -147,11 +147,11 @@ public class ApplicationGatewayTests extends TestBase {
             for (ApplicationGatewayBackendHealth backendHealth : backendHealths.values()) {
                 info.append("\n\tApplication gateway backend name: ").append(backendHealth.name())
                         .append("\n\t\tHTTP configuration healths: ").append(backendHealth.httpConfigurationHealths().size());
-                Assert.assertNotNull(backendHealth.backend());
+                Assertions.assertNotNull(backendHealth.backend());
                 for (ApplicationGatewayBackendHttpConfigurationHealth backendConfigHealth : backendHealth.httpConfigurationHealths().values()) {
                     info.append("\n\t\t\tHTTP configuration name: ").append(backendConfigHealth.name())
                             .append("\n\t\t\tServers: ").append(backendConfigHealth.inner().servers().size());
-                    Assert.assertNotNull(backendConfigHealth.backendHttpConfiguration());
+                    Assertions.assertNotNull(backendConfigHealth.backendHttpConfiguration());
                     for (ApplicationGatewayBackendServerHealth serverHealth : backendConfigHealth.serverHealths().values()) {
                         NicIPConfiguration ipConfig = serverHealth.getNetworkInterfaceIPConfiguration();
                         if (ipConfig != null) {
@@ -167,38 +167,38 @@ public class ApplicationGatewayTests extends TestBase {
             System.out.println(info.toString());
 
             // Verify app gateway
-            Assert.assertEquals(2,  appGateway.backends().size());
+            Assertions.assertEquals(2,  appGateway.backends().size());
             ApplicationGatewayRequestRoutingRule rule1 = appGateway.requestRoutingRules().get("rule1");
-            Assert.assertNotNull(rule1);
+            Assertions.assertNotNull(rule1);
             ApplicationGatewayBackend backend1 = rule1.backend();
-            Assert.assertNotNull(backend1);
+            Assertions.assertNotNull(backend1);
             ApplicationGatewayRequestRoutingRule rule2 = appGateway.requestRoutingRules().get("rule2");
-            Assert.assertNotNull(rule2);
+            Assertions.assertNotNull(rule2);
             ApplicationGatewayBackend backend2 = rule2.backend();
-            Assert.assertNotNull(backend2);
+            Assertions.assertNotNull(backend2);
 
-            Assert.assertEquals(2, backendHealths.size());
+            Assertions.assertEquals(2, backendHealths.size());
 
             // Verify first backend (IP address-based)
             ApplicationGatewayBackendHealth backendHealth1 = backendHealths.get(backend1.name());
-            Assert.assertNotNull(backendHealth1);
-            Assert.assertNotNull(backendHealth1.backend());
+            Assertions.assertNotNull(backendHealth1);
+            Assertions.assertNotNull(backendHealth1.backend());
             for (int i = 0; i < ipAddresses.length; i++) {
-                Assert.assertTrue(backend1.containsIPAddress(ipAddresses[i]));
+                Assertions.assertTrue(backend1.containsIPAddress(ipAddresses[i]));
             }
 
             // Verify second backend (NIC based)
             ApplicationGatewayBackendHealth backendHealth2 = backendHealths.get(backend2.name());
-            Assert.assertNotNull(backendHealth2);
-            Assert.assertNotNull(backendHealth2.backend());
-            Assert.assertEquals(backend2.name(), backendHealth2.name());
-            Assert.assertEquals(1,  backendHealth2.httpConfigurationHealths().size());
+            Assertions.assertNotNull(backendHealth2);
+            Assertions.assertNotNull(backendHealth2.backend());
+            Assertions.assertEquals(backend2.name(), backendHealth2.name());
+            Assertions.assertEquals(1,  backendHealth2.httpConfigurationHealths().size());
             ApplicationGatewayBackendHttpConfigurationHealth httpConfigHealth2 = backendHealth2.httpConfigurationHealths().values().iterator().next();
-            Assert.assertNotNull(httpConfigHealth2.backendHttpConfiguration());
-            Assert.assertEquals(1, httpConfigHealth2.serverHealths().size());
+            Assertions.assertNotNull(httpConfigHealth2.backendHttpConfiguration());
+            Assertions.assertEquals(1, httpConfigHealth2.serverHealths().size());
             ApplicationGatewayBackendServerHealth serverHealth = httpConfigHealth2.serverHealths().values().iterator().next();
             NicIPConfiguration ipConfig2 = serverHealth.getNetworkInterfaceIPConfiguration();
-            Assert.assertEquals(nic.primaryIPConfiguration().name(), ipConfig2.name());
+            Assertions.assertEquals(nic.primaryIPConfiguration().name(), ipConfig2.name());
         } catch (Exception e) {
             throw e;
         } finally {
@@ -239,9 +239,9 @@ public class ApplicationGatewayTests extends TestBase {
 
         // Test stop/start
         appGateway.stop();
-        Assert.assertEquals(ApplicationGatewayOperationalState.STOPPED, appGateway.operationalState());
+        Assertions.assertEquals(ApplicationGatewayOperationalState.STOPPED, appGateway.operationalState());
         appGateway.start();
-        Assert.assertEquals(ApplicationGatewayOperationalState.RUNNING, appGateway.operationalState());
+        Assertions.assertEquals(ApplicationGatewayOperationalState.RUNNING, appGateway.operationalState());
 
         azure.resourceGroups().beginDeleteByName(rgName);
     }
@@ -281,7 +281,7 @@ public class ApplicationGatewayTests extends TestBase {
         List<String> agIds = new ArrayList<>();
         for (Creatable<ApplicationGateway> creatable : agCreatables) {
             ApplicationGateway ag = created.get(creatable.key());
-            Assert.assertNotNull(ag);
+            Assertions.assertNotNull(ag);
             ags.add(ag);
             agIds.add(ag.id());
         }
@@ -289,18 +289,18 @@ public class ApplicationGatewayTests extends TestBase {
         azure.applicationGateways().stop(agIds);
 
         for (ApplicationGateway ag : ags) {
-            Assert.assertEquals(ApplicationGatewayOperationalState.STOPPED, ag.refresh().operationalState());
+            Assertions.assertEquals(ApplicationGatewayOperationalState.STOPPED, ag.refresh().operationalState());
         }
 
         azure.applicationGateways().start(agIds);
 
         for (ApplicationGateway ag : ags) {
-            Assert.assertEquals(ApplicationGatewayOperationalState.RUNNING, ag.refresh().operationalState());
+            Assertions.assertEquals(ApplicationGatewayOperationalState.RUNNING, ag.refresh().operationalState());
         }
 
         azure.applicationGateways().deleteByIds(agIds);
         for (String id : agIds) {
-            Assert.assertNull(azure.applicationGateways().getById(id));
+            Assertions.assertNull(azure.applicationGateways().getById(id));
         }
 
         azure.resourceGroups().beginDeleteByName(rgName);

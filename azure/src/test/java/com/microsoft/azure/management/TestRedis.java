@@ -12,7 +12,7 @@ import com.microsoft.azure.management.redis.RedisCaches;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -40,7 +40,7 @@ public class TestRedis extends TestTemplate<RedisCache, RedisCaches>  {
 
         redisCaches[0] = future.get();
 
-        Assert.assertEquals(redisCaches[0].name(), redisName);
+        Assertions.assertEquals(redisCaches[0].name(), redisName);
 
         return redisCaches[0];
     }
@@ -51,7 +51,7 @@ public class TestRedis extends TestTemplate<RedisCache, RedisCaches>  {
                 .withPremiumSku(2)
                 .apply();
 
-        Assert.assertEquals(true, resource.isPremium());
+        Assertions.assertEquals(true, resource.isPremium());
 
         return resource;
     }

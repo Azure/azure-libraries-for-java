@@ -15,7 +15,7 @@ import com.azure.management.resources.fluentcore.model.CreatedResources;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccounts;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.azure.management.resources.fluentcore.arm.Region;
 
@@ -65,15 +65,15 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
                 .withoutTag("tag1")
                 .apply();
         resource.refresh();
-        Assert.assertTrue(resource.tags().containsKey("tag2"));
-        Assert.assertFalse(resource.tags().containsKey("tag1"));
+        Assertions.assertTrue(resource.tags().containsKey("tag2"));
+        Assertions.assertFalse(resource.tags().containsKey("tag1"));
 
         resource.updateTags()
                 .withTag("tag3", "value3")
                 .withoutTag("tag2")
                 .applyTags();
-        Assert.assertTrue(resource.tags().containsKey("tag3"));
-        Assert.assertFalse(resource.tags().containsKey("tag2"));
+        Assertions.assertTrue(resource.tags().containsKey("tag3"));
+        Assertions.assertFalse(resource.tags().containsKey("tag2"));
         return resource;
     }
 

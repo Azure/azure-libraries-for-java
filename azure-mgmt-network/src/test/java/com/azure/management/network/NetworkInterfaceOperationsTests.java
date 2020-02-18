@@ -12,8 +12,8 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.CreatedResources;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -92,41 +92,41 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
 
         // Verify NIC0
         nic = nics[0];
-        Assert.assertNotNull(nic);
+        Assertions.assertNotNull(nic);
         primaryIPConfig = nic.primaryIPConfiguration();
-        Assert.assertNotNull(primaryIPConfig);
-        Assert.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
-        Assert.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
+        Assertions.assertNotNull(primaryIPConfig);
+        Assertions.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
+        Assertions.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
 
         // Verify NIC1
         nic = nics[1];
-        Assert.assertNotNull(nic);
-        Assert.assertEquals(2, nic.ipConfigurations().size());
+        Assertions.assertNotNull(nic);
+        Assertions.assertEquals(2, nic.ipConfigurations().size());
 
         primaryIPConfig = nic.primaryIPConfiguration();
-        Assert.assertNotNull(primaryIPConfig);
-        Assert.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
-        Assert.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
+        Assertions.assertNotNull(primaryIPConfig);
+        Assertions.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
+        Assertions.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
 
         secondaryIPConfig = nic.ipConfigurations().get("nicip2");
-        Assert.assertNotNull(secondaryIPConfig);
-        Assert.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
-        Assert.assertTrue(network.id().equalsIgnoreCase(secondaryIPConfig.networkId()));
+        Assertions.assertNotNull(secondaryIPConfig);
+        Assertions.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
+        Assertions.assertTrue(network.id().equalsIgnoreCase(secondaryIPConfig.networkId()));
 
         // Verify NIC2
         nic = nics[2];
-        Assert.assertNotNull(nic);
-        Assert.assertEquals(2, nic.ipConfigurations().size());
+        Assertions.assertNotNull(nic);
+        Assertions.assertEquals(2, nic.ipConfigurations().size());
 
         primaryIPConfig = nic.primaryIPConfiguration();
-        Assert.assertNotNull(primaryIPConfig);
-        Assert.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
-        Assert.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
+        Assertions.assertNotNull(primaryIPConfig);
+        Assertions.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
+        Assertions.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
 
         secondaryIPConfig = nic.ipConfigurations().get("nicip2");
-        Assert.assertNotNull(secondaryIPConfig);
-        Assert.assertTrue("subnet1".equalsIgnoreCase(secondaryIPConfig.subnetName()));
-        Assert.assertTrue(network.id().equalsIgnoreCase(secondaryIPConfig.networkId()));
+        Assertions.assertNotNull(secondaryIPConfig);
+        Assertions.assertTrue("subnet1".equalsIgnoreCase(secondaryIPConfig.subnetName()));
+        Assertions.assertTrue(network.id().equalsIgnoreCase(secondaryIPConfig.networkId()));
 
         nic = null;
 
@@ -166,47 +166,47 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
 
         // Verify updated NICs
         for (NetworkInterface n : updatedNics) {
-            Assert.assertNotNull(n);
+            Assertions.assertNotNull(n);
             if (n.id().equalsIgnoreCase(nics[0].id())) {
                 // Verify NIC0
-                Assert.assertEquals(2, n.ipConfigurations().size());
+                Assertions.assertEquals(2, n.ipConfigurations().size());
 
                 primaryIPConfig = n.primaryIPConfiguration();
-                Assert.assertNotNull(primaryIPConfig);
-                Assert.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
-                Assert.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
+                Assertions.assertNotNull(primaryIPConfig);
+                Assertions.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
+                Assertions.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
 
                 secondaryIPConfig = n.ipConfigurations().get("nicip2");
-                Assert.assertNotNull(secondaryIPConfig);
-                Assert.assertTrue("subnet1".equalsIgnoreCase(secondaryIPConfig.subnetName()));
-                Assert.assertTrue(network.id().equalsIgnoreCase(secondaryIPConfig.networkId()));
+                Assertions.assertNotNull(secondaryIPConfig);
+                Assertions.assertTrue("subnet1".equalsIgnoreCase(secondaryIPConfig.subnetName()));
+                Assertions.assertTrue(network.id().equalsIgnoreCase(secondaryIPConfig.networkId()));
 
             } else if (n.id().equals(nics[1].id())) {
                 // Verify NIC1
-                Assert.assertEquals(1, n.ipConfigurations().size());
+                Assertions.assertEquals(1, n.ipConfigurations().size());
                 primaryIPConfig = n.primaryIPConfiguration();
-                Assert.assertNotNull(primaryIPConfig);
-                Assert.assertNotEquals("nicip2", primaryIPConfig.name());
-                Assert.assertTrue("subnet2".equalsIgnoreCase(primaryIPConfig.subnetName()));
-                Assert.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
+                Assertions.assertNotNull(primaryIPConfig);
+                Assertions.assertNotEquals("nicip2", primaryIPConfig.name());
+                Assertions.assertTrue("subnet2".equalsIgnoreCase(primaryIPConfig.subnetName()));
+                Assertions.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
 
             } else if (n.id().equals(nics[2].id())) {
                 // Verify NIC
-                Assert.assertEquals(2, n.ipConfigurations().size());
+                Assertions.assertEquals(2, n.ipConfigurations().size());
 
                 primaryIPConfig = n.primaryIPConfiguration();
-                Assert.assertNotNull(primaryIPConfig);
-                Assert.assertNotEquals("nicip2", primaryIPConfig.name());
-                Assert.assertNotEquals("nicip3", primaryIPConfig.name());
-                Assert.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
-                Assert.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
+                Assertions.assertNotNull(primaryIPConfig);
+                Assertions.assertNotEquals("nicip2", primaryIPConfig.name());
+                Assertions.assertNotEquals("nicip3", primaryIPConfig.name());
+                Assertions.assertTrue("subnet1".equalsIgnoreCase(primaryIPConfig.subnetName()));
+                Assertions.assertTrue(network.id().equalsIgnoreCase(primaryIPConfig.networkId()));
 
                 secondaryIPConfig = n.ipConfigurations().get("nicip3");
-                Assert.assertNotNull(secondaryIPConfig);
-                Assert.assertTrue("subnet1".equalsIgnoreCase(secondaryIPConfig.subnetName()));
-                Assert.assertTrue(network.id().equalsIgnoreCase(secondaryIPConfig.networkId()));
+                Assertions.assertNotNull(secondaryIPConfig);
+                Assertions.assertTrue("subnet1".equalsIgnoreCase(secondaryIPConfig.subnetName()));
+                Assertions.assertTrue(network.id().equalsIgnoreCase(secondaryIPConfig.networkId()));
             } else {
-                Assert.assertTrue("Unrecognized NIC ID", false);
+                Assertions.assertTrue(false, "Unrecognized NIC ID");
             }
         }
     }
@@ -268,7 +268,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
                 networkInterface3Creatable,
                 networkInterface4Creatable).values();
 
-        Assert.assertTrue(batchNics.size() == 4);
+        Assertions.assertTrue(batchNics.size() == 4);
         HashMap<String, Boolean> found = new LinkedHashMap<>();
         for (NetworkInterface nic : batchNics) {
             if (nic.name().equalsIgnoreCase(nic1Name)) {
@@ -284,7 +284,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
                 found.put(nic4Name, true);
             }
         }
-        Assert.assertTrue(found.size() == 4);
+        Assertions.assertTrue(found.size() == 4);
     }
 
     @Test
@@ -316,7 +316,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
         } catch (InterruptedException exception) {
             throw new RuntimeException(exception);
         }
-        Assert.assertEquals(counter.intValue(), 1);
+        Assertions.assertEquals(counter.intValue(), 1);
     }
 
 }

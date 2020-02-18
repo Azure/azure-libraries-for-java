@@ -18,7 +18,7 @@ import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccounts;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import rx.functions.Func1;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -68,7 +68,7 @@ public class TestResourceStreaming extends TestTemplate<VirtualMachine, VirtualM
                     }
                 }).toBlocking().last();
 
-        Assert.assertTrue(resourceCount.get() == 7);
+        Assertions.assertTrue(resourceCount.get() == 7);
         return virtualMachine;
     }
 

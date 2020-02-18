@@ -12,7 +12,7 @@ import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachines;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class TestVirtualMachineInAvailabilitySet extends TestTemplate<VirtualMachine, VirtualMachines> {
     @Override
@@ -35,9 +35,9 @@ public class TestVirtualMachineInAvailabilitySet extends TestTemplate<VirtualMac
                 .withNewAvailabilitySet(newAvailSetName)
                 .create();
 
-        Assert.assertNotNull(vm.availabilitySetId());
-        Assert.assertNotNull(vm.computerName());
-        Assert.assertTrue(vm.computerName().equalsIgnoreCase("myvm123"));
+        Assertions.assertNotNull(vm.availabilitySetId());
+        Assertions.assertNotNull(vm.computerName());
+        Assertions.assertTrue(vm.computerName().equalsIgnoreCase("myvm123"));
         return vm;
     }
 

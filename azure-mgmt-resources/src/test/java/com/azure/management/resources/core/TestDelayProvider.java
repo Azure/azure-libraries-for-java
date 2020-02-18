@@ -27,14 +27,11 @@ public class TestDelayProvider extends DelayProvider {
 
     @Override
     public int getLroRetryTimeout() {
-        if (isLiveMode) {
-            super.getLroRetryTimeout();
-        }
-        return 1;
+        return isLiveMode ? super.getLroRetryTimeout() : 1;
     }
 
     @Override
     public Duration getDelayDuration(Duration delay) {
-        return Duration.ZERO;
+        return isLiveMode ? delay : Duration.ZERO;
     }
 }

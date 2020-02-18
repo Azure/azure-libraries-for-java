@@ -11,6 +11,7 @@ import com.azure.management.compute.ResourceIdentityType;
 import com.azure.management.compute.VirtualMachineIdentity;
 import com.azure.management.compute.VirtualMachineIdentityUserAssignedIdentitiesValue;
 import com.azure.management.compute.VirtualMachineUpdate;
+import com.azure.management.compute.models.VirtualMachineUpdateInner;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.azure.management.msi.Identity;
@@ -142,7 +143,7 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
         }
     }
 
-    void handleExternalIdentities(VirtualMachineUpdate vmUpdate) {
+    void handleExternalIdentities(VirtualMachineUpdateInner vmUpdate) {
         if (this.handleRemoveAllExternalIdentitiesCase(vmUpdate)) {
             return;
         } else {
@@ -189,7 +190,7 @@ class VirtualMachineMsiHandler extends RoleAssignmentHelper {
      * @param vmUpdate the vm update payload model
      * @return true if user indented to remove all the identities.
      */
-    private boolean handleRemoveAllExternalIdentitiesCase(VirtualMachineUpdate vmUpdate) {
+    private boolean handleRemoveAllExternalIdentitiesCase(VirtualMachineUpdateInner vmUpdate) {
         if (!this.userAssignedIdentities.isEmpty()) {
             int rmCount = 0;
             for (VirtualMachineIdentityUserAssignedIdentitiesValue v : this.userAssignedIdentities.values()) {

@@ -5,21 +5,15 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.core.http.rest.PagedFlux;
-import com.azure.core.http.rest.PagedIterable;
-import com.azure.core.util.FluxUtil;
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachineExtensionImage;
-import com.azure.management.compute.VirtualMachineExtensionImageType;
-import com.azure.management.compute.VirtualMachineExtensionImageVersion;
 import com.azure.management.compute.VirtualMachineExtensionImages;
-import com.azure.management.compute.VirtualMachinePublisher;
 import com.azure.management.compute.VirtualMachinePublishers;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The implementation for {@link VirtualMachineExtensionImages}.
@@ -33,68 +27,33 @@ class VirtualMachineExtensionImagesImpl
     }
 
     @Override
-    public PagedIterable<VirtualMachineExtensionImage> listByRegion(Region region) {
+    public List<VirtualMachineExtensionImage> listByRegion(Region region) {
         return listByRegion(region.toString());
     }
 
     @Override
-    public PagedIterable<VirtualMachineExtensionImage> listByRegion(String regionName) {
-        PagedIterable<VirtualMachinePublisher> publishers = this.publishers().listByRegion(regionName);
-
-        PagedList<VirtualMachineExtensionImageType> extensionTypes =
-                new ChildListFlattener<>(publishers, new ChildListFlattener.ChildListLoader<VirtualMachinePublisher, VirtualMachineExtensionImageType>() {
-                    @Override
-                    public PagedList<VirtualMachineExtensionImageType> loadList(VirtualMachinePublisher publisher)  {
-                        return publisher.extensionTypes().list();
-                    }
-                }).flatten();
-
-        PagedList<VirtualMachineExtensionImageVersion> extensionTypeVersions =
-                new ChildListFlattener<>(extensionTypes, new ChildListFlattener.ChildListLoader<VirtualMachineExtensionImageType, VirtualMachineExtensionImageVersion>() {
-                    @Override
-                    public PagedList<VirtualMachineExtensionImageVersion> loadList(VirtualMachineExtensionImageType type)  {
-                        return type.versions().list();
-                    }
-                }).flatten();
-
-        PagedListConverter<VirtualMachineExtensionImageVersion, VirtualMachineExtensionImage> converter =
-                new PagedListConverter<VirtualMachineExtensionImageVersion, VirtualMachineExtensionImage>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionImage> typeConvertAsync(VirtualMachineExtensionImageVersion virtualMachineExtensionImageVersion) {
-                        return Observable.just((VirtualMachineExtensionImage) virtualMachineExtensionImageVersion.getImage());
-                    }
-                };
-
-        return converter.convert(extensionTypeVersions);
+    public List<VirtualMachineExtensionImage> listByRegion(String regionName) {
+        return listByRegionAsync(regionName).block();
     }
 
     @Override
-    public PagedFlux<VirtualMachineExtensionImage> listByRegionAsync(Region region) {
+    public Mono<List<VirtualMachineExtensionImage>> listByRegionAsync(Region region) {
         return listByRegionAsync(region.name());
     }
 
     @Override
-    public PagedFlux<VirtualMachineExtensionImage> listByRegionAsync(String regionName) {
-        return this.publishers().listByRegionAsync(regionName)
-                .flatMap(virtualMachinePublisher -> virtualMachinePublisher.extensionTypes().listAsync())
-                .flatMap(virtualMachineExtensionImageType -> virtualMachineExtensionImageType.versions().listAsync())
-                .flatMap(virtualMachineExtensionImageVersion -> virtualMachineExtensionImageVersion.getImageAsync());
-                .flatMap(new Func1<VirtualMachinePublisher, Observable<VirtualMachineExtensionImageType>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionImageType> call(VirtualMachinePublisher virtualMachinePublisher) {
-                        return virtualMachinePublisher.extensionTypes().listAsync();
-                    }
-                }).flatMap(new Func1<VirtualMachineExtensionImageType, Observable<VirtualMachineExtensionImageVersion>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionImageVersion> call(VirtualMachineExtensionImageType virtualMachineExtensionImageType) {
-                        return virtualMachineExtensionImageType.versions().listAsync();
-                    }
-                }).flatMap(new Func1<VirtualMachineExtensionImageVersion, Observable<VirtualMachineExtensionImage>>() {
-                    @Override
-                    public Observable<VirtualMachineExtensionImage> call(VirtualMachineExtensionImageVersion virtualMachineExtensionImageVersion) {
-                        return virtualMachineExtensionImageVersion.getImageAsync();
-                    }
-                });
+    public Mono<List<VirtualMachineExtensionImage>> listByRegionAsync(String regionName) {
+        return publishers.listByRegionAsync(regionName).collectList()
+                .flatMapMany(Flux::fromIterable)
+                .flatMap(virtualMachinePublisher -> virtualMachinePublisher.extensionTypes().listAsync()
+                        .flatMapMany(Flux::fromIterable)
+                        .flatMap(imageType -> imageType.versions().listAsync()
+                                .flatMapMany(Flux::fromIterable)
+                                .flatMap(imageVersion -> imageVersion.getImageAsync())
+                        )
+                )
+                .collectList()
+                .map(list -> Collections.unmodifiableList(list));
     }
 
     @Override

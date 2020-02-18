@@ -5,21 +5,21 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.models.VirtualMachineImageResourceInner;
+import com.azure.management.compute.models.VirtualMachineImagesInner;
 import com.azure.management.compute.VirtualMachineOffer;
 import com.azure.management.compute.VirtualMachineSku;
 import com.azure.management.compute.VirtualMachineSkus;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * The implementation for {@link VirtualMachineSkus}.
  */
-@LangDefinition
 class VirtualMachineSkusImpl
         extends ReadableWrappersImpl<VirtualMachineSku, VirtualMachineSkuImpl, VirtualMachineImageResourceInner>
         implements VirtualMachineSkus {
@@ -33,11 +33,8 @@ class VirtualMachineSkusImpl
     }
 
     @Override
-    public PagedList<VirtualMachineSku> list() {
-        return wrapList(innerCollection.listSkus(
-                offer.region().toString(),
-                offer.publisher().name(),
-                offer.name()));
+    public List<VirtualMachineSku> list() {
+        return listAsync().block();
     }
 
     @Override
@@ -49,20 +46,17 @@ class VirtualMachineSkusImpl
     }
 
     @Override
-    public Observable<VirtualMachineSku> listAsync() {
+    public Mono<List<VirtualMachineSku>> listAsync() {
         return innerCollection.listSkusAsync(
                 offer.region().toString(),
                 offer.publisher().name(),
-                offer.name()).flatMap(new Func1<List<VirtualMachineImageResourceInner>, Observable<VirtualMachineImageResourceInner>>() {
-            @Override
-            public Observable<VirtualMachineImageResourceInner> call(List<VirtualMachineImageResourceInner> virtualMachineImageResourceInners) {
-                return Observable.from(virtualMachineImageResourceInners);
-            }
-        }).map(new Func1<VirtualMachineImageResourceInner, VirtualMachineSku>() {
-            @Override
-            public VirtualMachineSku call(VirtualMachineImageResourceInner virtualMachineImageResourceInner) {
-                return wrapModel(virtualMachineImageResourceInner);
-            }
-        });
+                offer.name())
+                .map(inners -> {
+                    List<VirtualMachineSku> skuList = new ArrayList<>();
+                    for (VirtualMachineImageResourceInner inner : inners) {
+                        skuList.add(wrapModel(inner));
+                    }
+                    return Collections.unmodifiableList(skuList);
+                });
     }
 }

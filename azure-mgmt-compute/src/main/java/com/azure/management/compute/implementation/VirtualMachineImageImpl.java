@@ -5,12 +5,12 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.DataDiskImage;
 import com.azure.management.compute.ImageReference;
 import com.azure.management.compute.OSDiskImage;
 import com.azure.management.compute.PurchasePlan;
 import com.azure.management.compute.VirtualMachineImage;
+import com.azure.management.compute.models.VirtualMachineImageInner;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
@@ -21,7 +21,6 @@ import java.util.Map;
 /**
  * The implementation for {@link VirtualMachineImage}.
  */
-@LangDefinition
 class VirtualMachineImageImpl
         extends IndexableWrapperImpl<VirtualMachineImageInner>
         implements VirtualMachineImage {
@@ -53,7 +52,7 @@ class VirtualMachineImageImpl
         if (this.inner() == null) {
             return null;
         }
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -99,7 +98,7 @@ class VirtualMachineImageImpl
     @Override
     public Map<Integer, DataDiskImage> dataDiskImages() {
         if (inner().dataDiskImages() == null) {
-            return Collections.unmodifiableMap(new HashMap<Integer, DataDiskImage>());
+            return Collections.unmodifiableMap(new HashMap<>());
         }
         HashMap<Integer, DataDiskImage> diskImages = new HashMap<>();
         for (DataDiskImage diskImage : inner().dataDiskImages()) {

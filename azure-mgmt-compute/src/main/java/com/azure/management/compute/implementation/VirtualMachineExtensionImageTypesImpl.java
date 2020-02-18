@@ -5,18 +5,22 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.models.VirtualMachineExtensionImageInner;
+import com.azure.management.compute.models.VirtualMachineExtensionImagesInner;
 import com.azure.management.compute.VirtualMachineExtensionImageType;
 import com.azure.management.compute.VirtualMachineExtensionImageTypes;
 import com.azure.management.compute.VirtualMachinePublisher;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
 
 /**
  * The implementation for VirtualMachineExtensionImageTypes.
  */
-@LangDefinition
 class VirtualMachineExtensionImageTypesImpl
         extends ReadableWrappersImpl<VirtualMachineExtensionImageType, VirtualMachineExtensionImageTypeImpl, VirtualMachineExtensionImageInner>
         implements VirtualMachineExtensionImageTypes {
@@ -29,8 +33,8 @@ class VirtualMachineExtensionImageTypesImpl
     }
 
     @Override
-    public PagedList<VirtualMachineExtensionImageType> list() {
-        return wrapList(this.client.listTypes(this.publisher.region().toString(), this.publisher.name()));
+    public List<VirtualMachineExtensionImageType> list() {
+        return listAsync().block();
     }
 
     @Override
@@ -42,7 +46,11 @@ class VirtualMachineExtensionImageTypesImpl
     }
 
     @Override
-    public Observable<VirtualMachineExtensionImageType> listAsync() {
-        return wrapListAsync(client.listTypesAsync(this.publisher.region().toString(), this.publisher.name()));
+    public Mono<List<VirtualMachineExtensionImageType>> listAsync() {
+        return client.listTypesAsync(this.publisher.region().toString(), this.publisher.name())
+                .flatMapMany(Flux::fromIterable)
+                .map((Function<VirtualMachineExtensionImageInner, VirtualMachineExtensionImageType>) this::wrapModel)
+                .collectList()
+                .map(list -> Collections.unmodifiableList(list));
     }
 }

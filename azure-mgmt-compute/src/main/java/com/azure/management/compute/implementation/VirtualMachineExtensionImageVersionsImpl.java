@@ -5,18 +5,22 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.models.VirtualMachineExtensionImageInner;
+import com.azure.management.compute.models.VirtualMachineExtensionImagesInner;
 import com.azure.management.compute.VirtualMachineExtensionImageType;
 import com.azure.management.compute.VirtualMachineExtensionImageVersion;
 import com.azure.management.compute.VirtualMachineExtensionImageVersions;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
 
 /**
  * The implementation for VirtualMachineExtensionImageVersions.
  */
-@LangDefinition
 public class VirtualMachineExtensionImageVersionsImpl
         extends ReadableWrappersImpl<VirtualMachineExtensionImageVersion, VirtualMachineExtensionImageVersionImpl, VirtualMachineExtensionImageInner>
         implements VirtualMachineExtensionImageVersions {
@@ -29,10 +33,8 @@ public class VirtualMachineExtensionImageVersionsImpl
     }
 
     @Override
-    public PagedList<VirtualMachineExtensionImageVersion> list() {
-        return wrapList(this.client.listVersions(this.type.regionName(),
-                this.type.publisher().name(),
-                this.type.name()));
+    public List<VirtualMachineExtensionImageVersion> list() {
+        return listAsync().block();
     }
 
     @Override
@@ -44,9 +46,11 @@ public class VirtualMachineExtensionImageVersionsImpl
     }
 
     @Override
-    public Observable<VirtualMachineExtensionImageVersion> listAsync() {
-        return wrapListAsync(this.client.listVersionsAsync(this.type.regionName(),
-                this.type.publisher().name(),
-                this.type.name()));
+    public Mono<List<VirtualMachineExtensionImageVersion>> listAsync() {
+        return client.listVersionsAsync(type.regionName(), type.publisher().name(), type.name())
+                .flatMapMany(Flux::fromIterable)
+                .map((Function<VirtualMachineExtensionImageInner, VirtualMachineExtensionImageVersion>) this::wrapModel)
+                .collectList()
+                .map(list -> Collections.unmodifiableList(list));
     }
 }

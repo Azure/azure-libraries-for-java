@@ -5,18 +5,21 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.management.compute.models.VirtualMachineImageResourceInner;
+import com.azure.management.compute.models.VirtualMachineImagesInner;
 import com.azure.management.compute.VirtualMachineOffer;
 import com.azure.management.compute.VirtualMachineOffers;
 import com.azure.management.compute.VirtualMachinePublisher;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The implementation for {@link VirtualMachineOffers}.
  */
-@LangDefinition
 class VirtualMachineOffersImpl
         extends ReadableWrappersImpl<VirtualMachineOffer, VirtualMachineOfferImpl, VirtualMachineImageResourceInner>
         implements VirtualMachineOffers {
@@ -38,12 +41,19 @@ class VirtualMachineOffersImpl
     }
 
     @Override
-    public PagedList<VirtualMachineOffer> list() {
-        return wrapList(innerCollection.listOffers(publisher.region().toString(), publisher.name()));
+    public List<VirtualMachineOffer> list() {
+        return listAsync().block();
     }
 
     @Override
-    public Observable<VirtualMachineOffer> listAsync() {
-        return wrapListAsync(innerCollection.listOffersAsync(publisher.region().toString(), publisher.name()));
+    public Mono<List<VirtualMachineOffer>> listAsync() {
+        return innerCollection.listOffersAsync(publisher.region().toString(), publisher.name())
+                .map(inners -> {
+                    List<VirtualMachineOffer> offerList = new ArrayList<>();
+                    for (VirtualMachineImageResourceInner inner : inners) {
+                        offerList.add(wrapModel(inner));
+                    }
+                    return Collections.unmodifiableList(offerList);
+                });
     }
 }

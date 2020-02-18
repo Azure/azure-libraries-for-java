@@ -5,18 +5,17 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.Sku;
 import com.azure.management.compute.VirtualMachineImagesInSku;
 import com.azure.management.compute.VirtualMachineOffer;
 import com.azure.management.compute.VirtualMachinePublisher;
 import com.azure.management.compute.VirtualMachineSku;
+import com.azure.management.compute.models.VirtualMachineImagesInner;
 import com.azure.management.resources.fluentcore.arm.Region;
 
 /**
  * The implementation for {@link Sku}.
  */
-@LangDefinition
 class VirtualMachineSkuImpl
         implements VirtualMachineSku {
     private final VirtualMachineOffer offer;

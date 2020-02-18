@@ -7,11 +7,26 @@
 package com.azure.management.compute;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * Entry point to virtual machine image extension types.
  */
 @Fluent
-public interface VirtualMachineExtensionImageTypes extends SupportsListing<VirtualMachineExtensionImageType> {
+public interface VirtualMachineExtensionImageTypes {
+    /**
+     * Lists all the resources of the virtual machine extension image type.
+     *
+     * @return A {@link List} of resources
+     */
+    List<VirtualMachineExtensionImageType> list();
+
+    /**
+     * Lists all the resources of the virtual machine extension image type.
+     *
+     * @return A {@link Mono<List>} of resources
+     */
+    Mono<List<VirtualMachineExtensionImageType>> listAsync();
 }

@@ -5,7 +5,15 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.SubResource;
+import com.azure.management.AzureTokenCredential;
+import com.azure.management.RestClient;
+import com.azure.management.compute.models.ProximityPlacementGroupInner;
+import com.azure.management.compute.models.VirtualMachineInner;
+import com.azure.management.compute.models.VirtualMachineSizeInner;
+import com.azure.management.compute.models.VirtualMachineUpdateInner;
 import com.google.gson.Gson;
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.Page;
@@ -86,6 +94,8 @@ import com.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.RestClient;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func0;
@@ -105,7 +115,6 @@ import java.util.UUID;
 /**
  * The implementation for VirtualMachine and its create and update interfaces.
  */
-@LangDefinition
 class VirtualMachineImpl
         extends GroupableResourceImpl<
         VirtualMachine,
@@ -208,7 +217,7 @@ class VirtualMachineImpl
     // Verbs
 
     @Override
-    public Observable<VirtualMachine> refreshAsync() {
+    public Mono<VirtualMachine> refreshAsync() {
         return super.refreshAsync().map(new Func1<VirtualMachine, VirtualMachine>() {
             @Override
             public VirtualMachine call(VirtualMachine virtualMachine) {
@@ -220,7 +229,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    protected Observable<VirtualMachineInner> getInnerAsync() {
+    protected Mono<VirtualMachineInner> getInnerAsync() {
         return this.manager().inner().virtualMachines().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -230,7 +239,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Completable deallocateAsync() {
+    public Mono<Void> deallocateAsync() {
         Observable<Void> o = this.manager().inner().virtualMachines().deallocateAsync(this.resourceGroupName(), this.name());
         Observable<VirtualMachine> r = this.refreshAsync();
 
@@ -239,23 +248,13 @@ class VirtualMachineImpl
     }
 
     @Override
-    public ServiceFuture<Void> deallocateAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.deallocateAsync(), callback);
-    }
-
-    @Override
     public void generalize() {
         this.generalizeAsync().await();
     }
 
     @Override
-    public Completable generalizeAsync() {
+    public Mono<Void> generalizeAsync() {
         return this.manager().inner().virtualMachines().generalizeAsync(this.resourceGroupName(), this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> generalizeAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.generalizeAsync(), callback);
     }
 
     @Override
@@ -264,13 +263,8 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Completable powerOffAsync() {
+    public Mono<Void> powerOffAsync() {
         return this.manager().inner().virtualMachines().powerOffAsync(this.resourceGroupName(), this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> powerOffAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.powerOffAsync(), callback);
     }
 
     @Override
@@ -279,13 +273,8 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Completable restartAsync() {
+    public Mono<Void> restartAsync() {
         return this.manager().inner().virtualMachines().restartAsync(this.resourceGroupName(), this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> restartAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.restartAsync(), callback);
     }
 
     @Override
@@ -294,13 +283,8 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Completable startAsync() {
+    public Mono<Void> startAsync() {
         return this.manager().inner().virtualMachines().startAsync(this.resourceGroupName(), this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> startAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.startAsync(), callback);
     }
 
     @Override
@@ -309,13 +293,8 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Completable redeployAsync() {
+    public Mono<Void> redeployAsync() {
         return this.manager().inner().virtualMachines().redeployAsync(this.resourceGroupName(), this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> redeployAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.redeployAsync(), callback);
     }
 
     @Override
@@ -325,7 +304,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Completable convertToManagedAsync() {
+    public Mono<Void> convertToManagedAsync() {
         return this.manager().inner().virtualMachines().convertToManagedDisksAsync(this.resourceGroupName(), this.name())
                 .flatMap(new Func1<Void, Observable<?>>() {
                     @Override
@@ -333,11 +312,6 @@ class VirtualMachineImpl
                         return refreshAsync();
                     }
                 }).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> convertToManagedAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.convertToManagedAsync(), callback);
     }
 
     @Override
@@ -364,7 +338,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Observable<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd) {
+    public Mono<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd) {
         VirtualMachineCaptureParameters parameters = new VirtualMachineCaptureParameters();
         parameters.withDestinationContainerName(containerName);
         parameters.withOverwriteVhds(overwriteVhd);
@@ -384,17 +358,12 @@ class VirtualMachineImpl
     }
 
     @Override
-    public ServiceFuture<String> captureAsync(String containerName, String vhdPrefix, boolean overwriteVhd, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(this.captureAsync(containerName, vhdPrefix, overwriteVhd), callback);
-    }
-
-    @Override
     public VirtualMachineInstanceView refreshInstanceView() {
         return refreshInstanceViewAsync().toBlocking().last();
     }
 
     @Override
-    public Observable<VirtualMachineInstanceView> refreshInstanceViewAsync() {
+    public Mono<VirtualMachineInstanceView> refreshInstanceViewAsync() {
         return this.manager().inner().virtualMachines().getByResourceGroupAsync(this.resourceGroupName(),
                 this.name(),
                 InstanceViewTypes.INSTANCE_VIEW)
@@ -420,7 +389,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Observable<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Mono<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachines().runPowerShellScriptAsync(this.resourceGroupName(),
                 this.name(),
                 scriptLines,
@@ -436,7 +405,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Observable<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Mono<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachines().runShellScriptAsync(this.resourceGroupName(),
                 this.name(),
                 scriptLines,
@@ -451,7 +420,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Observable<RunCommandResult> runCommandAsync(RunCommandInput inputCommand) {
+    public Mono<RunCommandResult> runCommandAsync(RunCommandInput inputCommand) {
         return this.manager().virtualMachines().runCommandAsync(this.resourceGroupName(),
                 this.name(),
                 inputCommand);
@@ -654,7 +623,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withWindowsCustomImage(String customImageId) {
         ImageReference imageReferenceInner = new ImageReference();
-        imageReferenceInner.withId(customImageId);
+        imageReferenceInner.setId(customImageId);
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
         this.inner().storageProfile().withImageReference(imageReferenceInner);
         this.inner().osProfile().withWindowsConfiguration(new WindowsConfiguration());
@@ -672,7 +641,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withLinuxCustomImage(String customImageId) {
         ImageReference imageReferenceInner = new ImageReference();
-        imageReferenceInner.withId(customImageId);
+        imageReferenceInner.setId(customImageId);
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
         this.inner().storageProfile().withImageReference(imageReferenceInner);
         this.inner().osProfile().withLinuxConfiguration(new LinuxConfiguration());
@@ -699,7 +668,7 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withSpecializedOSDisk(Disk disk, OperatingSystemTypes osType) {
         ManagedDiskParameters diskParametersInner = new ManagedDiskParameters();
-        diskParametersInner.withId(disk.id());
+        diskParametersInner.setId(disk.id());
         this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.ATTACH);
         this.inner().storageProfile().osDisk().withManagedDisk(diskParametersInner);
         this.inner().storageProfile().osDisk().withOsType(osType);
@@ -708,7 +677,6 @@ class VirtualMachineImpl
     }
 
     // Virtual machine user name fluent methods
-    //
     @Override
     public VirtualMachineImpl withRootUsername(String rootUserName) {
         this.inner().osProfile().withAdminUsername(rootUserName);
@@ -722,7 +690,6 @@ class VirtualMachineImpl
     }
 
     // Virtual machine optional fluent methods
-    //
     @Override
     public VirtualMachineImpl withSsh(String publicKeyData) {
         OSProfile osProfile = this.inner().osProfile();
@@ -762,7 +729,6 @@ class VirtualMachineImpl
             WinRMConfiguration winRMConfiguration = new WinRMConfiguration();
             this.inner().osProfile().windowsConfiguration().withWinRM(winRMConfiguration);
         }
-
         this.inner().osProfile()
                 .windowsConfiguration()
                 .winRM()
@@ -816,27 +782,22 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withOSDiskVhdLocation(String containerName, String vhdName) {
         // Sets the native (un-managed) disk backing virtual machine OS disk
-        //
         if (isManagedDiskEnabled()) {
             return this;
         }
-
         StorageProfile storageProfile = this.inner().storageProfile();
         OSDisk osDisk = storageProfile.osDisk();
         // Setting native (un-managed) disk backing virtual machine OS disk is valid only when
         // the virtual machine is created from image.
-        //
         if (!this.isOSDiskFromImage(osDisk)) {
             return this;
         }
         // Exclude custom user image as they won't support using native (un-managed) disk to back
         // virtual machine OS disk.
-        //
         if (this.isOsDiskFromCustomImage(storageProfile)) {
             return this;
         }
         // OS Disk from 'Platform image' requires explicit storage account to be specified.
-        //
         if (this.isOSDiskFromPlatformImage(storageProfile)) {
             VirtualHardDisk osVhd = new VirtualHardDisk();
             osVhd.withUri(temporaryBlobUrl(containerName, vhdName));
@@ -915,8 +876,6 @@ class VirtualMachineImpl
     }
 
     // Virtual machine optional native data disk fluent methods
-    //
-
     @Override
     public UnmanagedDataDiskImpl defineUnmanagedDataDisk(String name) {
         throwIfManagedDiskEnabled(ManagedUnmanagedDiskErrors.VM_BOTH_MANAGED_AND_UNMANAGED_DISK_NOT_ALLOWED);
@@ -984,8 +943,6 @@ class VirtualMachineImpl
     }
 
     // Virtual machine optional managed data disk fluent methods
-    //
-
     @Override
     public VirtualMachineImpl withNewDataDisk(Creatable<Disk> creatable) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
@@ -1043,7 +1000,7 @@ class VirtualMachineImpl
     public VirtualMachineImpl withExistingDataDisk(Disk disk) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
         ManagedDiskParameters managedDiskParameters = new ManagedDiskParameters();
-        managedDiskParameters.withId(disk.id());
+        managedDiskParameters.setId(disk.id());
         this.managedDataDisks.existingDisksToAttach.add(new DataDisk()
                 .withLun(-1)
                 .withManagedDisk(managedDiskParameters));
@@ -1054,7 +1011,7 @@ class VirtualMachineImpl
     public VirtualMachineImpl withExistingDataDisk(Disk disk, int lun, CachingTypes cachingType) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
         ManagedDiskParameters managedDiskParameters = new ManagedDiskParameters();
-        managedDiskParameters.withId(disk.id());
+        managedDiskParameters.setId(disk.id());
         this.managedDataDisks.existingDisksToAttach.add(new DataDisk()
                 .withLun(lun)
                 .withManagedDisk(managedDiskParameters)
@@ -1066,7 +1023,7 @@ class VirtualMachineImpl
     public VirtualMachineImpl withExistingDataDisk(Disk disk, int newSizeInGB, int lun, CachingTypes cachingType) {
         throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
         ManagedDiskParameters managedDiskParameters = new ManagedDiskParameters();
-        managedDiskParameters.withId(disk.id());
+        managedDiskParameters.setId(disk.id());
         this.managedDataDisks.existingDisksToAttach.add(new DataDisk()
                 .withLun(lun)
                 .withDiskSizeGB(newSizeInGB)
@@ -1113,65 +1070,7 @@ class VirtualMachineImpl
         return this;
     }
 
-    /* TODO: This has been disabled by Azure REST API
-    @Override
-    public VirtualMachineImpl withDataDiskUpdated(int lun, int newSizeInGB) {
-        throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_NO_MANAGED_DISK_TO_UPDATE);
-        DataDisk dataDisk = getDataDiskInner(lun);
-        if (dataDisk == null) {
-            throw new RuntimeException(String.format("A data disk with name '%d' not found", lun));
-        }
-        dataDisk.withDiskSizeGB(newSizeInGB);
-       return this;
-    }
-
-    @Override
-    public VirtualMachineImpl withDataDiskUpdated(int lun, int newSizeInGB, CachingTypes cachingType) {
-        throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_NO_MANAGED_DISK_TO_UPDATE);
-        DataDisk dataDisk = getDataDiskInner(lun);
-        if (dataDisk == null) {
-            throw new RuntimeException(String.format("A data disk with name '%d' not found", lun));
-        }
-        dataDisk
-            .withDiskSizeGB(newSizeInGB)
-            .withCaching(cachingType);
-        return this;
-    }
-
-    @Override
-    public VirtualMachineImpl withDataDiskUpdated(int lun,
-                                                  int newSizeInGB,
-                                                  CachingTypes cachingType,
-                                                  StorageAccountTypes storageAccountType) {
-        throwIfManagedDiskDisabled(ManagedUnmanagedDiskErrors.VM_NO_MANAGED_DISK_TO_UPDATE);
-        DataDisk dataDisk = getDataDiskInner(lun);
-        if (dataDisk == null) {
-            throw new RuntimeException(String.format("A data disk with name '%d' not found", lun));
-        }
-        dataDisk
-            .withDiskSizeGB(newSizeInGB)
-            .withCaching(cachingType)
-            .managedDisk()
-            .withStorageAccountType(storageAccountType);
-        return this;
-    }
-
-    private DataDisk getDataDiskInner(int lun) {
-        if (this.inner().storageProfile().dataDisks() == null) {
-            return null;
-        }
-        for (DataDisk dataDiskInner : this.storageProfile().dataDisks()) {
-            if (dataDiskInner.lun() == lun) {
-                return dataDiskInner;
-            }
-        }
-        return null;
-    }
-    */
-
     // Virtual machine optional storage account fluent methods
-    //
-
     @Override
     public VirtualMachineImpl withNewStorageAccount(Creatable<StorageAccount> creatable) {
         // This method's effect is NOT additive.
@@ -1203,8 +1102,6 @@ class VirtualMachineImpl
     }
 
     // Virtual machine optional availability set fluent methods
-    //
-
     @Override
     public VirtualMachineImpl withNewAvailabilitySet(Creatable<AvailabilitySet> creatable) {
         // This method's effect is NOT additive.
@@ -1216,7 +1113,7 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
-        this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        this.inner().withProximityPlacementGroup(new SubResource().setId(proximityPlacementGroupId));
         //clear the new setting
         newProximityPlacementGroupName = null;
         return this;
@@ -1226,9 +1123,7 @@ class VirtualMachineImpl
     public VirtualMachineImpl withNewProximityPlacementGroup(String proximityPlacementGroupName, ProximityPlacementGroupType type) {
         this.newProximityPlacementGroupName = proximityPlacementGroupName;
         this.newProximityPlacementGroupType = type;
-
         this.inner().withProximityPlacementGroup(null);
-
         return this;
     }
 
@@ -1280,7 +1175,6 @@ class VirtualMachineImpl
     }
 
     // Virtual machine optional extension settings
-
     @Override
     public VirtualMachineExtensionImpl defineNewExtension(String name) {
         return this.virtualMachineExtensions.define(name);
@@ -1294,7 +1188,7 @@ class VirtualMachineImpl
             for (NetworkInterfaceReference nicReference : this.inner().networkProfile().networkInterfaces()) {
                 idx++;
                 if (!nicReference.primary()
-                        && name.equalsIgnoreCase(ResourceUtils.nameFromResourceId(nicReference.id()))) {
+                        && name.equalsIgnoreCase(ResourceUtils.nameFromResourceId(nicReference.getId()))) {
                     this.inner().networkProfile().networkInterfaces().remove(idx);
                     break;
                 }
@@ -1313,7 +1207,6 @@ class VirtualMachineImpl
         this.virtualMachineExtensions.remove(name);
         return this;
     }
-
 
     @Override
     public VirtualMachineImpl withPlan(PurchasePlan plan) {
@@ -1454,7 +1347,6 @@ class VirtualMachineImpl
     }
 
     // GETTERS
-
     @Override
     public boolean isManagedDiskEnabled() {
         if (isOsDiskFromCustomImage(this.inner().storageProfile())) {
@@ -1542,7 +1434,7 @@ class VirtualMachineImpl
         if (!isManagedDiskEnabled()) {
             return null;
         }
-        return this.storageProfile().osDisk().managedDisk().id();
+        return this.storageProfile().osDisk().managedDisk().getId();
     }
 
     @Override
@@ -1589,7 +1481,7 @@ class VirtualMachineImpl
     public List<String> networkInterfaceIds() {
         List<String> nicIds = new ArrayList<>();
         for (NetworkInterfaceReference nicRef : inner().networkProfile().networkInterfaces()) {
-            nicIds.add(nicRef.id());
+            nicIds.add(nicRef.getId());
         }
         return nicIds;
     }
@@ -1598,10 +1490,9 @@ class VirtualMachineImpl
     public String primaryNetworkInterfaceId() {
         final List<NetworkInterfaceReference> nicRefs = this.inner().networkProfile().networkInterfaces();
         String primaryNicRefId = null;
-
         if (nicRefs.size() == 1) {
             // One NIC so assume it to be primary
-            primaryNicRefId = nicRefs.get(0).id();
+            primaryNicRefId = nicRefs.get(0).getId();
         } else if (nicRefs.size() == 0) {
             // No NICs so null
             primaryNicRefId = null;
@@ -1609,24 +1500,22 @@ class VirtualMachineImpl
             // Find primary interface as flagged by Azure
             for (NetworkInterfaceReference nicRef : inner().networkProfile().networkInterfaces()) {
                 if (nicRef.primary() != null && nicRef.primary()) {
-                    primaryNicRefId = nicRef.id();
+                    primaryNicRefId = nicRef.getId();
                     break;
                 }
             }
-
             // If Azure didn't flag any NIC as primary then assume the first one
             if (primaryNicRefId == null) {
-                primaryNicRefId = nicRefs.get(0).id();
+                primaryNicRefId = nicRefs.get(0).getId();
             }
         }
-
         return primaryNicRefId;
     }
 
     @Override
     public String availabilitySetId() {
         if (inner().availabilitySet() != null) {
-            return inner().availabilitySet().id();
+            return inner().availabilitySet().getId();
         }
         return null;
     }
@@ -1643,7 +1532,7 @@ class VirtualMachineImpl
 
     @Override
     public ProximityPlacementGroup proximityPlacementGroup() {
-        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
+        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().getId());
         ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
        if (plgInner == null) {
            return null;
@@ -1653,7 +1542,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Observable<VirtualMachineExtension> listExtensionsAsync() {
+    public Mono<List<VirtualMachineExtension>> listExtensionsAsync() {
         return this.virtualMachineExtensions.listAsync();
     }
 
@@ -1776,11 +1665,9 @@ class VirtualMachineImpl
     }
 
     // CreateUpdateTaskGroup.ResourceCreator.beforeGroupCreateOrUpdate implementation
-    //
     @Override
     public void beforeGroupCreateOrUpdate() {
         // [1]. StorageProfile: If implicit storage account creation is required then add Creatable<StorageAccount>.
-        //
         if (creatableStorageAccountKey == null && existingStorageAccountToAssociate == null) {
             if (osDiskRequiresImplicitStorageAccountCreation()
                     || dataDisksRequiresImplicitStorageAccountCreation()) {
@@ -1800,20 +1687,16 @@ class VirtualMachineImpl
             }
         }
         // [2]. BootDiagnosticsProfile: If any implicit resource creation is required then add Creatable<?>.
-        //
         this.bootDiagnosticsHandler.prepare();
     }
 
     // [2]. CreateUpdateTaskGroup.ResourceCreator.createResourceAsync implementation
-    //
     @Override
-    public Observable<VirtualMachine> createResourceAsync() {
-        //
+    public Mono<VirtualMachine> createResourceAsync() {
         // -- set creation-time only properties
         setOSDiskDefaults();
         setOSProfileDefaults();
         setHardwareProfileDefaults();
-        //
         if (isManagedDiskEnabled()) {
             managedDataDisks.setDataDisksDefaults();
         } else {
@@ -1829,18 +1712,14 @@ class VirtualMachineImpl
         final VirtualMachineImpl self = this;
         return this.manager().inner().virtualMachines()
                 .createOrUpdateAsync(resourceGroupName(), vmName, inner())
-                .map(new Func1<VirtualMachineInner, VirtualMachine>() {
-                    @Override
-                    public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
-                        reset(virtualMachineInner);
-                        return self;
-                    }
-
+                .map(virtualMachineInner -> {
+                    reset(virtualMachineInner);
+                    return self;
                 });
     }
 
     @Override
-    public Observable<VirtualMachine> updateResourceAsync() {
+    public Mono<VirtualMachine> updateResourceAsync() {
         if (isManagedDiskEnabled()) {
             managedDataDisks.setDataDisksDefaults();
         } else {
@@ -1851,9 +1730,8 @@ class VirtualMachineImpl
         this.handleNetworkSettings();
         this.handleAvailabilitySettings();
         this.virtualMachineMsiHandler.processCreatedExternalIdentities();
-        //
-        VirtualMachineUpdate updateParameter = new VirtualMachineUpdate();
-        //
+
+        VirtualMachineUpdateInner updateParameter = new VirtualMachineUpdateInner();
         updateParameter.withPlan(this.inner().plan());
         updateParameter.withHardwareProfile(this.inner().hardwareProfile());
         updateParameter.withStorageProfile(this.inner().storageProfile());
@@ -1867,31 +1745,25 @@ class VirtualMachineImpl
         updateParameter.withTags(this.inner().getTags());
         updateParameter.withProximityPlacementGroup(this.inner().proximityPlacementGroup());
         updateParameter.withPriority(this.inner().priority());
-        //
         this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
-        //
+
         final VirtualMachineImpl self = this;
         return this.manager().inner().virtualMachines()
                 .updateAsync(resourceGroupName(), vmName, updateParameter)
-                .map(new Func1<VirtualMachineInner, VirtualMachine>() {
-                    @Override
-                    public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
-                        reset(virtualMachineInner);
-                        return self;
-                    }
-
+                .map(virtualMachineInner -> {
+                    reset(virtualMachineInner);
+                    return self;
                 });
     }
 
     // CreateUpdateTaskGroup.ResourceCreator.afterPostRunAsync implementation
-    //
     @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+    public Mono<VirtualMachine> afterPostRunAsync(boolean isGroupFaulted) {
         this.virtualMachineExtensions.clear();
         if (isGroupFaulted) {
-            return Completable.complete();
+            return Mono.empty();
         } else {
-            return this.refreshAsync().toCompletable();
+            return this.refreshAsync();
         }
     }
 
@@ -1925,16 +1797,13 @@ class VirtualMachineImpl
             // Service return `ResourceAvailabilityZonesCannotBeModified` upon attempt to append a new
             // zone or remove one. Trying to remove the last one means attempt to change resource from
             // zonal to regional, which is not supported.
-            //
             // though not updatable, still adding above 'isInCreateMode' check just as a reminder to
             // take special handling of 'implicitPipCreatable' when avail zone update is supported.
-            //
             if (this.inner().zones() == null) {
                 this.inner().withZones(new ArrayList<String>());
             }
             this.inner().zones().add(zoneId.toString());
             // zone aware VM can be attached to only zone aware public IP.
-            //
             if (this.implicitPipCreatable != null) {
                 this.implicitPipCreatable.withAvailabilityZone(zoneId);
             }
@@ -1943,14 +1812,14 @@ class VirtualMachineImpl
     }
 
     AzureEnvironment environment() {
-        RestClient restClient = this.manager().inner().restClient();
+        RestClient restClient = this.manager().getRestClient();
         AzureEnvironment environment = null;
-        if (restClient.credentials() instanceof AzureTokenCredentials) {
-            environment = ((AzureTokenCredentials) restClient.credentials()).environment();
+        if (restClient.getCredential() instanceof AzureTokenCredential) {
+            environment = ((AzureTokenCredential) restClient.getCredential()).getEnvironment();
         }
-        String baseUrl = restClient.retrofit().baseUrl().toString();
+        String baseUrl = restClient.getBaseUrl().toString();
         for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
-            if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
+            if (env.getResourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
                 environment = env;
                 break;
             }
@@ -1969,13 +1838,11 @@ class VirtualMachineImpl
         OSDisk osDisk = storageProfile.osDisk();
         if (isOSDiskFromImage(osDisk)) {
             // ODDisk CreateOption: FROM_IMAGE
-            //
             if (isManagedDiskEnabled()) {
                 // Note:
                 // Managed disk
                 //     Supported: PlatformImage and CustomImage
                 //     UnSupported: StoredImage
-                //
                 if (osDisk.managedDisk() == null) {
                     osDisk.withManagedDisk(new ManagedDiskParameters());
                 }
@@ -1991,7 +1858,6 @@ class VirtualMachineImpl
                 // Native (un-managed) disk
                 //     Supported: PlatformImage and StoredImage
                 //     UnSupported: CustomImage
-                //
                 if (isOSDiskFromPlatformImage(storageProfile)
                         || isOSDiskFromStoredImage(storageProfile)) {
                     if (osDisk.vhd() == null) {
@@ -2007,11 +1873,9 @@ class VirtualMachineImpl
             }
         } else {
             // ODDisk CreateOption: ATTACH
-            //
             if (isManagedDiskEnabled()) {
                 // In case of attach, it is not allowed to change the storage account type of the
                 // managed disk.
-                //
                 if (osDisk.managedDisk() != null) {
                     osDisk.managedDisk().withStorageAccountType(null);
                 }
@@ -2036,10 +1900,8 @@ class VirtualMachineImpl
         OSDisk osDisk = storageProfile.osDisk();
         if (isOSDiskFromImage(osDisk)) {
             // ODDisk CreateOption: FROM_IMAGE
-            //
             if (osDisk.osType() == OperatingSystemTypes.LINUX || this.isMarketplaceLinuxImage) {
                 // linux image: PlatformImage | CustomImage | StoredImage
-                //
                 OSProfile osProfile = this.inner().osProfile();
                 if (osProfile.linuxConfiguration() == null) {
                     osProfile.withLinuxConfiguration(new LinuxConfiguration());
@@ -2050,7 +1912,6 @@ class VirtualMachineImpl
             }
             if (this.inner().osProfile().computerName() == null) {
                 // VM name cannot contain only numeric values and cannot exceed 15 chars
-                //
                 if (vmName.matches("[0-9]+")) {
                     this.inner().osProfile()
                             .withComputerName(SdkContext.randomResourceName("vm", 15));
@@ -2067,7 +1928,6 @@ class VirtualMachineImpl
             //
             // OS Profile must be set to null when an VM's OS disk is ATTACH-ed to a managed disk or
             // Specialized VHD
-            //
             this.inner().withOsProfile(null);
         }
     }
@@ -2121,11 +1981,11 @@ class VirtualMachineImpl
             if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
                 ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
                 plgInner.withProximityPlacementGroupType(this.newProximityPlacementGroupType);
-                plgInner.withLocation(this.inner().location());
+                plgInner.setLocation(this.inner().getLocation());
                 plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(),
                         this.newProximityPlacementGroupName, plgInner);
 
-                this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+                this.inner().withProximityPlacementGroup((new SubResource().setId(plgInner.getId())));
             }
         }
     }
@@ -2142,7 +2002,7 @@ class VirtualMachineImpl
             if (primaryNetworkInterface != null) {
                 NetworkInterfaceReference nicReference = new NetworkInterfaceReference();
                 nicReference.withPrimary(true);
-                nicReference.withId(primaryNetworkInterface.id());
+                nicReference.setId(primaryNetworkInterface.id());
                 this.inner().networkProfile().networkInterfaces().add(nicReference);
             }
         }
@@ -2153,14 +2013,14 @@ class VirtualMachineImpl
             NetworkInterface secondaryNetworkInterface = this.<NetworkInterface>taskResult(creatableSecondaryNetworkInterfaceKey);
             NetworkInterfaceReference nicReference = new NetworkInterfaceReference();
             nicReference.withPrimary(false);
-            nicReference.withId(secondaryNetworkInterface.id());
+            nicReference.setId(secondaryNetworkInterface.id());
             this.inner().networkProfile().networkInterfaces().add(nicReference);
         }
 
         for (NetworkInterface secondaryNetworkInterface : this.existingSecondaryNetworkInterfacesToAssociate) {
             NetworkInterfaceReference nicReference = new NetworkInterfaceReference();
             nicReference.withPrimary(false);
-            nicReference.withId(secondaryNetworkInterface.id());
+            nicReference.setId(secondaryNetworkInterface.id());
             this.inner().networkProfile().networkInterfaces().add(nicReference);
         }
     }
@@ -2182,7 +2042,7 @@ class VirtualMachineImpl
                 this.inner().withAvailabilitySet(new SubResource());
             }
 
-            this.inner().availabilitySet().withId(availabilitySet.id());
+            this.inner().availabilitySet().setId(availabilitySet.id());
         }
     }
 
@@ -2254,7 +2114,7 @@ class VirtualMachineImpl
     private boolean isOSDiskAttachedManaged(OSDisk osDisk) {
         return osDisk.createOption() == DiskCreateOptionTypes.ATTACH
                 && osDisk.managedDisk() != null
-                && osDisk.managedDisk().id() != null;
+                && osDisk.managedDisk().getId() != null;
     }
 
     /**
@@ -2295,7 +2155,7 @@ class VirtualMachineImpl
         ImageReference imageReference  = storageProfile.imageReference();
         return isOSDiskFromImage(storageProfile.osDisk())
                 && imageReference != null
-                && imageReference.id() != null;
+                && imageReference.getId() != null;
     }
 
     /**
@@ -2398,7 +2258,7 @@ class VirtualMachineImpl
             @Override
             public String resourceId() {
                 if (inner() != null) {
-                    return inner().id();
+                    return inner().getId();
                 } else {
                     return null;
                 }
@@ -2435,12 +2295,11 @@ class VirtualMachineImpl
             VirtualMachineInner vmInner = this.vm.inner();
             if (isPending()) {
                 if (vmInner.storageProfile().dataDisks() == null) {
-                    vmInner.storageProfile().withDataDisks(new ArrayList<DataDisk>());
+                    vmInner.storageProfile().withDataDisks(new ArrayList<>());
                 }
                 List<DataDisk> dataDisks = vmInner.storageProfile().dataDisks();
                 final List<Integer> usedLuns = new ArrayList<>();
                 // Get all used luns
-                //
                 for (DataDisk dataDisk : dataDisks) {
                     if (dataDisk.lun() != -1) {
                         usedLuns.add(dataDisk.lun());
@@ -2467,7 +2326,6 @@ class VirtualMachineImpl
                     }
                 }
                 // Func to get the next available lun
-                //
                 Func0<Integer> nextLun = new Func0<Integer>() {
                     @Override
                     public Integer call() {
@@ -2491,7 +2349,6 @@ class VirtualMachineImpl
                     // If there is no data disks at all, then setting it to null rather than [] is necessary.
                     // This is for take advantage of CRP's implicit creation of the data disks if the image has
                     // more than one data disk image(s).
-                    //
                     vmInner.storageProfile().withDataDisks(null);
                 }
             }
@@ -2644,14 +2501,12 @@ class VirtualMachineImpl
 
         BootDiagnosticsHandler withBootDiagnostics() {
             // Diagnostics storage uri will be set later by this.handleDiagnosticsSettings(..)
-            //
             this.enableDisable(true);
             return this;
         }
 
         BootDiagnosticsHandler withBootDiagnostics(Creatable<StorageAccount> creatable) {
             // Diagnostics storage uri will be set later by this.handleDiagnosticsSettings(..)
-            //
             this.enableDisable(true);
             this.creatableDiagnosticsStorageAccountKey = this.vmImpl.addDependency(creatable);
             return this;
@@ -2667,7 +2522,7 @@ class VirtualMachineImpl
         }
 
         BootDiagnosticsHandler withBootDiagnostics(StorageAccount storageAccount) {
-            return this.withBootDiagnostics(storageAccount.endPoints().primary().blob());
+            return this.withBootDiagnostics(storageAccount.endPoints().primary().getBlob());
         }
 
         BootDiagnosticsHandler withoutBootDiagnostics() {
@@ -2732,12 +2587,11 @@ class VirtualMachineImpl
             vmInner()
                     .diagnosticsProfile()
                     .bootDiagnostics()
-                    .withStorageUri(storageAccount.endPoints().primary().blob());
+                    .withStorageUri(storageAccount.endPoints().primary().getBlob());
         }
 
         private VirtualMachineInner vmInner() {
             // Inner cannot be cached as parent VirtualMachineImpl can refresh the inner in various cases
-            //
             return this.vmImpl.inner();
         }
 

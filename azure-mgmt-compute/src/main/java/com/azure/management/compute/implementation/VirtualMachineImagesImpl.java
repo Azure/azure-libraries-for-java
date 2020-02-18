@@ -5,25 +5,22 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.management.compute.models.VirtualMachineImageInner;
+import com.azure.management.compute.models.VirtualMachineImageResourceInner;
 import com.azure.management.compute.models.VirtualMachineImagesInner;
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachineImage;
 import com.azure.management.compute.VirtualMachineImages;
-import com.azure.management.compute.VirtualMachineOffer;
-import com.azure.management.compute.VirtualMachinePublisher;
 import com.azure.management.compute.VirtualMachinePublishers;
-import com.azure.management.compute.VirtualMachineSku;
 import com.azure.management.resources.fluentcore.arm.Region;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * The implementation for {@link VirtualMachineImages}.
  */
-@LangDefinition
 class VirtualMachineImagesImpl
         implements VirtualMachineImages {
     private final VirtualMachinePublishers publishers;
@@ -69,65 +66,31 @@ class VirtualMachineImagesImpl
   }
 
   @Override
-    public PagedList<VirtualMachineImage> listByRegion(Region location) {
+    public List<VirtualMachineImage> listByRegion(Region location) {
         return listByRegion(location.toString());
     }
 
     @Override
-    public PagedList<VirtualMachineImage> listByRegion(String regionName) {
-        PagedList<VirtualMachinePublisher> publishers = this.publishers().listByRegion(regionName);
-
-        PagedList<VirtualMachineOffer> offers =
-                new ChildListFlattener<>(publishers, new ChildListFlattener.ChildListLoader<VirtualMachinePublisher, VirtualMachineOffer>() {
-                    @Override
-                    public PagedList<VirtualMachineOffer> loadList(VirtualMachinePublisher publisher)  {
-                        return publisher.offers().list();
-                    }
-                }).flatten();
-
-        PagedList<VirtualMachineSku> skus =
-                new ChildListFlattener<>(offers, new ChildListFlattener.ChildListLoader<VirtualMachineOffer, VirtualMachineSku>() {
-                    @Override
-                    public PagedList<VirtualMachineSku> loadList(VirtualMachineOffer offer)  {
-                        return offer.skus().list();
-                    }
-                }).flatten();
-
-        PagedList<VirtualMachineImage> images =
-                new ChildListFlattener<>(skus, new ChildListFlattener.ChildListLoader<VirtualMachineSku, VirtualMachineImage>() {
-                    @Override
-                    public PagedList<VirtualMachineImage> loadList(VirtualMachineSku sku)  {
-                        return sku.images().list();
-                    }
-                }).flatten();
-
-        return images;
+    public List<VirtualMachineImage> listByRegion(String regionName) {
+        return listByRegionAsync(regionName).block();
     }
 
     @Override
-    public Observable<VirtualMachineImage> listByRegionAsync(Region region) {
+    public Mono<List<VirtualMachineImage>> listByRegionAsync(Region region) {
         return listByRegionAsync(region.name());
     }
 
     @Override
-    public Observable<VirtualMachineImage> listByRegionAsync(String regionName) {
-        return this.publishers().listByRegionAsync(regionName)
-                .flatMap(new Func1<VirtualMachinePublisher, Observable<VirtualMachineOffer>>() {
-                    @Override
-                    public Observable<VirtualMachineOffer> call(VirtualMachinePublisher virtualMachinePublisher) {
-                        return virtualMachinePublisher.offers().listAsync();
-                    }
-                }).flatMap(new Func1<VirtualMachineOffer, Observable<VirtualMachineSku>>() {
-                    @Override
-                    public Observable<VirtualMachineSku> call(VirtualMachineOffer virtualMachineExtensionImageType) {
-                        return virtualMachineExtensionImageType.skus().listAsync();
-                    }
-                }).flatMap(new Func1<VirtualMachineSku, Observable<VirtualMachineImage>>() {
-                    @Override
-                    public Observable<VirtualMachineImage> call(VirtualMachineSku virtualMachineSku) {
-                        return virtualMachineSku.images().listAsync();
-                    }
-                });
+    public Mono<List<VirtualMachineImage>> listByRegionAsync(String regionName) {
+        return publishers().listByRegionAsync(regionName).collectList()
+                .flatMapMany(Flux::fromIterable)
+                .flatMap(publisher -> publisher.offers().listAsync()
+                        .flatMapMany(Flux::fromIterable)
+                        .flatMap(offer -> offer.skus().listAsync()
+                                .flatMapMany(Flux::fromIterable)
+                                .flatMap(sku -> sku.images().listAsync().flatMapMany(Flux::fromIterable))))
+                .collectList()
+                .map(list -> Collections.unmodifiableList(list));
     }
 
     @Override

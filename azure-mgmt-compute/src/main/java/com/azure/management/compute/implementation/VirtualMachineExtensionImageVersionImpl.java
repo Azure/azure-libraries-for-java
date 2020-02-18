@@ -5,18 +5,17 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachineExtensionImage;
 import com.azure.management.compute.VirtualMachineExtensionImageType;
 import com.azure.management.compute.VirtualMachineExtensionImageVersion;
+import com.azure.management.compute.models.VirtualMachineExtensionImageInner;
+import com.azure.management.compute.models.VirtualMachineExtensionImagesInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for VirtualMachineExtensionImageVersion.
  */
-@LangDefinition
 class VirtualMachineExtensionImageVersionImpl
         extends WrapperImpl<VirtualMachineExtensionImageInner>
         implements VirtualMachineExtensionImageVersion {
@@ -33,17 +32,17 @@ class VirtualMachineExtensionImageVersionImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String regionName() {
-        return this.inner().location();
+        return this.inner().getLocation();
     }
 
     @Override
@@ -64,19 +63,10 @@ class VirtualMachineExtensionImageVersionImpl
     }
 
     @Override
-    public Observable<VirtualMachineExtensionImage> getImageAsync() {
+    public Mono<VirtualMachineExtensionImage> getImageAsync() {
         final VirtualMachineExtensionImageVersionImpl self = this;
-        return this.client.getAsync(this.regionName(),
-                this.type().publisher().name(),
-                this.type().name(),
-                this.name()).map(new Func1<VirtualMachineExtensionImageInner, VirtualMachineExtensionImage>() {
-                    @Override
-                    public VirtualMachineExtensionImage call(VirtualMachineExtensionImageInner inner) {
-                        if (inner == null) {
-                            return null;
-                        }
-                        return new VirtualMachineExtensionImageImpl(self, inner);
-                    }
-                });
+        return client.getAsync(regionName(), type().publisher().name(), type().name(), name())
+                .onErrorResume(e -> Mono.empty())
+                .map(inner -> new VirtualMachineExtensionImageImpl(self, inner));
     }
 }

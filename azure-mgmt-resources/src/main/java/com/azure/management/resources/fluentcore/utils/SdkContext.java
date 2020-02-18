@@ -9,6 +9,7 @@ package com.azure.management.resources.fluentcore.utils;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
 
 /**
@@ -101,6 +102,16 @@ public class SdkContext {
      */
     public static void setLroRetryTimeOut(int lroRetryTimeout) {
         delayProvider.setLroRetryTimeout(lroRetryTimeout);
+    }
+
+    /**
+     * Wrapper for the duration for delay, based on delayProvider.
+     *
+     * @param delay the duration of proposed delay.
+     * @return the duration of delay.
+     */
+    public static Duration getDelayDuration(Duration delay) {
+        return delayProvider.getDelayDuration(delay);
     }
 
     /**

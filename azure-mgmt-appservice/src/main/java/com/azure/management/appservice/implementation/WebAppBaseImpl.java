@@ -70,6 +70,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1033,7 +1034,7 @@ abstract class WebAppBaseImpl<
         }
         return sourceControl.registerGithubAccessToken()
                 .flatMap(sourceControlInner -> createOrUpdateSourceControl(sourceControl.inner()))
-                .flatMap(sourceControlInner -> SdkContext.delayedEmitAsync(sourceControlInner, 30000))
+                .delayElement(SdkContext.getDelayDuration(Duration.ofSeconds(30)))
                 .map(ignored -> WebAppBaseImpl.this);
     }
 

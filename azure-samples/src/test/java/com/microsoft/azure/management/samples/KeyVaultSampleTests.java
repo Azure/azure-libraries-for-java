@@ -8,16 +8,16 @@ package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.azure.management.keyvault.samples.ManageKeyVault;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 
 public class KeyVaultSampleTests extends SamplesTestBase {
     @Test
-    @Ignore("Some RBAC related issue with current credentials")
+    @Disabled("Some RBAC related issue with current credentials")
     public void testManageKeyVault() {
         String clientId = "";
         if (!isPlaybackMode()) {
@@ -28,6 +28,6 @@ public class KeyVaultSampleTests extends SamplesTestBase {
                 e.printStackTrace();
             }
         }
-        Assert.assertTrue(ManageKeyVault.runSample(azure, clientId));
+        Assertions.assertTrue(ManageKeyVault.runSample(azure, clientId));
     }
 }

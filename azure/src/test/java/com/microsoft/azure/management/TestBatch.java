@@ -12,7 +12,7 @@ import com.microsoft.azure.management.batch.BatchAccounts;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -39,7 +39,7 @@ public class TestBatch extends TestTemplate<BatchAccount, BatchAccounts>  {
                 });
 
         batchAccounts[0] = future.get();
-        Assert.assertNull(batchAccounts[0].autoStorage());
+        Assertions.assertNull(batchAccounts[0].autoStorage());
 
         return batchAccounts[0];
     }
@@ -52,7 +52,7 @@ public class TestBatch extends TestTemplate<BatchAccount, BatchAccounts>  {
                 .withNewStorageAccount(storageAccountName)
                 .apply();
 
-        Assert.assertNotNull(resource.autoStorage());
+        Assertions.assertNotNull(resource.autoStorage());
 
         return resource;
     }

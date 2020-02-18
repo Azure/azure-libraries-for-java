@@ -19,7 +19,7 @@ import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -66,7 +66,7 @@ public class TestVirtualMachineCustomData extends TestTemplate<VirtualMachine, V
                 .create();
 
         pip.refresh();
-        Assert.assertTrue(pip.hasAssignedNetworkInterface());
+        Assertions.assertTrue(pip.hasAssignedNetworkInterface());
 
         if (TestBase.isRecordMode()) {
             JSch jsch = new JSch();
@@ -89,10 +89,10 @@ public class TestVirtualMachineCustomData extends TestTemplate<VirtualMachine, V
 
                 String msg;
                 while ((msg = in.readLine()) != null) {
-                    Assert.assertFalse(msg.startsWith("The program 'pwgen' is currently not installed"));
+                    Assertions.assertFalse(msg.startsWith("The program 'pwgen' is currently not installed"));
                 }
             } catch (Exception e) {
-                Assert.fail("SSH connection failed" + e.getMessage());
+                Assertions.fail("SSH connection failed" + e.getMessage());
             } finally {
                 if (channel != null) {
                     channel.disconnect();

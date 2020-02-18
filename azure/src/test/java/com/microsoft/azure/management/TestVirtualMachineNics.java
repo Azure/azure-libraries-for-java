@@ -18,7 +18,7 @@ import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, VirtualMachines> {
     private final NetworkManager networkManager;
@@ -80,12 +80,12 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
                 .withNewSecondaryNetworkInterface(secondaryNetworkInterfaceCreatable2)
                 .create();
 
-        Assert.assertTrue(virtualMachine.networkInterfaceIds().size() == 3);
+        Assertions.assertTrue(virtualMachine.networkInterfaceIds().size() == 3);
         NetworkInterface primaryNetworkInterface = virtualMachine.getPrimaryNetworkInterface();
-        Assert.assertEquals(primaryNetworkInterface.primaryPrivateIP(), "10.0.0.4");
+        Assertions.assertEquals(primaryNetworkInterface.primaryPrivateIP(), "10.0.0.4");
 
         PublicIPAddress primaryPublicIPAddress = primaryNetworkInterface.primaryIPConfiguration().getPublicIPAddress();
-        Assert.assertTrue(primaryPublicIPAddress.fqdn().startsWith(primaryPipName));
+        Assertions.assertTrue(primaryPublicIPAddress.fqdn().startsWith(primaryPipName));
         return virtualMachine;
     }
 
@@ -98,7 +98,7 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
                 .withoutSecondaryNetworkInterface(secondaryNicName)
                 .apply();
 
-        Assert.assertTrue(virtualMachine.networkInterfaceIds().size() == 2);
+        Assertions.assertTrue(virtualMachine.networkInterfaceIds().size() == 2);
         return virtualMachine;
     }
 

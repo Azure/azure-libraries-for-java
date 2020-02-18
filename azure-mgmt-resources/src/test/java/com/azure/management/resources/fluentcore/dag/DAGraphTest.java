@@ -6,8 +6,8 @@
 
 package com.azure.management.resources.fluentcore.dag;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public class DAGraphTest {
         ItemHolder nextNode = dag.getNext();
         int i = 0;
         while (nextNode != null) {
-            Assert.assertEquals(nextNode.key(), expectedOrder.get(i));
+            Assertions.assertEquals(nextNode.key(), expectedOrder.get(i));
             dag.reportCompletion(nextNode);
             nextNode = dag.getNext();
             i++;
@@ -135,7 +135,7 @@ public class DAGraphTest {
         ItemHolder nextNode = dag.getNext();
         int i = 0;
         while (nextNode != null) {
-            Assert.assertEquals(expectedOrder.get(i), nextNode.key());
+            Assertions.assertEquals(expectedOrder.get(i), nextNode.key());
             // Process the node
             dag.reportCompletion(nextNode);
             nextNode = dag.getNext();

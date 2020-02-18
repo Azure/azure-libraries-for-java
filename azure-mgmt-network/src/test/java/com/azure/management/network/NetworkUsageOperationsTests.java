@@ -9,8 +9,8 @@ package com.azure.management.network;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class NetworkUsageOperationsTests extends NetworkManagementTest {
     @Test
     public void canListNetworkUsages() throws Exception {
         PagedIterable<NetworkUsage> usages = networkManager.usages().listByRegion(Region.US_EAST);
-        Assert.assertTrue(TestUtilities.getPagedIterableSize(usages) > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(usages) > 0);
     }
 
     @Override

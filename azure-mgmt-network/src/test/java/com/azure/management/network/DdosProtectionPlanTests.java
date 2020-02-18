@@ -9,8 +9,8 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DdosProtectionPlanTests extends NetworkManagementTest {
 
@@ -23,16 +23,16 @@ public class DdosProtectionPlanTests extends NetworkManagementTest {
                 .withNewResourceGroup(RG_NAME)
                 .withTag("tag1", "value1")
                 .create();
-        Assert.assertEquals("value1", pPlan.tags().get("tag1"));
+        Assertions.assertEquals("value1", pPlan.tags().get("tag1"));
 
         PagedIterable<DdosProtectionPlan> ppList = networkManager.ddosProtectionPlans().list();
-        Assert.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
 
         ppList = networkManager.ddosProtectionPlans().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
 
         networkManager.ddosProtectionPlans().deleteById(pPlan.id());
         ppList = networkManager.ddosProtectionPlans().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(TestUtilities.isEmpty(ppList));
+        Assertions.assertTrue(TestUtilities.isEmpty(ppList));
     }
 }

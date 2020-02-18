@@ -9,7 +9,7 @@ package com.azure.management.resources.fluentcore.dag;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -70,7 +70,7 @@ class PastaImpl
 
     @Override
     public void beforeGroupCreateOrUpdate() {
-        Assert.assertFalse("PastaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
+        Assertions.assertFalse("PastaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
         prepareCalled = true;
         int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         for (Creatable<IPasta> pancake : this.delayedPastas) {

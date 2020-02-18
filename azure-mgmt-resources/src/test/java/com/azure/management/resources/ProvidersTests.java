@@ -12,8 +12,8 @@ import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.implementation.ResourceManager;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class ProvidersTests extends TestBase {
     public void canUnregisterAndRegisterProvider() throws Exception {
         PagedIterable<Provider> providers = resourceManager.providers().list();
         int size = TestUtilities.getPagedIterableSize(providers);
-        Assert.assertTrue(size > 0);
+        Assertions.assertTrue(size > 0);
         Provider provider = providers.iterator().next();
         resourceManager.providers().unregister(provider.namespace());
         provider = resourceManager.providers().getByName(provider.namespace());
@@ -49,8 +49,8 @@ public class ProvidersTests extends TestBase {
             SdkContext.sleep(5 * 1000);
             provider = resourceManager.providers().getByName(provider.namespace());
         }
-        Assert.assertEquals("Registered", provider.registrationState());
+        Assertions.assertEquals("Registered", provider.registrationState());
         List<ProviderResourceType> resourceTypes = provider.resourceTypes();
-        Assert.assertTrue(resourceTypes.size() > 0);
+        Assertions.assertTrue(resourceTypes.size() > 0);
     }
 }

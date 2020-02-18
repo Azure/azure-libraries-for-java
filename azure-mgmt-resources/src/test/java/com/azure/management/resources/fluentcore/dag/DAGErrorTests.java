@@ -7,8 +7,8 @@
 package com.azure.management.resources.fluentcore.dag;
 
 import com.google.common.collect.Sets;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -121,11 +121,11 @@ public class DAGErrorTests {
                     return Mono.empty();
                 }).blockLast();
 
-        Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
-        Assert.assertEquals(exceptions.size(), 1);
-        Assert.assertTrue(exceptions.get(0) instanceof RuntimeException);
+        Assertions.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
+        Assertions.assertEquals(exceptions.size(), 1);
+        Assertions.assertTrue(exceptions.get(0) instanceof RuntimeException);
         RuntimeException runtimeException = (RuntimeException) exceptions.get(0);
-        Assert.assertTrue(runtimeException.getMessage().equalsIgnoreCase("B"));
+        Assertions.assertTrue(runtimeException.getMessage().equalsIgnoreCase("B"));
     }
 
     @Test
@@ -240,11 +240,11 @@ public class DAGErrorTests {
                     return Mono.empty();
                 }).blockLast();
 
-        Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
-        Assert.assertEquals(exceptions.size(), 1);
-        Assert.assertTrue(exceptions.get(0) instanceof RuntimeException);
+        Assertions.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
+        Assertions.assertEquals(exceptions.size(), 1);
+        Assertions.assertTrue(exceptions.get(0) instanceof RuntimeException);
         RuntimeException runtimeException = (RuntimeException) exceptions.get(0);
-        Assert.assertTrue(runtimeException.getMessage().equalsIgnoreCase("B"));
+        Assertions.assertTrue(runtimeException.getMessage().equalsIgnoreCase("B"));
     }
 
     @Test
@@ -355,14 +355,14 @@ public class DAGErrorTests {
             return Mono.empty();
         }).blockLast();
 
-        Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
-        Assert.assertEquals(exceptions.size(), 1);
-        Assert.assertTrue(exceptions.get(0) instanceof RuntimeException);
+        Assertions.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
+        Assertions.assertEquals(exceptions.size(), 1);
+        Assertions.assertTrue(exceptions.get(0) instanceof RuntimeException);
         RuntimeException compositeException = (RuntimeException) exceptions.get(0);
-        Assert.assertEquals(compositeException.getSuppressed().length, 2);
+        Assertions.assertEquals(compositeException.getSuppressed().length, 2);
         for (Throwable throwable : compositeException.getSuppressed()) {
             String message = throwable.getMessage();
-            Assert.assertTrue(message.equalsIgnoreCase("B") || message.equalsIgnoreCase("G"));
+            Assertions.assertTrue(message.equalsIgnoreCase("B") || message.equalsIgnoreCase("G"));
         }
     }
 
@@ -471,10 +471,10 @@ public class DAGErrorTests {
             return Mono.empty();
         }).blockLast();
 
-        Assert.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
-        Assert.assertEquals(exceptions.size(), 1);
-        Assert.assertTrue(exceptions.get(0) instanceof RuntimeException);
+        Assertions.assertTrue(Sets.difference(expectedToSee, seen).isEmpty());
+        Assertions.assertEquals(exceptions.size(), 1);
+        Assertions.assertTrue(exceptions.get(0) instanceof RuntimeException);
         RuntimeException runtimeException = (RuntimeException) exceptions.get(0);
-        Assert.assertTrue(runtimeException.getMessage().equalsIgnoreCase("F"));
+        Assertions.assertTrue(runtimeException.getMessage().equalsIgnoreCase("F"));
     }
 }

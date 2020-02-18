@@ -22,7 +22,7 @@ import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.file.CloudFileShare;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import static com.azure.management.resources.core.TestBase.isPlaybackMode;
 
@@ -118,16 +118,16 @@ public class TestBatchAI {
                     .withInstrumentationKey("appInsightsKey")
                     .create();
             printBatchAICluster(cluster);
-            Assert.assertEquals("resizing", cluster.allocationState().toString());
-            Assert.assertEquals(userName, cluster.adminUserName());
-            Assert.assertEquals(VmPriority.LOWPRIORITY, cluster.vmPriority());
-            Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureFileShares().size());
-            Assert.assertEquals(shareMountPath, cluster.nodeSetup().mountVolumes().azureFileShares().get(0).relativeMountPath());
-            Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().size());
-            Assert.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
-            Assert.assertEquals(network.id() + "/subnets/" + subnetName, cluster.subnet().id());
-            Assert.assertEquals("appinsightsId", cluster.nodeSetup().performanceCountersSettings().appInsightsReference().component().id());
-            Assert.assertEquals("linux-data-science-vm-ubuntu", cluster.virtualMachineConfiguration().imageReference().offer());
+            Assertions.assertEquals("resizing", cluster.allocationState().toString());
+            Assertions.assertEquals(userName, cluster.adminUserName());
+            Assertions.assertEquals(VmPriority.LOWPRIORITY, cluster.vmPriority());
+            Assertions.assertEquals(1, cluster.nodeSetup().mountVolumes().azureFileShares().size());
+            Assertions.assertEquals(shareMountPath, cluster.nodeSetup().mountVolumes().azureFileShares().get(0).relativeMountPath());
+            Assertions.assertEquals(1, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().size());
+            Assertions.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
+            Assertions.assertEquals(network.id() + "/subnets/" + subnetName, cluster.subnet().id());
+            Assertions.assertEquals("appinsightsId", cluster.nodeSetup().performanceCountersSettings().appInsightsReference().component().id());
+            Assertions.assertEquals("linux-data-science-vm-ubuntu", cluster.virtualMachineConfiguration().imageReference().offer());
             return workspace;
         }
 
@@ -138,7 +138,7 @@ public class TestBatchAI {
             cluster.update()
                     .withAutoScale(1, 2, 2)
                     .apply();
-            Assert.assertEquals(2, cluster.scaleSettings().autoScale().maximumNodeCount());
+            Assertions.assertEquals(2, cluster.scaleSettings().autoScale().maximumNodeCount());
             return workspace;
         }
 

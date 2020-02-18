@@ -18,8 +18,8 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.implementation.ResourceManager;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,40 +58,40 @@ public class MSIIdentityManagementTests extends TestBase {
                 .withNewResourceGroup(creatableRG)
                 .create();
 
-        Assert.assertNotNull(identity);
-        Assert.assertNotNull(identity.inner());
-        Assert.assertTrue(String.format("%s == %s", identityName, identity.name()), identityName.equalsIgnoreCase(identity.name()));
-        Assert.assertTrue(String.format("%s == %s", RG_NAME, identity.resourceGroupName()), RG_NAME.equalsIgnoreCase(identity.resourceGroupName()));
+        Assertions.assertNotNull(identity);
+        Assertions.assertNotNull(identity.inner());
+        Assertions.assertTrue(String.format("%s == %s", identityName, identity.name()), identityName.equalsIgnoreCase(identity.name()));
+        Assertions.assertTrue(String.format("%s == %s", RG_NAME, identity.resourceGroupName()), RG_NAME.equalsIgnoreCase(identity.resourceGroupName()));
 
-        Assert.assertNotNull(identity.clientId());
-        Assert.assertNotNull(identity.principalId());
-        Assert.assertNotNull(identity.tenantId());
-        //Assert.assertNotNull(identity.clientSecretUrl());
+        Assertions.assertNotNull(identity.clientId());
+        Assertions.assertNotNull(identity.principalId());
+        Assertions.assertNotNull(identity.tenantId());
+        //Assertions.assertNotNull(identity.clientSecretUrl());
 
         identity = msiManager.identities().getById(identity.id());
 
-        Assert.assertNotNull(identity);
-        Assert.assertNotNull(identity.inner());
+        Assertions.assertNotNull(identity);
+        Assertions.assertNotNull(identity.inner());
 
         PagedIterable<Identity> identities = msiManager.identities()
                 .listByResourceGroup(RG_NAME);
 
-        Assert.assertNotNull(identities);
+        Assertions.assertNotNull(identities);
 
         boolean found = false;
         for (Identity id : identities) {
-            Assert.assertNotNull(id);
-            Assert.assertNotNull(id.inner());
+            Assertions.assertNotNull(id);
+            Assertions.assertNotNull(id.inner());
             if (id.name().equalsIgnoreCase(identityName)) {
                 found = true;
             }
-            Assert.assertNotNull(identity.clientId());
-            Assert.assertNotNull(identity.principalId());
-            Assert.assertNotNull(identity.tenantId());
-            //Assert.assertNotNull(identity.clientSecretUrl());
+            Assertions.assertNotNull(identity.clientId());
+            Assertions.assertNotNull(identity.principalId());
+            Assertions.assertNotNull(identity.tenantId());
+            //Assertions.assertNotNull(identity.clientSecretUrl());
         }
 
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
 
         msiManager.identities()
                 .deleteById(identity.id());
@@ -124,7 +124,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 break;
             }
         }
-        Assert.assertTrue("Expected role assignment not found for the resource group that identity belongs to", found);
+        Assertions.assertTrue("Expected role assignment not found for the resource group that identity belongs to", found);
 
         identity.update()
                 .withoutAccessTo(resourceGroup.id(), BuiltInRole.READER)
@@ -142,7 +142,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 break;
             }
         }
-        Assert.assertTrue("Role assignment to access resource group is not removed", notFound);
+        Assertions.assertTrue("Role assignment to access resource group is not removed", notFound);
 
         msiManager.identities()
                 .deleteById(identity.id());
@@ -193,10 +193,10 @@ public class MSIIdentityManagementTests extends TestBase {
             }
         }
 
-        Assert.assertEquals(1, resourceGroupResourcesCount);
-        Assert.assertEquals(2, roleAssignmentResourcesCount);
-        Assert.assertEquals(2, identityResourcesCount); // Identity resource will be emitted twice - before & after post-run, will be fixed in graph
-        Assert.assertNotNull(identity);
+        Assertions.assertEquals(1, resourceGroupResourcesCount);
+        Assertions.assertEquals(2, roleAssignmentResourcesCount);
+        Assertions.assertEquals(2, identityResourcesCount); // Identity resource will be emitted twice - before & after post-run, will be fixed in graph
+        Assertions.assertNotNull(identity);
 
         // Ensure roles are assigned
         //
@@ -209,7 +209,7 @@ public class MSIIdentityManagementTests extends TestBase {
                 break;
             }
         }
-        Assert.assertTrue("Expected role assignment not found for the resource group that identity belongs to", found);
+        Assertions.assertTrue("Expected role assignment not found for the resource group that identity belongs to", found);
 
         roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(anotherResourceGroup.id());
         found = false;
@@ -219,15 +219,15 @@ public class MSIIdentityManagementTests extends TestBase {
                 break;
             }
         }
-        Assert.assertTrue("Expected role assignment not found for the resource group resource", found);
+        Assertions.assertTrue("Expected role assignment not found for the resource group resource", found);
 
         identity = identity
                 .update()
                 .withTag("a", "bb")
                 .apply();
 
-        Assert.assertNotNull(identity.tags());
-        Assert.assertTrue(identity.tags().containsKey("a"));
+        Assertions.assertNotNull(identity.tags());
+        Assertions.assertTrue(identity.tags().containsKey("a"));
 
         resourceManager.resourceGroups().deleteByName(anotherRgName);
     }

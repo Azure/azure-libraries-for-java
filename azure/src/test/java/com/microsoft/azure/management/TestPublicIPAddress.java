@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.management;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.NetworkInterface;
@@ -44,16 +44,16 @@ public class TestPublicIPAddress extends TestTemplate<PublicIPAddress, PublicIPA
                 .withTag("tag1", "value1")
                 .withTag("tag2", "value2")
                 .apply();
-        Assert.assertTrue(resource.leafDomainLabel().equalsIgnoreCase(updatedDnsName));
-        Assert.assertTrue(resource.idleTimeoutInMinutes() == updatedIdleTimeout);
-        Assert.assertEquals("value2", resource.tags().get("tag2"));
+        Assertions.assertTrue(resource.leafDomainLabel().equalsIgnoreCase(updatedDnsName));
+        Assertions.assertTrue(resource.idleTimeoutInMinutes() == updatedIdleTimeout);
+        Assertions.assertEquals("value2", resource.tags().get("tag2"));
 
         resource.updateTags()
                 .withoutTag("tag1")
                 .withTag("tag3", "value3")
                 .applyTags();
-        Assert.assertFalse(resource.tags().containsKey("tag1"));
-        Assert.assertEquals("value3", resource.tags().get("tag3"));
+        Assertions.assertFalse(resource.tags().containsKey("tag1"));
+        Assertions.assertEquals("value3", resource.tags().get("tag3"));
         return resource;
     }
 

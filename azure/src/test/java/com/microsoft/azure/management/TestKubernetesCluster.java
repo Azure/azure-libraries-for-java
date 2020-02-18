@@ -10,7 +10,7 @@ import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
 import com.azure.management.resources.fluentcore.arm.Region;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -45,21 +45,21 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
             .withDnsPrefix(dnsPrefix)
             .withTag("tag1", "value1")
             .create();
-        Assert.assertNotNull("Container service not found.", resource.id());
-        Assert.assertEquals(Region.US_EAST, resource.region());
-        Assert.assertEquals("aksadmin", resource.linuxRootUsername());
-        Assert.assertEquals(1, resource.agentPools().size());
-        Assert.assertNotNull(resource.agentPools().get(agentPoolName));
-        Assert.assertEquals(1, resource.agentPools().get(agentPoolName).count());
-        Assert.assertEquals(ContainerServiceVMSizeTypes.STANDARD_D2_V2, resource.agentPools().get(agentPoolName).vmSize());
-        Assert.assertTrue(resource.tags().containsKey("tag1"));
+        Assertions.assertNotNull("Container service not found.", resource.id());
+        Assertions.assertEquals(Region.US_EAST, resource.region());
+        Assertions.assertEquals("aksadmin", resource.linuxRootUsername());
+        Assertions.assertEquals(1, resource.agentPools().size());
+        Assertions.assertNotNull(resource.agentPools().get(agentPoolName));
+        Assertions.assertEquals(1, resource.agentPools().get(agentPoolName).count());
+        Assertions.assertEquals(ContainerServiceVMSizeTypes.STANDARD_D2_V2, resource.agentPools().get(agentPoolName).vmSize());
+        Assertions.assertTrue(resource.tags().containsKey("tag1"));
 
         resource = kubernetesClusters.getByResourceGroup(resource.resourceGroupName(), newName);
 
         byte[] kubeConfigAdmin = resource.adminKubeConfigContent();
-        Assert.assertTrue(kubeConfigAdmin != null && kubeConfigAdmin.length > 0);
+        Assertions.assertTrue(kubeConfigAdmin != null && kubeConfigAdmin.length > 0);
         byte[] kubeConfigUser = resource.userKubeConfigContent();
-        Assert.assertTrue(kubeConfigUser != null && kubeConfigUser.length > 0);
+        Assertions.assertTrue(kubeConfigUser != null && kubeConfigUser.length > 0);
 
         return resource;
     }
@@ -75,10 +75,10 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
             .withoutTag("tag1")
             .apply();
 
-        Assert.assertEquals(1, resource.agentPools().size());
-        Assert.assertTrue("Agent pool count was not updated.", resource.agentPools().get(agentPoolName).count() == 5);
-        Assert.assertTrue(resource.tags().containsKey("tag2"));
-        Assert.assertTrue(!resource.tags().containsKey("tag1"));
+        Assertions.assertEquals(1, resource.agentPools().size());
+        Assertions.assertTrue("Agent pool count was not updated.", resource.agentPools().get(agentPoolName).count() == 5);
+        Assertions.assertTrue(resource.tags().containsKey("tag2"));
+        Assertions.assertTrue(!resource.tags().containsKey("tag1"));
         return resource;
     }
 

@@ -7,12 +7,12 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.cdn.samples.ManageCdn;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CdnSampleTests extends SamplesTestBase {
     @Test
     public void testManageCdn() {
-        Assert.assertTrue(ManageCdn.runSample(azure));
+        Assertions.assertTrue(ManageCdn.runSample(azure));
     }
 }

@@ -8,19 +8,19 @@ package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.trafficmanager.samples.ManageSimpleTrafficManager;
 import com.microsoft.azure.management.trafficmanager.samples.ManageTrafficManager;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class TrafficManagerSampleTests extends SamplesTestBase {
     @Test
     public void testManageSimpleTrafficManager() {
-        Assert.assertTrue(ManageSimpleTrafficManager.runSample(azure));
+        Assertions.assertTrue(ManageSimpleTrafficManager.runSample(azure));
     }
 
     @Test
-    @Ignore("Failing -  The subscription is not registered to use namespace 'Microsoft.DomainRegistration'")
+    @Disabled("Failing -  The subscription is not registered to use namespace 'Microsoft.DomainRegistration'")
     public void testManageTrafficManager() {
-        Assert.assertTrue(ManageTrafficManager.runSample(azure));
+        Assertions.assertTrue(ManageTrafficManager.runSample(azure));
     }
 }

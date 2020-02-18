@@ -6,8 +6,9 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -50,7 +51,7 @@ public class AppServicePlansTests extends AppServiceTest {
         // GET
         Assert.assertNotNull(appServiceManager.appServicePlans().getByResourceGroup(RG_NAME, APP_SERVICE_PLAN_NAME));
         // LIST
-        List<AppServicePlan> appServicePlans = appServiceManager.appServicePlans().listByResourceGroup(RG_NAME);
+        PagedIterable<AppServicePlan> appServicePlans = appServiceManager.appServicePlans().listByResourceGroup(RG_NAME);
         boolean found = false;
         for (AppServicePlan asp : appServicePlans) {
             if (APP_SERVICE_PLAN_NAME.equals(asp.name())) {

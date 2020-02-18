@@ -5,11 +5,12 @@
  */
 package com.azure.management.appservice;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,9 +44,9 @@ public class ZipDeployTests extends AppServiceTest {
         Assert.assertNotNull(response);
         Assert.assertEquals("625", response);
 
-        PagedList<FunctionEnvelope> envelopes = appServiceManager.functionApps().listFunctions(RG_NAME, functionApp.name());
+        PagedIterable<FunctionEnvelope> envelopes = appServiceManager.functionApps().listFunctions(RG_NAME, functionApp.name());
         Assert.assertNotNull(envelopes);
-        Assert.assertEquals(1, envelopes.size());
-        Assert.assertEquals(envelopes.get(0).href(), "https://" + WEBAPP_NAME_4 +".scm.azurewebsites.net/api/functions/square");
+        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(envelopes));
+        Assert.assertEquals(envelopes.iterator().next().href(), "https://" + WEBAPP_NAME_4 +".scm.azurewebsites.net/api/functions/square");
     }
 }

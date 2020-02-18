@@ -6,8 +6,8 @@
 
 package com.azure.management.appservice;
 
+import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,14 +31,14 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withNewResourceGroup(RG_NAME)
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
                 .withNetFrameworkVersion(NetFrameworkVersion.V3_0)
-                .withMinTlsVersion(SupportedTlsVersions.ONE_FULL_STOP_ONE)
+                .withMinTlsVersion(SupportedTlsVersions.ONE_ONE)
                 .create();
 
         WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Assert.assertNotNull(webApp);
         Assert.assertEquals(Region.US_EAST, webApp.region());
         Assert.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
-        Assert.assertEquals(SupportedTlsVersions.ONE_FULL_STOP_ONE, webApp.minTlsVersion());
+        Assert.assertEquals(SupportedTlsVersions.ONE_ONE, webApp.minTlsVersion());
 
         // Java version
         webApp.update()
@@ -103,9 +103,9 @@ public class WebAppConfigTests extends AppServiceTest {
 
         // Min TLS version
         webApp = webApp.update()
-                .withMinTlsVersion(SupportedTlsVersions.ONE_FULL_STOP_TWO)
+                .withMinTlsVersion(SupportedTlsVersions.ONE_TWO)
                 .apply();
-        Assert.assertEquals(SupportedTlsVersions.ONE_FULL_STOP_TWO, webApp.minTlsVersion());
+        Assert.assertEquals(SupportedTlsVersions.ONE_TWO, webApp.minTlsVersion());
 
         // Logs
         webApp = webApp.update()

@@ -6,8 +6,10 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Ignore;
 
@@ -112,8 +114,8 @@ public class FunctionDeploymentSlotsTests extends AppServiceTest {
         Assert.assertEquals(slot3.id(), deploymentSlot.id());
 
         // List
-        List<FunctionDeploymentSlot> deploymentSlots = functionApp1.deploymentSlots().list();
-        Assert.assertEquals(3, deploymentSlots.size());
+        PagedIterable<FunctionDeploymentSlot> deploymentSlots = functionApp1.deploymentSlots().list();
+        Assert.assertEquals(3, TestUtilities.getPagedIterableSize(deploymentSlots));
 
         // Swap
         slot3.swap(slot1.name());

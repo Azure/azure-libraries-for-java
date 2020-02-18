@@ -6,6 +6,7 @@
 
 package com.azure.management.appservice;
 
+import com.azure.management.RestClient;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.msi.Identity;
 import com.azure.management.msi.implementation.MSIManager;
@@ -13,7 +14,6 @@ import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.RestClient;
 import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Test;

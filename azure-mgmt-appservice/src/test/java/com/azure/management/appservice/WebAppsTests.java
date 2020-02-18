@@ -6,8 +6,10 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -71,10 +73,10 @@ public class WebAppsTests extends AppServiceTest {
         Assert.assertEquals(webApp2.name(), webApp.name());
 
         // List
-        List<WebApp> webApps = appServiceManager.webApps().listByResourceGroup(RG_NAME_1);
-        Assert.assertEquals(1, webApps.size());
+        PagedIterable<WebApp> webApps = appServiceManager.webApps().listByResourceGroup(RG_NAME_1);
+        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(webApps));
         webApps = appServiceManager.webApps().listByResourceGroup(RG_NAME_2);
-        Assert.assertEquals(1, webApps.size());
+        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(webApps));
 
         // Update
         webApp1.update()

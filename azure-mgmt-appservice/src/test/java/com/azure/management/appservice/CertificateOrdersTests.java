@@ -6,6 +6,7 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.*;
 
@@ -36,7 +37,7 @@ public class CertificateOrdersTests extends AppServiceTest {
         // GET
         Assert.assertNotNull(appServiceManager.certificateOrders().getByResourceGroup(RG_NAME, CERTIFICATE_NAME));
         // LIST
-        List<AppServiceCertificateOrder> certificateOrders = appServiceManager.certificateOrders().listByResourceGroup(RG_NAME);
+        PagedIterable<AppServiceCertificateOrder> certificateOrders = appServiceManager.certificateOrders().listByResourceGroup(RG_NAME);
         boolean found = false;
         for (AppServiceCertificateOrder co : certificateOrders) {
             if (CERTIFICATE_NAME.equals(co.name())) {

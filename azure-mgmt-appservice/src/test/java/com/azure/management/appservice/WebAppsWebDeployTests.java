@@ -6,9 +6,9 @@
 
 package com.azure.management.appservice;
 
+import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.junit.Assert;

@@ -6,14 +6,15 @@
 
 package com.azure.management.appservice;
 
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.CloudException;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountSkuType;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -89,7 +90,7 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertTrue(functionAppResource1.appSettings.containsKey(KEY_CONTENT_SHARE));
         Assert.assertEquals(functionAppResource1.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource1.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
         // verify accountKey
-        Assert.assertEquals(functionAppResource1.storageAccount.getKeys().get(0).value(), functionAppResource1.accountKey);
+        Assert.assertEquals(functionAppResource1.storageAccount.getKeys().get(0).getValue(), functionAppResource1.accountKey);
 
         // Create with the same consumption plan
         FunctionApp functionApp2 = appServiceManager.functionApps().define(WEBAPP_NAME_2)
@@ -116,7 +117,7 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertFalse(functionAppResource3.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
         Assert.assertFalse(functionAppResource3.appSettings.containsKey(KEY_CONTENT_SHARE));
         // verify accountKey
-        Assert.assertEquals(functionAppResource3.storageAccount.getKeys().get(0).value(), functionAppResource3.accountKey);
+        Assert.assertEquals(functionAppResource3.storageAccount.getKeys().get(0).getValue(), functionAppResource3.accountKey);
 
         // Get
         FunctionApp functionApp = appServiceManager.functionApps().getByResourceGroup(RG_NAME_1, functionApp1.name());
@@ -125,10 +126,10 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertEquals(functionApp2.name(), functionApp.name());
 
         // List
-        List<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
-        Assert.assertEquals(1, functionApps.size());
+        PagedIterable<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
+        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functionApps));
         functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_2);
-        Assert.assertEquals(2, functionApps.size());
+        Assert.assertEquals(2, TestUtilities.getPagedIterableSize(functionApps));
 
         // Update
         functionApp2.update()
@@ -141,15 +142,15 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertTrue(functionAppResource2.appSettings.containsKey(KEY_CONTENT_SHARE));
         Assert.assertEquals(functionAppResource2.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource2.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
         Assert.assertEquals(STORAGE_ACCOUNT_NAME_1, functionAppResource2.storageAccount.name());
-        Assert.assertEquals(functionAppResource2.storageAccount.getKeys().get(0).value(), functionAppResource2.accountKey);
+        Assert.assertEquals(functionAppResource2.storageAccount.getKeys().get(0).getValue(), functionAppResource2.accountKey);
 
         // Update, verify modify AppSetting does not create new storage account
         // https://github.com/Azure/azure-libraries-for-net/issues/457
-        int numStorageAccountBefore = storageManager.storageAccounts().listByResourceGroup(RG_NAME_1).size();
+        int numStorageAccountBefore = TestUtilities.getPagedIterableSize(storageManager.storageAccounts().listByResourceGroup(RG_NAME_1));
         functionApp1.update()
                 .withAppSetting("newKey", "newValue")
                 .apply();
-        int numStorageAccountAfter = storageManager.storageAccounts().listByResourceGroup(RG_NAME_1).size();
+        int numStorageAccountAfter = TestUtilities.getPagedIterableSize(storageManager.storageAccounts().listByResourceGroup(RG_NAME_1));
         Assert.assertEquals(numStorageAccountBefore, numStorageAccountAfter);
         FunctionAppResource functionAppResource1Updated = getStorageAccount(storageManager, functionApp1);
         Assert.assertTrue(functionAppResource1Updated.appSettings.containsKey("newKey"));
@@ -195,8 +196,8 @@ public class FunctionAppsTests extends AppServiceTest {
             functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
         }
 
-        List<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
-        Assert.assertEquals(1, functionApps.size());
+        PagedIterable<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
+        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functionApps));
 
         // function app with app service plan
         FunctionApp functionApp2 = appServiceManager.functionApps().define(WEBAPP_NAME_2)
@@ -232,17 +233,17 @@ public class FunctionAppsTests extends AppServiceTest {
         }
 
         functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
-        Assert.assertEquals(3, functionApps.size());
+        Assert.assertEquals(3, TestUtilities.getPagedIterableSize(functionApps));
 
         // verify deploy
-        List<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
-        Assert.assertEquals(1, functions.size());
+        PagedIterable<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
+        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
 
         functions = appServiceManager.functionApps().listFunctions(functionApp2.resourceGroupName(), functionApp2.name());
-        Assert.assertEquals(1, functions.size());
+        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
 
         functions = appServiceManager.functionApps().listFunctions(functionApp3.resourceGroupName(), functionApp3.name());
-        Assert.assertEquals(1, functions.size());
+        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
     }
 
     @Test
@@ -270,8 +271,8 @@ public class FunctionAppsTests extends AppServiceTest {
         }
 
         // verify deploy
-        List<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
-        Assert.assertEquals(1, functions.size());
+        PagedIterable<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
+        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
     }
 
     @Test
@@ -341,7 +342,7 @@ public class FunctionAppsTests extends AppServiceTest {
             }
         }
         if (resource.accountName != null) {
-            PagedList<StorageAccount> storageAccounts = storageManager.storageAccounts().list();
+            PagedIterable<StorageAccount> storageAccounts = storageManager.storageAccounts().list();
             for (StorageAccount storageAccount : storageAccounts) {
                 if (resource.accountName.equals(storageAccount.name())) {
                     resource.storageAccount = storageAccount;

@@ -6,6 +6,7 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.*;
@@ -44,6 +45,6 @@ public class CertificatesTests extends AppServiceTest {
 
     @Test
     public void canListCertificate() {
-        List<AppServiceCertificate> certificates = appServiceManager.certificates().list();
+        PagedIterable<AppServiceCertificate> certificates = appServiceManager.certificates().list();
     }
 }

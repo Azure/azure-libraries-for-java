@@ -107,12 +107,12 @@ public abstract class TopLevelModifiableResourcesImpl<
 
     @Override
     public PagedFlux<T> listAsync() {
-        return inner().listAsync().mapPage(innerT -> wrapModel(innerT));
+        return wrapPageAsync(inner().listAsync());
     }
 
     @Override
     public PagedFlux<T> listByResourceGroupAsync(String resourceGroupName) {
-        return inner().listByResourceGroupAsync(resourceGroupName).mapPage(innerT -> wrapModel(innerT));
+        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroupName));
     }
 
     @Override

@@ -10,18 +10,17 @@ import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.polling.LongRunningOperationStatus;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 import com.azure.security.keyvault.keys.KeyAsyncClient;
 import com.azure.security.keyvault.keys.models.KeyProperties;
 import com.azure.security.keyvault.keys.models.KeyVaultKey;
 import com.azure.management.keyvault.Key;
 import com.azure.management.keyvault.Keys;
 import com.azure.management.keyvault.Vault;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.function.Supplier;
 
 /**
  * The implementation of Vaults and its parent interfaces.
@@ -89,20 +88,8 @@ class KeysImpl
 
     @Override
     public PagedFlux<Key> listAsync() {
-//        PagedFlux<KeyProperties> keyPropertiesFlux = inner.listPropertiesOfKeys();
-//        Supplier<PageRetriever<String, PagedResponse<Key>>> provider = () -> (continuationToken, pageSize) -> {
-//            Flux<PagedResponse<KeyProperties>> flux = (continuationToken == null)
-//                    ? keyPropertiesFlux.byPage()
-//                    : keyPropertiesFlux.byPage(continuationToken);
-//            return flux.flatMap(Utils.flatMapPagedResponse(p -> inner.getKey(p.getName()).map(this::wrapModel)));
-//        };
-//        return PagedFlux.create(provider);
-
-        // TODO async for PagedFlux
-        return inner.listPropertiesOfKeys().mapPage(p -> {
-            KeyVaultKey key = inner.getKey(p.getName()).block();
-            return wrapModel(key);
-        });
+        PagedFlux<KeyProperties> keyPropertiesFlux = inner.listPropertiesOfKeys();
+        return PagedConverter.flatMapPage(keyPropertiesFlux, p -> inner.getKey(p.getName()).map(this::wrapModel));
     }
 
     @Override

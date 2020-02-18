@@ -895,7 +895,7 @@ abstract class WebAppBaseImpl<
     Mono<FluentT> submitHostNameBindings() {
         final List<Mono<HostNameBinding>> bindingObservables = new ArrayList<>();
         for (HostNameBindingImpl<FluentT, FluentImplT> binding : hostNameBindingsToCreate.values()) {
-            bindingObservables.add(Utils.<HostNameBinding>rootResource(binding.createAsync()));
+            bindingObservables.add(Utils.<HostNameBinding>rootResource(binding.createAsync().last()));
         }
         for (String binding : hostNameBindingsToDelete) {
             bindingObservables.add(deleteHostNameBinding(binding).then(Mono.empty()));

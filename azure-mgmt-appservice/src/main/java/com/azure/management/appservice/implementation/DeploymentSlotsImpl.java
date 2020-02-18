@@ -6,28 +6,31 @@
 
 package com.azure.management.appservice.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.appservice.DeploymentSlot;
 import com.azure.management.appservice.DeploymentSlots;
 import com.azure.management.appservice.WebApp;
-import com.microsoft.azure.PagedList;
+import com.azure.management.appservice.models.SiteConfigResourceInner;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
+import com.azure.management.appservice.models.WebAppsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.IndependentChildResourcesImpl;
-import com.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import reactor.core.publisher.Mono;
+
 /**
  * The implementation DeploymentSlots.
  */
 class DeploymentSlotsImpl
         extends IndependentChildResourcesImpl<
         DeploymentSlot,
-                        DeploymentSlotImpl,
-                        SiteInner,
-                        WebAppsInner,
-                        AppServiceManager,
+        DeploymentSlotImpl,
+        SiteInner,
+        WebAppsInner,
+        AppServiceManager,
         WebApp>
         implements DeploymentSlots {
 
-    private final PagedListConverter<SiteInner, DeploymentSlot> converter;
     private final WebAppImpl parent;
 
     DeploymentSlotsImpl(final WebAppImpl parent) {
@@ -35,20 +38,6 @@ class DeploymentSlotsImpl
 
         this.parent = parent;
         final WebAppsInner innerCollection = this.inner();
-        converter = new PagedListConverter<SiteInner, DeploymentSlot>() {
-            @Override
-            public Observable<DeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
-                return Observable.zip(
-                        innerCollection.getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
-                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
-                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, DeploymentSlot>() {
-                            @Override
-                            public DeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
-                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
-                            }
-                        });
-            }
-        };
     }
 
     @Override
@@ -63,8 +52,24 @@ class DeploymentSlotsImpl
         return wrapModel(inner, null, null);
     }
 
-    protected PagedList<DeploymentSlot> wrapList(PagedList<SiteInner> pagedList) {
-        return converter.convert(pagedList);
+    protected PagedIterable<DeploymentSlot> wrapList(PagedIterable<SiteInner> pagedList) {
+        // FIXME need core 1.3
+        return pagedList.mapPage(this::wrapModel);
+
+//        converter = new PagedListConverter<SiteInner, DeploymentSlot>() {
+//            @Override
+//            public Observable<DeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
+//                return Observable.zip(
+//                        innerCollection.getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
+//                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
+//                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, DeploymentSlot>() {
+//                            @Override
+//                            public DeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
+//                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
+//                            }
+//                        });
+//            }
+//        };
     }
 
     @Override
@@ -73,34 +78,21 @@ class DeploymentSlotsImpl
     }
 
     @Override
-    public Observable<DeploymentSlot> getByParentAsync(final String resourceGroup, final String parentName, final String name) {
-        return innerCollection.getSlotAsync(resourceGroup, parentName, name).flatMap(new Func1<SiteInner, Observable<DeploymentSlot>>() {
-            @Override
-            public Observable<DeploymentSlot> call(final SiteInner siteInner) {
-                if (siteInner == null) {
-                    return null;
-                }
-                return Observable.zip(
-                        innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name),
-                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(resourceGroup, parentName, name),
-                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, DeploymentSlot>() {
-                            @Override
-                            public DeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
-                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
-                            }
-                        });
-            }
-        });
+    public Mono<DeploymentSlot> getByParentAsync(final String resourceGroup, final String parentName, final String name) {
+        return innerCollection.getSlotAsync(resourceGroup, parentName, name).flatMap(siteInner -> Mono.zip(
+                innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name),
+                innerCollection.getDiagnosticLogsConfigurationSlotAsync(resourceGroup, parentName, name),
+                (SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) -> wrapModel(siteInner, siteConfigResourceInner, logsConfigInner)));
     }
 
     @Override
-    public PagedList<DeploymentSlot> listByParent(String resourceGroupName, String parentName) {
+    public PagedIterable<DeploymentSlot> listByParent(String resourceGroupName, String parentName) {
         return wrapList(innerCollection.listSlots(resourceGroupName, parentName));
     }
 
     @Override
-    public Completable deleteByParentAsync(String groupName, String parentName, String name) {
-        return innerCollection.deleteSlotAsync(groupName, parentName, name).toCompletable();
+    public Mono<Void> deleteByParentAsync(String groupName, String parentName, String name) {
+        return innerCollection.deleteSlotAsync(groupName, parentName, name);
     }
 
     @Override
@@ -109,17 +101,12 @@ class DeploymentSlotsImpl
     }
 
     @Override
-    public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
-        return deleteByParentAsync(parent.resourceGroupName(), parent.name(), name, callback);
-    }
-
-    @Override
-    public Completable deleteByNameAsync(String name) {
+    public Mono<Void> deleteByNameAsync(String name) {
         return deleteByParentAsync(parent.resourceGroupName(), parent.name(), name);
     }
 
     @Override
-    public PagedList<DeploymentSlot> list() {
+    public PagedIterable<DeploymentSlot> list() {
         return listByParent(parent.resourceGroupName(), parent.name());
     }
 
@@ -129,25 +116,25 @@ class DeploymentSlotsImpl
     }
 
     @Override
+    public Mono<DeploymentSlot> getByNameAsync(String name) {
+        return getByParentAsync(parent.resourceGroupName(), parent.name(), name);
+    }
+
+    @Override
     public WebApp parent() {
         return this.parent;
     }
 
     @Override
-    public Observable<DeploymentSlot> listAsync() {
-        return convertPageToInnerAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()))
-                .flatMap(new Func1<SiteInner, Observable<DeploymentSlot>>() {
-                    @Override
-                    public Observable<DeploymentSlot> call(SiteInner siteInner) {
-                        return converter.typeConvertAsync(siteInner);
-                    }
-                });
+    public PagedFlux<DeploymentSlot> listAsync() {
+        // FIXME need core 1.3
+        return innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()).mapPage(this::wrapModel);
     }
 
     private DeploymentSlotImpl wrapModel(SiteInner inner, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig) {
         if (inner == null) {
             return null;
         }
-        return new DeploymentSlotImpl(inner.name(), inner, siteConfig, logConfig, parent);
+        return new DeploymentSlotImpl(inner.getName(), inner, siteConfig, logConfig, parent);
     }
 }

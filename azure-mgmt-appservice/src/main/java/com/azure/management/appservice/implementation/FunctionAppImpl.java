@@ -6,6 +6,25 @@
 
 package com.azure.management.appservice.implementation;
 
+import com.azure.core.annotation.BodyParam;
+import com.azure.core.annotation.Delete;
+import com.azure.core.annotation.Get;
+import com.azure.core.annotation.HeaderParam;
+import com.azure.core.annotation.Headers;
+import com.azure.core.annotation.Host;
+import com.azure.core.annotation.HostParam;
+import com.azure.core.annotation.PathParam;
+import com.azure.core.annotation.Post;
+import com.azure.core.annotation.Put;
+import com.azure.core.annotation.QueryParam;
+import com.azure.core.annotation.ServiceInterface;
+import com.azure.core.credential.AccessToken;
+import com.azure.core.credential.TokenCredential;
+import com.azure.core.credential.TokenRequestContext;
+import com.azure.core.http.rest.RestProxy;
+import com.azure.core.management.CloudException;
+import com.azure.core.util.UrlBuilder;
+import com.azure.management.RestClient;
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.FunctionApp;
 import com.azure.management.appservice.FunctionDeploymentSlots;
@@ -15,37 +34,31 @@ import com.azure.management.appservice.OperatingSystem;
 import com.azure.management.appservice.PricingTier;
 import com.azure.management.appservice.SkuDescription;
 import com.azure.management.appservice.SkuName;
+import com.azure.management.appservice.models.SiteConfigResourceInner;
+import com.azure.management.appservice.models.SiteInner;
+import com.azure.management.appservice.models.SiteLogsConfigInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.io.BaseEncoding;
-import com.microsoft.azure.CloudException;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountKey;
 import com.azure.management.storage.StorageAccountSkuType;
-import com.microsoft.rest.LogLevel;
-import com.microsoft.rest.credentials.TokenCredentials;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
-import org.joda.time.DateTime;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,12 +88,16 @@ class FunctionAppImpl
     private FunctionService functionService;
     private FunctionDeploymentSlots deploymentSlots;
 
-    private Func1<AppServicePlan, Void> linuxFxVersionSetter = null;
-    private Observable<AppServicePlan> cachedAppServicePlanObservable = null; // potentially shared between submitSiteConfig and submitAppSettings
+    private Function<AppServicePlan, Void> linuxFxVersionSetter = null;
+    private Mono<AppServicePlan> cachedAppServicePlanObservable = null; // potentially shared between submitSiteConfig and submitAppSettings
+
+    private String functionAppKeyServiceHost;
+    private String functionServiceHost;
 
     FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, siteConfig, logConfig, manager);
-        functionAppKeyService = manager.restClient().retrofit().create(FunctionAppKeyService.class);
+        functionAppKeyServiceHost = manager.restClient().getBaseUrl().toString();
+        functionAppKeyService = RestProxy.create(FunctionAppKeyService.class, manager.restClient().getHttpPipeline());
         if (!isInCreateMode()) {
             initializeFunctionService();
         }
@@ -88,16 +105,23 @@ class FunctionAppImpl
 
     private void initializeFunctionService() {
         if (functionService == null) {
-            HttpUrl defaultHostName = HttpUrl.parse(defaultHostName());
-            if (defaultHostName == null) {
-                defaultHostName = new HttpUrl.Builder().host(defaultHostName()).scheme("http").build();
+            UrlBuilder urlBuilder = UrlBuilder.parse(defaultHostName());
+            String baseUrl;
+            if (urlBuilder.getScheme() == null) {
+                urlBuilder.setScheme("http");
             }
-            functionService = manager().restClient().newBuilder()
-                    .withBaseUrl(defaultHostName.toString())
-                    .withCredentials(new FunctionCredentials(this))
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
-                    .build()
-                    .retrofit().create(FunctionService.class);
+            try {
+                baseUrl = urlBuilder.toUrl().toString();
+            } catch (MalformedURLException e) {
+                throw new IllegalStateException(e);
+            }
+            RestClient client = manager().restClient().newBuilder()
+                    .withBaseUrl(baseUrl)
+                    .withCredential(new FunctionCredential(this))
+//                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .buildClient();
+            functionServiceHost = client.getBaseUrl().toString();
+            functionService = RestProxy.create(FunctionService.class, client.getHttpPipeline());
         }
     }
 
@@ -140,25 +164,20 @@ class FunctionAppImpl
     }
 
     @Override
-    Observable<Indexable> submitSiteConfig() {
+    Mono<Indexable> submitSiteConfig() {
         if (linuxFxVersionSetter != null) {
             cachedAppServicePlanObservable = this.cachedAppServicePlanObservable(); // first usage, so get a new one
             return cachedAppServicePlanObservable.map(linuxFxVersionSetter)
-                    .flatMap(new Func1<Void, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(Void aVoid) {
-                            return FunctionAppImpl.super.submitSiteConfig();
-                        }
-                    });
+                    .then(FunctionAppImpl.super.submitSiteConfig());
         } else {
             return super.submitSiteConfig();
         }
     }
 
     @Override
-    Observable<Indexable> submitAppSettings() {
+    Mono<Indexable> submitAppSettings() {
         if (storageAccountCreatable != null && this.taskResult(storageAccountCreatable.key()) != null) {
-            storageAccountToSet = this.<StorageAccount>taskResult(storageAccountCreatable.key());
+            storageAccountToSet = this.taskResult(storageAccountCreatable.key());
         }
         if (storageAccountToSet == null) {
             return super.submitAppSettings();
@@ -166,18 +185,11 @@ class FunctionAppImpl
             if (cachedAppServicePlanObservable == null) {
                 cachedAppServicePlanObservable = this.cachedAppServicePlanObservable();
             }
-            return Observable.merge(storageAccountToSet.getKeysAsync()
-                .flatMapIterable(new Func1<List<StorageAccountKey>, Iterable<StorageAccountKey>>() {
-                    @Override
-                    public Iterable<StorageAccountKey> call(List<StorageAccountKey> storageAccountKeys) {
-                        return storageAccountKeys;
-                    }
-                })
-                .first().zipWith(cachedAppServicePlanObservable, new Func2<StorageAccountKey, AppServicePlan, Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call(StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) {
+            return storageAccountToSet.getKeysAsync()
+                    .map(storageAccountKeys -> storageAccountKeys.get(0))
+                    .zipWith(cachedAppServicePlanObservable, (StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) -> {
                         String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
-                                storageAccountToSet.name(), storageAccountKey.value());
+                                storageAccountToSet.name(), storageAccountKey.getValue());
                         addAppSettingIfNotModified(SETTING_WEB_JOBS_STORAGE, connectionString);
                         addAppSettingIfNotModified(SETTING_WEB_JOBS_DASHBOARD, connectionString);
                         if (OperatingSystem.WINDOWS.equals(operatingSystem()) && // as Portal logic, only Windows plan would have following appSettings
@@ -186,16 +198,13 @@ class FunctionAppImpl
                             addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTSHARE, SdkContext.randomResourceName(name(), 32));
                         }
                         return FunctionAppImpl.super.submitAppSettings();
-                    }
-                })).doOnCompleted(new Action0() {
-                    @Override
-                    public void call() {
+                    }).then(Mono.fromCallable(() -> {
                         currentStorageAccount = storageAccountToSet;
                         storageAccountToSet = null;
                         storageAccountCreatable = null;
                         cachedAppServicePlanObservable = null;
-                    }
-                });
+                        return this;
+                    }));
         }
     }
 
@@ -262,7 +271,7 @@ class FunctionAppImpl
     }
 
     @Override
-    public FunctionAppImpl withNewStorageAccount(String name, com.microsoft.azure.management.storage.SkuName sku) {
+    public FunctionAppImpl withNewStorageAccount(String name, com.azure.management.storage.SkuName sku) {
         StorageAccount.DefinitionStages.WithGroup storageDefine = manager().storageManager().storageAccounts()
             .define(name)
             .withRegion(regionName());
@@ -357,16 +366,13 @@ class FunctionAppImpl
         }
         withRuntime(runtimeStack.runtime());
         withRuntimeVersion(runtimeStack.version());
-        linuxFxVersionSetter = new Func1<AppServicePlan, Void>() {
-            @Override
-            public Void call(AppServicePlan appServicePlan) {
-                if (appServicePlan == null || isConsumptionPlan(appServicePlan.pricingTier())) {
-                    siteConfig.withLinuxFxVersion(runtimeStack.getLinuxFxVersionForConsumptionPlan());
-                } else {
-                    siteConfig.withLinuxFxVersion(runtimeStack.getLinuxFxVersionForDedicatedPlan());
-                }
-                return null;
+        linuxFxVersionSetter = appServicePlan -> {
+            if (appServicePlan == null || isConsumptionPlan(appServicePlan.pricingTier())) {
+                siteConfig.withLinuxFxVersion(runtimeStack.getLinuxFxVersionForConsumptionPlan());
+            } else {
+                siteConfig.withLinuxFxVersion(runtimeStack.getLinuxFxVersionForDedicatedPlan());
             }
+            return null;
         };
         return this;
     }
@@ -410,9 +416,9 @@ class FunctionAppImpl
                 : OperatingSystem.LINUX;
     }
 
-    private Observable<AppServicePlan> cachedAppServicePlanObservable() {
+    private Mono<AppServicePlan> cachedAppServicePlanObservable() {
         // it could get more than one subscriber, so hot observable + caching
-        return this.manager().appServicePlans().getByIdAsync(this.appServicePlanId()).cacheWithInitialCapacity(1);
+        return this.manager().appServicePlans().getByIdAsync(this.appServicePlanId()).cache();
     }
 
     @Override
@@ -422,184 +428,147 @@ class FunctionAppImpl
 
     @Override
     public String getMasterKey() {
-        return getMasterKeyAsync().toBlocking().single();
+        return getMasterKeyAsync().block();
     }
 
     @Override
-    public Observable<String> getMasterKeyAsync() {
-        return functionAppKeyService.getMasterKey(resourceGroupName(), name(), manager().subscriptionId(), "2016-08-01", manager().inner().userAgent())
-                .map(new Func1<Map<String, String>, String>() {
-                    @Override
-                    public String call(Map<String, String> stringStringMap) {
-                        return stringStringMap.get("masterKey");
-                    }
-                });
+    public Mono<String> getMasterKeyAsync() {
+        return functionAppKeyService.getMasterKey(functionAppKeyServiceHost, resourceGroupName(), name(), manager().getSubscriptionId(), "2016-08-01", manager().inner().userAgent())
+                .map(stringStringMap -> stringStringMap.get("masterKey"));
     }
 
     @Override
     public Map<String, String> listFunctionKeys(String functionName) {
-        return listFunctionKeysAsync(functionName).toBlocking().single();
+        return listFunctionKeysAsync(functionName).block();
     }
 
     @Override
-    public Observable<Map<String, String>> listFunctionKeysAsync(final String functionName) {
-        return functionService.listFunctionKeys(functionName)
-                .map(new Func1<FunctionKeyListResult, Map<String, String>>() {
-                    @Override
-                    public Map<String, String> call(FunctionKeyListResult result) {
-                        Map<String, String> keys = new HashMap<String, String>();
-                        if (result.keys != null) {
-                            for (NameValuePair pair : result.keys) {
-                                keys.put(pair.name(), pair.value());
-                            }
+    public Mono<Map<String, String>> listFunctionKeysAsync(final String functionName) {
+        return functionService.listFunctionKeys(functionServiceHost, functionName)
+                .map(result -> {
+                    Map<String, String> keys = new HashMap<>();
+                    if (result.keys != null) {
+                        for (NameValuePair pair : result.keys) {
+                            keys.put(pair.name(), pair.value());
                         }
-                        return keys;
                     }
+                    return keys;
                 });
     }
 
     @Override
     public NameValuePair addFunctionKey(String functionName, String keyName, String keyValue) {
-        return addFunctionKeyAsync(functionName, keyName, keyValue).toBlocking().single();
+        return addFunctionKeyAsync(functionName, keyName, keyValue).block();
     }
 
     @Override
-    public Observable<NameValuePair> addFunctionKeyAsync(String functionName, String keyName, String keyValue) {
+    public Mono<NameValuePair> addFunctionKeyAsync(String functionName, String keyName, String keyValue) {
         if (keyValue != null) {
-            return functionService.addFunctionKey(functionName, keyName, new NameValuePair().withName(keyName).withValue(keyValue));
+            return functionService.addFunctionKey(functionServiceHost, functionName, keyName, new NameValuePair().withName(keyName).withValue(keyValue));
         } else {
-            return functionService.generateFunctionKey(functionName, keyName);
+            return functionService.generateFunctionKey(functionServiceHost, functionName, keyName);
         }
     }
 
     @Override
     public void removeFunctionKey(String functionName, String keyName) {
-        removeFunctionKeyAsync(functionName, keyName).toObservable().toBlocking().subscribe();
+        removeFunctionKeyAsync(functionName, keyName).block();
     }
 
     @Override
-    public Completable removeFunctionKeyAsync(String functionName, String keyName) {
-        return functionService.deleteFunctionKey(functionName, keyName).toCompletable();
+    public Mono<Void> removeFunctionKeyAsync(String functionName, String keyName) {
+        return functionService.deleteFunctionKey(functionServiceHost, functionName, keyName);
     }
 
     @Override
     public void syncTriggers() {
-        syncTriggersAsync().toObservable().toBlocking().subscribe();
+        syncTriggersAsync().block();
     }
 
     @Override
-    public Completable syncTriggersAsync() {
+    public Mono<Void> syncTriggersAsync() {
         return manager().inner().webApps().syncFunctionTriggersAsync(resourceGroupName(), name())
-                .toCompletable()
-                .onErrorResumeNext(new Func1<Throwable, Completable>() {
-                    @Override
-                    public Completable call(Throwable throwable) {
-                        if (throwable instanceof CloudException && ((CloudException) throwable).response().code() == 200) {
-                            return Completable.complete();
-                        } else {
-                            return Completable.error(throwable);
-                        }
+                .onErrorResume(throwable -> {
+                    if (throwable instanceof CloudException && ((CloudException) throwable).getResponse().getStatusCode() == 200) {
+                        return Mono.empty();
+                    } else {
+                        return Mono.error(throwable);
                     }
                 });
     }
 
     @Override
-    public Observable<String> streamApplicationLogsAsync() {
-        return functionService.ping()
-                .mergeWith(functionService.getHostStatus())
+    public Flux<String> streamApplicationLogsAsync() {
+        return functionService.ping(functionServiceHost)
+                .mergeWith(functionService.getHostStatus(functionServiceHost))
                 .last()
-                .flatMap(new Func1<Void, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(Void aVoid) {
-                        return FunctionAppImpl.super.streamApplicationLogsAsync();
-                    }
-                });
+                .thenMany(FunctionAppImpl.super.streamApplicationLogsAsync());
     }
 
     @Override
-    public Observable<String> streamHttpLogsAsync() {
-        return functionService.ping()
-                .mergeWith(functionService.getHostStatus())
+    public Flux<String> streamHttpLogsAsync() {
+        return functionService.ping(functionServiceHost)
+                .mergeWith(functionService.getHostStatus(functionServiceHost))
                 .last()
-                .flatMap(new Func1<Void, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(Void aVoid) {
-                        return FunctionAppImpl.super.streamHttpLogsAsync();
-                    }
-                });
+                .thenMany(FunctionAppImpl.super.streamHttpLogsAsync());
     }
 
     @Override
-    public Observable<String> streamTraceLogsAsync() {
-        return functionService.ping()
-                .mergeWith(functionService.getHostStatus())
+    public Flux<String> streamTraceLogsAsync() {
+        return functionService.ping(functionServiceHost)
+                .mergeWith(functionService.getHostStatus(functionServiceHost))
                 .last()
-                .flatMap(new Func1<Void, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(Void aVoid) {
-                        return FunctionAppImpl.super.streamTraceLogsAsync();
-                    }
-                });
+                .thenMany(FunctionAppImpl.super.streamTraceLogsAsync());
     }
 
     @Override
-    public Observable<String> streamDeploymentLogsAsync() {
-        return functionService.ping()
-                .mergeWith(functionService.getHostStatus())
+    public Flux<String> streamDeploymentLogsAsync() {
+        return functionService.ping(functionServiceHost)
+                .mergeWith(functionService.getHostStatus(functionServiceHost))
                 .last()
-                .flatMap(new Func1<Void, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(Void aVoid) {
-                        return FunctionAppImpl.super.streamDeploymentLogsAsync();
-                    }
-                });
+                .thenMany(FunctionAppImpl.super.streamDeploymentLogsAsync());
     }
 
     @Override
-    public Observable<String> streamAllLogsAsync() {
-        return functionService.ping()
-                .mergeWith(functionService.getHostStatus())
+    public Flux<String> streamAllLogsAsync() {
+        return functionService.ping(functionServiceHost)
+                .mergeWith(functionService.getHostStatus(functionServiceHost))
                 .last()
-                .flatMap(new Func1<Void, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(Void aVoid) {
-                        return FunctionAppImpl.super.streamAllLogsAsync();
-                    }
-                });
+                .thenMany(FunctionAppImpl.super.streamAllLogsAsync());
     }
 
     @Override
-    public Completable zipDeployAsync(File zipFile) {
+    public Mono<Void> zipDeployAsync(File zipFile) {
         try {
             return zipDeployAsync(new FileInputStream(zipFile));
         } catch (IOException e) {
-            return Completable.error(e);
+            return Mono.error(e);
         }
     }
 
     @Override
     public void zipDeploy(File zipFile) {
-        zipDeployAsync(zipFile).await();
+        zipDeployAsync(zipFile).block();
     }
 
     @Override
-    public Completable zipDeployAsync(InputStream zipFile) {
+    public Mono<Void> zipDeployAsync(InputStream zipFile) {
         return kuduClient.zipDeployAsync(zipFile);
     }
 
     @Override
     public void zipDeploy(InputStream zipFile) {
-        zipDeployAsync(zipFile).await();
+        zipDeployAsync(zipFile).block();
     }
 
     @Override
-    public Observable<Indexable> createAsync() {
+    public Flux<Indexable> createAsync() {
         if (this.isInCreateMode()) {
             if (inner().serverFarmId() == null) {
                 withNewConsumptionPlan();
             }
             if (currentStorageAccount == null && storageAccountToSet == null && storageAccountCreatable == null) {
-                withNewStorageAccount(SdkContext.randomResourceName(name(), 20), com.microsoft.azure.management.storage.SkuName.STANDARD_GRS);
+                withNewStorageAccount(SdkContext.randomResourceName(name(), 20), com.azure.management.storage.SkuName.STANDARD_GRS);
             }
         }
         return super.createAsync();
@@ -613,36 +582,40 @@ class FunctionAppImpl
         return super.afterPostRunAsync(isGroupFaulted);
     }
 
+    @Host("{$host}")
+    @ServiceInterface(name = "FunctionAppKeyService")
     private interface FunctionAppKeyService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getMasterKey" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/admin/masterkey")
-        Observable<Map<String, String>> getMasterKey(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("User-Agent") String userAgent);
+        @Get("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/admin/masterkey")
+        Mono<Map<String, String>> getMasterKey(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("name") String name, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("User-Agent") String userAgent);
     }
 
+    @Host("{$host}")
+    @ServiceInterface(name = "FunctionService")
     private interface FunctionService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps listFunctionKeys" })
-        @GET("admin/functions/{name}/keys")
-        Observable<FunctionKeyListResult> listFunctionKeys(@Path("name") String functionName);
+        @Get("admin/functions/{name}/keys")
+        Mono<FunctionKeyListResult> listFunctionKeys(@HostParam("$host") String host, @PathParam("name") String functionName);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps addFunctionKey" })
-        @PUT("admin/functions/{name}/keys/{keyName}")
-        Observable<NameValuePair> addFunctionKey(@Path("name") String functionName, @Path("keyName") String keyName, @Body NameValuePair key);
+        @Put("admin/functions/{name}/keys/{keyName}")
+        Mono<NameValuePair> addFunctionKey(@HostParam("$host") String host, @PathParam("name") String functionName, @PathParam("keyName") String keyName, @BodyParam("application/json") NameValuePair key);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps generateFunctionKey" })
-        @POST("admin/functions/{name}/keys/{keyName}")
-        Observable<NameValuePair> generateFunctionKey(@Path("name") String functionName, @Path("keyName") String keyName);
+        @Post("admin/functions/{name}/keys/{keyName}")
+        Mono<NameValuePair> generateFunctionKey(@HostParam("$host") String host, @PathParam("name") String functionName, @PathParam("keyName") String keyName);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps deleteFunctionKey" })
-        @DELETE("admin/functions/{name}/keys/{keyName}")
-        Observable<Void> deleteFunctionKey(@Path("name") String functionName, @Path("keyName") String keyName);
+        @Delete("admin/functions/{name}/keys/{keyName}")
+        Mono<Void> deleteFunctionKey(@HostParam("$host") String host, @PathParam("name") String functionName, @PathParam("keyName") String keyName);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps ping" })
-        @POST("admin/host/ping")
-        Observable<Void> ping();
+        @Post("admin/host/ping")
+        Mono<Void> ping(@HostParam("$host") String host);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getHostStatus" })
-        @GET("admin/host/status")
-        Observable<Void> getHostStatus();
+        @Get("admin/host/status")
+        Mono<Void> getHostStatus(@HostParam("$host") String host);
     }
 
     private static class FunctionKeyListResult {
@@ -650,28 +623,25 @@ class FunctionAppImpl
         private List<NameValuePair> keys;
     }
 
-    private static final class FunctionCredentials extends TokenCredentials {
-        private String token;
-        private long expire;
+    private static final class FunctionCredential implements TokenCredential {
         private final FunctionAppImpl functionApp;
 
-        private FunctionCredentials(FunctionAppImpl functionApp) {
-            super("Bearer", null);
+        private FunctionCredential(FunctionAppImpl functionApp) {
             this.functionApp = functionApp;
         }
 
         @Override
-        public String getToken(Request request) {
-            if (token == null || expire < DateTime.now().getMillis()) {
-                token = functionApp.manager().inner().webApps()
-                        .getFunctionsAdminToken(functionApp.resourceGroupName(), functionApp.name());
-                String jwt = new String(BaseEncoding.base64Url().decode(token.split("\\.")[1]));
-                Pattern pattern = Pattern.compile("\"exp\": *([0-9]+),");
-                Matcher matcher = pattern.matcher(jwt);
-                matcher.find();
-                expire = Long.parseLong(matcher.group(1));
-            }
-            return token;
+        public Mono<AccessToken> getToken(TokenRequestContext request) {
+            return functionApp.manager().inner().webApps()
+                    .getFunctionsAdminTokenAsync(functionApp.resourceGroupName(), functionApp.name())
+                    .map(token -> {
+                        String jwt = new String(BaseEncoding.base64Url().decode(token.split("\\.")[1]));
+                        Pattern pattern = Pattern.compile("\"exp\": *([0-9]+),");
+                        Matcher matcher = pattern.matcher(jwt);
+                        matcher.find();
+                        long expire = Long.parseLong(matcher.group(1));
+                        return new AccessToken(token, OffsetDateTime.ofInstant(Instant.ofEpochMilli(expire), ZoneOffset.UTC));
+                    });
         }
     }
 }

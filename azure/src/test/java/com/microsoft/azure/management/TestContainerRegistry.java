@@ -12,7 +12,7 @@ import com.microsoft.azure.management.containerregistry.RegistryCredentials;
 import com.microsoft.azure.management.containerregistry.Webhook;
 import com.microsoft.azure.management.containerregistry.WebhookAction;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class TestContainerRegistry extends TestTemplate<Registry, Registries> {
 
@@ -30,14 +30,14 @@ public class TestContainerRegistry extends TestTemplate<Registry, Registries> {
 //                .withTag("tag1", "value1")
 //                .create();
 //
-//        Assert.assertTrue(registry.adminUserEnabled());
-//        Assert.assertEquals(registry.storageAccountName(), "crsa" + this.testId);
+//        Assertions.assertTrue(registry.adminUserEnabled());
+//        Assertions.assertEquals(registry.storageAccountName(), "crsa" + this.testId);
 //
 //        RegistryCredentials registryCredentials = registry.getCredentials();
-//        Assert.assertNotNull(registryCredentials);
-//        Assert.assertEquals(newName + "1", registryCredentials.username());
-//        Assert.assertEquals(2, registryCredentials.accessKeys().size());
-//        Assert.assertTrue(registry.webhooks().list().isEmpty());
+//        Assertions.assertNotNull(registryCredentials);
+//        Assertions.assertEquals(newName + "1", registryCredentials.username());
+//        Assertions.assertEquals(2, registryCredentials.accessKeys().size());
+//        Assertions.assertTrue(registry.webhooks().list().isEmpty());
 
         Registry registry2 = registries.define(newName + "2")
             .withRegion(Region.US_EAST)
@@ -62,34 +62,34 @@ public class TestContainerRegistry extends TestTemplate<Registry, Registries> {
             .withTag("tag1", "value1")
             .create();
 
-        Assert.assertTrue(registry2.adminUserEnabled());
+        Assertions.assertTrue(registry2.adminUserEnabled());
 
         RegistryCredentials registryCredentials2 = registry2.getCredentials();
-        Assert.assertNotNull(registryCredentials2);
-        Assert.assertEquals(newName + "2", registryCredentials2.username());
-        Assert.assertEquals(2, registryCredentials2.accessKeys().size());
+        Assertions.assertNotNull(registryCredentials2);
+        Assertions.assertEquals(newName + "2", registryCredentials2.username());
+        Assertions.assertEquals(2, registryCredentials2.accessKeys().size());
 
 
         PagedList<Webhook> webhooksList = registry2.webhooks().list();
 
-        Assert.assertFalse(webhooksList.isEmpty());
-        Assert.assertEquals(2, webhooksList.size());
+        Assertions.assertFalse(webhooksList.isEmpty());
+        Assertions.assertEquals(2, webhooksList.size());
         Webhook webhook = registry2.webhooks()
             .get("webhookbing1");
-        Assert.assertTrue(webhook.isEnabled());
-        Assert.assertTrue(webhook.tags().containsKey("tag"));
-        Assert.assertEquals("https://www.bing.com", webhook.serviceUri());
-        Assert.assertTrue(webhook.isEnabled());
-        Assert.assertEquals(2, webhook.triggers().size());
+        Assertions.assertTrue(webhook.isEnabled());
+        Assertions.assertTrue(webhook.tags().containsKey("tag"));
+        Assertions.assertEquals("https://www.bing.com", webhook.serviceUri());
+        Assertions.assertTrue(webhook.isEnabled());
+        Assertions.assertEquals(2, webhook.triggers().size());
 
         webhook = registries.webhooks()
             .get(rgName, registry2.name(), "webhookbing2");
-        Assert.assertFalse(webhook.isEnabled());
-        Assert.assertTrue(webhook.tags().containsKey("tag"));
-        Assert.assertEquals("https://www.bing.com", webhook.serviceUri());
-        Assert.assertFalse(webhook.isEnabled());
-        Assert.assertEquals(1, webhook.triggers().size());
-        Assert.assertEquals(WebhookAction.PUSH, webhook.triggers().toArray()[0]);
+        Assertions.assertFalse(webhook.isEnabled());
+        Assertions.assertTrue(webhook.tags().containsKey("tag"));
+        Assertions.assertEquals("https://www.bing.com", webhook.serviceUri());
+        Assertions.assertFalse(webhook.isEnabled());
+        Assertions.assertEquals(1, webhook.triggers().size());
+        Assertions.assertEquals(WebhookAction.PUSH, webhook.triggers().toArray()[0]);
 
         Registry registry3 = registries.getById(webhook.parentId());
 
@@ -118,21 +118,21 @@ public class TestContainerRegistry extends TestTemplate<Registry, Registries> {
             .withTag("tag2", "value")
             .apply();
 
-        Assert.assertTrue(resource.tags().containsKey("tag2"));
-        Assert.assertFalse(resource.tags().containsKey("tag1"));
+        Assertions.assertTrue(resource.tags().containsKey("tag2"));
+        Assertions.assertFalse(resource.tags().containsKey("tag1"));
 
         Webhook webhook = resource.webhooks()
             .get("webhookbing2");
-        Assert.assertFalse(webhook.tags().containsKey("tag"));
-        Assert.assertTrue(webhook.tags().containsKey("tag2"));
-        Assert.assertEquals("https://www.bing.com/maps", webhook.serviceUri());
-        Assert.assertFalse(webhook.isEnabled());
-        Assert.assertEquals(1, webhook.triggers().size());
-        Assert.assertEquals(WebhookAction.DELETE, webhook.triggers().toArray()[0]);
+        Assertions.assertFalse(webhook.tags().containsKey("tag"));
+        Assertions.assertTrue(webhook.tags().containsKey("tag2"));
+        Assertions.assertEquals("https://www.bing.com/maps", webhook.serviceUri());
+        Assertions.assertFalse(webhook.isEnabled());
+        Assertions.assertEquals(1, webhook.triggers().size());
+        Assertions.assertEquals(WebhookAction.DELETE, webhook.triggers().toArray()[0]);
 
         webhook.refresh();
         webhook.enable();
-        Assert.assertTrue(webhook.isEnabled());
+        Assertions.assertTrue(webhook.isEnabled());
 
         webhook.update()
             .withCustomHeader("header1", "value1")
@@ -144,15 +144,15 @@ public class TestContainerRegistry extends TestTemplate<Registry, Registries> {
             .withTag("tag3", "value")
             .apply();
 
-        Assert.assertFalse(webhook.isEnabled());
-        Assert.assertTrue(webhook.tags().containsKey("tag3"));
-        Assert.assertEquals("https://www.msn.com", webhook.serviceUri());
-        Assert.assertFalse(webhook.isEnabled());
-        Assert.assertEquals(1, webhook.triggers().size());
-        Assert.assertEquals(WebhookAction.PUSH, webhook.triggers().toArray()[0]);
+        Assertions.assertFalse(webhook.isEnabled());
+        Assertions.assertTrue(webhook.tags().containsKey("tag3"));
+        Assertions.assertEquals("https://www.msn.com", webhook.serviceUri());
+        Assertions.assertFalse(webhook.isEnabled());
+        Assertions.assertEquals(1, webhook.triggers().size());
+        Assertions.assertEquals(WebhookAction.PUSH, webhook.triggers().toArray()[0]);
 
         webhook.ping();
-        Assert.assertNotNull(webhook.listEvents());
+        Assertions.assertNotNull(webhook.listEvents());
 
         resource.webhooks()
             .delete("webhookbing2");

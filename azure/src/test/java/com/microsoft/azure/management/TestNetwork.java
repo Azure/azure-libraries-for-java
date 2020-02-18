@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.microsoft.azure.management.network.ServiceEndpointType;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.microsoft.azure.management.network.NetworkPeeringGatewayUse;
 import com.microsoft.azure.management.network.Network;
@@ -60,28 +60,28 @@ public class TestNetwork {
                     .create();
 
             // Verify address spaces
-            Assert.assertEquals(2, network.addressSpaces().size());
-            Assert.assertTrue(network.addressSpaces().contains("10.1.0.0/28"));
+            Assertions.assertEquals(2, network.addressSpaces().size());
+            Assertions.assertTrue(network.addressSpaces().contains("10.1.0.0/28"));
 
             // Verify subnets
-            Assert.assertEquals(2, network.subnets().size());
+            Assertions.assertEquals(2, network.subnets().size());
             Subnet subnet = network.subnets().get("subnetA");
-            Assert.assertEquals("10.0.0.0/29", subnet.addressPrefix());
+            Assertions.assertEquals("10.0.0.0/29", subnet.addressPrefix());
 
             subnet = network.subnets().get("subnetB");
-            Assert.assertEquals("10.0.0.8/29", subnet.addressPrefix());
-            Assert.assertTrue(nsg.id().equalsIgnoreCase(subnet.networkSecurityGroupId()));
+            Assertions.assertEquals("10.0.0.8/29", subnet.addressPrefix());
+            Assertions.assertTrue(nsg.id().equalsIgnoreCase(subnet.networkSecurityGroupId()));
 
             // Verify NSG
             List<Subnet> subnets = nsg.refresh().listAssociatedSubnets();
-            Assert.assertEquals(1, subnets.size());
+            Assertions.assertEquals(1, subnets.size());
             subnet = subnets.get(0);
-            Assert.assertTrue(subnet.name().equalsIgnoreCase("subnetB"));
-            Assert.assertTrue(subnet.parent().name().equalsIgnoreCase(newName));
-            Assert.assertNotNull(subnet.networkSecurityGroupId());
+            Assertions.assertTrue(subnet.name().equalsIgnoreCase("subnetB"));
+            Assertions.assertTrue(subnet.parent().name().equalsIgnoreCase(newName));
+            Assertions.assertNotNull(subnet.networkSecurityGroupId());
             NetworkSecurityGroup nsg2 = subnet.getNetworkSecurityGroup();
-            Assert.assertNotNull(nsg2);
-            Assert.assertTrue(nsg2.id().equalsIgnoreCase(nsg.id()));
+            Assertions.assertNotNull(nsg2);
+            Assertions.assertTrue(nsg2.id().equalsIgnoreCase(nsg.id()));
 
             return network;
         }
@@ -109,30 +109,30 @@ public class TestNetwork {
                         .withExistingNetworkSecurityGroup(nsg)
                         .attach()
                     .apply();
-            Assert.assertTrue(resource.tags().containsKey("tag1"));
+            Assertions.assertTrue(resource.tags().containsKey("tag1"));
 
             // Verify address spaces
-            Assert.assertEquals(2, resource.addressSpaces().size());
-            Assert.assertFalse(resource.addressSpaces().contains("10.1.0.0/28"));
+            Assertions.assertEquals(2, resource.addressSpaces().size());
+            Assertions.assertFalse(resource.addressSpaces().contains("10.1.0.0/28"));
 
             // Verify subnets
-            Assert.assertEquals(3, resource.subnets().size());
-            Assert.assertFalse(resource.subnets().containsKey("subnetA"));
+            Assertions.assertEquals(3, resource.subnets().size());
+            Assertions.assertFalse(resource.subnets().containsKey("subnetA"));
 
             Subnet subnet = resource.subnets().get("subnetB");
-            Assert.assertNotNull(subnet);
-            Assert.assertEquals("141.25.0.8/29", subnet.addressPrefix());
-            Assert.assertNull(subnet.networkSecurityGroupId());
+            Assertions.assertNotNull(subnet);
+            Assertions.assertEquals("141.25.0.8/29", subnet.addressPrefix());
+            Assertions.assertNull(subnet.networkSecurityGroupId());
 
             subnet = resource.subnets().get("subnetC");
-            Assert.assertNotNull(subnet);
-            Assert.assertEquals("141.25.0.0/29", subnet.addressPrefix());
-            Assert.assertNull(subnet.networkSecurityGroupId());
+            Assertions.assertNotNull(subnet);
+            Assertions.assertEquals("141.25.0.0/29", subnet.addressPrefix());
+            Assertions.assertNull(subnet.networkSecurityGroupId());
 
             subnet = resource.subnets().get("subnetD");
-            Assert.assertNotNull(subnet);
-            Assert.assertEquals("141.25.0.16/29", subnet.addressPrefix());
-            Assert.assertTrue(nsg.id().equalsIgnoreCase(subnet.networkSecurityGroupId()));
+            Assertions.assertNotNull(subnet);
+            Assertions.assertEquals("141.25.0.16/29", subnet.addressPrefix());
+            Assertions.assertTrue(nsg.id().equalsIgnoreCase(subnet.networkSecurityGroupId()));
 
             return resource;
         }
@@ -168,19 +168,19 @@ public class TestNetwork {
                     .create();
 
             // Verify address spaces
-            Assert.assertEquals(1, network.addressSpaces().size());
-            Assert.assertTrue(network.addressSpaces().contains("10.0.0.0/28"));
+            Assertions.assertEquals(1, network.addressSpaces().size());
+            Assertions.assertTrue(network.addressSpaces().contains("10.0.0.0/28"));
 
             // Verify subnets
-            Assert.assertEquals(2, network.subnets().size());
+            Assertions.assertEquals(2, network.subnets().size());
             Subnet subnet = network.subnets().get("subnetA");
-            Assert.assertEquals("10.0.0.0/29", subnet.addressPrefix());
+            Assertions.assertEquals("10.0.0.0/29", subnet.addressPrefix());
 
             subnet = network.subnets().get("subnetB");
-            Assert.assertEquals("10.0.0.8/29", subnet.addressPrefix());
-            Assert.assertNotNull(subnet.servicesWithAccess());
-            Assert.assertTrue(subnet.servicesWithAccess().containsKey(ServiceEndpointType.MICROSOFT_STORAGE));
-            Assert.assertTrue(subnet.servicesWithAccess().get(ServiceEndpointType.MICROSOFT_STORAGE).size() > 0);
+            Assertions.assertEquals("10.0.0.8/29", subnet.addressPrefix());
+            Assertions.assertNotNull(subnet.servicesWithAccess());
+            Assertions.assertTrue(subnet.servicesWithAccess().containsKey(ServiceEndpointType.MICROSOFT_STORAGE));
+            Assertions.assertTrue(subnet.servicesWithAccess().get(ServiceEndpointType.MICROSOFT_STORAGE).size() > 0);
             return network;
         }
 
@@ -203,31 +203,31 @@ public class TestNetwork {
                         .attach()
                     .apply();
 
-            Assert.assertTrue(resource.tags().containsKey("tag1"));
+            Assertions.assertTrue(resource.tags().containsKey("tag1"));
 
             // Verify address spaces
-            Assert.assertEquals(2, resource.addressSpaces().size());
-            Assert.assertFalse(resource.addressSpaces().contains("10.1.0.0/28"));
+            Assertions.assertEquals(2, resource.addressSpaces().size());
+            Assertions.assertFalse(resource.addressSpaces().contains("10.1.0.0/28"));
 
             // Verify subnets
-            Assert.assertEquals(3, resource.subnets().size());
-            Assert.assertFalse(resource.subnets().containsKey("subnetA"));
+            Assertions.assertEquals(3, resource.subnets().size());
+            Assertions.assertFalse(resource.subnets().containsKey("subnetA"));
 
             Subnet subnet = resource.subnets().get("subnetB");
-            Assert.assertNotNull(subnet);
-            Assert.assertEquals("141.25.0.8/29", subnet.addressPrefix());
-            Assert.assertNotNull(subnet.servicesWithAccess());
-            Assert.assertTrue(subnet.servicesWithAccess().isEmpty());
+            Assertions.assertNotNull(subnet);
+            Assertions.assertEquals("141.25.0.8/29", subnet.addressPrefix());
+            Assertions.assertNotNull(subnet.servicesWithAccess());
+            Assertions.assertTrue(subnet.servicesWithAccess().isEmpty());
 
             subnet = resource.subnets().get("subnetC");
-            Assert.assertNotNull(subnet);
-            Assert.assertEquals("141.25.0.0/29", subnet.addressPrefix());
+            Assertions.assertNotNull(subnet);
+            Assertions.assertEquals("141.25.0.0/29", subnet.addressPrefix());
 
             subnet = resource.subnets().get("subnetD");
-            Assert.assertNotNull(subnet);
-            Assert.assertEquals("141.25.0.16/29", subnet.addressPrefix());
-            Assert.assertNotNull(subnet.servicesWithAccess());
-            Assert.assertTrue(subnet.servicesWithAccess().containsKey(ServiceEndpointType.MICROSOFT_STORAGE));
+            Assertions.assertNotNull(subnet);
+            Assertions.assertEquals("141.25.0.16/29", subnet.addressPrefix());
+            Assertions.assertNotNull(subnet.servicesWithAccess());
+            Assertions.assertTrue(subnet.servicesWithAccess().containsKey(ServiceEndpointType.MICROSOFT_STORAGE));
 
             return resource;
         }
@@ -266,8 +266,8 @@ public class TestNetwork {
             CreatedResources<Network> createdNetworks = networks.create(Arrays.asList(remoteNetworkDefinition, localNetworkDefinition));
             Network localNetwork = createdNetworks.get(localNetworkDefinition.key());
             Network remoteNetwork = createdNetworks.get(remoteNetworkDefinition.key());
-            Assert.assertNotNull(localNetwork);
-            Assert.assertNotNull(remoteNetwork);
+            Assertions.assertNotNull(localNetwork);
+            Assertions.assertNotNull(remoteNetwork);
 
             // Create peering
             NetworkPeering localPeering = localNetwork.peerings().define("peer0")
@@ -280,28 +280,28 @@ public class TestNetwork {
                 .create();
 
             // Verify local peering
-            Assert.assertNotNull(localNetwork.peerings());
-            Assert.assertEquals(1,  localNetwork.peerings().list().size());
-            Assert.assertEquals(1, localPeering.remoteAddressSpaces().size());
-            Assert.assertEquals("10.1.0.0/27", localPeering.remoteAddressSpaces().get(0));
+            Assertions.assertNotNull(localNetwork.peerings());
+            Assertions.assertEquals(1,  localNetwork.peerings().list().size());
+            Assertions.assertEquals(1, localPeering.remoteAddressSpaces().size());
+            Assertions.assertEquals("10.1.0.0/27", localPeering.remoteAddressSpaces().get(0));
             localPeering = localNetwork.peerings().list().get(0);
-            Assert.assertNotNull(localPeering);
-            Assert.assertTrue(localPeering.name().equalsIgnoreCase("peer0"));
-            Assert.assertEquals(VirtualNetworkPeeringState.CONNECTED, localPeering.state());
-            Assert.assertTrue(localPeering.isTrafficForwardingFromRemoteNetworkAllowed());
-            Assert.assertFalse(localPeering.checkAccessBetweenNetworks());
-            Assert.assertEquals(NetworkPeeringGatewayUse.BY_REMOTE_NETWORK, localPeering.gatewayUse());
+            Assertions.assertNotNull(localPeering);
+            Assertions.assertTrue(localPeering.name().equalsIgnoreCase("peer0"));
+            Assertions.assertEquals(VirtualNetworkPeeringState.CONNECTED, localPeering.state());
+            Assertions.assertTrue(localPeering.isTrafficForwardingFromRemoteNetworkAllowed());
+            Assertions.assertFalse(localPeering.checkAccessBetweenNetworks());
+            Assertions.assertEquals(NetworkPeeringGatewayUse.BY_REMOTE_NETWORK, localPeering.gatewayUse());
 
             // Verify remote peering
-            Assert.assertNotNull(remoteNetwork.peerings());
-            Assert.assertEquals(1, remoteNetwork.peerings().list().size());
+            Assertions.assertNotNull(remoteNetwork.peerings());
+            Assertions.assertEquals(1, remoteNetwork.peerings().list().size());
             NetworkPeering remotePeering = localPeering.getRemotePeering();
-            Assert.assertNotNull(remotePeering);
-            Assert.assertTrue(remotePeering.remoteNetworkId().equalsIgnoreCase(localNetwork.id()));
-            Assert.assertEquals(VirtualNetworkPeeringState.CONNECTED, remotePeering.state());
-            Assert.assertTrue(remotePeering.isTrafficForwardingFromRemoteNetworkAllowed());
-            Assert.assertFalse(remotePeering.checkAccessBetweenNetworks());
-            Assert.assertEquals(NetworkPeeringGatewayUse.NONE, remotePeering.gatewayUse());
+            Assertions.assertNotNull(remotePeering);
+            Assertions.assertTrue(remotePeering.remoteNetworkId().equalsIgnoreCase(localNetwork.id()));
+            Assertions.assertEquals(VirtualNetworkPeeringState.CONNECTED, remotePeering.state());
+            Assertions.assertTrue(remotePeering.isTrafficForwardingFromRemoteNetworkAllowed());
+            Assertions.assertFalse(remotePeering.checkAccessBetweenNetworks());
+            Assertions.assertEquals(NetworkPeeringGatewayUse.NONE, remotePeering.gatewayUse());
 
             return localNetwork;
         }
@@ -312,14 +312,14 @@ public class TestNetwork {
 
             // Verify remote IP invisibility to local network before peering
             Network remoteNetwork = localPeering.getRemoteNetwork();
-            Assert.assertNotNull(remoteNetwork);
+            Assertions.assertNotNull(remoteNetwork);
             Subnet remoteSubnet = remoteNetwork.subnets().get("subnet3");
-            Assert.assertNotNull(remoteSubnet);
+            Assertions.assertNotNull(remoteSubnet);
             Set<String> remoteAvailableIPs = remoteSubnet.listAvailablePrivateIPAddresses();
-            Assert.assertNotNull(remoteAvailableIPs);
-            Assert.assertFalse(remoteAvailableIPs.isEmpty());
+            Assertions.assertNotNull(remoteAvailableIPs);
+            Assertions.assertFalse(remoteAvailableIPs.isEmpty());
             String remoteTestIP = remoteAvailableIPs.iterator().next();
-            Assert.assertFalse(resource.isPrivateIPAddressAvailable(remoteTestIP));
+            Assertions.assertFalse(resource.isPrivateIPAddressAvailable(remoteTestIP));
 
             localPeering.update()
                 .withoutTrafficForwardingFromEitherNetwork()
@@ -328,23 +328,23 @@ public class TestNetwork {
                 .apply();
 
             // Verify local peering changes
-            Assert.assertFalse(localPeering.isTrafficForwardingFromRemoteNetworkAllowed());
-            Assert.assertTrue(localPeering.checkAccessBetweenNetworks());
-            Assert.assertEquals(NetworkPeeringGatewayUse.NONE, localPeering.gatewayUse());
+            Assertions.assertFalse(localPeering.isTrafficForwardingFromRemoteNetworkAllowed());
+            Assertions.assertTrue(localPeering.checkAccessBetweenNetworks());
+            Assertions.assertEquals(NetworkPeeringGatewayUse.NONE, localPeering.gatewayUse());
 
             // Verify remote peering changes
             NetworkPeering remotePeering = localPeering.getRemotePeering();
-            Assert.assertNotNull(remotePeering);
-            Assert.assertFalse(remotePeering.isTrafficForwardingFromRemoteNetworkAllowed());
-            Assert.assertTrue(remotePeering.checkAccessBetweenNetworks());
-            Assert.assertEquals(NetworkPeeringGatewayUse.NONE, remotePeering.gatewayUse());
+            Assertions.assertNotNull(remotePeering);
+            Assertions.assertFalse(remotePeering.isTrafficForwardingFromRemoteNetworkAllowed());
+            Assertions.assertTrue(remotePeering.checkAccessBetweenNetworks());
+            Assertions.assertEquals(NetworkPeeringGatewayUse.NONE, remotePeering.gatewayUse());
 
             // Delete the peering
             resource.peerings().deleteById(remotePeering.id());
 
             // Verify deletion
-            Assert.assertEquals(0, resource.peerings().list().size());
-            Assert.assertEquals(0, remoteNetwork.peerings().list().size());
+            Assertions.assertEquals(0, resource.peerings().list().size());
+            Assertions.assertEquals(0, remoteNetwork.peerings().list().size());
 
             return resource;
         }
@@ -372,9 +372,9 @@ public class TestNetwork {
                     .withNewDdosProtectionPlan()
                     .withVmProtection()
                     .create();
-            Assert.assertTrue(network.isDdosProtectionEnabled());
-            Assert.assertNotNull(network.ddosProtectionPlanId());
-            Assert.assertTrue(network.isVmProtectionEnabled());
+            Assertions.assertTrue(network.isDdosProtectionEnabled());
+            Assertions.assertNotNull(network.ddosProtectionPlanId());
+            Assertions.assertTrue(network.isVmProtectionEnabled());
 
             return network;
         }
@@ -385,9 +385,9 @@ public class TestNetwork {
                     .withoutDdosProtectionPlan()
                     .withoutVmProtection()
                     .apply();
-            Assert.assertFalse(network.isDdosProtectionEnabled());
-            Assert.assertNull(network.ddosProtectionPlanId());
-            Assert.assertFalse(network.isVmProtectionEnabled());
+            Assertions.assertFalse(network.isDdosProtectionEnabled());
+            Assertions.assertNull(network.ddosProtectionPlanId());
+            Assertions.assertFalse(network.isVmProtectionEnabled());
             return network;
         }
 
@@ -413,7 +413,7 @@ public class TestNetwork {
                     .withNewResourceGroup(groupName)
                     .withTag("tag1", "value1")
                     .create();
-            Assert.assertEquals("value1", network.tags().get("tag1"));
+            Assertions.assertEquals("value1", network.tags().get("tag1"));
             return network;
         }
 
@@ -423,8 +423,8 @@ public class TestNetwork {
                     .withoutTag("tag1")
                     .withTag("tag2", "value2")
                     .applyTags();
-            Assert.assertFalse(network.tags().containsKey("tag1"));
-            Assert.assertEquals("value2", network.tags().get("tag2"));
+            Assertions.assertFalse(network.tags().containsKey("tag1"));
+            Assertions.assertEquals("value2", network.tags().get("tag2"));
             return network;
         }
 

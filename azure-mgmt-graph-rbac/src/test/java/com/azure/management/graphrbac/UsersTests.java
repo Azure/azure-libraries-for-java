@@ -8,30 +8,30 @@ package com.azure.management.graphrbac;
 
 import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class UsersTests extends GraphRbacManagementTest {
     @Test
-    @Ignore("Need a specific domain")
+    @Disabled("Need a specific domain")
     public void canGetUserByEmail() throws Exception {
         ActiveDirectoryUser user = graphRbacManager.users().getByName("admin@azuresdkteam.onmicrosoft.com");
-        Assert.assertEquals("Admin", user.name());
+        Assertions.assertEquals("Admin", user.name());
     }
 
     @Test
-    @Ignore("Need a specific domain")
+    @Disabled("Need a specific domain")
     public void canGetUserByForeignEmail() throws Exception {
         ActiveDirectoryUser user = graphRbacManager.users().getByName("jianghlu@microsoft.com");
-        Assert.assertEquals("Jianghao Lu", user.name());
+        Assertions.assertEquals("Jianghao Lu", user.name());
     }
 
     @Test
-    @Ignore("Need a specific domain")
+    @Disabled("Need a specific domain")
     public void canGetUserByDisplayName() throws Exception {
         ActiveDirectoryUser user = graphRbacManager.users().getByName("Reader zero");
-        Assert.assertEquals("Reader zero", user.name());
+        Assertions.assertEquals("Reader zero", user.name());
     }
 
     @Test
@@ -43,8 +43,8 @@ public class UsersTests extends GraphRbacManagementTest {
                 .withPromptToChangePasswordOnLogin(true)
                 .create();
 
-        Assert.assertNotNull(user);
-        Assert.assertNotNull(user.id());
+        Assertions.assertNotNull(user);
+        Assertions.assertNotNull(user.id());
     }
 
     @Test
@@ -59,6 +59,6 @@ public class UsersTests extends GraphRbacManagementTest {
                 .withUsageLocation(CountryIsoCode.AUSTRALIA)
                 .apply();
 
-        Assert.assertEquals(CountryIsoCode.AUSTRALIA, user.usageLocation());
+        Assertions.assertEquals(CountryIsoCode.AUSTRALIA, user.usageLocation());
     }
 }

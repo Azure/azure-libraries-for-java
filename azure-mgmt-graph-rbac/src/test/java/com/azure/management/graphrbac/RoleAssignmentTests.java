@@ -7,11 +7,8 @@
 package com.azure.management.graphrbac;
 
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class RoleAssignmentTests extends GraphRbacManagementTest {
     @Test
@@ -32,7 +29,7 @@ public class RoleAssignmentTests extends GraphRbacManagementTest {
                 .withSubscriptionScope(resourceManager.getSubscriptionId())
                 .create();
 
-        Assert.assertNotNull(roleAssignment);
+        Assertions.assertNotNull(roleAssignment);
     }
 
 }

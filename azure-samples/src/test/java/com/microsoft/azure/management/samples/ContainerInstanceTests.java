@@ -10,8 +10,8 @@ import com.microsoft.azure.management.containerinstance.samples.ManageContainerI
 import com.microsoft.azure.management.containerinstance.samples.ManageContainerInstanceWithManualAzureFileShareMountCreation;
 import com.microsoft.azure.management.containerinstance.samples.ManageContainerInstanceWithMultipleContainerImages;
 import com.microsoft.azure.management.containerinstance.samples.ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOrchestrator;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ContainerInstanceTests extends SamplesTestBase {
 
@@ -19,7 +19,7 @@ public class ContainerInstanceTests extends SamplesTestBase {
     public void testManageContainerInstanceWithAzureFileShareMount() {
         // Skip test in "playback" mode due to HTTP calls made outside of the management plane which can not be recorded at this time
         if (!isPlaybackMode()) {
-            Assert.assertTrue(ManageContainerInstanceWithAzureFileShareMount.runSample(azure));
+            Assertions.assertTrue(ManageContainerInstanceWithAzureFileShareMount.runSample(azure));
         }
     }
 
@@ -27,20 +27,20 @@ public class ContainerInstanceTests extends SamplesTestBase {
     public void testManageContainerInstanceWithManualAzureFileShareMountCreation() {
         // Skip test in "playback" mode due to HTTP calls made outside of the management plane which can not be recorded at this time
         if (!isPlaybackMode()) {
-            Assert.assertTrue(ManageContainerInstanceWithManualAzureFileShareMountCreation.runSample(azure));
+            Assertions.assertTrue(ManageContainerInstanceWithManualAzureFileShareMountCreation.runSample(azure));
         }
     }
 
     @Test
     public void testManageContainerInstanceWithMultipleContainerImages() {
-        Assert.assertTrue(ManageContainerInstanceWithMultipleContainerImages.runSample(azure));
+        Assertions.assertTrue(ManageContainerInstanceWithMultipleContainerImages.runSample(azure));
     }
 
     @Test
     public void testManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOrchestrator() {
         // Skip test in "playback" mode due to HTTP calls made outside of the management plane which can not be recorded at this time
         if (!isPlaybackMode()) {
-            Assert.assertTrue(ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOrchestrator.runSample(azure, "", ""));
+            Assertions.assertTrue(ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOrchestrator.runSample(azure, "", ""));
         }
     }
 

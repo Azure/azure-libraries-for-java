@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.azure.management.compute.Disk;
@@ -50,13 +50,13 @@ public class TestVirtualMachine extends TestTemplate<VirtualMachine, VirtualMach
                 });
         vms[0] = future.get();
 
-        Assert.assertEquals(1, vms[0].dataDisks().size());
+        Assertions.assertEquals(1, vms[0].dataDisks().size());
         VirtualMachineDataDisk dataDisk = vms[0].dataDisks().values().iterator().next();
-        Assert.assertEquals(150, dataDisk.size());
-        Assert.assertEquals(128, vms[0].osDiskSize());
+        Assertions.assertEquals(150, dataDisk.size());
+        Assertions.assertEquals(128, vms[0].osDiskSize());
         Disk osDisk = virtualMachines.manager().disks().getById(vms[0].osDiskId());
-        Assert.assertNotNull(osDisk);
-        Assert.assertEquals(128, osDisk.sizeInGB());
+        Assertions.assertNotNull(osDisk);
+        Assertions.assertEquals(128, osDisk.sizeInGB());
 
         return vms[0];
     }

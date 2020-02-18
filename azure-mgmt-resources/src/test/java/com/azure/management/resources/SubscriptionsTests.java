@@ -8,8 +8,8 @@ import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.implementation.ResourceManager;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SubscriptionsTests extends TestBase {
     protected static ResourceManager.Authenticated resourceManager;
@@ -28,12 +28,12 @@ public class SubscriptionsTests extends TestBase {
     @Test
     public void canListSubscriptions() throws Exception {
         PagedIterable<Subscription> subscriptions = resourceManager.subscriptions().list();
-        Assert.assertTrue(TestUtilities.getPagedIterableSize(subscriptions) > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(subscriptions) > 0);
     }
 
     @Test
     public void canListLocations() throws Exception {
         PagedIterable<Location> locations = resourceManager.subscriptions().list().iterator().next().listLocations();
-        Assert.assertTrue(TestUtilities.getPagedIterableSize(locations) > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(locations) > 0);
     }
 }

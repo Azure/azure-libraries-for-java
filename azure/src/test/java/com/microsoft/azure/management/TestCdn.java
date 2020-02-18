@@ -17,7 +17,7 @@ import com.microsoft.azure.management.cdn.ResourceUsage;
 import com.microsoft.azure.management.cdn.SkuName;
 import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.Map;
 
@@ -51,39 +51,39 @@ public class TestCdn extends TestTemplate<CdnProfile, CdnProfiles> {
                     .attach()
                 .create();
 
-        Assert.assertTrue(cdnProfile.sku().name().equals(SkuName.STANDARD_AKAMAI));
-        Assert.assertNotNull(cdnProfile.endpoints());
-        Assert.assertEquals(1, cdnProfile.endpoints().size());
+        Assertions.assertTrue(cdnProfile.sku().name().equals(SkuName.STANDARD_AKAMAI));
+        Assertions.assertNotNull(cdnProfile.endpoints());
+        Assertions.assertEquals(1, cdnProfile.endpoints().size());
         CdnEndpoint endpoint = cdnProfile.endpoints().get(cdnEndpointName);
-        Assert.assertNotNull(endpoint);
-        Assert.assertEquals(cdnOriginHostName, endpoint.originHostName());
-        Assert.assertEquals(444, endpoint.httpsPort());
-        Assert.assertEquals(85, endpoint.httpPort());
-        Assert.assertFalse(endpoint.isHttpAllowed());
-        Assert.assertTrue(endpoint.isHttpsAllowed());
-        Assert.assertTrue(endpoint.isCompressionEnabled());
-        Assert.assertEquals(QueryStringCachingBehavior.BYPASS_CACHING, endpoint.queryStringCachingBehavior());
-        Assert.assertNotNull(endpoint.geoFilters());
-        Assert.assertEquals(QueryStringCachingBehavior.BYPASS_CACHING, endpoint.queryStringCachingBehavior());
+        Assertions.assertNotNull(endpoint);
+        Assertions.assertEquals(cdnOriginHostName, endpoint.originHostName());
+        Assertions.assertEquals(444, endpoint.httpsPort());
+        Assertions.assertEquals(85, endpoint.httpPort());
+        Assertions.assertFalse(endpoint.isHttpAllowed());
+        Assertions.assertTrue(endpoint.isHttpsAllowed());
+        Assertions.assertTrue(endpoint.isCompressionEnabled());
+        Assertions.assertEquals(QueryStringCachingBehavior.BYPASS_CACHING, endpoint.queryStringCachingBehavior());
+        Assertions.assertNotNull(endpoint.geoFilters());
+        Assertions.assertEquals(QueryStringCachingBehavior.BYPASS_CACHING, endpoint.queryStringCachingBehavior());
 
         for (ResourceUsage usage : profiles.listResourceUsage()) {
-            Assert.assertNotNull(usage);
-            Assert.assertEquals("profile", usage.resourceType());
+            Assertions.assertNotNull(usage);
+            Assertions.assertEquals("profile", usage.resourceType());
         }
 
         for (EdgeNode node : profiles.listEdgeNodes()) {
-            Assert.assertNotNull(node);
+            Assertions.assertNotNull(node);
         }
 
         for (ResourceUsage usage : cdnProfile.listResourceUsage()) {
-            Assert.assertNotNull(usage);
-            Assert.assertEquals("endpoint", usage.resourceType());
+            Assertions.assertNotNull(usage);
+            Assertions.assertEquals("endpoint", usage.resourceType());
         }
 
         for( CdnEndpoint ep : cdnProfile.endpoints().values()) {
             for (ResourceUsage usage : ep.listResourceUsage()) {
-                Assert.assertNotNull(usage);
-                Assert.assertTrue("customdomain".equals(usage.resourceType())
+                Assertions.assertNotNull(usage);
+                Assertions.assertTrue("customdomain".equals(usage.resourceType())
                                     || "geofilter".equals(usage.resourceType()));
             }
         }
@@ -110,11 +110,11 @@ public class TestCdn extends TestTemplate<CdnProfile, CdnProfiles> {
                     .parent()
                 .apply();
 
-        Assert.assertEquals(3, profile.endpoints().size());
+        Assertions.assertEquals(3, profile.endpoints().size());
         CdnEndpoint updatedEndpoint = profile.endpoints().get(firstEndpointName);
-        Assert.assertTrue(updatedEndpoint.isHttpsAllowed());
-        Assert.assertEquals(1111, updatedEndpoint.httpPort());
-        Assert.assertEquals(0, updatedEndpoint.geoFilters().size());
+        Assertions.assertTrue(updatedEndpoint.isHttpsAllowed());
+        Assertions.assertEquals(1111, updatedEndpoint.httpPort());
+        Assertions.assertEquals(0, updatedEndpoint.geoFilters().size());
 
         return profile;
     }

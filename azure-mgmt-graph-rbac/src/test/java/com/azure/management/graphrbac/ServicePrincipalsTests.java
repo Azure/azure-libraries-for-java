@@ -11,17 +11,15 @@ import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.implementation.ResourceManager;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
-
-import static org.junit.Assert.fail;
 
 public class ServicePrincipalsTests extends GraphRbacManagementTest {
 
@@ -38,19 +36,19 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                         .attach()
                     .create();
             System.out.println(servicePrincipal.id() + " - " + String.join(",", servicePrincipal.servicePrincipalNames()));
-            Assert.assertNotNull(servicePrincipal.id());
-            Assert.assertNotNull(servicePrincipal.applicationId());
-            Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
-            Assert.assertEquals(1, servicePrincipal.passwordCredentials().size());
-            Assert.assertEquals(0, servicePrincipal.certificateCredentials().size());
+            Assertions.assertNotNull(servicePrincipal.id());
+            Assertions.assertNotNull(servicePrincipal.applicationId());
+            Assertions.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
+            Assertions.assertEquals(1, servicePrincipal.passwordCredentials().size());
+            Assertions.assertEquals(0, servicePrincipal.certificateCredentials().size());
 
             // Get
             servicePrincipal = graphRbacManager.servicePrincipals().getByName(name);
-            Assert.assertNotNull(servicePrincipal);
-            Assert.assertNotNull(servicePrincipal.applicationId());
-            Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
-            Assert.assertEquals(1, servicePrincipal.passwordCredentials().size());
-            Assert.assertEquals(0, servicePrincipal.certificateCredentials().size());
+            Assertions.assertNotNull(servicePrincipal);
+            Assertions.assertNotNull(servicePrincipal.applicationId());
+            Assertions.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
+            Assertions.assertEquals(1, servicePrincipal.passwordCredentials().size());
+            Assertions.assertEquals(0, servicePrincipal.certificateCredentials().size());
 
             // Update
             servicePrincipal.update()
@@ -61,11 +59,11 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                         .withDuration(Duration.ofDays(1))
                         .attach()
                     .apply();
-            Assert.assertNotNull(servicePrincipal);
-            Assert.assertNotNull(servicePrincipal.applicationId());
-            Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
-            Assert.assertEquals(0, servicePrincipal.passwordCredentials().size());
-            Assert.assertEquals(1, servicePrincipal.certificateCredentials().size());
+            Assertions.assertNotNull(servicePrincipal);
+            Assertions.assertNotNull(servicePrincipal.applicationId());
+            Assertions.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
+            Assertions.assertEquals(0, servicePrincipal.passwordCredentials().size());
+            Assertions.assertEquals(1, servicePrincipal.certificateCredentials().size());
         } finally {
             if (servicePrincipal != null) {
                 graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
@@ -75,7 +73,7 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
     }
 
     @Test
-    @Ignore("Do not record - recorded JSON may contain auth info")
+    @Disabled("Do not record - recorded JSON may contain auth info")
     public void canCRUDServicePrincipalWithRole() throws Exception {
         String name = SdkContext.randomResourceName("ssp", 21);
         String rgName = SdkContext.randomResourceName("rg", 22);
@@ -100,9 +98,9 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                     .withNewRoleInSubscription(BuiltInRole.CONTRIBUTOR, subscription)
                     .create();
             System.out.println(servicePrincipal.id() + " - " + String.join(",",servicePrincipal.servicePrincipalNames()));
-            Assert.assertNotNull(servicePrincipal.id());
-            Assert.assertNotNull(servicePrincipal.applicationId());
-            Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
+            Assertions.assertNotNull(servicePrincipal.id());
+            Assertions.assertNotNull(servicePrincipal.applicationId());
+            Assertions.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
 
             SdkContext.sleep(10000);
             ResourceManager resourceManager = ResourceManager.authenticate(
@@ -118,11 +116,11 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                     .apply();
 
             SdkContext.sleep(120000);
-            Assert.assertNotNull(resourceManager.resourceGroups().getByName(group.name()));
+            Assertions.assertNotNull(resourceManager.resourceGroups().getByName(group.name()));
             try {
                 resourceManager.resourceGroups().define(rgName + "2")
                         .withRegion(Region.US_WEST).create();
-                fail();
+                Assertions.fail();
             } catch (Exception e) {
                 // expected
             }

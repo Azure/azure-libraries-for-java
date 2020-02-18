@@ -19,8 +19,8 @@ import com.microsoft.azure.management.sql.samples.ManageSqlServerSecurityAlertPo
 import com.microsoft.azure.management.sql.samples.ManageSqlVirtualNetworkRules;
 import com.microsoft.azure.management.sql.samples.ManageSqlWithRecoveredOrRestoredDatabase;
 import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -37,58 +37,58 @@ public class SqlSampleTests extends SamplesTestBase {
 
     @Test
     public void testManageSqlDatabase() {
-        Assert.assertTrue(ManageSqlDatabase.runSample(azure));
+        Assertions.assertTrue(ManageSqlDatabase.runSample(azure));
     }
 
     @Test
     public void testManageSqlDatabaseInElasticPool() {
-        Assert.assertTrue(ManageSqlDatabaseInElasticPool.runSample(azure));
+        Assertions.assertTrue(ManageSqlDatabaseInElasticPool.runSample(azure));
     }
 
     @Test
     public void testManageSqlDatabasesAcrossDifferentDataCenters() {
-        Assert.assertTrue(ManageSqlDatabasesAcrossDifferentDataCenters.runSample(azure));
+        Assertions.assertTrue(ManageSqlDatabasesAcrossDifferentDataCenters.runSample(azure));
     }
 
     @Test
     public void testManageSqlFirewallRules() {
-        Assert.assertTrue(ManageSqlFirewallRules.runSample(azure));
+        Assertions.assertTrue(ManageSqlFirewallRules.runSample(azure));
     }
 
     @Test
     public void testManageSqlServerSecurityAlertPolicy() {
-        Assert.assertTrue(ManageSqlServerSecurityAlertPolicy.runSample(azure));
+        Assertions.assertTrue(ManageSqlServerSecurityAlertPolicy.runSample(azure));
     }
 
     @Test
     public void testManageSqlVirtualNetworkRules() {
-        Assert.assertTrue(ManageSqlVirtualNetworkRules.runSample(azure));
+        Assertions.assertTrue(ManageSqlVirtualNetworkRules.runSample(azure));
     }
 
     @Test
     public void testManageSqlImportExportDatabase() {
         // Skip test in "playback" mode due to HTTP calls made outside of the management plane which can not be recorded at this time
         if (!isPlaybackMode()) {
-            Assert.assertTrue(ManageSqlImportExportDatabase.runSample(azure));
+            Assertions.assertTrue(ManageSqlImportExportDatabase.runSample(azure));
         }
     }
 
     @Test
     public void testManageSqlWithRecoveredOrRestoredDatabase() {
         // This test can take significant time to run since it depends on the availability of certain resources on the service side.
-        Assert.assertTrue(ManageSqlWithRecoveredOrRestoredDatabase.runSample(azure));
+        Assertions.assertTrue(ManageSqlWithRecoveredOrRestoredDatabase.runSample(azure));
     }
 
     @Test
     public void testManageSqlFailoverGroups() {
-        Assert.assertTrue(ManageSqlFailoverGroups.runSample(azure));
+        Assertions.assertTrue(ManageSqlFailoverGroups.runSample(azure));
     }
 
     @Test
     public void testGettingSqlServerMetrics() {
         // Skip test in "playback" mode due to HTTP calls made outside of the management plane which can not be recorded at this time
         if (!isPlaybackMode()) {
-            Assert.assertTrue(GettingSqlServerMetrics.runSample(azure));
+            Assertions.assertTrue(GettingSqlServerMetrics.runSample(azure));
         }
     }
 
@@ -96,7 +96,7 @@ public class SqlSampleTests extends SamplesTestBase {
     public void testManageSqlServerDnsAliases() {
         // Skip test in "playback" mode due to HTTP calls made outside of the management plane which can not be recorded at this time
         if (!isPlaybackMode()) {
-            Assert.assertTrue(ManageSqlServerDnsAliases.runSample(azure));
+            Assertions.assertTrue(ManageSqlServerDnsAliases.runSample(azure));
         }
     }
 
@@ -120,11 +120,11 @@ public class SqlSampleTests extends SamplesTestBase {
                 try {
                     servicePrincipalClientId = Utils.getSecondaryServicePrincipalClientID(envSecondaryServicePrincipal);
                 } catch (Exception e) {
-                    Assert.assertFalse("Unexpected exception trying to retrieve the client ID", true);
+                    Assertions.assertFalse(true, "Unexpected exception trying to retrieve the client ID");
                 }
             }
 
-            Assert.assertTrue(ManageSqlServerKeysWithAzureKeyVaultKey.runSample(azure, servicePrincipalClientId));
+            Assertions.assertTrue(ManageSqlServerKeysWithAzureKeyVaultKey.runSample(azure, servicePrincipalClientId));
         }
     }
 }

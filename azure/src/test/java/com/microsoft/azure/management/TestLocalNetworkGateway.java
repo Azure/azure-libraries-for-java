@@ -9,7 +9,7 @@ import com.microsoft.azure.management.network.LocalNetworkGateway;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Tests Local Network Gateway.
@@ -36,9 +36,9 @@ public class TestLocalNetworkGateway extends TestTemplate<LocalNetworkGateway, L
                 .withAddressSpace("192.168.3.0/24")
                 .withAddressSpace("192.168.4.0/27")
                 .create();
-        Assert.assertEquals("40.71.184.214", gateway.ipAddress());
-        Assert.assertEquals(2, gateway.addressSpaces().size());
-        Assert.assertTrue(gateway.addressSpaces().contains("192.168.4.0/27"));
+        Assertions.assertEquals("40.71.184.214", gateway.ipAddress());
+        Assertions.assertEquals(2, gateway.addressSpaces().size());
+        Assertions.assertTrue(gateway.addressSpaces().contains("192.168.4.0/27"));
         return gateway;
     }
 
@@ -50,16 +50,16 @@ public class TestLocalNetworkGateway extends TestTemplate<LocalNetworkGateway, L
                 .withTag("tag2", "value2")
                 .withoutTag("tag1")
                 .apply();
-        Assert.assertFalse(gateway.addressSpaces().contains("192.168.3.0/24"));
-        Assert.assertEquals("40.71.184.216", gateway.ipAddress());
-        Assert.assertTrue(gateway.tags().containsKey("tag2"));
-        Assert.assertTrue(!gateway.tags().containsKey("tag1"));
+        Assertions.assertFalse(gateway.addressSpaces().contains("192.168.3.0/24"));
+        Assertions.assertEquals("40.71.184.216", gateway.ipAddress());
+        Assertions.assertTrue(gateway.tags().containsKey("tag2"));
+        Assertions.assertTrue(!gateway.tags().containsKey("tag1"));
         gateway.updateTags()
                 .withoutTag("tag2")
                 .withTag("tag3", "value3")
                 .applyTags();
-        Assert.assertFalse(gateway.tags().containsKey("tag2"));
-        Assert.assertEquals("value3", gateway.tags().get("tag3"));
+        Assertions.assertFalse(gateway.tags().containsKey("tag2"));
+        Assertions.assertEquals("value3", gateway.tags().get("tag3"));
         return gateway;
     }
 

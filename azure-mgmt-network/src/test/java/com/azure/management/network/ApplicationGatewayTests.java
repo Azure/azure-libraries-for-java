@@ -19,9 +19,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.io.Files;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -64,11 +64,11 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .withWebApplicationFirewall(true, ApplicationGatewayFirewallMode.PREVENTION)
                 .create();
 
-        Assert.assertTrue(appGateway != null);
-        Assert.assertTrue(ApplicationGatewayTier.WAF_V2.equals(appGateway.tier()));
-        Assert.assertTrue(ApplicationGatewaySkuName.WAF_V2.equals(appGateway.size()));
-        Assert.assertTrue(appGateway.autoscaleConfiguration().minCapacity() == 2);
-        Assert.assertTrue(appGateway.autoscaleConfiguration().maxCapacity() == 5);
+        Assertions.assertTrue(appGateway != null);
+        Assertions.assertTrue(ApplicationGatewayTier.WAF_V2.equals(appGateway.tier()));
+        Assertions.assertTrue(ApplicationGatewaySkuName.WAF_V2.equals(appGateway.size()));
+        Assertions.assertTrue(appGateway.autoscaleConfiguration().minCapacity() == 2);
+        Assertions.assertTrue(appGateway.autoscaleConfiguration().maxCapacity() == 5);
 
         ApplicationGatewayWebApplicationFirewallConfiguration config = appGateway.webApplicationFirewallConfiguration();
         config.withFileUploadLimitInMb(200);
@@ -89,23 +89,23 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
         appGateway.refresh();
 
         // Verify WAF
-        Assert.assertTrue(appGateway.webApplicationFirewallConfiguration().fileUploadLimitInMb() == 200);
-        Assert.assertTrue(appGateway.webApplicationFirewallConfiguration().requestBodyCheck());
-        Assert.assertEquals(appGateway.webApplicationFirewallConfiguration().maxRequestBodySizeInKb(), (Integer) 64);
+        Assertions.assertTrue(appGateway.webApplicationFirewallConfiguration().fileUploadLimitInMb() == 200);
+        Assertions.assertTrue(appGateway.webApplicationFirewallConfiguration().requestBodyCheck());
+        Assertions.assertEquals(appGateway.webApplicationFirewallConfiguration().maxRequestBodySizeInKb(), (Integer) 64);
 
-        Assert.assertEquals(appGateway.webApplicationFirewallConfiguration().exclusions().size(), 1);
+        Assertions.assertEquals(appGateway.webApplicationFirewallConfiguration().exclusions().size(), 1);
 
-        Assert.assertEquals(appGateway.webApplicationFirewallConfiguration().exclusions().get(0).matchVariable(), "RequestHeaderNames");
-        Assert.assertEquals(appGateway.webApplicationFirewallConfiguration().exclusions().get(0).selectorMatchOperator(), "StartsWith");
-        Assert.assertEquals(appGateway.webApplicationFirewallConfiguration().exclusions().get(0).selector(), "User-Agent");
+        Assertions.assertEquals(appGateway.webApplicationFirewallConfiguration().exclusions().get(0).matchVariable(), "RequestHeaderNames");
+        Assertions.assertEquals(appGateway.webApplicationFirewallConfiguration().exclusions().get(0).selectorMatchOperator(), "StartsWith");
+        Assertions.assertEquals(appGateway.webApplicationFirewallConfiguration().exclusions().get(0).selector(), "User-Agent");
 
-        Assert.assertEquals(appGateway.webApplicationFirewallConfiguration().disabledRuleGroups().size(), 1);
-        Assert.assertEquals(appGateway.webApplicationFirewallConfiguration().disabledRuleGroups().get(0).ruleGroupName(),
+        Assertions.assertEquals(appGateway.webApplicationFirewallConfiguration().disabledRuleGroups().size(), 1);
+        Assertions.assertEquals(appGateway.webApplicationFirewallConfiguration().disabledRuleGroups().get(0).ruleGroupName(),
                 "REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION");
     }
 
     @Test
-    @Ignore("Need client id for key vault usage")
+    @Disabled("Need client id for key vault usage")
     public void canCreateApplicationGatewayWithSecret() throws Exception {
         String appGatewayName = SdkContext.randomResourceName("agwaf", 15);
         String appPublicIp = SdkContext.randomResourceName("pip", 15);
@@ -128,8 +128,8 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .withExistingResourceGroup(RG_NAME)
                 .create();
 
-        Assert.assertNotNull(identity.name());
-        Assert.assertNotNull(identity.principalId());
+        Assertions.assertNotNull(identity.name());
+        Assertions.assertNotNull(identity.principalId());
 
         Secret secret1 = createKeyVaultSecret(credentials.getClientId(), identity.principalId());
         Secret secret2 = createKeyVaultSecret(credentials.getClientId(), identity.principalId());
@@ -159,8 +159,8 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .withWebApplicationFirewall(true, ApplicationGatewayFirewallMode.PREVENTION)
                 .create();
 
-        Assert.assertEquals(secret1.id(), appGateway.sslCertificates().get("ssl1").keyVaultSecretId());
-        Assert.assertEquals(secret1.id(), appGateway.requestRoutingRules().get("rule1").sslCertificate().keyVaultSecretId());
+        Assertions.assertEquals(secret1.id(), appGateway.sslCertificates().get("ssl1").keyVaultSecretId());
+        Assertions.assertEquals(secret1.id(), appGateway.requestRoutingRules().get("rule1").sslCertificate().keyVaultSecretId());
 
         appGateway = appGateway.update()
                 .defineSslCertificate("ssl2")
@@ -168,7 +168,7 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .attach()
                 .apply();
 
-        Assert.assertEquals(secret2.id(), appGateway.sslCertificates().get("ssl2").keyVaultSecretId());
+        Assertions.assertEquals(secret2.id(), appGateway.sslCertificates().get("ssl2").keyVaultSecretId());
     }
 
     private Secret createKeyVaultSecret(String servicePrincipal, String identityPrincipal) throws Exception {

@@ -6,7 +6,7 @@
 
 package com.azure.management.resources.fluentcore.dag;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ExecutableWithCreatableTests {
     @Test

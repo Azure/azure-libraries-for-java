@@ -14,8 +14,8 @@ import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 import java.util.Arrays;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class GenericResourcesTests extends ResourceManagerTestBase {
     private static ResourceGroups resourceGroups;
@@ -70,21 +70,21 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
                 break;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
         // Get
-        Assert.assertNotNull(genericResources.get(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
+        Assertions.assertNotNull(genericResources.get(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
         // Move
         genericResources.moveResources(rgName, resourceGroups.getByName(newRgName), Arrays.asList(resource.id()));
-        Assert.assertFalse(genericResources.checkExistence(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
+        Assertions.assertFalse(genericResources.checkExistence(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
         resource = genericResources.get(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion());
-        Assert.assertNotNull(resource);
+        Assertions.assertNotNull(resource);
         // Update
         resource.update()
                 .withProperties(new ObjectMapper().readTree("{\"SiteMode\":\"Limited\",\"ComputeMode\":\"Dynamic\"}"))
                 .apply();
         // Delete
         genericResources.deleteById(resource.id());
-        Assert.assertFalse(genericResources.checkExistence(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
-        Assert.assertFalse(genericResources.checkExistenceById(resource.id()));
+        Assertions.assertFalse(genericResources.checkExistence(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
+        Assertions.assertFalse(genericResources.checkExistenceById(resource.id()));
     }
 }

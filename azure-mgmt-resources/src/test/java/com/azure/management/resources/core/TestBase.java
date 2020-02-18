@@ -145,11 +145,12 @@ public abstract class TestBase {
 
     @BeforeEach
     public void beforeTest(TestInfo testInfo) throws IOException {
-        printThreadInfo(String.format("%s: %s", "beforeTest", testInfo.getDisplayName()));
+        String testMothodName = testInfo.getTestMethod().get().getName();
+        printThreadInfo(String.format("%s: %s", "beforeTest", testMothodName));
         final String skipMessage = shouldCancelTest(isPlaybackMode());
         Assumptions.assumeTrue(skipMessage == null, skipMessage);
 
-        interceptorManager = InterceptorManager.create(testInfo.getDisplayName(), testMode);
+        interceptorManager = InterceptorManager.create(testMothodName, testMode);
 
         ApplicationTokenCredential credentials;
         RestClient restClient;

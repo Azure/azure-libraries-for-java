@@ -19,6 +19,43 @@ public interface Resource extends
         HasId,
         HasName {
 
+    static Resource DUMMY = new Resource() {
+        @Override
+        public String type() {
+            return null;
+        }
+
+        @Override
+        public String regionName() {
+            return null;
+        }
+
+        @Override
+        public Region region() {
+            return null;
+        }
+
+        @Override
+        public Map<String, String> tags() {
+            return null;
+        }
+
+        @Override
+        public String id() {
+            return null;
+        }
+
+        @Override
+        public String name() {
+            return null;
+        }
+
+        @Override
+        public String key() {
+            return null;
+        }
+    };
+
     /**
      * @return the type of the resource
      */

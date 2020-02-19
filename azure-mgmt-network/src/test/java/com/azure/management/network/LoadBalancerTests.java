@@ -33,7 +33,6 @@ public class LoadBalancerTests extends NetworkManagementTest {
         LoadBalancer loadBalancer = this.createLoadBalancer(networkManager, resourceGroup, network, lbName);
 
         // verify created probes
-        loadBalancer.refresh();
         Assertions.assertEquals(2, loadBalancer.loadBalancingRules().size());
         Assertions.assertEquals(0, loadBalancer.tcpProbes().size());
         Assertions.assertEquals(1, loadBalancer.httpProbes().size());
@@ -56,7 +55,6 @@ public class LoadBalancerTests extends NetworkManagementTest {
                 .parent().apply();
 
         // verify probe updated
-        loadBalancer.refresh();
         Assertions.assertEquals(1, loadBalancer.httpProbes().size());
         Assertions.assertEquals(1, loadBalancer.httpsProbes().size());
         Assertions.assertEquals(1, httpProbe.loadBalancingRules().size());
@@ -73,7 +71,6 @@ public class LoadBalancerTests extends NetworkManagementTest {
                 .apply();
 
         // verify probe deleted (and deref from rule)
-        loadBalancer.refresh();
         Assertions.assertEquals(1, loadBalancer.httpProbes().size());
         Assertions.assertEquals(0, loadBalancer.httpsProbes().size());
         Assertions.assertNull(loadBalancer.loadBalancingRules().get(ruleName2).probe());

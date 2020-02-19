@@ -18,6 +18,11 @@ import com.azure.core.util.polling.PollingContext;
 import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -26,7 +31,12 @@ import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalQueries;
 import java.util.function.Function;
 
 import static com.azure.core.util.FluxUtil.withContext;
@@ -58,7 +68,28 @@ public abstract class AzureServiceClient {
 //        super(restClient);
 //    }
 
+    static class DateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
+
+        public static SimpleModule getModule() {
+            SimpleModule module = new SimpleModule();
+            module.addDeserializer(OffsetDateTime.class, new DateTimeDeserializer());
+            return module;
+        }
+
+        @Override
+        public OffsetDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+            String string = jsonParser.getText();
+            TemporalAccessor temporal = DateTimeFormatter.ISO_DATE_TIME.parseBest(string, OffsetDateTime::from, LocalDateTime::from);
+            if (temporal.query(TemporalQueries.offset()) == null) {
+                return LocalDateTime.from(temporal).atOffset(ZoneOffset.UTC);
+            } else {
+                return OffsetDateTime.from(temporal);
+            }
+        }
+    }
+
     protected AzureServiceClient(HttpPipeline httpPipeline, AzureEnvironment environment) {
+        ((AzureJacksonAdapter) serializerAdapter).serializer().registerModule(DateTimeDeserializer.getModule());
     }
 
     /**
@@ -101,7 +132,6 @@ public abstract class AzureServiceClient {
     }
 
     private SerializerAdapter serializerAdapter = new AzureJacksonAdapter();
-
 
     public SerializerAdapter getSerializerAdapter() {
         return this.serializerAdapter;

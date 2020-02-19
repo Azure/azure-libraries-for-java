@@ -552,8 +552,7 @@ class ApplicationGatewayImpl
 
         final ApplicationGatewaysInner innerCollection = this.manager().inner().applicationGateways();
         return Flux.merge(networkObservable, pipObservable)
-                .defaultIfEmpty(null)
-                .last().flatMap(resource -> innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner()));
+                .last(Resource.DUMMY).flatMap(resource -> innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner()));
     }
 
     /**

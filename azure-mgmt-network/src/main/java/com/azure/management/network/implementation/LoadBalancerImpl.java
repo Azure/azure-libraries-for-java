@@ -316,13 +316,17 @@ class LoadBalancerImpl
             }
 
             this.nicsInBackends.clear();
-            this.refresh();
         }
     }
 
     @Override
     protected Mono<LoadBalancerInner> createInner() {
         return this.manager().inner().loadBalancers().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
+    }
+
+    @Override
+    public Mono<LoadBalancer> createResourceAsync() {
+        return super.createResourceAsync().flatMap(model -> this.refreshAsync());
     }
 
     private void initializeFrontendsFromInner() {

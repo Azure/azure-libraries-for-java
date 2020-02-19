@@ -67,7 +67,7 @@ public class ApplicationTokenCredential extends AzureTokenCredential {
     }
 
     @Override
-    public synchronized Mono<AccessToken> getToken(TokenRequestContext request) {
+    public Mono<AccessToken> getToken(TokenRequestContext request) {
         // TODO: Add client certificate token
         List<String> scopes = request.getScopes();
         String digest = String.join(" ", scopes);

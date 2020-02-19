@@ -16,7 +16,12 @@ import java.time.OffsetDateTime;
  * The class to contain the common factory methods required for SDK framework.
  */
 public class SdkContext {
-    private static ResourceNamerFactory resourceNamerFactory = new ResourceNamerFactory();
+    private static ThreadLocal<ResourceNamerFactory> resourceNamerFactory = new ThreadLocal<ResourceNamerFactory>(){
+        @Override
+        protected ResourceNamerFactory initialValue() {
+            return new ResourceNamerFactory();
+        }
+    };
     private static DelayProvider delayProvider = new DelayProvider();
     private static Scheduler reactorScheduler = Schedulers.boundedElastic();
 
@@ -26,7 +31,7 @@ public class SdkContext {
      * @param resourceNamerFactory factory to override.
      */
     public static void setResourceNamerFactory(ResourceNamerFactory resourceNamerFactory) {
-        SdkContext.resourceNamerFactory = resourceNamerFactory;
+        SdkContext.resourceNamerFactory.set(resourceNamerFactory);
     }
 
     /**
@@ -35,7 +40,7 @@ public class SdkContext {
      * @return resourceNamer factory.
      */
     public static ResourceNamerFactory getResourceNamerFactory() {
-        return SdkContext.resourceNamerFactory;
+        return SdkContext.resourceNamerFactory.get();
     }
 
     /**

@@ -56,13 +56,13 @@ final class ProvidersImpl
     @Override
     public Mono<Provider> getByNameAsync(String name) {
         // FIXME
-        return client.getAsync(null, name).map(providerInner -> wrapModel(providerInner));
+        return client.getAsync(name, null).map(providerInner -> wrapModel(providerInner));
     }
 
     @Override
     public Provider getByName(String resourceProviderNamespace) {
         // FIXME
-        return wrapModel(client.get(null, resourceProviderNamespace));
+        return wrapModel(client.get(resourceProviderNamespace, null));
     }
 
     @Override

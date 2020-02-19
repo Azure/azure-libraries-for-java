@@ -14,7 +14,7 @@ import com.azure.management.resources.implementation.ResourceManager;
  * The base for resource manager tests.
  */
 class ResourceManagerTestBase extends TestBase {
-    protected static ResourceManager resourceClient;
+    protected ResourceManager resourceClient;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

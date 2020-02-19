@@ -5,7 +5,6 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.RunCommandInput;
 import com.azure.management.compute.RunCommandInputParameter;
 import com.azure.management.compute.RunCommandResult;
@@ -18,15 +17,13 @@ import com.azure.management.compute.VirtualMachineScaleSetOSProfile;
 import com.azure.management.compute.VirtualMachineScaleSetStorageProfile;
 import com.azure.management.compute.VirtualMachineScaleSetVMProfile;
 import com.azure.management.compute.VirtualMachineScaleSets;
+import com.azure.management.compute.models.VirtualMachineScaleSetInner;
+import com.azure.management.compute.models.VirtualMachineScaleSetsInner;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.network.implementation.NetworkManager;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +31,6 @@ import java.util.List;
 /**
  * The implementation for VirtualMachineScaleSets.
  */
-@LangDefinition
 public class VirtualMachineScaleSetsImpl
     extends TopLevelModifiableResourcesImpl<
         VirtualMachineScaleSet,
@@ -60,86 +56,61 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public void deallocate(String groupName, String name) {
-        this.inner().deallocate(groupName, name);
+        this.deallocateAsync(groupName, name).block();
     }
 
     @Override
-    public Completable deallocateAsync(String groupName, String name) {
-        return this.inner().deallocateAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> deallocateAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(deallocateAsync(groupName, name), callback);
+    public Mono<Void> deallocateAsync(String groupName, String name) {
+        return this.inner().deallocateAsync(groupName, name, null);
     }
 
     @Override
     public void powerOff(String groupName, String name) {
-        this.inner().powerOff(groupName, name);
+        this.powerOffAsync(groupName, name).block();
     }
 
     @Override
-    public Completable powerOffAsync(String groupName, String name) {
-        return this.inner().powerOffAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> powerOffAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(powerOffAsync(groupName, name), callback);
+    public Mono<Void> powerOffAsync(String groupName, String name) {
+        return this.inner().powerOffAsync(groupName, name, null, null);
     }
 
     @Override
     public void restart(String groupName, String name) {
-        this.inner().restart(groupName, name);
+        this.restartAsync(groupName, name).block();
     }
 
     @Override
-    public Completable restartAsync(String groupName, String name) {
-        return this.inner().restartAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> restartAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(restartAsync(groupName, name), callback);
+    public Mono<Void> restartAsync(String groupName, String name) {
+        return this.inner().restartAsync(groupName, name, null);
     }
 
     @Override
     public void start(String groupName, String name) {
-        this.inner().start(groupName, name);
+        this.startAsync(groupName, name).block();
     }
 
     @Override
-    public Completable startAsync(String groupName, String name) {
-        return this.inner().startAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> startAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(startAsync(groupName, name), callback);
+    public Mono<Void> startAsync(String groupName, String name) {
+        return this.inner().startAsync(groupName, name, null);
     }
 
     @Override
     public void reimage(String groupName, String name) {
-        this.inner().reimage(groupName, name);
+        this.reimageAsync(groupName, name).block();
     }
 
     @Override
-    public Completable reimageAsync(String groupName, String name) {
-       return this.inner().reimageAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> reimageAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(reimageAsync(groupName, name), callback);
+    public Mono<Void> reimageAsync(String groupName, String name) {
+       return this.inner().reimageAsync(groupName, name, null);
     }
 
     @Override
     public RunCommandResult runPowerShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
-        return this.runPowerShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).toBlocking().last();
+        return this.runPowerShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).block();
     }
 
     @Override
-    public Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Mono<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         RunCommandInput inputCommand = new RunCommandInput();
         inputCommand.withCommandId("RunPowerShellScript");
         inputCommand.withScript(scriptLines);
@@ -149,11 +120,11 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public RunCommandResult runShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
-        return this.runShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).toBlocking().last();
+        return this.runShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).block();
     }
 
     @Override
-    public Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Mono<RunCommandResult> runShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         RunCommandInput inputCommand = new RunCommandInput();
         inputCommand.withCommandId("RunShellScript");
         inputCommand.withScript(scriptLines);
@@ -163,20 +134,13 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public RunCommandResult runCommandInVMInstance(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
-        return this.runCommandVMInstanceAsync(groupName, scaleSetName, vmId, inputCommand).toBlocking().last();
+        return this.runCommandVMInstanceAsync(groupName, scaleSetName, vmId, inputCommand).block();
     }
 
     @Override
-    public Observable<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
-        return this.manager().inner().virtualMachineScaleSetVMs().runCommandAsync(groupName, scaleSetName, vmId, inputCommand).map(
-                new Func1<RunCommandResultInner, RunCommandResult>() {
-
-                    @Override
-                    public RunCommandResult call(RunCommandResultInner runCommandResultInner) {
-                        return new RunCommandResultImpl(runCommandResultInner);
-                    }
-                }
-        );
+    public Mono<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
+        return this.manager().inner().virtualMachineScaleSetVMs().runCommandAsync(groupName, scaleSetName, vmId, inputCommand)
+                .map(RunCommandResultImpl::new);
     }
 
     @Override
@@ -230,7 +194,7 @@ public class VirtualMachineScaleSetsImpl
         if (inner == null) {
             return null;
         }
-        return new VirtualMachineScaleSetImpl(inner.name(),
+        return new VirtualMachineScaleSetImpl(inner.getName(),
                 inner,
                 this.manager(),
                 this.storageManager,

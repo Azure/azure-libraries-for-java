@@ -5,10 +5,10 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachineExtensionInstanceView;
 import com.azure.management.compute.VirtualMachineScaleSetVM;
 import com.azure.management.compute.VirtualMachineScaleSetVMInstanceExtension;
+import com.azure.management.compute.models.VirtualMachineExtensionInner;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.Collections;
@@ -19,7 +19,6 @@ import java.util.Map;
 /**
  * Implementation of {@link VirtualMachineScaleSetVMInstanceExtension}.
  */
-@LangDefinition
 class VirtualMachineScaleSetVMInstanceExtensionImpl extends
         ChildResourceImpl<VirtualMachineExtensionInner, VirtualMachineScaleSetVMImpl, VirtualMachineScaleSetVM>
         implements VirtualMachineScaleSetVMInstanceExtension {
@@ -35,7 +34,7 @@ class VirtualMachineScaleSetVMInstanceExtensionImpl extends
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
@@ -45,7 +44,7 @@ class VirtualMachineScaleSetVMInstanceExtensionImpl extends
 
     @Override
     public String typeName() {
-        return this.inner().type();
+        return this.inner().getType();
     }
 
     @Override

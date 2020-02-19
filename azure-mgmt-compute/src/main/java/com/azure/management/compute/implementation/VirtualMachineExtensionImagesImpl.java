@@ -43,7 +43,7 @@ class VirtualMachineExtensionImagesImpl
 
     @Override
     public Mono<List<VirtualMachineExtensionImage>> listByRegionAsync(String regionName) {
-        return publishers.listByRegionAsync(regionName).collectList()
+        return publishers.listByRegionAsync(regionName)
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(virtualMachinePublisher -> virtualMachinePublisher.extensionTypes().listAsync()
                         .flatMapMany(Flux::fromIterable)

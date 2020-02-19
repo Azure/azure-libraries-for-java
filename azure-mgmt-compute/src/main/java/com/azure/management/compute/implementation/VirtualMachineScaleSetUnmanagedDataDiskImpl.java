@@ -6,7 +6,6 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.CachingTypes;
 import com.azure.management.compute.DiskCreateOptionTypes;
 import com.azure.management.compute.VirtualMachineScaleSet;
@@ -20,7 +19,6 @@ import java.util.List;
 /**
  * The implementation for {@link VirtualMachineScaleSetUnmanagedDataDisk} and its create and update interfaces.
  */
-@LangDefinition
 class VirtualMachineScaleSetUnmanagedDataDiskImpl
         extends ChildResourceImpl<VirtualMachineScaleSetDataDisk, VirtualMachineScaleSetImpl, VirtualMachineScaleSet>
         implements

@@ -6,7 +6,7 @@
 
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.SubResource;
+import com.azure.core.management.SubResource;
 import com.azure.management.compute.VirtualMachineScaleSet;
 import com.azure.management.compute.VirtualMachineScaleSetIPConfiguration;
 import com.azure.management.compute.VirtualMachineScaleSetNetworkConfiguration;
@@ -85,7 +85,7 @@ class VMSSPatchPayload {
                         nicPatchConfig.withName(nicConfig.name());
                         nicPatchConfig.withNetworkSecurityGroup(nicConfig.networkSecurityGroup());
                         nicPatchConfig.withPrimary(nicConfig.primary());
-                        nicPatchConfig.withId(nicConfig.id());
+                        nicPatchConfig.setId(nicConfig.getId());
                         if (nicConfig.ipConfigurations() != null) {
                             nicPatchConfig.withIpConfigurations(new ArrayList<VirtualMachineScaleSetUpdateIPConfiguration>());
                             for (VirtualMachineScaleSetIPConfiguration ipConfig : nicConfig.ipConfigurations()) {
@@ -97,7 +97,7 @@ class VMSSPatchPayload {
                                 patchIpConfig.withPrimary(ipConfig.primary());
                                 patchIpConfig.withPrivateIPAddressVersion(ipConfig.privateIPAddressVersion());
                                 patchIpConfig.withSubnet(ipConfig.subnet());
-                                patchIpConfig.withId(ipConfig.id());
+                                patchIpConfig.setId(ipConfig.getId());
                                 if (ipConfig.publicIPAddressConfiguration() != null) {
                                     patchIpConfig.withPublicIPAddressConfiguration(new VirtualMachineScaleSetUpdatePublicIPAddressConfiguration());
                                     patchIpConfig.publicIPAddressConfiguration().withDnsSettings(ipConfig.publicIPAddressConfiguration().dnsSettings());
@@ -107,7 +107,7 @@ class VMSSPatchPayload {
                                 if (ipConfig.applicationSecurityGroups() != null) {
                                     patchIpConfig.withApplicationSecurityGroups(new ArrayList<SubResource>());
                                     for (SubResource asg : ipConfig.applicationSecurityGroups()) {
-                                        patchIpConfig.applicationSecurityGroups().add(new SubResource().withId(asg.id()));
+                                        patchIpConfig.applicationSecurityGroups().add(new SubResource().setId(asg.getId()));
                                     }
                                 }
                                 nicPatchConfig.ipConfigurations().add(patchIpConfig);

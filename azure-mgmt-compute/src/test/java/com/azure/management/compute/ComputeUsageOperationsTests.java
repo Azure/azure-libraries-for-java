@@ -6,16 +6,16 @@
 
 package com.azure.management.compute;
 
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ComputeUsageOperationsTests extends ComputeManagementTest {
     @Test
     public void canListComputeUsages() throws Exception {
-        List<ComputeUsage> usages = computeManager.usages().listByRegion(Region.US_EAST);
-        Assert.assertTrue(usages.size() > 0);
+        PagedIterable<ComputeUsage> usages = computeManager.usages().listByRegion(Region.US_EAST);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(usages) > 0);
     }
 }

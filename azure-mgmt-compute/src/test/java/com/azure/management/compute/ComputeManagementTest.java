@@ -6,8 +6,7 @@
 
 package com.azure.management.compute;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
+import com.azure.management.RestClient;
 import com.azure.management.compute.implementation.ComputeManager;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.keyvault.implementation.KeyVaultManager;
@@ -23,8 +22,9 @@ import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.implementation.ResourceManager;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,11 +84,11 @@ public abstract class ComputeManagementTest extends TestBase {
             String output = shell.runCommands(deprovisionCommand);
             System.out.println(output);
         } catch (JSchException jSchException) {
-            Assert.assertNull(jSchException.getMessage(), jSchException);
+            Assertions.assertNull(jSchException, jSchException.getMessage());
         } catch (IOException ioException) {
-            Assert.assertNull(ioException.getMessage(), ioException);
+            Assertions.assertNull(ioException, ioException.getMessage());
         } catch (Exception exception) {
-            Assert.assertNull(exception.getMessage(), exception);
+            Assertions.assertNull(exception, exception.getMessage());
         } finally {
             if (shell != null) {
                 shell.close();
@@ -110,7 +110,7 @@ public abstract class ComputeManagementTest extends TestBase {
             session.setConfig(config);
             session.connect();
         } catch (Exception e) {
-            Assert.fail("SSH connection failed" + e.getMessage());
+            Assertions.fail("SSH connection failed" + e.getMessage());
         } finally {
             if (session != null) {
                 session.disconnect();

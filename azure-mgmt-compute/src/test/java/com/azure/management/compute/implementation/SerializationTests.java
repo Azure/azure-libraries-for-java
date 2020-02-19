@@ -5,10 +5,12 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.management.compute.VirtualMachineIdentity;
-import com.azure.management.compute.VirtualMachineIdentityUserAssignedIdentitiesValue;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import org.junit.Test;
+import com.azure.management.compute.VirtualMachineIdentityUserAssignedIdentities;
+import com.azure.management.compute.models.VirtualMachineInner;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,9 +21,9 @@ public class SerializationTests {
     public void test1() throws IOException {
         AzureJacksonAdapter jacksonAdapter = new AzureJacksonAdapter();
 
-        Map<String, VirtualMachineIdentityUserAssignedIdentitiesValue> userAssignedIdentities = new HashMap<>();
-        userAssignedIdentities.put("af.B/C", new VirtualMachineIdentityUserAssignedIdentitiesValue());
-        userAssignedIdentities.put("af.B/D", new VirtualMachineIdentityUserAssignedIdentitiesValue());
+        Map<String, VirtualMachineIdentityUserAssignedIdentities> userAssignedIdentities = new HashMap<>();
+        userAssignedIdentities.put("af.B/C", new VirtualMachineIdentityUserAssignedIdentities());
+        userAssignedIdentities.put("af.B/D", new VirtualMachineIdentityUserAssignedIdentities());
 
         VirtualMachineIdentity identity = new VirtualMachineIdentity();
         identity.withUserAssignedIdentities(userAssignedIdentities);
@@ -31,7 +33,7 @@ public class SerializationTests {
 
         virtualMachine.withLicenseType("abs");
 
-        String serialized = jacksonAdapter.serialize(virtualMachine);
+        String serialized = jacksonAdapter.serialize(virtualMachine, SerializerEncoding.JSON);
 
         System.out.println(serialized);
     }

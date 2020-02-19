@@ -6,7 +6,8 @@
 
 package com.azure.management.compute;
 
-import com.azure.management.compute.implementation.VirtualMachineScaleSetInner;
+import com.azure.management.RestClient;
+import com.azure.management.compute.models.VirtualMachineScaleSetInner;
 import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.LoadBalancerSkuType;
 import com.azure.management.network.Network;
@@ -15,9 +16,8 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.StorageAccount;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
                 .define(vmssName)
@@ -82,9 +82,9 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
                 .withBootDiagnostics()
                 .create();
 
-        Assert.assertNotNull(virtualMachineScaleSet);
-        Assert.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
+        Assertions.assertNotNull(virtualMachineScaleSet);
+        Assertions.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         Creatable<StorageAccount> creatableStorageAccount = storageManager.storageAccounts()
                 .define(storageName)
@@ -137,10 +137,10 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
                 .withBootDiagnostics(creatableStorageAccount)
                 .create();
 
-        Assert.assertNotNull(virtualMachineScaleSet);
-        Assert.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
-        Assert.assertTrue(virtualMachineScaleSet.bootDiagnosticsStorageUri().contains(storageName));
+        Assertions.assertNotNull(virtualMachineScaleSet);
+        Assertions.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
+        Assertions.assertTrue(virtualMachineScaleSet.bootDiagnosticsStorageUri().contains(storageName));
     }
 
     @Test
@@ -171,7 +171,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(storageName)
@@ -194,10 +194,10 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
                 .withBootDiagnostics(storageAccount)
                 .create();
 
-        Assert.assertNotNull(virtualMachineScaleSet);
-        Assert.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
-        Assert.assertTrue(virtualMachineScaleSet.bootDiagnosticsStorageUri().contains(storageName));
+        Assertions.assertNotNull(virtualMachineScaleSet);
+        Assertions.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
+        Assertions.assertTrue(virtualMachineScaleSet.bootDiagnosticsStorageUri().contains(storageName));
     }
 
     @Test
@@ -227,7 +227,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
                 .define(vmssName)
@@ -244,17 +244,17 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
                 .withBootDiagnostics()
                 .create();
 
-        Assert.assertNotNull(virtualMachineScaleSet);
-        Assert.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
+        Assertions.assertNotNull(virtualMachineScaleSet);
+        Assertions.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
 
         virtualMachineScaleSet.update()
                 .withoutBootDiagnostics()
                 .apply();
 
-        Assert.assertFalse(virtualMachineScaleSet.isBootDiagnosticsEnabled());
+        Assertions.assertFalse(virtualMachineScaleSet.isBootDiagnosticsEnabled());
         // Disabling boot diagnostics will not remove the storage uri from the vm payload.
-        Assert.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
+        Assertions.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
     }
 
     @Test
@@ -284,7 +284,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
                 .define(vmssName)
@@ -302,17 +302,17 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
                 .withBootDiagnostics()
                 .create();
 
-        Assert.assertNotNull(virtualMachineScaleSet);
-        Assert.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
+        Assertions.assertNotNull(virtualMachineScaleSet);
+        Assertions.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
 
         VirtualMachineScaleSetInner inner = virtualMachineScaleSet.inner();
-        Assert.assertNotNull(inner);
-        Assert.assertNotNull(inner.virtualMachineProfile());
-        Assert.assertNotNull(inner.virtualMachineProfile().storageProfile());
-        Assert.assertNotNull(inner.virtualMachineProfile().storageProfile().osDisk());
+        Assertions.assertNotNull(inner);
+        Assertions.assertNotNull(inner.virtualMachineProfile());
+        Assertions.assertNotNull(inner.virtualMachineProfile().storageProfile());
+        Assertions.assertNotNull(inner.virtualMachineProfile().storageProfile().osDisk());
         List<String> containers = inner.virtualMachineProfile().storageProfile().osDisk().vhdContainers();
-        Assert.assertFalse(containers.isEmpty());
+        Assertions.assertFalse(containers.isEmpty());
         // Boot diagnostics should share storage used for os/disk containers
         boolean found = false;
         for (String containerStorageUri : containers) {
@@ -321,7 +321,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
                 break;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
     }
 
     @Test
@@ -352,7 +352,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(storageName)
@@ -377,18 +377,18 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
                 .withExistingStorageAccount(storageAccount) // This storage account must be shared by disk and boot diagnostics
                 .create();
 
-        Assert.assertNotNull(virtualMachineScaleSet);
-        Assert.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
-        Assert.assertTrue(virtualMachineScaleSet.bootDiagnosticsStorageUri().contains(storageName));
+        Assertions.assertNotNull(virtualMachineScaleSet);
+        Assertions.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
+        Assertions.assertTrue(virtualMachineScaleSet.bootDiagnosticsStorageUri().contains(storageName));
 
         VirtualMachineScaleSetInner inner = virtualMachineScaleSet.inner();
-        Assert.assertNotNull(inner);
-        Assert.assertNotNull(inner.virtualMachineProfile());
-        Assert.assertNotNull(inner.virtualMachineProfile().storageProfile());
-        Assert.assertNotNull(inner.virtualMachineProfile().storageProfile().osDisk());
+        Assertions.assertNotNull(inner);
+        Assertions.assertNotNull(inner.virtualMachineProfile());
+        Assertions.assertNotNull(inner.virtualMachineProfile().storageProfile());
+        Assertions.assertNotNull(inner.virtualMachineProfile().storageProfile().osDisk());
         List<String> containers = inner.virtualMachineProfile().storageProfile().osDisk().vhdContainers();
-        Assert.assertFalse(containers.isEmpty());
+        Assertions.assertFalse(containers.isEmpty());
     }
 
     @Test
@@ -419,7 +419,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
 
         Creatable<StorageAccount> creatableStorageAccount = storageManager.storageAccounts()
@@ -443,19 +443,19 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
                 .withBootDiagnostics(creatableStorageAccount) // This storage account should be used for BDiagnostics not OS disk storage account
                 .create();
 
-        Assert.assertNotNull(virtualMachineScaleSet);
-        Assert.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
-        Assert.assertTrue(virtualMachineScaleSet.bootDiagnosticsStorageUri().contains(storageName));
+        Assertions.assertNotNull(virtualMachineScaleSet);
+        Assertions.assertTrue(virtualMachineScaleSet.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachineScaleSet.bootDiagnosticsStorageUri());
+        Assertions.assertTrue(virtualMachineScaleSet.bootDiagnosticsStorageUri().contains(storageName));
         // There should be a different storage account created for VMSS OS Disk
 
         VirtualMachineScaleSetInner inner = virtualMachineScaleSet.inner();
-        Assert.assertNotNull(inner);
-        Assert.assertNotNull(inner.virtualMachineProfile());
-        Assert.assertNotNull(inner.virtualMachineProfile().storageProfile());
-        Assert.assertNotNull(inner.virtualMachineProfile().storageProfile().osDisk());
+        Assertions.assertNotNull(inner);
+        Assertions.assertNotNull(inner.virtualMachineProfile());
+        Assertions.assertNotNull(inner.virtualMachineProfile().storageProfile());
+        Assertions.assertNotNull(inner.virtualMachineProfile().storageProfile().osDisk());
         List<String> containers = inner.virtualMachineProfile().storageProfile().osDisk().vhdContainers();
-        Assert.assertFalse(containers.isEmpty());
+        Assertions.assertFalse(containers.isEmpty());
         boolean notFound = true;
         for (String containerStorageUri : containers) {
             if (containerStorageUri.toLowerCase().startsWith(virtualMachineScaleSet.bootDiagnosticsStorageUri().toLowerCase())) {
@@ -463,6 +463,6 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
                 break;
             }
         }
-        Assert.assertTrue(notFound);
+        Assertions.assertTrue(notFound);
     }
 }

@@ -6,12 +6,12 @@
 
 package com.azure.management.compute;
 
+import com.azure.management.RestClient;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
@@ -52,28 +52,28 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .create();
         // Ensure default to managed disk
         //
-        Assert.assertTrue(virtualMachine.isManagedDiskEnabled());
+        Assertions.assertTrue(virtualMachine.isManagedDiskEnabled());
         // Validate caching, size and the default storage account type set for the managed disk
         // backing os disk
         //
-        Assert.assertNotNull(virtualMachine.osDiskStorageAccountType());
-        Assert.assertEquals(virtualMachine.osDiskCachingType(), CachingTypes.READ_WRITE);
-        Assert.assertEquals(virtualMachine.size(), VirtualMachineSizeTypes.STANDARD_D5_V2);
+        Assertions.assertNotNull(virtualMachine.osDiskStorageAccountType());
+        Assertions.assertEquals(virtualMachine.osDiskCachingType(), CachingTypes.READ_WRITE);
+        Assertions.assertEquals(virtualMachine.size(), VirtualMachineSizeTypes.STANDARD_D5_V2);
         // Validate the implicit managed disk created by CRP to back the os disk
         //
-        Assert.assertNotNull(virtualMachine.osDiskId());
+        Assertions.assertNotNull(virtualMachine.osDiskId());
         Disk osDisk = computeManager.disks().getById(virtualMachine.osDiskId());
-        Assert.assertTrue(osDisk.isAttachedToVirtualMachine());
-        Assert.assertEquals(osDisk.osType(), OperatingSystemTypes.LINUX);
+        Assertions.assertTrue(osDisk.isAttachedToVirtualMachine());
+        Assertions.assertEquals(osDisk.osType(), OperatingSystemTypes.LINUX);
         // Check the auto created public ip
         //
         String publicIpId = virtualMachine.getPrimaryPublicIPAddressId();
-        Assert.assertNotNull(publicIpId);
+        Assertions.assertNotNull(publicIpId);
         // Validates the options which are valid only for native disks
         //
-        Assert.assertNull(virtualMachine.osUnmanagedDiskVhdUri());
-        Assert.assertNotNull(virtualMachine.unmanagedDataDisks());
-        Assert.assertTrue(virtualMachine.unmanagedDataDisks().size() == 0);
+        Assertions.assertNull(virtualMachine.osUnmanagedDiskVhdUri());
+        Assertions.assertNotNull(virtualMachine.unmanagedDataDisks());
+        Assertions.assertTrue(virtualMachine.unmanagedDataDisks().size() == 0);
     }
 
     @Test
@@ -135,39 +135,39 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
-        Assert.assertTrue(virtualMachine.isManagedDiskEnabled());
+        Assertions.assertTrue(virtualMachine.isManagedDiskEnabled());
         // There should not be any un-managed data disks
         //
-        Assert.assertNotNull(virtualMachine.unmanagedDataDisks());
-        Assert.assertEquals(virtualMachine.unmanagedDataDisks().size(), 0);
+        Assertions.assertNotNull(virtualMachine.unmanagedDataDisks());
+        Assertions.assertEquals(virtualMachine.unmanagedDataDisks().size(), 0);
         // Validate the managed data disks
         //
         Map<Integer, VirtualMachineDataDisk> dataDisks = virtualMachine.dataDisks();
-        Assert.assertNotNull(dataDisks);
-        Assert.assertTrue(dataDisks.size() == 5);
-        Assert.assertTrue(dataDisks.containsKey(1));
+        Assertions.assertNotNull(dataDisks);
+        Assertions.assertTrue(dataDisks.size() == 5);
+        Assertions.assertTrue(dataDisks.containsKey(1));
         VirtualMachineDataDisk dataDiskLun1 = dataDisks.get(1);
-        Assert.assertNotNull(dataDiskLun1.id());
-        Assert.assertEquals(dataDiskLun1.cachingType(), CachingTypes.READ_ONLY);
-        Assert.assertEquals(dataDiskLun1.size(), 100);
+        Assertions.assertNotNull(dataDiskLun1.id());
+        Assertions.assertEquals(dataDiskLun1.cachingType(), CachingTypes.READ_ONLY);
+        Assertions.assertEquals(dataDiskLun1.size(), 100);
 
-        Assert.assertTrue(dataDisks.containsKey(2));
+        Assertions.assertTrue(dataDisks.containsKey(2));
         VirtualMachineDataDisk dataDiskLun2 = dataDisks.get(2);
-        Assert.assertNotNull(dataDiskLun2.id());
-        Assert.assertEquals(dataDiskLun2.cachingType(), CachingTypes.NONE);
-        Assert.assertEquals(dataDiskLun2.size(), 150);
+        Assertions.assertNotNull(dataDiskLun2.id());
+        Assertions.assertEquals(dataDiskLun2.cachingType(), CachingTypes.NONE);
+        Assertions.assertEquals(dataDiskLun2.size(), 150);
 
-        Assert.assertTrue(dataDisks.containsKey(3));
+        Assertions.assertTrue(dataDisks.containsKey(3));
         VirtualMachineDataDisk dataDiskLun3 = dataDisks.get(3);
-        Assert.assertNotNull(dataDiskLun3.id());
-        Assert.assertEquals(dataDiskLun3.cachingType(), CachingTypes.NONE);
-        Assert.assertEquals(dataDiskLun3.size(), 150);
+        Assertions.assertNotNull(dataDiskLun3.id());
+        Assertions.assertEquals(dataDiskLun3.cachingType(), CachingTypes.NONE);
+        Assertions.assertEquals(dataDiskLun3.size(), 150);
         // Validate the defaults assigned
         //
         for (VirtualMachineDataDisk dataDisk : dataDisks.values()) {
             if (dataDisk.lun() != 1 && dataDisk.lun() != 2 && dataDisk.lun() != 3) {
-                Assert.assertEquals(dataDisk.cachingType(), CachingTypes.READ_WRITE);
-                Assert.assertEquals(dataDisk.storageAccountType(), StorageAccountTypes.STANDARD_LRS);
+                Assertions.assertEquals(dataDisk.cachingType(), CachingTypes.READ_WRITE);
+                Assertions.assertEquals(dataDisk.storageAccountType(), StorageAccountTypes.STANDARD_LRS);
             }
         }
 
@@ -193,40 +193,40 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
 //                .withNewDataDisk(60)
 //                .apply();
 //
-//        Assert.assertTrue(virtualMachine.isManagedDiskEnabled());
+//        Assertions.assertTrue(virtualMachine.isManagedDiskEnabled());
 //        // There should not be any un-managed data disks
 //        //
-//        Assert.assertNotNull(virtualMachine.unmanagedDataDisks());
-//        Assert.assertEquals(virtualMachine.unmanagedDataDisks().size(), 0);
+//        Assertions.assertNotNull(virtualMachine.unmanagedDataDisks());
+//        Assertions.assertEquals(virtualMachine.unmanagedDataDisks().size(), 0);
 //
 //        // Validate the managed data disks
 //        //
 //         dataDisks = virtualMachine.dataDisks();
-//        Assert.assertNotNull(dataDisks);
-//        Assert.assertTrue(dataDisks.size() == 6);
-//        Assert.assertTrue(dataDisks.containsKey(1));
+//        Assertions.assertNotNull(dataDisks);
+//        Assertions.assertTrue(dataDisks.size() == 6);
+//        Assertions.assertTrue(dataDisks.containsKey(1));
 //        dataDiskLun1 = dataDisks.get(1);
-//        Assert.assertNotNull(dataDiskLun1.id());
-//        Assert.assertEquals(dataDiskLun1.cachingType(), CachingTypes.READ_ONLY);
-//        Assert.assertEquals(dataDiskLun1.size(), 200);  // 100 -> 200
+//        Assertions.assertNotNull(dataDiskLun1.id());
+//        Assertions.assertEquals(dataDiskLun1.cachingType(), CachingTypes.READ_ONLY);
+//        Assertions.assertEquals(dataDiskLun1.size(), 200);  // 100 -> 200
 //
-//        Assert.assertTrue(dataDisks.containsKey(2));
+//        Assertions.assertTrue(dataDisks.containsKey(2));
 //        dataDiskLun2 = dataDisks.get(2);
-//        Assert.assertNotNull(dataDiskLun2.id());
-//        Assert.assertEquals(dataDiskLun2.cachingType(), CachingTypes.READ_WRITE); // NONE -> READ_WRITE
-//        Assert.assertEquals(dataDiskLun2.size(), 200);  // 150 -> 200
+//        Assertions.assertNotNull(dataDiskLun2.id());
+//        Assertions.assertEquals(dataDiskLun2.cachingType(), CachingTypes.READ_WRITE); // NONE -> READ_WRITE
+//        Assertions.assertEquals(dataDiskLun2.size(), 200);  // 150 -> 200
 //
-//        Assert.assertTrue(dataDisks.containsKey(3));
+//        Assertions.assertTrue(dataDisks.containsKey(3));
 //        dataDiskLun3 = dataDisks.get(3);
-//        Assert.assertNotNull(dataDiskLun3.id());
-//        Assert.assertEquals(dataDiskLun3.cachingType(), CachingTypes.NONE);
-//        Assert.assertEquals(dataDiskLun3.size(), 150);
+//        Assertions.assertNotNull(dataDiskLun3.id());
+//        Assertions.assertEquals(dataDiskLun3.cachingType(), CachingTypes.NONE);
+//        Assertions.assertEquals(dataDiskLun3.size(), 150);
 //
 //        // Ensure defaults of other disks are not affected
 //        for (VirtualMachineDataDisk dataDisk : dataDisks.values()) {
 //            if (dataDisk.lun() != 1 && dataDisk.lun() != 3) {
-//                Assert.assertEquals(dataDisk.cachingType(), CachingTypes.READ_WRITE);
-//                Assert.assertEquals(dataDisk.storageAccountType(), StorageAccountTypes.STANDARD_LRS);
+//                Assertions.assertEquals(dataDisk.cachingType(), CachingTypes.READ_WRITE);
+//                Assertions.assertEquals(dataDisk.storageAccountType(), StorageAccountTypes.STANDARD_LRS);
 //            }
 //        }
     }
@@ -305,17 +305,17 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .withExistingResourceGroup(resourceGroup)
                 .fromVirtualMachine(virtualMachine1)
                 .create();
-        Assert.assertNotNull(customImage);
-        Assert.assertNotNull(customImage.sourceVirtualMachineId());
-        Assert.assertTrue(customImage.sourceVirtualMachineId().equalsIgnoreCase(virtualMachine1.id().toLowerCase()));
-        Assert.assertNotNull(customImage.osDiskImage());
-        Assert.assertEquals(customImage.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
-        Assert.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
-        Assert.assertNotNull(customImage.dataDiskImages());
-        Assert.assertEquals(customImage.dataDiskImages().size(), 5);
+        Assertions.assertNotNull(customImage);
+        Assertions.assertNotNull(customImage.sourceVirtualMachineId());
+        Assertions.assertTrue(customImage.sourceVirtualMachineId().equalsIgnoreCase(virtualMachine1.id().toLowerCase()));
+        Assertions.assertNotNull(customImage.osDiskImage());
+        Assertions.assertEquals(customImage.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
+        Assertions.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
+        Assertions.assertNotNull(customImage.dataDiskImages());
+        Assertions.assertEquals(customImage.dataDiskImages().size(), 5);
         for (ImageDataDisk imageDataDisk : customImage.dataDiskImages().values()) {
-            Assert.assertNull(imageDataDisk.blobUri());
-            Assert.assertNotNull(imageDataDisk.managedDisk().id());
+            Assertions.assertNull(imageDataDisk.blobUri());
+            Assertions.assertNotNull(imageDataDisk.managedDisk().getId());
         }
 
         // Create virtual machine from the custom image
@@ -339,14 +339,14 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .create();
 
         Map<Integer, VirtualMachineDataDisk> dataDisks = virtualMachine2.dataDisks();
-        Assert.assertNotNull(dataDisks);
-        Assert.assertEquals(dataDisks.size(), customImage.dataDiskImages().size());
+        Assertions.assertNotNull(dataDisks);
+        Assertions.assertEquals(dataDisks.size(), customImage.dataDiskImages().size());
         for (ImageDataDisk imageDataDisk : customImage.dataDiskImages().values()) {
-            Assert.assertTrue(dataDisks.containsKey(imageDataDisk.lun()));
+            Assertions.assertTrue(dataDisks.containsKey(imageDataDisk.lun()));
             VirtualMachineDataDisk dataDisk = dataDisks.get(imageDataDisk.lun());
-            Assert.assertEquals(dataDisk.cachingType(), imageDataDisk.caching());
+            Assertions.assertEquals(dataDisk.cachingType(), imageDataDisk.caching());
             // Fails due to CRP bug: Managed disk size is not returned on gets.
-            // Assert.assertEquals(dataDisk.size(), (long) imageDataDisk.diskSizeGB());
+            // Assertions.assertEquals(dataDisk.size(), (long) imageDataDisk.diskSizeGB());
         }
 
         // Create virtual machine from the custom image
@@ -381,14 +381,14 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .create();
 
         dataDisks = virtualMachine3.dataDisks();
-        Assert.assertNotNull(dataDisks);
-        Assert.assertEquals(dataDisks.size(), customImage.dataDiskImages().size() + 1 /* count one extra empty disk */);
+        Assertions.assertNotNull(dataDisks);
+        Assertions.assertEquals(dataDisks.size(), customImage.dataDiskImages().size() + 1 /* count one extra empty disk */);
         for (ImageDataDisk imageDataDisk : customImage.dataDiskImages().values()) {
-            Assert.assertTrue(dataDisks.containsKey(imageDataDisk.lun()));
+            Assertions.assertTrue(dataDisks.containsKey(imageDataDisk.lun()));
             VirtualMachineDataDisk dataDisk = dataDisks.get(imageDataDisk.lun());
-            Assert.assertEquals(dataDisk.cachingType(), CachingTypes.READ_ONLY);
+            Assertions.assertEquals(dataDisk.cachingType(), CachingTypes.READ_ONLY);
             // Fails due to CRP bug: Managed disk size is not returned on gets.
-            // Assert.assertEquals(dataDisk.size(), (long) imageDataDisk.diskSizeGB() + 10);
+            // Assertions.assertEquals(dataDisk.size(), (long) imageDataDisk.diskSizeGB() + 10);
         }
     }
 
@@ -458,10 +458,10 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .apply();
 
         Map<Integer, VirtualMachineDataDisk> dataDisks = virtualMachine1.dataDisks();
-        Assert.assertNotNull(dataDisks);
-        Assert.assertEquals(dataDisks.size(), 5); // Removed one added another
-        Assert.assertTrue(dataDisks.containsKey(6));
-        Assert.assertFalse(dataDisks.containsKey(1));
+        Assertions.assertNotNull(dataDisks);
+        Assertions.assertEquals(dataDisks.size(), 5); // Removed one added another
+        Assertions.assertTrue(dataDisks.containsKey(6));
+        Assertions.assertFalse(dataDisks.containsKey(1));
     }
 
     @Test
@@ -489,9 +489,9 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
-        Assert.assertFalse(nativeVm.isManagedDiskEnabled());
+        Assertions.assertFalse(nativeVm.isManagedDiskEnabled());
         String osVhdUri = nativeVm.osUnmanagedDiskVhdUri();
-        Assert.assertNotNull(osVhdUri);
+        Assertions.assertNotNull(osVhdUri);
 
         computeManager.virtualMachines().deleteById(nativeVm.id());
 
@@ -517,8 +517,8 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
-        Assert.assertTrue(managedVm.isManagedDiskEnabled());
-        Assert.assertTrue(managedVm.osDiskId().equalsIgnoreCase(osDisk.id().toLowerCase()));
+        Assertions.assertTrue(managedVm.isManagedDiskEnabled());
+        Assertions.assertTrue(managedVm.osDiskId().equalsIgnoreCase(osDisk.id().toLowerCase()));
     }
 
     @Test
@@ -546,9 +546,9 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
-        Assert.assertNotNull(managedVm.availabilitySetId());
+        Assertions.assertNotNull(managedVm.availabilitySetId());
         AvailabilitySet availabilitySet = computeManager.availabilitySets().getById(managedVm.availabilitySetId());
-        Assert.assertTrue(availabilitySet.virtualMachineIds().size() > 0);
-        Assert.assertEquals(availabilitySet.sku(), AvailabilitySetSkuTypes.ALIGNED);
+        Assertions.assertTrue(availabilitySet.virtualMachineIds().size() > 0);
+        Assertions.assertEquals(availabilitySet.sku(), AvailabilitySetSkuTypes.ALIGNED);
     }
 }

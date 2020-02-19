@@ -6,12 +6,13 @@
 
 package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
 import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ManagedDiskOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
@@ -52,16 +53,16 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
                 // End option
                 .create();
 
-        Assert.assertNotNull(disk.id());
-        Assert.assertTrue(disk.name().equalsIgnoreCase(diskName));
-        Assert.assertEquals(disk.sku(), DiskSkuTypes.STANDARD_LRS);
-        Assert.assertEquals(disk.creationMethod(), DiskCreateOption.EMPTY);
-        Assert.assertFalse(disk.isAttachedToVirtualMachine());
-        Assert.assertEquals(disk.sizeInGB(), 100);
-        Assert.assertNull(disk.osType());
-        Assert.assertNotNull(disk.source());
-        Assert.assertEquals(disk.source().type(), CreationSourceType.EMPTY);
-        Assert.assertNull(disk.source().sourceId());
+        Assertions.assertNotNull(disk.id());
+        Assertions.assertTrue(disk.name().equalsIgnoreCase(diskName));
+        Assertions.assertEquals(disk.sku(), DiskSkuTypes.STANDARD_LRS);
+        Assertions.assertEquals(disk.creationMethod(), DiskCreateOption.EMPTY);
+        Assertions.assertFalse(disk.isAttachedToVirtualMachine());
+        Assertions.assertEquals(disk.sizeInGB(), 100);
+        Assertions.assertNull(disk.osType());
+        Assertions.assertNotNull(disk.source());
+        Assertions.assertEquals(disk.source().type(), CreationSourceType.EMPTY);
+        Assertions.assertNull(disk.source().sourceId());
 
         // Resize and change storage account type
         //
@@ -70,18 +71,18 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
                 .withSizeInGB(200)
                 .apply();
 
-        Assert.assertEquals(disk.sku(), updateTo);
-        Assert.assertEquals(disk.sizeInGB(), 200);
+        Assertions.assertEquals(disk.sku(), updateTo);
+        Assertions.assertEquals(disk.sizeInGB(), 200);
 
         disk = computeManager.disks().getByResourceGroup(disk.resourceGroupName(), disk.name());
-        Assert.assertNotNull(disk);
+        Assertions.assertNotNull(disk);
 
-        PagedList<Disk> myDisks = computeManager.disks().listByResourceGroup(disk.resourceGroupName());
-        Assert.assertNotNull(myDisks);
-        Assert.assertTrue(myDisks.size() > 0);
+        PagedIterable<Disk> myDisks = computeManager.disks().listByResourceGroup(disk.resourceGroupName());
+        Assertions.assertNotNull(myDisks);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(myDisks) > 0);
 
         String sasUrl = disk.grantAccess(100);
-        Assert.assertTrue(sasUrl != null && sasUrl != "");
+        Assertions.assertTrue(sasUrl != null && sasUrl != "");
 
         // Requires access to be revoked before deleting the disk
         //
@@ -126,16 +127,16 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
 
         disk = computeManager.disks().getById(disk.id());
 
-        Assert.assertNotNull(disk.id());
-        Assert.assertTrue(disk.name().equalsIgnoreCase(diskName2));
-        Assert.assertEquals(disk.sku(), DiskSkuTypes.STANDARD_LRS);
-        Assert.assertEquals(disk.creationMethod(), DiskCreateOption.COPY);
-        Assert.assertFalse(disk.isAttachedToVirtualMachine());
-        Assert.assertEquals(disk.sizeInGB(), 200);
-        Assert.assertNull(disk.osType());
-        Assert.assertNotNull(disk.source());
-        Assert.assertEquals(disk.source().type(), CreationSourceType.COPIED_FROM_DISK);
-        Assert.assertTrue(disk.source().sourceId().equalsIgnoreCase(emptyDisk.id()));
+        Assertions.assertNotNull(disk.id());
+        Assertions.assertTrue(disk.name().equalsIgnoreCase(diskName2));
+        Assertions.assertEquals(disk.sku(), DiskSkuTypes.STANDARD_LRS);
+        Assertions.assertEquals(disk.creationMethod(), DiskCreateOption.COPY);
+        Assertions.assertFalse(disk.isAttachedToVirtualMachine());
+        Assertions.assertEquals(disk.sizeInGB(), 200);
+        Assertions.assertNull(disk.osType());
+        Assertions.assertNotNull(disk.source());
+        Assertions.assertEquals(disk.source().type(), CreationSourceType.COPIED_FROM_DISK);
+        Assertions.assertTrue(disk.source().sourceId().equalsIgnoreCase(emptyDisk.id()));
 
         computeManager.disks().deleteById(emptyDisk.id());
         computeManager.disks().deleteById(disk.id());
@@ -165,15 +166,15 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
 
         disk = computeManager.disks().getById(disk.id());
 
-        Assert.assertNotNull(disk.id());
-        Assert.assertTrue(disk.name().equalsIgnoreCase(diskName));
-        Assert.assertEquals(disk.sku(), DiskSkuTypes.STANDARD_LRS);
-        Assert.assertEquals(disk.creationMethod(), DiskCreateOption.UPLOAD);
-        Assert.assertFalse(disk.isAttachedToVirtualMachine());
-        Assert.assertEquals(disk.sizeInGB(), 0);
-        Assert.assertNull(disk.osType());
-        Assert.assertNotNull(disk.source());
-        Assert.assertEquals(disk.source().type(), CreationSourceType.UNKNOWN);
+        Assertions.assertNotNull(disk.id());
+        Assertions.assertTrue(disk.name().equalsIgnoreCase(diskName));
+        Assertions.assertEquals(disk.sku(), DiskSkuTypes.STANDARD_LRS);
+        Assertions.assertEquals(disk.creationMethod(), DiskCreateOption.UPLOAD);
+        Assertions.assertFalse(disk.isAttachedToVirtualMachine());
+        Assertions.assertEquals(disk.sizeInGB(), 0);
+        Assertions.assertNull(disk.osType());
+        Assertions.assertNotNull(disk.source());
+        Assertions.assertEquals(disk.source().type(), CreationSourceType.UNKNOWN);
 
         computeManager.disks().deleteById(disk.id());
     }
@@ -207,15 +208,15 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
                 .withSku(SnapshotSkuType.STANDARD_LRS)
                 .create();
 
-        Assert.assertNotNull(snapshot.id());
-        Assert.assertTrue(snapshot.name().equalsIgnoreCase(snapshotName));
-        Assert.assertEquals(snapshot.sku(), DiskSkuTypes.STANDARD_LRS);
-        Assert.assertEquals(snapshot.creationMethod(), DiskCreateOption.COPY);
-        Assert.assertEquals(snapshot.sizeInGB(), 200);
-        Assert.assertNull(snapshot.osType());
-        Assert.assertNotNull(snapshot.source());
-        Assert.assertEquals(snapshot.source().type(), CreationSourceType.COPIED_FROM_DISK);
-        Assert.assertTrue(snapshot.source().sourceId().equalsIgnoreCase(emptyDisk.id()));
+        Assertions.assertNotNull(snapshot.id());
+        Assertions.assertTrue(snapshot.name().equalsIgnoreCase(snapshotName));
+        Assertions.assertEquals(snapshot.sku(), DiskSkuTypes.STANDARD_LRS);
+        Assertions.assertEquals(snapshot.creationMethod(), DiskCreateOption.COPY);
+        Assertions.assertEquals(snapshot.sizeInGB(), 200);
+        Assertions.assertNull(snapshot.osType());
+        Assertions.assertNotNull(snapshot.source());
+        Assertions.assertEquals(snapshot.source().type(), CreationSourceType.COPIED_FROM_DISK);
+        Assertions.assertTrue(snapshot.source().sourceId().equalsIgnoreCase(emptyDisk.id()));
 
         Disk fromSnapshotDisk = computeManager.disks()
                 .define(snapshotBasedDiskName)
@@ -226,14 +227,14 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
                 .withSizeInGB(300)
                 .create();
 
-        Assert.assertNotNull(fromSnapshotDisk.id());
-        Assert.assertTrue(fromSnapshotDisk.name().equalsIgnoreCase(snapshotBasedDiskName));
-        Assert.assertEquals(fromSnapshotDisk.sku(), DiskSkuTypes.STANDARD_LRS);
-        Assert.assertEquals(fromSnapshotDisk.creationMethod(), DiskCreateOption.COPY);
-        Assert.assertEquals(fromSnapshotDisk.sizeInGB(), 300);
-        Assert.assertNull(fromSnapshotDisk.osType());
-        Assert.assertNotNull(fromSnapshotDisk.source());
-        Assert.assertEquals(fromSnapshotDisk.source().type(), CreationSourceType.COPIED_FROM_SNAPSHOT);
-        Assert.assertTrue(fromSnapshotDisk.source().sourceId().equalsIgnoreCase(snapshot.id()));
+        Assertions.assertNotNull(fromSnapshotDisk.id());
+        Assertions.assertTrue(fromSnapshotDisk.name().equalsIgnoreCase(snapshotBasedDiskName));
+        Assertions.assertEquals(fromSnapshotDisk.sku(), DiskSkuTypes.STANDARD_LRS);
+        Assertions.assertEquals(fromSnapshotDisk.creationMethod(), DiskCreateOption.COPY);
+        Assertions.assertEquals(fromSnapshotDisk.sizeInGB(), 300);
+        Assertions.assertNull(fromSnapshotDisk.osType());
+        Assertions.assertNotNull(fromSnapshotDisk.source());
+        Assertions.assertEquals(fromSnapshotDisk.source().type(), CreationSourceType.COPIED_FROM_SNAPSHOT);
+        Assertions.assertTrue(fromSnapshotDisk.source().sourceId().equalsIgnoreCase(snapshot.id()));
     }
 }

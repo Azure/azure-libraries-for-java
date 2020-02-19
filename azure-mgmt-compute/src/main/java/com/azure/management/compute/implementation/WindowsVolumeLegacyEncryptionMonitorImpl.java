@@ -6,18 +6,16 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.Beta;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.DiskEncryptionSettings;
 import com.azure.management.compute.DiskVolumeEncryptionMonitor;
 import com.azure.management.compute.EncryptionStatus;
 import com.azure.management.compute.InstanceViewStatus;
 import com.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.models.VirtualMachineExtensionInner;
+import com.azure.management.compute.models.VirtualMachineInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Mono;
-import rx.Observable;
-import rx.functions.Func1;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -27,7 +25,6 @@ import java.util.Map;
  * The implementation for DiskVolumeEncryptionStatus for Windows virtual machine.
  * This implementation monitor status of encrypt-decrypt through legacy encryption extension.
  */
-@LangDefinition
 class WindowsVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryptionMonitor {
     private final String rgName;
     private final String vmName;
@@ -117,7 +114,6 @@ class WindowsVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryptionMo
         return EncryptionStatus.UNKNOWN;
     }
 
-    @Beta
     @Override
     public Map<String, InstanceViewStatus> diskInstanceViewEncryptionStatuses() {
         // Not available for legacy based encryption
@@ -126,30 +122,26 @@ class WindowsVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryptionMo
 
     @Override
     public DiskVolumeEncryptionMonitor refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().block();
     }
 
     @Override
     public Mono<DiskVolumeEncryptionMonitor> refreshAsync() {
         final WindowsVolumeLegacyEncryptionMonitorImpl self = this;
         // Refreshes the cached Windows virtual machine and installed encryption extension
-        //
         return retrieveVirtualMachineAsync()
-                .flatMap(new Func1<VirtualMachineInner, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachineInner virtualMachine) {
-                        self.virtualMachine = virtualMachine;
-                        if (virtualMachine.resources() != null) {
-                            for (VirtualMachineExtensionInner extension : virtualMachine.resources()) {
-                                if (EncryptionExtensionIdentifier.isEncryptionPublisherName(extension.publisher())
-                                        && EncryptionExtensionIdentifier.isEncryptionTypeName(extension.virtualMachineExtensionType(), OperatingSystemTypes.WINDOWS)) {
-                                    self.encryptionExtension = extension;
-                                    break;
-                                }
+                .map(virtualMachine -> {
+                    self.virtualMachine = virtualMachine;
+                    if (virtualMachine.resources() != null) {
+                        for (VirtualMachineExtensionInner extension : virtualMachine.resources()) {
+                            if (EncryptionExtensionIdentifier.isEncryptionPublisherName(extension.publisher())
+                                    && EncryptionExtensionIdentifier.isEncryptionTypeName(extension.virtualMachineExtensionType(), OperatingSystemTypes.WINDOWS)) {
+                                self.encryptionExtension = extension;
+                                break;
                             }
                         }
-                        return Observable.<DiskVolumeEncryptionMonitor>just(self);
                     }
+                    return self;
                 });
     }
 
@@ -159,21 +151,13 @@ class WindowsVolumeLegacyEncryptionMonitorImpl implements DiskVolumeEncryptionMo
      *
      * @return the retrieved virtual machine
      */
-    private Observable<VirtualMachineInner> retrieveVirtualMachineAsync() {
+    private Mono<VirtualMachineInner> retrieveVirtualMachineAsync() {
         return this.computeManager
                 .inner()
                 .virtualMachines()
                 .getByResourceGroupAsync(rgName, vmName)
-                .flatMap(new Func1<VirtualMachineInner, Observable<VirtualMachineInner>>() {
-                    @Override
-                    public Observable<VirtualMachineInner> call(VirtualMachineInner virtualMachine) {
-                        if (virtualMachine == null) {
-                            return Observable.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')",
-                                    vmName, rgName)));
-                        }
-                        return Observable.just(virtualMachine);
-                    }
-                });
+                .onErrorResume(e -> Mono.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')",
+                        vmName, rgName))));
     }
 
     private boolean hasEncryptionDetails() {

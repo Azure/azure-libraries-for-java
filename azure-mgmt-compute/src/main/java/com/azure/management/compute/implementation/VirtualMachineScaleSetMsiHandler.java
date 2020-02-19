@@ -6,11 +6,11 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.ResourceIdentityType;
 import com.azure.management.compute.VirtualMachineScaleSetIdentity;
-import com.azure.management.compute.VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue;
+import com.azure.management.compute.VirtualMachineScaleSetIdentityUserAssignedIdentities;
 import com.azure.management.compute.VirtualMachineScaleSetUpdate;
+import com.azure.management.compute.models.VirtualMachineScaleSetInner;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.azure.management.msi.Identity;
@@ -30,12 +30,11 @@ import java.util.Set;
  * install or update MSI extension and create role assignments for the service principal (LMSI)
  * associated with the virtual machine scale set.
  */
-@LangDefinition
 class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
     private final VirtualMachineScaleSetImpl scaleSet;
 
     private List<String> creatableIdentityKeys;
-    private Map<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
+    private Map<String, VirtualMachineScaleSetIdentityUserAssignedIdentities> userAssignedIdentities;
 
     /**
      * Creates VirtualMachineScaleSetMsiHandler.
@@ -107,7 +106,7 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
      */
     VirtualMachineScaleSetMsiHandler withExistingExternalManagedServiceIdentity(Identity identity) {
         this.initVMSSIdentity(ResourceIdentityType.USER_ASSIGNED);
-        this.userAssignedIdentities.put(identity.id(), new VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue());
+        this.userAssignedIdentities.put(identity.id(), new VirtualMachineScaleSetIdentityUserAssignedIdentities());
         return this;
     }
 
@@ -130,7 +129,7 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
         for (String key : this.creatableIdentityKeys) {
             Identity identity = (Identity) this.scaleSet.taskGroup().taskResult(key);
             Objects.requireNonNull(identity);
-            this.userAssignedIdentities.put(identity.id(), new VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue());
+            this.userAssignedIdentities.put(identity.id(), new VirtualMachineScaleSetIdentityUserAssignedIdentities());
         }
         this.creatableIdentityKeys.clear();
     }
@@ -191,7 +190,7 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
     private boolean handleRemoveAllExternalIdentitiesCase(VirtualMachineScaleSetUpdate vmssUpdate) {
         if (!this.userAssignedIdentities.isEmpty()) {
             int rmCount = 0;
-            for (VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue v : this.userAssignedIdentities.values()) {
+            for (VirtualMachineScaleSetIdentityUserAssignedIdentities v : this.userAssignedIdentities.values()) {
                 if (v == null) {
                     rmCount++;
                 } else {
@@ -209,7 +208,7 @@ class VirtualMachineScaleSetMsiHandler extends RoleAssignmentHelper {
                     }
                 }
                 Set<String> removeIds = new HashSet<>();
-                for (Map.Entry<String, VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue> entrySet : this.userAssignedIdentities.entrySet()) {
+                for (Map.Entry<String, VirtualMachineScaleSetIdentityUserAssignedIdentities> entrySet : this.userAssignedIdentities.entrySet()) {
                     if (entrySet.getValue() == null) {
                         removeIds.add(entrySet.getKey().toLowerCase());
                     }

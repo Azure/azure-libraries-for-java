@@ -6,16 +6,17 @@
 
 package com.azure.management.compute;
 
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.storage.StorageAccount;
-import com.microsoft.rest.RestClient;
-import org.apache.commons.codec.binary.Base64;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -71,30 +72,30 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withPublisher("Microsoft.OSTCExtensions")
                 .withType("LinuxDiagnostic")
                 .withVersion("2.3")
-                .withPublicSetting("ladCfg", new String(Base64.encodeBase64(jsonConfig.getBytes())))
+                .withPublicSetting("ladCfg", new String(Base64.getEncoder().encode(jsonConfig.getBytes())))
                 .withPublicSetting("storageAccount", storageAccount.name())
                 .withProtectedSetting("storageAccountName", storageAccount.name())
-                .withProtectedSetting("storageAccountKey", storageAccount.getKeys().get(0).value())
+                .withProtectedSetting("storageAccountKey", storageAccount.getKeys().get(0).getValue())
                 .withProtectedSetting("storageAccountEndPoint", "https://core.windows.net:443/")
                 .attach()
                 .apply();
 
         Map<String, VirtualMachineExtension> extensions = vm.listExtensions();
-        Assert.assertNotNull(extensions);
-        Assert.assertFalse(extensions.isEmpty());
+        Assertions.assertNotNull(extensions);
+        Assertions.assertFalse(extensions.isEmpty());
         VirtualMachineExtension diagExtension = extensions.get("LinuxDiagnostic");
-        Assert.assertNotNull(diagExtension);
-        Assert.assertNotNull(diagExtension.publicSettings());
-        Assert.assertFalse(diagExtension.publicSettings().isEmpty());
+        Assertions.assertNotNull(diagExtension);
+        Assertions.assertNotNull(diagExtension.publicSettings());
+        Assertions.assertFalse(diagExtension.publicSettings().isEmpty());
 
         vm.refresh();
         extensions = vm.listExtensions();
-        Assert.assertNotNull(extensions);
-        Assert.assertFalse(extensions.isEmpty());
+        Assertions.assertNotNull(extensions);
+        Assertions.assertFalse(extensions.isEmpty());
         diagExtension = extensions.get("LinuxDiagnostic");
-        Assert.assertNotNull(diagExtension);
-        Assert.assertNotNull(diagExtension.publicSettings());
-        Assert.assertFalse(diagExtension.publicSettings().isEmpty());
+        Assertions.assertNotNull(diagExtension);
+        Assertions.assertNotNull(diagExtension.publicSettings());
+        Assertions.assertFalse(diagExtension.publicSettings().isEmpty());
     }
 
 
@@ -131,8 +132,8 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .attach()
                 .apply();
 
-        Assert.assertTrue(vm.listExtensions().size() > 0);
-        Assert.assertTrue(vm.listExtensions().containsKey("VMAccessForLinux"));
+        Assertions.assertTrue(vm.listExtensions().size() > 0);
+        Assertions.assertTrue(vm.listExtensions().containsKey("VMAccessForLinux"));
 
         // Update the VMAccess Linux extension to reset password again for the user 'Foo12'
         //
@@ -177,12 +178,12 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .attach()
                 .create();
 
-        Assert.assertTrue(vm.listExtensions().size() > 0);
-        Assert.assertTrue(vm.listExtensions().containsKey("CustomScriptForLinux"));
+        Assertions.assertTrue(vm.listExtensions().size() > 0);
+        Assertions.assertTrue(vm.listExtensions().containsKey("CustomScriptForLinux"));
         VirtualMachineExtension customScriptExtension = vm.listExtensions().get("CustomScriptForLinux");
-        Assert.assertEquals(customScriptExtension.publisherName(), "Microsoft.OSTCExtensions");
-        Assert.assertEquals(customScriptExtension.typeName(), "CustomScriptForLinux");
-        Assert.assertEquals(customScriptExtension.autoUpgradeMinorVersionEnabled(), true);
+        Assertions.assertEquals(customScriptExtension.publisherName(), "Microsoft.OSTCExtensions");
+        Assertions.assertEquals(customScriptExtension.typeName(), "CustomScriptForLinux");
+        Assertions.assertEquals(customScriptExtension.autoUpgradeMinorVersionEnabled(), true);
 
         // Remove the custom extension
         //
@@ -190,10 +191,10 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withoutExtension("CustomScriptForLinux")
                 .apply();
 
-        Assert.assertTrue(vm.listExtensions().size() == 0);
+        Assertions.assertTrue(vm.listExtensions().size() == 0);
 
         vm.refresh();
-        Assert.assertTrue(vm.listExtensions().size() == 0);
+        Assertions.assertTrue(vm.listExtensions().size() == 0);
     }
 
     @Test
@@ -223,10 +224,10 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .attach()
                 .create();
 
-        Assert.assertTrue(vm.listExtensions().size() > 0);
+        Assertions.assertTrue(vm.listExtensions().size() > 0);
 
         // Get the created virtual machine via VM List not by VM GET
-        List<VirtualMachine> virtualMachines = computeManager.virtualMachines()
+        PagedIterable<VirtualMachine> virtualMachines = computeManager.virtualMachines()
                 .listByResourceGroup(RG_NAME);
         VirtualMachine vmWithExtensionReference = null;
         for (VirtualMachine virtualMachine : virtualMachines) {
@@ -236,7 +237,7 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
             }
         }
         // The VM retrieved from the list will contain extensions as reference (i.e. with only id)
-        Assert.assertNotNull(vmWithExtensionReference);
+        Assertions.assertNotNull(vmWithExtensionReference);
 
         // Update the extension
         VirtualMachine vmWithExtensionUpdated = vmWithExtensionReference.update()
@@ -254,7 +255,7 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
         for (VirtualMachine virtualMachine : virtualMachines) {
             vmWithExtensionReference = virtualMachine;
         }
-        Assert.assertNotNull(vmWithExtensionReference);
+        Assertions.assertNotNull(vmWithExtensionReference);
 
         VirtualMachineExtension accessExtension = null;
         for (VirtualMachineExtension extension : vmWithExtensionReference.listExtensions().values()) {
@@ -265,9 +266,9 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
         }
         // Even though VM's inner contain just extension reference VirtualMachine::getExtensions()
         // should resolve the reference and get full extension.
-        Assert.assertNotNull(accessExtension);
-        Assert.assertNotNull(accessExtension.publisherName());
-        Assert.assertNotNull(accessExtension.typeName());
-        Assert.assertNotNull(accessExtension.versionName());
+        Assertions.assertNotNull(accessExtension);
+        Assertions.assertNotNull(accessExtension.publisherName());
+        Assertions.assertNotNull(accessExtension.typeName());
+        Assertions.assertNotNull(accessExtension.versionName());
     }
 }

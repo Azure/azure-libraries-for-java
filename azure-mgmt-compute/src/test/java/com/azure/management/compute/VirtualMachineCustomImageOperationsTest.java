@@ -6,13 +6,14 @@
 
 package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.compute.implementation.ComputeManager;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.storage.StorageAccount;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Map;
@@ -56,18 +57,18 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                     .attach();
         }
         VirtualMachineCustomImage customImage = creatableDisk.create();
-        Assert.assertNotNull(customImage.id());
-        Assert.assertEquals(customImage.name(), vhdBasedImageName);
-        Assert.assertFalse(customImage.isCreatedFromVirtualMachine());
-        Assert.assertNull(customImage.sourceVirtualMachineId());
-        Assert.assertNotNull(customImage.osDiskImage());
-        Assert.assertNotNull(customImage.osDiskImage().blobUri());
-        Assert.assertEquals(customImage.osDiskImage().caching(), CachingTypes.READ_WRITE);
-        Assert.assertEquals(customImage.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
-        Assert.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
-        Assert.assertNotNull(customImage.dataDiskImages());
-        Assert.assertEquals(customImage.dataDiskImages().size(), linuxVM.unmanagedDataDisks().size());
-        Assert.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V1));
+        Assertions.assertNotNull(customImage.id());
+        Assertions.assertEquals(customImage.name(), vhdBasedImageName);
+        Assertions.assertFalse(customImage.isCreatedFromVirtualMachine());
+        Assertions.assertNull(customImage.sourceVirtualMachineId());
+        Assertions.assertNotNull(customImage.osDiskImage());
+        Assertions.assertNotNull(customImage.osDiskImage().blobUri());
+        Assertions.assertEquals(customImage.osDiskImage().caching(), CachingTypes.READ_WRITE);
+        Assertions.assertEquals(customImage.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
+        Assertions.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
+        Assertions.assertNotNull(customImage.dataDiskImages());
+        Assertions.assertEquals(customImage.dataDiskImages().size(), linuxVM.unmanagedDataDisks().size());
+        Assertions.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V1));
         for (ImageDataDisk diskImage : customImage.dataDiskImages().values()) {
             VirtualMachineUnmanagedDataDisk matchedDisk = null;
             for (VirtualMachineUnmanagedDataDisk vmDisk : linuxVM.unmanagedDataDisks().values()) {
@@ -76,19 +77,19 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                     break;
                 }
             }
-            Assert.assertNotNull(matchedDisk);
-            Assert.assertEquals(matchedDisk.cachingType(), diskImage.caching());
-            Assert.assertEquals(matchedDisk.vhdUri(), diskImage.blobUri());
-            Assert.assertEquals((long)matchedDisk.size() + 10, (long)diskImage.diskSizeGB());
+            Assertions.assertNotNull(matchedDisk);
+            Assertions.assertEquals(matchedDisk.cachingType(), diskImage.caching());
+            Assertions.assertEquals(matchedDisk.vhdUri(), diskImage.blobUri());
+            Assertions.assertEquals((long)matchedDisk.size() + 10, (long)diskImage.diskSizeGB());
         }
         VirtualMachineCustomImage image = computeManager
                 .virtualMachineCustomImages()
                 .getByResourceGroup(RG_NAME, vhdBasedImageName);
-        Assert.assertNotNull(image);
-        PagedList<VirtualMachineCustomImage> images = computeManager
+        Assertions.assertNotNull(image);
+        PagedIterable<VirtualMachineCustomImage> images = computeManager
                 .virtualMachineCustomImages()
                 .listByResourceGroup(RG_NAME);
-        Assert.assertTrue(images.size() > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(images) > 0);
 
         // Create virtual machine from custom image
         //
@@ -107,8 +108,8 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .create();
 
         Map<Integer, VirtualMachineDataDisk> dataDisks = virtualMachine.dataDisks();
-        Assert.assertNotNull(dataDisks);
-        Assert.assertEquals(dataDisks.size(), image.dataDiskImages().size());
+        Assertions.assertNotNull(dataDisks);
+        Assertions.assertEquals(dataDisks.size(), image.dataDiskImages().size());
 
         //Create a hyperv Gen2 image
         VirtualMachineCustomImage.DefinitionStages.WithCreateAndDataDiskImageOSDiskSettings
@@ -129,18 +130,18 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                     .attach();
         }
         VirtualMachineCustomImage customImageGen2 = creatableDiskGen2.create();
-        Assert.assertNotNull(customImageGen2.id());
-        Assert.assertEquals(customImageGen2.name(), vhdBasedImageName + "Gen2");
-        Assert.assertFalse(customImageGen2.isCreatedFromVirtualMachine());
-        Assert.assertNull(customImageGen2.sourceVirtualMachineId());
-        Assert.assertNotNull(customImageGen2.osDiskImage());
-        Assert.assertNotNull(customImageGen2.osDiskImage().blobUri());
-        Assert.assertEquals(customImageGen2.osDiskImage().caching(), CachingTypes.READ_WRITE);
-        Assert.assertEquals(customImageGen2.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
-        Assert.assertEquals(customImageGen2.osDiskImage().osType(), OperatingSystemTypes.LINUX);
-        Assert.assertNotNull(customImageGen2.dataDiskImages());
-        Assert.assertEquals(customImageGen2.dataDiskImages().size(), 0);
-        Assert.assertTrue(customImageGen2.hyperVGeneration().equals(HyperVGenerationTypes.V2));
+        Assertions.assertNotNull(customImageGen2.id());
+        Assertions.assertEquals(customImageGen2.name(), vhdBasedImageName + "Gen2");
+        Assertions.assertFalse(customImageGen2.isCreatedFromVirtualMachine());
+        Assertions.assertNull(customImageGen2.sourceVirtualMachineId());
+        Assertions.assertNotNull(customImageGen2.osDiskImage());
+        Assertions.assertNotNull(customImageGen2.osDiskImage().blobUri());
+        Assertions.assertEquals(customImageGen2.osDiskImage().caching(), CachingTypes.READ_WRITE);
+        Assertions.assertEquals(customImageGen2.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
+        Assertions.assertEquals(customImageGen2.osDiskImage().osType(), OperatingSystemTypes.LINUX);
+        Assertions.assertNotNull(customImageGen2.dataDiskImages());
+        Assertions.assertEquals(customImageGen2.dataDiskImages().size(), 0);
+        Assertions.assertTrue(customImageGen2.hyperVGeneration().equals(HyperVGenerationTypes.V2));
     }
 
     @Test
@@ -158,28 +159,28 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .fromVirtualMachine(vm.id())
                 .create();
 
-        Assert.assertTrue(customImage.name().equalsIgnoreCase(imageName));
-        Assert.assertNotNull(customImage.osDiskImage());
-        Assert.assertEquals(customImage.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
-        Assert.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
-        Assert.assertNotNull(customImage.dataDiskImages());
-        Assert.assertEquals(customImage.dataDiskImages().size(), 2);
-        Assert.assertNotNull(customImage.sourceVirtualMachineId());
-        Assert.assertTrue(customImage.sourceVirtualMachineId().equalsIgnoreCase(vm.id()));
-        Assert.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V1));
+        Assertions.assertTrue(customImage.name().equalsIgnoreCase(imageName));
+        Assertions.assertNotNull(customImage.osDiskImage());
+        Assertions.assertEquals(customImage.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
+        Assertions.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
+        Assertions.assertNotNull(customImage.dataDiskImages());
+        Assertions.assertEquals(customImage.dataDiskImages().size(), 2);
+        Assertions.assertNotNull(customImage.sourceVirtualMachineId());
+        Assertions.assertTrue(customImage.sourceVirtualMachineId().equalsIgnoreCase(vm.id()));
+        Assertions.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V1));
 
         for (VirtualMachineUnmanagedDataDisk vmDisk : vm.unmanagedDataDisks().values()) {
-            Assert.assertTrue(customImage.dataDiskImages().containsKey(vmDisk.lun()));
+            Assertions.assertTrue(customImage.dataDiskImages().containsKey(vmDisk.lun()));
             ImageDataDisk diskImage = customImage.dataDiskImages().get(vmDisk.lun());
-            Assert.assertEquals(diskImage.caching(), vmDisk.cachingType());
-            Assert.assertEquals((long) diskImage.diskSizeGB(), vmDisk.size());
-            Assert.assertNotNull(diskImage.blobUri());
+            Assertions.assertEquals(diskImage.caching(), vmDisk.cachingType());
+            Assertions.assertEquals((long) diskImage.diskSizeGB(), vmDisk.size());
+            Assertions.assertNotNull(diskImage.blobUri());
             diskImage.blobUri().equalsIgnoreCase(vmDisk.vhdUri());
         }
 
         customImage = computeManager.virtualMachineCustomImages().getByResourceGroup(RG_NAME, imageName);
-        Assert.assertNotNull(customImage);
-        Assert.assertNotNull(customImage.inner());
+        Assertions.assertNotNull(customImage);
+        Assertions.assertNotNull(customImage.inner());
         computeManager.virtualMachineCustomImages().deleteById(customImage.id());
     }
 
@@ -211,11 +212,11 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
-        Assert.assertFalse(nativeVm.isManagedDiskEnabled());
+        Assertions.assertFalse(nativeVm.isManagedDiskEnabled());
         String osVhdUri = nativeVm.osUnmanagedDiskVhdUri();
-        Assert.assertNotNull(osVhdUri);
+        Assertions.assertNotNull(osVhdUri);
         Map<Integer, VirtualMachineUnmanagedDataDisk> dataDisks = nativeVm.unmanagedDataDisks();
-        Assert.assertEquals(dataDisks.size(), 2);
+        Assertions.assertEquals(dataDisks.size(), 2);
 
         computeManager.virtualMachines().deleteById(nativeVm.id());
 
@@ -276,29 +277,29 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                     .attach()
                 .create();
 
-        Assert.assertNotNull(customImage);
-        Assert.assertTrue(customImage.name().equalsIgnoreCase(imageName));
-        Assert.assertNotNull(customImage.osDiskImage());
-        Assert.assertEquals(customImage.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
-        Assert.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
-        Assert.assertNotNull(customImage.dataDiskImages());
-        Assert.assertEquals(customImage.dataDiskImages().size(), 2);
-        Assert.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V1));
-        Assert.assertNull(customImage.sourceVirtualMachineId());
+        Assertions.assertNotNull(customImage);
+        Assertions.assertTrue(customImage.name().equalsIgnoreCase(imageName));
+        Assertions.assertNotNull(customImage.osDiskImage());
+        Assertions.assertEquals(customImage.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
+        Assertions.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
+        Assertions.assertNotNull(customImage.dataDiskImages());
+        Assertions.assertEquals(customImage.dataDiskImages().size(), 2);
+        Assertions.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V1));
+        Assertions.assertNull(customImage.sourceVirtualMachineId());
 
-        Assert.assertTrue(customImage.dataDiskImages().containsKey(vmNativeDataDisk1.lun()));
-        Assert.assertEquals(customImage.dataDiskImages().get(vmNativeDataDisk1.lun()).caching(), vmNativeDataDisk1.cachingType());
-        Assert.assertTrue(customImage.dataDiskImages().containsKey(vmNativeDataDisk2.lun()));
-        Assert.assertEquals(customImage.dataDiskImages().get(vmNativeDataDisk2.lun()).caching(), CachingTypes.NONE);
+        Assertions.assertTrue(customImage.dataDiskImages().containsKey(vmNativeDataDisk1.lun()));
+        Assertions.assertEquals(customImage.dataDiskImages().get(vmNativeDataDisk1.lun()).caching(), vmNativeDataDisk1.cachingType());
+        Assertions.assertTrue(customImage.dataDiskImages().containsKey(vmNativeDataDisk2.lun()));
+        Assertions.assertEquals(customImage.dataDiskImages().get(vmNativeDataDisk2.lun()).caching(), CachingTypes.NONE);
 
         for (VirtualMachineUnmanagedDataDisk vmDisk : dataDisks.values()) {
-            Assert.assertTrue(customImage.dataDiskImages().containsKey(vmDisk.lun()));
+            Assertions.assertTrue(customImage.dataDiskImages().containsKey(vmDisk.lun()));
             ImageDataDisk diskImage = customImage.dataDiskImages().get(vmDisk.lun());
-            Assert.assertEquals((long) diskImage.diskSizeGB(), vmDisk.size() + 10);
-            Assert.assertNull(diskImage.blobUri());
-            Assert.assertNotNull(diskImage.managedDisk());
-            Assert.assertTrue(diskImage.managedDisk().id().equalsIgnoreCase(managedDataDisk1.id())
-                    || diskImage.managedDisk().id().equalsIgnoreCase(managedDataDisk2.id()));
+            Assertions.assertEquals((long) diskImage.diskSizeGB(), vmDisk.size() + 10);
+            Assertions.assertNull(diskImage.blobUri());
+            Assertions.assertNotNull(diskImage.managedDisk());
+            Assertions.assertTrue(diskImage.managedDisk().getId().equalsIgnoreCase(managedDataDisk1.id())
+                    || diskImage.managedDisk().getId().equalsIgnoreCase(managedDataDisk2.id()));
         }
         computeManager.disks().deleteById(managedOsDisk.id());
         computeManager.disks().deleteById(managedDataDisk1.id());

@@ -5,18 +5,18 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.VirtualMachineSizeInner;
+import com.azure.management.compute.models.VirtualMachineSizesInner;
 import com.azure.management.compute.VirtualMachineSize;
 import com.azure.management.compute.VirtualMachineSizes;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
 
 /**
  * The implementation for {@link VirtualMachineSizes}.
  */
-@LangDefinition
 class VirtualMachineSizesImpl
         extends ReadableWrappersImpl<VirtualMachineSize, VirtualMachineSizeImpl, VirtualMachineSizeInner>
         implements VirtualMachineSizes {
@@ -27,7 +27,7 @@ class VirtualMachineSizesImpl
     }
 
     @Override
-    public PagedList<VirtualMachineSize> listByRegion(Region region) {
+    public PagedIterable<VirtualMachineSize> listByRegion(Region region) {
         return listByRegion(region.toString());
     }
 
@@ -40,17 +40,18 @@ class VirtualMachineSizesImpl
     }
 
     @Override
-    public PagedList<VirtualMachineSize> listByRegion(String regionName) {
+    public PagedIterable<VirtualMachineSize> listByRegion(String regionName) {
         return wrapList(innerCollection.list(regionName));
     }
 
     @Override
-    public Observable<VirtualMachineSize> listByRegionAsync(Region region) {
+    public PagedFlux<VirtualMachineSize> listByRegionAsync(Region region) {
         return listByRegionAsync(region.name());
     }
 
     @Override
-    public Observable<VirtualMachineSize> listByRegionAsync(String regionName) {
-        return wrapListAsync(innerCollection.listAsync(regionName));
+    public PagedFlux<VirtualMachineSize> listByRegionAsync(String regionName) {
+        return innerCollection.listAsync(regionName)
+                .mapPage(VirtualMachineSizeImpl::new);
     }
 }

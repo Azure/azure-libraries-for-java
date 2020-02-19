@@ -6,19 +6,21 @@
 package com.azure.management.compute.implementation;
 
 import com.azure.management.compute.models.VirtualMachineExtensionImagesInner;
+import com.azure.management.compute.models.VirtualMachineImageResourceInner;
 import com.azure.management.compute.models.VirtualMachineImagesInner;
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachinePublisher;
 import com.azure.management.compute.VirtualMachinePublishers;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The implementation for {@link VirtualMachinePublishers}.
  */
-@LangDefinition
 class VirtualMachinePublishersImpl
         extends ReadableWrappersImpl<VirtualMachinePublisher, VirtualMachinePublisherImpl, VirtualMachineImageResourceInner>
         implements VirtualMachinePublishers {
@@ -32,7 +34,7 @@ class VirtualMachinePublishersImpl
     }
 
     @Override
-    public PagedList<VirtualMachinePublisher> listByRegion(Region region) {
+    public List<VirtualMachinePublisher> listByRegion(Region region) {
         return listByRegion(region.toString());
     }
 
@@ -48,17 +50,21 @@ class VirtualMachinePublishersImpl
     }
 
     @Override
-    public PagedList<VirtualMachinePublisher> listByRegion(String regionName) {
-        return wrapList(imagesInnerCollection.listPublishers(regionName));
+    public List<VirtualMachinePublisher> listByRegion(String regionName) {
+        return listByRegionAsync(regionName).block();
     }
 
     @Override
-    public Observable<VirtualMachinePublisher> listByRegionAsync(Region region) {
+    public Mono<List<VirtualMachinePublisher>> listByRegionAsync(Region region) {
         return listByRegionAsync(region.name());
     }
 
     @Override
-    public Observable<VirtualMachinePublisher> listByRegionAsync(String regionName) {
-        return wrapListAsync(imagesInnerCollection.listPublishersAsync(regionName));
+    public Mono<List<VirtualMachinePublisher>> listByRegionAsync(String regionName) {
+        return imagesInnerCollection.listPublishersAsync(regionName)
+                .flatMapMany(Flux::fromIterable)
+                .map(this::wrapModel)
+                .collectList()
+                .map(list -> Collections.unmodifiableList(list));
     }
 }

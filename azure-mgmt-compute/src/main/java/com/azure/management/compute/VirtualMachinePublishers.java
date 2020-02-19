@@ -5,13 +5,13 @@
  */
 package com.azure.management.compute;
 
-import com.azure.management.apigeneration.Fluent;
-import com.azure.management.resources.fluentcore.collection.SupportsListingByRegion;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.collection.SupportsSimpleListingByRegion;
 
 /**
  * Entry point to virtual machine image publishers.
  */
 @Fluent
-public interface VirtualMachinePublishers extends SupportsListingByRegion<VirtualMachinePublisher> {
+public interface VirtualMachinePublishers extends SupportsSimpleListingByRegion<VirtualMachinePublisher> {
 }
 

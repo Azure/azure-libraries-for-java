@@ -6,28 +6,18 @@
 
 package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 public class VirtualMachineImageOperationsTests extends ComputeManagementTest {
     @Test
     public void canListVirtualMachineImages() throws Exception {
-        final int maxListing = 20;
-        int count = 0;
-        PagedList<VirtualMachineImage> images = computeManager.virtualMachineImages()
+        List<VirtualMachineImage> images = computeManager.virtualMachineImages()
                 .listByRegion(Region.US_EAST);
-        // Lazy listing
-        for (VirtualMachineImage image : images) {
-            count++;
-            if (count >= maxListing) {
-                break;
-            }
-        }
-        Assert.assertTrue(count == maxListing);
+        Assertions.assertTrue(images.size() > 0);
 
         List<VirtualMachinePublisher> publishers =
                 computeManager.virtualMachineImages().publishers().listByRegion(Region.US_EAST);
@@ -40,7 +30,7 @@ public class VirtualMachineImageOperationsTests extends ComputeManagementTest {
             }
         }
 
-        Assert.assertNotNull(canonicalPublisher);
+        Assertions.assertNotNull(canonicalPublisher);
         VirtualMachineImage firstVMImage = null;
         for (VirtualMachineOffer offer : canonicalPublisher.offers().list()) {
             for (VirtualMachineSku sku: offer.skus().list()) {
@@ -58,21 +48,21 @@ public class VirtualMachineImageOperationsTests extends ComputeManagementTest {
             }
         }
 
-        Assert.assertNotNull(firstVMImage);
+        Assertions.assertNotNull(firstVMImage);
         for (DataDiskImage diskImage : firstVMImage.dataDiskImages().values()) {
-            Assert.assertNotNull(diskImage.lun());
+            Assertions.assertNotNull(diskImage.lun());
         }
 
         VirtualMachineImage vmImage = computeManager.virtualMachineImages()
             .getImage(Region.US_EAST, firstVMImage.publisherName(), firstVMImage.offer(), firstVMImage.sku(), firstVMImage.version());
-        Assert.assertNotNull(vmImage);
+        Assertions.assertNotNull(vmImage);
 
         vmImage = computeManager.virtualMachineImages()
             .getImage("eastus", firstVMImage.publisherName(), firstVMImage.offer(), firstVMImage.sku(), firstVMImage.version());
-        Assert.assertNotNull(vmImage);
+        Assertions.assertNotNull(vmImage);
 
         vmImage = computeManager.virtualMachineImages()
                 .getImage("eastus", firstVMImage.publisherName(), firstVMImage.offer(), firstVMImage.sku(), "latest");
-        Assert.assertNotNull(vmImage);
+        Assertions.assertNotNull(vmImage);
     }
 }

@@ -5,8 +5,12 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.models.VirtualMachineExtensionInner;
+import com.azure.management.compute.models.VirtualMachineInstanceViewInner;
+import com.azure.management.compute.models.VirtualMachineScaleSetVMInner;
+import com.azure.management.compute.models.VirtualMachineScaleSetVMInstanceViewInner;
+import com.azure.management.compute.models.VirtualMachineScaleSetVMsInner;
 import com.azure.management.compute.CachingTypes;
 import com.azure.management.compute.DataDisk;
 import com.azure.management.compute.DiagnosticsProfile;
@@ -37,11 +41,7 @@ import com.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +54,6 @@ import java.util.Map;
 /**
  * Implementation of {@link VirtualMachineScaleSetVM}.
  */
-@LangDefinition
 class VirtualMachineScaleSetVMImpl
         extends ChildResourceImpl<VirtualMachineScaleSetVMInner,
             VirtualMachineScaleSetImpl,
@@ -94,17 +93,17 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String regionName() {
-        return this.inner().location();
+        return this.inner().getLocation();
     }
 
     @Override
@@ -114,13 +113,13 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public String type() {
-        return this.inner().type();
+        return this.inner().getType();
     }
 
     @Override
     public Map<String, String> tags() {
         if (this.inner().getTags() == null) {
-            return Collections.unmodifiableMap(new LinkedHashMap<String, String>());
+            return Collections.unmodifiableMap(new LinkedHashMap<>());
         }
         return Collections.unmodifiableMap(this.inner().getTags());
     }
@@ -168,7 +167,7 @@ class VirtualMachineScaleSetVMImpl
     public  boolean isOSBasedOnCustomImage() {
         ImageReference imageReference = this.inner().storageProfile().imageReference();
         if (imageReference != null
-                && imageReference.id() != null) {
+                && imageReference.getId() != null) {
             return true;
         }
         return false;
@@ -208,7 +207,7 @@ class VirtualMachineScaleSetVMImpl
     public VirtualMachineCustomImage getOSCustomImage() {
         if (this.isOSBasedOnCustomImage()) {
             ImageReference imageReference = this.inner().storageProfile().imageReference();
-            return this.computeManager.virtualMachineCustomImages().getById(imageReference.id());
+            return this.computeManager.virtualMachineCustomImages().getById(imageReference.getId());
         }
         return null;
     }
@@ -237,7 +236,7 @@ class VirtualMachineScaleSetVMImpl
     @Override
     public String osDiskId() {
         if (this.storageProfile().osDisk().managedDisk() != null) {
-            return this.storageProfile().osDisk().managedDisk().id();
+            return this.storageProfile().osDisk().managedDisk().getId();
         }
         return null;
     }
@@ -348,7 +347,7 @@ class VirtualMachineScaleSetVMImpl
     @Override
     public String availabilitySetId() {
         if (this.inner().availabilitySet() != null) {
-            return this.inner().availabilitySet().id();
+            return this.inner().availabilitySet().getId();
         }
         return null;
     }
@@ -357,7 +356,7 @@ class VirtualMachineScaleSetVMImpl
     public List<String> networkInterfaceIds() {
         List<String> resourceIds = new ArrayList<>();
         for (NetworkInterfaceReference reference : this.inner().networkProfile().networkInterfaces()) {
-            resourceIds.add(reference.id());
+            resourceIds.add(reference.getId());
         }
         return Collections.unmodifiableList(resourceIds);
     }
@@ -366,7 +365,7 @@ class VirtualMachineScaleSetVMImpl
     public String primaryNetworkInterfaceId() {
         for (NetworkInterfaceReference reference : this.inner().networkProfile().networkInterfaces()) {
             if (reference.primary() != null && reference.primary()) {
-                return reference.id();
+                return reference.getId();
             }
         }
         return null;
@@ -377,7 +376,7 @@ class VirtualMachineScaleSetVMImpl
         Map<String, VirtualMachineScaleSetVMInstanceExtension> extensions = new LinkedHashMap<>();
         if (this.inner().resources() != null) {
             for (VirtualMachineExtensionInner extensionInner : this.inner().resources()) {
-                extensions.put(extensionInner.name(), new VirtualMachineScaleSetVMInstanceExtensionImpl(extensionInner, this));
+                extensions.put(extensionInner.getName(), new VirtualMachineScaleSetVMInstanceExtensionImpl(extensionInner, this));
             }
         }
         return Collections.unmodifiableMap(extensions);
@@ -408,18 +407,13 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public VirtualMachineInstanceView refreshInstanceView() {
-        return refreshInstanceViewAsync().toBlocking().last();
+        return refreshInstanceViewAsync().block();
     }
 
-    public Observable<VirtualMachineInstanceView> refreshInstanceViewAsync() {
-        return this.client.getInstanceViewAsync(this.parent().resourceGroupName(),
-            this.parent().name(),
-            this.instanceId())
-            .map(new Func1<VirtualMachineScaleSetVMInstanceViewInner, VirtualMachineInstanceView>() {
-                @Override
-                public VirtualMachineInstanceView call(VirtualMachineScaleSetVMInstanceViewInner instanceViewInner) {
-                    if (instanceViewInner != null) {
-                        virtualMachineInstanceView = new VirtualMachineInstanceViewImpl(new VirtualMachineInstanceViewInner()
+    public Mono<VirtualMachineInstanceView> refreshInstanceViewAsync() {
+        return this.client.getInstanceViewAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId())
+                .map(instanceViewInner -> {
+                    virtualMachineInstanceView = new VirtualMachineInstanceViewImpl(new VirtualMachineInstanceViewInner()
                             .withBootDiagnostics(instanceViewInner.bootDiagnostics())
                             .withDisks(instanceViewInner.disks())
                             .withExtensions(instanceViewInner.extensions())
@@ -428,10 +422,9 @@ class VirtualMachineScaleSetVMImpl
                             .withRdpThumbPrint(instanceViewInner.rdpThumbPrint())
                             .withStatuses(instanceViewInner.statuses())
                             .withVmAgent(instanceViewInner.vmAgent()));
-                    }
                     return virtualMachineInstanceView;
-                }
-            });
+                })
+                .switchIfEmpty(Mono.defer(() -> Mono.empty()));
     }
 
     @Override
@@ -441,96 +434,83 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public void reimage() {
-        this.reimageAsync().await();
+        this.reimageAsync().block();
     }
 
     @Override
-    public Completable reimageAsync() {
-        return this.client.reimageAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).toCompletable();
+    public Mono<Void> reimageAsync() {
+        return this.client.reimageAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId(), null);
     }
 
     @Override
     public void deallocate() {
-        this.deallocateAsync().await();
+        this.deallocateAsync().block();
     }
 
     @Override
-    public Completable deallocateAsync() {
+    public Mono<Void> deallocateAsync() {
         return this.client.deallocateAsync(this.parent().resourceGroupName(),
                 this.parent().name(),
-                this.instanceId()).toCompletable();
+                this.instanceId());
     }
 
     @Override
     public void powerOff() {
-        this.powerOffAsync().await();
+        this.powerOffAsync().block();
     }
 
     @Override
-    public Completable powerOffAsync() {
-        return this.client.powerOffAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).toCompletable();
+    public Mono<Void> powerOffAsync() {
+        return this.client.powerOffAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId(), null);
     }
 
     @Override
     public void start() {
-        this.startAsync().await();
+        this.startAsync().block();
     }
 
     @Override
-    public Completable startAsync() {
+    public Mono<Void> startAsync() {
         return this.client.startAsync(this.parent().resourceGroupName(),
                 this.parent().name(),
-                this.instanceId()).toCompletable();
+                this.instanceId());
     }
 
     @Override
     public void restart() {
-        this.restartAsync().await();
+        this.restartAsync().block();
     }
 
     @Override
-    public Completable restartAsync() {
-        return this.client.restartAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId())
-                .toCompletable();
+    public Mono<Void> restartAsync() {
+        return this.client.restartAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId());
     }
 
     @Override
     public void delete() {
-        deleteAsync().await();
+        deleteAsync().block();
     }
 
     @Override
-    public Completable deleteAsync() {
-        return this.client.deleteAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).toCompletable();
+    public Mono<Void> deleteAsync() {
+        return this.client.deleteAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId());
     }
 
     @Override
     public VirtualMachineScaleSetVM refresh() {
-        return this.refreshAsync().toBlocking().last();
+        return this.refreshAsync().block();
     }
 
     @Override
-    public Observable<VirtualMachineScaleSetVM> refreshAsync() {
+    public Mono<VirtualMachineScaleSetVM> refreshAsync() {
         final VirtualMachineScaleSetVMImpl self = this;
-        return this.client.getAsync(this.parent().resourceGroupName(),
-                this.parent().name(),
-                this.instanceId()).map(new Func1<VirtualMachineScaleSetVMInner, VirtualMachineScaleSetVM>() {
-            @Override
-            public VirtualMachineScaleSetVM call(VirtualMachineScaleSetVMInner virtualMachineScaleSetVMInner) {
-                self.setInner(virtualMachineScaleSetVMInner);
-                self.clearCachedRelatedResources();
-                self.initializeDataDisks();
-                return self;
-            }
-        });
+        return this.client.getAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId())
+                .map(vmInner -> {
+                    self.setInner(vmInner);
+                    self.clearCachedRelatedResources();
+                    self.initializeDataDisks();
+                    return self;
+                });
     }
 
     @Override
@@ -539,7 +519,7 @@ class VirtualMachineScaleSetVMImpl
     }
 
     @Override
-    public PagedList<VirtualMachineScaleSetNetworkInterface> listNetworkInterfaces() {
+    public PagedIterable<VirtualMachineScaleSetNetworkInterface> listNetworkInterfaces() {
         return this.parent().listNetworkInterfacesByInstanceId(this.instanceId());
     }
 
@@ -599,7 +579,7 @@ class VirtualMachineScaleSetVMImpl
                 .withCaching(cachingTypes)
                 .withManagedDisk((ManagedDiskParameters) new ManagedDiskParameters()
                         .withStorageAccountType(storageAccountTypes)
-                        .withId(dataDisk.id()));
+                        .setId(dataDisk.id()));
         return this.withExistingDataDisk(attachDataDisk, lun);
     }
 
@@ -628,28 +608,20 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public VirtualMachineScaleSetVM apply() {
-        return this.applyAsync().toBlocking().last();
+        return this.applyAsync().block();
     }
 
     @Override
-    public Observable<VirtualMachineScaleSetVM> applyAsync() {
+    public Mono<VirtualMachineScaleSetVM> applyAsync() {
         final VirtualMachineScaleSetVMImpl self = this;
         this.managedDataDisks.syncToVMDataDisks(this.inner().storageProfile());
-        Observable<VirtualMachineScaleSetVMInner> innerObservable = this.parent().virtualMachines().inner().updateAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId(), this.inner());
-        return innerObservable.map(new Func1<VirtualMachineScaleSetVMInner, VirtualMachineScaleSetVM>() {
-            @Override
-            public VirtualMachineScaleSetVM call(VirtualMachineScaleSetVMInner inner) {
-                self.setInner(inner);
-                self.clearCachedRelatedResources();
-                self.initializeDataDisks();
-                return self;
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<VirtualMachineScaleSetVM> applyAsync(ServiceCallback<VirtualMachineScaleSetVM> serviceCallback) {
-        return ServiceFuture.fromBody(this.applyAsync(), serviceCallback);
+        return this.parent().virtualMachines().inner().updateAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId(), this.inner())
+                .map(vmInner -> {
+                    self.setInner(vmInner);
+                    self.clearCachedRelatedResources();
+                    self.initializeDataDisks();
+                    return self;
+                });
     }
 
     @Override

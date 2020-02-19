@@ -6,13 +6,13 @@
 
 package com.azure.management.compute;
 
+import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.StorageAccount;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
@@ -45,9 +45,9 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
                 .withBootDiagnostics()
                 .create();
 
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
     }
 
     @Test
@@ -70,10 +70,10 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
                 .withRootPassword("abc!@#F0orL")
                 .withBootDiagnostics(creatableStorageAccount)
                 .create();
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
-        Assert.assertTrue(virtualMachine.bootDiagnosticsStorageUri().contains(storageName));
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
+        Assertions.assertTrue(virtualMachine.bootDiagnosticsStorageUri().contains(storageName));
     }
 
     @Test
@@ -98,10 +98,10 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
                 .withBootDiagnostics(storageAccount)
                 .create();
 
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
-        Assert.assertTrue(virtualMachine.bootDiagnosticsStorageUri().contains(storageName));
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
+        Assertions.assertTrue(virtualMachine.bootDiagnosticsStorageUri().contains(storageName));
     }
 
     @Test
@@ -119,17 +119,17 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
                 .withBootDiagnostics()
                 .create();
 
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
 
         virtualMachine.update()
                 .withoutBootDiagnostics()
                 .apply();
 
-        Assert.assertFalse(virtualMachine.isBootDiagnosticsEnabled());
+        Assertions.assertFalse(virtualMachine.isBootDiagnosticsEnabled());
         // Disabling boot diagnostics will not remove the storage uri from the vm payload.
-        Assert.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
+        Assertions.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
     }
 
     @Test
@@ -148,11 +148,11 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
                 .withBootDiagnostics()
                 .create();
 
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
-        Assert.assertNotNull(virtualMachine.osUnmanagedDiskVhdUri());
-        Assert.assertTrue(virtualMachine.osUnmanagedDiskVhdUri().toLowerCase().startsWith(virtualMachine.bootDiagnosticsStorageUri().toLowerCase()));
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
+        Assertions.assertNotNull(virtualMachine.osUnmanagedDiskVhdUri());
+        Assertions.assertTrue(virtualMachine.osUnmanagedDiskVhdUri().toLowerCase().startsWith(virtualMachine.bootDiagnosticsStorageUri().toLowerCase()));
     }
 
     @Test
@@ -179,10 +179,10 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
                 .withExistingStorageAccount(storageAccount) // This storage account must be shared by disk and boot diagnostics
                 .create();
 
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
-        Assert.assertTrue(virtualMachine.bootDiagnosticsStorageUri().contains(storageName));
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
+        Assertions.assertTrue(virtualMachine.bootDiagnosticsStorageUri().contains(storageName));
     }
 
     @Test
@@ -201,7 +201,7 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
                 .create();
 
         String osDiskVhd = virtualMachine1.osUnmanagedDiskVhdUri();
-        Assert.assertNotNull(osDiskVhd);
+        Assertions.assertNotNull(osDiskVhd);
         computeManager.virtualMachines().deleteById(virtualMachine1.id());
 
         VirtualMachine virtualMachine2 = computeManager.virtualMachines()
@@ -215,11 +215,11 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
                 .withBootDiagnostics()  // A new storage account should be created and used
                 .create();
 
-        Assert.assertNotNull(virtualMachine2);
-        Assert.assertTrue(virtualMachine2.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachine2.bootDiagnosticsStorageUri());
-        Assert.assertNotNull(virtualMachine2.osUnmanagedDiskVhdUri());
-        Assert.assertFalse(virtualMachine2.osUnmanagedDiskVhdUri().toLowerCase().startsWith(virtualMachine2.bootDiagnosticsStorageUri().toLowerCase()));
+        Assertions.assertNotNull(virtualMachine2);
+        Assertions.assertTrue(virtualMachine2.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachine2.bootDiagnosticsStorageUri());
+        Assertions.assertNotNull(virtualMachine2.osUnmanagedDiskVhdUri());
+        Assertions.assertFalse(virtualMachine2.osUnmanagedDiskVhdUri().toLowerCase().startsWith(virtualMachine2.bootDiagnosticsStorageUri().toLowerCase()));
     }
 
     @Test
@@ -243,11 +243,11 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
                 .withUnmanagedDisks()
                 .withBootDiagnostics(creatableStorageAccount)  // This storage account should be used for BDiagnostics not OS disk storage account
                 .create();
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
-        Assert.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
-        Assert.assertTrue(virtualMachine.bootDiagnosticsStorageUri().contains(storageName));
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertTrue(virtualMachine.isBootDiagnosticsEnabled());
+        Assertions.assertNotNull(virtualMachine.bootDiagnosticsStorageUri());
+        Assertions.assertTrue(virtualMachine.bootDiagnosticsStorageUri().contains(storageName));
         // There should be a different storage account created for the OS Disk
-        Assert.assertFalse(virtualMachine.osUnmanagedDiskVhdUri().toLowerCase().startsWith(virtualMachine.bootDiagnosticsStorageUri().toLowerCase()));
+        Assertions.assertFalse(virtualMachine.osUnmanagedDiskVhdUri().toLowerCase().startsWith(virtualMachine.bootDiagnosticsStorageUri().toLowerCase()));
     }
 }

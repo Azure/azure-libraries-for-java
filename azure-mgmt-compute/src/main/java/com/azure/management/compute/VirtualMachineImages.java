@@ -7,16 +7,13 @@ package com.azure.management.compute;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.collection.SupportsListingByRegion;
-import reactor.core.publisher.Mono;
-
-import java.util.List;
+import com.azure.management.resources.fluentcore.collection.SupportsSimpleListingByRegion;
 
 /**
  *  Entry point to virtual machine image management API.
  */
 @Fluent
-public interface VirtualMachineImages {
+public interface VirtualMachineImages extends SupportsSimpleListingByRegion<VirtualMachineImage> {
     /**
      * Gets a virtual machine image.
      *
@@ -45,36 +42,4 @@ public interface VirtualMachineImages {
      * @return entry point to virtual machine image publishers
      */
     VirtualMachinePublishers publishers();
-
-    /**
-     * Lists all the resources of the virtual machine image in the specified region.
-     *
-     * @param region the selected Azure region
-     * @return a {@link List} of resources
-     */
-    List<VirtualMachineImage> listByRegion(Region region);
-
-    /**
-     * Lists all the resources of the virtual machine image in the specified region.
-     *
-     * @param region the selected Azure region
-     * @return a representation of the deferred computation of this call, returning the requested resources
-     */
-    Mono<List<VirtualMachineImage>> listByRegionAsync(Region region);
-
-    /**
-     * List all the resources of the virtual machine image in the specified region.
-     *
-     * @param regionName the name of an Azure region
-     * @return a {@link List} list of resources
-     */
-    List<VirtualMachineImage> listByRegion(String regionName);
-
-    /**
-     * List all the resources of the virtual machine image in the specified region.
-     *
-     * @param regionName the name of an Azure region
-     * @return a representation of the deferred computation of this call, returning the requested resources
-     */
-    Mono<List<VirtualMachineImage>> listByRegionAsync(String regionName);
 }

@@ -6,20 +6,18 @@
 
 package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.graphrbac.RoleAssignment;
-import com.azure.management.graphrbac.ServicePrincipal;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.storage.StorageAccount;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
-import rx.Observable;
-import rx.functions.Action1;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Flux;
 
 public class VirtualMachineManagedServiceIdentityOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
@@ -56,18 +54,18 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
                 .withSystemAssignedManagedServiceIdentity()
                 .create();
 
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertNotNull(virtualMachine.inner());
-        Assert.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
-        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
-        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertNotNull(virtualMachine.inner());
+        Assertions.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
+        Assertions.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
+        Assertions.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
 
 
         // Ensure NO role assigned for resource group
         //
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups().getByName(virtualMachine.resourceGroupName());
-        PagedList<RoleAssignment> rgRoleAssignments1 = rbacManager.roleAssignments().listByScope(resourceGroup.id());
-        Assert.assertNotNull(rgRoleAssignments1);
+        PagedIterable<RoleAssignment> rgRoleAssignments1 = rbacManager.roleAssignments().listByScope(resourceGroup.id());
+        Assertions.assertNotNull(rgRoleAssignments1);
         boolean found = false;
         for (RoleAssignment roleAssignment : rgRoleAssignments1) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())) {
@@ -75,22 +73,22 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
                 break;
             }
         }
-        Assert.assertFalse("Resource group should not have a role assignment with virtual machine MSI principal", found);
+        Assertions.assertFalse(found, "Resource group should not have a role assignment with virtual machine MSI principal");
 
         virtualMachine = virtualMachine.update()
                 .withSystemAssignedManagedServiceIdentity()
                 .apply();
 
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertNotNull(virtualMachine.inner());
-        Assert.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
-        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
-        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertNotNull(virtualMachine.inner());
+        Assertions.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
+        Assertions.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
+        Assertions.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
 
         // Ensure NO role assigned for resource group
         //
         rgRoleAssignments1 = rbacManager.roleAssignments().listByScope(resourceGroup.id());
-        Assert.assertNotNull(rgRoleAssignments1);
+        Assertions.assertNotNull(rgRoleAssignments1);
         found = false;
         for (RoleAssignment roleAssignment : rgRoleAssignments1) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())) {
@@ -98,12 +96,12 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
                 break;
             }
         }
-        Assert.assertFalse("Resource group should not have a role assignment with virtual machine MSI principal", found);
+        Assertions.assertFalse(found, "Resource group should not have a role assignment with virtual machine MSI principal");
     }
 
     @Test
     public void canSetMSIOnNewVMWithRoleAssignedToCurrentResourceGroup() throws Exception {
-        Observable<Indexable> resources = computeManager.virtualMachines()
+        Flux<Indexable> resources = computeManager.virtualMachines()
                 .define(VMNAME)
                 .withRegion(REGION)
                 .withNewResourceGroup(RG_NAME)
@@ -122,30 +120,25 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         final VirtualMachine[] virtualMachines = new VirtualMachine[1];
         final RoleAssignment[] roleAssignments = new RoleAssignment[1];
 
-        resources
-                .toBlocking()
-                .subscribe(new Action1<Indexable>() {
-                    @Override
-                    public void call(Indexable indexable) {
-                        if (indexable instanceof VirtualMachine) {
-                            virtualMachines[0] = (VirtualMachine) indexable;
-                        }
-                        if (indexable instanceof RoleAssignment) {
-                            roleAssignments[0] = (RoleAssignment) indexable;
-                        }
+        resources.subscribe(indexable -> {
+                    if (indexable instanceof VirtualMachine) {
+                        virtualMachines[0] = (VirtualMachine) indexable;
+                    }
+                    if (indexable instanceof RoleAssignment) {
+                        roleAssignments[0] = (RoleAssignment) indexable;
                     }
                 });
 
-        Assert.assertNotNull(virtualMachines[0]);
-        Assert.assertNotNull(roleAssignments[0]);
+        Assertions.assertNotNull(virtualMachines[0]);
+        Assertions.assertNotNull(roleAssignments[0]);
 
         final VirtualMachine virtualMachine = virtualMachines[0];
 
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertNotNull(virtualMachine.inner());
-        Assert.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
-        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
-        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertNotNull(virtualMachine.inner());
+        Assertions.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
+        Assertions.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
+        Assertions.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
 
         // Validate service created service principal
         // TODO: Renable the below code snippet: https://github.com/Azure/azure-libraries-for-net/issues/739
@@ -153,13 +146,13 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         //                .servicePrincipals()
         //                .getById(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
         //
-        //        Assert.assertNotNull(servicePrincipal);
-        //        Assert.assertNotNull(servicePrincipal.inner());
+        //        Assertions.assertNotNull(servicePrincipal);
+        //        Assertions.assertNotNull(servicePrincipal.inner());
 
         // Ensure role assigned
         //
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups().getByName(virtualMachine.resourceGroupName());
-        PagedList<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
+        PagedIterable<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
         boolean found = false;
         for (RoleAssignment rgRoleAssignment : rgRoleAssignments) {
             if (rgRoleAssignment.principalId() != null && rgRoleAssignment.principalId().equalsIgnoreCase(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())) {
@@ -168,7 +161,7 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
             }
         }
 
-        Assert.assertTrue("Resource group should have a role assignment with virtual machine MSI principal", found);
+        Assertions.assertTrue(found, "Resource group should have a role assignment with virtual machine MSI principal");
 
         // Below we tests internal functionality to ensure a call for RoleAssignment is not happening.
         // NOT a pattern applications/customer should use
@@ -177,21 +170,17 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         roleAssignments[0] = null;
 
         TaskGroup.HasTaskGroup hasTaskGroup = (TaskGroup.HasTaskGroup) virtualMachine;
-        Assert.assertNotNull(hasTaskGroup);
+        Assertions.assertNotNull(hasTaskGroup);
         TaskGroup vmTaskGroup = hasTaskGroup.taskGroup();
         vmTaskGroup.invokeAsync(vmTaskGroup.newInvocationContext())
-                .toBlocking()
-                .subscribe(new Action1<Indexable>() {
-                    @Override
-                    public void call(Indexable indexable) {
-                        if (indexable instanceof RoleAssignment) {
-                            roleAssignments[0] = (RoleAssignment) indexable;
-                        }
+                .subscribe(indexable -> {
+                    if (indexable instanceof RoleAssignment) {
+                        roleAssignments[0] = (RoleAssignment) indexable;
                     }
                 });
 
-        Assert.assertNotNull(roleAssignments[0]);
-        Assert.assertTrue((roleAssignments[0]).key().equalsIgnoreCase(savedRoleAssignment.key()));
+        Assertions.assertNotNull(roleAssignments[0]);
+        Assertions.assertTrue((roleAssignments[0]).key().equalsIgnoreCase(savedRoleAssignment.key()));
     }
 
     @Test
@@ -232,13 +221,13 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         //                .servicePrincipals()
         //                .getById(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
         //
-        //        Assert.assertNotNull(servicePrincipal);
-        //        Assert.assertNotNull(servicePrincipal.inner());
+        //        Assertions.assertNotNull(servicePrincipal);
+        //        Assertions.assertNotNull(servicePrincipal.inner());
 
         // Ensure role assigned for resource group
         //
-        PagedList<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
-        Assert.assertNotNull(rgRoleAssignments);
+        PagedIterable<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
+        Assertions.assertNotNull(rgRoleAssignments);
         boolean found = false;
         for (RoleAssignment roleAssignment : rgRoleAssignments) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())) {
@@ -246,12 +235,12 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
                 break;
             }
         }
-        Assert.assertTrue("Resource group should have a role assignment with virtual machine MSI principal", found);
+        Assertions.assertTrue(found, "Resource group should have a role assignment with virtual machine MSI principal");
 
         // Ensure role assigned for storage account
         //
-        PagedList<RoleAssignment> stgRoleAssignments = rbacManager.roleAssignments().listByScope(storageAccount.id());
-        Assert.assertNotNull(stgRoleAssignments);
+        PagedIterable<RoleAssignment> stgRoleAssignments = rbacManager.roleAssignments().listByScope(storageAccount.id());
+        Assertions.assertNotNull(stgRoleAssignments);
         found = false;
         for (RoleAssignment roleAssignment : stgRoleAssignments) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())) {
@@ -259,7 +248,7 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
                 break;
             }
         }
-        Assert.assertTrue("Storage account should have a role assignment with virtual machine MSI principal", found);
+        Assertions.assertTrue(found, "Storage account should have a role assignment with virtual machine MSI principal");
     }
 
     @Test
@@ -279,20 +268,20 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
                 .withSystemAssignedManagedServiceIdentity()
                 .create();
 
-        Assert.assertNotNull(virtualMachine);
-        Assert.assertNotNull(virtualMachine.inner());
-        Assert.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
-        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
-        Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
+        Assertions.assertNotNull(virtualMachine);
+        Assertions.assertNotNull(virtualMachine.inner());
+        Assertions.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
+        Assertions.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
+        Assertions.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
 
-        Assert.assertNotNull(virtualMachine.managedServiceIdentityType());
-        Assert.assertTrue(virtualMachine.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED));
+        Assertions.assertNotNull(virtualMachine.managedServiceIdentityType());
+        Assertions.assertTrue(virtualMachine.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED));
 
         // Ensure NO role assigned for resource group
         //
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups().getByName(virtualMachine.resourceGroupName());
-        PagedList<RoleAssignment> rgRoleAssignments1 = rbacManager.roleAssignments().listByScope(resourceGroup.id());
-        Assert.assertNotNull(rgRoleAssignments1);
+        PagedIterable<RoleAssignment> rgRoleAssignments1 = rbacManager.roleAssignments().listByScope(resourceGroup.id());
+        Assertions.assertNotNull(rgRoleAssignments1);
         boolean found = false;
         for (RoleAssignment roleAssignment : rgRoleAssignments1) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())) {
@@ -300,7 +289,7 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
                 break;
             }
         }
-        Assert.assertFalse("Resource group should not have a role assignment with virtual machine MSI principal", found);
+        Assertions.assertFalse(found, "Resource group should not have a role assignment with virtual machine MSI principal");
 
         virtualMachine.update()
                 .withSystemAssignedManagedServiceIdentity()
@@ -309,15 +298,15 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
 
         // Ensure role assigned for resource group
         //
-        PagedList<RoleAssignment> roleAssignments2 = rbacManager.roleAssignments().listByScope(resourceGroup.id());
-        Assert.assertNotNull(roleAssignments2);
+        PagedIterable<RoleAssignment> roleAssignments2 = rbacManager.roleAssignments().listByScope(resourceGroup.id());
+        Assertions.assertNotNull(roleAssignments2);
         for (RoleAssignment roleAssignment : roleAssignments2) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId())) {
                 found = true;
                 break;
             }
         }
-        Assert.assertTrue("Resource group should have a role assignment with virtual machine MSI principal", found);
+        Assertions.assertTrue(found, "Resource group should have a role assignment with virtual machine MSI principal");
     }
 
     private static Integer objectToInteger(Object obj) {

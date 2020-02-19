@@ -6,18 +6,14 @@
 
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.Beta;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.DiskInstanceView;
 import com.azure.management.compute.DiskVolumeEncryptionMonitor;
 import com.azure.management.compute.EncryptionStatus;
 import com.azure.management.compute.InstanceViewStatus;
-import com.azure.management.compute.InstanceViewTypes;
 import com.azure.management.compute.OperatingSystemTypes;
+import com.azure.management.compute.models.VirtualMachineInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import reactor.core.publisher.Mono;
-import rx.Observable;
-import rx.functions.Func1;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +23,6 @@ import java.util.Map;
  * The implementation for DiskVolumeEncryptionStatus for Windows virtual machine.
  * This implementation monitor status of encrypt-decrypt through new NoAAD encryption extension.
  */
-@LangDefinition
 class WindowsVolumeNoAADEncryptionMonitorImpl implements DiskVolumeEncryptionMonitor {
     private final String rgName;
     private final String vmName;
@@ -116,11 +111,10 @@ class WindowsVolumeNoAADEncryptionMonitorImpl implements DiskVolumeEncryptionMon
         }
     }
 
-    @Beta
     @Override
     public Map<String, InstanceViewStatus> diskInstanceViewEncryptionStatuses() {
         if (virtualMachine.instanceView() == null || virtualMachine.instanceView().disks() == null) {
-            return new HashMap<String, InstanceViewStatus>();
+            return new HashMap<>();
         }
         //
         HashMap<String, InstanceViewStatus> div = new HashMap<String, InstanceViewStatus>();
@@ -137,21 +131,17 @@ class WindowsVolumeNoAADEncryptionMonitorImpl implements DiskVolumeEncryptionMon
 
     @Override
     public DiskVolumeEncryptionMonitor refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().block();
     }
 
     @Override
     public Mono<DiskVolumeEncryptionMonitor> refreshAsync() {
         final WindowsVolumeNoAADEncryptionMonitorImpl self = this;
         // Refreshes the cached virtual machine and installed encryption extension
-        //
         return retrieveVirtualMachineAsync()
-                .flatMap(new Func1<VirtualMachineInner, Observable<DiskVolumeEncryptionMonitor>>() {
-                    @Override
-                    public Observable<DiskVolumeEncryptionMonitor> call(VirtualMachineInner virtualMachine) {
-                        self.virtualMachine = virtualMachine;
-                        return Observable.<DiskVolumeEncryptionMonitor>just(self);
-                    }
+                .map(virtualMachine -> {
+                    self.virtualMachine = virtualMachine;
+                    return self;
                 });
     }
 
@@ -161,21 +151,13 @@ class WindowsVolumeNoAADEncryptionMonitorImpl implements DiskVolumeEncryptionMon
      *
      * @return the retrieved virtual machine
      */
-    private Observable<VirtualMachineInner> retrieveVirtualMachineAsync() {
+    private Mono<VirtualMachineInner> retrieveVirtualMachineAsync() {
         return this.computeManager
                 .inner()
                 .virtualMachines()
-                .getByResourceGroupAsync(rgName, vmName, InstanceViewTypes.INSTANCE_VIEW)
-                .flatMap(new Func1<VirtualMachineInner, Observable<VirtualMachineInner>>() {
-                    @Override
-                    public Observable<VirtualMachineInner> call(VirtualMachineInner virtualMachine) {
-                        if (virtualMachine == null) {
-                            return Observable.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')",
-                                    vmName, rgName)));
-                        }
-                        return Observable.just(virtualMachine);
-                    }
-                });
+                .getByResourceGroupAsync(rgName, vmName)
+                .onErrorResume(e -> Mono.error(new Exception(String.format("VM with name '%s' not found (resource group '%s')",
+                        vmName, rgName))));
     }
 
     /**

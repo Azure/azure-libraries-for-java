@@ -5,9 +5,9 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.management.compute.models.VirtualMachineScaleSetExtensionInner;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachineExtensionImage;
 import com.azure.management.compute.VirtualMachineScaleSet;
 import com.azure.management.compute.VirtualMachineScaleSetExtension;
@@ -21,7 +21,6 @@ import java.util.Map;
 /**
  * Implementation of {@link VirtualMachineScaleSetExtension}.
  */
-@LangDefinition()
 public class VirtualMachineScaleSetExtensionImpl
         extends ChildResourceImpl<VirtualMachineScaleSetExtensionInner, VirtualMachineScaleSetImpl, VirtualMachineScaleSet>
         implements

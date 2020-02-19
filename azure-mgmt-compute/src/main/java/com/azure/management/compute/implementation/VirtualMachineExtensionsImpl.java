@@ -60,7 +60,7 @@ class VirtualMachineExtensionsImpl extends
     }
 
     /**
-     * @return an observable emits extensions in this collection
+     * @return a Mono emits extensions in this collection
      */
     public Mono<List<VirtualMachineExtension>> listAsync() {
         Flux<VirtualMachineExtensionImpl> extensions = Flux.fromIterable(this.collection().values());

@@ -6,11 +6,11 @@
 
 package com.azure.management.compute;
 
+import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
@@ -27,7 +27,7 @@ public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTe
     }
 
     @Test
-    @Ignore("Requires manually creating service principal and setting SP credentials in the test")
+    @Disabled("Requires manually creating service principal and setting SP credentials in the test")
     public void canEncryptVirtualMachine() {
         // https://docs.microsoft.com/en-us/azure/security/azure-security-disk-encryption
         //
@@ -57,21 +57,21 @@ public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTe
                 .create();
 
         DiskVolumeEncryptionMonitor monitor1 = virtualMachine.diskEncryption().getMonitor();
-        Assert.assertNotNull(monitor1);
-        Assert.assertNotNull(monitor1.osDiskStatus());
-        Assert.assertNotNull(monitor1.dataDiskStatus());
-        Assert.assertTrue(monitor1.osDiskStatus().equals(EncryptionStatus.NOT_ENCRYPTED));
-        Assert.assertTrue(monitor1.dataDiskStatus().equals(EncryptionStatus.NOT_ENCRYPTED));
+        Assertions.assertNotNull(monitor1);
+        Assertions.assertNotNull(monitor1.osDiskStatus());
+        Assertions.assertNotNull(monitor1.dataDiskStatus());
+        Assertions.assertTrue(monitor1.osDiskStatus().equals(EncryptionStatus.NOT_ENCRYPTED));
+        Assertions.assertTrue(monitor1.dataDiskStatus().equals(EncryptionStatus.NOT_ENCRYPTED));
         DiskVolumeEncryptionMonitor monitor2 = virtualMachine
                 .diskEncryption()
                 .enable(keyVaultId, aadClientId, aadSecret);
-        Assert.assertNotNull(monitor2);
-        Assert.assertNotNull(monitor2.osDiskStatus());
-        Assert.assertNotNull(monitor2.dataDiskStatus());
+        Assertions.assertNotNull(monitor2);
+        Assertions.assertNotNull(monitor2.osDiskStatus());
+        Assertions.assertNotNull(monitor2.dataDiskStatus());
         monitor1.refresh();
-        Assert.assertTrue(monitor1.osDiskStatus().equals(monitor2.osDiskStatus()));
-        Assert.assertTrue(monitor1.dataDiskStatus().equals(monitor2.dataDiskStatus()));
+        Assertions.assertTrue(monitor1.osDiskStatus().equals(monitor2.osDiskStatus()));
+        Assertions.assertTrue(monitor1.dataDiskStatus().equals(monitor2.dataDiskStatus()));
         monitor2.refresh();
-        Assert.assertTrue(monitor2.osDiskStatus().equals(EncryptionStatus.ENCRYPTION_INPROGRESS));
+        Assertions.assertTrue(monitor2.osDiskStatus().equals(EncryptionStatus.ENCRYPTION_INPROGRESS));
     }
 }

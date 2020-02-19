@@ -6,8 +6,9 @@
 
 package com.azure.management.compute;
 
-import com.microsoft.azure.CloudException;
-import com.azure.management.compute.implementation.RunCommandResultInner;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.CloudException;
+import com.azure.management.RestClient;
 import com.azure.management.network.Network;
 import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.NetworkSecurityGroup;
@@ -20,14 +21,11 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.CreatedResources;
-import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.SkuName;
 import com.azure.management.storage.StorageAccount;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
-import rx.functions.Func1;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,24 +98,24 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
             .create();
 
         NetworkInterface primaryNic = vm.getPrimaryNetworkInterface();
-        Assert.assertNotNull(primaryNic);
+        Assertions.assertNotNull(primaryNic);
         NicIPConfiguration primaryIpConfig = primaryNic.primaryIPConfiguration();
-        Assert.assertNotNull(primaryIpConfig);
+        Assertions.assertNotNull(primaryIpConfig);
 
         // Fetch the NSG the way before v1.2
-        Assert.assertNotNull(primaryIpConfig.networkId());
+        Assertions.assertNotNull(primaryIpConfig.networkId());
         Network network = primaryIpConfig.getNetwork();
-        Assert.assertNotNull(primaryIpConfig.subnetName());
+        Assertions.assertNotNull(primaryIpConfig.subnetName());
         Subnet subnet = network.subnets().get(primaryIpConfig.subnetName());
-        Assert.assertNotNull(subnet);
+        Assertions.assertNotNull(subnet);
         nsg = subnet.getNetworkSecurityGroup();
-        Assert.assertNotNull(nsg);
-        Assert.assertEquals("nsg", nsg.name());
-        Assert.assertEquals(1, nsg.securityRules().size());
+        Assertions.assertNotNull(nsg);
+        Assertions.assertEquals("nsg", nsg.name());
+        Assertions.assertEquals(1, nsg.securityRules().size());
 
         // Fetch the NSG the v1.2 way
         nsg = primaryIpConfig.getNetworkSecurityGroup();
-        Assert.assertEquals("nsg", nsg.name());
+        Assertions.assertEquals("nsg", nsg.name());
     }
 
     @Test
@@ -141,27 +139,27 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
             .create();
 
         VirtualMachine foundVM = null;
-        List<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
+        PagedIterable<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
         for (VirtualMachine vm1 : vms) {
             if (vm1.name().equals(VMNAME)) {
                 foundVM = vm1;
                 break;
             }
         }
-        Assert.assertNotNull(foundVM);
-        Assert.assertEquals(REGION, foundVM.region());
+        Assertions.assertNotNull(foundVM);
+        Assertions.assertEquals(REGION, foundVM.region());
         // Get
         foundVM = computeManager.virtualMachines().getByResourceGroup(RG_NAME, VMNAME);
-        Assert.assertNotNull(foundVM);
-        Assert.assertEquals(REGION, foundVM.region());
-        Assert.assertEquals("Windows_Server", foundVM.licenseType());
+        Assertions.assertNotNull(foundVM);
+        Assertions.assertEquals(REGION, foundVM.region());
+        Assertions.assertEquals("Windows_Server", foundVM.licenseType());
 
         // Fetch instance view
         PowerState powerState = foundVM.powerState();
-        Assert.assertEquals(powerState, PowerState.RUNNING);
+        Assertions.assertEquals(powerState, PowerState.RUNNING);
         VirtualMachineInstanceView instanceView = foundVM.instanceView();
-        Assert.assertNotNull(instanceView);
-        Assert.assertNotNull(instanceView.statuses().size() > 0);
+        Assertions.assertNotNull(instanceView);
+        Assertions.assertNotNull(instanceView.statuses().size() > 0);
 
         // Delete VM
         computeManager.virtualMachines().deleteById(foundVM.id());
@@ -190,22 +188,22 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .create();
 
         VirtualMachine foundVM = null;
-        List<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
+        PagedIterable<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
         for (VirtualMachine vm1 : vms) {
             if (vm1.name().equals(VMNAME)) {
                 foundVM = vm1;
                 break;
             }
         }
-        Assert.assertNotNull(foundVM);
-        Assert.assertEquals(REGION, foundVM.region());
+        Assertions.assertNotNull(foundVM);
+        Assertions.assertEquals(REGION, foundVM.region());
         // Get
         foundVM = computeManager.virtualMachines().getByResourceGroup(RG_NAME, VMNAME);
-        Assert.assertNotNull(foundVM);
-        Assert.assertEquals(REGION, foundVM.region());
-        Assert.assertEquals("Windows_Server", foundVM.licenseType());
-        Assert.assertEquals((Double) 1000.0, foundVM.billingProfile().maxPrice());
-        Assert.assertEquals(VirtualMachineEvictionPolicyTypes.DEALLOCATE, foundVM.evictionPolicy());
+        Assertions.assertNotNull(foundVM);
+        Assertions.assertEquals(REGION, foundVM.region());
+        Assertions.assertEquals("Windows_Server", foundVM.licenseType());
+        Assertions.assertEquals((Double) 1000.0, foundVM.billingProfile().maxPrice());
+        Assertions.assertEquals(VirtualMachineEvictionPolicyTypes.DEALLOCATE, foundVM.evictionPolicy());
 
         // change max price
         try {
@@ -213,8 +211,8 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     .withMaxPrice(1500.0)
                     .apply();
             // not run to assert
-            Assert.assertEquals((Double) 1500.0, foundVM.billingProfile().maxPrice());
-            Assert.fail();
+            Assertions.assertEquals((Double) 1500.0, foundVM.billingProfile().maxPrice());
+            Assertions.fail();
         } catch (CloudException e) {} // cannot change max price when vm is running
 
         foundVM.deallocate();
@@ -223,27 +221,27 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .apply();
         foundVM.start();
 
-        Assert.assertEquals((Double) 2000.0, foundVM.billingProfile().maxPrice());
+        Assertions.assertEquals((Double) 2000.0, foundVM.billingProfile().maxPrice());
 
         // change priority types
         foundVM = foundVM.update()
                 .withPriority(VirtualMachinePriorityTypes.SPOT)
                 .apply();
 
-        Assert.assertEquals(VirtualMachinePriorityTypes.SPOT, foundVM.priority());
+        Assertions.assertEquals(VirtualMachinePriorityTypes.SPOT, foundVM.priority());
 
         foundVM = foundVM.update()
                 .withPriority(VirtualMachinePriorityTypes.LOW)
                 .apply();
 
-        Assert.assertEquals(VirtualMachinePriorityTypes.LOW, foundVM.priority());
+        Assertions.assertEquals(VirtualMachinePriorityTypes.LOW, foundVM.priority());
         try {
             foundVM.update()
                     .withPriority(VirtualMachinePriorityTypes.REGULAR)
                     .apply();
             // not run to assert
-            Assert.assertEquals(VirtualMachinePriorityTypes.REGULAR, foundVM.priority());
-            Assert.fail();
+            Assertions.assertEquals(VirtualMachinePriorityTypes.REGULAR, foundVM.priority());
+            Assertions.fail();
         } catch (CloudException e) {} // cannot change priority from low to regular
 
         // Delete VM
@@ -259,13 +257,13 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withNewProximityPlacementGroup(PROXGROUPNAME, PROXGROUPTYPE)
                 .create();
 
-        Assert.assertEquals(AVAILABILITYSETNAME, setCreated.name());
-        Assert.assertNotNull(setCreated.proximityPlacementGroup());
-        Assert.assertEquals(PROXGROUPTYPE, setCreated.proximityPlacementGroup().proximityPlacementGroupType());
-        Assert.assertNotNull(setCreated.proximityPlacementGroup().availabilitySetIds());
-        Assert.assertFalse(setCreated.proximityPlacementGroup().availabilitySetIds().isEmpty());
-        Assert.assertTrue(setCreated.id().equalsIgnoreCase(setCreated.proximityPlacementGroup().availabilitySetIds().get(0)));
-        Assert.assertEquals(setCreated.regionName(), setCreated.proximityPlacementGroup().location());
+        Assertions.assertEquals(AVAILABILITYSETNAME, setCreated.name());
+        Assertions.assertNotNull(setCreated.proximityPlacementGroup());
+        Assertions.assertEquals(PROXGROUPTYPE, setCreated.proximityPlacementGroup().proximityPlacementGroupType());
+        Assertions.assertNotNull(setCreated.proximityPlacementGroup().availabilitySetIds());
+        Assertions.assertFalse(setCreated.proximityPlacementGroup().availabilitySetIds().isEmpty());
+        Assertions.assertTrue(setCreated.id().equalsIgnoreCase(setCreated.proximityPlacementGroup().availabilitySetIds().get(0)));
+        Assertions.assertEquals(setCreated.regionName(), setCreated.proximityPlacementGroup().location());
 
 
         AvailabilitySet setCreated2 = computeManager.availabilitySets()
@@ -275,13 +273,13 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withNewProximityPlacementGroup(PROXGROUPNAME2, PROXGROUPTYPE)
                 .create();
 
-        Assert.assertEquals(AVAILABILITYSETNAME2, setCreated2.name());
-        Assert.assertNotNull(setCreated2.proximityPlacementGroup());
-        Assert.assertEquals(PROXGROUPTYPE, setCreated2.proximityPlacementGroup().proximityPlacementGroupType());
-        Assert.assertNotNull(setCreated2.proximityPlacementGroup().availabilitySetIds());
-        Assert.assertFalse(setCreated2.proximityPlacementGroup().availabilitySetIds().isEmpty());
-        Assert.assertTrue(setCreated2.id().equalsIgnoreCase(setCreated2.proximityPlacementGroup().availabilitySetIds().get(0)));
-        Assert.assertEquals(setCreated2.regionName(), setCreated2.proximityPlacementGroup().location());
+        Assertions.assertEquals(AVAILABILITYSETNAME2, setCreated2.name());
+        Assertions.assertNotNull(setCreated2.proximityPlacementGroup());
+        Assertions.assertEquals(PROXGROUPTYPE, setCreated2.proximityPlacementGroup().proximityPlacementGroupType());
+        Assertions.assertNotNull(setCreated2.proximityPlacementGroup().availabilitySetIds());
+        Assertions.assertFalse(setCreated2.proximityPlacementGroup().availabilitySetIds().isEmpty());
+        Assertions.assertTrue(setCreated2.id().equalsIgnoreCase(setCreated2.proximityPlacementGroup().availabilitySetIds().get(0)));
+        Assertions.assertEquals(setCreated2.regionName(), setCreated2.proximityPlacementGroup().location());
 
         // Create
         computeManager.virtualMachines()
@@ -303,36 +301,36 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .create();
 
         VirtualMachine foundVM = null;
-        List<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
+        PagedIterable<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
         for (VirtualMachine vm1 : vms) {
             if (vm1.name().equals(VMNAME)) {
                 foundVM = vm1;
                 break;
             }
         }
-        Assert.assertNotNull(foundVM);
-        Assert.assertEquals(REGIONPROXPLACEMENTGROUP, foundVM.region());
+        Assertions.assertNotNull(foundVM);
+        Assertions.assertEquals(REGIONPROXPLACEMENTGROUP, foundVM.region());
         // Get
         foundVM = computeManager.virtualMachines().getByResourceGroup(RG_NAME, VMNAME);
-        Assert.assertNotNull(foundVM);
-        Assert.assertEquals(REGIONPROXPLACEMENTGROUP, foundVM.region());
-        Assert.assertEquals("Windows_Server", foundVM.licenseType());
+        Assertions.assertNotNull(foundVM);
+        Assertions.assertEquals(REGIONPROXPLACEMENTGROUP, foundVM.region());
+        Assertions.assertEquals("Windows_Server", foundVM.licenseType());
 
         // Fetch instance view
         PowerState powerState = foundVM.powerState();
-        Assert.assertEquals(powerState, PowerState.RUNNING);
+        Assertions.assertEquals(powerState, PowerState.RUNNING);
         VirtualMachineInstanceView instanceView = foundVM.instanceView();
-        Assert.assertNotNull(instanceView);
-        Assert.assertNotNull(instanceView.statuses().size() > 0);
+        Assertions.assertNotNull(instanceView);
+        Assertions.assertNotNull(instanceView.statuses().size() > 0);
 
-        Assert.assertNotNull(foundVM.proximityPlacementGroup());
-        Assert.assertEquals(PROXGROUPTYPE, foundVM.proximityPlacementGroup().proximityPlacementGroupType());
-        Assert.assertNotNull(foundVM.proximityPlacementGroup().availabilitySetIds());
-        Assert.assertFalse(foundVM.proximityPlacementGroup().availabilitySetIds().isEmpty());
-        Assert.assertTrue(setCreated.id().equalsIgnoreCase(foundVM.proximityPlacementGroup().availabilitySetIds().get(0)));
-        Assert.assertNotNull(foundVM.proximityPlacementGroup().virtualMachineIds());
-        Assert.assertFalse(foundVM.proximityPlacementGroup().virtualMachineIds().isEmpty());
-        Assert.assertTrue(foundVM.id().equalsIgnoreCase(setCreated.proximityPlacementGroup().virtualMachineIds().get(0)));
+        Assertions.assertNotNull(foundVM.proximityPlacementGroup());
+        Assertions.assertEquals(PROXGROUPTYPE, foundVM.proximityPlacementGroup().proximityPlacementGroupType());
+        Assertions.assertNotNull(foundVM.proximityPlacementGroup().availabilitySetIds());
+        Assertions.assertFalse(foundVM.proximityPlacementGroup().availabilitySetIds().isEmpty());
+        Assertions.assertTrue(setCreated.id().equalsIgnoreCase(foundVM.proximityPlacementGroup().availabilitySetIds().get(0)));
+        Assertions.assertNotNull(foundVM.proximityPlacementGroup().virtualMachineIds());
+        Assertions.assertFalse(foundVM.proximityPlacementGroup().virtualMachineIds().isEmpty());
+        Assertions.assertTrue(foundVM.id().equalsIgnoreCase(setCreated.proximityPlacementGroup().virtualMachineIds().get(0)));
 
         try {
             //Update Vm to remove it from proximity placement group
@@ -340,7 +338,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     .withProximityPlacementGroup(setCreated2.proximityPlacementGroup().id())
                     .apply();
         } catch (CloudException clEx) {
-            Assert.assertTrue(clEx.getMessage().equalsIgnoreCase("Updating proximity placement group of VM javavm is not allowed while the VM is running. Please stop/deallocate the VM and retry the operation."));
+            Assertions.assertTrue(clEx.getMessage().equalsIgnoreCase("Updating proximity placement group of VM javavm is not allowed while the VM is running. Please stop/deallocate the VM and retry the operation."));
         }
 
         // Delete VM
@@ -357,13 +355,13 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withNewProximityPlacementGroup(PROXGROUPNAME, PROXGROUPTYPE)
                 .create();
 
-        Assert.assertEquals(AVAILABILITYSETNAME, setCreated.name());
-        Assert.assertNotNull(setCreated.proximityPlacementGroup());
-        Assert.assertEquals(PROXGROUPTYPE, setCreated.proximityPlacementGroup().proximityPlacementGroupType());
-        Assert.assertNotNull(setCreated.proximityPlacementGroup().availabilitySetIds());
-        Assert.assertFalse(setCreated.proximityPlacementGroup().availabilitySetIds().isEmpty());
-        Assert.assertTrue(setCreated.id().equalsIgnoreCase(setCreated.proximityPlacementGroup().availabilitySetIds().get(0)));
-        Assert.assertEquals(setCreated.regionName(), setCreated.proximityPlacementGroup().location());
+        Assertions.assertEquals(AVAILABILITYSETNAME, setCreated.name());
+        Assertions.assertNotNull(setCreated.proximityPlacementGroup());
+        Assertions.assertEquals(PROXGROUPTYPE, setCreated.proximityPlacementGroup().proximityPlacementGroupType());
+        Assertions.assertNotNull(setCreated.proximityPlacementGroup().availabilitySetIds());
+        Assertions.assertFalse(setCreated.proximityPlacementGroup().availabilitySetIds().isEmpty());
+        Assertions.assertTrue(setCreated.id().equalsIgnoreCase(setCreated.proximityPlacementGroup().availabilitySetIds().get(0)));
+        Assertions.assertEquals(setCreated.regionName(), setCreated.proximityPlacementGroup().location());
 
         // Create
         computeManager.virtualMachines()
@@ -385,50 +383,50 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .create();
 
         VirtualMachine foundVM = null;
-        List<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
+        PagedIterable<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
         for (VirtualMachine vm1 : vms) {
             if (vm1.name().equals(VMNAME)) {
                 foundVM = vm1;
                 break;
             }
         }
-        Assert.assertNotNull(foundVM);
-        Assert.assertEquals(REGIONPROXPLACEMENTGROUP, foundVM.region());
+        Assertions.assertNotNull(foundVM);
+        Assertions.assertEquals(REGIONPROXPLACEMENTGROUP, foundVM.region());
         // Get
         foundVM = computeManager.virtualMachines().getByResourceGroup(RG_NAME, VMNAME);
-        Assert.assertNotNull(foundVM);
-        Assert.assertEquals(REGIONPROXPLACEMENTGROUP, foundVM.region());
-        Assert.assertEquals("Windows_Server", foundVM.licenseType());
+        Assertions.assertNotNull(foundVM);
+        Assertions.assertEquals(REGIONPROXPLACEMENTGROUP, foundVM.region());
+        Assertions.assertEquals("Windows_Server", foundVM.licenseType());
 
         // Fetch instance view
         PowerState powerState = foundVM.powerState();
-        Assert.assertEquals(powerState, PowerState.RUNNING);
+        Assertions.assertEquals(powerState, PowerState.RUNNING);
         VirtualMachineInstanceView instanceView = foundVM.instanceView();
-        Assert.assertNotNull(instanceView);
-        Assert.assertNotNull(instanceView.statuses().size() > 0);
+        Assertions.assertNotNull(instanceView);
+        Assertions.assertNotNull(instanceView.statuses().size() > 0);
 
-        Assert.assertNotNull(foundVM.proximityPlacementGroup());
-        Assert.assertEquals(PROXGROUPTYPE, foundVM.proximityPlacementGroup().proximityPlacementGroupType());
-        Assert.assertNotNull(foundVM.proximityPlacementGroup().availabilitySetIds());
-        Assert.assertFalse(foundVM.proximityPlacementGroup().availabilitySetIds().isEmpty());
-        Assert.assertTrue(setCreated.id().equalsIgnoreCase(foundVM.proximityPlacementGroup().availabilitySetIds().get(0)));
-        Assert.assertNotNull(foundVM.proximityPlacementGroup().virtualMachineIds());
-        Assert.assertFalse(foundVM.proximityPlacementGroup().virtualMachineIds().isEmpty());
-        Assert.assertTrue(foundVM.id().equalsIgnoreCase(setCreated.proximityPlacementGroup().virtualMachineIds().get(0)));
+        Assertions.assertNotNull(foundVM.proximityPlacementGroup());
+        Assertions.assertEquals(PROXGROUPTYPE, foundVM.proximityPlacementGroup().proximityPlacementGroupType());
+        Assertions.assertNotNull(foundVM.proximityPlacementGroup().availabilitySetIds());
+        Assertions.assertFalse(foundVM.proximityPlacementGroup().availabilitySetIds().isEmpty());
+        Assertions.assertTrue(setCreated.id().equalsIgnoreCase(foundVM.proximityPlacementGroup().availabilitySetIds().get(0)));
+        Assertions.assertNotNull(foundVM.proximityPlacementGroup().virtualMachineIds());
+        Assertions.assertFalse(foundVM.proximityPlacementGroup().virtualMachineIds().isEmpty());
+        Assertions.assertTrue(foundVM.id().equalsIgnoreCase(setCreated.proximityPlacementGroup().virtualMachineIds().get(0)));
 
         //Update Vm to remove it from proximity placement group
         VirtualMachine updatedVm = foundVM.update()
                 .withoutProximityPlacementGroup()
                 .apply();
 
-        Assert.assertNotNull(updatedVm.proximityPlacementGroup());
-        Assert.assertEquals(PROXGROUPTYPE, updatedVm.proximityPlacementGroup().proximityPlacementGroupType());
-        Assert.assertNotNull(updatedVm.proximityPlacementGroup().availabilitySetIds());
-        Assert.assertFalse(updatedVm.proximityPlacementGroup().availabilitySetIds().isEmpty());
-        Assert.assertTrue(setCreated.id().equalsIgnoreCase(updatedVm.proximityPlacementGroup().availabilitySetIds().get(0)));
+        Assertions.assertNotNull(updatedVm.proximityPlacementGroup());
+        Assertions.assertEquals(PROXGROUPTYPE, updatedVm.proximityPlacementGroup().proximityPlacementGroupType());
+        Assertions.assertNotNull(updatedVm.proximityPlacementGroup().availabilitySetIds());
+        Assertions.assertFalse(updatedVm.proximityPlacementGroup().availabilitySetIds().isEmpty());
+        Assertions.assertTrue(setCreated.id().equalsIgnoreCase(updatedVm.proximityPlacementGroup().availabilitySetIds().get(0)));
 
         //TODO: this does not work... can not remove cvm from the placement group
-        //Assert.assertNull(foundVM.proximityPlacementGroup().virtualMachineIds());
+        //Assertions.assertNull(foundVM.proximityPlacementGroup().virtualMachineIds());
 
         // Delete VM
         computeManager.virtualMachines().deleteById(foundVM.id());
@@ -452,15 +450,15 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         List<String> publicIpCreatableKeys = creatablesInfo.publicIpCreatableKeys;
 
         CreatedResources<VirtualMachine> createdVirtualMachines = computeManager.virtualMachines().create(virtualMachineCreatables);
-        Assert.assertTrue(createdVirtualMachines.size() == count);
+        Assertions.assertTrue(createdVirtualMachines.size() == count);
 
         Set<String> virtualMachineNames = new HashSet<>();
         for (int i = 0; i < count; i++) {
             virtualMachineNames.add(String.format("%s-%d", vmNamePrefix, i));
         }
         for (VirtualMachine virtualMachine : createdVirtualMachines.values()) {
-            Assert.assertTrue(virtualMachineNames.contains(virtualMachine.name()));
-            Assert.assertNotNull(virtualMachine.id());
+            Assertions.assertTrue(virtualMachineNames.contains(virtualMachine.name()));
+            Assertions.assertNotNull(virtualMachine.id());
         }
 
         Set<String> networkNames = new HashSet<>();
@@ -469,8 +467,8 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         }
         for (String networkCreatableKey : networkCreatableKeys) {
             Network createdNetwork = (Network) createdVirtualMachines.createdRelatedResource(networkCreatableKey);
-            Assert.assertNotNull(createdNetwork);
-            Assert.assertTrue(networkNames.contains(createdNetwork.name()));
+            Assertions.assertNotNull(createdNetwork);
+            Assertions.assertTrue(networkNames.contains(createdNetwork.name()));
         }
 
         Set<String> publicIPAddressNames = new HashSet<>();
@@ -479,8 +477,8 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         }
         for (String publicIpCreatableKey : publicIpCreatableKeys) {
             PublicIPAddress createdPublicIPAddress = (PublicIPAddress) createdVirtualMachines.createdRelatedResource(publicIpCreatableKey);
-            Assert.assertNotNull(createdPublicIPAddress);
-            Assert.assertTrue(publicIPAddressNames.contains(createdPublicIPAddress.name()));
+            Assertions.assertNotNull(createdPublicIPAddress);
+            Assertions.assertTrue(publicIPAddressNames.contains(createdPublicIPAddress.name()));
         }
     }
 
@@ -514,34 +512,32 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         final AtomicInteger resourceCount = new AtomicInteger(0);
         List<Creatable<VirtualMachine>> virtualMachineCreatables = creatablesInfo.virtualMachineCreatables;
         computeManager.virtualMachines().createAsync(virtualMachineCreatables)
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable createdResource) {
-                        if (createdResource instanceof Resource) {
-                            Resource resource = (Resource) createdResource;
-                            System.out.println("Created: " + resource.id());
-                            if (resource instanceof VirtualMachine) {
-                                VirtualMachine virtualMachine = (VirtualMachine) resource;
-                                Assert.assertTrue(virtualMachineNames.contains(virtualMachine.name()));
-                                Assert.assertNotNull(virtualMachine.id());
-                            } else if (resource instanceof Network) {
-                                Network network = (Network) resource;
-                                Assert.assertTrue(networkNames.contains(network.name()));
-                                Assert.assertNotNull(network.id());
-                            } else if (resource instanceof PublicIPAddress) {
-                                PublicIPAddress publicIPAddress = (PublicIPAddress) resource;
-                                Assert.assertTrue(publicIPAddressNames.contains(publicIPAddress.name()));
-                                Assert.assertNotNull(publicIPAddress.id());
-                            }
+                .map(createdResource -> {
+                    if (createdResource instanceof Resource) {
+                        Resource resource = (Resource) createdResource;
+                        System.out.println("Created: " + resource.id());
+                        if (resource instanceof VirtualMachine) {
+                            VirtualMachine virtualMachine = (VirtualMachine) resource;
+                            Assertions.assertTrue(virtualMachineNames.contains(virtualMachine.name()));
+                            Assertions.assertNotNull(virtualMachine.id());
+                        } else if (resource instanceof Network) {
+                            Network network = (Network) resource;
+                            Assertions.assertTrue(networkNames.contains(network.name()));
+                            Assertions.assertNotNull(network.id());
+                        } else if (resource instanceof PublicIPAddress) {
+                            PublicIPAddress publicIPAddress = (PublicIPAddress) resource;
+                            Assertions.assertTrue(publicIPAddressNames.contains(publicIPAddress.name()));
+                            Assertions.assertNotNull(publicIPAddress.id());
                         }
-                        resourceCount.incrementAndGet();
-                        return createdResource;
                     }
-                }).toBlocking().last();
+                    resourceCount.incrementAndGet();
+                    return createdResource;
+                })
+                .singleOrEmpty();
         // 1 resource group, 1 storage, 5 network, 5 publicIp, 5 nic, 5 virtual machines
         // Additional one for CreatableUpdatableResourceRoot.
         // TODO - ans - We should not emit CreatableUpdatableResourceRoot.
-        Assert.assertEquals(resourceCount.get(), 23);
+        Assertions.assertEquals(resourceCount.get(), 23);
     }
 
     @Test
@@ -586,16 +582,16 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         // Validate the unmanaged data disks
         //
         Map<Integer, VirtualMachineUnmanagedDataDisk> unmanagedDataDisks = virtualMachine.unmanagedDataDisks();
-        Assert.assertNotNull(unmanagedDataDisks);
-        Assert.assertEquals(2, unmanagedDataDisks.size());
+        Assertions.assertNotNull(unmanagedDataDisks);
+        Assertions.assertEquals(2, unmanagedDataDisks.size());
         VirtualMachineUnmanagedDataDisk firstUnmanagedDataDisk = unmanagedDataDisks.get(2);
-        Assert.assertNotNull(firstUnmanagedDataDisk);
+        Assertions.assertNotNull(firstUnmanagedDataDisk);
         VirtualMachineUnmanagedDataDisk secondUnmanagedDataDisk = unmanagedDataDisks.get(3);
-        Assert.assertNotNull(secondUnmanagedDataDisk);
+        Assertions.assertNotNull(secondUnmanagedDataDisk);
         String createdVhdUri1 = firstUnmanagedDataDisk.vhdUri();
         String createdVhdUri2 = secondUnmanagedDataDisk.vhdUri();
-        Assert.assertNotNull(createdVhdUri1);
-        Assert.assertNotNull(createdVhdUri2);
+        Assertions.assertNotNull(createdVhdUri1);
+        Assertions.assertNotNull(createdVhdUri2);
         // delete the virtual machine
         //
         computeManager.virtualMachines().deleteById(virtualMachine.id());
@@ -622,15 +618,15 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         // Validate the unmanaged data disks
         //
         unmanagedDataDisks = virtualMachine.unmanagedDataDisks();
-        Assert.assertNotNull(unmanagedDataDisks);
-        Assert.assertEquals(1, unmanagedDataDisks.size());
+        Assertions.assertNotNull(unmanagedDataDisks);
+        Assertions.assertEquals(1, unmanagedDataDisks.size());
         firstUnmanagedDataDisk = null;
         for(VirtualMachineUnmanagedDataDisk unmanagedDisk : unmanagedDataDisks.values()) {
             firstUnmanagedDataDisk = unmanagedDisk;
             break;
         }
-        Assert.assertNotNull(firstUnmanagedDataDisk.vhdUri());
-        Assert.assertTrue(firstUnmanagedDataDisk.vhdUri().equalsIgnoreCase(createdVhdUri1));
+        Assertions.assertNotNull(firstUnmanagedDataDisk.vhdUri());
+        Assertions.assertTrue(firstUnmanagedDataDisk.vhdUri().equalsIgnoreCase(createdVhdUri1));
         // Update the VM by attaching another existing data disk
         //
         virtualMachine.update()
@@ -642,8 +638,8 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         // Validate the unmanaged data disks
         //
         unmanagedDataDisks = virtualMachine.unmanagedDataDisks();
-        Assert.assertNotNull(unmanagedDataDisks);
-        Assert.assertEquals(2, unmanagedDataDisks.size());
+        Assertions.assertNotNull(unmanagedDataDisks);
+        Assertions.assertEquals(2, unmanagedDataDisks.size());
     }
 
 
@@ -665,13 +661,13 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
 
         //checking to see if withTag correctly update
         virtualMachine.update().withTag("test", "testValue").apply();
-        Assert.assertEquals("testValue", virtualMachine.inner().getTags().get("test"));
+        Assertions.assertEquals("testValue", virtualMachine.inner().getTags().get("test"));
 
         //checking to see if withTags correctly updates
         Map<String, String> testTags = new HashMap<String, String>();
         testTags.put("testTag", "testValue");
         virtualMachine.update().withTags(testTags).apply();
-        Assert.assertEquals(testTags, virtualMachine.inner().getTags());
+        Assertions.assertEquals(testTags, virtualMachine.inner().getTags());
 
     }
 
@@ -697,9 +693,9 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         installGit.add("sudo apt-get install -y git");
 
         RunCommandResult runResult = virtualMachine.runShellScript(installGit, new ArrayList<RunCommandInputParameter>());
-        Assert.assertNotNull(runResult);
-        Assert.assertNotNull(runResult.value());
-        Assert.assertTrue(runResult.value().size() > 0);
+        Assertions.assertNotNull(runResult);
+        Assertions.assertNotNull(runResult.value());
+        Assertions.assertTrue(runResult.value().size() > 0);
     }
 
     private CreatablesInfo prepareCreatableVirtualMachines(Region region,

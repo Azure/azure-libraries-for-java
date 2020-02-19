@@ -7,26 +7,11 @@
 package com.azure.management.compute;
 
 import com.azure.core.annotation.Fluent;
-import reactor.core.publisher.Mono;
-
-import java.util.List;
+import com.azure.management.resources.fluentcore.collection.SupportsSimpleListing;
 
 /**
  * Entry point to virtual machine image extension versions.
  */
 @Fluent
-public interface VirtualMachineExtensionImageVersions {
-    /**
-     * Lists all the resources of the virtual machine extension image version.
-     *
-     * @return A {@link List} of resources
-     */
-    List<VirtualMachineExtensionImageVersion> list();
-
-    /**
-     * Lists all the resources of the virtual machine extension image version.
-     *
-     * @return A {@link Mono<List>} of resources
-     */
-    Mono<List<VirtualMachineExtensionImageVersion>> listAsync();
+public interface VirtualMachineExtensionImageVersions extends SupportsSimpleListing<VirtualMachineExtensionImageVersion> {
 }

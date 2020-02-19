@@ -6,6 +6,7 @@
 
 package com.azure.management.compute;
 
+import com.azure.management.RestClient;
 import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.LoadBalancerFrontend;
 import com.azure.management.network.LoadBalancerPublicFrontend;
@@ -21,10 +22,9 @@ import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -71,35 +71,35 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
 
         // Checks the zone assigned to the virtual machine
         //
-        Assert.assertNotNull(virtualMachine.availabilityZones());
-        Assert.assertFalse(virtualMachine.availabilityZones().isEmpty());
-        Assert.assertTrue(virtualMachine.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
+        Assertions.assertNotNull(virtualMachine.availabilityZones());
+        Assertions.assertFalse(virtualMachine.availabilityZones().isEmpty());
+        Assertions.assertTrue(virtualMachine.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
 
         //Check the proximity placement group information
-        Assert.assertNotNull(virtualMachine.proximityPlacementGroup());
-        Assert.assertEquals(ProximityPlacementGroupType.STANDARD, virtualMachine.proximityPlacementGroup().proximityPlacementGroupType());
-        Assert.assertNotNull(virtualMachine.proximityPlacementGroup().virtualMachineIds());
-        Assert.assertTrue(virtualMachine.id().equalsIgnoreCase(virtualMachine.proximityPlacementGroup().virtualMachineIds().get(0)));
+        Assertions.assertNotNull(virtualMachine.proximityPlacementGroup());
+        Assertions.assertEquals(ProximityPlacementGroupType.STANDARD, virtualMachine.proximityPlacementGroup().proximityPlacementGroupType());
+        Assertions.assertNotNull(virtualMachine.proximityPlacementGroup().virtualMachineIds());
+        Assertions.assertTrue(virtualMachine.id().equalsIgnoreCase(virtualMachine.proximityPlacementGroup().virtualMachineIds().get(0)));
 
         // Checks the zone assigned to the implicitly created public IP address.
         // Implicitly created PIP will be BASIC
         //
         PublicIPAddress publicIPAddress = virtualMachine.getPrimaryPublicIPAddress();
-        Assert.assertNotNull(publicIPAddress.availabilityZones());
-        Assert.assertFalse(publicIPAddress.availabilityZones().isEmpty());
-        Assert.assertTrue(publicIPAddress.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
+        Assertions.assertNotNull(publicIPAddress.availabilityZones());
+        Assertions.assertFalse(publicIPAddress.availabilityZones().isEmpty());
+        Assertions.assertTrue(publicIPAddress.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
         // Checks the zone assigned to the implicitly created managed OS disk.
         //
         String osDiskId = virtualMachine.osDiskId();    // Only VM based on managed disk can have zone assigned
-        Assert.assertNotNull(osDiskId);
-        Assert.assertFalse(osDiskId.isEmpty());
+        Assertions.assertNotNull(osDiskId);
+        Assertions.assertFalse(osDiskId.isEmpty());
         Disk osDisk = computeManager.disks().getById(osDiskId);
-        Assert.assertNotNull(osDisk);
+        Assertions.assertNotNull(osDisk);
         // Checks the zone assigned to the implicitly created managed OS disk.
         //
-        Assert.assertNotNull(osDisk.availabilityZones());
-        Assert.assertFalse(osDisk.availabilityZones().isEmpty());
-        Assert.assertTrue(osDisk.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
+        Assertions.assertNotNull(osDisk.availabilityZones());
+        Assertions.assertFalse(osDisk.availabilityZones().isEmpty());
+        Assertions.assertTrue(osDisk.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
     }
 
     @Test
@@ -150,41 +150,41 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 .create();
         // Checks the zone assigned to the virtual machine
         //
-        Assert.assertNotNull(virtualMachine.availabilityZones());
-        Assert.assertFalse(virtualMachine.availabilityZones().isEmpty());
-        Assert.assertTrue(virtualMachine.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
+        Assertions.assertNotNull(virtualMachine.availabilityZones());
+        Assertions.assertFalse(virtualMachine.availabilityZones().isEmpty());
+        Assertions.assertTrue(virtualMachine.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
         // Checks the zone assigned to the explicitly created public IP address.
         //
         publicIPAddress = virtualMachine.getPrimaryPublicIPAddress();
-        Assert.assertNotNull(publicIPAddress.sku());
-        Assert.assertTrue(publicIPAddress.sku().equals(PublicIPSkuType.BASIC));
-        Assert.assertNotNull(publicIPAddress.availabilityZones());
-        Assert.assertFalse(publicIPAddress.availabilityZones().isEmpty());
-        Assert.assertTrue(publicIPAddress.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
+        Assertions.assertNotNull(publicIPAddress.sku());
+        Assertions.assertTrue(publicIPAddress.sku().equals(PublicIPSkuType.BASIC));
+        Assertions.assertNotNull(publicIPAddress.availabilityZones());
+        Assertions.assertFalse(publicIPAddress.availabilityZones().isEmpty());
+        Assertions.assertTrue(publicIPAddress.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
         // Check the zone assigned to the explicitly created data disk
         //
         Map<Integer, VirtualMachineDataDisk> dataDisks = virtualMachine.dataDisks();
-        Assert.assertNotNull(dataDisks);
-        Assert.assertFalse(dataDisks.isEmpty());
+        Assertions.assertNotNull(dataDisks);
+        Assertions.assertFalse(dataDisks.isEmpty());
         VirtualMachineDataDisk dataDisk1 = dataDisks.values().iterator().next();
-        Assert.assertNotNull(dataDisk1.id());
+        Assertions.assertNotNull(dataDisk1.id());
         dataDisk = computeManager.disks().getById(dataDisk1.id());
-        Assert.assertNotNull(dataDisk);
-        Assert.assertNotNull(dataDisk.availabilityZones());
-        Assert.assertFalse(dataDisk.availabilityZones().isEmpty());
-        Assert.assertTrue(dataDisk.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
+        Assertions.assertNotNull(dataDisk);
+        Assertions.assertNotNull(dataDisk.availabilityZones());
+        Assertions.assertFalse(dataDisk.availabilityZones().isEmpty());
+        Assertions.assertTrue(dataDisk.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
         // Checks the zone assigned to the implicitly created managed OS disk.
         //
         String osDiskId = virtualMachine.osDiskId();    // Only VM based on managed disk can have zone assigned
-        Assert.assertNotNull(osDiskId);
-        Assert.assertFalse(osDiskId.isEmpty());
+        Assertions.assertNotNull(osDiskId);
+        Assertions.assertFalse(osDiskId.isEmpty());
         Disk osDisk = computeManager.disks().getById(osDiskId);
-        Assert.assertNotNull(osDisk);
+        Assertions.assertNotNull(osDisk);
         // Checks the zone assigned to the implicitly created managed OS disk.
         //
-        Assert.assertNotNull(osDisk.availabilityZones());
-        Assert.assertFalse(osDisk.availabilityZones().isEmpty());
-        Assert.assertTrue(osDisk.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
+        Assertions.assertNotNull(osDisk.availabilityZones());
+        Assertions.assertFalse(osDisk.availabilityZones().isEmpty());
+        Assertions.assertTrue(osDisk.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
     }
 
     @Test
@@ -220,20 +220,20 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 .create();
         // Checks the zone assigned to the virtual machine
         //
-        Assert.assertNotNull(virtualMachine.availabilityZones());
-        Assert.assertFalse(virtualMachine.availabilityZones().isEmpty());
-        Assert.assertTrue(virtualMachine.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
+        Assertions.assertNotNull(virtualMachine.availabilityZones());
+        Assertions.assertFalse(virtualMachine.availabilityZones().isEmpty());
+        Assertions.assertTrue(virtualMachine.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
         // Check the zone resilient PIP
         //
         publicIPAddress = virtualMachine.getPrimaryPublicIPAddress();
-        Assert.assertNotNull(publicIPAddress.sku());
-        Assert.assertTrue(publicIPAddress.sku().equals(PublicIPSkuType.STANDARD));
-        Assert.assertNotNull(publicIPAddress.availabilityZones());  // Though zone-resilient, this property won't be populated by the service.
-        Assert.assertTrue(publicIPAddress.availabilityZones().isEmpty());
+        Assertions.assertNotNull(publicIPAddress.sku());
+        Assertions.assertTrue(publicIPAddress.sku().equals(PublicIPSkuType.STANDARD));
+        Assertions.assertNotNull(publicIPAddress.availabilityZones());  // Though zone-resilient, this property won't be populated by the service.
+        Assertions.assertTrue(publicIPAddress.availabilityZones().isEmpty());
     }
 
     @Test
-    @Ignore("Though valid scenario, ignoring it due to network service bug")
+    @Disabled("Though valid scenario, ignoring it due to network service bug")
     public void canCreateRegionalNonAvailSetVirtualMachinesAndAssociateThemWithSingleBackendPoolOfZoneResilientLoadBalancer() throws Exception {
         final String networkName = generateRandomResourceName("net", 10);
         Network network = networkManager.networks().define(networkName)
@@ -336,27 +336,27 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
         // rx.Completable.merge(firstVirtualMachine.startAsync(), secondVirtualMachine.startAsync()).await();
 
         // Verify frontends
-        Assert.assertEquals(1, lb.frontends().size());
-        Assert.assertEquals(1, lb.publicFrontends().size());
-        Assert.assertEquals(0, lb.privateFrontends().size());
+        Assertions.assertEquals(1, lb.frontends().size());
+        Assertions.assertEquals(1, lb.publicFrontends().size());
+        Assertions.assertEquals(0, lb.privateFrontends().size());
         LoadBalancerFrontend frontend = lb.frontends().values().iterator().next();
-        Assert.assertTrue(frontend.isPublic());
+        Assertions.assertTrue(frontend.isPublic());
         LoadBalancerPublicFrontend publicFrontend = (LoadBalancerPublicFrontend) frontend;
-        Assert.assertTrue(publicIPAddress.id().equalsIgnoreCase(publicFrontend.publicIPAddressId()));
+        Assertions.assertTrue(publicIPAddress.id().equalsIgnoreCase(publicFrontend.publicIPAddressId()));
 
         // Verify backends
-        Assert.assertEquals(1, lb.backends().size());
+        Assertions.assertEquals(1, lb.backends().size());
 
         // Verify probes
-        Assert.assertEquals(1, lb.tcpProbes().size());
-        Assert.assertTrue(lb.tcpProbes().containsKey("tcpProbe-1"));
+        Assertions.assertEquals(1, lb.tcpProbes().size());
+        Assertions.assertTrue(lb.tcpProbes().containsKey("tcpProbe-1"));
 
         // Verify rules
-        Assert.assertEquals(1, lb.loadBalancingRules().size());
-        Assert.assertTrue(lb.loadBalancingRules().containsKey("rule-1"));
+        Assertions.assertEquals(1, lb.loadBalancingRules().size());
+        Assertions.assertTrue(lb.loadBalancingRules().containsKey("rule-1"));
         LoadBalancingRule rule = lb.loadBalancingRules().get("rule-1");
-        Assert.assertNotNull(rule.backend());
-        Assert.assertTrue(rule.probe().name().equalsIgnoreCase("tcpProbe-1"));
+        Assertions.assertNotNull(rule.backend());
+        Assertions.assertTrue(rule.probe().name().equalsIgnoreCase("tcpProbe-1"));
 
         // Note that above configuration is not possible for BASIC LB, BASIC LB has following limitation
         // It supports VMs only in a single availability Set in a backend pool, though multiple backend pool
@@ -368,7 +368,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
     }
 
     @Test
-    @Ignore("Though valid scenario, ignoring it due to network service bug")
+    @Disabled("Though valid scenario, ignoring it due to network service bug")
     public void canCreateZonedVirtualMachinesAndAssociateThemWithSingleBackendPoolOfZoneResilientLoadBalancer() throws Exception {
         final String networkName = generateRandomResourceName("net", 10);
         Network network = networkManager.networks().define(networkName)

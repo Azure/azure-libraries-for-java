@@ -5,7 +5,6 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.BootDiagnosticsInstanceView;
 import com.azure.management.compute.DiskInstanceView;
 import com.azure.management.compute.InstanceViewStatus;
@@ -13,6 +12,7 @@ import com.azure.management.compute.MaintenanceRedeployStatus;
 import com.azure.management.compute.VirtualMachineAgentInstanceView;
 import com.azure.management.compute.VirtualMachineExtensionInstanceView;
 import com.azure.management.compute.VirtualMachineInstanceView;
+import com.azure.management.compute.models.VirtualMachineInstanceViewInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.List;
@@ -20,7 +20,6 @@ import java.util.List;
 /**
  * The implementation of ComputeUsage.
  */
-@LangDefinition
 class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceViewInner> implements VirtualMachineInstanceView {
     VirtualMachineInstanceViewImpl(VirtualMachineInstanceViewInner innerObject) {
         super(innerObject);

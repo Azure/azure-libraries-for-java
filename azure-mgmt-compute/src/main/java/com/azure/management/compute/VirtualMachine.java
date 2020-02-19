@@ -325,7 +325,7 @@ public interface VirtualMachine extends
     /**
      * @return a representation of the deferred computation of this call, returning extensions attached to the virtual machine
      */
-    PagedFlux<VirtualMachineExtension> listExtensionsAsync();
+    Mono<List<VirtualMachineExtension>> listExtensionsAsync();
 
     /**
      * @return extensions attached to the virtual machine

@@ -6,15 +6,16 @@
 
 package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.Network;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 
@@ -68,19 +69,19 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
                 .withOSDiskStorageAccountType(StorageAccountTypes.PREMIUM_LRS) // Override the default STANDARD_LRS
                 .create();
 
-        Assert.assertTrue(vmScaleSet.managedOSDiskStorageAccountType().equals(StorageAccountTypes.PREMIUM_LRS));
+        Assertions.assertTrue(vmScaleSet.managedOSDiskStorageAccountType().equals(StorageAccountTypes.PREMIUM_LRS));
         VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();
-        PagedList<VirtualMachineScaleSetVM> virtualMachines = virtualMachineScaleSetVMs.list();
-        Assert.assertEquals(virtualMachines.size(), vmScaleSet.capacity());
+        PagedIterable<VirtualMachineScaleSetVM> virtualMachines = virtualMachineScaleSetVMs.list();
+        Assertions.assertEquals(TestUtilities.getPagedIterableSize(virtualMachines), vmScaleSet.capacity());
         for (VirtualMachineScaleSetVM vm : virtualMachines) {
-            Assert.assertTrue(vm.isOSBasedOnPlatformImage());
-            Assert.assertFalse(vm.isOSBasedOnCustomImage());
-            Assert.assertFalse(vm.isOSBasedOnStoredImage());
-            Assert.assertTrue(vm.isManagedDiskEnabled());
-            Assert.assertNotNull(vm.unmanagedDataDisks());
-            Assert.assertEquals(vm.unmanagedDataDisks().size(), 0);
-            Assert.assertNotNull(vm.dataDisks());
-            Assert.assertEquals(vm.dataDisks().size(), 3);
+            Assertions.assertTrue(vm.isOSBasedOnPlatformImage());
+            Assertions.assertFalse(vm.isOSBasedOnCustomImage());
+            Assertions.assertFalse(vm.isOSBasedOnStoredImage());
+            Assertions.assertTrue(vm.isManagedDiskEnabled());
+            Assertions.assertNotNull(vm.unmanagedDataDisks());
+            Assertions.assertEquals(vm.unmanagedDataDisks().size(), 0);
+            Assertions.assertNotNull(vm.dataDisks());
+            Assertions.assertEquals(vm.dataDisks().size(), 3);
         }
         vmScaleSet.update()
                 .withoutDataDisk(0)
@@ -89,10 +90,10 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
 
         virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();
         virtualMachines = virtualMachineScaleSetVMs.list();
-        Assert.assertEquals(virtualMachines.size(), vmScaleSet.capacity());
+        Assertions.assertEquals(TestUtilities.getPagedIterableSize(virtualMachines), vmScaleSet.capacity());
         for (VirtualMachineScaleSetVM vm : virtualMachines) {
-            Assert.assertNotNull(vm.dataDisks());
-            Assert.assertEquals(vm.dataDisks().size(), 3);
+            Assertions.assertNotNull(vm.dataDisks());
+            Assertions.assertEquals(vm.dataDisks().size(), 3);
         }
 
         // test attach/detach data disk to single instance
@@ -118,7 +119,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
         } catch (IllegalStateException e) {
             expectedException = e;
         }
-        Assert.assertNotNull(expectedException);
+        Assertions.assertNotNull(expectedException);
         // cannot detach disk from VMSS model
         expectedException = null;
         try {
@@ -127,7 +128,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
         } catch (IllegalStateException e) {
             expectedException = e;
         }
-        Assert.assertNotNull(expectedException);
+        Assertions.assertNotNull(expectedException);
         // cannot attach disk with same lun
         expectedException = null;
         try {
@@ -136,7 +137,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
         } catch (IllegalStateException e) {
             expectedException = e;
         }
-        Assert.assertNotNull(expectedException);
+        Assertions.assertNotNull(expectedException);
         // cannot attach disk with same lun
         expectedException = null;
         try {
@@ -146,14 +147,14 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
         } catch (IllegalStateException e) {
             expectedException = e;
         }
-        Assert.assertNotNull(expectedException);
+        Assertions.assertNotNull(expectedException);
 
         // attach disk
         final int vmssModelDiskCount = vm0.dataDisks().size();
         vm0.update()
                 .withExistingDataDisk(disk0, newDiskLun, CachingTypes.READ_WRITE)
                 .apply();
-        Assert.assertEquals(vmssModelDiskCount + 1, vm0.dataDisks().size());
+        Assertions.assertEquals(vmssModelDiskCount + 1, vm0.dataDisks().size());
 
         // cannot attach disk that already attached
         disk0.refresh();
@@ -165,13 +166,13 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
         } catch (IllegalStateException e) {
             expectedException = e;
         }
-        Assert.assertNotNull(expectedException);
+        Assertions.assertNotNull(expectedException);
 
         // detach disk
         vm0.update()
                 .withoutDataDisk(newDiskLun)
                 .apply();
-        Assert.assertEquals(vmssModelDiskCount, vm0.dataDisks().size());
+        Assertions.assertEquals(vmssModelDiskCount, vm0.dataDisks().size());
     }
 
     @Test
@@ -208,7 +209,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
                 .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
                 .create();
 
-        Assert.assertNotNull(vm);
+        Assertions.assertNotNull(vm);
 
         // Waiting for pip to be reachable
         //
@@ -225,7 +226,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
                 .fromVirtualMachine(vm)
                 .create();
 
-        Assert.assertNotNull(virtualMachineCustomImage);
+        Assertions.assertNotNull(virtualMachineCustomImage);
 
         Network network = this.networkManager
                 .networks()
@@ -251,23 +252,23 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
                 .create();
 
         VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();
-        PagedList<VirtualMachineScaleSetVM> virtualMachines = virtualMachineScaleSetVMs.list();
-        Assert.assertEquals(virtualMachines.size(), vmScaleSet.capacity());
+        PagedIterable<VirtualMachineScaleSetVM> virtualMachines = virtualMachineScaleSetVMs.list();
+        Assertions.assertEquals(TestUtilities.getPagedIterableSize(virtualMachines), vmScaleSet.capacity());
         for (VirtualMachineScaleSetVM vm1 : virtualMachines) {
-            Assert.assertTrue(vm1.isOSBasedOnCustomImage());
-            Assert.assertFalse(vm1.isOSBasedOnPlatformImage());
-            Assert.assertFalse(vm1.isOSBasedOnStoredImage());
-            Assert.assertTrue(vm1.isManagedDiskEnabled());
-            Assert.assertNotNull(vm1.unmanagedDataDisks());
-            Assert.assertEquals(vm1.unmanagedDataDisks().size(), 0);
-            Assert.assertNotNull(vm1.dataDisks());
-            Assert.assertEquals(vm1.dataDisks().size(), 2); // Disks from data disk image from custom image
-            Assert.assertTrue(vm1.dataDisks().containsKey(1));
+            Assertions.assertTrue(vm1.isOSBasedOnCustomImage());
+            Assertions.assertFalse(vm1.isOSBasedOnPlatformImage());
+            Assertions.assertFalse(vm1.isOSBasedOnStoredImage());
+            Assertions.assertTrue(vm1.isManagedDiskEnabled());
+            Assertions.assertNotNull(vm1.unmanagedDataDisks());
+            Assertions.assertEquals(vm1.unmanagedDataDisks().size(), 0);
+            Assertions.assertNotNull(vm1.dataDisks());
+            Assertions.assertEquals(vm1.dataDisks().size(), 2); // Disks from data disk image from custom image
+            Assertions.assertTrue(vm1.dataDisks().containsKey(1));
             VirtualMachineDataDisk disk = vm1.dataDisks().get(1);
-            Assert.assertEquals(disk.size(), 100);
-            Assert.assertTrue(vm1.dataDisks().containsKey(2));
+            Assertions.assertEquals(disk.size(), 100);
+            Assertions.assertTrue(vm1.dataDisks().containsKey(2));
             disk = vm1.dataDisks().get(2);
-            Assert.assertEquals(disk.size(), 50);
+            Assertions.assertEquals(disk.size(), 50);
         }
 
         vmScaleSet.deallocate();
@@ -296,23 +297,23 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
 //        virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();
 //        virtualMachines = virtualMachineScaleSetVMs.list();
 //        for (VirtualMachineScaleSetVM vm1 : virtualMachines) {
-//            Assert.assertTrue(vm1.isOSBasedOnCustomImage());
-//            Assert.assertFalse(vm1.isOSBasedOnPlatformImage());
-//            Assert.assertFalse(vm1.isOSBasedOnStoredImage());
-//            Assert.assertTrue(vm1.isManagedDiskEnabled());
-//            Assert.assertNotNull(vm1.unmanagedDataDisks());
-//            Assert.assertEquals(vm1.unmanagedDataDisks().size(), 0);
-//            Assert.assertNotNull(vm1.dataDisks());
-//            Assert.assertEquals(vm1.dataDisks().size(), 3);
-//            Assert.assertTrue(vm1.dataDisks().containsKey(1));
+//            Assertions.assertTrue(vm1.isOSBasedOnCustomImage());
+//            Assertions.assertFalse(vm1.isOSBasedOnPlatformImage());
+//            Assertions.assertFalse(vm1.isOSBasedOnStoredImage());
+//            Assertions.assertTrue(vm1.isManagedDiskEnabled());
+//            Assertions.assertNotNull(vm1.unmanagedDataDisks());
+//            Assertions.assertEquals(vm1.unmanagedDataDisks().size(), 0);
+//            Assertions.assertNotNull(vm1.dataDisks());
+//            Assertions.assertEquals(vm1.dataDisks().size(), 3);
+//            Assertions.assertTrue(vm1.dataDisks().containsKey(1));
 //            VirtualMachineDataDisk disk = vm1.dataDisks().get(1);
-//            Assert.assertEquals(disk.size(), 200);
-//            Assert.assertTrue(vm1.dataDisks().containsKey(2));
+//            Assertions.assertEquals(disk.size(), 200);
+//            Assertions.assertTrue(vm1.dataDisks().containsKey(2));
 //            disk = vm1.dataDisks().get(2);
-//            Assert.assertEquals(disk.size(), 50);
-//            Assert.assertTrue(vm1.dataDisks().containsKey(0));
+//            Assertions.assertEquals(disk.size(), 50);
+//            Assertions.assertTrue(vm1.dataDisks().containsKey(0));
 //            disk = vm1.dataDisks().get(0);
-//            Assert.assertEquals(disk.size(), 100);
+//            Assertions.assertEquals(disk.size(), 100);
 //        }
     }
 }

@@ -6,7 +6,9 @@
 
 package com.azure.management.compute;
 
-import com.microsoft.azure.CloudException;
+import com.azure.core.management.CloudException;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.network.Network;
 import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.PublicIPAddress;
@@ -15,14 +17,12 @@ import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.StorageAccount;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
-import rx.Completable;
-import rx.functions.Func1;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -137,9 +137,7 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
 
         // Start the parallel creation of everything
         computeManager.virtualMachines().createAsync(new ArrayList<>(vmDefinitions.values()))
-           .map(new Func1<Indexable, Indexable>() {
-                @Override
-                public Indexable call(Indexable createdResource) {
+                .map(createdResource -> {
                     if (createdResource instanceof Resource) {
                         Resource resource = (Resource) createdResource;
                         System.out.println("Created: " + resource.id());
@@ -160,15 +158,12 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
                         }
                     }
                     return createdResource;
-                }
-           })
-           .onErrorReturn(new Func1<Throwable, Indexable>() {
-                @Override
-                public Indexable call(Throwable throwable) {
-                    errors.add(throwable);
-                    return null;
-                }
-            }).toBlocking().last();
+                })
+                .onErrorResume(e -> {
+                    errors.add(e);
+                    return Mono.empty();
+                })
+                .singleOrEmpty();
 
         // Delete remaining successfully created NICs of failed VM creations
         Collection<String> nicIdsToDelete = new ArrayList<>();
@@ -183,7 +178,7 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
         }
 
         // Delete remaining successfully created resources of failed VM creations
-        Collection<Completable> deleteObservables = new ArrayList<>();
+        Collection<Mono<?>> deleteObservables = new ArrayList<>();
         for (Collection<Creatable<? extends Resource>> relatedResources : vmNonNicResourceDefinitions.values()) {
             for (Creatable<? extends Resource> resource : relatedResources) {
                 String createdResourceId = createdResourceIds.get(resource.key());
@@ -194,7 +189,7 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
         }
 
         // Delete as much as possible, postponing the errors till the end
-        Completable.mergeDelayError(deleteObservables).await();
+        Flux.mergeSequentialDelayError(deleteObservables, 5, 3);
 
         // Show any errors
         for (Throwable error : errors) {
@@ -211,23 +206,23 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
 
         // Verifications
         final int successfulVMCount = desiredVMCount - vmNonNicResourceDefinitions.size();
-        final int actualVMCount = computeManager.virtualMachines().listByResourceGroup(resourceGroupName).size();
+        final int actualVMCount = TestUtilities.getPagedIterableSize(computeManager.virtualMachines().listByResourceGroup(resourceGroupName));
         System.out.println("Number of actual successful VMs: " + actualVMCount);
 
-        Assert.assertEquals(successfulVMCount, actualVMCount);
-        final int actualNicCount = networkManager.networkInterfaces().listByResourceGroup(resourceGroupName).size();
-        Assert.assertEquals(successfulVMCount, actualNicCount);
-        final int actualNetworkCount = networkManager.networks().listByResourceGroup(resourceGroupName).size();
-        Assert.assertEquals(successfulVMCount, actualNetworkCount);
-        final int actualPipCount = networkManager.publicIPAddresses().listByResourceGroup(resourceGroupName).size();
-        Assert.assertEquals(successfulVMCount, actualPipCount);
-        final int actualAvailabilitySetCount = computeManager.availabilitySets().listByResourceGroup(resourceGroupName).size();
-        Assert.assertEquals(successfulVMCount, actualAvailabilitySetCount);
-        final int actualStorageAccountCount = storageManager.storageAccounts().listByResourceGroup(resourceGroupName).size();
-        Assert.assertEquals(successfulVMCount, actualStorageAccountCount);
+        Assertions.assertEquals(successfulVMCount, actualVMCount);
+        final int actualNicCount = TestUtilities.getPagedIterableSize(networkManager.networkInterfaces().listByResourceGroup(resourceGroupName));
+        Assertions.assertEquals(successfulVMCount, actualNicCount);
+        final int actualNetworkCount = TestUtilities.getPagedIterableSize(networkManager.networks().listByResourceGroup(resourceGroupName));
+        Assertions.assertEquals(successfulVMCount, actualNetworkCount);
+        final int actualPipCount = TestUtilities.getPagedIterableSize(networkManager.publicIPAddresses().listByResourceGroup(resourceGroupName));
+        Assertions.assertEquals(successfulVMCount, actualPipCount);
+        final int actualAvailabilitySetCount = TestUtilities.getPagedIterableSize(computeManager.availabilitySets().listByResourceGroup(resourceGroupName));
+        Assertions.assertEquals(successfulVMCount, actualAvailabilitySetCount);
+        final int actualStorageAccountCount = TestUtilities.getPagedIterableSize(storageManager.storageAccounts().listByResourceGroup(resourceGroupName));
+        Assertions.assertEquals(successfulVMCount, actualStorageAccountCount);
 
         // Verify that at least one VM failed.
         // TODO: Ideally only one, but today the internal RX logic terminates eagerly -- need to change that for parallel creation to terminate more "lazily" in the future
-        Assert.assertTrue(successfulVMCount < desiredVMCount);
+        Assertions.assertTrue(successfulVMCount < desiredVMCount);
     }
  }

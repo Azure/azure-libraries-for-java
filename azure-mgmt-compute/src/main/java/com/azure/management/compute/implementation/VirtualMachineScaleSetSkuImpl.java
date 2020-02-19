@@ -5,16 +5,15 @@
  */
 package com.azure.management.compute.implementation;
 
-import com.azure.management.apigeneration.LangDefinition;
 import com.azure.management.compute.VirtualMachineScaleSetSku;
 import com.azure.management.compute.VirtualMachineScaleSetSkuCapacity;
 import com.azure.management.compute.VirtualMachineScaleSetSkuTypes;
+import com.azure.management.compute.models.VirtualMachineScaleSetSkuInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * Implementation of VirtualMachineScaleSetSku.
  */
-@LangDefinition
 class VirtualMachineScaleSetSkuImpl
         extends WrapperImpl<VirtualMachineScaleSetSkuInner>
         implements VirtualMachineScaleSetSku {

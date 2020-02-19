@@ -5,12 +5,11 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.management.compute.models.VirtualMachineInner;
+import com.azure.management.compute.models.VirtualMachinesInner;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.azure.management.apigeneration.LangDefinition;
-import com.azure.management.compute.DataDisk;
 import com.azure.management.compute.HardwareProfile;
-import com.azure.management.compute.NetworkInterfaceReference;
 import com.azure.management.compute.NetworkProfile;
 import com.azure.management.compute.OSDisk;
 import com.azure.management.compute.OSProfile;
@@ -26,12 +25,8 @@ import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.network.implementation.NetworkManager;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.exceptions.Exceptions;
-import rx.functions.Func1;
+import reactor.core.Exceptions;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +34,6 @@ import java.util.List;
 /**
  * The implementation for VirtualMachines.
  */
-@LangDefinition
 class VirtualMachinesImpl
         extends TopLevelModifiableResourcesImpl<
         VirtualMachine,
@@ -77,13 +71,8 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public Completable deallocateAsync(String groupName, String name) {
-        return this.inner().deallocateAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> deallocateAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(deallocateAsync(groupName, name), callback);
+    public Mono<Void> deallocateAsync(String groupName, String name) {
+        return this.inner().deallocateAsync(groupName, name);
     }
 
     @Override
@@ -92,28 +81,18 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public Completable generalizeAsync(String groupName, String name) {
-        return this.inner().generalizeAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> generalizeAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(generalizeAsync(groupName, name), callback);
+    public Mono<Void> generalizeAsync(String groupName, String name) {
+        return this.inner().generalizeAsync(groupName, name);
     }
 
     @Override
     public void powerOff(String groupName, String name) {
-        this.inner().powerOff(groupName, name);
+        this.powerOffAsync(groupName, name).block();
     }
 
     @Override
-    public Completable powerOffAsync(String groupName, String name) {
-        return this.inner().powerOffAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> powerOffAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(powerOffAsync(groupName, name), callback);
+    public Mono<Void> powerOffAsync(String groupName, String name) {
+        return this.inner().powerOffAsync(groupName, name, null);
     }
 
     @Override
@@ -122,13 +101,8 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public Completable restartAsync(String groupName, String name) {
-        return this.inner().restartAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> restartAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(restartAsync(groupName, name), callback);
+    public Mono<Void> restartAsync(String groupName, String name) {
+        return this.inner().restartAsync(groupName, name);
     }
 
     @Override
@@ -137,13 +111,8 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public Completable startAsync(String groupName, String name) {
-        return this.inner().startAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> startAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(startAsync(groupName, name), callback);
+    public Mono<Void> startAsync(String groupName, String name) {
+        return this.inner().startAsync(groupName, name);
     }
 
     @Override
@@ -152,13 +121,8 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public Completable redeployAsync(String groupName, String name) {
-        return this.inner().redeployAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> redeployAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(redeployAsync(groupName, name), callback);
+    public Mono<Void> redeployAsync(String groupName, String name) {
+        return this.inner().redeployAsync(groupName, name);
     }
 
     @Override
@@ -166,36 +130,24 @@ class VirtualMachinesImpl
                           String containerName,
                           String vhdPrefix,
                           boolean overwriteVhd) {
-        return this.captureAsync(groupName, name, containerName, vhdPrefix, overwriteVhd).toBlocking().last();
+        return this.captureAsync(groupName, name, containerName, vhdPrefix, overwriteVhd).block();
     }
 
     @Override
-    public Observable<String> captureAsync(String groupName, String name, String containerName, String vhdPrefix, boolean overwriteVhd) {
+    public Mono<String> captureAsync(String groupName, String name, String containerName, String vhdPrefix, boolean overwriteVhd) {
         VirtualMachineCaptureParameters parameters = new VirtualMachineCaptureParameters();
         parameters.withDestinationContainerName(containerName);
         parameters.withOverwriteVhds(overwriteVhd);
         parameters.withVhdPrefix(vhdPrefix);
         return this.inner().captureAsync(groupName, name, parameters)
-                .map(new Func1<VirtualMachineCaptureResultInner, String>() {
-                    @Override
-                    public String call(VirtualMachineCaptureResultInner innerResult) {
-                        if (innerResult == null) {
-                            return null;
-                        }
+                .map(captureResultInner -> {
+                    try {
                         ObjectMapper mapper = new ObjectMapper();
-                        //Object to JSON string
-                        try {
-                            return mapper.writeValueAsString(innerResult);
-                        } catch (JsonProcessingException e) {
-                            throw Exceptions.propagate(e);
-                        }
+                        return mapper.writeValueAsString(captureResultInner);
+                    } catch (JsonProcessingException ex) {
+                        throw Exceptions.propagate(ex);
                     }
                 });
-    }
-
-    @Override
-    public ServiceFuture<String> captureAsync(String groupName, String name, String containerName, String vhdPrefix, boolean overwriteVhd, ServiceCallback<String> callback) {
-        return ServiceFuture.fromBody(captureAsync(groupName, name, containerName, vhdPrefix, overwriteVhd), callback);
     }
 
     @Override
@@ -204,22 +156,17 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public Completable migrateToManagedAsync(String groupName, String name) {
-       return this.inner().convertToManagedDisksAsync(groupName, name).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> migrateToManagedAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(migrateToManagedAsync(groupName, name), callback);
+    public Mono<Void> migrateToManagedAsync(String groupName, String name) {
+       return this.inner().convertToManagedDisksAsync(groupName, name);
     }
 
     @Override
     public RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
-        return this.runPowerShellScriptAsync(groupName, name, scriptLines, scriptParameters).toBlocking().last();
+        return this.runPowerShellScriptAsync(groupName, name, scriptLines, scriptParameters).block();
     }
 
     @Override
-    public Observable<RunCommandResult> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Mono<RunCommandResult> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         RunCommandInput inputCommand = new RunCommandInput();
         inputCommand.withCommandId("RunPowerShellScript");
         inputCommand.withScript(scriptLines);
@@ -229,11 +176,11 @@ class VirtualMachinesImpl
 
     @Override
     public RunCommandResult runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
-        return this.runShellScriptAsync(groupName, name, scriptLines, scriptParameters).toBlocking().last();
+        return this.runShellScriptAsync(groupName, name, scriptLines, scriptParameters).block();
     }
 
     @Override
-    public Observable<RunCommandResult> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Mono<RunCommandResult> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         RunCommandInput inputCommand = new RunCommandInput();
         inputCommand.withCommandId("RunShellScript");
         inputCommand.withScript(scriptLines);
@@ -243,20 +190,13 @@ class VirtualMachinesImpl
 
     @Override
     public RunCommandResult runCommand(String groupName, String name, RunCommandInput inputCommand) {
-        return this.runCommandAsync(groupName, name, inputCommand).toBlocking().last();
+        return this.runCommandAsync(groupName, name, inputCommand).block();
     }
 
     @Override
-    public Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand) {
-        return this.inner().runCommandAsync(groupName, name, inputCommand).map(
-                new Func1<RunCommandResultInner, RunCommandResult>() {
-
-                    @Override
-                    public RunCommandResult call(RunCommandResultInner runCommandResultInner) {
-                        return new RunCommandResultImpl(runCommandResultInner);
-                    }
-                }
-        );
+    public Mono<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand) {
+        return this.inner().runCommandAsync(groupName, name, inputCommand)
+                .map(RunCommandResultImpl::new);
     }
 
     // Getters
@@ -273,11 +213,11 @@ class VirtualMachinesImpl
         VirtualMachineInner inner = new VirtualMachineInner();
         inner.withStorageProfile(new StorageProfile()
                 .withOsDisk(new OSDisk())
-                .withDataDisks(new ArrayList<DataDisk>()));
+                .withDataDisks(new ArrayList<>()));
         inner.withOsProfile(new OSProfile());
         inner.withHardwareProfile(new HardwareProfile());
         inner.withNetworkProfile(new NetworkProfile()
-                .withNetworkInterfaces(new ArrayList<NetworkInterfaceReference>()));
+                .withNetworkInterfaces(new ArrayList<>()));
         return new VirtualMachineImpl(name,
                 inner,
                 this.manager(),
@@ -291,7 +231,7 @@ class VirtualMachinesImpl
         if (virtualMachineInner == null) {
             return null;
         }
-        return new VirtualMachineImpl(virtualMachineInner.name(),
+        return new VirtualMachineImpl(virtualMachineInner.getName(),
                 virtualMachineInner,
                 this.manager(),
                 this.storageManager,

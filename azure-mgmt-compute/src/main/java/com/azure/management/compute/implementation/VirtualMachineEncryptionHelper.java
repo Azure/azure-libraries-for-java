@@ -13,6 +13,7 @@ import com.azure.management.compute.OperatingSystemTypes;
 import com.azure.management.compute.VirtualMachine;
 import com.azure.management.compute.VirtualMachineEncryptionConfiguration;
 import com.azure.management.compute.VirtualMachineExtension;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -196,6 +197,7 @@ class VirtualMachineEncryptionHelper {
      */
     private Mono<VirtualMachineExtension> getEncryptionExtensionInstalledInVMAsync() {
         return virtualMachine.listExtensionsAsync()
+                .flatMapMany(Flux::fromIterable)
                 // firstOrDefault() is used intentionally here instead of first() to ensure
                 // this method return empty observable if matching extension is not found.
                 .filter(extension -> EncryptionExtensionIdentifier.isEncryptionPublisherName(extension.publisherName())

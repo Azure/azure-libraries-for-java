@@ -6,27 +6,12 @@
 package com.azure.management.compute;
 
 import com.azure.core.annotation.Fluent;
-import reactor.core.publisher.Mono;
-
-import java.util.List;
+import com.azure.management.resources.fluentcore.collection.SupportsSimpleListing;
 
 /**
  * Entry point to virtual machine image offers.
  */
 @Fluent
-public interface VirtualMachineOffers {
-    /**
-     * Lists all the resources of the virtual machine offer.
-     *
-     * @return A {@link List} of resources
-     */
-    List<VirtualMachineOffer> list();
-
-    /**
-     * Lists all the resources of the virtual machine offer.
-     *
-     * @return A {@link Mono<List>} of resources
-     */
-    Mono<List<VirtualMachineOffer>> listAsync();
+public interface VirtualMachineOffers extends SupportsSimpleListing<VirtualMachineOffer> {
 }
 

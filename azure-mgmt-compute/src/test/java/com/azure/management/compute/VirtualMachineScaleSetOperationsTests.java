@@ -6,12 +6,19 @@
 
 package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
+import com.azure.core.http.HttpClient;
+import com.azure.core.http.HttpMethod;
+import com.azure.core.http.HttpRequest;
+import com.azure.core.http.HttpResponse;
+import com.azure.core.http.netty.NettyAsyncHttpClientBuilder;
+import com.azure.core.http.netty.implementation.ReactorNettyClientProvider;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.SubResource;
+import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.graphrbac.RoleAssignment;
-import com.azure.management.graphrbac.ServicePrincipal;
 import com.azure.management.keyvault.Secret;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.network.ApplicationSecurityGroup;
@@ -35,14 +42,10 @@ import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
-import com.microsoft.rest.RestClient;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -86,9 +89,9 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .create();
 
         List<StorageAccountKey> keys = storageAccount.getKeys();
-        Assert.assertNotNull(keys);
-        Assert.assertTrue(keys.size() > 0);
-        String storageAccountKey = keys.get(0).value();
+        Assertions.assertNotNull(keys);
+        Assertions.assertTrue(keys.size() > 0);
+        String storageAccountKey = keys.get(0).getValue();
 
         final String storageConnectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
                 storageAccount.name(),
@@ -162,13 +165,13 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         // Validate extensions after create
         //
         Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        Assert.assertNotNull(extensions);
-        Assert.assertEquals(1, extensions.size());
-        Assert.assertTrue(extensions.containsKey("CustomScriptForLinux"));
+        Assertions.assertNotNull(extensions);
+        Assertions.assertEquals(1, extensions.size());
+        Assertions.assertTrue(extensions.containsKey("CustomScriptForLinux"));
         VirtualMachineScaleSetExtension extension = extensions.get("CustomScriptForLinux");
-        Assert.assertNotNull(extension.publicSettings());
-        Assert.assertEquals(1, extension.publicSettings().size());
-        Assert.assertNotNull(extension.publicSettingsAsJsonString());
+        Assertions.assertNotNull(extension.publicSettings());
+        Assertions.assertEquals(1, extension.publicSettings().size());
+        Assertions.assertNotNull(extension.publicSettingsAsJsonString());
         // Retrieve scale set
         VirtualMachineScaleSet scaleSet = this.computeManager
                 .virtualMachineScaleSets()
@@ -176,13 +179,13 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         // Validate extensions after get
         //
         extensions = virtualMachineScaleSet.extensions();
-        Assert.assertNotNull(extensions);
-        Assert.assertEquals(1, extensions.size());
-        Assert.assertTrue(extensions.containsKey("CustomScriptForLinux"));
+        Assertions.assertNotNull(extensions);
+        Assertions.assertEquals(1, extensions.size());
+        Assertions.assertTrue(extensions.containsKey("CustomScriptForLinux"));
         extension = extensions.get("CustomScriptForLinux");
-        Assert.assertNotNull(extension.publicSettings());
-        Assert.assertEquals(1, extension.publicSettings().size());
-        Assert.assertNotNull(extension.publicSettingsAsJsonString());
+        Assertions.assertNotNull(extension.publicSettings());
+        Assertions.assertEquals(1, extension.publicSettings().size());
+        Assertions.assertNotNull(extension.publicSettingsAsJsonString());
         // Update VMSS capacity
         //
         int newCapacity = (int) (scaleSet.capacity() + 1);
@@ -192,13 +195,13 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         // Validate extensions after update
         //
         extensions = virtualMachineScaleSet.extensions();
-        Assert.assertNotNull(extensions);
-        Assert.assertEquals(1, extensions.size());
-        Assert.assertTrue(extensions.containsKey("CustomScriptForLinux"));
+        Assertions.assertNotNull(extensions);
+        Assertions.assertEquals(1, extensions.size());
+        Assertions.assertTrue(extensions.containsKey("CustomScriptForLinux"));
         extension = extensions.get("CustomScriptForLinux");
-        Assert.assertNotNull(extension.publicSettings());
-        Assert.assertEquals(1, extension.publicSettings().size());
-        Assert.assertNotNull(extension.publicSettingsAsJsonString());
+        Assertions.assertNotNull(extension.publicSettings());
+        Assertions.assertEquals(1, extension.publicSettings().size());
+        Assertions.assertNotNull(extension.publicSettingsAsJsonString());
     }
 
     @Test
@@ -259,23 +262,21 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         String fqdn = publicIPAddress.fqdn();
         // Assert public load balancing connection
         if (!isPlaybackMode()) {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url("http://" + fqdn)
-                    .build();
-            Response response = client.newCall(request).execute();
-            Assert.assertEquals(response.code(), 200);
+            HttpClient client = new NettyAsyncHttpClientBuilder().build();
+            HttpRequest request = new HttpRequest(HttpMethod.GET, "http://" + fqdn);
+            HttpResponse response = client.send(request).block();
+            Assertions.assertEquals(response.getStatusCode(), 200);
         }
 
         // Check SSH to VM instances via Nat rule
         //
         for (VirtualMachineScaleSetVM vm : virtualMachineScaleSet.virtualMachines().list()) {
-            PagedList<VirtualMachineScaleSetNetworkInterface> networkInterfaces = vm.listNetworkInterfaces();
-            Assert.assertEquals(networkInterfaces.size(), 1);
-            VirtualMachineScaleSetNetworkInterface networkInterface = networkInterfaces.get(0);
+            PagedIterable<VirtualMachineScaleSetNetworkInterface> networkInterfaces = vm.listNetworkInterfaces();
+            Assertions.assertEquals(TestUtilities.getPagedIterableSize(networkInterfaces), 1);
+            VirtualMachineScaleSetNetworkInterface networkInterface = networkInterfaces.iterator().next();
             VirtualMachineScaleSetNicIPConfiguration primaryIpConfig = null;
             primaryIpConfig = networkInterface.primaryIPConfiguration();
-            Assert.assertNotNull(primaryIpConfig);
+            Assertions.assertNotNull(primaryIpConfig);
             Integer sshFrontendPort = null;
             List<LoadBalancerInboundNatRule> natRules = primaryIpConfig.listAssociatedLoadBalancerInboundNatRules();
             for (LoadBalancerInboundNatRule natRule : natRules) {
@@ -284,7 +285,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                     break;
                 }
             }
-            Assert.assertNotNull(sshFrontendPort);
+            Assertions.assertNotNull(sshFrontendPort);
 
             this.sleep(1000 * 60); // Wait some time for VM to be available
             this.ensureCanDoSsh(fqdn, sshFrontendPort, uname, password);
@@ -337,9 +338,9 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         VirtualMachineScaleSetPublicIPAddressConfiguration currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
 
-        Assert.assertNotNull(currentIpConfig);
-        Assert.assertNotNull(currentIpConfig.dnsSettings());
-        Assert.assertNotNull(currentIpConfig.dnsSettings().domainNameLabel());
+        Assertions.assertNotNull(currentIpConfig);
+        Assertions.assertNotNull(currentIpConfig.dnsSettings());
+        Assertions.assertNotNull(currentIpConfig.dnsSettings().domainNameLabel());
 
         currentIpConfig.withIdleTimeoutInMinutes(20);
 
@@ -348,19 +349,19 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .apply();
 
         currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
-        Assert.assertNotNull(currentIpConfig);
-        Assert.assertNotNull(currentIpConfig.idleTimeoutInMinutes());
-        Assert.assertEquals((long) 20, (long) currentIpConfig.idleTimeoutInMinutes());
+        Assertions.assertNotNull(currentIpConfig);
+        Assertions.assertNotNull(currentIpConfig.idleTimeoutInMinutes());
+        Assertions.assertEquals((long) 20, (long) currentIpConfig.idleTimeoutInMinutes());
 
         virtualMachineScaleSet.refresh();
         currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
-        Assert.assertNotNull(currentIpConfig);
-        Assert.assertNotNull(currentIpConfig.idleTimeoutInMinutes());
-        Assert.assertEquals((long) 20, (long) currentIpConfig.idleTimeoutInMinutes());
+        Assertions.assertNotNull(currentIpConfig);
+        Assertions.assertNotNull(currentIpConfig.idleTimeoutInMinutes());
+        Assertions.assertEquals((long) 20, (long) currentIpConfig.idleTimeoutInMinutes());
 
         List<String> asgIds = virtualMachineScaleSet.applicationSecurityGroupIds();
-        Assert.assertNotNull(asgIds);
-        Assert.assertEquals(1, asgIds.size());
+        Assertions.assertNotNull(asgIds);
+        Assertions.assertEquals(1, asgIds.size());
 
         NetworkSecurityGroup nsg = networkManager.networkSecurityGroups().define(nsgName)
                 .withRegion(REGION)
@@ -381,29 +382,29 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .withExistingNetworkSecurityGroup(nsg)
                 .apply();
 
-        Assert.assertTrue(virtualMachineScaleSet.isIpForwardingEnabled());
-        Assert.assertTrue(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
-        Assert.assertNotNull(virtualMachineScaleSet.networkSecurityGroupId());
+        Assertions.assertTrue(virtualMachineScaleSet.isIpForwardingEnabled());
+        Assertions.assertTrue(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
+        Assertions.assertNotNull(virtualMachineScaleSet.networkSecurityGroupId());
         //
         virtualMachineScaleSet.refresh();
         //
-        Assert.assertTrue(virtualMachineScaleSet.isIpForwardingEnabled());
-        Assert.assertTrue(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
-        Assert.assertNotNull(virtualMachineScaleSet.networkSecurityGroupId());
+        Assertions.assertTrue(virtualMachineScaleSet.isIpForwardingEnabled());
+        Assertions.assertTrue(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
+        Assertions.assertNotNull(virtualMachineScaleSet.networkSecurityGroupId());
 
         virtualMachineScaleSet.update()
                 .withoutIpForwarding()
                 .withoutAcceleratedNetworking()
                 .withoutNetworkSecurityGroup()
                 .apply();
-        Assert.assertFalse(virtualMachineScaleSet.isIpForwardingEnabled());
-        Assert.assertFalse(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
-        Assert.assertNull(virtualMachineScaleSet.networkSecurityGroupId());
+        Assertions.assertFalse(virtualMachineScaleSet.isIpForwardingEnabled());
+        Assertions.assertFalse(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
+        Assertions.assertNull(virtualMachineScaleSet.networkSecurityGroupId());
     }
 
 
     @Test
-    @Ignore("Mock framework doesn't support data plane")
+    @Disabled("Mock framework doesn't support data plane")
     public void canCreateVirtualMachineScaleSetWithSecret() throws Exception {
         final String vmss_name = generateRandomResourceName("vmss", 10);
         final String vaultName = generateRandomResourceName("vlt", 10);
@@ -434,14 +435,14 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
-        ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
+        ApplicationTokenCredential credentials = ApplicationTokenCredential.fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
         Vault vault = this.keyVaultManager.vaults().define(vaultName)
                 .withRegion(REGION)
                 .withExistingResourceGroup(resourceGroup)
                 .defineAccessPolicy()
-                .forServicePrincipal(credentials.clientId())
+                .forServicePrincipal(credentials.getClientId())
                 .allowSecretAllPermissions()
                 .attach()
                 .withDeploymentEnabled()
@@ -454,7 +455,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         List<VaultCertificate> certs = new ArrayList<>();
         certs.add(new VaultCertificate().withCertificateUrl(secret.id()));
         List<VaultSecretGroup> group = new ArrayList<>();
-        group.add(new VaultSecretGroup().withSourceVault(new SubResource().withId(vault.id()))
+        group.add(new VaultSecretGroup().withSourceVault(new SubResource().setId(vault.id()))
                 .withVaultCertificates(certs));
 
         VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
@@ -476,7 +477,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .create();
 
         for (VirtualMachineScaleSetVM vm : virtualMachineScaleSet.virtualMachines().list()) {
-            Assert.assertTrue(vm.osProfile().secrets().size() > 0);
+            Assertions.assertTrue(vm.osProfile().secrets().size() > 0);
         }
 
         virtualMachineScaleSet
@@ -485,7 +486,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .apply();
 
         for (VirtualMachineScaleSetVM vm : virtualMachineScaleSet.virtualMachines().list()) {
-            Assert.assertTrue(vm.osProfile().secrets().size() == 0);
+            Assertions.assertTrue(vm.osProfile().secrets().size() == 0);
         }
     }
     public void canCreateVirtualMachineScaleSet() throws Exception {
@@ -512,7 +513,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
                 .define(vmss_name)
@@ -533,71 +534,71 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         // Validate Network specific properties (LB, VNet, NIC, IPConfig etc..)
         //
-        Assert.assertNull(virtualMachineScaleSet.getPrimaryInternalLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerBackends().size() == 0);
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerInboundNatPools().size() == 0);
+        Assertions.assertNull(virtualMachineScaleSet.getPrimaryInternalLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerBackends().size() == 0);
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerInboundNatPools().size() == 0);
 
-        Assert.assertNotNull(virtualMachineScaleSet.getPrimaryInternetFacingLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerBackends().size() == 2);
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerInboundNatPools().size() == 2);
+        Assertions.assertNotNull(virtualMachineScaleSet.getPrimaryInternetFacingLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerBackends().size() == 2);
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerInboundNatPools().size() == 2);
 
         Network primaryNetwork = virtualMachineScaleSet.getPrimaryNetwork();
-        Assert.assertNotNull(primaryNetwork.id());
+        Assertions.assertNotNull(primaryNetwork.id());
 
-        List<VirtualMachineScaleSetNetworkInterface> nics = virtualMachineScaleSet.listNetworkInterfaces();
+        PagedIterable<VirtualMachineScaleSetNetworkInterface> nics = virtualMachineScaleSet.listNetworkInterfaces();
         int nicCount = 0;
         for (VirtualMachineScaleSetNetworkInterface nic : nics) {
             nicCount++;
-            Assert.assertNotNull(nic.id());
-            Assert.assertTrue(nic.virtualMachineId().toLowerCase().startsWith(virtualMachineScaleSet.id().toLowerCase()));
-            Assert.assertNotNull(nic.macAddress());
-            Assert.assertNotNull(nic.dnsServers());
-            Assert.assertNotNull(nic.appliedDnsServers());
+            Assertions.assertNotNull(nic.id());
+            Assertions.assertTrue(nic.virtualMachineId().toLowerCase().startsWith(virtualMachineScaleSet.id().toLowerCase()));
+            Assertions.assertNotNull(nic.macAddress());
+            Assertions.assertNotNull(nic.dnsServers());
+            Assertions.assertNotNull(nic.appliedDnsServers());
             Map<String, VirtualMachineScaleSetNicIPConfiguration> ipConfigs =  nic.ipConfigurations();
-            Assert.assertEquals(ipConfigs.size(), 1);
+            Assertions.assertEquals(ipConfigs.size(), 1);
             for (Map.Entry<String, VirtualMachineScaleSetNicIPConfiguration> entry :ipConfigs.entrySet()) {
                 VirtualMachineScaleSetNicIPConfiguration ipConfig = entry.getValue();
-                Assert.assertNotNull(ipConfig);
-                Assert.assertTrue(ipConfig.isPrimary());
-                Assert.assertNotNull(ipConfig.subnetName());
-                Assert.assertTrue(primaryNetwork.id().toLowerCase().equalsIgnoreCase(ipConfig.networkId()));
-                Assert.assertNotNull(ipConfig.privateIPAddress());
-                Assert.assertNotNull(ipConfig.privateIPAddressVersion());
-                Assert.assertNotNull(ipConfig.privateIPAllocationMethod());
+                Assertions.assertNotNull(ipConfig);
+                Assertions.assertTrue(ipConfig.isPrimary());
+                Assertions.assertNotNull(ipConfig.subnetName());
+                Assertions.assertTrue(primaryNetwork.id().toLowerCase().equalsIgnoreCase(ipConfig.networkId()));
+                Assertions.assertNotNull(ipConfig.privateIPAddress());
+                Assertions.assertNotNull(ipConfig.privateIPAddressVersion());
+                Assertions.assertNotNull(ipConfig.privateIPAllocationMethod());
                 List<LoadBalancerBackend> lbBackends = ipConfig.listAssociatedLoadBalancerBackends();
                 // VMSS is created with a internet facing LB with two Backend pools so there will be two
                 // backends in ip-config as well
-                Assert.assertEquals(lbBackends.size(), 2);
+                Assertions.assertEquals(lbBackends.size(), 2);
                 for (LoadBalancerBackend lbBackend : lbBackends) {
                     Map<String, LoadBalancingRule> lbRules = lbBackend.loadBalancingRules();
-                    Assert.assertEquals(lbRules.size(), 1);
+                    Assertions.assertEquals(lbRules.size(), 1);
                     for (Map.Entry<String, LoadBalancingRule> ruleEntry : lbRules.entrySet()) {
                         LoadBalancingRule rule = ruleEntry.getValue();
-                        Assert.assertNotNull(rule);
-                        Assert.assertTrue((rule.frontendPort() == 80 && rule.backendPort() == 80)
+                        Assertions.assertNotNull(rule);
+                        Assertions.assertTrue((rule.frontendPort() == 80 && rule.backendPort() == 80)
                                 || (rule.frontendPort() == 443 && rule.backendPort() == 443));
                     }
                 }
                 List<LoadBalancerInboundNatRule> lbNatRules = ipConfig.listAssociatedLoadBalancerInboundNatRules();
                 // VMSS is created with a internet facing LB with two nat pools so there will be two
                 //  nat rules in ip-config as well
-                Assert.assertEquals(lbNatRules.size(), 2);
+                Assertions.assertEquals(lbNatRules.size(), 2);
                 for (LoadBalancerInboundNatRule lbNatRule : lbNatRules) {
-                    Assert.assertTrue((lbNatRule.frontendPort() >= 5000 && lbNatRule.frontendPort()<= 5099)
+                    Assertions.assertTrue((lbNatRule.frontendPort() >= 5000 && lbNatRule.frontendPort()<= 5099)
                             || (lbNatRule.frontendPort() >= 6000 && lbNatRule.frontendPort()<= 6099));
-                    Assert.assertTrue(lbNatRule.backendPort() == 22 || lbNatRule.backendPort() == 23);
+                    Assertions.assertTrue(lbNatRule.backendPort() == 22 || lbNatRule.backendPort() == 23);
                 }
             }
         }
-        Assert.assertTrue(nicCount > 0);
+        Assertions.assertTrue(nicCount > 0);
 
         // Validate other properties
         //
-        Assert.assertEquals(virtualMachineScaleSet.vhdContainers().size(), 2);
-        Assert.assertEquals(virtualMachineScaleSet.sku(), VirtualMachineScaleSetSkuTypes.STANDARD_A0);
+        Assertions.assertEquals(virtualMachineScaleSet.vhdContainers().size(), 2);
+        Assertions.assertEquals(virtualMachineScaleSet.sku(), VirtualMachineScaleSetSkuTypes.STANDARD_A0);
         // Check defaults
-        Assert.assertTrue(virtualMachineScaleSet.upgradeModel() == UpgradeMode.AUTOMATIC);
-        Assert.assertEquals(virtualMachineScaleSet.capacity(), 2);
+        Assertions.assertTrue(virtualMachineScaleSet.upgradeModel() == UpgradeMode.AUTOMATIC);
+        Assertions.assertEquals(virtualMachineScaleSet.capacity(), 2);
         // Fetch the primary Virtual network
         primaryNetwork = virtualMachineScaleSet.getPrimaryNetwork();
 
@@ -625,13 +626,13 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         // Check LB after update
         //
-        Assert.assertNotNull(virtualMachineScaleSet.getPrimaryInternetFacingLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerBackends().size() == 2);
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerInboundNatPools().size() == 1);
+        Assertions.assertNotNull(virtualMachineScaleSet.getPrimaryInternetFacingLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerBackends().size() == 2);
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerInboundNatPools().size() == 1);
 
-        Assert.assertNotNull(virtualMachineScaleSet.getPrimaryInternalLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerBackends().size() == 2);
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerInboundNatPools().size() == 2);
+        Assertions.assertNotNull(virtualMachineScaleSet.getPrimaryInternalLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerBackends().size() == 2);
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerInboundNatPools().size() == 2);
 
         // Check NIC + IpConfig after update
         //
@@ -640,25 +641,25 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         for (VirtualMachineScaleSetNetworkInterface nic : nics) {
             nicCount++;
             Map<String, VirtualMachineScaleSetNicIPConfiguration> ipConfigs =  nic.ipConfigurations();
-            Assert.assertEquals(ipConfigs.size(), 1);
+            Assertions.assertEquals(ipConfigs.size(), 1);
             for (Map.Entry<String, VirtualMachineScaleSetNicIPConfiguration> entry :ipConfigs.entrySet()) {
                 VirtualMachineScaleSetNicIPConfiguration ipConfig = entry.getValue();
-                Assert.assertNotNull(ipConfig);
+                Assertions.assertNotNull(ipConfig);
                 List<LoadBalancerBackend> lbBackends = ipConfig.listAssociatedLoadBalancerBackends();
-                Assert.assertNotNull(lbBackends);
+                Assertions.assertNotNull(lbBackends);
                 // Updated VMSS has a internet facing LB with two backend pools and a internal LB with two
                 // backend pools so there should be 4 backends in ip-config
                 // #1: But this is not always happening, it seems update is really happening only
                 // for subset of vms [TODO: Report this to network team]
-                // Assert.True(lbBackends.Count == 4);
-                // Assert.assertEquals(lbBackends.size(), 4);
+                // Assertions.True(lbBackends.Count == 4);
+                // Assertions.assertEquals(lbBackends.size(), 4);
                 for (LoadBalancerBackend lbBackend : lbBackends) {
                     Map<String, LoadBalancingRule> lbRules = lbBackend.loadBalancingRules();
-                    Assert.assertEquals(lbRules.size(), 1);
+                    Assertions.assertEquals(lbRules.size(), 1);
                     for (Map.Entry<String, LoadBalancingRule> ruleEntry : lbRules.entrySet()) {
                         LoadBalancingRule rule = ruleEntry.getValue();
-                        Assert.assertNotNull(rule);
-                        Assert.assertTrue((rule.frontendPort() == 80 && rule.backendPort() == 80)
+                        Assertions.assertNotNull(rule);
+                        Assertions.assertTrue((rule.frontendPort() == 80 && rule.backendPort() == 80)
                                 || (rule.frontendPort() == 443 && rule.backendPort() == 443)
                                 || (rule.frontendPort() == 1000 && rule.backendPort() == 1000)
                                 || (rule.frontendPort() == 1001 && rule.backendPort() == 1001));
@@ -670,22 +671,22 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 // Same issue as above #1
                 // But this is not always happening, it seems update is really happening only
                 // for subset of vms [TODO: Report this to network team]
-                // Assert.assertEquals(lbNatRules.size(), 3);
+                // Assertions.assertEquals(lbNatRules.size(), 3);
                 for (LoadBalancerInboundNatRule lbNatRule : lbNatRules) {
                     // As mentioned above some chnages are not propgating to all VM instances 6000+ should be there
-                    Assert.assertTrue((lbNatRule.frontendPort() >= 6000 && lbNatRule.frontendPort()<= 6099)
+                    Assertions.assertTrue((lbNatRule.frontendPort() >= 6000 && lbNatRule.frontendPort()<= 6099)
                             || (lbNatRule.frontendPort() >= 5000 && lbNatRule.frontendPort()<= 5099)
                             || (lbNatRule.frontendPort() >= 8000 && lbNatRule.frontendPort()<= 8099)
                             || (lbNatRule.frontendPort() >= 9000 && lbNatRule.frontendPort()<= 9099));
                     // Same as above
-                    Assert.assertTrue(lbNatRule.backendPort() == 23
+                    Assertions.assertTrue(lbNatRule.backendPort() == 23
                             || lbNatRule.backendPort() == 22
                             || lbNatRule.backendPort() == 44
                             || lbNatRule.backendPort() == 45);
                 }
             }
         }
-        Assert.assertTrue(nicCount > 0);
+        Assertions.assertTrue(nicCount > 0);
     }
 
     @Test
@@ -734,13 +735,13 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         List<String> natpools = new ArrayList<>();
         for (String natPool : publicLoadBalancer.inboundNatPools().keySet()) {
             natpools.add(natPool);
         }
-        Assert.assertTrue(natpools.size() == 2);
+        Assertions.assertTrue(natpools.size() == 2);
 
         final String vmss_name1 = generateRandomResourceName("vmss1", 10);
         // HTTP goes to this virtual machine scale set
@@ -780,20 +781,20 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         // Validate Network specific properties (LB, VNet, NIC, IPConfig etc..)
         //
-        Assert.assertNull(virtualMachineScaleSet1.getPrimaryInternalLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet1.listPrimaryInternalLoadBalancerBackends().size() == 0);
-        Assert.assertTrue(virtualMachineScaleSet1.listPrimaryInternalLoadBalancerInboundNatPools().size() == 0);
+        Assertions.assertNull(virtualMachineScaleSet1.getPrimaryInternalLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet1.listPrimaryInternalLoadBalancerBackends().size() == 0);
+        Assertions.assertTrue(virtualMachineScaleSet1.listPrimaryInternalLoadBalancerInboundNatPools().size() == 0);
 
-        Assert.assertNotNull(virtualMachineScaleSet1.getPrimaryInternetFacingLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet1.listPrimaryInternetFacingLoadBalancerBackends().size() == 1);
+        Assertions.assertNotNull(virtualMachineScaleSet1.getPrimaryInternetFacingLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet1.listPrimaryInternetFacingLoadBalancerBackends().size() == 1);
 
 
-        Assert.assertNull(virtualMachineScaleSet2.getPrimaryInternalLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet2.listPrimaryInternalLoadBalancerBackends().size() == 0);
-        Assert.assertTrue(virtualMachineScaleSet2.listPrimaryInternalLoadBalancerInboundNatPools().size() == 0);
+        Assertions.assertNull(virtualMachineScaleSet2.getPrimaryInternalLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet2.listPrimaryInternalLoadBalancerBackends().size() == 0);
+        Assertions.assertTrue(virtualMachineScaleSet2.listPrimaryInternalLoadBalancerInboundNatPools().size() == 0);
 
-        Assert.assertNotNull(virtualMachineScaleSet2.getPrimaryInternetFacingLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet2.listPrimaryInternetFacingLoadBalancerBackends().size() == 1);
+        Assertions.assertNotNull(virtualMachineScaleSet2.getPrimaryInternetFacingLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet2.listPrimaryInternetFacingLoadBalancerBackends().size() == 1);
     }
 
     @Test
@@ -831,7 +832,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         final String vmss_name = generateRandomResourceName("vmss", 10);
         // HTTP & HTTPS traffic on port 80, 443 of Internet-facing LB goes to corresponding port in virtual machine scale set
@@ -854,21 +855,21 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         // Check zones
         //
-        Assert.assertNotNull(virtualMachineScaleSet.availabilityZones());
-        Assert.assertEquals(2, virtualMachineScaleSet.availabilityZones().size());
+        Assertions.assertNotNull(virtualMachineScaleSet.availabilityZones());
+        Assertions.assertEquals(2, virtualMachineScaleSet.availabilityZones().size());
 
         // Validate Network specific properties (LB, VNet, NIC, IPConfig etc..)
         //
-        Assert.assertNull(virtualMachineScaleSet.getPrimaryInternalLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerBackends().size() == 0);
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerInboundNatPools().size() == 0);
+        Assertions.assertNull(virtualMachineScaleSet.getPrimaryInternalLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerBackends().size() == 0);
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternalLoadBalancerInboundNatPools().size() == 0);
 
-        Assert.assertNotNull(virtualMachineScaleSet.getPrimaryInternetFacingLoadBalancer());
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerBackends().size() == 2);
-        Assert.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerInboundNatPools().size() == 2);
+        Assertions.assertNotNull(virtualMachineScaleSet.getPrimaryInternetFacingLoadBalancer());
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerBackends().size() == 2);
+        Assertions.assertTrue(virtualMachineScaleSet.listPrimaryInternetFacingLoadBalancerInboundNatPools().size() == 2);
 
         Network primaryNetwork = virtualMachineScaleSet.getPrimaryNetwork();
-        Assert.assertNotNull(primaryNetwork.id());
+        Assertions.assertNotNull(primaryNetwork.id());
     }
 
     @Test
@@ -896,7 +897,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
                 .define(vmss_name)
@@ -921,13 +922,13 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         //                .servicePrincipals()
         //                .getById(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
         //
-        //        Assert.assertNotNull(servicePrincipal);
-        //        Assert.assertNotNull(servicePrincipal.inner());
+        //        Assertions.assertNotNull(servicePrincipal);
+        //        Assertions.assertNotNull(servicePrincipal.inner());
 
         // Ensure role assigned for resource group
         //
-        PagedList<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
-        Assert.assertNotNull(rgRoleAssignments);
+        PagedIterable<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
+        Assertions.assertNotNull(rgRoleAssignments);
         boolean found = false;
         for (RoleAssignment roleAssignment : rgRoleAssignments) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId())) {
@@ -935,7 +936,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 break;
             }
         }
-        Assert.assertFalse("Resource group should not have a role assignment with virtual machine scale set MSI principal", found);
+        Assertions.assertFalse(found, "Resource group should not have a role assignment with virtual machine scale set MSI principal");
     }
 
     @Test
@@ -963,7 +964,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         StorageAccount storageAccount = this.storageManager.storageAccounts()
                 .define(generateRandomResourceName("jvcsrg", 10))
@@ -988,8 +989,8 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .withSystemAssignedIdentityBasedAccessTo(storageAccount.id(), BuiltInRole.CONTRIBUTOR)
                 .create();
 
-        Assert.assertNotNull(virtualMachineScaleSet.managedServiceIdentityType());
-        Assert.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED));
+        Assertions.assertNotNull(virtualMachineScaleSet.managedServiceIdentityType());
+        Assertions.assertTrue(virtualMachineScaleSet.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED));
 
         // Validate service created service principal
         //
@@ -999,13 +1000,13 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         //                .servicePrincipals()
         //                .getById(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
         //
-        //        Assert.assertNotNull(servicePrincipal);
-        //        Assert.assertNotNull(servicePrincipal.inner());
+        //        Assertions.assertNotNull(servicePrincipal);
+        //        Assertions.assertNotNull(servicePrincipal.inner());
 
         // Ensure role assigned for resource group
         //
-        PagedList<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
-        Assert.assertNotNull(rgRoleAssignments);
+        PagedIterable<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
+        Assertions.assertNotNull(rgRoleAssignments);
         boolean found = false;
         for (RoleAssignment roleAssignment : rgRoleAssignments) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId())) {
@@ -1013,12 +1014,12 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 break;
             }
         }
-        Assert.assertTrue("Resource group should have a role assignment with virtual machine scale set MSI principal", found);
+        Assertions.assertTrue(found, "Resource group should have a role assignment with virtual machine scale set MSI principal");
 
         // Ensure role assigned for storage account
         //
-        PagedList<RoleAssignment> stgRoleAssignments = rbacManager.roleAssignments().listByScope(storageAccount.id());
-        Assert.assertNotNull(stgRoleAssignments);
+        PagedIterable<RoleAssignment> stgRoleAssignments = rbacManager.roleAssignments().listByScope(storageAccount.id());
+        Assertions.assertNotNull(stgRoleAssignments);
         found = false;
         for (RoleAssignment roleAssignment : stgRoleAssignments) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId())) {
@@ -1026,7 +1027,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 break;
             }
         }
-        Assert.assertTrue("Storage account should have a role assignment with virtual machine scale set MSI principal", found);
+        Assertions.assertTrue(found, "Storage account should have a role assignment with virtual machine scale set MSI principal");
     }
 
     @Test
@@ -1057,7 +1058,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         this.computeManager.virtualMachineScaleSets()
                 .define(vmss_name)
@@ -1078,10 +1079,10 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets().getByResourceGroup(RG_NAME, vmss_name);
         VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = virtualMachineScaleSet.virtualMachines();
-        VirtualMachineScaleSetVM firstVm = virtualMachineScaleSetVMs.list().get(0);
+        VirtualMachineScaleSetVM firstVm = virtualMachineScaleSetVMs.list().iterator().next();
         VirtualMachineScaleSetVM fetchedVm = virtualMachineScaleSetVMs.getInstance(firstVm.instanceId());
         this.checkVmsEqual(firstVm, fetchedVm);
-        VirtualMachineScaleSetVM fetchedAsyncVm = virtualMachineScaleSetVMs.getInstanceAsync(firstVm.instanceId()).toBlocking().single();
+        VirtualMachineScaleSetVM fetchedAsyncVm = virtualMachineScaleSetVMs.getInstanceAsync(firstVm.instanceId()).block();
         this.checkVmsEqual(firstVm, fetchedAsyncVm);
     }
 
@@ -1112,7 +1113,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         for (String backend : publicLoadBalancer.backends().keySet()) {
             backends.add(backend);
         }
-        Assert.assertTrue(backends.size() == 2);
+        Assertions.assertTrue(backends.size() == 2);
 
         VirtualMachineScaleSet vmss = this.computeManager.virtualMachineScaleSets()
                 .define(vmss_name)
@@ -1133,103 +1134,103 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .withMaxPrice(-1.0)
                 .create();
 
-        Assert.assertEquals(vmss.virtualMachinePriority(), VirtualMachinePriorityTypes.LOW);
-        Assert.assertEquals(vmss.virtualMachineEvictionPolicy(), VirtualMachineEvictionPolicyTypes.DEALLOCATE);
-        Assert.assertEquals(vmss.billingProfile().maxPrice(), (Double)(-1.0));
+        Assertions.assertEquals(vmss.virtualMachinePriority(), VirtualMachinePriorityTypes.LOW);
+        Assertions.assertEquals(vmss.virtualMachineEvictionPolicy(), VirtualMachineEvictionPolicyTypes.DEALLOCATE);
+        Assertions.assertEquals(vmss.billingProfile().maxPrice(), (Double)(-1.0));
 
         vmss.update()
                 .withMaxPrice(2000.0)
                 .apply();
-        Assert.assertEquals(vmss.billingProfile().maxPrice(), (Double)2000.0);
+        Assertions.assertEquals(vmss.billingProfile().maxPrice(), (Double)2000.0);
     }
 
 
     private void checkVmsEqual(VirtualMachineScaleSetVM original, VirtualMachineScaleSetVM fetched)
     {
-        Assert.assertEquals(original.administratorUserName(), fetched.administratorUserName());
-        Assert.assertEquals(original.availabilitySetId(), fetched.availabilitySetId());
-        Assert.assertEquals(original.bootDiagnosticEnabled(), fetched.bootDiagnosticEnabled());
-        Assert.assertEquals(original.bootDiagnosticStorageAccountUri(), fetched.bootDiagnosticStorageAccountUri());
-        Assert.assertEquals(original.computerName(), fetched.computerName());
-        Assert.assertEquals(original.dataDisks().size(), fetched.dataDisks().size());
-        Assert.assertEquals(original.extensions().size(), fetched.extensions().size());
-        Assert.assertEquals(original.instanceId(), fetched.instanceId());
-        Assert.assertEquals(original.isLatestScaleSetUpdateApplied(), fetched.isLatestScaleSetUpdateApplied());
-        Assert.assertEquals(original.isLinuxPasswordAuthenticationEnabled(), fetched.isLatestScaleSetUpdateApplied());
-        Assert.assertEquals(original.isManagedDiskEnabled(), fetched.isManagedDiskEnabled());
-        Assert.assertEquals(original.isOSBasedOnCustomImage(), fetched.isOSBasedOnCustomImage());
-        Assert.assertEquals(original.isOSBasedOnPlatformImage(), fetched.isOSBasedOnPlatformImage());
-        Assert.assertEquals(original.isOSBasedOnStoredImage(), fetched.isOSBasedOnStoredImage());
-        Assert.assertEquals(original.isWindowsAutoUpdateEnabled(), fetched.isWindowsAutoUpdateEnabled());
-        Assert.assertEquals(original.isWindowsVMAgentProvisioned(), original.isWindowsVMAgentProvisioned());
-        Assert.assertEquals(original.networkInterfaceIds().size(), fetched.networkInterfaceIds().size());
-        Assert.assertEquals(original.osDiskCachingType(), fetched.osDiskCachingType());
-        Assert.assertEquals(original.osDiskId(), fetched.osDiskId());
-        Assert.assertEquals(original.osDiskName(), fetched.osDiskName());
-        Assert.assertEquals(original.osDiskSizeInGB(), fetched.osDiskSizeInGB());
-        Assert.assertEquals(original.osType(), fetched.osType());
-        Assert.assertEquals(original.osUnmanagedDiskVhdUri(), fetched.osUnmanagedDiskVhdUri());
-        Assert.assertEquals(original.powerState(), fetched.powerState());
-        Assert.assertEquals(original.primaryNetworkInterfaceId(), fetched.primaryNetworkInterfaceId());
-        Assert.assertEquals(original.size(), fetched.size());
-        Assert.assertEquals(original.sku().name(), fetched.sku().name());
-        Assert.assertEquals(original.storedImageUnmanagedVhdUri(), fetched.storedImageUnmanagedVhdUri());
-        Assert.assertEquals(original.unmanagedDataDisks().size(), fetched.unmanagedDataDisks().size());
-        Assert.assertEquals(original.windowsTimeZone(), fetched.windowsTimeZone());
+        Assertions.assertEquals(original.administratorUserName(), fetched.administratorUserName());
+        Assertions.assertEquals(original.availabilitySetId(), fetched.availabilitySetId());
+        Assertions.assertEquals(original.bootDiagnosticEnabled(), fetched.bootDiagnosticEnabled());
+        Assertions.assertEquals(original.bootDiagnosticStorageAccountUri(), fetched.bootDiagnosticStorageAccountUri());
+        Assertions.assertEquals(original.computerName(), fetched.computerName());
+        Assertions.assertEquals(original.dataDisks().size(), fetched.dataDisks().size());
+        Assertions.assertEquals(original.extensions().size(), fetched.extensions().size());
+        Assertions.assertEquals(original.instanceId(), fetched.instanceId());
+        Assertions.assertEquals(original.isLatestScaleSetUpdateApplied(), fetched.isLatestScaleSetUpdateApplied());
+        Assertions.assertEquals(original.isLinuxPasswordAuthenticationEnabled(), fetched.isLatestScaleSetUpdateApplied());
+        Assertions.assertEquals(original.isManagedDiskEnabled(), fetched.isManagedDiskEnabled());
+        Assertions.assertEquals(original.isOSBasedOnCustomImage(), fetched.isOSBasedOnCustomImage());
+        Assertions.assertEquals(original.isOSBasedOnPlatformImage(), fetched.isOSBasedOnPlatformImage());
+        Assertions.assertEquals(original.isOSBasedOnStoredImage(), fetched.isOSBasedOnStoredImage());
+        Assertions.assertEquals(original.isWindowsAutoUpdateEnabled(), fetched.isWindowsAutoUpdateEnabled());
+        Assertions.assertEquals(original.isWindowsVMAgentProvisioned(), original.isWindowsVMAgentProvisioned());
+        Assertions.assertEquals(original.networkInterfaceIds().size(), fetched.networkInterfaceIds().size());
+        Assertions.assertEquals(original.osDiskCachingType(), fetched.osDiskCachingType());
+        Assertions.assertEquals(original.osDiskId(), fetched.osDiskId());
+        Assertions.assertEquals(original.osDiskName(), fetched.osDiskName());
+        Assertions.assertEquals(original.osDiskSizeInGB(), fetched.osDiskSizeInGB());
+        Assertions.assertEquals(original.osType(), fetched.osType());
+        Assertions.assertEquals(original.osUnmanagedDiskVhdUri(), fetched.osUnmanagedDiskVhdUri());
+        Assertions.assertEquals(original.powerState(), fetched.powerState());
+        Assertions.assertEquals(original.primaryNetworkInterfaceId(), fetched.primaryNetworkInterfaceId());
+        Assertions.assertEquals(original.size(), fetched.size());
+        Assertions.assertEquals(original.sku().name(), fetched.sku().name());
+        Assertions.assertEquals(original.storedImageUnmanagedVhdUri(), fetched.storedImageUnmanagedVhdUri());
+        Assertions.assertEquals(original.unmanagedDataDisks().size(), fetched.unmanagedDataDisks().size());
+        Assertions.assertEquals(original.windowsTimeZone(), fetched.windowsTimeZone());
     }
 
 
     private void checkVMInstances(VirtualMachineScaleSet vmScaleSet) {
         VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();
-        PagedList<VirtualMachineScaleSetVM> virtualMachines = virtualMachineScaleSetVMs.list();
+        PagedIterable<VirtualMachineScaleSetVM> virtualMachines = virtualMachineScaleSetVMs.list();
 
-        Assert.assertEquals(virtualMachines.size(), vmScaleSet.capacity());
-        Assert.assertTrue(virtualMachines.size() > 0);
-        virtualMachineScaleSetVMs.updateInstances(virtualMachines.get(0).instanceId());
+        Assertions.assertEquals(TestUtilities.getPagedIterableSize(virtualMachines), vmScaleSet.capacity());
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(virtualMachines) > 0);
+        virtualMachineScaleSetVMs.updateInstances(virtualMachines.iterator().next().instanceId());
 
         for (VirtualMachineScaleSetVM vm : virtualMachines) {
-            Assert.assertNotNull(vm.size());
-            Assert.assertEquals(vm.osType(), OperatingSystemTypes.LINUX);
-            Assert.assertNotNull(vm.computerName().startsWith(vmScaleSet.computerNamePrefix()));
-            Assert.assertTrue(vm.isLinuxPasswordAuthenticationEnabled());
-            Assert.assertTrue(vm.isOSBasedOnPlatformImage());
-            Assert.assertNull(vm.osDiskId());                   // VMSS is un-managed, so osDiskId must be null
-            Assert.assertNotNull(vm.osUnmanagedDiskVhdUri());   // VMSS is un-managed, so osVhd should not be null
-            Assert.assertNull(vm.storedImageUnmanagedVhdUri());
-            Assert.assertFalse(vm.isWindowsAutoUpdateEnabled());
-            Assert.assertFalse(vm.isWindowsVMAgentProvisioned());
-            Assert.assertTrue(vm.administratorUserName().equalsIgnoreCase("jvuser"));
+            Assertions.assertNotNull(vm.size());
+            Assertions.assertEquals(vm.osType(), OperatingSystemTypes.LINUX);
+            Assertions.assertNotNull(vm.computerName().startsWith(vmScaleSet.computerNamePrefix()));
+            Assertions.assertTrue(vm.isLinuxPasswordAuthenticationEnabled());
+            Assertions.assertTrue(vm.isOSBasedOnPlatformImage());
+            Assertions.assertNull(vm.osDiskId());                   // VMSS is un-managed, so osDiskId must be null
+            Assertions.assertNotNull(vm.osUnmanagedDiskVhdUri());   // VMSS is un-managed, so osVhd should not be null
+            Assertions.assertNull(vm.storedImageUnmanagedVhdUri());
+            Assertions.assertFalse(vm.isWindowsAutoUpdateEnabled());
+            Assertions.assertFalse(vm.isWindowsVMAgentProvisioned());
+            Assertions.assertTrue(vm.administratorUserName().equalsIgnoreCase("jvuser"));
             VirtualMachineImage vmImage = vm.getOSPlatformImage();
-            Assert.assertNotNull(vmImage);
-            Assert.assertEquals(vm.extensions().size(), vmScaleSet.extensions().size());
-            Assert.assertNotNull(vm.powerState());
+            Assertions.assertNotNull(vmImage);
+            Assertions.assertEquals(vm.extensions().size(), vmScaleSet.extensions().size());
+            Assertions.assertNotNull(vm.powerState());
             vm.refreshInstanceView();
         }
 
         // Check actions
-        VirtualMachineScaleSetVM virtualMachineScaleSetVM = virtualMachines.get(0);
-        Assert.assertNotNull(virtualMachineScaleSetVM);
+        VirtualMachineScaleSetVM virtualMachineScaleSetVM = virtualMachines.iterator().next();
+        Assertions.assertNotNull(virtualMachineScaleSetVM);
         virtualMachineScaleSetVM.restart();
         virtualMachineScaleSetVM.powerOff();
         virtualMachineScaleSetVM.refreshInstanceView();
-        Assert.assertEquals(virtualMachineScaleSetVM.powerState(), PowerState.STOPPED);
+        Assertions.assertEquals(virtualMachineScaleSetVM.powerState(), PowerState.STOPPED);
         virtualMachineScaleSetVM.start();
 
         // Check Instance NICs
         //
         for (VirtualMachineScaleSetVM vm : virtualMachines) {
-            PagedList<VirtualMachineScaleSetNetworkInterface> nics
+            PagedIterable<VirtualMachineScaleSetNetworkInterface> nics
                     = vmScaleSet.listNetworkInterfacesByInstanceId(vm.instanceId());
-            Assert.assertNotNull(nics);
-            Assert.assertEquals(nics.size(), 1);
-            VirtualMachineScaleSetNetworkInterface nic = nics.get(0);
-            Assert.assertNotNull(nic.virtualMachineId());
-            Assert.assertTrue(nic.virtualMachineId().toLowerCase().equalsIgnoreCase(vm.id()));
-            Assert.assertNotNull(vm.listNetworkInterfaces());
+            Assertions.assertNotNull(nics);
+            Assertions.assertEquals(TestUtilities.getPagedIterableSize(nics), 1);
+            VirtualMachineScaleSetNetworkInterface nic = nics.iterator().next();
+            Assertions.assertNotNull(nic.virtualMachineId());
+            Assertions.assertTrue(nic.virtualMachineId().toLowerCase().equalsIgnoreCase(vm.id()));
+            Assertions.assertNotNull(vm.listNetworkInterfaces());
             VirtualMachineScaleSetNetworkInterface nicA = vmScaleSet.getNetworkInterfaceByInstanceId(vm.instanceId(), nic.name());
-            Assert.assertNotNull(nicA);
+            Assertions.assertNotNull(nicA);
             VirtualMachineScaleSetNetworkInterface nicB = vm.getNetworkInterface(nic.name());
-            Assert.assertNotNull(nicB);
+            Assertions.assertNotNull(nicB);
         }
     }
 
@@ -1237,22 +1238,22 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     public void testVirtualMachineScaleSetSkuTypes() {
         RG_NAME = null;
         VirtualMachineScaleSetSkuTypes skuType = VirtualMachineScaleSetSkuTypes.STANDARD_A0;
-        Assert.assertNull(skuType.sku().capacity());
+        Assertions.assertNull(skuType.sku().capacity());
         // first copy of sku
         Sku sku1 = skuType.sku();
-        Assert.assertNull(sku1.capacity());
+        Assertions.assertNull(sku1.capacity());
         sku1.withCapacity(new Long(1));
-        Assert.assertEquals(sku1.capacity().longValue(), 1);
+        Assertions.assertEquals(sku1.capacity().longValue(), 1);
         // Ensure the original is not affected
-        Assert.assertNull(skuType.sku().capacity());
+        Assertions.assertNull(skuType.sku().capacity());
         // second copy of sku
         Sku sku2 = skuType.sku();
-        Assert.assertNull(sku2.capacity());
+        Assertions.assertNull(sku2.capacity());
         sku2.withCapacity(new Long(2));
-        Assert.assertEquals(sku2.capacity().longValue(), 2);
+        Assertions.assertEquals(sku2.capacity().longValue(), 2);
         // Ensure the original is not affected
-        Assert.assertNull(skuType.sku().capacity());
+        Assertions.assertNull(skuType.sku().capacity());
         // Ensure previous copy is not affected due to change in first copy
-        Assert.assertEquals(sku1.capacity().longValue(), 1);
+        Assertions.assertEquals(sku1.capacity().longValue(), 1);
     }
 }

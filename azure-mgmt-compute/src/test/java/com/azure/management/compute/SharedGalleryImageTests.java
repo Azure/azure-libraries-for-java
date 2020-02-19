@@ -6,13 +6,14 @@
 
 package com.azure.management.compute;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
 import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class SharedGalleryImageTests extends ComputeManagementTest {
     private static String RG_NAME = "";
@@ -42,10 +43,10 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 // Optionals - End
                 .create();
 
-        Assert.assertNotNull(javaGallery.uniqueName());
-        Assert.assertEquals("JavaImageGallery", javaGallery.name());
-        Assert.assertEquals("java's image gallery", javaGallery.description());
-        Assert.assertNotNull(javaGallery.provisioningState());
+        Assertions.assertNotNull(javaGallery.uniqueName());
+        Assertions.assertEquals("JavaImageGallery", javaGallery.name());
+        Assertions.assertEquals("java's image gallery", javaGallery.description());
+        Assertions.assertNotNull(javaGallery.provisioningState());
         //
         // Update the gallery
         //
@@ -54,16 +55,16 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 .withTag("jdk", "openjdk")
                 .apply();
 
-        Assert.assertEquals("updated java's image gallery", javaGallery.description());
-        Assert.assertNotNull(javaGallery.tags());
-        Assert.assertEquals(1, javaGallery.tags().size());
+        Assertions.assertEquals("updated java's image gallery", javaGallery.description());
+        Assertions.assertNotNull(javaGallery.tags());
+        Assertions.assertEquals(1, javaGallery.tags().size());
         //
         // List galleries
         //
-        PagedList<Gallery> galleries = this.computeManager.galleries().listByResourceGroup(RG_NAME);
-        Assert.assertEquals(1, galleries.size());
+        PagedIterable<Gallery> galleries = this.computeManager.galleries().listByResourceGroup(RG_NAME);
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(galleries));
         galleries = this.computeManager.galleries().list();
-        Assert.assertTrue(galleries.size() > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(galleries) > 0);
         //
         this.computeManager.galleries().deleteByResourceGroup(javaGallery.resourceGroupName(), javaGallery.name());
     }
@@ -96,23 +97,23 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 // Options - End
                 .create();
 
-        Assert.assertNotNull(galleryImage);
-        Assert.assertNotNull(galleryImage.inner());
-        Assert.assertTrue(galleryImage.location().equalsIgnoreCase(REGION.toString()));
-        Assert.assertTrue(galleryImage.osType().equals(OperatingSystemTypes.WINDOWS));
-        Assert.assertTrue(galleryImage.osState().equals(OperatingSystemStateTypes.GENERALIZED));
-        Assert.assertEquals(2, galleryImage.unsupportedDiskTypes().size());
-        Assert.assertNotNull(galleryImage.identifier());
-        Assert.assertEquals("JavaSDKTeam", galleryImage.identifier().publisher());
-        Assert.assertEquals("JDK", galleryImage.identifier().offer());
-        Assert.assertEquals("Jdk-9", galleryImage.identifier().sku());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs().max());
-        Assert.assertEquals(25, galleryImage.recommendedVirtualMachineConfiguration().vCPUs().max().intValue());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory().max());
-        Assert.assertEquals(3200, galleryImage.recommendedVirtualMachineConfiguration().memory().max().intValue());
+        Assertions.assertNotNull(galleryImage);
+        Assertions.assertNotNull(galleryImage.inner());
+        Assertions.assertTrue(galleryImage.location().equalsIgnoreCase(REGION.toString()));
+        Assertions.assertTrue(galleryImage.osType().equals(OperatingSystemTypes.WINDOWS));
+        Assertions.assertTrue(galleryImage.osState().equals(OperatingSystemStateTypes.GENERALIZED));
+        Assertions.assertEquals(2, galleryImage.unsupportedDiskTypes().size());
+        Assertions.assertNotNull(galleryImage.identifier());
+        Assertions.assertEquals("JavaSDKTeam", galleryImage.identifier().publisher());
+        Assertions.assertEquals("JDK", galleryImage.identifier().offer());
+        Assertions.assertEquals("Jdk-9", galleryImage.identifier().sku());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs().max());
+        Assertions.assertEquals(25, galleryImage.recommendedVirtualMachineConfiguration().vCPUs().max().intValue());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory().max());
+        Assertions.assertEquals(3200, galleryImage.recommendedVirtualMachineConfiguration().memory().max().intValue());
         //
         // Update an image in the gallery
         //
@@ -122,31 +123,31 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 .withRecommendedMemoryForVirtualMachine(2200, 3200)
                 .apply();
 
-        Assert.assertEquals(1, galleryImage.unsupportedDiskTypes().size());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs().max());
-        Assert.assertEquals(25, galleryImage.recommendedVirtualMachineConfiguration().vCPUs().max().intValue());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs().min());
-        Assert.assertEquals(15, galleryImage.recommendedVirtualMachineConfiguration().vCPUs().min().intValue());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory().max());
-        Assert.assertEquals(3200, galleryImage.recommendedVirtualMachineConfiguration().memory().max().intValue());
-        Assert.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory().min());
-        Assert.assertEquals(2200, galleryImage.recommendedVirtualMachineConfiguration().memory().min().intValue());
+        Assertions.assertEquals(1, galleryImage.unsupportedDiskTypes().size());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs().max());
+        Assertions.assertEquals(25, galleryImage.recommendedVirtualMachineConfiguration().vCPUs().max().intValue());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().vCPUs().min());
+        Assertions.assertEquals(15, galleryImage.recommendedVirtualMachineConfiguration().vCPUs().min().intValue());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory().max());
+        Assertions.assertEquals(3200, galleryImage.recommendedVirtualMachineConfiguration().memory().max().intValue());
+        Assertions.assertNotNull(galleryImage.recommendedVirtualMachineConfiguration().memory().min());
+        Assertions.assertEquals(2200, galleryImage.recommendedVirtualMachineConfiguration().memory().min().intValue());
         //
         // List images in the gallery
         //
-        PagedList<GalleryImage> images = this.computeManager.galleryImages().listByGallery(RG_NAME, galleryName);
+        PagedIterable<GalleryImage> images = this.computeManager.galleryImages().listByGallery(RG_NAME, galleryName);
 
-        Assert.assertEquals(1, images.size());
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(images));
         //
         // Get image from gallery
         //
         galleryImage = this.computeManager.galleryImages().getByGallery(RG_NAME, galleryName, galleryImageName);
 
-        Assert.assertNotNull(galleryImage);
-        Assert.assertNotNull(galleryImage.inner());
+        Assertions.assertNotNull(galleryImage);
+        Assertions.assertNotNull(galleryImage.inner());
         //
         // Delete an image from gallery
         //
@@ -154,7 +155,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
     }
 
     @Test
-    @Ignore("Service consistently fail with error 'Replication job not completed at region:XXXXX', reported to service team, ")
+    @Disabled("Service consistently fail with error 'Replication job not completed at region:XXXXX', reported to service team, ")
     public void canCreateUpdateGetDeleteGalleryImageVersion() {
         //
         // Create {
@@ -206,10 +207,10 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 // Options - End
                 .create();
 
-        Assert.assertNotNull(imageVersion);
-        Assert.assertNotNull(imageVersion.inner());
-        Assert.assertNotNull(imageVersion.availableRegions());
-        Assert.assertEquals(2, imageVersion.availableRegions().size());
+        Assertions.assertNotNull(imageVersion);
+        Assertions.assertNotNull(imageVersion.inner());
+        Assertions.assertNotNull(imageVersion.availableRegions());
+        Assertions.assertEquals(2, imageVersion.availableRegions().size());
         boolean found = false;
         String expectedRegion = "westus2";
         for(TargetRegion targetRegion: imageVersion.availableRegions()) {
@@ -218,8 +219,8 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 break;
             }
         }
-        Assert.assertTrue("expected region" + expectedRegion + " not found", found);
-        Assert.assertFalse(imageVersion.isExcludedFromLatest());
+        Assertions.assertTrue(found, "expected region" + expectedRegion + " not found");
+        Assertions.assertFalse(imageVersion.isExcludedFromLatest());
 
         //
         // Update image version
@@ -228,17 +229,17 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 .withoutRegionAvailability(Region.US_WEST2)
                 .apply();
 
-        Assert.assertNotNull(imageVersion.availableRegions());
-        Assert.assertEquals(1, imageVersion.availableRegions().size());
-        Assert.assertFalse(imageVersion.isExcludedFromLatest());
+        Assertions.assertNotNull(imageVersion.availableRegions());
+        Assertions.assertEquals(1, imageVersion.availableRegions().size());
+        Assertions.assertFalse(imageVersion.isExcludedFromLatest());
 
         //
         // List image versions
         //
-        PagedList<GalleryImageVersion> versions = galleryImage.listVersions();
+        PagedIterable<GalleryImageVersion> versions = galleryImage.listVersions();
 
-        Assert.assertNotNull(versions);
-        Assert.assertTrue(versions.size() > 0);
+        Assertions.assertNotNull(versions);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(versions) > 0);
 
         //
         // Delete the image version

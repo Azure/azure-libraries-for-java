@@ -188,46 +188,43 @@ public class InterceptorManager {
         int recordStatusCode = Integer.parseInt(networkCallRecord.Response.get("StatusCode"));
 
         final NetworkCallRecord finalNetworkCallRecord = networkCallRecord;
-        return next.process().flatMap(originalResponse -> {
-            originalResponse.close();
 
-            RecordedHttpResponse response = new RecordedHttpResponse(recordStatusCode, context.getHttpRequest());
+        RecordedHttpResponse response = new RecordedHttpResponse(recordStatusCode, context.getHttpRequest());
 
-            for (Map.Entry<String, String> pair : finalNetworkCallRecord.Response.entrySet()) {
-                if (!pair.getKey().equals("StatusCode") && !pair.getKey().equals("Body") && !pair.getKey().equals("Content-Length")) {
-                    String rawHeader = pair.getValue();
-                    for (Map.Entry<String, String> rule : textReplacementRules.entrySet()) {
-                        if (rule.getValue() != null) {
-                            rawHeader = rawHeader.replaceAll(rule.getKey(), rule.getValue());
-                        }
+        for (Map.Entry<String, String> pair : finalNetworkCallRecord.Response.entrySet()) {
+            if (!pair.getKey().equals("StatusCode") && !pair.getKey().equals("Body") && !pair.getKey().equals("Content-Length")) {
+                String rawHeader = pair.getValue();
+                for (Map.Entry<String, String> rule : textReplacementRules.entrySet()) {
+                    if (rule.getValue() != null) {
+                        rawHeader = rawHeader.replaceAll(rule.getKey(), rule.getValue());
                     }
-                    response.getHeaders().put(pair.getKey(), rawHeader);
                 }
+                response.getHeaders().put(pair.getKey(), rawHeader);
             }
+        }
 
-            try {
-                String rawBody = finalNetworkCallRecord.Response.get("Body");
-                if (rawBody != null) {
-                    for (Map.Entry<String, String> rule : textReplacementRules.entrySet()) {
-                        if (rule.getValue() != null) {
-                            rawBody = rawBody.replaceAll(rule.getKey(), rule.getValue());
-                        }
+        try {
+            String rawBody = finalNetworkCallRecord.Response.get("Body");
+            if (rawBody != null) {
+                for (Map.Entry<String, String> rule : textReplacementRules.entrySet()) {
+                    if (rule.getValue() != null) {
+                        rawBody = rawBody.replaceAll(rule.getKey(), rule.getValue());
                     }
-
-                    String rawContentType = finalNetworkCallRecord.Response.get("content-type");
-                    String contentType = rawContentType == null
-                            ? "application/json; charset=utf-8"
-                            : rawContentType;
-
-                    response.setBody(rawBody.getBytes());
-                    response.getHeaders().put("Content-Length", String.valueOf(rawBody.getBytes("UTF-8").length));
                 }
-            } catch (Exception e) {
-                return Mono.error(e);
-            }
 
-            return Mono.just(response);
-        });
+                String rawContentType = finalNetworkCallRecord.Response.get("content-type");
+                String contentType = rawContentType == null
+                        ? "application/json; charset=utf-8"
+                        : rawContentType;
+
+                response.setBody(rawBody.getBytes());
+                response.getHeaders().put("Content-Length", String.valueOf(rawBody.getBytes("UTF-8").length));
+            }
+        } catch (Exception e) {
+            return Mono.error(e);
+        }
+
+        return Mono.just(response);
     }
 
     private Mono<HttpResponse> extractResponseData(Map<String, String> responseData, final HttpResponse response) {

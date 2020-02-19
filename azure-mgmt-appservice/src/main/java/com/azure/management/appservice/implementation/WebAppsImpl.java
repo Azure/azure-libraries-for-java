@@ -6,7 +6,7 @@
 
 package com.azure.management.appservice.implementation;
 
-import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.appservice.WebApp;
 import com.azure.management.appservice.WebApps;
 import com.azure.management.appservice.models.SiteConfigResourceInner;
@@ -14,10 +14,10 @@ import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.appservice.models.SiteLogsConfigInner;
 import com.azure.management.appservice.models.WebAppsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
-import java.util.Observable;
 
 /**
  * The implementation for WebApps.
@@ -31,29 +31,8 @@ class WebAppsImpl
                     AppServiceManager>
         implements WebApps {
 
-
     WebAppsImpl(final AppServiceManager manager) {
         super(manager.inner().webApps(), manager);
-        // FIXME
-//        converter = new PagedListConverter<SiteInner, WebApp>() {
-//            @Override
-//            protected boolean filter(SiteInner inner) {
-//                return inner.kind() == null || Arrays.asList(inner.kind().split(",")).contains("app");
-//            }
-//
-//            @Override
-//            public Observable<WebApp> typeConvertAsync(final SiteInner siteInner) {
-//                return Observable.zip(
-//                        manager().inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
-//                        manager().inner().webApps().getDiagnosticLogsConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
-//                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, WebApp>() {
-//                            @Override
-//                            public WebApp call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
-//                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
-//                            }
-//                        });
-//            }
-//        };
     }
 
     @Override
@@ -82,10 +61,19 @@ class WebAppsImpl
         return wrapModel(inner, null, null);
     }
 
-    protected PagedIterable<WebApp> wrapList(PagedIterable<SiteInner> pagedList) {
-        return pagedList.mapPage(this::wrapModel);
+    @Override
+    protected PagedFlux<WebApp> wrapPageAsync(PagedFlux<SiteInner> innerPage) {
+        return PagedConverter.flatMapPage(innerPage, siteInner -> {
+            if (siteInner.kind() == null || Arrays.asList(siteInner.kind().split(",")).contains("app")) {
+                return Mono.zip(
+                        this.inner().getConfigurationAsync(siteInner.resourceGroup(), siteInner.getName()),
+                        this.inner().getDiagnosticLogsConfigurationAsync(siteInner.resourceGroup(), siteInner.getName()),
+                        (siteConfigResourceInner, logsConfigInner) -> this.wrapModel(siteInner, siteConfigResourceInner, logsConfigInner));
+            } else {
+                return Mono.empty();
+            }
+        });
     }
-
 
     @Override
     public WebAppImpl define(String name) {

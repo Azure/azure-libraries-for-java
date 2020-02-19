@@ -74,7 +74,7 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
      * @param client the instance of the service client containing this operation class.
      */
     public WebAppsInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(WebAppsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(WebAppsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -9,22 +9,17 @@ package com.azure.management.keyvault.implementation;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.polling.LongRunningOperationStatus;
-import com.azure.management.keyvault.Key;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
-import com.azure.security.keyvault.keys.models.KeyProperties;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 import com.azure.security.keyvault.secrets.SecretAsyncClient;
 import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.azure.management.keyvault.Secret;
 import com.azure.management.keyvault.Secrets;
 import com.azure.management.keyvault.Vault;
-import com.azure.security.keyvault.secrets.models.SecretProperties;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.function.Supplier;
 
 /**
  * The implementation of Secrets and its parent interfaces.
@@ -92,21 +87,7 @@ class SecretsImpl
 
     @Override
     public PagedFlux<Secret> listAsync() {
-//        PagedFlux<SecretProperties> keyPropertiesFlux = inner.listPropertiesOfSecrets();
-//        Supplier<PageRetriever<String, PagedResponse<Secret>>> provider = () -> (continuationToken, pageSize) -> {
-//            Flux<PagedResponse<SecretProperties>> flux = (continuationToken == null)
-//                    ? keyPropertiesFlux.byPage()
-//                    : keyPropertiesFlux.byPage(continuationToken);
-//            return flux.flatMap(Utils.flatMapPagedResponse(s -> vault.secretClient().getSecret(s.getName(), s.getVersion()).map(this::wrapModel)));
-//        };
-//        return PagedFlux.create(provider);
-
-        // TODO async for PagedFlux
-        return vault.secretClient().listPropertiesOfSecrets()
-                .mapPage(p -> {
-                    KeyVaultSecret secret = vault.secretClient().getSecret(p.getName(), p.getVersion()).block();
-                    return wrapModel(secret);
-                });
+        return PagedConverter.flatMapPage(inner.listPropertiesOfSecrets(), s -> vault.secretClient().getSecret(s.getName(), s.getVersion()).map(this::wrapModel));
     }
 
     @Override

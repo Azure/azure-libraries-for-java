@@ -13,7 +13,7 @@ import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class TestVirtualMachineDataDisk extends TestTemplate<VirtualMachine, VirtualMachines> {
     @Override
@@ -37,8 +37,8 @@ public class TestVirtualMachineDataDisk extends TestTemplate<VirtualMachine, Vir
                 .withSize(VirtualMachineSizeTypes.STANDARD_A8)
                 .create();
 
-        Assert.assertTrue(virtualMachine.size().equals(VirtualMachineSizeTypes.STANDARD_A8));
-        Assert.assertTrue(virtualMachine.unmanagedDataDisks().size() == 2);
+        Assertions.assertTrue(virtualMachine.size().equals(VirtualMachineSizeTypes.STANDARD_A8));
+        Assertions.assertTrue(virtualMachine.unmanagedDataDisks().size() == 2);
         VirtualMachineUnmanagedDataDisk disk2 = null;
         for (VirtualMachineUnmanagedDataDisk dataDisk : virtualMachine.unmanagedDataDisks().values()) {
             if (dataDisk.name().equalsIgnoreCase("disk2")) {
@@ -46,9 +46,9 @@ public class TestVirtualMachineDataDisk extends TestTemplate<VirtualMachine, Vir
                 break;
             }
         }
-        Assert.assertNotNull(disk2);
-        Assert.assertTrue(disk2.cachingType() == CachingTypes.READ_ONLY);
-        Assert.assertTrue(disk2.size() == 20);
+        Assertions.assertNotNull(disk2);
+        Assertions.assertTrue(disk2.cachingType() == CachingTypes.READ_ONLY);
+        Assertions.assertTrue(disk2.size() == 20);
         return virtualMachine;
     }
 
@@ -61,7 +61,7 @@ public class TestVirtualMachineDataDisk extends TestTemplate<VirtualMachine, Vir
                     .withLun(2)
                     .attach()
                 .apply();
-        Assert.assertTrue(virtualMachine.unmanagedDataDisks().size() == 2);
+        Assertions.assertTrue(virtualMachine.unmanagedDataDisks().size() == 2);
         VirtualMachineUnmanagedDataDisk disk3 = null;
         for (VirtualMachineUnmanagedDataDisk dataDisk : virtualMachine.unmanagedDataDisks().values()) {
             if (dataDisk.name().equalsIgnoreCase("disk3")) {
@@ -69,9 +69,9 @@ public class TestVirtualMachineDataDisk extends TestTemplate<VirtualMachine, Vir
                 break;
             }
         }
-        Assert.assertNotNull(disk3);
-        Assert.assertTrue(disk3.cachingType() == CachingTypes.READ_WRITE);
-        Assert.assertTrue(disk3.size() == 10);
+        Assertions.assertNotNull(disk3);
+        Assertions.assertTrue(disk3.cachingType() == CachingTypes.READ_WRITE);
+        Assertions.assertTrue(disk3.size() == 10);
         return virtualMachine;
     }
 

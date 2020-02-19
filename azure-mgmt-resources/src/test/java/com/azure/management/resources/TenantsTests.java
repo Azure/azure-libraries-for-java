@@ -12,8 +12,8 @@ import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.implementation.ResourceManager;
 import com.azure.management.resources.models.TenantIdDescriptionInner;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class TenantsTests extends TestBase {
     protected static ResourceManager.Authenticated resourceManager;
@@ -32,6 +32,6 @@ public class TenantsTests extends TestBase {
     @Test
     public void canListTenants() throws Exception {
         PagedIterable<TenantIdDescriptionInner> tenants = resourceManager.tenants().list();
-        Assert.assertTrue(TestUtilities.getPagedIterableSize(tenants) > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(tenants) > 0);
     }
 }

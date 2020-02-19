@@ -9,24 +9,24 @@ package com.microsoft.azure.management.samples;
 import com.microsoft.azure.management.eventhub.samples.ManageEventHub;
 import com.microsoft.azure.management.eventhub.samples.ManageEventHubEvents;
 import com.microsoft.azure.management.eventhub.samples.ManageEventHubGeoDisasterRecovery;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class EventHubTests extends SamplesTestBase {
     @Test
     public void testManageEventHubGeoDisasterRecovery() {
-        Assert.assertTrue(ManageEventHubGeoDisasterRecovery.runSample(azure));
+        Assertions.assertTrue(ManageEventHubGeoDisasterRecovery.runSample(azure));
     }
 
     @Test
-    @Ignore("Sample uses storage dataplane api which cannot be recorded")
+    @Disabled("Sample uses storage dataplane api which cannot be recorded")
     public void testManageEventHub() {
-        Assert.assertTrue(ManageEventHub.runSample(azure));
+        Assertions.assertTrue(ManageEventHub.runSample(azure));
     }
 
     @Test
     public void testManageEventHubEvents() {
-        Assert.assertTrue(ManageEventHubEvents.runSample(azure));
+        Assertions.assertTrue(ManageEventHubEvents.runSample(azure));
     }
 }

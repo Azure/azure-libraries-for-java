@@ -18,8 +18,8 @@ import com.azure.security.keyvault.keys.cryptography.models.SignatureAlgorithm;
 import com.azure.security.keyvault.keys.models.JsonWebKey;
 import com.azure.security.keyvault.keys.models.KeyOperation;
 import com.azure.security.keyvault.keys.models.KeyType;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -48,21 +48,21 @@ public class KeyTests extends KeyVaultManagementTest {
                 .withKeyOperations(KeyOperation.SIGN, KeyOperation.VERIFY)
                 .create();
 
-        Assert.assertNotNull(key);
-        Assert.assertNotNull(key.id());
-        Assert.assertEquals(2, key.getJsonWebKey().getKeyOps().size());
+        Assertions.assertNotNull(key);
+        Assertions.assertNotNull(key.id());
+        Assertions.assertEquals(2, key.getJsonWebKey().getKeyOps().size());
 
         // Get
         Key key1 = vault.keys().getById(key.id());
-        Assert.assertNotNull(key1);
-        Assert.assertEquals(key.id(), key1.id());
+        Assertions.assertNotNull(key1);
+        Assertions.assertEquals(key.id(), key1.id());
 
         // Update
         key = key.update()
                 .withKeyOperations(KeyOperation.ENCRYPT)
                 .apply();
 
-        Assert.assertEquals(1, key.getJsonWebKey().getKeyOps().size());
+        Assertions.assertEquals(1, key.getJsonWebKey().getKeyOps().size());
 
         // New version
         key = key.update()
@@ -70,11 +70,11 @@ public class KeyTests extends KeyVaultManagementTest {
                 .withKeyOperations(KeyOperation.ENCRYPT, KeyOperation.DECRYPT, KeyOperation.SIGN)
                 .apply();
 
-        Assert.assertEquals(3, key.getJsonWebKey().getKeyOps().size());
+        Assertions.assertEquals(3, key.getJsonWebKey().getKeyOps().size());
 
         // List versions
         Iterable<Key> keys = key.listVersions();
-        Assert.assertEquals(2, TestUtilities.getPagedIterableSize(keys));
+        Assertions.assertEquals(2, TestUtilities.getPagedIterableSize(keys));
     }
 
     @Test
@@ -86,8 +86,8 @@ public class KeyTests extends KeyVaultManagementTest {
                 .withLocalKeyToImport(JsonWebKey.fromRsa(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
                 .create();
 
-        Assert.assertNotNull(key);
-        Assert.assertNotNull(key.id());
+        Assertions.assertNotNull(key);
+        Assertions.assertNotNull(key.id());
     }
 
     @Test
@@ -99,18 +99,18 @@ public class KeyTests extends KeyVaultManagementTest {
                 .withLocalKeyToImport(JsonWebKey.fromRsa(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
                 .create();
 
-        Assert.assertNotNull(key);
+        Assertions.assertNotNull(key);
 
         byte[] backup = key.backup();
 
         vault.keys().deleteById(key.id());
-        Assert.assertEquals(0, TestUtilities.getPagedIterableSize(vault.keys().list()));
+        Assertions.assertEquals(0, TestUtilities.getPagedIterableSize(vault.keys().list()));
 
         vault.keys().restore(backup);
         PagedIterable<Key> keys = vault.keys().list();
-        Assert.assertEquals(1, TestUtilities.getPagedIterableSize(keys));
+        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(keys));
 
-        Assert.assertEquals(key.getJsonWebKey(), keys.iterator().next().getJsonWebKey());
+        Assertions.assertEquals(key.getJsonWebKey(), keys.iterator().next().getJsonWebKey());
     }
 
     @Test
@@ -124,17 +124,17 @@ public class KeyTests extends KeyVaultManagementTest {
                 .withLocalKeyToImport(JsonWebKey.fromRsa(keyPair))
                 .create();
 
-        Assert.assertNotNull(key);
+        Assertions.assertNotNull(key);
 
         String s = "the quick brown fox jumps over the lazy dog";
         byte[] data = s.getBytes();
 
         // Remote encryption
         byte[] encrypted = key.encrypt(EncryptionAlgorithm.RSA1_5, data);
-        Assert.assertNotNull(encrypted);
+        Assertions.assertNotNull(encrypted);
 
         byte[] decrypted = key.decrypt(EncryptionAlgorithm.RSA1_5, encrypted);
-        Assert.assertEquals(s, new String(decrypted));
+        Assertions.assertEquals(s, new String(decrypted));
 
         // Local encryption
         Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
@@ -142,7 +142,7 @@ public class KeyTests extends KeyVaultManagementTest {
         encrypted = cipher.doFinal(data);
 
         decrypted = key.decrypt(EncryptionAlgorithm.RSA_OAEP, encrypted);
-        Assert.assertEquals(s, new String(decrypted));
+        Assertions.assertEquals(s, new String(decrypted));
     }
 
     @Test
@@ -156,22 +156,22 @@ public class KeyTests extends KeyVaultManagementTest {
                 .withLocalKeyToImport(JsonWebKey.fromRsa(keyPair))
                 .create();
 
-        Assert.assertNotNull(key);
+        Assertions.assertNotNull(key);
 
         String s = "the quick brown fox jumps over the lazy dog";
         byte[] data = s.getBytes();
         byte[] digest = MessageDigest.getInstance("SHA-256").digest(data);
         byte[] signature = key.sign(SignatureAlgorithm.RS256, digest);
-        Assert.assertNotNull(signature);
+        Assertions.assertNotNull(signature);
 
         // Local verification
         Signature sign = Signature.getInstance("SHA256withRSA");
         sign.initVerify(keyPair.getPublic());
         sign.update(data);
-        Assert.assertTrue(sign.verify(signature));
+        Assertions.assertTrue(sign.verify(signature));
 
         // Remote verification
-        Assert.assertTrue(key.verify(SignatureAlgorithm.RS256, digest, signature));
+        Assertions.assertTrue(key.verify(SignatureAlgorithm.RS256, digest, signature));
     }
 
     @Test
@@ -186,11 +186,11 @@ public class KeyTests extends KeyVaultManagementTest {
         SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();
 
         byte[] wrapped = key.wrapKey(KeyWrapAlgorithm.RSA1_5, secretKey.getEncoded());
-        Assert.assertNotNull(wrapped);
+        Assertions.assertNotNull(wrapped);
 
         byte[] unwrapped = key.unwrapKey(KeyWrapAlgorithm.RSA1_5, wrapped);
-        Assert.assertNotNull(unwrapped);
-        Assert.assertEquals(secretKey, new SecretKeySpec(unwrapped, "AES"));
+        Assertions.assertNotNull(unwrapped);
+        Assertions.assertEquals(secretKey, new SecretKeySpec(unwrapped, "AES"));
     }
 
     private Vault createVault() throws Exception {
@@ -207,7 +207,7 @@ public class KeyTests extends KeyVaultManagementTest {
                     .attach()
                 .create();
 
-        Assert.assertNotNull(vault);
+        Assertions.assertNotNull(vault);
 
         SdkContext.sleep(10000);
 

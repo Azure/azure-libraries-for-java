@@ -9,14 +9,14 @@ package com.azure.management.storage;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.storage.models.UsageInner;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 public class UsageOperationsTests extends StorageManagementTest {
     @Test
-    @Ignore("Service is no longer supporting listing")
+    @Disabled("Service is no longer supporting listing")
     public void canGetUsages() throws Exception {
         PagedIterable<UsageInner> usages = storageManager.usages().list();
         System.out.println(TestUtilities.getPagedIterableSize(usages));

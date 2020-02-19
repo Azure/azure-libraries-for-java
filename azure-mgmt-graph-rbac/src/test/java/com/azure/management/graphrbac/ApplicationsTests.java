@@ -7,8 +7,8 @@
 package com.azure.management.graphrbac;
 
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 
@@ -32,20 +32,20 @@ public class ApplicationsTests extends GraphRbacManagementTest {
                         .attach()
                     .create();
             System.out.println(application.id() + " - " + application.applicationId());
-            Assert.assertNotNull(application.id());
-            Assert.assertNotNull(application.applicationId());
-            Assert.assertEquals(name, application.name());
-            Assert.assertEquals(1, application.certificateCredentials().size());
-            Assert.assertEquals(1, application.passwordCredentials().size());
-            Assert.assertEquals(1, application.replyUrls().size());
-            Assert.assertEquals(1, application.identifierUris().size());
-            Assert.assertEquals("http://easycreate.azure.com/" + name, application.signOnUrl().toString());
+            Assertions.assertNotNull(application.id());
+            Assertions.assertNotNull(application.applicationId());
+            Assertions.assertEquals(name, application.name());
+            Assertions.assertEquals(1, application.certificateCredentials().size());
+            Assertions.assertEquals(1, application.passwordCredentials().size());
+            Assertions.assertEquals(1, application.replyUrls().size());
+            Assertions.assertEquals(1, application.identifierUris().size());
+            Assertions.assertEquals("http://easycreate.azure.com/" + name, application.signOnUrl().toString());
 
             application.update()
                     .withoutCredential("passwd")
                     .apply();
             System.out.println(application.id() + " - " + application.applicationId());
-            Assert.assertEquals(0, application.passwordCredentials().size());
+            Assertions.assertEquals(0, application.passwordCredentials().size());
         } finally {
             if (application != null) {
                 graphRbacManager.applications().deleteById(application.id());

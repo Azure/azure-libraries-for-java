@@ -10,31 +10,31 @@ import com.microsoft.azure.management.monitor.samples.AutoscaleSettingsBasedOnPe
 import com.microsoft.azure.management.monitor.samples.QueryMetricsAndActivityLogs;
 import com.microsoft.azure.management.monitor.samples.SecurityBreachOrRiskActivityLogAlerts;
 import com.microsoft.azure.management.monitor.samples.WebAppPerformanceMonitoringAlerts;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class MonitorTests extends SamplesTestBase {
 
     @Test
-    @Ignore("Live only sample due to the need to query metrics at the current execution time which is always variable.")
+    @Disabled("Live only sample due to the need to query metrics at the current execution time which is always variable.")
     public void testQueryMetricsAndActivityLogs() {
-        Assert.assertTrue(QueryMetricsAndActivityLogs.runSample(azure));
+        Assertions.assertTrue(QueryMetricsAndActivityLogs.runSample(azure));
     }
 
     @Test
-    @Ignore("Live only sample due to the need to query metrics at the current execution time which is always variable.")
+    @Disabled("Live only sample due to the need to query metrics at the current execution time which is always variable.")
     public void testSecurityBreachOrRiskActivityLogAlerts() {
-        Assert.assertTrue(SecurityBreachOrRiskActivityLogAlerts.runSample(azure));
+        Assertions.assertTrue(SecurityBreachOrRiskActivityLogAlerts.runSample(azure));
     }
 
     @Test
     public void testWebAppPerformanceMonitoringAlerts() {
-        Assert.assertTrue(WebAppPerformanceMonitoringAlerts.runSample(azure));
+        Assertions.assertTrue(WebAppPerformanceMonitoringAlerts.runSample(azure));
     }
 
     @Test
     public void testAutoscaleSettingsBasedOnPerformanceOrSchedule() {
-        Assert.assertTrue(AutoscaleSettingsBasedOnPerformanceOrSchedule.runSample(azure));
+        Assertions.assertTrue(AutoscaleSettingsBasedOnPerformanceOrSchedule.runSample(azure));
     }
 }

@@ -17,6 +17,7 @@ import com.azure.core.util.polling.PollerFlux;
 import com.azure.core.util.polling.PollingContext;
 import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -101,7 +102,6 @@ public abstract class AzureServiceClient {
 
     private SerializerAdapter serializerAdapter = new AzureJacksonAdapter();
 
-    private int longRunningOperationRetryTimeout = 30;
 
     public SerializerAdapter getSerializerAdapter() {
         return this.serializerAdapter;
@@ -115,7 +115,7 @@ public abstract class AzureServiceClient {
                 httpPipeline,
                 pollResultType,
                 finalResultType,
-                Duration.ofSeconds(this.longRunningOperationRetryTimeout),
+                Duration.ofSeconds(SdkContext.getLroRetryTimeOut()),
                 activationOperation(lroInit, pollResultType));
     }
 

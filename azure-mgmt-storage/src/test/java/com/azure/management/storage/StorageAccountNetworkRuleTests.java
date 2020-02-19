@@ -9,8 +9,8 @@ package com.azure.management.storage;
 import com.azure.management.RestClient;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class StorageAccountNetworkRuleTests extends StorageManagementTest {
     private static String RG_NAME = "";
@@ -40,19 +40,19 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
                 .withNewResourceGroup(RG_NAME)
                 .create();
 
-        Assert.assertNotNull(storageAccount1.networkSubnetsWithAccess());
-        Assert.assertEquals(0, storageAccount1.networkSubnetsWithAccess().size());
+        Assertions.assertNotNull(storageAccount1.networkSubnetsWithAccess());
+        Assertions.assertEquals(0, storageAccount1.networkSubnetsWithAccess().size());
 
-        Assert.assertNotNull(storageAccount1.ipAddressesWithAccess());
-        Assert.assertEquals(0, storageAccount1.ipAddressesWithAccess().size());
+        Assertions.assertNotNull(storageAccount1.ipAddressesWithAccess());
+        Assertions.assertEquals(0, storageAccount1.ipAddressesWithAccess().size());
 
-        Assert.assertNotNull(storageAccount1.ipAddressRangesWithAccess());
-        Assert.assertEquals(0, storageAccount1.ipAddressRangesWithAccess().size());
+        Assertions.assertNotNull(storageAccount1.ipAddressRangesWithAccess());
+        Assertions.assertEquals(0, storageAccount1.ipAddressRangesWithAccess().size());
 
-        Assert.assertTrue(storageAccount1.isAccessAllowedFromAllNetworks());
-        Assert.assertTrue(storageAccount1.canAccessFromAzureServices());
-        Assert.assertTrue(storageAccount1.canReadMetricsFromAnyNetwork());
-        Assert.assertTrue(storageAccount1.canReadMetricsFromAnyNetwork());
+        Assertions.assertTrue(storageAccount1.isAccessAllowedFromAllNetworks());
+        Assertions.assertTrue(storageAccount1.canAccessFromAzureServices());
+        Assertions.assertTrue(storageAccount1.canReadMetricsFromAnyNetwork());
+        Assertions.assertTrue(storageAccount1.canReadMetricsFromAnyNetwork());
 
         ResourceGroup resourceGroup = resourceManager
                 .resourceGroups()
@@ -65,23 +65,23 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
                 .withAccessFromIpAddress("23.20.0.0")
                 .create();
 
-        Assert.assertNotNull(storageAccount2.inner().getNetworkRuleSet());
-        Assert.assertNotNull(storageAccount2.inner().getNetworkRuleSet().getDefaultAction());
-        Assert.assertNotNull(storageAccount2.inner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.DENY));
+        Assertions.assertNotNull(storageAccount2.inner().getNetworkRuleSet());
+        Assertions.assertNotNull(storageAccount2.inner().getNetworkRuleSet().getDefaultAction());
+        Assertions.assertNotNull(storageAccount2.inner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.DENY));
 
-        Assert.assertNotNull(storageAccount2.networkSubnetsWithAccess());
-        Assert.assertEquals(0, storageAccount2.networkSubnetsWithAccess().size());
+        Assertions.assertNotNull(storageAccount2.networkSubnetsWithAccess());
+        Assertions.assertEquals(0, storageAccount2.networkSubnetsWithAccess().size());
 
-        Assert.assertNotNull(storageAccount2.ipAddressesWithAccess());
-        Assert.assertEquals(1, storageAccount2.ipAddressesWithAccess().size());
+        Assertions.assertNotNull(storageAccount2.ipAddressesWithAccess());
+        Assertions.assertEquals(1, storageAccount2.ipAddressesWithAccess().size());
 
-        Assert.assertNotNull(storageAccount2.ipAddressRangesWithAccess());
-        Assert.assertEquals(0, storageAccount2.ipAddressRangesWithAccess().size());
+        Assertions.assertNotNull(storageAccount2.ipAddressRangesWithAccess());
+        Assertions.assertEquals(0, storageAccount2.ipAddressRangesWithAccess().size());
 
-        Assert.assertFalse(storageAccount2.isAccessAllowedFromAllNetworks());
-        Assert.assertFalse(storageAccount2.canAccessFromAzureServices());
-        Assert.assertFalse(storageAccount2.canReadMetricsFromAnyNetwork());
-        Assert.assertFalse(storageAccount2.canReadMetricsFromAnyNetwork());
+        Assertions.assertFalse(storageAccount2.isAccessAllowedFromAllNetworks());
+        Assertions.assertFalse(storageAccount2.canAccessFromAzureServices());
+        Assertions.assertFalse(storageAccount2.canReadMetricsFromAnyNetwork());
+        Assertions.assertFalse(storageAccount2.canReadMetricsFromAnyNetwork());
 
         StorageAccount storageAccount3 = storageManager.storageAccounts()
                 .define(SA_NAME3)
@@ -91,23 +91,23 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
                 .withAccessFromIpAddress("23.20.0.0")
                 .create();
 
-        Assert.assertNotNull(storageAccount3.inner().getNetworkRuleSet());
-        Assert.assertNotNull(storageAccount3.inner().getNetworkRuleSet().getDefaultAction());
-        Assert.assertNotNull(storageAccount3.inner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.ALLOW));
+        Assertions.assertNotNull(storageAccount3.inner().getNetworkRuleSet());
+        Assertions.assertNotNull(storageAccount3.inner().getNetworkRuleSet().getDefaultAction());
+        Assertions.assertNotNull(storageAccount3.inner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.ALLOW));
 
-        Assert.assertNotNull(storageAccount3.networkSubnetsWithAccess());
-        Assert.assertEquals(0, storageAccount3.networkSubnetsWithAccess().size());
+        Assertions.assertNotNull(storageAccount3.networkSubnetsWithAccess());
+        Assertions.assertEquals(0, storageAccount3.networkSubnetsWithAccess().size());
 
-        Assert.assertNotNull(storageAccount3.ipAddressesWithAccess());
-        Assert.assertEquals(1, storageAccount3.ipAddressesWithAccess().size());
+        Assertions.assertNotNull(storageAccount3.ipAddressesWithAccess());
+        Assertions.assertEquals(1, storageAccount3.ipAddressesWithAccess().size());
 
-        Assert.assertNotNull(storageAccount3.ipAddressRangesWithAccess());
-        Assert.assertEquals(0, storageAccount3.ipAddressRangesWithAccess().size());
+        Assertions.assertNotNull(storageAccount3.ipAddressRangesWithAccess());
+        Assertions.assertEquals(0, storageAccount3.ipAddressRangesWithAccess().size());
 
-        Assert.assertTrue(storageAccount3.isAccessAllowedFromAllNetworks());
-        Assert.assertTrue(storageAccount3.canAccessFromAzureServices());
-        Assert.assertTrue(storageAccount3.canReadMetricsFromAnyNetwork());
-        Assert.assertTrue(storageAccount3.canReadLogEntriesFromAnyNetwork());
+        Assertions.assertTrue(storageAccount3.isAccessAllowedFromAllNetworks());
+        Assertions.assertTrue(storageAccount3.canAccessFromAzureServices());
+        Assertions.assertTrue(storageAccount3.canReadMetricsFromAnyNetwork());
+        Assertions.assertTrue(storageAccount3.canReadLogEntriesFromAnyNetwork());
 
         StorageAccount storageAccount4 = storageManager.storageAccounts()
                 .define(SA_NAME4)
@@ -117,23 +117,23 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
                 .withReadAccessToMetricsFromAnyNetwork()
                 .create();
 
-        Assert.assertNotNull(storageAccount4.inner().getNetworkRuleSet());
-        Assert.assertNotNull(storageAccount4.inner().getNetworkRuleSet().getDefaultAction());
-        Assert.assertNotNull(storageAccount4.inner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.DENY));
+        Assertions.assertNotNull(storageAccount4.inner().getNetworkRuleSet());
+        Assertions.assertNotNull(storageAccount4.inner().getNetworkRuleSet().getDefaultAction());
+        Assertions.assertNotNull(storageAccount4.inner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.DENY));
 
-        Assert.assertNotNull(storageAccount4.networkSubnetsWithAccess());
-        Assert.assertEquals(0, storageAccount4.networkSubnetsWithAccess().size());
+        Assertions.assertNotNull(storageAccount4.networkSubnetsWithAccess());
+        Assertions.assertEquals(0, storageAccount4.networkSubnetsWithAccess().size());
 
-        Assert.assertNotNull(storageAccount4.ipAddressesWithAccess());
-        Assert.assertEquals(0, storageAccount4.ipAddressesWithAccess().size());
+        Assertions.assertNotNull(storageAccount4.ipAddressesWithAccess());
+        Assertions.assertEquals(0, storageAccount4.ipAddressesWithAccess().size());
 
-        Assert.assertNotNull(storageAccount3.ipAddressRangesWithAccess());
-        Assert.assertEquals(0, storageAccount4.ipAddressRangesWithAccess().size());
+        Assertions.assertNotNull(storageAccount3.ipAddressRangesWithAccess());
+        Assertions.assertEquals(0, storageAccount4.ipAddressRangesWithAccess().size());
 
-        Assert.assertFalse(storageAccount4.isAccessAllowedFromAllNetworks());
-        Assert.assertFalse(storageAccount4.canAccessFromAzureServices());
-        Assert.assertTrue(storageAccount4.canReadMetricsFromAnyNetwork());
-        Assert.assertTrue(storageAccount4.canReadLogEntriesFromAnyNetwork());
+        Assertions.assertFalse(storageAccount4.isAccessAllowedFromAllNetworks());
+        Assertions.assertFalse(storageAccount4.canAccessFromAzureServices());
+        Assertions.assertTrue(storageAccount4.canReadMetricsFromAnyNetwork());
+        Assertions.assertTrue(storageAccount4.canReadLogEntriesFromAnyNetwork());
     }
 
     @Test
@@ -146,37 +146,37 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
                 .withNewResourceGroup(RG_NAME)
                 .create();
 
-        Assert.assertNotNull(storageAccount1.networkSubnetsWithAccess());
-        Assert.assertEquals(0, storageAccount1.networkSubnetsWithAccess().size());
+        Assertions.assertNotNull(storageAccount1.networkSubnetsWithAccess());
+        Assertions.assertEquals(0, storageAccount1.networkSubnetsWithAccess().size());
 
-        Assert.assertNotNull(storageAccount1.ipAddressesWithAccess());
-        Assert.assertEquals(0, storageAccount1.ipAddressesWithAccess().size());
+        Assertions.assertNotNull(storageAccount1.ipAddressesWithAccess());
+        Assertions.assertEquals(0, storageAccount1.ipAddressesWithAccess().size());
 
-        Assert.assertNotNull(storageAccount1.ipAddressRangesWithAccess());
-        Assert.assertEquals(0, storageAccount1.ipAddressRangesWithAccess().size());
+        Assertions.assertNotNull(storageAccount1.ipAddressRangesWithAccess());
+        Assertions.assertEquals(0, storageAccount1.ipAddressRangesWithAccess().size());
 
-        Assert.assertTrue(storageAccount1.isAccessAllowedFromAllNetworks());
-        Assert.assertTrue(storageAccount1.canAccessFromAzureServices());
-        Assert.assertTrue(storageAccount1.canReadMetricsFromAnyNetwork());
-        Assert.assertTrue(storageAccount1.canReadMetricsFromAnyNetwork());
+        Assertions.assertTrue(storageAccount1.isAccessAllowedFromAllNetworks());
+        Assertions.assertTrue(storageAccount1.canAccessFromAzureServices());
+        Assertions.assertTrue(storageAccount1.canReadMetricsFromAnyNetwork());
+        Assertions.assertTrue(storageAccount1.canReadMetricsFromAnyNetwork());
 
         storageAccount1.update()
                 .withAccessFromSelectedNetworks()
                 .withAccessFromIpAddressRange("23.20.0.0/20")
                 .apply();
 
-        Assert.assertNotNull(storageAccount1.networkSubnetsWithAccess());
-        Assert.assertEquals(0, storageAccount1.networkSubnetsWithAccess().size());
+        Assertions.assertNotNull(storageAccount1.networkSubnetsWithAccess());
+        Assertions.assertEquals(0, storageAccount1.networkSubnetsWithAccess().size());
 
-        Assert.assertNotNull(storageAccount1.ipAddressesWithAccess());
-        Assert.assertEquals(0, storageAccount1.ipAddressesWithAccess().size());
+        Assertions.assertNotNull(storageAccount1.ipAddressesWithAccess());
+        Assertions.assertEquals(0, storageAccount1.ipAddressesWithAccess().size());
 
-        Assert.assertNotNull(storageAccount1.ipAddressRangesWithAccess());
-        Assert.assertEquals(1, storageAccount1.ipAddressRangesWithAccess().size());
+        Assertions.assertNotNull(storageAccount1.ipAddressRangesWithAccess());
+        Assertions.assertEquals(1, storageAccount1.ipAddressRangesWithAccess().size());
 
-        Assert.assertFalse(storageAccount1.isAccessAllowedFromAllNetworks());
-        Assert.assertTrue(storageAccount1.canAccessFromAzureServices());
-        Assert.assertFalse(storageAccount1.canReadMetricsFromAnyNetwork());
-        Assert.assertFalse(storageAccount1.canReadMetricsFromAnyNetwork());
+        Assertions.assertFalse(storageAccount1.isAccessAllowedFromAllNetworks());
+        Assertions.assertTrue(storageAccount1.canAccessFromAzureServices());
+        Assertions.assertFalse(storageAccount1.canReadMetricsFromAnyNetwork());
+        Assertions.assertFalse(storageAccount1.canReadMetricsFromAnyNetwork());
     }
 }

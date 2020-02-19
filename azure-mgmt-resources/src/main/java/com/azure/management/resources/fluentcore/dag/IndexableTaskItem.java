@@ -257,8 +257,8 @@ public abstract class IndexableTaskItem
     }
 
     @Override
-    public Flux<Indexable> invokeAfterPostRunAsync(boolean isGroupFaulted) {
-        return Flux.empty();
+    public Mono<Void> invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        return Mono.empty();
     }
 
     protected abstract Mono<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context);

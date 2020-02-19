@@ -6,17 +6,17 @@
 
 package com.azure.management.graphrbac;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class RoleDefinitionTests extends GraphRbacManagementTest {
     @Test
     public void canGetRoleByRoleName() throws Exception {
         RoleDefinition roleDefinition = graphRbacManager.roleDefinitions()
                 .getByScopeAndRoleName("subscriptions/" + resourceManager.getSubscriptionId(), "Contributor");
-        Assert.assertNotNull(roleDefinition);
-        Assert.assertEquals("Contributor", roleDefinition.roleName());
+        Assertions.assertNotNull(roleDefinition);
+        Assertions.assertEquals("Contributor", roleDefinition.roleName());
     }
 
 }

@@ -7,7 +7,7 @@ package com.microsoft.azure.management;
 
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.search.*;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class TestSearchService {
             final String newName = "ssrv" + this.testId;
             String rgName = "rgSearch" + this.testId;
 
-            Assert.assertTrue(searchServices.checkNameAvailability(newName).isAvailable());
+            Assertions.assertTrue(searchServices.checkNameAvailability(newName).isAvailable());
 
             SearchService searchService = searchServices.define(newName)
                 .withRegion(Region.US_WEST)
@@ -31,18 +31,18 @@ public class TestSearchService {
                 .withSku(SkuName.STANDARD)
                 .create();
 
-            Assert.assertEquals(SkuName.STANDARD, searchService.sku().name());
-            Assert.assertEquals(1, searchService.replicaCount());
-            Assert.assertEquals(1, searchService.partitionCount());
+            Assertions.assertEquals(SkuName.STANDARD, searchService.sku().name());
+            Assertions.assertEquals(1, searchService.replicaCount());
+            Assertions.assertEquals(1, searchService.partitionCount());
 
             AdminKeys adminKeys = searchService.getAdminKeys();
-            Assert.assertNotNull(adminKeys);
-            Assert.assertNotNull(adminKeys.primaryKey());
-            Assert.assertNotNull(adminKeys.secondaryKey());
+            Assertions.assertNotNull(adminKeys);
+            Assertions.assertNotNull(adminKeys.primaryKey());
+            Assertions.assertNotNull(adminKeys.secondaryKey());
 
             List<QueryKey> queryKeys = searchService.listQueryKeys();
-            Assert.assertNotNull(queryKeys);
-            Assert.assertEquals(1, queryKeys.size());
+            Assertions.assertNotNull(queryKeys);
+            Assertions.assertEquals(1, queryKeys.size());
 
             return searchService;
         }
@@ -58,11 +58,11 @@ public class TestSearchService {
                 .withReplicaCount(1)
                 .withPartitionCount(1)
                 .apply();
-            Assert.assertTrue(resource.tags().containsKey("tag2"));
-            Assert.assertTrue(!resource.tags().containsKey("tag1"));
-            Assert.assertEquals(1, resource.replicaCount());
-            Assert.assertEquals(1, resource.partitionCount());
-            Assert.assertEquals(2, resource.listQueryKeys().size());
+            Assertions.assertTrue(resource.tags().containsKey("tag2"));
+            Assertions.assertTrue(!resource.tags().containsKey("tag1"));
+            Assertions.assertEquals(1, resource.replicaCount());
+            Assertions.assertEquals(1, resource.partitionCount());
+            Assertions.assertEquals(2, resource.listQueryKeys().size());
 
             String adminKeyPrimary = resource.getAdminKeys().primaryKey();
             String adminKeySecondary = resource.getAdminKeys().secondaryKey();
@@ -70,9 +70,9 @@ public class TestSearchService {
             resource.deleteQueryKey(resource.listQueryKeys().get(1).key());
             resource.regenerateAdminKeys(AdminKeyKind.PRIMARY);
             resource.regenerateAdminKeys(AdminKeyKind.SECONDARY);
-            Assert.assertEquals(1, resource.listQueryKeys().size());
-            Assert.assertNotEquals(adminKeyPrimary, resource.getAdminKeys().primaryKey());
-            Assert.assertNotEquals(adminKeySecondary, resource.getAdminKeys().secondaryKey());
+            Assertions.assertEquals(1, resource.listQueryKeys().size());
+            Assertions.assertNotEquals(adminKeyPrimary, resource.getAdminKeys().primaryKey());
+            Assertions.assertNotEquals(adminKeySecondary, resource.getAdminKeys().secondaryKey());
 
             return resource;
         }
@@ -98,9 +98,9 @@ public class TestSearchService {
                 .withFreeSku()
                 .create();
 
-            Assert.assertEquals(SkuName.FREE, searchService.sku().name());
-            Assert.assertEquals(1, searchService.replicaCount());
-            Assert.assertEquals(1, searchService.partitionCount());
+            Assertions.assertEquals(SkuName.FREE, searchService.sku().name());
+            Assertions.assertEquals(1, searchService.replicaCount());
+            Assertions.assertEquals(1, searchService.partitionCount());
 
             return searchService;
         }
@@ -112,8 +112,8 @@ public class TestSearchService {
                 .withTag("tag3", "value3")
                 .withoutTag("tag1")
                 .apply();
-            Assert.assertTrue(resource.tags().containsKey("tag2"));
-            Assert.assertTrue(!resource.tags().containsKey("tag1"));
+            Assertions.assertTrue(resource.tags().containsKey("tag2"));
+            Assertions.assertTrue(!resource.tags().containsKey("tag1"));
             return resource;
         }
 
@@ -139,9 +139,9 @@ public class TestSearchService {
                 .withReplicaCount(1)
                 .create();
 
-            Assert.assertEquals(SkuName.BASIC, searchService.sku().name());
-            Assert.assertEquals(1, searchService.replicaCount());
-            Assert.assertEquals(1, searchService.partitionCount());
+            Assertions.assertEquals(SkuName.BASIC, searchService.sku().name());
+            Assertions.assertEquals(1, searchService.replicaCount());
+            Assertions.assertEquals(1, searchService.partitionCount());
 
             return searchService;
         }
@@ -153,8 +153,8 @@ public class TestSearchService {
                 .withTag("tag3", "value3")
                 .withoutTag("tag1")
                 .apply();
-            Assert.assertTrue(resource.tags().containsKey("tag2"));
-            Assert.assertTrue(!resource.tags().containsKey("tag1"));
+            Assertions.assertTrue(resource.tags().containsKey("tag2"));
+            Assertions.assertTrue(!resource.tags().containsKey("tag1"));
             return resource;
         }
 
@@ -181,9 +181,9 @@ public class TestSearchService {
                 .withReplicaCount(1)
                 .create();
 
-            Assert.assertEquals(SkuName.STANDARD, searchService.sku().name());
-            Assert.assertEquals(1, searchService.replicaCount());
-            Assert.assertEquals(2, searchService.partitionCount());
+            Assertions.assertEquals(SkuName.STANDARD, searchService.sku().name());
+            Assertions.assertEquals(1, searchService.replicaCount());
+            Assertions.assertEquals(2, searchService.partitionCount());
 
             return searchService;
         }
@@ -197,11 +197,11 @@ public class TestSearchService {
                 .withTag("tag3", "value3")
                 .withoutTag("tag1")
                 .apply();
-            Assert.assertTrue(resource.tags().containsKey("tag2"));
-            Assert.assertTrue(!resource.tags().containsKey("tag1"));
-            Assert.assertEquals(SkuName.STANDARD, resource.sku().name());
-            Assert.assertEquals(1, resource.replicaCount());
-            Assert.assertEquals(1, resource.partitionCount());
+            Assertions.assertTrue(resource.tags().containsKey("tag2"));
+            Assertions.assertTrue(!resource.tags().containsKey("tag1"));
+            Assertions.assertEquals(SkuName.STANDARD, resource.sku().name());
+            Assertions.assertEquals(1, resource.replicaCount());
+            Assertions.assertEquals(1, resource.partitionCount());
 
             return resource;
         }

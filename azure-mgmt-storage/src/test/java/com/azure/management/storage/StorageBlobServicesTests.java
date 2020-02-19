@@ -2,8 +2,8 @@ package com.azure.management.storage;
 
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class StorageBlobServicesTests extends StorageManagementTest {
     private static String RG_NAME = "";
@@ -37,8 +37,8 @@ public class StorageBlobServicesTests extends StorageManagementTest {
                 .withDeleteRetentionPolicyEnabled(5)
                 .create();
 
-        Assert.assertTrue(blobService.deleteRetentionPolicy().isEnabled());
-        Assert.assertEquals(5, blobService.deleteRetentionPolicy().getDays().intValue());
+        Assertions.assertTrue(blobService.deleteRetentionPolicy().isEnabled());
+        Assertions.assertEquals(5, blobService.deleteRetentionPolicy().getDays().intValue());
 
     }
 
@@ -62,7 +62,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
                 .withDeleteRetentionPolicyDisabled()
                 .apply();
 
-        Assert.assertFalse(blobService.deleteRetentionPolicy().isEnabled());
+        Assertions.assertFalse(blobService.deleteRetentionPolicy().isEnabled());
 
     }
 }

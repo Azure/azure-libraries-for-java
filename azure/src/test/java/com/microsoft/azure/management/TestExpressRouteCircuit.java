@@ -11,7 +11,7 @@ import com.microsoft.azure.management.network.ExpressRouteCircuits;
 import com.microsoft.azure.management.network.ExpressRoutePeeringType;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Tests Express Route Circuit.
@@ -56,17 +56,17 @@ public class TestExpressRouteCircuit {
                     .withSku(ExpressRouteCircuitSkuType.PREMIUM_UNLIMITEDDATA)
                     .apply();
             resource.refresh();
-            Assert.assertTrue(resource.tags().containsKey("tag2"));
-            Assert.assertTrue(!resource.tags().containsKey("tag1"));
-            Assert.assertEquals(Integer.valueOf(200), resource.serviceProviderProperties().bandwidthInMbps());
-            Assert.assertEquals(ExpressRouteCircuitSkuType.PREMIUM_UNLIMITEDDATA, resource.sku());
+            Assertions.assertTrue(resource.tags().containsKey("tag2"));
+            Assertions.assertTrue(!resource.tags().containsKey("tag1"));
+            Assertions.assertEquals(Integer.valueOf(200), resource.serviceProviderProperties().bandwidthInMbps());
+            Assertions.assertEquals(ExpressRouteCircuitSkuType.PREMIUM_UNLIMITEDDATA, resource.sku());
 
 //            resource.updateTags()
 //                    .withTag("tag3", "value3")
 //                    .withoutTag("tag2")
 //                    .applyTags();
-//            Assert.assertEquals("value3", resource.tags().get("tag3"));
-//            Assert.assertFalse(resource.tags().containsKey("tag2"));
+//            Assertions.assertEquals("value3", resource.tags().get("tag3"));
+//            Assertions.assertFalse(resource.tags().containsKey("tag2"));
 
             return resource;
         }
@@ -102,13 +102,13 @@ public class TestExpressRouteCircuit {
                     .withVlanId(200)
                     .withPeerAsn(100)
                     .create();
-            Assert.assertEquals(erc.peeringsMap().size(), 1);
+            Assertions.assertEquals(erc.peeringsMap().size(), 1);
             return erc;
         }
 
         @Override
         public ExpressRouteCircuit updateResource(ExpressRouteCircuit resource) throws Exception {
-            Assert.assertTrue(resource.peeringsMap().containsKey(ExpressRoutePeeringType.MICROSOFT_PEERING.toString()));
+            Assertions.assertTrue(resource.peeringsMap().containsKey(ExpressRoutePeeringType.MICROSOFT_PEERING.toString()));
             com.microsoft.azure.management.network.ExpressRouteCircuitPeering peering =
                     resource.peeringsMap().get(ExpressRoutePeeringType.MICROSOFT_PEERING.toString())
                     .update()
@@ -116,9 +116,9 @@ public class TestExpressRouteCircuit {
                     .withPeerAsn(101)
                     .withSecondaryPeerAddressPrefix("123.0.0.8/30")
                     .apply();
-            Assert.assertEquals(300, peering.vlanId());
-            Assert.assertEquals(101, peering.peerAsn());
-            Assert.assertEquals("123.0.0.8/30", peering.secondaryPeerAddressPrefix());
+            Assertions.assertEquals(300, peering.vlanId());
+            Assertions.assertEquals(101, peering.peerAsn());
+            Assertions.assertEquals("123.0.0.8/30", peering.secondaryPeerAddressPrefix());
             return resource;
         }
 

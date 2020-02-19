@@ -2,8 +2,8 @@ package com.azure.management.storage;
 
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,9 +46,9 @@ public class StorageBlobContainersTests extends StorageManagementTest {
                 .create();
 
 
-        Assert.assertEquals("blob-test", blobContainer.name());
-        Assert.assertEquals(PublicAccess.CONTAINER, blobContainer.publicAccess());
-        Assert.assertEquals(metadataTest, blobContainer.metadata());
+        Assertions.assertEquals("blob-test", blobContainer.name());
+        Assertions.assertEquals(PublicAccess.CONTAINER, blobContainer.publicAccess());
+        Assertions.assertEquals(metadataTest, blobContainer.metadata());
     }
 
     @Test
@@ -82,8 +82,8 @@ public class StorageBlobContainersTests extends StorageManagementTest {
                 .withMetadata("e", "f")
                 .apply();
 
-        Assert.assertEquals("blob-test", blobContainer.name());
-        Assert.assertEquals(PublicAccess.BLOB, blobContainer.publicAccess());
-        Assert.assertEquals(metadataTest, blobContainer.metadata());
+        Assertions.assertEquals("blob-test", blobContainer.name());
+        Assertions.assertEquals(PublicAccess.BLOB, blobContainer.publicAccess());
+        Assertions.assertEquals(metadataTest, blobContainer.metadata());
     }
 }

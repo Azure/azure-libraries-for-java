@@ -10,8 +10,8 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -26,17 +26,17 @@ public class RouteFilterTests extends NetworkManagementTest {
                 .withNewResourceGroup(RG_NAME)
                 .withTag("tag1", "value1")
                 .create();
-        Assert.assertEquals("value1", routeFilter.tags().get("tag1"));
+        Assertions.assertEquals("value1", routeFilter.tags().get("tag1"));
 
         PagedIterable<RouteFilter> rfList = networkManager.routeFilters().list();
-        Assert.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
 
         rfList = networkManager.routeFilters().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
 
         networkManager.routeFilters().deleteById(routeFilter.id());
         rfList = networkManager.routeFilters().listByResourceGroup(RG_NAME);
-        Assert.assertTrue(TestUtilities.isEmpty(rfList));
+        Assertions.assertTrue(TestUtilities.isEmpty(rfList));
     }
 
     @Test
@@ -53,9 +53,9 @@ public class RouteFilterTests extends NetworkManagementTest {
                 .withBgpCommunity("12076:51004")
                 .attach()
                 .apply();
-        Assert.assertEquals(1, routeFilter.rules().size());
-        Assert.assertEquals(1, routeFilter.rules().get(ruleName).communities().size());
-        Assert.assertEquals("12076:51004", routeFilter.rules().get(ruleName).communities().get(0));
+        Assertions.assertEquals(1, routeFilter.rules().size());
+        Assertions.assertEquals(1, routeFilter.rules().get(ruleName).communities().size());
+        Assertions.assertEquals("12076:51004", routeFilter.rules().get(ruleName).communities().get(0));
 
         routeFilter.update()
                 .updateRule(ruleName)
@@ -63,7 +63,7 @@ public class RouteFilterTests extends NetworkManagementTest {
                 .denyAccess()
                 .parent()
                 .apply();
-        Assert.assertEquals(2, routeFilter.rules().get(ruleName).communities().size());
-        Assert.assertEquals(Access.DENY, routeFilter.rules().get(ruleName).access());
+        Assertions.assertEquals(2, routeFilter.rules().get(ruleName).communities().size());
+        Assertions.assertEquals(Access.DENY, routeFilter.rules().get(ruleName).access());
     }
 }

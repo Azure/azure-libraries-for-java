@@ -410,7 +410,7 @@ public class TaskGroup
             final boolean isFaulted = entry.hasFaultedDescentDependencyTasks() || isGroupCancelled.get();
 
             return proxyTaskItem.invokeAfterPostRunAsync(isFaulted)
-                    .flatMap((indexable) -> Flux.error(new IllegalStateException("This onNext should never be called")),
+                    .flatMapMany(indexable -> Flux.error(new IllegalStateException("This onNext should never be called")),
                             (error) -> processFaultedTaskAsync(entry, error, context),
                             () -> {
                                 if (isFaulted) {
@@ -744,9 +744,9 @@ public class TaskGroup
         }
 
         @Override
-        public Flux<Indexable> invokeAfterPostRunAsync(final boolean isGroupFaulted) {
+        public Mono<Void> invokeAfterPostRunAsync(final boolean isGroupFaulted) {
             if (actualTaskItem.isHot()) {
-                return Flux.defer(() -> actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted).subscribeOn(Schedulers.immediate()));
+                return Mono.defer(() -> actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted).subscribeOn(Schedulers.immediate()));
             } else {
                 return this.actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted)
                         .subscribeOn(Schedulers.immediate());

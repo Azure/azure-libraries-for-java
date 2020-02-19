@@ -11,9 +11,9 @@ import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class DeploymentsTests extends ResourceManagerTestBase {
     private static ResourceGroups resourceGroups;
@@ -64,25 +64,25 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 found = true;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
         // Check existence
-        Assert.assertTrue(resourceClient.deployments().checkExistence(rgName, dpName));
+        Assertions.assertTrue(resourceClient.deployments().checkExistence(rgName, dpName));
 
         // Get
         Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dpName);
-        Assert.assertNotNull(deployment);
-        Assert.assertEquals("Succeeded", deployment.provisioningState());
+        Assertions.assertNotNull(deployment);
+        Assertions.assertEquals("Succeeded", deployment.provisioningState());
         GenericResource generic = resourceClient.genericResources().get(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15");
-        Assert.assertNotNull(generic);
+        Assertions.assertNotNull(generic);
         // Export
-        Assert.assertNotNull(deployment.exportTemplate().templateAsJson());
+        Assertions.assertNotNull(deployment.exportTemplate().templateAsJson());
         // Export from resource group
-        Assert.assertNotNull(resourceGroup.exportTemplate(ResourceGroupExportTemplateOptions.INCLUDE_BOTH));
+        Assertions.assertNotNull(resourceGroup.exportTemplate(ResourceGroupExportTemplateOptions.INCLUDE_BOTH));
         // Deployment operations
         PagedIterable<DeploymentOperation> operations = deployment.deploymentOperations().list();
-        Assert.assertEquals(4, TestUtilities.getPagedIterableSize(operations));
+        Assertions.assertEquals(4, TestUtilities.getPagedIterableSize(operations));
         DeploymentOperation op = deployment.deploymentOperations().getById(operations.iterator().next().operationId());
-        Assert.assertNotNull(op);
+        Assertions.assertNotNull(op);
         resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15");
     }
 
@@ -106,12 +106,12 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 found = true;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
 
         // Get
         Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dpName);
-        Assert.assertNotNull(deployment);
-        Assert.assertEquals("Succeeded", deployment.provisioningState());
+        Assertions.assertNotNull(deployment);
+        Assertions.assertEquals("Succeeded", deployment.provisioningState());
 
         //What if
         WhatIfOperationResult result = deployment.prepareWhatIf()
@@ -119,9 +119,9 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .withWhatIfTemplateLink(templateUri, contentVersion)
                 .whatIf();
 
-        Assert.assertEquals("Succeeded", result.status());
+        Assertions.assertEquals("Succeeded", result.status());
         // FIXME: regression?
-        // Assert.assertEquals(3, result.changes().size());
+        // Assertions.assertEquals(3, result.changes().size());
 
         resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15");
     }
@@ -146,12 +146,12 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 found = true;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
 
         // Get
         Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dpName);
-        Assert.assertNotNull(deployment);
-        Assert.assertEquals("Succeeded", deployment.provisioningState());
+        Assertions.assertNotNull(deployment);
+        Assertions.assertEquals("Succeeded", deployment.provisioningState());
 
         //What if
         WhatIfOperationResult result = deployment.prepareWhatIf()
@@ -160,15 +160,15 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .withWhatIfTemplateLink(blankTemplateUri, contentVersion)
                 .whatIfAtSubscriptionScope();
 
-        Assert.assertEquals("Succeeded", result.status());
+        Assertions.assertEquals("Succeeded", result.status());
         // FIXME: Regression?
-        // Assert.assertEquals(0, result.changes().size());
+        // Assertions.assertEquals(0, result.changes().size());
 
         resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15");
     }
 
     @Test
-    @Ignore("deployment.cancel() doesn't throw but provisining state says Running not Cancelled...")
+    @Disabled("deployment.cancel() doesn't throw but provisining state says Running not Cancelled...")
     public void canCancelVirtualNetworkDeployment() throws Exception {
         final String dp = "dpB" + testId;
 
@@ -181,12 +181,12 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .withMode(DeploymentMode.COMPLETE)
                 .beginCreate();
         Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
-        Assert.assertEquals(dp, deployment.name());
+        Assertions.assertEquals(dp, deployment.name());
         // Cancel
         deployment.cancel();
         deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
-        Assert.assertEquals("Canceled", deployment.provisioningState());
-        Assert.assertFalse(resourceClient.genericResources().checkExistence(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15"));
+        Assertions.assertEquals("Canceled", deployment.provisioningState());
+        Assertions.assertFalse(resourceClient.genericResources().checkExistence(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15"));
     }
 
     @Test
@@ -202,12 +202,12 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .withMode(DeploymentMode.COMPLETE)
                 .beginCreate();
         Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
-        Assert.assertEquals(createdDeployment.correlationId(), deployment.correlationId());
-        Assert.assertEquals(dp, deployment.name());
+        Assertions.assertEquals(createdDeployment.correlationId(), deployment.correlationId());
+        Assertions.assertEquals(dp, deployment.name());
         // Cancel
         deployment.cancel();
         deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
-        Assert.assertEquals("Canceled", deployment.provisioningState());
+        Assertions.assertEquals("Canceled", deployment.provisioningState());
         // Update
         deployment.update()
                 .withTemplate(updateTemplate)
@@ -215,10 +215,10 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .withMode(DeploymentMode.INCREMENTAL)
                 .apply();
         deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
-        Assert.assertEquals(DeploymentMode.INCREMENTAL, deployment.mode());
-        Assert.assertEquals("Succeeded", deployment.provisioningState());
+        Assertions.assertEquals(DeploymentMode.INCREMENTAL, deployment.mode());
+        Assertions.assertEquals("Succeeded", deployment.provisioningState());
         GenericResource genericVnet = resourceClient.genericResources().get(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet2", "2015-06-15");
-        Assert.assertNotNull(genericVnet);
+        Assertions.assertNotNull(genericVnet);
         resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet2", "2015-06-15");
     }
 }

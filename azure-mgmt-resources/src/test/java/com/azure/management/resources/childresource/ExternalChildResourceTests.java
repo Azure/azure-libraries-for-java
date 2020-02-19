@@ -9,8 +9,8 @@ package com.azure.management.resources.childresource;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
@@ -35,11 +35,11 @@ public class ExternalChildResourceTests {
         //
         pullets.commitAsync()
                 .subscribe(
-                        pullet -> Assert.assertTrue("nothing to commit onNext should not be invoked", false),
+                        pullet -> Assertions.assertTrue(false, "nothing to commit onNext should not be invoked"),
 
                         throwable -> {
                             monitor.countDown();
-                            Assert.assertTrue("nothing to commit onError should not be invoked", false);
+                            Assertions.assertTrue(false, "nothing to commit onError should not be invoked");
                         },
                         () -> monitor.countDown()
                 );
@@ -66,15 +66,15 @@ public class ExternalChildResourceTests {
                 pullet -> changedPuppets.add(pullet),
                 throwable -> {
                     monitor.countDown();
-                    Assert.assertTrue("onError should not be invoked", false);
+                    Assertions.assertTrue(false, "onError should not be invoked");
                 },
                 () -> monitor.countDown()
         );
 
         monitor.await();
-        Assert.assertTrue(changedPuppets.size() == 3);
+        Assertions.assertTrue(changedPuppets.size() == 3);
         for (PulletImpl pullet : changedPuppets) {
-            Assert.assertTrue(pullet.pendingOperation() == ExternalChildResourceImpl.PendingOperation.None);
+            Assertions.assertTrue(pullet.pendingOperation() == ExternalChildResourceImpl.PendingOperation.None);
         }
     }
 
@@ -105,7 +105,7 @@ public class ExternalChildResourceTests {
                         throwable -> {
                             try {
                                 Throwable[] exception = throwable.getSuppressed();
-                                Assert.assertNotNull(exception);
+                                Assertions.assertNotNull(exception);
                                 for (Throwable innerThrowable : exception) {
                                     throwables.add(innerThrowable);
                                 }
@@ -115,13 +115,13 @@ public class ExternalChildResourceTests {
                         },
                         () -> {
                             monitor.countDown();
-                            Assert.assertTrue("onCompleted should not be invoked", false);
+                            Assertions.assertTrue(false, "onCompleted should not be invoked");
                         }
                 );
 
         monitor.await();
-        Assert.assertTrue(throwables.size() == 2);
-        Assert.assertTrue(changedPuppets.size() == 2);
+        Assertions.assertTrue(throwables.size() == 2);
+        Assertions.assertTrue(changedPuppets.size() == 2);
     }
 
     @Test
@@ -139,11 +139,11 @@ public class ExternalChildResourceTests {
         PulletsImpl pullets = chicken.pullets();
         final CountDownLatch monitor = new CountDownLatch(1);
         pullets.commitAndGetAllAsync()
-                .subscribe(lets -> Assert.assertTrue(lets.size() == 3),
+                .subscribe(lets -> Assertions.assertTrue(lets.size() == 3),
                         throwable ->
                         {
                             monitor.countDown();
-                            Assert.assertTrue("onError should not be invoked", false);
+                            Assertions.assertTrue(false, "onError should not be invoked");
                         },
                         () -> monitor.countDown()
                 );
@@ -183,13 +183,13 @@ public class ExternalChildResourceTests {
             }
         }).blockLast();
 
-        Assert.assertNotNull(foundSchool[0]);
-        Assert.assertNotNull(foundTeacher[0]);
-        Assert.assertNotNull(foundStudent[0]);
+        Assertions.assertNotNull(foundSchool[0]);
+        Assertions.assertNotNull(foundTeacher[0]);
+        Assertions.assertNotNull(foundStudent[0]);
 
-        Assert.assertTrue(foundSchool[0].isInvoked());
-        Assert.assertTrue(foundTeacher[0].isInvoked());
-        Assert.assertTrue(foundStudent[0].isInvoked());
+        Assertions.assertTrue(foundSchool[0].isInvoked());
+        Assertions.assertTrue(foundTeacher[0].isInvoked());
+        Assertions.assertTrue(foundStudent[0].isInvoked());
     }
 
     @Test
@@ -218,10 +218,10 @@ public class ExternalChildResourceTests {
                     }
                 }).blockLast();
 
-        Assert.assertNotNull(foundTeacher[0]);
-        Assert.assertNotNull(foundStudent[0]);
+        Assertions.assertNotNull(foundTeacher[0]);
+        Assertions.assertNotNull(foundStudent[0]);
 
-        Assert.assertTrue(foundTeacher[0].isInvoked());
-        Assert.assertTrue(foundStudent[0].isInvoked());
+        Assertions.assertTrue(foundTeacher[0].isInvoked());
+        Assertions.assertTrue(foundStudent[0].isInvoked());
     }
 }

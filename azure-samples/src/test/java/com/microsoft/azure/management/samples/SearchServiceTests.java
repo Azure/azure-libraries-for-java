@@ -7,12 +7,12 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.search.samples.ManageSearchService;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SearchServiceTests extends SamplesTestBase {
   @Test
   public void testManageSearchService() {
-    Assert.assertTrue(ManageSearchService.runSample(azure));
+    Assertions.assertTrue(ManageSearchService.runSample(azure));
   }
 }

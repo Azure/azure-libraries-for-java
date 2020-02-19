@@ -20,6 +20,18 @@ public class DelayProvider {
      *
      * @param milliseconds time to sleep for
      */
+
+    private int longRunningOperationRetryTimeout = 30;
+
+    /**
+     * Wrapper for long-running operation retry timeout.
+     *
+     * @param lroRetryTimeout timeout value in seconds
+     */
+    public void setLroRetryTimeout(int lroRetryTimeout) {
+        this.longRunningOperationRetryTimeout = lroRetryTimeout;
+    }
+
     public void sleep(int milliseconds) {
         try {
             Thread.sleep(milliseconds);
@@ -37,12 +49,19 @@ public class DelayProvider {
     /**
      * Creates an observable that emits the given item after the specified time in milliseconds.
      *
-     * @param event        the event to emit
-     * @param milliseconds the delay in milliseconds
-     * @param <T>          the type of event
      * @return delayed observable
      */
-    public <T> Mono<T> delayedEmitAsync(T event, int milliseconds) {
-        return Mono.just(event).delayElement(Duration.ofMillis(milliseconds));
+    public int getLroRetryTimeout() {
+        return longRunningOperationRetryTimeout;
+    }
+
+    /**
+     * Wrapper for the duration for delay.
+     *
+     * @param delay the duration of proposed delay.
+     * @return the duration of delay.
+     */
+    public Duration getDelayDuration(Duration delay) {
+        return delay;
     }
 }

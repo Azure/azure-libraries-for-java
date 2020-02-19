@@ -7,7 +7,6 @@
 package com.azure.management.appservice.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
-import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.appservice.WebApp;
 import com.azure.management.appservice.WebApps;
 import com.azure.management.appservice.models.SiteConfigResourceInner;
@@ -16,11 +15,9 @@ import com.azure.management.appservice.models.SiteLogsConfigInner;
 import com.azure.management.appservice.models.WebAppsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.azure.management.resources.fluentcore.utils.PagedConverter;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
-import java.util.Observable;
 
 /**
  * The implementation for WebApps.
@@ -33,7 +30,6 @@ class WebAppsImpl
                     WebAppsInner,
                     AppServiceManager>
         implements WebApps {
-
 
     WebAppsImpl(final AppServiceManager manager) {
         super(manager.inner().webApps(), manager);
@@ -65,17 +61,13 @@ class WebAppsImpl
         return wrapModel(inner, null, null);
     }
 
-//    protected PagedIterable<WebApp> wrapList(PagedIterable<SiteInner> pagedList) {
-//        return pagedList.mapPage(this::wrapModel);
-//    }
-
     @Override
     protected PagedFlux<WebApp> wrapPageAsync(PagedFlux<SiteInner> innerPage) {
         return PagedConverter.flatMapPage(innerPage, siteInner -> {
             if (siteInner.kind() == null || Arrays.asList(siteInner.kind().split(",")).contains("app")) {
                 return Mono.zip(
-                        manager().inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.getName()),
-                        manager().inner().webApps().getDiagnosticLogsConfigurationAsync(siteInner.resourceGroup(), siteInner.getName()),
+                        this.inner().getConfigurationAsync(siteInner.resourceGroup(), siteInner.getName()),
+                        this.inner().getDiagnosticLogsConfigurationAsync(siteInner.resourceGroup(), siteInner.getName()),
                         (siteConfigResourceInner, logsConfigInner) -> this.wrapModel(siteInner, siteConfigResourceInner, logsConfigInner));
             } else {
                 return Mono.empty();

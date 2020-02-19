@@ -12,7 +12,6 @@ import com.azure.core.util.polling.LongRunningOperationStatus;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
 import com.azure.management.resources.fluentcore.utils.PagedConverter;
 import com.azure.security.keyvault.keys.KeyAsyncClient;
-import com.azure.security.keyvault.keys.models.KeyProperties;
 import com.azure.security.keyvault.keys.models.KeyVaultKey;
 import com.azure.management.keyvault.Key;
 import com.azure.management.keyvault.Keys;
@@ -88,8 +87,7 @@ class KeysImpl
 
     @Override
     public PagedFlux<Key> listAsync() {
-        PagedFlux<KeyProperties> keyPropertiesFlux = inner.listPropertiesOfKeys();
-        return PagedConverter.flatMapPage(keyPropertiesFlux, p -> inner.getKey(p.getName()).map(this::wrapModel));
+        return PagedConverter.flatMapPage(inner.listPropertiesOfKeys(), p -> inner.getKey(p.getName()).map(this::wrapModel));
     }
 
     @Override

@@ -16,7 +16,6 @@ import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.azure.management.keyvault.Secret;
 import com.azure.management.keyvault.Secrets;
 import com.azure.management.keyvault.Vault;
-import com.azure.security.keyvault.secrets.models.SecretProperties;
 import reactor.core.publisher.Mono;
 
 import java.net.MalformedURLException;
@@ -88,8 +87,7 @@ class SecretsImpl
 
     @Override
     public PagedFlux<Secret> listAsync() {
-        PagedFlux<SecretProperties> secretPropertiesFlux = inner.listPropertiesOfSecrets();
-        return PagedConverter.flatMapPage(secretPropertiesFlux, s -> vault.secretClient().getSecret(s.getName(), s.getVersion()).map(this::wrapModel));
+        return PagedConverter.flatMapPage(inner.listPropertiesOfSecrets(), s -> vault.secretClient().getSecret(s.getName(), s.getVersion()).map(this::wrapModel));
     }
 
     @Override

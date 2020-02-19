@@ -18,7 +18,6 @@ import com.azure.management.keyvault.DeletedVault;
 import com.azure.management.keyvault.Sku;
 import com.azure.management.keyvault.SkuName;
 import com.azure.management.keyvault.Vault;
-import com.azure.management.keyvault.VaultCheckNameAvailabilityParameters;
 import com.azure.management.keyvault.VaultCreateOrUpdateParameters;
 import com.azure.management.keyvault.VaultProperties;
 import com.azure.management.keyvault.Vaults;
@@ -44,8 +43,8 @@ class VaultsImpl extends GroupableResourcesImpl<Vault, VaultImpl, VaultInner, Va
     }
 
     @Override
-    public PagedIterable<Vault> listByResourceGroup(String groupName) {
-        return wrapList(this.inner().listByResourceGroup(groupName, null));
+    public PagedIterable<Vault> listByResourceGroup(String resourceGroupName) {
+        return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName));
     }
 
     @Override

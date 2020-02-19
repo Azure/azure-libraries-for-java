@@ -16,6 +16,7 @@ import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.appservice.models.SiteLogsConfigInner;
 import com.azure.management.appservice.models.WebAppsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.IndependentChildResourcesImpl;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 import reactor.core.publisher.Mono;
 
 /**
@@ -37,22 +38,6 @@ class FunctionDeploymentSlotsImpl
         super(parent.manager().inner().webApps(), parent.manager());
 
         this.parent = parent;
-        // FIXME
-//        final WebAppsInner innerCollection = this.inner();
-//        converter = new PagedListConverter<SiteInner, FunctionDeploymentSlot>() {
-//            @Override
-//            public Observable<FunctionDeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
-//                return Observable.zip(
-//                        innerCollection.getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
-//                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
-//                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionDeploymentSlot>() {
-//                            @Override
-//                            public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
-//                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
-//                            }
-//                        });
-//            }
-//        };
     }
 
     @Override
@@ -70,9 +55,12 @@ class FunctionDeploymentSlotsImpl
         return wrapModel(inner, null, null);
     }
 
-    protected PagedIterable<FunctionDeploymentSlot> wrapList(PagedIterable<SiteInner> pagedList) {
-        // TODO
-        return pagedList.mapPage(this::wrapModel);
+    @Override
+    protected PagedFlux<FunctionDeploymentSlot> wrapPageAsync(PagedFlux<SiteInner> innerPage) {
+        return PagedConverter.flatMapPage(innerPage, siteInner -> Mono.zip(
+                this.inner().getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.getName()),
+                this.inner().getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.getName()),
+                (siteConfigResourceInner, logsConfigInner) -> this.wrapModel(siteInner, siteConfigResourceInner, logsConfigInner)));
     }
 
     @Override
@@ -90,7 +78,7 @@ class FunctionDeploymentSlotsImpl
 
     @Override
     public PagedIterable<FunctionDeploymentSlot> listByParent(String resourceGroupName, String parentName) {
-        return wrapList(innerCollection.listSlots(resourceGroupName, parentName));
+        return new PagedIterable<>(wrapPageAsync(innerCollection.listSlotsAsync(resourceGroupName, parentName)));
     }
 
     @Override
@@ -130,7 +118,7 @@ class FunctionDeploymentSlotsImpl
 
     @Override
     public PagedFlux<FunctionDeploymentSlot> listAsync() {
-        return innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()).mapPage(this::wrapModel);
+        return wrapPageAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()));
     }
 
     private FunctionDeploymentSlotImpl wrapModel(SiteInner inner, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig) {

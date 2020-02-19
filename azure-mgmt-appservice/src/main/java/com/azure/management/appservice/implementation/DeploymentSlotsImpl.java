@@ -16,6 +16,7 @@ import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.appservice.models.SiteLogsConfigInner;
 import com.azure.management.appservice.models.WebAppsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.IndependentChildResourcesImpl;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 import reactor.core.publisher.Mono;
 
 /**
@@ -37,7 +38,6 @@ class DeploymentSlotsImpl
         super(parent.manager().inner().webApps(), parent.manager());
 
         this.parent = parent;
-        final WebAppsInner innerCollection = this.inner();
     }
 
     @Override
@@ -52,24 +52,12 @@ class DeploymentSlotsImpl
         return wrapModel(inner, null, null);
     }
 
-    protected PagedIterable<DeploymentSlot> wrapList(PagedIterable<SiteInner> pagedList) {
-        // FIXME need core 1.3
-        return pagedList.mapPage(this::wrapModel);
-
-//        converter = new PagedListConverter<SiteInner, DeploymentSlot>() {
-//            @Override
-//            public Observable<DeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
-//                return Observable.zip(
-//                        innerCollection.getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
-//                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
-//                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, DeploymentSlot>() {
-//                            @Override
-//                            public DeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
-//                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
-//                            }
-//                        });
-//            }
-//        };
+    @Override
+    protected PagedFlux<DeploymentSlot> wrapPageAsync(PagedFlux<SiteInner> innerPage) {
+        return PagedConverter.flatMapPage(innerPage, siteInner -> Mono.zip(
+                this.inner().getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.getName()),
+                this.inner().getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.getName()),
+                (siteConfigResourceInner, logsConfigInner) -> this.wrapModel(siteInner, siteConfigResourceInner, logsConfigInner)));
     }
 
     @Override
@@ -87,7 +75,7 @@ class DeploymentSlotsImpl
 
     @Override
     public PagedIterable<DeploymentSlot> listByParent(String resourceGroupName, String parentName) {
-        return wrapList(innerCollection.listSlots(resourceGroupName, parentName));
+        return new PagedIterable<>(wrapPageAsync(innerCollection.listSlotsAsync(resourceGroupName, parentName)));
     }
 
     @Override
@@ -127,8 +115,7 @@ class DeploymentSlotsImpl
 
     @Override
     public PagedFlux<DeploymentSlot> listAsync() {
-        // FIXME need core 1.3
-        return innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()).mapPage(this::wrapModel);
+        return wrapPageAsync(innerCollection.listSlotsAsync(parent.resourceGroupName(), parent.name()));
     }
 
     private DeploymentSlotImpl wrapModel(SiteInner inner, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig) {

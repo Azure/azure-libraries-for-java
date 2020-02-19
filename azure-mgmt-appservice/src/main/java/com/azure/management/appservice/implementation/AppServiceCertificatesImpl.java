@@ -44,7 +44,7 @@ class AppServiceCertificatesImpl
 
     @Override
     public PagedIterable<AppServiceCertificate> listByResourceGroup(String resourceGroupName) {
-        return wrapList(this.inner().listByResourceGroup(resourceGroupName));
+        return new PagedIterable<>(wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName)));
     }
 
     @Override
@@ -72,7 +72,7 @@ class AppServiceCertificatesImpl
 
     @Override
     public PagedIterable<AppServiceCertificate> list() {
-        return wrapList(inner().list());
+        return new PagedIterable<>(listAsync());
     }
 
     @Override

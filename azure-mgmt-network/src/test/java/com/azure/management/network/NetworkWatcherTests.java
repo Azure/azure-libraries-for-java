@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 
 public class NetworkWatcherTests extends NetworkManagementTest {
 

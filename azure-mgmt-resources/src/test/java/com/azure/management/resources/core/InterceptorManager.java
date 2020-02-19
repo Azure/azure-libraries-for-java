@@ -85,20 +85,10 @@ public class InterceptorManager {
         switch (testMode) {
             case RECORD:
                 recordedData = new RecordedData();
-                return new HttpPipelinePolicy() {
-                    @Override
-                    public Mono<HttpResponse> process(HttpPipelineCallContext context, HttpPipelineNextPolicy next) {
-                        return record(context, next);
-                    }
-                };
+                return (context, next) -> record(context, next);
             case PLAYBACK:
                 readDataFromFile();
-                return new HttpPipelinePolicy() {
-                    @Override
-                    public Mono<HttpResponse> process(HttpPipelineCallContext context, HttpPipelineNextPolicy next) {
-                        return playback(context, next);
-                    }
-                };
+                return (context, next) -> playback(context, next);
             case NONE:
                 System.out.println("==> No interceptor defined for AZURE_TEST_MODE: " + testMode);
                 break;

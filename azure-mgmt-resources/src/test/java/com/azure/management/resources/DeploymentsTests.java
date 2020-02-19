@@ -41,7 +41,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
 
     @Override
     protected void cleanUpResources() {
-        resourceGroups.deleteByName(rgName);
+        resourceGroups.beginDeleteByName(rgName);
     }
 
     @Test

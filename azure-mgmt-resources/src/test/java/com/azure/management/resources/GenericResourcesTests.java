@@ -44,8 +44,8 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
 
     @Override
     protected void cleanUpResources() {
-        resourceGroups.deleteByName(newRgName);
-        resourceGroups.deleteByName(rgName);
+        resourceGroups.beginDeleteByName(newRgName);
+        resourceGroups.beginDeleteByName(rgName);
     }
 
     @Test

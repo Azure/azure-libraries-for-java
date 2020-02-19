@@ -9,6 +9,7 @@ package com.azure.management.resources.core;
 import com.azure.management.resources.fluentcore.utils.ResourceNamer;
 
 import java.time.OffsetDateTime;
+import java.util.NoSuchElementException;
 
 public class TestResourceNamer extends ResourceNamer {
     private final InterceptorManager interceptorManager;
@@ -28,7 +29,11 @@ public class TestResourceNamer extends ResourceNamer {
     @Override
     public String randomName(String prefix, int maxLen) {
         if (interceptorManager.isPlaybackMode()) {
-            return interceptorManager.popVariable();
+            try {
+                return interceptorManager.popVariable();
+            } catch (NoSuchElementException e) {
+                return super.randomName(prefix, maxLen);
+            }
         }
         String randomName = super.randomName(prefix, maxLen);
 
@@ -40,7 +45,11 @@ public class TestResourceNamer extends ResourceNamer {
     @Override
     public String randomUuid() {
         if (interceptorManager.isPlaybackMode()) {
-            return interceptorManager.popVariable();
+            try {
+                return interceptorManager.popVariable();
+            } catch (NoSuchElementException e) {
+                return super.randomUuid();
+            }
         }
         String randomName = super.randomUuid();
 
@@ -52,7 +61,11 @@ public class TestResourceNamer extends ResourceNamer {
     @Override
     public OffsetDateTime dateTimeNow() {
         if (interceptorManager.isPlaybackMode()) {
-            return OffsetDateTime.parse(interceptorManager.popVariable());
+            try {
+                return OffsetDateTime.parse(interceptorManager.popVariable());
+            } catch (NoSuchElementException e) {
+                return super.dateTimeNow();
+            }
         }
         OffsetDateTime dateTime = super.dateTimeNow();
         interceptorManager.pushVariable(dateTime.toString());

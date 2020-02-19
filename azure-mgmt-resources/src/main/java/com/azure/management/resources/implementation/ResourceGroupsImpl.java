@@ -105,7 +105,7 @@ final class ResourceGroupsImpl
     @Override
     public Mono<Void> beginDeleteByNameAsync(String name) {
         // DELETE
-        return client.deleteAsync(name);
+        return client.beginDeleteAsync(name);
     }
 
     @Override

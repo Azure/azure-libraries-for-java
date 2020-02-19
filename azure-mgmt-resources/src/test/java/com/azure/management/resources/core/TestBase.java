@@ -79,6 +79,7 @@ public abstract class TestBase {
     }
 
     private static TestMode testMode = null;
+    protected TestInfo testInfo;
 
     private static void initTestMode() throws IOException {
         Configuration.getGlobalConfiguration().put(Configuration.PROPERTY_AZURE_LOG_LEVEL, String.valueOf(LogLevel.INFORMATIONAL));
@@ -145,6 +146,7 @@ public abstract class TestBase {
 
     @BeforeEach
     public void beforeTest(TestInfo testInfo) throws IOException {
+        this.testInfo = testInfo;
         String testMothodName = testInfo.getTestMethod().get().getName();
         printThreadInfo(String.format("%s: %s", "beforeTest", testMothodName));
         final String skipMessage = shouldCancelTest(isPlaybackMode());

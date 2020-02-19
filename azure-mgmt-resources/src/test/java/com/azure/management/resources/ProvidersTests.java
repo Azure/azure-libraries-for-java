@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class ProvidersTests extends TestBase {
-    protected static ResourceManager resourceManager;
+    protected ResourceManager resourceManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ResourceGroupsTests extends ResourceManagerTestBase {
-    private static ResourceGroups resourceGroups;
+    private ResourceGroups resourceGroups;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

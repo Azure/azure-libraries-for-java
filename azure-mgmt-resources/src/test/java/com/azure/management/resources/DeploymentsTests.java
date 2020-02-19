@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class DeploymentsTests extends ResourceManagerTestBase {
-    private static ResourceGroups resourceGroups;
-    private static ResourceGroup resourceGroup;
+    private ResourceGroups resourceGroups;
+    private ResourceGroup resourceGroup;
 
     private String testId;
     private String rgName;

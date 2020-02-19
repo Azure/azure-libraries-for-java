@@ -18,8 +18,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GenericResourcesTests extends ResourceManagerTestBase {
-    private static ResourceGroups resourceGroups;
-    private static GenericResources genericResources;
+    private ResourceGroups resourceGroups;
+    private GenericResources genericResources;
 
     private String testId;
     private String rgName;

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class SubscriptionsTests extends TestBase {
-    protected static ResourceManager.Authenticated resourceManager;
+    protected ResourceManager.Authenticated resourceManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

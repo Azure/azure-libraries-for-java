@@ -8,7 +8,6 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.SqlFailoverGroup;
 import com.azure.management.sql.SqlFailoverGroupOperations;
 import com.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -33,7 +32,6 @@ import java.util.Objects;
 /**
  * Implementation for SqlFailoverGroup.
  */
-@LangDefinition
 public class SqlFailoverGroupImpl
     extends
         ExternalChildResourceImpl<SqlFailoverGroup, FailoverGroupInner, SqlServerImpl, SqlServer>

@@ -7,7 +7,6 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.TransparentDataEncryptionActivity;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.TransparentDataEncryptionActivityStatus;
@@ -15,7 +14,6 @@ import com.azure.management.sql.TransparentDataEncryptionActivityStatus;
 /**
  * Implementation for TransparentDataEncryptionActivity.
  */
-@LangDefinition
 class TransparentDataEncryptionActivityImpl
         extends WrapperImpl<TransparentDataEncryptionActivityInner>
         implements TransparentDataEncryptionActivity {

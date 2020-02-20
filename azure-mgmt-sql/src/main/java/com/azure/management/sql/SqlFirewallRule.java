@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
@@ -23,7 +20,6 @@ import rx.Completable;
  * An immutable client-side representation of an Azure SQL Server Firewall Rule.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlFirewallRule
     extends
         ExternalChildResource<SqlFirewallRule, SqlServer>,
@@ -60,13 +56,11 @@ public interface SqlFirewallRule
     /**
      * @return the parent SQL server ID
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
     String parentId();
 
     /**
      * Deletes the firewall rule.
      */
-    @Method
     void delete();
 
     /**
@@ -74,8 +68,6 @@ public interface SqlFirewallRule
      *
      * @return a representation of the deferred computation of this call
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
-    @Method
     Completable deleteAsync();
 
 
@@ -88,7 +80,6 @@ public interface SqlFirewallRule
      *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
     interface SqlFirewallRuleDefinition<ParentT> extends
             SqlFirewallRule.DefinitionStages.Blank<ParentT>,
             SqlFirewallRule.DefinitionStages.WithIPAddress<ParentT>,
@@ -105,7 +96,6 @@ public interface SqlFirewallRule
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_7_0)
         interface Blank<ParentT> extends
             SqlFirewallRule.DefinitionStages.WithIPAddressRange<ParentT>,
             SqlFirewallRule.DefinitionStages.WithIPAddress<ParentT> {
@@ -114,7 +104,6 @@ public interface SqlFirewallRule
         /**
          * The SQL Firewall Rule definition to set the IP address range for the parent SQL Server.
          */
-        @Beta(Beta.SinceVersion.V1_7_0)
         interface WithIPAddressRange<ParentT> {
             /**
              * Sets the starting IP address of SQL server's Firewall Rule.
@@ -129,7 +118,6 @@ public interface SqlFirewallRule
         /**
          * The SQL Firewall Rule definition to set the IP address for the parent SQL Server.
          */
-        @Beta(Beta.SinceVersion.V1_7_0)
         interface WithIPAddress<ParentT> {
             /**
              * Sets the ending IP address of SQL server's Firewall Rule.
@@ -146,7 +134,6 @@ public interface SqlFirewallRule
          * can be attached to the parent SQL Server definition.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_7_0)
         interface WithAttach<ParentT> extends
             Attachable.InDefinition<ParentT> {
         }

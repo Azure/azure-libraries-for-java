@@ -6,20 +6,18 @@
 
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.RecommendedElasticPoolInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.sql.implementation.SqlServerManager;
 
-import org.joda.time.DateTime;
-import rx.Observable;
+import java.time.OffsetDateTime;
+
+import com.azure.management.sql.models.RecommendedElasticPoolInner;
 
 import java.util.List;
 
@@ -46,7 +44,6 @@ public interface RecommendedElasticPool extends
      * ElasticPoolEditions enumeration contains all the valid editions.
      * Possible values include: 'Basic', 'Standard', 'Premium'.
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
     ElasticPoolEdition databaseEdition();
 
     /**
@@ -72,12 +69,12 @@ public interface RecommendedElasticPool extends
     /**
      * @return the observation period start (ISO8601 format).
      */
-    DateTime observationPeriodStart();
+    OffsetDateTime observationPeriodStart();
 
     /**
      * @return the observation period start (ISO8601 format).
      */
-    DateTime observationPeriodEnd();
+    OffsetDateTime observationPeriodEnd();
 
     /**
      * @return maximum observed DTU.
@@ -98,15 +95,12 @@ public interface RecommendedElasticPool extends
      * Fetches list of databases by making call to Azure.
      * @return list of the databases in recommended elastic pool
      */
-    @Method
     List<SqlDatabase> listDatabases();
 
     /**
      * Fetches list of databases by making call to Azure.
      * @return a representation of the deferred computation of the databases in this recommended elastic pool
      */
-    @Method
-    @Beta(Beta.SinceVersion.V1_7_0)
     Observable<SqlDatabase> listDatabasesAsync();
 
     /**
@@ -123,14 +117,12 @@ public interface RecommendedElasticPool extends
      * @param databaseName name of the database to be fetched
      * @return a representation of the deferred computation to get the database in the recommended elastic pool
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
     Observable<SqlDatabase> getDatabaseAsync(String databaseName);
 
     /**
      * Fetches list of metrics information by making call to Azure.
      * @return list of the databases in recommended elastic pool
      */
-    @Method
     List<RecommendedElasticPoolMetric> listMetrics();
 
 }

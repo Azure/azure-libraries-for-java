@@ -9,7 +9,6 @@ import com.azure.management.sql.SqlSyncGroup;
 import com.azure.management.sql.SqlSyncGroupOperations;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
@@ -26,7 +25,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL Sync Group operations.
  */
-@LangDefinition
 public class SqlSyncGroupOperationsImpl
     implements
         SqlSyncGroupOperations,

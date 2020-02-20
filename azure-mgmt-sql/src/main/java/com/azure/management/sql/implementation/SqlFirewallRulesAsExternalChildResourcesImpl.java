@@ -7,13 +7,11 @@ package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlFirewallRule;
 import com.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
 
 /**
  * Represents a SQL Firewall rules collection associated with an Azure SQL server.
  */
-@LangDefinition
 public class SqlFirewallRulesAsExternalChildResourcesImpl
     extends
         ExternalChildResourcesNonCachedImpl<SqlFirewallRuleImpl,

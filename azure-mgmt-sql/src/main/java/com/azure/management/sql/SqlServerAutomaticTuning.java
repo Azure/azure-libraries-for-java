@@ -6,8 +6,6 @@
 
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
@@ -20,7 +18,6 @@ import java.util.Map;
  * An immutable client-side representation of an Azure SQL Server automatic tuning object.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
 public interface SqlServerAutomaticTuning extends
     HasInner<ServerAutomaticTuningInner>,
     Refreshable<SqlServerAutomaticTuning>,
@@ -50,7 +47,6 @@ public interface SqlServerAutomaticTuning extends
     /**
      * The template for a SqlServerAutomaticTuning update operation, containing all the settings that can be modified.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface Update extends
         SqlServerAutomaticTuning.UpdateStages.WithAutomaticTuningMode,
         SqlServerAutomaticTuning.UpdateStages.WithAutomaticTuningOptions,

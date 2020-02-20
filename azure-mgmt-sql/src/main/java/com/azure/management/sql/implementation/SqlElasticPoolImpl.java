@@ -13,7 +13,6 @@ import com.azure.management.sql.SqlDatabaseMetricDefinition;
 import com.azure.management.sql.SqlElasticPool;
 import com.azure.management.sql.SqlElasticPoolOperations;
 import com.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
@@ -33,7 +32,7 @@ import com.azure.management.sql.SqlElasticPoolStandardEDTUs;
 import com.azure.management.sql.SqlElasticPoolStandardMaxEDTUs;
 import com.azure.management.sql.SqlElasticPoolStandardMinEDTUs;
 import com.azure.management.sql.SqlElasticPoolStandardStorage;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -48,7 +47,6 @@ import java.util.Objects;
 /**
  * Implementation for SqlElasticPool.
  */
-@LangDefinition
 public class SqlElasticPoolImpl
     extends
         ExternalChildResourceImpl<SqlElasticPool, ElasticPoolInner, SqlServerImpl, SqlServer>

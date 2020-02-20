@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.model.Creatable;
@@ -17,7 +14,6 @@ import rx.Observable;
  * A representation of the Azure SQL Failover Group operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
 public interface SqlFailoverGroupOperations extends
     SupportsCreating<SqlFailoverGroupOperations.DefinitionStages.WithSqlServer>,
     SqlChildrenOperations<SqlFailoverGroup> {
@@ -66,7 +62,6 @@ public interface SqlFailoverGroupOperations extends
     /**
      * Container interface for all the definitions that need to be implemented.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface SqlFailoverGroupOperationsDefinition extends
         SqlFailoverGroupOperations.DefinitionStages.WithSqlServer,
         SqlFailoverGroupOperations.DefinitionStages.WithReadWriteEndpointPolicy,
@@ -79,12 +74,10 @@ public interface SqlFailoverGroupOperations extends
     /**
      * Grouping of all the SQL Failover Group definition stages.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface DefinitionStages {
         /**
          * The first stage of the SQL Failover Group definition.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithSqlServer {
             /**
              * Sets the parent SQL server name and resource group it belongs to.
@@ -108,7 +101,6 @@ public interface SqlFailoverGroupOperations extends
         /**
          * The SQL Failover Group definition to set the read-write endpoint failover policy.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithReadWriteEndpointPolicy {
             /**
              * Sets the SQL Failover Group read-write endpoint failover policy as "Automatic".
@@ -123,21 +115,18 @@ public interface SqlFailoverGroupOperations extends
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlFailoverGroupOperations.DefinitionStages.WithPartnerServer withManualReadWriteEndpointPolicy();
         }
 
         /**
          * The SQL Failover Group definition to set the failover policy of the read-only endpoint.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithReadOnlyEndpointPolicy {
             /**
              * Sets the SQL Failover Group failover policy of the read-only endpoint to "Enabled".
              *
              * @return The next stage of the definition.
              */
-            @Method
             SqlFailoverGroupOperations.DefinitionStages.WithCreate withReadOnlyEndpointPolicyEnabled();
 
             /**
@@ -145,14 +134,12 @@ public interface SqlFailoverGroupOperations extends
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlFailoverGroupOperations.DefinitionStages.WithCreate withReadOnlyEndpointPolicyDisabled();
         }
 
         /**
          * The SQL Failover Group definition to set the partner servers.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithPartnerServer extends SqlFailoverGroupOperations.DefinitionStages.WithCreate {
             /**
              * Sets the SQL Failover Group partner server.
@@ -166,7 +153,6 @@ public interface SqlFailoverGroupOperations extends
         /**
          * The SQL Failover Group definition to set the partner servers.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithDatabase {
             /**
              * Sets the SQL Failover Group database.
@@ -182,7 +168,6 @@ public interface SqlFailoverGroupOperations extends
              * @param ids the IDs of the databases
              * @return the next stage of the definition
              */
-            @Method
             SqlFailoverGroupOperations.DefinitionStages.WithCreate withDatabaseIds(String... ids);
         }
 
@@ -200,7 +185,6 @@ public interface SqlFailoverGroupOperations extends
     /**
      * Grouping of the Azure SQL Failover Group common actions.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface SqlFailoverGroupActionsDefinition extends SqlChildrenActionsDefinition<SqlFailoverGroup> {
         /**
          * Begins the definition of a new SQL Failover Group to be added to this server.

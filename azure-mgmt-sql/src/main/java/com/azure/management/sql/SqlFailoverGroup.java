@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Appliable;
@@ -23,7 +20,6 @@ import java.util.List;
  * An immutable client-side representation of an Azure SQL Failover Group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
 public interface SqlFailoverGroup
     extends
         Resource,
@@ -80,7 +76,6 @@ public interface SqlFailoverGroup
     /**
      * Deletes the Failover Group.
      */
-    @Method
     void delete();
 
     /**
@@ -88,14 +83,12 @@ public interface SqlFailoverGroup
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
     Completable deleteAsync();
 
 
     /**
      * The template for a SQL Failover Group update operation, containing all the settings that can be modified.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface Update extends
         SqlFailoverGroup.UpdateStages.WithReadWriteEndpointPolicy,
         SqlFailoverGroup.UpdateStages.WithReadOnlyEndpointPolicy,
@@ -107,12 +100,10 @@ public interface SqlFailoverGroup
     /**
      * Grouping of all the SQL Virtual Network Rule update stages.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface UpdateStages {
         /**
          * The SQL Failover Group update definition to set the read-write endpoint failover policy.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithReadWriteEndpointPolicy {
             /**
              * Sets the SQL Failover Group read-write endpoint failover policy as "Automatic".
@@ -127,21 +118,18 @@ public interface SqlFailoverGroup
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlFailoverGroup.Update withManualReadWriteEndpointPolicy();
         }
 
         /**
          * The SQL Failover Group update definition to set the failover policy of the read-only endpoint.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithReadOnlyEndpointPolicy {
             /**
              * Sets the SQL Failover Group failover policy of the read-only endpoint to "Enabled".
              *
              * @return The next stage of the definition.
              */
-            @Method
             SqlFailoverGroup.Update withReadOnlyEndpointPolicyEnabled();
 
             /**
@@ -149,14 +137,12 @@ public interface SqlFailoverGroup
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlFailoverGroup.Update withReadOnlyEndpointPolicyDisabled();
         }
 
         /**
          * The SQL Failover Group update definition to set the partner servers.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithDatabase {
             /**
              * Sets the SQL Failover Group database.
@@ -172,7 +158,6 @@ public interface SqlFailoverGroup
              * @param ids the IDs of the databases
              * @return the next stage of the definition
              */
-            @Method
             SqlFailoverGroup.Update withDatabaseIds(String... ids);
 
             /**

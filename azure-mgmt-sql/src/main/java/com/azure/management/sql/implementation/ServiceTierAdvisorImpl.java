@@ -9,11 +9,10 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.ServiceLevelObjectiveUsageMetric;
 import com.azure.management.sql.ServiceTierAdvisor;
 import com.azure.management.sql.SloUsageMetricInterface;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.azure.management.sql.SloUsageMetric;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import java.util.UUID;
 /**
  * Implementation for Azure SQL Database's service tier advisor.
  */
-@LangDefinition
 class ServiceTierAdvisorImpl
         extends RefreshableWrapperImpl<ServiceTierAdvisorInner, ServiceTierAdvisor>
         implements ServiceTierAdvisor {

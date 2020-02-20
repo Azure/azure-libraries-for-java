@@ -5,14 +5,11 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 
 /**
  * The maximum limit of the reserved eDTUs value range for a "Premium" edition of an Azure SQL Elastic Pool.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public enum SqlElasticPoolPremiumMaxEDTUs {
     /** Maximum 25 eDTUs available per each database. */
     eDTU_25(25),

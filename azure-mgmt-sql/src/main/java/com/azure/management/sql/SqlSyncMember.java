@@ -6,9 +6,6 @@
 package com.azure.management.sql;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.Appliable;
@@ -23,7 +20,6 @@ import rx.Observable;
  * An immutable client-side representation of an Azure SQL Server Sync Member.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_9_0)
 public interface SqlSyncMember
     extends
         ExternalChildResource<SqlSyncMember, SqlSyncGroup>,
@@ -94,7 +90,6 @@ public interface SqlSyncMember
     /**
      * Deletes the Sync Member resource.
      */
-    @Method
     void delete();
 
     /**
@@ -102,7 +97,6 @@ public interface SqlSyncMember
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
     Completable deleteAsync();
 
     /**
@@ -110,7 +104,6 @@ public interface SqlSyncMember
      *
      * @return the paged list object if successful.
      */
-    @Method
     PagedList<SqlSyncFullSchemaProperty> listMemberSchemas();
 
     /**
@@ -118,13 +111,11 @@ public interface SqlSyncMember
      *
      * @return a representation of the deferred computation of this call.
      */
-    @Method
     Observable<SqlSyncFullSchemaProperty> listMemberSchemasAsync();
 
     /**
      * Refreshes a sync member database schema.
      */
-    @Method
     void refreshMemberSchema();
 
     /**
@@ -132,7 +123,6 @@ public interface SqlSyncMember
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
     Completable refreshMemberSchemaAsync();
 
 
@@ -144,7 +134,6 @@ public interface SqlSyncMember
     /**
      * The template for a SQL Sync Group update operation, containing all the settings that can be modified.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
     interface Update extends
         SqlSyncMember.UpdateStages.WithMemberUserName,
         SqlSyncMember.UpdateStages.WithMemberPassword,
@@ -156,12 +145,10 @@ public interface SqlSyncMember
     /**
      * Grouping of all the SQL Sync Group update stages.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
     interface UpdateStages {
         /**
          * The SQL Sync Member definition to set the member database user name.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithMemberUserName {
             /**
              * Sets the member SQL Database username.
@@ -175,7 +162,6 @@ public interface SqlSyncMember
         /**
          * The SQL Sync Member definition to set the member database password.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithMemberPassword {
             /**
              * Sets the member SQL Database password.
@@ -189,7 +175,6 @@ public interface SqlSyncMember
         /**
          * The SQL Sync Member definition to set the database type.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithMemberDatabaseType {
             /**
              * Sets the member database type.
@@ -203,7 +188,6 @@ public interface SqlSyncMember
         /**
          * The SQL Sync Member definition to set the sync direction.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSyncDirection {
             /**
              * Sets the sync direction.

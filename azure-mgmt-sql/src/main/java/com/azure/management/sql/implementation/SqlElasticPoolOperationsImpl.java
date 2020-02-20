@@ -8,7 +8,6 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.SqlElasticPool;
 import com.azure.management.sql.SqlElasticPoolOperations;
 import com.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import rx.Completable;
 import rx.Observable;
@@ -22,7 +21,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL Elastic Pool operations.
  */
-@LangDefinition
 public class SqlElasticPoolOperationsImpl
     implements
         SqlElasticPoolOperations,

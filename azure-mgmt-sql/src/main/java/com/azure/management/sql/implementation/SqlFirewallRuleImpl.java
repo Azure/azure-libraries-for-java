@@ -8,7 +8,6 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.SqlFirewallRule;
 import com.azure.management.sql.SqlFirewallRuleOperations;
 import com.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -22,7 +21,6 @@ import java.util.Objects;
 /**
  * Implementation for SqlFirewallRule.
  */
-@LangDefinition
 public class SqlFirewallRuleImpl
     extends
         ExternalChildResourceImpl<SqlFirewallRule, FirewallRuleInner, SqlServerImpl, SqlServer>

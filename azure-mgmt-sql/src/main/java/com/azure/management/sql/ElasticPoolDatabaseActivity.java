@@ -6,14 +6,14 @@
 
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.ElasticPoolDatabaseActivityInner;
-import org.joda.time.DateTime;
+import com.azure.management.sql.models.ElasticPoolDatabaseActivityInner;
+
+import java.time.OffsetDateTime;
 
 
 /**
@@ -33,7 +33,7 @@ public interface ElasticPoolDatabaseActivity extends
     /**
      * @return the time the operation finished (ISO8601 format)
      */
-    DateTime endTime();
+    OffsetDateTime endTime();
 
     /**
      * @return the error code if available
@@ -93,7 +93,7 @@ public interface ElasticPoolDatabaseActivity extends
     /**
      * @return the time the operation started (ISO8601 format)
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the current state of the operation
@@ -103,7 +103,6 @@ public interface ElasticPoolDatabaseActivity extends
     /**
      * @return the geo-location where the resource lives.
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
     String location();
 
 }

@@ -13,7 +13,6 @@ import com.azure.management.sql.SqlSyncGroupOperations;
 import com.azure.management.sql.SqlSyncMemberOperations;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
@@ -21,7 +20,7 @@ import com.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.azure.management.sql.SyncConflictResolutionPolicy;
 import com.azure.management.sql.SyncGroupSchema;
 import com.azure.management.sql.SyncGroupState;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -31,7 +30,6 @@ import java.util.Objects;
 /**
  * Implementation for SqlSyncGroup.
  */
-@LangDefinition
 public class SqlSyncGroupImpl
     extends
         ExternalChildResourceImpl<SqlSyncGroup, SyncGroupInner, SqlDatabaseImpl, SqlDatabase>

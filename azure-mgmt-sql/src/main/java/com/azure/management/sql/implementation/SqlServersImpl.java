@@ -20,7 +20,6 @@ import com.azure.management.sql.SqlSyncGroupOperations;
 import com.azure.management.sql.SqlSyncMemberOperations;
 import com.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import com.microsoft.azure.Page;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.azure.management.sql.SqlEncryptionProtectorOperations;
@@ -35,7 +34,6 @@ import java.util.Objects;
 /**
  * Implementation for SqlServers and its parent interfaces.
  */
-@LangDefinition
 class SqlServersImpl
         extends TopLevelModifiableResourcesImpl<
         SqlServer,

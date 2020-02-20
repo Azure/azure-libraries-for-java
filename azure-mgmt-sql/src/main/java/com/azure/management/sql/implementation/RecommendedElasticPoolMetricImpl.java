@@ -7,14 +7,12 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.RecommendedElasticPoolMetric;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for RecommendedElasticPoolMetric interface.
  */
-@LangDefinition
 class RecommendedElasticPoolMetricImpl
         extends WrapperImpl<RecommendedElasticPoolMetricInner>
         implements RecommendedElasticPoolMetric {

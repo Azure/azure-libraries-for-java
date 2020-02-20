@@ -7,7 +7,6 @@ package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlDatabaseMetricAvailability;
 import com.azure.management.sql.SqlDatabaseMetricDefinition;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.MetricAvailability;
 import com.azure.management.sql.PrimaryAggregationType;
@@ -20,7 +19,6 @@ import java.util.List;
 /**
  * Response containing the SQL database metric definitions.
  */
-@LangDefinition
 public class SqlDatabaseMetricDefinitionImpl extends WrapperImpl<MetricDefinitionInner> implements SqlDatabaseMetricDefinition {
     protected SqlDatabaseMetricDefinitionImpl(MetricDefinitionInner innerObject) {
         super(innerObject);

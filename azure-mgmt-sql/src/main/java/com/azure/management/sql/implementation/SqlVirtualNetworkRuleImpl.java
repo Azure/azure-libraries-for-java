@@ -8,7 +8,6 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlVirtualNetworkRule;
 import com.azure.management.sql.SqlVirtualNetworkRuleOperations;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
@@ -21,7 +20,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL Virtual Network Rule interface.
  */
-@LangDefinition
 public class SqlVirtualNetworkRuleImpl
     extends
         ExternalChildResourceImpl<SqlVirtualNetworkRule, VirtualNetworkRuleInner, SqlServerImpl, SqlServer>

@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import rx.Observable;
 
@@ -15,14 +12,12 @@ import rx.Observable;
  * A representation of the Azure SQL Server Security Alert Policy operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_15_0)
 public interface SqlServerSecurityAlertPolicyOperations {
     /**
      * Begins a definition for a new SQL Server Security Alert Policy resource.
      *
      * @return the first stage of the resource definition
      */
-    @Method
     SqlServerSecurityAlertPolicyOperations.DefinitionStages.WithSqlServer define();
 
 
@@ -62,7 +57,6 @@ public interface SqlServerSecurityAlertPolicyOperations {
      * @param sqlServer the SQL server parent resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     Observable<SqlServerSecurityAlertPolicy> getBySqlServerAsync(SqlServer sqlServer);
 
     /**
@@ -86,7 +80,6 @@ public interface SqlServerSecurityAlertPolicyOperations {
     /**
      * Container interface for all the definitions that need to be implemented.
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     interface SqlServerSecurityAlertPolicyOperationsDefinition extends
         SqlServerSecurityAlertPolicyOperations.DefinitionStages.WithSqlServer,
         SqlServerSecurityAlertPolicyOperations.DefinitionStages.WithState,
@@ -101,12 +94,10 @@ public interface SqlServerSecurityAlertPolicyOperations {
     /**
      * Grouping of all the SQL Server Security Alert Policy definition stages.
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     interface DefinitionStages {
         /**
          * The first stage of the SQL Server Security Alert Policy definition.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
         interface WithSqlServer {
             /**
              * Sets the parent SQL server name and resource group it belongs to.
@@ -137,7 +128,6 @@ public interface SqlServerSecurityAlertPolicyOperations {
         /**
          * The SQL Server Security Alert Policy definition to set the state.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
         interface WithState {
             /**
              * Specifies the state of the policy, whether it is enabled or disabled.
@@ -151,7 +141,6 @@ public interface SqlServerSecurityAlertPolicyOperations {
         /**
          * The SQL Server Security Alert Policy definition to set if an alert will be sent to the account administrators.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
         interface WithEmailAccountAdmins {
             /**
              * Specifies that an alert will be sent to the account administrators.
@@ -171,7 +160,6 @@ public interface SqlServerSecurityAlertPolicyOperations {
         /**
          * The SQL Server Security Alert Policy definition to specify the storage account blob endpoint and access key.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
         interface WithStorageAccount {
             /**
              * Specifies the storage account blob endpoint and access key.
@@ -187,7 +175,6 @@ public interface SqlServerSecurityAlertPolicyOperations {
         /**
          * The SQL Server Security Alert Policy definition to set an array of e-mail addresses to which the alert is sent.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
         interface WithEmailAddresses {
             /**
              * Specifies an array of e-mail addresses to which the alert is sent.
@@ -201,7 +188,6 @@ public interface SqlServerSecurityAlertPolicyOperations {
         /**
          * The SQL Server Security Alert Policy definition to set an array of alerts that are disabled.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
         interface WithDisabledAlerts {
             /**
              * Specifies an array of alerts that are disabled.
@@ -215,7 +201,6 @@ public interface SqlServerSecurityAlertPolicyOperations {
         /**
          * The SQL Server Security Alert Policy definition to set the number of days to keep in the Threat Detection audit logs.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
         interface WithRetentionDays {
             /**
              * Specifies the number of days to keep in the Threat Detection audit logs.
@@ -240,14 +225,12 @@ public interface SqlServerSecurityAlertPolicyOperations {
     /**
      * Grouping of the Azure SQL Server Security Alert Policy common actions.
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     interface SqlServerSecurityAlertPolicyActionsDefinition {
         /**
          * Begins the definition of a new SQL Server Security Alert Policy to be added to this server.
          *
          * @return the first stage of the new SQL Server Security Alert Policy definition
          */
-        @Method
         SqlServerSecurityAlertPolicyOperations.DefinitionStages.WithState define();
 
         /**

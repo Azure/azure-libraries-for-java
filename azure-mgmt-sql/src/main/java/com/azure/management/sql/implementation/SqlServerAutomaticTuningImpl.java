@@ -6,7 +6,6 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlServerAutomaticTuning;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.azure.management.sql.AutomaticTuningOptionModeDesired;
 import com.azure.management.sql.AutomaticTuningServerMode;
@@ -25,7 +24,6 @@ import java.util.UUID;
 /**
  * Implementation for Azure SQL server automatic tuning.
  */
-@LangDefinition
 public class SqlServerAutomaticTuningImpl
     extends RefreshableWrapperImpl<ServerAutomaticTuningInner, SqlServerAutomaticTuning>
     implements

@@ -6,7 +6,6 @@
 
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.sql.implementation.LocationCapabilitiesInner;

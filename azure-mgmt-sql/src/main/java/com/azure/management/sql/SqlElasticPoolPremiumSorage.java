@@ -5,14 +5,11 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 
 /**
  * The maximum allowed storage capacity for a "Premium" edition of an Azure SQL Elastic Pool.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public enum SqlElasticPoolPremiumSorage {
     /** 50 GB storage capacity available to the pool. */
     MAX_50_GB(50),

@@ -8,13 +8,12 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlServerKey;
 import com.azure.management.sql.SqlServerKeyOperations;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.ServerKeyType;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -24,7 +23,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL Server Key interface.
  */
-@LangDefinition
 public class SqlServerKeyImpl
     extends
         ExternalChildResourceImpl<SqlServerKey, ServerKeyInner, SqlServerImpl, SqlServer>

@@ -6,9 +6,6 @@
 
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
@@ -23,7 +20,6 @@ import java.util.List;
 /**
  * An immutable client-side representation of an Azure SQL database's TransparentDataEncryption.
  */
-@Beta(Beta.SinceVersion.V1_7_0)
 @Fluent
 public interface TransparentDataEncryption extends
         Refreshable<TransparentDataEncryption>,
@@ -52,7 +48,6 @@ public interface TransparentDataEncryption extends
      * @param transparentDataEncryptionState state of the data encryption to set
      * @return the new encryption settings after the update operation
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
     TransparentDataEncryption updateStatus(TransparentDataEncryptionStatus transparentDataEncryptionState);
 
     /**
@@ -61,20 +56,16 @@ public interface TransparentDataEncryption extends
      * @param transparentDataEncryptionState state of the data encryption to set
      * @return a representation of the deferred computation of the new encryption settings after the update operation
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
     Observable<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStatus transparentDataEncryptionState);
 
     /**
      * @return an Azure SQL Database Transparent Data Encryption Activities
      */
-    @Method
     List<TransparentDataEncryptionActivity> listActivities();
 
     /**
      * @return an Azure SQL Database Transparent Data Encryption Activities
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
-    @Method
     Observable<TransparentDataEncryptionActivity> listActivitiesAsync();
 }
 

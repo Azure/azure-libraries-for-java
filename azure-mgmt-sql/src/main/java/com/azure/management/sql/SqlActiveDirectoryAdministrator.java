@@ -5,14 +5,11 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 
 /**
  * Response containing the Azure SQL Active Directory administrator.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlActiveDirectoryAdministrator {
     /**
      * @return the type of administrator.

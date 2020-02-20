@@ -6,13 +6,12 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.CheckNameAvailabilityResult;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.sql.models.CheckNameAvailabilityResponseInner;
 
 /**
  * Implementation for CheckNameAvailabilityResult.
  */
-@LangDefinition
 public class CheckNameAvailabilityResultImpl
     extends WrapperImpl<CheckNameAvailabilityResponseInner>
     implements CheckNameAvailabilityResult {

@@ -6,7 +6,6 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlSubscriptionUsageMetric;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import rx.Observable;
 
@@ -15,7 +14,6 @@ import java.util.Objects;
 /**
  * Implementation for Azure SQL subscription usage.
  */
-@LangDefinition
 public class SqlSubscriptionUsageMetricImpl
     extends RefreshableWrapperImpl<SubscriptionUsageInner, SqlSubscriptionUsageMetric>
     implements SqlSubscriptionUsageMetric {

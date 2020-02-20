@@ -5,8 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import rx.Observable;
@@ -15,7 +13,6 @@ import rx.Observable;
  * A representation of the Azure SQL Sync Member operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_9_0)
 public interface SqlSyncMemberOperations  extends
     SupportsCreating<SqlSyncMemberOperations.DefinitionStages.WithSqlServer> {
 
@@ -46,7 +43,6 @@ public interface SqlSyncMemberOperations  extends
     /**
      * Container interface for all the definitions that need to be implemented.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
     interface SqlSyncMemberOperationsDefinition extends
         SqlSyncMemberOperations.DefinitionStages.WithSqlServer,
         SqlSyncMemberOperations.DefinitionStages.WithSyncMemberDatabase,
@@ -63,12 +59,10 @@ public interface SqlSyncMemberOperations  extends
     /**
      * Grouping of all the SQL Sync Member definition stages.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
     interface DefinitionStages {
         /**
          * The first stage of the SQL Sync Member definition.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSqlServer {
             /**
              * Sets the parent SQL server name and resource group it belongs to.
@@ -91,7 +85,6 @@ public interface SqlSyncMemberOperations  extends
         /**
          * The SQL Sync Member definition to set the parent database name.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSyncMemberDatabase {
             /**
              * Sets the name of the database on which the sync Member is hosted.
@@ -105,7 +98,6 @@ public interface SqlSyncMemberOperations  extends
         /**
          * The SQL Sync Member definition to set the parent database name.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSyncGroupName {
             /**
              * Sets the name of the database on which the sync Member is hosted.
@@ -119,7 +111,6 @@ public interface SqlSyncMemberOperations  extends
         /**
          * The SQL Sync Member definition to set the member server and database.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithMemberSqlServer {
             /**
              * Sets the member SQL server name.
@@ -141,7 +132,6 @@ public interface SqlSyncMemberOperations  extends
         /**
          * The SQL Sync Member definition to set the member database.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithMemberSqlDatabase {
             /**
              * Sets the member SQL Database name.
@@ -155,7 +145,6 @@ public interface SqlSyncMemberOperations  extends
         /**
          * The SQL Sync Member definition to set the member database user name.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithMemberUserName {
             /**
              * Sets the member SQL Database username.
@@ -169,7 +158,6 @@ public interface SqlSyncMemberOperations  extends
         /**
          * The SQL Sync Member definition to set the member database password.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithMemberPassword {
             /**
              * Sets the member SQL Database password.
@@ -183,7 +171,6 @@ public interface SqlSyncMemberOperations  extends
         /**
          * The SQL Sync Member definition to set the database type.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithMemberDatabaseType {
             /**
              * Sets the member database type.
@@ -197,7 +184,6 @@ public interface SqlSyncMemberOperations  extends
         /**
          * The SQL Sync Member definition to set the sync direction.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithSyncDirection {
             /**
              * Sets the sync direction.
@@ -220,7 +206,6 @@ public interface SqlSyncMemberOperations  extends
     /**
      * Grouping of the Azure SQL Server Sync Member common actions.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
     interface SqlSyncMemberActionsDefinition extends SqlChildrenOperations.SqlChildrenActionsDefinition<SqlSyncMember> {
         /**
          * Begins the definition of a new SQL Sync Member to be added to this server.

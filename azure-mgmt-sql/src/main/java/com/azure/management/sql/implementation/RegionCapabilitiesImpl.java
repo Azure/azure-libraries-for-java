@@ -6,7 +6,6 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.RegionCapabilities;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.CapabilityStatus;
@@ -19,7 +18,6 @@ import java.util.Map;
 /**
  * Implementation for RegionCapabilities.
  */
-@LangDefinition
 public class RegionCapabilitiesImpl
     extends WrapperImpl<LocationCapabilitiesInner>
     implements RegionCapabilities {

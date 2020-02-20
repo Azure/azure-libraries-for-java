@@ -6,16 +6,14 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlRestorableDroppedDatabase;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 import rx.Observable;
 
 /**
  * Implementation for SQL restorable dropped database interface.
  */
-@LangDefinition
 public class SqlRestorableDroppedDatabaseImpl extends RefreshableWrapperImpl<RestorableDroppedDatabaseInner, SqlRestorableDroppedDatabase>
     implements SqlRestorableDroppedDatabase {
 

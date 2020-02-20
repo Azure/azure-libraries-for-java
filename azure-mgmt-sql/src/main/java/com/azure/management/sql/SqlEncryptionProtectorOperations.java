@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import rx.Observable;
 
 import java.util.List;
@@ -16,7 +13,6 @@ import java.util.List;
  * A representation of the Azure SQL Encryption Protector operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_9_0)
 public interface SqlEncryptionProtectorOperations {
     /**
      * Gets the information about an Encryption Protector resource from Azure SQL server, identifying it by its resource group and parent.
@@ -50,7 +46,6 @@ public interface SqlEncryptionProtectorOperations {
      * @param sqlServer the SQL server parent resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
     Observable<SqlEncryptionProtector> getBySqlServerAsync(SqlServer sqlServer);
 
     /**
@@ -101,20 +96,17 @@ public interface SqlEncryptionProtectorOperations {
      * @param sqlServer the parent Azure SQL server.
      * @return a representation of the deferred computation of this call
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
     Observable<SqlEncryptionProtector> listBySqlServerAsync(SqlServer sqlServer);
 
     /**
      * Grouping of the Azure SQL Server Key common actions.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
     interface SqlEncryptionProtectorActionsDefinition {
         /**
          * Gets the information about an Encryption Protector resource from Azure SQL server.
          *
          * @return an immutable representation of the resource
          */
-        @Method
         SqlEncryptionProtector get();
 
         /**
@@ -122,7 +114,6 @@ public interface SqlEncryptionProtectorOperations {
          *
          * @return a representation of the deferred computation of this call returning the found resource
          */
-        @Method
         Observable<SqlEncryptionProtector> getAsync();
 
         /**
@@ -130,7 +121,6 @@ public interface SqlEncryptionProtectorOperations {
          *
          * @return the list of resources
          */
-        @Method
         List<SqlEncryptionProtector> list();
 
         /**
@@ -138,7 +128,6 @@ public interface SqlEncryptionProtectorOperations {
          *
          * @return a representation of the deferred computation of this call
          */
-        @Method
         Observable<SqlEncryptionProtector> listAsync();
     }
 }

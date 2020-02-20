@@ -9,12 +9,13 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.RecommendedElasticPool;
 import com.azure.management.sql.RecommendedElasticPoolMetric;
 import com.azure.management.sql.SqlDatabase;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.azure.management.sql.ElasticPoolEdition;
-import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Func1;
+import java.time.OffsetDateTime;
+
+import com.azure.management.sql.models.DatabaseInner;
+import com.azure.management.sql.models.RecommendedElasticPoolInner;
+import com.azure.management.sql.models.RecommendedElasticPoolMetricInner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +24,6 @@ import java.util.List;
 /**
  * Implementation for RecommendedElasticPool and its parent interfaces.
  */
-@LangDefinition
 class RecommendedElasticPoolImpl
         extends RefreshableWrapperImpl<RecommendedElasticPoolInner, RecommendedElasticPool>
         implements RecommendedElasticPool {
@@ -77,12 +77,12 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    public DateTime observationPeriodStart() {
+    public OffsetDateTime observationPeriodStart() {
         return this.inner().observationPeriodStart();
     }
 
     @Override
-    public DateTime observationPeriodEnd() {
+    public OffsetDateTime observationPeriodEnd() {
         return this.inner().observationPeriodEnd();
     }
 

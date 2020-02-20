@@ -7,14 +7,12 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.ServiceObjective;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import rx.Observable;
 
 /**
  * Implementation for Azure SQL Server's Service Objective.
  */
-@LangDefinition
 class ServiceObjectiveImpl
         extends RefreshableWrapperImpl<ServiceObjectiveInner, ServiceObjective>
         implements ServiceObjective {

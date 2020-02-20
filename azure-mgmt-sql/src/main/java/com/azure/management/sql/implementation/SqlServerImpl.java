@@ -22,19 +22,21 @@ import com.azure.management.sql.SqlServerKeyOperations;
 import com.azure.management.sql.SqlServerSecurityAlertPolicyOperations;
 import com.azure.management.sql.SqlVirtualNetworkRule;
 import com.azure.management.sql.SqlVirtualNetworkRuleOperations;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.sql.ElasticPoolEdition;
-import com.azure.management.sql.IdentityType;
 import com.azure.management.sql.ResourceIdentity;
 import com.azure.management.sql.SqlEncryptionProtectorOperations;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.RecommendedElasticPoolInner;
+import com.azure.management.sql.models.RestorableDroppedDatabaseInner;
+import com.azure.management.sql.models.ServerAutomaticTuningInner;
+import com.azure.management.sql.models.ServerAzureADAdministratorInner;
+import com.azure.management.sql.models.ServerInner;
+import com.azure.management.sql.models.ServerUsageInner;
+import com.azure.management.sql.models.ServiceObjectiveInner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +48,6 @@ import java.util.UUID;
 /**
  * Implementation for SqlServer and its parent interfaces.
  */
-@LangDefinition
 public class SqlServerImpl
         extends
             GroupableResourceImpl<

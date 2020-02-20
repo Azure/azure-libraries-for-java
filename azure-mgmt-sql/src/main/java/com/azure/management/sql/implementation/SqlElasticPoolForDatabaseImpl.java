@@ -8,7 +8,6 @@ package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlDatabaseOperations;
 import com.azure.management.sql.SqlElasticPool;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.sql.ElasticPoolEdition;
 import com.azure.management.sql.SqlElasticPoolBasicEDTUs;
 import com.azure.management.sql.SqlElasticPoolBasicMaxEDTUs;
@@ -25,7 +24,6 @@ import com.azure.management.sql.SqlElasticPoolStandardStorage;
 /**
  * Implementation for SqlElasticPool as inline definition inside a SqlDatabase definition.
  */
-@LangDefinition
 public class SqlElasticPoolForDatabaseImpl
     implements
         SqlElasticPool.SqlElasticPoolDefinition<SqlDatabaseOperations.DefinitionStages.WithExistingDatabaseAfterElasticPool> {

@@ -7,7 +7,6 @@ package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
@@ -20,7 +19,6 @@ import java.util.Objects;
 /**
  * Represents a SQL Database collection associated with an Azure SQL server.
  */
-@LangDefinition
 public class SqlDatabasesAsExternalChildResourcesImpl
     extends
         ExternalChildResourcesNonCachedImpl<SqlDatabaseImpl,

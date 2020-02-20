@@ -5,8 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.rest.ExpandableStringEnum;
 
 import java.util.Collection;
@@ -15,7 +13,6 @@ import java.util.Collection;
  * The name of the configured Service Level Objective of a "Premium" Azure SQL Database.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public class SqlDatabasePremiumServiceObjective extends ExpandableStringEnum<SqlDatabasePremiumServiceObjective> {
     /** Static value P1 for ServiceObjectiveName. */
     public static final SqlDatabasePremiumServiceObjective P1 = fromString("P1");

@@ -7,7 +7,6 @@ package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlElasticPool;
 import com.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
@@ -18,7 +17,6 @@ import java.util.List;
 /**
  * Represents a SQL Elastic Pool collection associated with an Azure SQL server.
  */
-@LangDefinition
 public class SqlElasticPoolsAsExternalChildResourcesImpl
     extends
         ExternalChildResourcesNonCachedImpl<SqlElasticPoolImpl,

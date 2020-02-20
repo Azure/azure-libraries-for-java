@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import rx.Completable;
 import rx.Observable;
 
@@ -19,7 +16,6 @@ import java.util.List;
  * @param <T> the FluentT interface of the SQL server child resource
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlChildrenOperations<T> {
 
     /**
@@ -58,7 +54,6 @@ public interface SqlChildrenOperations<T> {
      * @param name the name of the child resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     Observable<T> getBySqlServerAsync(SqlServer sqlServer, String name);
 
     /**
@@ -143,7 +138,6 @@ public interface SqlChildrenOperations<T> {
      * @param sqlServer the parent Azure SQL server.
      * @return a representation of the deferred computation of this call
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     Observable<T> listBySqlServerAsync(SqlServer sqlServer);
 
     /**
@@ -219,7 +213,6 @@ public interface SqlChildrenOperations<T> {
          *
          * @return the list of resources
          */
-        @Method
         List<T> list();
 
         /**
@@ -227,7 +220,6 @@ public interface SqlChildrenOperations<T> {
          *
          * @return a representation of the deferred computation of this call
          */
-        @Method
         Observable<T> listAsync();
     }
 }

@@ -6,14 +6,12 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlDatabaseMetricAvailability;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.MetricAvailability;
 
 /**
  * Response containing the SQL database metric availability.
  */
-@LangDefinition
 public class SqlDatabaseMetricAvailabilityImpl extends WrapperImpl<MetricAvailability> implements SqlDatabaseMetricAvailability {
     protected SqlDatabaseMetricAvailabilityImpl(MetricAvailability innerObject) {
         super(innerObject);

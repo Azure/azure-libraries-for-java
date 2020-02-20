@@ -5,14 +5,12 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.SqlActiveDirectoryAdministrator;
 
 /**
  * Response containing the SQL Active Directory administrator.
  */
- @LangDefinition
 public class SqlActiveDirectoryAdministratorImpl extends WrapperImpl<ServerAzureADAdministratorInner>
     implements SqlActiveDirectoryAdministrator {
 

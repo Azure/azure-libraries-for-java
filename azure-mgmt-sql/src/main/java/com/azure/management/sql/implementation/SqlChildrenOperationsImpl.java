@@ -6,7 +6,6 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.sql.SqlChildrenOperations;
 import rx.Completable;
@@ -20,7 +19,6 @@ import java.util.Objects;
  *
  * @param <FluentModelT> the fluent model type of the child resource
  */
-@LangDefinition
 public abstract class SqlChildrenOperationsImpl<FluentModelT>
     implements
         SqlChildrenOperations<FluentModelT>,

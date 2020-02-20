@@ -6,15 +6,13 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlDatabaseMetricValue;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.MetricValue;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for SqlDatabaseMetricValue.
  */
-@LangDefinition
 public class SqlDatabaseMetricValueImpl extends WrapperImpl<MetricValue>
     implements SqlDatabaseMetricValue {
     protected SqlDatabaseMetricValueImpl(MetricValue innerObject) {

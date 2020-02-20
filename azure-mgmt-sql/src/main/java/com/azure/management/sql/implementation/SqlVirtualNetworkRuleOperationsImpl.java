@@ -9,7 +9,6 @@ import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlVirtualNetworkRule;
 import com.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import com.microsoft.azure.Page;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -22,7 +21,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL Virtual Network Rule operations.
  */
-@LangDefinition
 public class SqlVirtualNetworkRuleOperationsImpl
     extends
         SqlChildrenOperationsImpl<SqlVirtualNetworkRule>

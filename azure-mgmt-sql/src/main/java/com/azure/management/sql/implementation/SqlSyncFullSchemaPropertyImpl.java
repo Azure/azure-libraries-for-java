@@ -6,10 +6,9 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlSyncFullSchemaProperty;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.SyncFullSchemaTable;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +17,6 @@ import java.util.List;
 /**
  * Implementation for SqlSyncGroup.
  */
-@LangDefinition
 public class SqlSyncFullSchemaPropertyImpl
     extends
         WrapperImpl<SyncFullSchemaPropertiesInner>

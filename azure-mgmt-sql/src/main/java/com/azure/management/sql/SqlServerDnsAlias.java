@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
@@ -21,7 +18,6 @@ import rx.Completable;
  * An immutable client-side representation of an Azure SQL Server DNS alias.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
 public interface SqlServerDnsAlias
     extends
         HasId,
@@ -48,7 +44,6 @@ public interface SqlServerDnsAlias
     /**
      * Deletes the DNS alias.
      */
-    @Method
     void delete();
 
     /**
@@ -56,7 +51,6 @@ public interface SqlServerDnsAlias
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
     Completable deleteAsync();
 
 }

@@ -6,7 +6,6 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.ReplicationLink;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
@@ -14,14 +13,13 @@ import com.azure.management.sql.ReplicationRole;
 import com.azure.management.sql.ReplicationState;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 import rx.Completable;
 import rx.Observable;
 
 /**
  * Implementation for SQL replication link interface.
  */
-@LangDefinition
 class ReplicationLinkImpl
         extends RefreshableWrapperImpl<ReplicationLinkInner, ReplicationLink>
         implements ReplicationLink {

@@ -8,7 +8,6 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlServerSecurityAlertPolicy;
 import com.azure.management.sql.SqlServerSecurityAlertPolicyOperations;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import rx.Observable;
@@ -19,7 +18,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL Server Security Alert Policy operations.
  */
-@LangDefinition
 public class SqlServerSecurityAlertPolicyOperationsImpl
     implements
         SqlServerSecurityAlertPolicyOperations,

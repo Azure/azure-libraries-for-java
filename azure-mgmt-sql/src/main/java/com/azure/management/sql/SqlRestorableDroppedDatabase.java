@@ -5,8 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
@@ -14,13 +12,12 @@ import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.sql.implementation.RestorableDroppedDatabaseInner;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Response containing Azure SQL restorable dropped database.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlRestorableDroppedDatabase extends
         Refreshable<SqlRestorableDroppedDatabase>,
         HasInner<RestorableDroppedDatabaseInner>,

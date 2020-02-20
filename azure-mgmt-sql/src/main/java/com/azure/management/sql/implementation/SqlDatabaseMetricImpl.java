@@ -7,11 +7,10 @@ package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlDatabaseMetric;
 import com.azure.management.sql.SqlDatabaseMetricValue;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.MetricValue;
 import com.azure.management.sql.UnitType;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +19,6 @@ import java.util.List;
 /**
  * Response containing the SQL database metrics.
  */
-@LangDefinition
 public class SqlDatabaseMetricImpl extends WrapperImpl<MetricInner> implements SqlDatabaseMetric {
     protected SqlDatabaseMetricImpl(MetricInner innerObject) {
         super(innerObject);

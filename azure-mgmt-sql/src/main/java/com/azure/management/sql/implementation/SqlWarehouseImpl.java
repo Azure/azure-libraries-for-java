@@ -6,7 +6,6 @@
 
 package com.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.sql.SqlWarehouse;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -15,7 +14,6 @@ import rx.Completable;
 /**
  * Implementation for SqlWarehouse and its parent interfaces.
  */
-@LangDefinition
 class SqlWarehouseImpl
         extends SqlDatabaseImpl
         implements SqlWarehouse {

@@ -7,7 +7,6 @@ package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlDatabaseThreatDetectionPolicy;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.SecurityAlertPolicyEmailAccountAdmins;
@@ -21,7 +20,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL database threat detection policy.
  */
-@LangDefinition
 public class SqlDatabaseThreatDetectionPolicyImpl extends
         ExternalChildResourceImpl<SqlDatabaseThreatDetectionPolicy, DatabaseSecurityAlertPolicyInner, SqlDatabaseImpl, SqlDatabase>
     implements

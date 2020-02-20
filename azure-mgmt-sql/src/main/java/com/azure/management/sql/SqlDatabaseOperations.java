@@ -5,20 +5,16 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.storage.StorageAccount;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * A representation of the Azure SQL Database operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlDatabaseOperations extends
     SupportsCreating<SqlDatabaseOperations.DefinitionStages.WithSqlServer>,
     SqlChildrenOperations<SqlDatabase> {
@@ -26,7 +22,6 @@ public interface SqlDatabaseOperations extends
     /**
      * Container interface for all the definitions that need to be implemented.
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
     interface SqlDatabaseOperationsDefinition extends
         SqlDatabaseOperations.DefinitionStages.Blank,
         SqlDatabaseOperations.DefinitionStages.WithSqlServer,
@@ -65,7 +60,6 @@ public interface SqlDatabaseOperations extends
              * @param location          the parent SQL server location
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithAllDifferentOptions withExistingSqlServer(String resourceGroupName, String sqlServerName, String location);
 
             /**
@@ -74,14 +68,12 @@ public interface SqlDatabaseOperations extends
              * @param sqlServer the parent SQL server
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithAllDifferentOptions withExistingSqlServer(SqlServer sqlServer);
         }
 
         /**
          * The SQL database interface with all starting options for definition.
          */
-        @Beta(Beta.SinceVersion.V1_7_0)
         interface WithAllDifferentOptions extends
             SqlDatabaseOperations.DefinitionStages.WithElasticPoolName,
             SqlDatabaseOperations.DefinitionStages.WithRestorableDroppedDatabase,
@@ -126,7 +118,6 @@ public interface SqlDatabaseOperations extends
              * @param elasticPoolName the name of the new SQL Elastic Pool
              * @return the first stage of the new SQL Elastic Pool definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlElasticPool.DefinitionStages.Blank<WithExistingDatabaseAfterElasticPool> defineElasticPool(String elasticPoolName);
         }
 
@@ -151,7 +142,6 @@ public interface SqlDatabaseOperations extends
              * @param storageUri the source URI for the database to be imported
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithStorageKey importFrom(String storageUri);
 
             /**
@@ -162,7 +152,6 @@ public interface SqlDatabaseOperations extends
              * @param fileName the exported database file name
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithAuthentication importFrom(StorageAccount storageAccount, String containerName, String fileName);
         }
 
@@ -174,14 +163,12 @@ public interface SqlDatabaseOperations extends
              * @param storageAccessKey the storage access key to use
              * @return next definition stage
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithAuthentication withStorageAccessKey(String storageAccessKey);
 
             /**
              * @param sharedAccessKey the shared access key to use; it must be preceded with a "?."
              * @return next definition stage
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithAuthentication withSharedAccessKey(String sharedAccessKey);
         }
 
@@ -194,7 +181,6 @@ public interface SqlDatabaseOperations extends
              * @param administratorPassword the SQL administrator password
              * @return next definition stage
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithEditionDefaults withSqlAdministratorLoginAndPassword(String administratorLogin, String administratorPassword);
 
             /**
@@ -202,7 +188,6 @@ public interface SqlDatabaseOperations extends
              * @param administratorPassword the Active Directory administrator password
              * @return next definition stage
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithEditionDefaults withActiveDirectoryLoginAndPassword(String administratorLogin, String administratorPassword);
         }
 
@@ -216,7 +201,6 @@ public interface SqlDatabaseOperations extends
              * @param storageUri the source URI for the database to be imported
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithStorageKeyAfterElasticPool importFrom(String storageUri);
 
             /**
@@ -227,7 +211,6 @@ public interface SqlDatabaseOperations extends
              * @param fileName the exported database file name
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithAuthenticationAfterElasticPool importFrom(StorageAccount storageAccount, String containerName, String fileName);
         }
 
@@ -239,14 +222,12 @@ public interface SqlDatabaseOperations extends
              * @param storageAccessKey the storage access key to use
              * @return next definition stage
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithAuthenticationAfterElasticPool withStorageAccessKey(String storageAccessKey);
 
             /**
              * @param sharedAccessKey the shared access key to use; it must be preceded with a "?."
              * @return next definition stage
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithAuthenticationAfterElasticPool withSharedAccessKey(String sharedAccessKey);
         }
 
@@ -259,7 +240,6 @@ public interface SqlDatabaseOperations extends
              * @param administratorPassword the SQL administrator password
              * @return next definition stage
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions withSqlAdministratorLoginAndPassword(String administratorLogin, String administratorPassword);
 
             /**
@@ -267,7 +247,6 @@ public interface SqlDatabaseOperations extends
              * @param administratorPassword the Active Directory administrator password
              * @return next definition stage
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions withActiveDirectoryLoginAndPassword(String administratorLogin, String administratorPassword);
         }
 
@@ -284,7 +263,6 @@ public interface SqlDatabaseOperations extends
              * @param restorableDroppedDatabase the restorable dropped database
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateFinal fromRestorableDroppedDatabase(SqlRestorableDroppedDatabase restorableDroppedDatabase);
         }
 
@@ -298,7 +276,6 @@ public interface SqlDatabaseOperations extends
              * @param restorePoint the restore point
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions fromRestorePoint(RestorePoint restorePoint);
 
             /**
@@ -308,7 +285,6 @@ public interface SqlDatabaseOperations extends
              * @param restorePointDateTime date and time to restore from
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_8_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
         }
 
@@ -322,7 +298,6 @@ public interface SqlDatabaseOperations extends
              * @param restorePoint the restore point
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions fromRestorePoint(RestorePoint restorePoint);
 
             /**
@@ -332,7 +307,6 @@ public interface SqlDatabaseOperations extends
              * @param restorePointDateTime date and time to restore from
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_8_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
         }
 
@@ -346,7 +320,6 @@ public interface SqlDatabaseOperations extends
              * @param sampleName the sample database to use as the source
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions fromSample(SampleName sampleName);
         }
 
@@ -360,7 +333,6 @@ public interface SqlDatabaseOperations extends
              * @param sampleName the sample database to use as the source
              * @return The next stage of the definition.
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions fromSample(SampleName sampleName);
         }
 
@@ -465,8 +437,6 @@ public interface SqlDatabaseOperations extends
              *
              * @return The next stage of the definition
              */
-            @Method
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithEditionDefaults withBasicEdition();
 
             /**
@@ -474,7 +444,6 @@ public interface SqlDatabaseOperations extends
              *
              * @return The next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithEditionDefaults withBasicEdition(SqlDatabaseBasicStorage maxStorageCapacity);
 
             /**
@@ -483,7 +452,6 @@ public interface SqlDatabaseOperations extends
              * @param serviceObjective edition to be set for database
              * @return The next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithEditionDefaults withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective);
 
             /**
@@ -493,7 +461,6 @@ public interface SqlDatabaseOperations extends
              * @param maxStorageCapacity edition to be set for database
              * @return The next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithEditionDefaults withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective, SqlDatabaseStandardStorage maxStorageCapacity);
 
             /**
@@ -502,7 +469,6 @@ public interface SqlDatabaseOperations extends
              * @param serviceObjective edition to be set for database
              * @return The next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithEditionDefaults withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective);
 
             /**
@@ -512,7 +478,6 @@ public interface SqlDatabaseOperations extends
              * @param maxStorageCapacity edition to be set for database
              * @return The next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_7_0)
             SqlDatabaseOperations.DefinitionStages.WithEditionDefaults withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective, SqlDatabasePremiumStorage maxStorageCapacity);
 
             /**
@@ -600,7 +565,6 @@ public interface SqlDatabaseOperations extends
     /**
      * Grouping of the Azure SQL Database rule common actions.
      */
-    @Beta(Beta.SinceVersion.V1_7_0)
     interface SqlDatabaseActionsDefinition extends SqlChildrenActionsDefinition<SqlDatabase> {
         /**
          * Begins the definition of a new SQL Database to be added to this server.
@@ -608,7 +572,6 @@ public interface SqlDatabaseOperations extends
          * @param databaseName the name of the new SQL Database
          * @return the first stage of the new SQL Database definition
          */
-        @Beta(Beta.SinceVersion.V1_7_0)
         SqlDatabaseOperations.DefinitionStages.WithAllDifferentOptions define(String databaseName);
     }
 }

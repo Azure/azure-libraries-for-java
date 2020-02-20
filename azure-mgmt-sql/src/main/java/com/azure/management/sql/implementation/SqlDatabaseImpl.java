@@ -21,7 +21,6 @@ import com.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlSyncGroupOperations;
 import com.azure.management.sql.TransparentDataEncryption;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -47,7 +46,7 @@ import com.azure.management.sql.StorageKeyType;
 import com.azure.management.sql.DatabaseUpdate;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountKey;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -63,7 +62,6 @@ import java.util.UUID;
 /**
  * Implementation for SqlDatabase and its parent interfaces.
  */
-@LangDefinition
 class SqlDatabaseImpl
     extends
         ExternalChildResourceImpl<SqlDatabase, DatabaseInner, SqlServerImpl, SqlServer>

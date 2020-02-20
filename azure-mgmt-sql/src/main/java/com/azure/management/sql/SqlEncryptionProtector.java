@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
@@ -22,7 +19,6 @@ import com.azure.management.sql.implementation.EncryptionProtectorInner;
  * An immutable client-side representation of an Azure SQL Encryption Protector.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_9_0)
 public interface SqlEncryptionProtector
     extends
         HasId,
@@ -87,7 +83,6 @@ public interface SqlEncryptionProtector
         /**
          * The SQL Encryption Protector update definition to set the server key name and type.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithServerKeyNameAndType {
             /**
              * Updates the Encryption Protector to use an AzureKeyVault server key.
@@ -102,7 +97,6 @@ public interface SqlEncryptionProtector
              *
              * @return The next stage of the definition.
              */
-            @Method
             SqlEncryptionProtector.Update withServiceManagedServerKey();
         }
     }

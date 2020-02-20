@@ -5,8 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.HasInner;
@@ -17,7 +15,6 @@ import com.azure.management.sql.implementation.ImportExportResponseInner;
  * Response containing result of the Azure SQL Database import or export operation.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlDatabaseImportExportResponse
     extends
         Indexable,

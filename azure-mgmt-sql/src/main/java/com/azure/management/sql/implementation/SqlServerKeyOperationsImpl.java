@@ -9,7 +9,6 @@ import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlServerKey;
 import com.azure.management.sql.SqlServerKeyOperations;
 import com.microsoft.azure.Page;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import rx.Completable;
 import rx.Observable;
@@ -23,7 +22,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL Server Key operations.
  */
-@LangDefinition
 public class SqlServerKeyOperationsImpl
     extends
         SqlChildrenOperationsImpl<SqlServerKey>

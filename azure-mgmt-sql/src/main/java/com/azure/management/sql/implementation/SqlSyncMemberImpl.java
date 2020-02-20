@@ -12,7 +12,6 @@ import com.azure.management.sql.SqlSyncMember;
 import com.azure.management.sql.SqlSyncMemberOperations;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
@@ -29,7 +28,6 @@ import java.util.Objects;
 /**
  * Implementation for SqlSyncMember.
  */
-@LangDefinition
 public class SqlSyncMemberImpl
     extends
         ExternalChildResourceImpl<SqlSyncMember, SyncMemberInner, SqlSyncGroupImpl, SqlSyncGroup>

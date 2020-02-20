@@ -7,16 +7,14 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.RestorePoint;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.RestorePointType;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for Restore point interface.
  */
-@LangDefinition
 class RestorePointImpl
         extends WrapperImpl<RestorePointInner>
         implements RestorePoint {

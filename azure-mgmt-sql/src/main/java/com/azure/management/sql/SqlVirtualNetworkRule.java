@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.Appliable;
@@ -22,7 +19,6 @@ import rx.Completable;
  * An immutable client-side representation of an Azure SQL Server Virtual Network Rule.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
 public interface SqlVirtualNetworkRule
     extends
     ExternalChildResource<SqlVirtualNetworkRule, SqlServer>,
@@ -55,7 +51,6 @@ public interface SqlVirtualNetworkRule
     /**
      * Deletes the virtual network rule.
      */
-    @Method
     void delete();
 
     /**
@@ -63,7 +58,6 @@ public interface SqlVirtualNetworkRule
      *
      * @return a representation of the deferred computation of this call
      */
-    @Method
     Completable deleteAsync();
 
 
@@ -76,7 +70,6 @@ public interface SqlVirtualNetworkRule
      *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface SqlVirtualNetworkRuleDefinition<ParentT> extends
         SqlVirtualNetworkRule.DefinitionStages.Blank<ParentT>,
         SqlVirtualNetworkRule.DefinitionStages.WithSubnet<ParentT>,
@@ -87,14 +80,12 @@ public interface SqlVirtualNetworkRule
     /**
      * Grouping of all the SQL Virtual Network Rule definition stages.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface DefinitionStages {
         /**
          * The first stage of the SQL Server Virtual Network Rule definition.
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface Blank<ParentT> extends
             SqlVirtualNetworkRule.DefinitionStages.WithSubnet<ParentT> {
         }
@@ -102,7 +93,6 @@ public interface SqlVirtualNetworkRule
         /**
          * The SQL Virtual Network Rule definition to set the virtual network ID and the subnet name.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithSubnet<ParentT> {
             /**
              * Sets the virtual network ID and the subnet name for the SQL server Virtual Network Rule.
@@ -117,7 +107,6 @@ public interface SqlVirtualNetworkRule
         /**
          * The SQL Virtual Network Rule definition to set ignore flag for the missing subnet's SQL service endpoint entry.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithServiceEndpoint<ParentT> extends SqlVirtualNetworkRule.DefinitionStages.WithAttach<ParentT> {
             /**
              * Sets the flag to ignore the missing subnet's SQL service endpoint entry.
@@ -144,7 +133,6 @@ public interface SqlVirtualNetworkRule
     /**
      * The template for a SQL Virtual Network Rule update operation, containing all the settings that can be modified.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface Update extends
         SqlVirtualNetworkRule.UpdateStages.WithSubnet,
         SqlVirtualNetworkRule.UpdateStages.WithServiceEndpoint,
@@ -154,12 +142,10 @@ public interface SqlVirtualNetworkRule
     /**
      * Grouping of all the SQL Virtual Network Rule update stages.
      */
-    @Beta(Beta.SinceVersion.V1_8_0)
     interface UpdateStages {
         /**
          * The SQL Virtual Network Rule definition to set the virtual network ID and the subnet name.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithSubnet {
             /**
              * Sets the virtual network ID and the subnet name for the SQL server Virtual Network Rule.
@@ -174,7 +160,6 @@ public interface SqlVirtualNetworkRule
         /**
          * The SQL Virtual Network Rule definition to set ignore flag for the missing subnet's SQL service endpoint entry.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithServiceEndpoint {
             /**
              * Sets the flag to ignore the missing subnet's SQL service endpoint entry.

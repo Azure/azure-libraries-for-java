@@ -9,18 +9,16 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.RestorePoint;
 import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlElasticPoolOperations;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.sql.CreateMode;
 import com.azure.management.sql.SampleName;
 import com.azure.management.storage.StorageAccount;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 import java.util.Objects;
 
 /**
  * Implementation for SqlDatabase as inline definition inside a SqlElasticPool definition.
  */
-@LangDefinition
 public class SqlDatabaseForElasticPoolImpl
     implements
         SqlDatabase.DefinitionStages.WithExistingDatabaseAfterElasticPool<SqlElasticPoolOperations.DefinitionStages.WithCreate>,

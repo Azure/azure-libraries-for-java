@@ -6,10 +6,9 @@
 
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.sql.implementation.RecommendedElasticPoolMetricInner;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 
 /**

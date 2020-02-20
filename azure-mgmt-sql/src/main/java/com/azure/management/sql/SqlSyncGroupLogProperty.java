@@ -5,17 +5,14 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.sql.implementation.SyncGroupLogPropertiesInner;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * An immutable client-side representation of an Azure SQL Server Sync Group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_9_0)
 public interface SqlSyncGroupLogProperty
     extends HasInner<SyncGroupLogPropertiesInner> {
 

@@ -6,14 +6,12 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.ServerMetric;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for DatabaseMetric interface.
  */
-@LangDefinition
 class ServerMetricImpl
     extends WrapperImpl<ServerUsageInner>
     implements ServerMetric {

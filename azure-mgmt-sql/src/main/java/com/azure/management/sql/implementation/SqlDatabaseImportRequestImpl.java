@@ -8,7 +8,6 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlDatabaseImportExportResponse;
 import com.azure.management.sql.SqlDatabaseImportRequest;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
@@ -26,7 +25,6 @@ import java.util.Objects;
 /**
  * Implementation for SqlDatabaseImportRequest.
  */
-@LangDefinition
 public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImportExportResponse>
     implements
         SqlDatabaseImportRequest,

@@ -6,14 +6,12 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlDatabaseImportExportResponse;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 /**
  * Implementation for SqlDatabaseImportExportResponse.
  */
-@LangDefinition
 public class SqlDatabaseImportExportResponseImpl extends WrapperImpl<ImportExportResponseInner>
     implements SqlDatabaseImportExportResponse {
 

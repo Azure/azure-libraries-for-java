@@ -8,7 +8,6 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.SqlEncryptionProtector;
 import com.azure.management.sql.SqlServer;
 import com.microsoft.azure.Page;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.sql.SqlEncryptionProtectorOperations;
 import rx.Observable;
@@ -22,7 +21,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL Encryption Protector operations.
  */
-@LangDefinition
 public class SqlEncryptionProtectorOperationsImpl
     implements
         SqlEncryptionProtectorOperations,

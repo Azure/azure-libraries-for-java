@@ -5,8 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.model.Creatable;
 
@@ -14,7 +12,6 @@ import com.azure.management.resources.fluentcore.model.Creatable;
  * A representation of the Azure SQL Virtual Network rule operations.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
 public interface SqlVirtualNetworkRuleOperations extends
     SupportsCreating<SqlVirtualNetworkRuleOperations.DefinitionStages.WithSqlServer>,
     SqlChildrenOperations<SqlVirtualNetworkRule> {
@@ -36,7 +33,6 @@ public interface SqlVirtualNetworkRuleOperations extends
         /**
          * The first stage of the SQL Server Virtual Network Rule definition.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithSqlServer {
             /**
              * Sets the parent SQL server name and resource group it belongs to.
@@ -67,7 +63,6 @@ public interface SqlVirtualNetworkRuleOperations extends
         /**
          * The SQL Virtual Network Rule definition to set the virtual network ID and the subnet name.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithSubnet {
             /**
              * Sets the virtual network ID and the subnet name for the SQL server Virtual Network Rule.
@@ -82,7 +77,6 @@ public interface SqlVirtualNetworkRuleOperations extends
         /**
          * The SQL Virtual Network Rule definition to set ignore flag for the missing subnet's SQL service endpoint entry.
          */
-        @Beta(Beta.SinceVersion.V1_8_0)
         interface WithServiceEndpoint extends SqlVirtualNetworkRuleOperations.DefinitionStages.WithCreate {
             /**
              * Sets the flag to ignore the missing subnet's SQL service endpoint entry.

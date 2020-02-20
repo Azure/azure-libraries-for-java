@@ -7,16 +7,16 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.ElasticPoolDatabaseActivity;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import org.joda.time.DateTime;
+import com.azure.management.sql.models.ElasticPoolDatabaseActivityInner;
+
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for Elastic Pool Database Activity interface.
  */
-@LangDefinition
 class ElasticPoolDatabaseActivityImpl
         extends WrapperImpl<ElasticPoolDatabaseActivityInner>
         implements ElasticPoolDatabaseActivity {
@@ -48,7 +48,7 @@ class ElasticPoolDatabaseActivityImpl
     }
 
     @Override
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.inner().endTime();
     }
 
@@ -108,7 +108,7 @@ class ElasticPoolDatabaseActivityImpl
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.inner().startTime();
     }
 

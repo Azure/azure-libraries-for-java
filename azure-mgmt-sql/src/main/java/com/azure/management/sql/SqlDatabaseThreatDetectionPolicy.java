@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
@@ -24,7 +21,6 @@ import com.azure.management.sql.implementation.DatabaseSecurityAlertPolicyInner;
  * A representation of the Azure SQL Database threat detection policy.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlDatabaseThreatDetectionPolicy extends
     ExternalChildResource<SqlDatabaseThreatDetectionPolicy, SqlDatabase>,
     HasParent<SqlDatabase>,
@@ -102,7 +98,6 @@ public interface SqlDatabaseThreatDetectionPolicy extends
          *
          * @return the SQL database threat detection policy for the current database
          */
-        @Method
         SqlDatabaseThreatDetectionPolicy getThreatDetectionPolicy();
     }
 
@@ -141,7 +136,6 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.DefinitionStages.WithStorageEndpoint withPolicyEnabled();
 
             /**
@@ -149,7 +143,6 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.DefinitionStages.WithCreate withPolicyDisabled();
 
             /**
@@ -157,7 +150,6 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.DefinitionStages.WithStorageEndpoint withPolicyNew();
 
             /**
@@ -165,7 +157,6 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.DefinitionStages.WithCreate withDefaultSecurityAlertPolicy();
         }
 
@@ -246,14 +237,12 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              * Enables the alert to be sent to the account administrators.
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.DefinitionStages.WithCreate withEmailToAccountAdmins();
 
             /**
              * Disables the alert will be sent to the account administrators.
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.DefinitionStages.WithCreate withoutEmailToAccountAdmins();
         }
 
@@ -298,7 +287,6 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.Update withPolicyEnabled();
 
             /**
@@ -306,7 +294,6 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.Update withPolicyDisabled();
 
             /**
@@ -314,7 +301,6 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.Update withPolicyNew();
 
             /**
@@ -322,7 +308,6 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              *
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.Update withDefaultSecurityAlertPolicy();
         }
 
@@ -403,14 +388,12 @@ public interface SqlDatabaseThreatDetectionPolicy extends
              * Enables the alert to be sent to the account administrators.
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.Update withEmailToAccountAdmins();
 
             /**
              * Disables the alert will be sent to the account administrators.
              * @return the next stage of the definition
              */
-            @Method
             SqlDatabaseThreatDetectionPolicy.Update withoutEmailToAccountAdmins();
         }
     }

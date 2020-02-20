@@ -6,15 +6,13 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlSyncGroupLogProperty;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.SyncGroupLogType;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for SqlSyncGroupLogProperty.
  */
-@LangDefinition
 public class SqlSyncGroupLogPropertyImpl
     extends WrapperImpl <SyncGroupLogPropertiesInner>
     implements SqlSyncGroupLogProperty {

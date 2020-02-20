@@ -5,18 +5,15 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.sql.implementation.DatabaseUsageInner;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * The result of SQL server usages per SQL Database.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
 public interface SqlDatabaseUsageMetric extends
     HasName,
     HasInner<DatabaseUsageInner> {

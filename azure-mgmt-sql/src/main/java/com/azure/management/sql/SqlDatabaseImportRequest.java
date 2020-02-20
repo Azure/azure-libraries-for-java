@@ -5,8 +5,6 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.azure.management.resources.fluentcore.model.Executable;
 import com.azure.management.resources.fluentcore.model.HasInner;
@@ -16,7 +14,6 @@ import com.azure.management.storage.StorageAccount;
  * An immutable client-side representation of an Azure SQL Database import operation request.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlDatabaseImportRequest extends
     HasInner<ImportExtensionRequest>,
     Executable<SqlDatabaseImportExportResponse>,

@@ -5,14 +5,11 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 
 /**
  * The minimum limit of the reserved eDTUs value range for a "Basic" edition of an Azure SQL Elastic Pool.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public enum SqlElasticPoolBasicMinEDTUs {
     /** 0 reserved minimum eDTUs available for each database in the pool. */
     eDTU_0(0),

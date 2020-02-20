@@ -5,16 +5,13 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 /**
  * Response containing the Azure SQL Database metric value.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlDatabaseMetricValue extends HasInner<MetricValue> {
     /**
      * @return  the number of values for the metric

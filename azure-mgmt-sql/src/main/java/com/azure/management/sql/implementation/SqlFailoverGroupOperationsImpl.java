@@ -9,7 +9,6 @@ import com.azure.management.sql.SqlFailoverGroup;
 import com.azure.management.sql.SqlFailoverGroupOperations;
 import com.azure.management.sql.SqlServer;
 import com.microsoft.azure.Page;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import rx.Completable;
 import rx.Observable;
@@ -23,7 +22,6 @@ import java.util.Objects;
 /**
  * Implementation for SQL Failover Group operations.
  */
-@LangDefinition
 public class SqlFailoverGroupOperationsImpl
     extends
         SqlChildrenOperationsImpl<SqlFailoverGroup>

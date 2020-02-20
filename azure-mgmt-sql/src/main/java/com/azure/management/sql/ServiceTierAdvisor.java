@@ -6,14 +6,13 @@
 
 package com.azure.management.sql;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.sql.implementation.ServiceTierAdvisorInner;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 import java.util.List;
 import java.util.UUID;

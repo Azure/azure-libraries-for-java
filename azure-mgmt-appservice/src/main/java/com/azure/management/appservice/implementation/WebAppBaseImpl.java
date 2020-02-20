@@ -783,7 +783,7 @@ abstract class WebAppBaseImpl<
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
             public Mono<Indexable> apply(Context context) {
-                return submitSourceControlToDelete().flatMap(indexable -> submitSourceControlToCreate());
+                return submitSourceControlToDelete().flatMap(ignored -> submitSourceControlToCreate());
             }
         });
         // Authentication
@@ -1033,7 +1033,7 @@ abstract class WebAppBaseImpl<
             return Mono.just((Indexable) this);
         }
         return sourceControl.registerGithubAccessToken()
-                .flatMap(sourceControlInner -> createOrUpdateSourceControl(sourceControl.inner()))
+                .then(createOrUpdateSourceControl(sourceControl.inner()))
                 .delayElement(SdkContext.getDelayDuration(Duration.ofSeconds(30)))
                 .map(ignored -> WebAppBaseImpl.this);
     }

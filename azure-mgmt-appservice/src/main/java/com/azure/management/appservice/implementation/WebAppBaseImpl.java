@@ -919,10 +919,8 @@ abstract class WebAppBaseImpl<
         Mono<Indexable> observable = Mono.just((Indexable) this);
         if (!appSettingsToAdd.isEmpty() || !appSettingsToRemove.isEmpty()) {
             observable = listAppSettings()
+                    .switchIfEmpty(Mono.just(new StringDictionaryInner()))
                     .flatMap(stringDictionaryInner -> {
-                        if (stringDictionaryInner == null) {
-                            stringDictionaryInner = new StringDictionaryInner();
-                        }
                         if (stringDictionaryInner.properties() == null) {
                             stringDictionaryInner.withProperties(new HashMap<String, String>());
                         }
@@ -945,10 +943,8 @@ abstract class WebAppBaseImpl<
         Mono<Indexable> observable = Mono.just((Indexable) this);
         if (!connectionStringsToAdd.isEmpty() || !connectionStringsToRemove.isEmpty()) {
             observable = listConnectionStrings()
+                    .switchIfEmpty(Mono.just(new ConnectionStringDictionaryInner()))
                     .flatMap(dictionaryInner -> {
-                        if (dictionaryInner == null) {
-                            dictionaryInner = new ConnectionStringDictionaryInner();
-                        }
                         if (dictionaryInner.properties() == null) {
                             dictionaryInner.withProperties(new HashMap<String, ConnStringValueTypePair>());
                         }

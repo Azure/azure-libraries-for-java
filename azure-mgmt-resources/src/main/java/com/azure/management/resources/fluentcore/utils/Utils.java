@@ -50,20 +50,18 @@ public final class Utils {
         return value.intValue();
     }
 
-//    /**
-//     * Converts an object Long to a primitive int.
-//     *
-//     * @param value the Long value
-//     * @return 0 if the given Long value is null else integer value
-//     */
-//    public static int toPrimitiveInt(Long value) {
-//        if (value == null) {
-//            return 0;
-//        }
-//        // throws IllegalArgumentException - if value is greater than Integer.MAX_VALUE
-//        // or less than Integer.MIN_VALUE
-//        return Ints.checkedCast(value);
-//    }
+    /**
+     * Converts an object Long to a primitive int.
+     *
+     * @param value the Long value
+     * @return 0 if the given Long value is null else integer value
+     */
+    public static int toPrimitiveInt(Long value) {
+        if (value == null) {
+            return 0;
+        }
+        return Math.toIntExact(value);
+    }
 
     /**
      * Converts an object Long to a primitive long.

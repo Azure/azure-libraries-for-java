@@ -694,7 +694,7 @@ abstract class WebAppBaseImpl<
             for (Map.Entry<String, ConnStringValueTypePair> entry : connectionStringsInner.properties().entrySet()) {
                 String key = entry.getKey();
                 ConnStringValueTypePair value = entry.getValue();
-                connectionStringMap.put(key, new ConnectionStringImpl(key, value, slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(key)));
+                connectionStringMap.put(key, new ConnectionStringImpl(key, value, slotConfigs.connectionStringNames() != null && slotConfigs.connectionStringNames().contains(key)));
             }
             return connectionStringMap;
         });
@@ -994,15 +994,13 @@ abstract class WebAppBaseImpl<
         Mono<Indexable> observable = Mono.just((Indexable) this);
         if (!appSettingStickiness.isEmpty() || !connectionStringStickiness.isEmpty()) {
             observable = listSlotConfigurations()
+                    .switchIfEmpty(Mono.just(new SlotConfigNamesResourceInner()))
                     .flatMap(slotConfigNamesResourceInner -> {
-                        if (slotConfigNamesResourceInner == null) {
-                            slotConfigNamesResourceInner = new SlotConfigNamesResourceInner();
-                        }
                         if (slotConfigNamesResourceInner.appSettingNames() == null) {
-                            slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<String>());
+                            slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<>());
                         }
                         if (slotConfigNamesResourceInner.connectionStringNames() == null) {
-                            slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<String>());
+                            slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<>());
                         }
                         Set<String> stickyAppSettingKeys = new HashSet<>(slotConfigNamesResourceInner.appSettingNames());
                         Set<String> stickyConnectionStringNames = new HashSet<>(slotConfigNamesResourceInner.connectionStringNames());

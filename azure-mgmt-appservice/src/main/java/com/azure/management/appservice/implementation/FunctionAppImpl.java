@@ -21,6 +21,8 @@ import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.credential.AccessToken;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.credential.TokenRequestContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.management.CloudException;
 import com.azure.core.util.UrlBuilder;
@@ -88,7 +90,7 @@ class FunctionAppImpl
     private FunctionService functionService;
     private FunctionDeploymentSlots deploymentSlots;
 
-    private Function<AppServicePlan, Void> linuxFxVersionSetter = null;
+    private Function<AppServicePlan, SiteConfigResourceInner> linuxFxVersionSetter = null;
     private Mono<AppServicePlan> cachedAppServicePlanObservable = null; // potentially shared between submitSiteConfig and submitAppSettings
 
     private String functionAppKeyServiceHost;
@@ -108,7 +110,7 @@ class FunctionAppImpl
             UrlBuilder urlBuilder = UrlBuilder.parse(defaultHostName());
             String baseUrl;
             if (urlBuilder.getScheme() == null) {
-                urlBuilder.setScheme("http");
+                urlBuilder.setScheme("https");
             }
             try {
                 baseUrl = urlBuilder.toUrl().toString();
@@ -118,7 +120,7 @@ class FunctionAppImpl
             RestClient client = manager().restClient().newBuilder()
                     .withBaseUrl(baseUrl)
                     .withCredential(new FunctionCredential(this))
-//                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .buildClient();
             functionServiceHost = client.getBaseUrl().toString();
             functionService = RestProxy.create(FunctionService.class, client.getHttpPipeline());
@@ -167,8 +169,9 @@ class FunctionAppImpl
     Mono<Indexable> submitSiteConfig() {
         if (linuxFxVersionSetter != null) {
             cachedAppServicePlanObservable = this.cachedAppServicePlanObservable(); // first usage, so get a new one
-            return cachedAppServicePlanObservable.map(linuxFxVersionSetter)
-                    .then(FunctionAppImpl.super.submitSiteConfig());
+            return cachedAppServicePlanObservable
+                    .map(linuxFxVersionSetter)
+                    .flatMap(ignored -> FunctionAppImpl.super.submitSiteConfig());
         } else {
             return super.submitSiteConfig();
         }
@@ -185,7 +188,7 @@ class FunctionAppImpl
             if (cachedAppServicePlanObservable == null) {
                 cachedAppServicePlanObservable = this.cachedAppServicePlanObservable();
             }
-            return storageAccountToSet.getKeysAsync()
+            return Flux.concat(storageAccountToSet.getKeysAsync()
                     .map(storageAccountKeys -> storageAccountKeys.get(0))
                     .zipWith(cachedAppServicePlanObservable, (StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) -> {
                         String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
@@ -198,7 +201,8 @@ class FunctionAppImpl
                             addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTSHARE, SdkContext.randomResourceName(name(), 32));
                         }
                         return FunctionAppImpl.super.submitAppSettings();
-                    }).then(Mono.fromCallable(() -> {
+                    })).last()
+                    .then(Mono.fromCallable(() -> {
                         currentStorageAccount = storageAccountToSet;
                         storageAccountToSet = null;
                         storageAccountCreatable = null;
@@ -372,7 +376,7 @@ class FunctionAppImpl
             } else {
                 siteConfig.withLinuxFxVersion(runtimeStack.getLinuxFxVersionForDedicatedPlan());
             }
-            return null;
+            return siteConfig;
         };
         return this;
     }

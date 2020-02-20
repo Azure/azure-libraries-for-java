@@ -186,6 +186,13 @@ public class FunctionAppsTests extends AppServiceTest {
         Assertions.assertTrue(plan1.inner().reserved());
         Assertions.assertTrue(Arrays.asList(functionApp1.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
 
+//        // function keys
+//        if (!isPlaybackMode()) {
+//            Map<String, String> functionKeys = functionApp1.listFunctionKeys("HttpTrigger-Java");
+//            Assertions.assertNotNull(functionKeys);
+//            Assertions.assertTrue(!functionKeys.isEmpty());
+//        }
+
         // deploy (zip deploy is not recommended for linux consumption plan)
         functionApp1.update()
                 .withAppSetting("SCM_DO_BUILD_DURING_DEPLOYMENT", "false")

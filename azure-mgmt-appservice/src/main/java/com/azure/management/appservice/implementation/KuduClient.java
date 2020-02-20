@@ -12,8 +12,9 @@ import com.azure.core.annotation.Headers;
 import com.azure.core.annotation.Host;
 import com.azure.core.annotation.HostParam;
 import com.azure.core.annotation.Post;
-import com.azure.core.annotation.QueryParam;
 import com.azure.core.annotation.ServiceInterface;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.StreamResponse;
 import com.azure.core.management.CloudException;
@@ -24,6 +25,9 @@ import com.azure.management.appservice.WebAppBase;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -46,9 +50,9 @@ class KuduClient {
                 .replace("https://", "");
         String[] parts = host.split("\\.", 2);
         host = Joiner.on('.').join(parts[0], "scm", parts[1]);
-        this.host = host;
+        this.host = "https://" + host;
         RestClient client = webAppBase.manager().restClient().newBuilder()
-                .withBaseUrl("https://" + host)
+                .withBaseUrl(this.host)
                 // FIXME
 //                .withConnectionTimeout(3, TimeUnit.MINUTES)
 //                .withReadTimeout(3, TimeUnit.MINUTES)
@@ -82,11 +86,11 @@ class KuduClient {
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps warDeploy", "x-ms-body-logging: false" })
         @Post("api/wardeploy")
-        Mono<Void> warDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") InputStream warFile, @QueryParam("name") String appName);
+        Mono<Void> warDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") byte[] warFile, String appName);
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
         @Post("api/zipdeploy")
-        Mono<Void> zipDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") InputStream zipFile);
+        Mono<Void> zipDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") byte[] zipFile);
     }
 
     Flux<String> streamApplicationLogsAsync() {
@@ -129,11 +133,26 @@ class KuduClient {
     }
 
     Mono<Void> warDeployAsync(InputStream warFile, String appName) {
-        return withRetry(service.warDeploy(host, warFile, appName));
+        return withRetry(service.warDeploy(host, byteArrayFromInputStream(warFile), appName));
     }
 
     Mono<Void> zipDeployAsync(InputStream zipFile) {
-        return withRetry(service.zipDeploy(host, zipFile));
+        return withRetry(service.zipDeploy(host, byteArrayFromInputStream(zipFile)));
+    }
+
+    private byte[] byteArrayFromInputStream(InputStream inputStream) {
+        // FIXME core does not yet support InputStream as @BodyParam
+        try {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            int nRead;
+            byte[] data = new byte[16384];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            return buffer.toByteArray();
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private Mono<Void> withRetry(Mono<Void> observable) {

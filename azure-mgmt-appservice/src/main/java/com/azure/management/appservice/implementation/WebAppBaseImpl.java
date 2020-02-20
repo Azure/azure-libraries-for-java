@@ -694,7 +694,7 @@ abstract class WebAppBaseImpl<
             for (Map.Entry<String, ConnStringValueTypePair> entry : connectionStringsInner.properties().entrySet()) {
                 String key = entry.getKey();
                 ConnStringValueTypePair value = entry.getValue();
-                connectionStringMap.put(key, new ConnectionStringImpl(key, value, slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(key)));
+                connectionStringMap.put(key, new ConnectionStringImpl(key, value, slotConfigs.connectionStringNames() != null && slotConfigs.connectionStringNames().contains(key)));
             }
             return connectionStringMap;
         });
@@ -752,54 +752,26 @@ abstract class WebAppBaseImpl<
             inner().withHostNameSslStates(new ArrayList<>(hostNameSslStateMap.values()));
         }
         // Hostname and SSL bindings
-        IndexableTaskItem rootTaskItem = wrapTask(new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                // Submit hostname bindings
-                return submitHostNameBindings()
-                        // Submit SSL bindings
-                        .flatMap(fluentT -> submitSslBindings(fluentT.inner()));
-            }
+        IndexableTaskItem rootTaskItem = wrapTask(context -> {
+            // Submit hostname bindings
+            return submitHostNameBindings()
+                    // Submit SSL bindings
+                    .flatMap(fluentT -> submitSslBindings(fluentT.inner()));
         });
         IndexableTaskItem lastTaskItem = rootTaskItem;
         // Site config
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitSiteConfig();
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitSiteConfig());
         // Metadata, app settings, and connection strings
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitMetadata()
-                        .flatMap(ignored -> submitAppSettings().mergeWith(submitConnectionStrings())
-                        .last())
-                        .flatMap(ignored -> submitStickiness());
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitMetadata()
+                .flatMap(ignored -> submitAppSettings().mergeWith(submitConnectionStrings())
+                .last())
+                .flatMap(ignored -> submitStickiness()));
         // Source control
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitSourceControlToDelete().flatMap(indexable -> submitSourceControlToCreate());
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitSourceControlToDelete().flatMap(ignored -> submitSourceControlToCreate()));
         // Authentication
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitAuthentication();
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitAuthentication());
         // Log configuration
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitLogConfiguration();
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitLogConfiguration());
         // MSI roles
         if (msiHandler != null) {
             lastTaskItem = sequentialTask(lastTaskItem, msiHandler);
@@ -947,10 +919,8 @@ abstract class WebAppBaseImpl<
         Mono<Indexable> observable = Mono.just((Indexable) this);
         if (!appSettingsToAdd.isEmpty() || !appSettingsToRemove.isEmpty()) {
             observable = listAppSettings()
+                    .switchIfEmpty(Mono.just(new StringDictionaryInner()))
                     .flatMap(stringDictionaryInner -> {
-                        if (stringDictionaryInner == null) {
-                            stringDictionaryInner = new StringDictionaryInner();
-                        }
                         if (stringDictionaryInner.properties() == null) {
                             stringDictionaryInner.withProperties(new HashMap<String, String>());
                         }
@@ -973,10 +943,8 @@ abstract class WebAppBaseImpl<
         Mono<Indexable> observable = Mono.just((Indexable) this);
         if (!connectionStringsToAdd.isEmpty() || !connectionStringsToRemove.isEmpty()) {
             observable = listConnectionStrings()
+                    .switchIfEmpty(Mono.just(new ConnectionStringDictionaryInner()))
                     .flatMap(dictionaryInner -> {
-                        if (dictionaryInner == null) {
-                            dictionaryInner = new ConnectionStringDictionaryInner();
-                        }
                         if (dictionaryInner.properties() == null) {
                             dictionaryInner.withProperties(new HashMap<String, ConnStringValueTypePair>());
                         }
@@ -994,15 +962,13 @@ abstract class WebAppBaseImpl<
         Mono<Indexable> observable = Mono.just((Indexable) this);
         if (!appSettingStickiness.isEmpty() || !connectionStringStickiness.isEmpty()) {
             observable = listSlotConfigurations()
+                    .switchIfEmpty(Mono.just(new SlotConfigNamesResourceInner()))
                     .flatMap(slotConfigNamesResourceInner -> {
-                        if (slotConfigNamesResourceInner == null) {
-                            slotConfigNamesResourceInner = new SlotConfigNamesResourceInner();
-                        }
                         if (slotConfigNamesResourceInner.appSettingNames() == null) {
-                            slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<String>());
+                            slotConfigNamesResourceInner.withAppSettingNames(new ArrayList<>());
                         }
                         if (slotConfigNamesResourceInner.connectionStringNames() == null) {
-                            slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<String>());
+                            slotConfigNamesResourceInner.withConnectionStringNames(new ArrayList<>());
                         }
                         Set<String> stickyAppSettingKeys = new HashSet<>(slotConfigNamesResourceInner.appSettingNames());
                         Set<String> stickyConnectionStringNames = new HashSet<>(slotConfigNamesResourceInner.connectionStringNames());
@@ -1033,7 +999,7 @@ abstract class WebAppBaseImpl<
             return Mono.just((Indexable) this);
         }
         return sourceControl.registerGithubAccessToken()
-                .flatMap(sourceControlInner -> createOrUpdateSourceControl(sourceControl.inner()))
+                .then(createOrUpdateSourceControl(sourceControl.inner()))
                 .delayElement(SdkContext.getDelayDuration(Duration.ofSeconds(30)))
                 .map(ignored -> WebAppBaseImpl.this);
     }

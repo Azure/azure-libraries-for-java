@@ -21,12 +21,17 @@ import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.credential.AccessToken;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.credential.TokenRequestContext;
+import com.azure.core.http.HttpPipelineCallContext;
+import com.azure.core.http.HttpPipelineNextPolicy;
+import com.azure.core.http.HttpResponse;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.management.CloudException;
 import com.azure.core.util.UrlBuilder;
 import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.FunctionApp;
 import com.azure.management.appservice.FunctionDeploymentSlots;
@@ -117,9 +122,9 @@ class FunctionAppImpl
             } catch (MalformedURLException e) {
                 throw new IllegalStateException(e);
             }
-            RestClient client = manager().restClient().newBuilder()
+            RestClient client = new RestClientBuilder()
                     .withBaseUrl(baseUrl)
-                    .withCredential(new FunctionCredential(this))
+                    .withPolicy(new FunctionAuthenticationPolicy(this))
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .buildClient();
             functionServiceHost = client.getBaseUrl().toString();
@@ -437,8 +442,8 @@ class FunctionAppImpl
 
     @Override
     public Mono<String> getMasterKeyAsync() {
-        return functionAppKeyService.getMasterKey(functionAppKeyServiceHost, resourceGroupName(), name(), manager().getSubscriptionId(), "2016-08-01", manager().inner().userAgent())
-                .map(stringStringMap -> stringStringMap.get("masterKey"));
+        return functionAppKeyService.listKeys(functionAppKeyServiceHost, resourceGroupName(), name(), manager().getSubscriptionId(), "2019-08-01", manager().inner().userAgent())
+                .map(ListKeysResult::getMasterKey);
     }
 
     @Override
@@ -586,12 +591,27 @@ class FunctionAppImpl
         return super.afterPostRunAsync(isGroupFaulted);
     }
 
+    private static class ListKeysResult {
+        @JsonProperty("masterKey")
+        private String masterKey;
+
+        @JsonProperty("functionKeys")
+        private Map<String, String> functionKeys;
+
+        @JsonProperty("systemKeys")
+        private Map<String, String> systemKeys;
+
+        public String getMasterKey() {
+            return masterKey;
+        }
+    }
+
     @Host("{$host}")
     @ServiceInterface(name = "FunctionAppKeyService")
     private interface FunctionAppKeyService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getMasterKey" })
-        @Get("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/admin/masterkey")
-        Mono<Map<String, String>> getMasterKey(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("name") String name, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps listKeys" })
+        @Post("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/listkeys")
+        Mono<ListKeysResult> listKeys(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("name") String name, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("User-Agent") String userAgent);
     }
 
     @Host("{$host}")
@@ -625,6 +645,27 @@ class FunctionAppImpl
     private static class FunctionKeyListResult {
         @JsonProperty("keys")
         private List<NameValuePair> keys;
+    }
+
+    private static final class FunctionAuthenticationPolicy implements HttpPipelinePolicy {
+        private final FunctionAppImpl functionApp;
+        private final static String HEADER_NAME = "x-functions-key";
+        private String masterKey;
+
+        private FunctionAuthenticationPolicy(FunctionAppImpl functionApp) {
+            this.functionApp = functionApp;
+        }
+
+        @Override
+        public Mono<HttpResponse> process(HttpPipelineCallContext context, HttpPipelineNextPolicy next) {
+            Mono<String> masterKeyMono = masterKey == null
+                    ? functionApp.getMasterKeyAsync().map(key -> { masterKey = key; return key; })
+                    : Mono.just(masterKey);
+            return masterKeyMono.flatMap(key -> {
+                context.getHttpRequest().setHeader(HEADER_NAME, key);
+                return next.process();
+            });
+        }
     }
 
     private static final class FunctionCredential implements TokenCredential {

@@ -752,54 +752,26 @@ abstract class WebAppBaseImpl<
             inner().withHostNameSslStates(new ArrayList<>(hostNameSslStateMap.values()));
         }
         // Hostname and SSL bindings
-        IndexableTaskItem rootTaskItem = wrapTask(new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                // Submit hostname bindings
-                return submitHostNameBindings()
-                        // Submit SSL bindings
-                        .flatMap(fluentT -> submitSslBindings(fluentT.inner()));
-            }
+        IndexableTaskItem rootTaskItem = wrapTask(context -> {
+            // Submit hostname bindings
+            return submitHostNameBindings()
+                    // Submit SSL bindings
+                    .flatMap(fluentT -> submitSslBindings(fluentT.inner()));
         });
         IndexableTaskItem lastTaskItem = rootTaskItem;
         // Site config
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitSiteConfig();
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitSiteConfig());
         // Metadata, app settings, and connection strings
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitMetadata()
-                        .flatMap(ignored -> submitAppSettings().mergeWith(submitConnectionStrings())
-                        .last())
-                        .flatMap(ignored -> submitStickiness());
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitMetadata()
+                .flatMap(ignored -> submitAppSettings().mergeWith(submitConnectionStrings())
+                .last())
+                .flatMap(ignored -> submitStickiness()));
         // Source control
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitSourceControlToDelete().flatMap(ignored -> submitSourceControlToCreate());
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitSourceControlToDelete().flatMap(ignored -> submitSourceControlToCreate()));
         // Authentication
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitAuthentication();
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitAuthentication());
         // Log configuration
-        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(Context context) {
-                return submitLogConfiguration();
-            }
-        });
+        lastTaskItem = sequentialTask(lastTaskItem, context -> submitLogConfiguration());
         // MSI roles
         if (msiHandler != null) {
             lastTaskItem = sequentialTask(lastTaskItem, msiHandler);

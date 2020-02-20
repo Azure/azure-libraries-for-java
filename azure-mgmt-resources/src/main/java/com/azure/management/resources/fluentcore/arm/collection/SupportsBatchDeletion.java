@@ -22,7 +22,7 @@ public interface SupportsBatchDeletion {
      * @param ids resource IDs of the resources to be deleted
      * @return a representation of the deferred computation of this call returning the resource ID of each successfully deleted resource
      */
-    Flux<String> deleteByIdsAsync(Collection<String> ids);
+    Flux<Void> deleteByIdsAsync(Collection<String> ids);
 
     /**
      * Deletes the specified resources from Azure asynchronously and in parallel.
@@ -30,7 +30,7 @@ public interface SupportsBatchDeletion {
      * @param ids resource IDs of the resources to be deleted
      * @return a representation of the deferred computation of this call returning the regsource ID of each successfully deleted resource
      */
-    Flux<String> deleteByIdsAsync(String... ids);
+    Flux<Void> deleteByIdsAsync(String... ids);
 
     /**
      * Deletes the specified resources from Azure.

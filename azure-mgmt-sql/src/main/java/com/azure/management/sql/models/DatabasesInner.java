@@ -75,7 +75,7 @@ public final class DatabasesInner {
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/import")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> import(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @BodyParam("application/json") ImportRequest parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> importMethod(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("serverName") String serverName, @BodyParam("application/json") ImportRequest parameters, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}")
         @ExpectedResponses({201, 202})
@@ -226,7 +226,7 @@ public final class DatabasesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> importWithResponseAsync(String resourceGroupName, String serverName, ImportRequest parameters) {
         final String apiVersion = "2014-04-01";
-        return service.import(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, serverName, parameters, apiVersion);
+        return service.importMethod(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, serverName, parameters, apiVersion);
     }
 
     /**
@@ -258,7 +258,7 @@ public final class DatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ImportExportResponseInner import(String resourceGroupName, String serverName, ImportRequest parameters) {
+    public ImportExportResponseInner importMethod(String resourceGroupName, String serverName, ImportRequest parameters) {
         return importAsync(resourceGroupName, serverName, parameters).block();
     }
 

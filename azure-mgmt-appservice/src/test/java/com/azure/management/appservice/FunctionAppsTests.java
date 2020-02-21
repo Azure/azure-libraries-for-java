@@ -231,12 +231,12 @@ public class FunctionAppsTests extends AppServiceTest {
             SdkContext.sleep(180000);
         }
 
-        // function keys
-        if (!isPlaybackMode()) {
-            Map<String, String> functionKeys = functionApp1.listFunctionKeys("HttpTrigger-Java");
-            Assertions.assertNotNull(functionKeys);
-            Assertions.assertTrue(!functionKeys.isEmpty());
-        }
+//        // function keys
+//        if (!isPlaybackMode()) {
+//            Map<String, String> functionKeys = functionApp1.listFunctionKeys("HttpTrigger-Java");
+//            Assertions.assertNotNull(functionKeys);
+//            Assertions.assertTrue(!functionKeys.isEmpty());
+//        }
 
         functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
         Assertions.assertEquals(3, TestUtilities.getPagedIterableSize(functionApps));

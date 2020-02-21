@@ -13,12 +13,17 @@ import com.azure.core.annotation.Host;
 import com.azure.core.annotation.HostParam;
 import com.azure.core.annotation.Post;
 import com.azure.core.annotation.ServiceInterface;
+import com.azure.core.http.HttpPipelineCallContext;
+import com.azure.core.http.HttpPipelineNextPolicy;
+import com.azure.core.http.HttpResponse;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.StreamResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.google.common.base.Joiner;
 import com.azure.management.appservice.WebAppBase;
@@ -33,6 +38,7 @@ import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Base64;
 
 /**
  * A client which interacts with Kudu service.
@@ -51,9 +57,11 @@ class KuduClient {
         String[] parts = host.split("\\.", 2);
         host = Joiner.on('.').join(parts[0], "scm", parts[1]);
         this.host = "https://" + host;
-        RestClient client = webAppBase.manager().restClient().newBuilder()
+        RestClient client = new RestClientBuilder() //webAppBase.manager().restClient().newBuilder()
                 .withBaseUrl(this.host)
+                .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                 // FIXME
+                .withPolicy(new KuduAuthenticationPolicy(webAppBase))
 //                .withConnectionTimeout(3, TimeUnit.MINUTES)
 //                .withReadTimeout(3, TimeUnit.MINUTES)
                 .buildClient();
@@ -165,5 +173,29 @@ class KuduClient {
                         throw Exceptions.propagate(throwable);
                     }
                 }).flatMap(i -> Mono.delay(Duration.ofSeconds(i))));
+    }
+
+    private static final class KuduAuthenticationPolicy implements HttpPipelinePolicy {
+        private final WebAppBase webApp;
+        private final static String HEADER_NAME = "Authorization";
+        private String basicToken;
+
+        private KuduAuthenticationPolicy(WebAppBase webApp) {
+            this.webApp = webApp;
+        }
+
+        @Override
+        public Mono<HttpResponse> process(HttpPipelineCallContext context, HttpPipelineNextPolicy next) {
+            Mono<String> basicTokenMono = basicToken == null
+                    ? webApp.getPublishingProfileAsync().map(profile -> {
+                        basicToken = Base64.getEncoder().encodeToString((profile.gitUsername() + ":" + profile.gitPassword()).getBytes(StandardCharsets.UTF_8));
+                        return basicToken;
+                    })
+                    : Mono.just(basicToken);
+            return basicTokenMono.flatMap(key -> {
+                context.getHttpRequest().setHeader(HEADER_NAME, "Basic " + basicToken);
+                return next.process();
+            });
+        }
     }
 }

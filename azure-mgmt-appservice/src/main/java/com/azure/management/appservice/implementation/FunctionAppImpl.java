@@ -31,7 +31,6 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.management.CloudException;
 import com.azure.core.util.UrlBuilder;
 import com.azure.management.RestClient;
-import com.azure.management.RestClientBuilder;
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.FunctionApp;
 import com.azure.management.appservice.FunctionDeploymentSlots;
@@ -122,9 +121,11 @@ class FunctionAppImpl
             } catch (MalformedURLException e) {
                 throw new IllegalStateException(e);
             }
-            RestClient client = new RestClientBuilder()
+            RestClient client = manager().restClient().newBuilder()
+//            RestClient client = new RestClientBuilder()
                     .withBaseUrl(baseUrl)
-                    .withPolicy(new FunctionAuthenticationPolicy(this))
+                    .withCredential(new FunctionCredential(this))
+//                    .withPolicy(new FunctionAuthenticationPolicy(this))
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .buildClient();
             functionServiceHost = client.getBaseUrl().toString();

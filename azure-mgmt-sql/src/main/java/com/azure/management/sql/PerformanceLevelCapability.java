@@ -31,7 +31,7 @@ public final class PerformanceLevelCapability {
      * 
      * @return the value value.
      */
-    public Double getValue() {
+    public Double value() {
         return this.value;
     }
 
@@ -40,7 +40,7 @@ public final class PerformanceLevelCapability {
      * 
      * @return the unit value.
      */
-    public PerformanceLevelUnit getUnit() {
+    public PerformanceLevelUnit unit() {
         return this.unit;
     }
 }

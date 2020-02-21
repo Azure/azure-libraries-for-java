@@ -41,7 +41,7 @@ public final class ServerPrivateEndpointConnection {
      * 
      * @return the properties value.
      */
-    public PrivateEndpointConnectionProperties getProperties() {
+    public PrivateEndpointConnectionProperties properties() {
         return this.properties;
     }
 }

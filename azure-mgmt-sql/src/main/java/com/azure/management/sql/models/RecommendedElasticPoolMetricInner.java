@@ -39,7 +39,7 @@ public final class RecommendedElasticPoolMetricInner {
      * 
      * @return the dateTime value.
      */
-    public OffsetDateTime getDateTime() {
+    public OffsetDateTime dateTime() {
         return this.dateTime;
     }
 
@@ -49,7 +49,7 @@ public final class RecommendedElasticPoolMetricInner {
      * @param dateTime the dateTime value to set.
      * @return the RecommendedElasticPoolMetricInner object itself.
      */
-    public RecommendedElasticPoolMetricInner setDateTime(OffsetDateTime dateTime) {
+    public RecommendedElasticPoolMetricInner withDateTime(OffsetDateTime dateTime) {
         this.dateTime = dateTime;
         return this;
     }
@@ -61,7 +61,7 @@ public final class RecommendedElasticPoolMetricInner {
      * 
      * @return the dtu value.
      */
-    public Double getDtu() {
+    public Double dtu() {
         return this.dtu;
     }
 
@@ -73,7 +73,7 @@ public final class RecommendedElasticPoolMetricInner {
      * @param dtu the dtu value to set.
      * @return the RecommendedElasticPoolMetricInner object itself.
      */
-    public RecommendedElasticPoolMetricInner setDtu(Double dtu) {
+    public RecommendedElasticPoolMetricInner withDtu(Double dtu) {
         this.dtu = dtu;
         return this;
     }
@@ -83,7 +83,7 @@ public final class RecommendedElasticPoolMetricInner {
      * 
      * @return the sizeGB value.
      */
-    public Double getSizeGB() {
+    public Double sizeGB() {
         return this.sizeGB;
     }
 
@@ -93,7 +93,7 @@ public final class RecommendedElasticPoolMetricInner {
      * @param sizeGB the sizeGB value to set.
      * @return the RecommendedElasticPoolMetricInner object itself.
      */
-    public RecommendedElasticPoolMetricInner setSizeGB(Double sizeGB) {
+    public RecommendedElasticPoolMetricInner withSizeGB(Double sizeGB) {
         this.sizeGB = sizeGB;
         return this;
     }

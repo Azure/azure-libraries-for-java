@@ -29,7 +29,7 @@ public class RecoverableManagedDatabaseInner extends ProxyResource {
      * 
      * @return the lastAvailableBackupDate value.
      */
-    public String getLastAvailableBackupDate() {
+    public String lastAvailableBackupDate() {
         return this.lastAvailableBackupDate;
     }
 }

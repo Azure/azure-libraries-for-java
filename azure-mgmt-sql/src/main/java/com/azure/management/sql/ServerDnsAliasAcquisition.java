@@ -27,7 +27,7 @@ public final class ServerDnsAliasAcquisition {
      * 
      * @return the oldServerDnsAliasId value.
      */
-    public String getOldServerDnsAliasId() {
+    public String oldServerDnsAliasId() {
         return this.oldServerDnsAliasId;
     }
 
@@ -38,7 +38,7 @@ public final class ServerDnsAliasAcquisition {
      * @param oldServerDnsAliasId the oldServerDnsAliasId value to set.
      * @return the ServerDnsAliasAcquisition object itself.
      */
-    public ServerDnsAliasAcquisition setOldServerDnsAliasId(String oldServerDnsAliasId) {
+    public ServerDnsAliasAcquisition withOldServerDnsAliasId(String oldServerDnsAliasId) {
         this.oldServerDnsAliasId = oldServerDnsAliasId;
         return this;
     }

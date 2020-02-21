@@ -61,7 +61,7 @@ public final class MetricInner {
      * 
      * @return the startTime value.
      */
-    public OffsetDateTime getStartTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
@@ -70,7 +70,7 @@ public final class MetricInner {
      * 
      * @return the endTime value.
      */
-    public OffsetDateTime getEndTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
@@ -80,7 +80,7 @@ public final class MetricInner {
      * 
      * @return the timeGrain value.
      */
-    public String getTimeGrain() {
+    public String timeGrain() {
         return this.timeGrain;
     }
 
@@ -89,7 +89,7 @@ public final class MetricInner {
      * 
      * @return the unit value.
      */
-    public UnitType getUnit() {
+    public UnitType unit() {
         return this.unit;
     }
 
@@ -98,7 +98,7 @@ public final class MetricInner {
      * 
      * @return the name value.
      */
-    public MetricName getName() {
+    public MetricName name() {
         return this.name;
     }
 
@@ -108,7 +108,7 @@ public final class MetricInner {
      * 
      * @return the metricValues value.
      */
-    public List<MetricValue> getMetricValues() {
+    public List<MetricValue> metricValues() {
         return this.metricValues;
     }
 }

@@ -43,7 +43,7 @@ public class ServerAutomaticTuningInner extends ProxyResource {
      * 
      * @return the desiredState value.
      */
-    public AutomaticTuningServerMode getDesiredState() {
+    public AutomaticTuningServerMode desiredState() {
         return this.desiredState;
     }
 
@@ -53,7 +53,7 @@ public class ServerAutomaticTuningInner extends ProxyResource {
      * @param desiredState the desiredState value to set.
      * @return the ServerAutomaticTuningInner object itself.
      */
-    public ServerAutomaticTuningInner setDesiredState(AutomaticTuningServerMode desiredState) {
+    public ServerAutomaticTuningInner withDesiredState(AutomaticTuningServerMode desiredState) {
         this.desiredState = desiredState;
         return this;
     }
@@ -63,7 +63,7 @@ public class ServerAutomaticTuningInner extends ProxyResource {
      * 
      * @return the actualState value.
      */
-    public AutomaticTuningServerMode getActualState() {
+    public AutomaticTuningServerMode actualState() {
         return this.actualState;
     }
 
@@ -72,7 +72,7 @@ public class ServerAutomaticTuningInner extends ProxyResource {
      * 
      * @return the options value.
      */
-    public Map<String, AutomaticTuningServerOptions> getOptions() {
+    public Map<String, AutomaticTuningServerOptions> options() {
         return this.options;
     }
 
@@ -82,7 +82,7 @@ public class ServerAutomaticTuningInner extends ProxyResource {
      * @param options the options value to set.
      * @return the ServerAutomaticTuningInner object itself.
      */
-    public ServerAutomaticTuningInner setOptions(Map<String, AutomaticTuningServerOptions> options) {
+    public ServerAutomaticTuningInner withOptions(Map<String, AutomaticTuningServerOptions> options) {
         this.options = options;
         return this;
     }

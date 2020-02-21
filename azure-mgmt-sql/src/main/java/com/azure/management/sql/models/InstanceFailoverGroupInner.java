@@ -65,7 +65,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * 
      * @return the readWriteEndpoint value.
      */
-    public InstanceFailoverGroupReadWriteEndpoint getReadWriteEndpoint() {
+    public InstanceFailoverGroupReadWriteEndpoint readWriteEndpoint() {
         return this.readWriteEndpoint;
     }
 
@@ -76,7 +76,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * @param readWriteEndpoint the readWriteEndpoint value to set.
      * @return the InstanceFailoverGroupInner object itself.
      */
-    public InstanceFailoverGroupInner setReadWriteEndpoint(InstanceFailoverGroupReadWriteEndpoint readWriteEndpoint) {
+    public InstanceFailoverGroupInner withReadWriteEndpoint(InstanceFailoverGroupReadWriteEndpoint readWriteEndpoint) {
         this.readWriteEndpoint = readWriteEndpoint;
         return this;
     }
@@ -87,7 +87,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * 
      * @return the readOnlyEndpoint value.
      */
-    public InstanceFailoverGroupReadOnlyEndpoint getReadOnlyEndpoint() {
+    public InstanceFailoverGroupReadOnlyEndpoint readOnlyEndpoint() {
         return this.readOnlyEndpoint;
     }
 
@@ -98,7 +98,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * @param readOnlyEndpoint the readOnlyEndpoint value to set.
      * @return the InstanceFailoverGroupInner object itself.
      */
-    public InstanceFailoverGroupInner setReadOnlyEndpoint(InstanceFailoverGroupReadOnlyEndpoint readOnlyEndpoint) {
+    public InstanceFailoverGroupInner withReadOnlyEndpoint(InstanceFailoverGroupReadOnlyEndpoint readOnlyEndpoint) {
         this.readOnlyEndpoint = readOnlyEndpoint;
         return this;
     }
@@ -109,7 +109,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * 
      * @return the replicationRole value.
      */
-    public InstanceFailoverGroupReplicationRole getReplicationRole() {
+    public InstanceFailoverGroupReplicationRole replicationRole() {
         return this.replicationRole;
     }
 
@@ -119,7 +119,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * 
      * @return the replicationState value.
      */
-    public String getReplicationState() {
+    public String replicationState() {
         return this.replicationState;
     }
 
@@ -129,7 +129,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * 
      * @return the partnerRegions value.
      */
-    public List<PartnerRegionInfo> getPartnerRegions() {
+    public List<PartnerRegionInfo> partnerRegions() {
         return this.partnerRegions;
     }
 
@@ -140,7 +140,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * @param partnerRegions the partnerRegions value to set.
      * @return the InstanceFailoverGroupInner object itself.
      */
-    public InstanceFailoverGroupInner setPartnerRegions(List<PartnerRegionInfo> partnerRegions) {
+    public InstanceFailoverGroupInner withPartnerRegions(List<PartnerRegionInfo> partnerRegions) {
         this.partnerRegions = partnerRegions;
         return this;
     }
@@ -151,7 +151,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * 
      * @return the managedInstancePairs value.
      */
-    public List<ManagedInstancePairInfo> getManagedInstancePairs() {
+    public List<ManagedInstancePairInfo> managedInstancePairs() {
         return this.managedInstancePairs;
     }
 
@@ -162,7 +162,7 @@ public class InstanceFailoverGroupInner extends ProxyResource {
      * @param managedInstancePairs the managedInstancePairs value to set.
      * @return the InstanceFailoverGroupInner object itself.
      */
-    public InstanceFailoverGroupInner setManagedInstancePairs(List<ManagedInstancePairInfo> managedInstancePairs) {
+    public InstanceFailoverGroupInner withManagedInstancePairs(List<ManagedInstancePairInfo> managedInstancePairs) {
         this.managedInstancePairs = managedInstancePairs;
         return this;
     }

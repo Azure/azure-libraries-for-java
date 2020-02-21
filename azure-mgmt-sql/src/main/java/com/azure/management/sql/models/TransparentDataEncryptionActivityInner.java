@@ -42,7 +42,7 @@ public class TransparentDataEncryptionActivityInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -51,7 +51,7 @@ public class TransparentDataEncryptionActivityInner extends ProxyResource {
      * 
      * @return the status value.
      */
-    public TransparentDataEncryptionActivityStatus getStatus() {
+    public TransparentDataEncryptionActivityStatus status() {
         return this.status;
     }
 
@@ -61,7 +61,7 @@ public class TransparentDataEncryptionActivityInner extends ProxyResource {
      * 
      * @return the percentComplete value.
      */
-    public Float getPercentComplete() {
+    public Float percentComplete() {
         return this.percentComplete;
     }
 }

@@ -109,7 +109,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -118,7 +118,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the operation value.
      */
-    public String getOperation() {
+    public String operation() {
         return this.operation;
     }
 
@@ -127,7 +127,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the operationFriendlyName value.
      */
-    public String getOperationFriendlyName() {
+    public String operationFriendlyName() {
         return this.operationFriendlyName;
     }
 
@@ -137,7 +137,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the percentComplete value.
      */
-    public Integer getPercentComplete() {
+    public Integer percentComplete() {
         return this.percentComplete;
     }
 
@@ -146,7 +146,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -155,7 +155,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the startTime value.
      */
-    public OffsetDateTime getStartTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
@@ -164,7 +164,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public ManagementOperationState getState() {
+    public ManagementOperationState state() {
         return this.state;
     }
 
@@ -173,7 +173,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the errorCode value.
      */
-    public Integer getErrorCode() {
+    public Integer errorCode() {
         return this.errorCode;
     }
 
@@ -182,7 +182,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the errorDescription value.
      */
-    public String getErrorDescription() {
+    public String errorDescription() {
         return this.errorDescription;
     }
 
@@ -191,7 +191,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the errorSeverity value.
      */
-    public Integer getErrorSeverity() {
+    public Integer errorSeverity() {
         return this.errorSeverity;
     }
 
@@ -210,7 +210,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the estimatedCompletionTime value.
      */
-    public OffsetDateTime getEstimatedCompletionTime() {
+    public OffsetDateTime estimatedCompletionTime() {
         return this.estimatedCompletionTime;
     }
 
@@ -219,7 +219,7 @@ public class DatabaseOperationInner extends ProxyResource {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 

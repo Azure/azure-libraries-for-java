@@ -32,7 +32,7 @@ public final class PrivateLinkResourceProperties {
      * 
      * @return the groupId value.
      */
-    public String getGroupId() {
+    public String groupId() {
         return this.groupId;
     }
 
@@ -42,7 +42,7 @@ public final class PrivateLinkResourceProperties {
      * 
      * @return the requiredMembers value.
      */
-    public List<String> getRequiredMembers() {
+    public List<String> requiredMembers() {
         return this.requiredMembers;
     }
 }

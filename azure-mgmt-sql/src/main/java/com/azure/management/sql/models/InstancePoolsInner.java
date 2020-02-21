@@ -286,7 +286,7 @@ public final class InstancePoolsInner implements InnerSupportsGet<InstancePoolIn
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String instancePoolName, Map<String, String> tags) {
         final String apiVersion = "2018-06-01-preview";
         InstancePoolUpdate parameters = new InstancePoolUpdate();
-        parameters.setTags(tags);
+        parameters.withTags(tags);
         return service.update(this.client.getHost(), resourceGroupName, instancePoolName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -338,8 +338,8 @@ public final class InstancePoolsInner implements InnerSupportsGet<InstancePoolIn
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -384,8 +384,8 @@ public final class InstancePoolsInner implements InnerSupportsGet<InstancePoolIn
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -524,7 +524,7 @@ public final class InstancePoolsInner implements InnerSupportsGet<InstancePoolIn
     public Mono<SimpleResponse<InstancePoolInner>> beginUpdateWithResponseAsync(String resourceGroupName, String instancePoolName, Map<String, String> tags) {
         final String apiVersion = "2018-06-01-preview";
         InstancePoolUpdate parameters = new InstancePoolUpdate();
-        parameters.setTags(tags);
+        parameters.withTags(tags);
         return service.beginUpdate(this.client.getHost(), resourceGroupName, instancePoolName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -579,8 +579,8 @@ public final class InstancePoolsInner implements InnerSupportsGet<InstancePoolIn
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -598,8 +598,8 @@ public final class InstancePoolsInner implements InnerSupportsGet<InstancePoolIn
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

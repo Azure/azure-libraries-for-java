@@ -55,7 +55,7 @@ public class FirewallRuleInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -65,7 +65,7 @@ public class FirewallRuleInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -74,7 +74,7 @@ public class FirewallRuleInner extends ProxyResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -85,7 +85,7 @@ public class FirewallRuleInner extends ProxyResource {
      * 
      * @return the startIpAddress value.
      */
-    public String getStartIpAddress() {
+    public String startIpAddress() {
         return this.startIpAddress;
     }
 
@@ -97,7 +97,7 @@ public class FirewallRuleInner extends ProxyResource {
      * @param startIpAddress the startIpAddress value to set.
      * @return the FirewallRuleInner object itself.
      */
-    public FirewallRuleInner setStartIpAddress(String startIpAddress) {
+    public FirewallRuleInner withStartIpAddress(String startIpAddress) {
         this.startIpAddress = startIpAddress;
         return this;
     }
@@ -109,7 +109,7 @@ public class FirewallRuleInner extends ProxyResource {
      * 
      * @return the endIpAddress value.
      */
-    public String getEndIpAddress() {
+    public String endIpAddress() {
         return this.endIpAddress;
     }
 
@@ -121,7 +121,7 @@ public class FirewallRuleInner extends ProxyResource {
      * @param endIpAddress the endIpAddress value to set.
      * @return the FirewallRuleInner object itself.
      */
-    public FirewallRuleInner setEndIpAddress(String endIpAddress) {
+    public FirewallRuleInner withEndIpAddress(String endIpAddress) {
         this.endIpAddress = endIpAddress;
         return this;
     }

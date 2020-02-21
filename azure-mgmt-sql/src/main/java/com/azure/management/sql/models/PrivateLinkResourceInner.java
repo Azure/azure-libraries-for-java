@@ -27,7 +27,7 @@ public final class PrivateLinkResourceInner extends ProxyResource {
      * 
      * @return the properties value.
      */
-    public PrivateLinkResourceProperties getProperties() {
+    public PrivateLinkResourceProperties properties() {
         return this.properties;
     }
 }

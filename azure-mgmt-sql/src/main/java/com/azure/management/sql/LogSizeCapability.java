@@ -31,7 +31,7 @@ public final class LogSizeCapability {
      * 
      * @return the limit value.
      */
-    public Integer getLimit() {
+    public Integer limit() {
         return this.limit;
     }
 
@@ -40,7 +40,7 @@ public final class LogSizeCapability {
      * 
      * @return the unit value.
      */
-    public LogSizeUnit getUnit() {
+    public LogSizeUnit unit() {
         return this.unit;
     }
 }

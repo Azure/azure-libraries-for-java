@@ -26,7 +26,7 @@ public final class DataMaskingRuleListResultInner {
      * 
      * @return the value value.
      */
-    public List<DataMaskingRuleInner> getValue() {
+    public List<DataMaskingRuleInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class DataMaskingRuleListResultInner {
      * @param value the value value to set.
      * @return the DataMaskingRuleListResultInner object itself.
      */
-    public DataMaskingRuleListResultInner setValue(List<DataMaskingRuleInner> value) {
+    public DataMaskingRuleListResultInner withValue(List<DataMaskingRuleInner> value) {
         this.value = value;
         return this;
     }

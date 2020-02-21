@@ -37,7 +37,7 @@ public final class PrivateEndpointConnectionProperties {
      * 
      * @return the privateEndpoint value.
      */
-    public PrivateEndpointProperty getPrivateEndpoint() {
+    public PrivateEndpointProperty privateEndpoint() {
         return this.privateEndpoint;
     }
 
@@ -47,7 +47,7 @@ public final class PrivateEndpointConnectionProperties {
      * @param privateEndpoint the privateEndpoint value to set.
      * @return the PrivateEndpointConnectionProperties object itself.
      */
-    public PrivateEndpointConnectionProperties setPrivateEndpoint(PrivateEndpointProperty privateEndpoint) {
+    public PrivateEndpointConnectionProperties withPrivateEndpoint(PrivateEndpointProperty privateEndpoint) {
         this.privateEndpoint = privateEndpoint;
         return this;
     }
@@ -58,7 +58,7 @@ public final class PrivateEndpointConnectionProperties {
      * 
      * @return the privateLinkServiceConnectionState value.
      */
-    public PrivateLinkServiceConnectionStateProperty getPrivateLinkServiceConnectionState() {
+    public PrivateLinkServiceConnectionStateProperty privateLinkServiceConnectionState() {
         return this.privateLinkServiceConnectionState;
     }
 
@@ -70,7 +70,7 @@ public final class PrivateEndpointConnectionProperties {
      * privateLinkServiceConnectionState value to set.
      * @return the PrivateEndpointConnectionProperties object itself.
      */
-    public PrivateEndpointConnectionProperties setPrivateLinkServiceConnectionState(PrivateLinkServiceConnectionStateProperty privateLinkServiceConnectionState) {
+    public PrivateEndpointConnectionProperties withPrivateLinkServiceConnectionState(PrivateLinkServiceConnectionStateProperty privateLinkServiceConnectionState) {
         this.privateLinkServiceConnectionState = privateLinkServiceConnectionState;
         return this;
     }
@@ -81,7 +81,7 @@ public final class PrivateEndpointConnectionProperties {
      * 
      * @return the provisioningState value.
      */
-    public PrivateEndpointProvisioningState getProvisioningState() {
+    public PrivateEndpointProvisioningState provisioningState() {
         return this.provisioningState;
     }
 }

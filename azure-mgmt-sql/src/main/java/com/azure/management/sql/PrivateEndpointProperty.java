@@ -35,7 +35,7 @@ public final class PrivateEndpointProperty {
      * @param id the id value to set.
      * @return the PrivateEndpointProperty object itself.
      */
-    public PrivateEndpointProperty setId(String id) {
+    public PrivateEndpointProperty withId(String id) {
         this.id = id;
         return this;
     }

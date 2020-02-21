@@ -32,7 +32,7 @@ public final class SyncGroupListResultInner {
      * 
      * @return the value value.
      */
-    public List<SyncGroupInner> getValue() {
+    public List<SyncGroupInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class SyncGroupListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

@@ -32,7 +32,7 @@ public final class VirtualClusterListResultInner {
      * 
      * @return the value value.
      */
-    public List<VirtualClusterInner> getValue() {
+    public List<VirtualClusterInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class VirtualClusterListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

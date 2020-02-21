@@ -68,7 +68,7 @@ public class ServerKeyInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -79,7 +79,7 @@ public class ServerKeyInner extends ProxyResource {
      * @param kind the kind value to set.
      * @return the ServerKeyInner object itself.
      */
-    public ServerKeyInner setKind(String kind) {
+    public ServerKeyInner withKind(String kind) {
         this.kind = kind;
         return this;
     }
@@ -89,7 +89,7 @@ public class ServerKeyInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -98,7 +98,7 @@ public class ServerKeyInner extends ProxyResource {
      * 
      * @return the subregion value.
      */
-    public String getSubregion() {
+    public String subregion() {
         return this.subregion;
     }
 
@@ -108,7 +108,7 @@ public class ServerKeyInner extends ProxyResource {
      * 
      * @return the serverKeyType value.
      */
-    public ServerKeyType getServerKeyType() {
+    public ServerKeyType serverKeyType() {
         return this.serverKeyType;
     }
 
@@ -119,7 +119,7 @@ public class ServerKeyInner extends ProxyResource {
      * @param serverKeyType the serverKeyType value to set.
      * @return the ServerKeyInner object itself.
      */
-    public ServerKeyInner setServerKeyType(ServerKeyType serverKeyType) {
+    public ServerKeyInner withServerKeyType(ServerKeyType serverKeyType) {
         this.serverKeyType = serverKeyType;
         return this;
     }
@@ -129,7 +129,7 @@ public class ServerKeyInner extends ProxyResource {
      * 
      * @return the uri value.
      */
-    public String getUri() {
+    public String uri() {
         return this.uri;
     }
 
@@ -139,7 +139,7 @@ public class ServerKeyInner extends ProxyResource {
      * @param uri the uri value to set.
      * @return the ServerKeyInner object itself.
      */
-    public ServerKeyInner setUri(String uri) {
+    public ServerKeyInner withUri(String uri) {
         this.uri = uri;
         return this;
     }
@@ -149,7 +149,7 @@ public class ServerKeyInner extends ProxyResource {
      * 
      * @return the thumbprint value.
      */
-    public String getThumbprint() {
+    public String thumbprint() {
         return this.thumbprint;
     }
 
@@ -159,7 +159,7 @@ public class ServerKeyInner extends ProxyResource {
      * @param thumbprint the thumbprint value to set.
      * @return the ServerKeyInner object itself.
      */
-    public ServerKeyInner setThumbprint(String thumbprint) {
+    public ServerKeyInner withThumbprint(String thumbprint) {
         this.thumbprint = thumbprint;
         return this;
     }
@@ -169,7 +169,7 @@ public class ServerKeyInner extends ProxyResource {
      * 
      * @return the creationDate value.
      */
-    public OffsetDateTime getCreationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
@@ -179,7 +179,7 @@ public class ServerKeyInner extends ProxyResource {
      * @param creationDate the creationDate value to set.
      * @return the ServerKeyInner object itself.
      */
-    public ServerKeyInner setCreationDate(OffsetDateTime creationDate) {
+    public ServerKeyInner withCreationDate(OffsetDateTime creationDate) {
         this.creationDate = creationDate;
         return this;
     }

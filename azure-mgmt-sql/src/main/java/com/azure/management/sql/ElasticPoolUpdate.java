@@ -60,7 +60,7 @@ public class ElasticPoolUpdate {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -70,7 +70,7 @@ public class ElasticPoolUpdate {
      * @param sku the sku value to set.
      * @return the ElasticPoolUpdate object itself.
      */
-    public ElasticPoolUpdate setSku(Sku sku) {
+    public ElasticPoolUpdate withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -80,7 +80,7 @@ public class ElasticPoolUpdate {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -90,7 +90,7 @@ public class ElasticPoolUpdate {
      * @param tags the tags value to set.
      * @return the ElasticPoolUpdate object itself.
      */
-    public ElasticPoolUpdate setTags(Map<String, String> tags) {
+    public ElasticPoolUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -101,7 +101,7 @@ public class ElasticPoolUpdate {
      * 
      * @return the maxSizeBytes value.
      */
-    public Long getMaxSizeBytes() {
+    public Long maxSizeBytes() {
         return this.maxSizeBytes;
     }
 
@@ -112,7 +112,7 @@ public class ElasticPoolUpdate {
      * @param maxSizeBytes the maxSizeBytes value to set.
      * @return the ElasticPoolUpdate object itself.
      */
-    public ElasticPoolUpdate setMaxSizeBytes(Long maxSizeBytes) {
+    public ElasticPoolUpdate withMaxSizeBytes(Long maxSizeBytes) {
         this.maxSizeBytes = maxSizeBytes;
         return this;
     }
@@ -123,7 +123,7 @@ public class ElasticPoolUpdate {
      * 
      * @return the perDatabaseSettings value.
      */
-    public ElasticPoolPerDatabaseSettings getPerDatabaseSettings() {
+    public ElasticPoolPerDatabaseSettings perDatabaseSettings() {
         return this.perDatabaseSettings;
     }
 
@@ -134,7 +134,7 @@ public class ElasticPoolUpdate {
      * @param perDatabaseSettings the perDatabaseSettings value to set.
      * @return the ElasticPoolUpdate object itself.
      */
-    public ElasticPoolUpdate setPerDatabaseSettings(ElasticPoolPerDatabaseSettings perDatabaseSettings) {
+    public ElasticPoolUpdate withPerDatabaseSettings(ElasticPoolPerDatabaseSettings perDatabaseSettings) {
         this.perDatabaseSettings = perDatabaseSettings;
         return this;
     }
@@ -146,7 +146,7 @@ public class ElasticPoolUpdate {
      * 
      * @return the zoneRedundant value.
      */
-    public Boolean isZoneRedundant() {
+    public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
 
@@ -158,7 +158,7 @@ public class ElasticPoolUpdate {
      * @param zoneRedundant the zoneRedundant value to set.
      * @return the ElasticPoolUpdate object itself.
      */
-    public ElasticPoolUpdate setZoneRedundant(Boolean zoneRedundant) {
+    public ElasticPoolUpdate withZoneRedundant(Boolean zoneRedundant) {
         this.zoneRedundant = zoneRedundant;
         return this;
     }
@@ -169,7 +169,7 @@ public class ElasticPoolUpdate {
      * 
      * @return the licenseType value.
      */
-    public ElasticPoolLicenseType getLicenseType() {
+    public ElasticPoolLicenseType licenseType() {
         return this.licenseType;
     }
 
@@ -180,7 +180,7 @@ public class ElasticPoolUpdate {
      * @param licenseType the licenseType value to set.
      * @return the ElasticPoolUpdate object itself.
      */
-    public ElasticPoolUpdate setLicenseType(ElasticPoolLicenseType licenseType) {
+    public ElasticPoolUpdate withLicenseType(ElasticPoolLicenseType licenseType) {
         this.licenseType = licenseType;
         return this;
     }

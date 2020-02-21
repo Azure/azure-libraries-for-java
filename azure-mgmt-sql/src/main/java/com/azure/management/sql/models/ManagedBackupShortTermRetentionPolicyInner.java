@@ -30,7 +30,7 @@ public class ManagedBackupShortTermRetentionPolicyInner extends ProxyResource {
      * 
      * @return the retentionDays value.
      */
-    public Integer getRetentionDays() {
+    public Integer retentionDays() {
         return this.retentionDays;
     }
 
@@ -41,7 +41,7 @@ public class ManagedBackupShortTermRetentionPolicyInner extends ProxyResource {
      * @param retentionDays the retentionDays value to set.
      * @return the ManagedBackupShortTermRetentionPolicyInner object itself.
      */
-    public ManagedBackupShortTermRetentionPolicyInner setRetentionDays(Integer retentionDays) {
+    public ManagedBackupShortTermRetentionPolicyInner withRetentionDays(Integer retentionDays) {
         this.retentionDays = retentionDays;
         return this;
     }

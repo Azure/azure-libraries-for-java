@@ -55,7 +55,7 @@ public final class MaxSizeRangeCapability {
      * 
      * @return the minValue value.
      */
-    public MaxSizeCapability getMinValue() {
+    public MaxSizeCapability minValue() {
         return this.minValue;
     }
 
@@ -64,7 +64,7 @@ public final class MaxSizeRangeCapability {
      * 
      * @return the maxValue value.
      */
-    public MaxSizeCapability getMaxValue() {
+    public MaxSizeCapability maxValue() {
         return this.maxValue;
     }
 
@@ -73,7 +73,7 @@ public final class MaxSizeRangeCapability {
      * 
      * @return the scaleSize value.
      */
-    public MaxSizeCapability getScaleSize() {
+    public MaxSizeCapability scaleSize() {
         return this.scaleSize;
     }
 
@@ -82,7 +82,7 @@ public final class MaxSizeRangeCapability {
      * 
      * @return the logSize value.
      */
-    public LogSizeCapability getLogSize() {
+    public LogSizeCapability logSize() {
         return this.logSize;
     }
 
@@ -91,7 +91,7 @@ public final class MaxSizeRangeCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -101,7 +101,7 @@ public final class MaxSizeRangeCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -112,7 +112,7 @@ public final class MaxSizeRangeCapability {
      * @param reason the reason value to set.
      * @return the MaxSizeRangeCapability object itself.
      */
-    public MaxSizeRangeCapability setReason(String reason) {
+    public MaxSizeRangeCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

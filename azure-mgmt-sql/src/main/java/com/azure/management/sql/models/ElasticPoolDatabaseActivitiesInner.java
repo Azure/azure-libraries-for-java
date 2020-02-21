@@ -81,7 +81,7 @@ public final class ElasticPoolDatabaseActivitiesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
+            res.getValue().value(),
             null,
             null));
     }

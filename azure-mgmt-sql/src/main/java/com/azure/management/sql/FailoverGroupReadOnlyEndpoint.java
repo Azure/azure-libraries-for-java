@@ -26,7 +26,7 @@ public final class FailoverGroupReadOnlyEndpoint {
      * 
      * @return the failoverPolicy value.
      */
-    public ReadOnlyEndpointFailoverPolicy getFailoverPolicy() {
+    public ReadOnlyEndpointFailoverPolicy failoverPolicy() {
         return this.failoverPolicy;
     }
 
@@ -37,7 +37,7 @@ public final class FailoverGroupReadOnlyEndpoint {
      * @param failoverPolicy the failoverPolicy value to set.
      * @return the FailoverGroupReadOnlyEndpoint object itself.
      */
-    public FailoverGroupReadOnlyEndpoint setFailoverPolicy(ReadOnlyEndpointFailoverPolicy failoverPolicy) {
+    public FailoverGroupReadOnlyEndpoint withFailoverPolicy(ReadOnlyEndpointFailoverPolicy failoverPolicy) {
         this.failoverPolicy = failoverPolicy;
         return this;
     }

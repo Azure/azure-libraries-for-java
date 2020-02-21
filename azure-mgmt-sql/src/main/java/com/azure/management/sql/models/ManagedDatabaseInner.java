@@ -126,7 +126,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the collation value.
      */
-    public String getCollation() {
+    public String collation() {
         return this.collation;
     }
 
@@ -136,7 +136,7 @@ public class ManagedDatabaseInner extends Resource {
      * @param collation the collation value to set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner setCollation(String collation) {
+    public ManagedDatabaseInner withCollation(String collation) {
         this.collation = collation;
         return this;
     }
@@ -146,7 +146,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the status value.
      */
-    public ManagedDatabaseStatus getStatus() {
+    public ManagedDatabaseStatus status() {
         return this.status;
     }
 
@@ -155,7 +155,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the creationDate value.
      */
-    public OffsetDateTime getCreationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
@@ -165,7 +165,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the earliestRestorePoint value.
      */
-    public OffsetDateTime getEarliestRestorePoint() {
+    public OffsetDateTime earliestRestorePoint() {
         return this.earliestRestorePoint;
     }
 
@@ -177,7 +177,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the restorePointInTime value.
      */
-    public OffsetDateTime getRestorePointInTime() {
+    public OffsetDateTime restorePointInTime() {
         return this.restorePointInTime;
     }
 
@@ -190,7 +190,7 @@ public class ManagedDatabaseInner extends Resource {
      * @param restorePointInTime the restorePointInTime value to set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner setRestorePointInTime(OffsetDateTime restorePointInTime) {
+    public ManagedDatabaseInner withRestorePointInTime(OffsetDateTime restorePointInTime) {
         this.restorePointInTime = restorePointInTime;
         return this;
     }
@@ -200,7 +200,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the defaultSecondaryLocation value.
      */
-    public String getDefaultSecondaryLocation() {
+    public String defaultSecondaryLocation() {
         return this.defaultSecondaryLocation;
     }
 
@@ -209,7 +209,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the catalogCollation value.
      */
-    public CatalogCollationType getCatalogCollation() {
+    public CatalogCollationType catalogCollation() {
         return this.catalogCollation;
     }
 
@@ -219,7 +219,7 @@ public class ManagedDatabaseInner extends Resource {
      * @param catalogCollation the catalogCollation value to set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner setCatalogCollation(CatalogCollationType catalogCollation) {
+    public ManagedDatabaseInner withCatalogCollation(CatalogCollationType catalogCollation) {
         this.catalogCollation = catalogCollation;
         return this;
     }
@@ -237,7 +237,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the createMode value.
      */
-    public ManagedDatabaseCreateMode getCreateMode() {
+    public ManagedDatabaseCreateMode createMode() {
         return this.createMode;
     }
 
@@ -255,7 +255,7 @@ public class ManagedDatabaseInner extends Resource {
      * @param createMode the createMode value to set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner setCreateMode(ManagedDatabaseCreateMode createMode) {
+    public ManagedDatabaseInner withCreateMode(ManagedDatabaseCreateMode createMode) {
         this.createMode = createMode;
         return this;
     }
@@ -267,7 +267,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the storageContainerUri value.
      */
-    public String getStorageContainerUri() {
+    public String storageContainerUri() {
         return this.storageContainerUri;
     }
 
@@ -279,7 +279,7 @@ public class ManagedDatabaseInner extends Resource {
      * @param storageContainerUri the storageContainerUri value to set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner setStorageContainerUri(String storageContainerUri) {
+    public ManagedDatabaseInner withStorageContainerUri(String storageContainerUri) {
         this.storageContainerUri = storageContainerUri;
         return this;
     }
@@ -290,7 +290,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the sourceDatabaseId value.
      */
-    public String getSourceDatabaseId() {
+    public String sourceDatabaseId() {
         return this.sourceDatabaseId;
     }
 
@@ -301,7 +301,7 @@ public class ManagedDatabaseInner extends Resource {
      * @param sourceDatabaseId the sourceDatabaseId value to set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner setSourceDatabaseId(String sourceDatabaseId) {
+    public ManagedDatabaseInner withSourceDatabaseId(String sourceDatabaseId) {
         this.sourceDatabaseId = sourceDatabaseId;
         return this;
     }
@@ -312,7 +312,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the restorableDroppedDatabaseId value.
      */
-    public String getRestorableDroppedDatabaseId() {
+    public String restorableDroppedDatabaseId() {
         return this.restorableDroppedDatabaseId;
     }
 
@@ -324,7 +324,7 @@ public class ManagedDatabaseInner extends Resource {
      * to set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner setRestorableDroppedDatabaseId(String restorableDroppedDatabaseId) {
+    public ManagedDatabaseInner withRestorableDroppedDatabaseId(String restorableDroppedDatabaseId) {
         this.restorableDroppedDatabaseId = restorableDroppedDatabaseId;
         return this;
     }
@@ -336,7 +336,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the storageContainerSasToken value.
      */
-    public String getStorageContainerSasToken() {
+    public String storageContainerSasToken() {
         return this.storageContainerSasToken;
     }
 
@@ -349,7 +349,7 @@ public class ManagedDatabaseInner extends Resource {
      * set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner setStorageContainerSasToken(String storageContainerSasToken) {
+    public ManagedDatabaseInner withStorageContainerSasToken(String storageContainerSasToken) {
         this.storageContainerSasToken = storageContainerSasToken;
         return this;
     }
@@ -360,7 +360,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the failoverGroupId value.
      */
-    public String getFailoverGroupId() {
+    public String failoverGroupId() {
         return this.failoverGroupId;
     }
 
@@ -370,7 +370,7 @@ public class ManagedDatabaseInner extends Resource {
      * 
      * @return the recoverableDatabaseId value.
      */
-    public String getRecoverableDatabaseId() {
+    public String recoverableDatabaseId() {
         return this.recoverableDatabaseId;
     }
 
@@ -381,7 +381,7 @@ public class ManagedDatabaseInner extends Resource {
      * @param recoverableDatabaseId the recoverableDatabaseId value to set.
      * @return the ManagedDatabaseInner object itself.
      */
-    public ManagedDatabaseInner setRecoverableDatabaseId(String recoverableDatabaseId) {
+    public ManagedDatabaseInner withRecoverableDatabaseId(String recoverableDatabaseId) {
         this.recoverableDatabaseId = recoverableDatabaseId;
         return this;
     }

@@ -27,7 +27,7 @@ public final class ReplicationLinkListResultInner {
      * 
      * @return the value value.
      */
-    public List<ReplicationLinkInner> getValue() {
+    public List<ReplicationLinkInner> value() {
         return this.value;
     }
 
@@ -38,7 +38,7 @@ public final class ReplicationLinkListResultInner {
      * @param value the value value to set.
      * @return the ReplicationLinkListResultInner object itself.
      */
-    public ReplicationLinkListResultInner setValue(List<ReplicationLinkInner> value) {
+    public ReplicationLinkListResultInner withValue(List<ReplicationLinkInner> value) {
         this.value = value;
         return this;
     }

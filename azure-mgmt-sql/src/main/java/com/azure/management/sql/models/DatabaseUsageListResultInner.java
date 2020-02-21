@@ -26,7 +26,7 @@ public final class DatabaseUsageListResultInner {
      * 
      * @return the value value.
      */
-    public List<DatabaseUsageInner> getValue() {
+    public List<DatabaseUsageInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class DatabaseUsageListResultInner {
      * @param value the value value to set.
      * @return the DatabaseUsageListResultInner object itself.
      */
-    public DatabaseUsageListResultInner setValue(List<DatabaseUsageInner> value) {
+    public DatabaseUsageListResultInner withValue(List<DatabaseUsageInner> value) {
         this.value = value;
         return this;
     }

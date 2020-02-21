@@ -138,7 +138,7 @@ public final class ServiceObjectivesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
+            res.getValue().value(),
             null,
             null));
     }

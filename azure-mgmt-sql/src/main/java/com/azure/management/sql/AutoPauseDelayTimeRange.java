@@ -63,7 +63,7 @@ public final class AutoPauseDelayTimeRange {
      * 
      * @return the minValue value.
      */
-    public Integer getMinValue() {
+    public Integer minValue() {
         return this.minValue;
     }
 
@@ -72,7 +72,7 @@ public final class AutoPauseDelayTimeRange {
      * 
      * @return the maxValue value.
      */
-    public Integer getMaxValue() {
+    public Integer maxValue() {
         return this.maxValue;
     }
 
@@ -82,7 +82,7 @@ public final class AutoPauseDelayTimeRange {
      * 
      * @return the stepSize value.
      */
-    public Integer getStepSize() {
+    public Integer stepSize() {
         return this.stepSize;
     }
 
@@ -91,7 +91,7 @@ public final class AutoPauseDelayTimeRange {
      * 
      * @return the defaultProperty value.
      */
-    public Integer getDefaultProperty() {
+    public Integer defaultProperty() {
         return this.defaultProperty;
     }
 
@@ -100,7 +100,7 @@ public final class AutoPauseDelayTimeRange {
      * 
      * @return the unit value.
      */
-    public String getUnit() {
+    public String unit() {
         return this.unit;
     }
 
@@ -110,7 +110,7 @@ public final class AutoPauseDelayTimeRange {
      * 
      * @return the doNotPauseValue value.
      */
-    public Integer getDoNotPauseValue() {
+    public Integer doNotPauseValue() {
         return this.doNotPauseValue;
     }
 }

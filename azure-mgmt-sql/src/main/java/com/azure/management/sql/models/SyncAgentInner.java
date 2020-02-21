@@ -66,7 +66,7 @@ public class SyncAgentInner extends ProxyResource {
      * 
      * @return the namePropertiesName value.
      */
-    public String getNamePropertiesName() {
+    public String namePropertiesName() {
         return this.namePropertiesName;
     }
 
@@ -76,7 +76,7 @@ public class SyncAgentInner extends ProxyResource {
      * 
      * @return the syncDatabaseId value.
      */
-    public String getSyncDatabaseId() {
+    public String syncDatabaseId() {
         return this.syncDatabaseId;
     }
 
@@ -87,7 +87,7 @@ public class SyncAgentInner extends ProxyResource {
      * @param syncDatabaseId the syncDatabaseId value to set.
      * @return the SyncAgentInner object itself.
      */
-    public SyncAgentInner setSyncDatabaseId(String syncDatabaseId) {
+    public SyncAgentInner withSyncDatabaseId(String syncDatabaseId) {
         this.syncDatabaseId = syncDatabaseId;
         return this;
     }
@@ -97,7 +97,7 @@ public class SyncAgentInner extends ProxyResource {
      * 
      * @return the lastAliveTime value.
      */
-    public OffsetDateTime getLastAliveTime() {
+    public OffsetDateTime lastAliveTime() {
         return this.lastAliveTime;
     }
 
@@ -106,7 +106,7 @@ public class SyncAgentInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public SyncAgentState getState() {
+    public SyncAgentState state() {
         return this.state;
     }
 
@@ -124,7 +124,7 @@ public class SyncAgentInner extends ProxyResource {
      * 
      * @return the expiryTime value.
      */
-    public OffsetDateTime getExpiryTime() {
+    public OffsetDateTime expiryTime() {
         return this.expiryTime;
     }
 
@@ -133,7 +133,7 @@ public class SyncAgentInner extends ProxyResource {
      * 
      * @return the version value.
      */
-    public String getVersion() {
+    public String version() {
         return this.version;
     }
 }

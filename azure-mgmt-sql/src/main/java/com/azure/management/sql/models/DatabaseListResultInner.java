@@ -32,7 +32,7 @@ public final class DatabaseListResultInner {
      * 
      * @return the value value.
      */
-    public List<DatabaseInner> getValue() {
+    public List<DatabaseInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class DatabaseListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

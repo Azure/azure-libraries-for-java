@@ -32,7 +32,7 @@ public final class ElasticPoolListResultInner {
      * 
      * @return the value value.
      */
-    public List<ElasticPoolInner> getValue() {
+    public List<ElasticPoolInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class ElasticPoolListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

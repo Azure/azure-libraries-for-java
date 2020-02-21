@@ -47,7 +47,7 @@ public class RecoverableDatabaseInner extends ProxyResource {
      * 
      * @return the edition value.
      */
-    public String getEdition() {
+    public String edition() {
         return this.edition;
     }
 
@@ -57,7 +57,7 @@ public class RecoverableDatabaseInner extends ProxyResource {
      * 
      * @return the serviceLevelObjective value.
      */
-    public String getServiceLevelObjective() {
+    public String serviceLevelObjective() {
         return this.serviceLevelObjective;
     }
 
@@ -66,7 +66,7 @@ public class RecoverableDatabaseInner extends ProxyResource {
      * 
      * @return the elasticPoolName value.
      */
-    public String getElasticPoolName() {
+    public String elasticPoolName() {
         return this.elasticPoolName;
     }
 
@@ -76,7 +76,7 @@ public class RecoverableDatabaseInner extends ProxyResource {
      * 
      * @return the lastAvailableBackupDate value.
      */
-    public OffsetDateTime getLastAvailableBackupDate() {
+    public OffsetDateTime lastAvailableBackupDate() {
         return this.lastAvailableBackupDate;
     }
 }

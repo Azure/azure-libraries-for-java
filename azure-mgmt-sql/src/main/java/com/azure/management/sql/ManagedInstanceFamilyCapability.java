@@ -56,7 +56,7 @@ public final class ManagedInstanceFamilyCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -65,7 +65,7 @@ public final class ManagedInstanceFamilyCapability {
      * 
      * @return the sku value.
      */
-    public String getSku() {
+    public String sku() {
         return this.sku;
     }
 
@@ -74,7 +74,7 @@ public final class ManagedInstanceFamilyCapability {
      * 
      * @return the supportedLicenseTypes value.
      */
-    public List<LicenseTypeCapability> getSupportedLicenseTypes() {
+    public List<LicenseTypeCapability> supportedLicenseTypes() {
         return this.supportedLicenseTypes;
     }
 
@@ -84,7 +84,7 @@ public final class ManagedInstanceFamilyCapability {
      * 
      * @return the supportedVcoresValues value.
      */
-    public List<ManagedInstanceVcoresCapability> getSupportedVcoresValues() {
+    public List<ManagedInstanceVcoresCapability> supportedVcoresValues() {
         return this.supportedVcoresValues;
     }
 
@@ -93,7 +93,7 @@ public final class ManagedInstanceFamilyCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -103,7 +103,7 @@ public final class ManagedInstanceFamilyCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -114,7 +114,7 @@ public final class ManagedInstanceFamilyCapability {
      * @param reason the reason value to set.
      * @return the ManagedInstanceFamilyCapability object itself.
      */
-    public ManagedInstanceFamilyCapability setReason(String reason) {
+    public ManagedInstanceFamilyCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

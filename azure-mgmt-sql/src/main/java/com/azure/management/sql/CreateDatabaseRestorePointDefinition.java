@@ -25,7 +25,7 @@ public final class CreateDatabaseRestorePointDefinition {
      * 
      * @return the restorePointLabel value.
      */
-    public String getRestorePointLabel() {
+    public String restorePointLabel() {
         return this.restorePointLabel;
     }
 
@@ -35,7 +35,7 @@ public final class CreateDatabaseRestorePointDefinition {
      * @param restorePointLabel the restorePointLabel value to set.
      * @return the CreateDatabaseRestorePointDefinition object itself.
      */
-    public CreateDatabaseRestorePointDefinition setRestorePointLabel(String restorePointLabel) {
+    public CreateDatabaseRestorePointDefinition withRestorePointLabel(String restorePointLabel) {
         this.restorePointLabel = restorePointLabel;
         return this;
     }

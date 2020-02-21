@@ -49,7 +49,7 @@ public class InstancePoolInner extends Resource {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -59,7 +59,7 @@ public class InstancePoolInner extends Resource {
      * @param sku the sku value to set.
      * @return the InstancePoolInner object itself.
      */
-    public InstancePoolInner setSku(Sku sku) {
+    public InstancePoolInner withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -70,7 +70,7 @@ public class InstancePoolInner extends Resource {
      * 
      * @return the subnetId value.
      */
-    public String getSubnetId() {
+    public String subnetId() {
         return this.subnetId;
     }
 
@@ -81,7 +81,7 @@ public class InstancePoolInner extends Resource {
      * @param subnetId the subnetId value to set.
      * @return the InstancePoolInner object itself.
      */
-    public InstancePoolInner setSubnetId(String subnetId) {
+    public InstancePoolInner withSubnetId(String subnetId) {
         this.subnetId = subnetId;
         return this;
     }
@@ -92,7 +92,7 @@ public class InstancePoolInner extends Resource {
      * 
      * @return the vCores value.
      */
-    public Integer getVCores() {
+    public Integer vCores() {
         return this.vCores;
     }
 
@@ -103,7 +103,7 @@ public class InstancePoolInner extends Resource {
      * @param vCores the vCores value to set.
      * @return the InstancePoolInner object itself.
      */
-    public InstancePoolInner setVCores(Integer vCores) {
+    public InstancePoolInner withVCores(Integer vCores) {
         this.vCores = vCores;
         return this;
     }
@@ -115,7 +115,7 @@ public class InstancePoolInner extends Resource {
      * 
      * @return the licenseType value.
      */
-    public InstancePoolLicenseType getLicenseType() {
+    public InstancePoolLicenseType licenseType() {
         return this.licenseType;
     }
 
@@ -127,7 +127,7 @@ public class InstancePoolInner extends Resource {
      * @param licenseType the licenseType value to set.
      * @return the InstancePoolInner object itself.
      */
-    public InstancePoolInner setLicenseType(InstancePoolLicenseType licenseType) {
+    public InstancePoolInner withLicenseType(InstancePoolLicenseType licenseType) {
         this.licenseType = licenseType;
         return this;
     }

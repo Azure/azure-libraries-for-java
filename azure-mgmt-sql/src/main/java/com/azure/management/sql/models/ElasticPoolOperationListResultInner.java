@@ -32,7 +32,7 @@ public final class ElasticPoolOperationListResultInner {
      * 
      * @return the value value.
      */
-    public List<ElasticPoolOperationInner> getValue() {
+    public List<ElasticPoolOperationInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class ElasticPoolOperationListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

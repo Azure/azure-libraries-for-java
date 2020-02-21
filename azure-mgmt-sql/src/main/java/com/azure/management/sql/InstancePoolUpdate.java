@@ -26,7 +26,7 @@ public final class InstancePoolUpdate {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -36,7 +36,7 @@ public final class InstancePoolUpdate {
      * @param tags the tags value to set.
      * @return the InstancePoolUpdate object itself.
      */
-    public InstancePoolUpdate setTags(Map<String, String> tags) {
+    public InstancePoolUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }

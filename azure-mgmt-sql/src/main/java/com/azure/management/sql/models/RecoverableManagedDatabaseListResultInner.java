@@ -32,7 +32,7 @@ public final class RecoverableManagedDatabaseListResultInner {
      * 
      * @return the value value.
      */
-    public List<RecoverableManagedDatabaseInner> getValue() {
+    public List<RecoverableManagedDatabaseInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class RecoverableManagedDatabaseListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

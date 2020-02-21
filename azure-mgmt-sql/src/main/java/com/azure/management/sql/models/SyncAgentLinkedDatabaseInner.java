@@ -59,7 +59,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResource {
      * 
      * @return the databaseType value.
      */
-    public SyncMemberDbType getDatabaseType() {
+    public SyncMemberDbType databaseType() {
         return this.databaseType;
     }
 
@@ -68,7 +68,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResource {
      * 
      * @return the databaseId value.
      */
-    public String getDatabaseId() {
+    public String databaseId() {
         return this.databaseId;
     }
 
@@ -78,7 +78,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResource {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -88,7 +88,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResource {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -98,7 +98,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResource {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -107,7 +107,7 @@ public class SyncAgentLinkedDatabaseInner extends ProxyResource {
      * 
      * @return the userName value.
      */
-    public String getUserName() {
+    public String userName() {
         return this.userName;
     }
 }

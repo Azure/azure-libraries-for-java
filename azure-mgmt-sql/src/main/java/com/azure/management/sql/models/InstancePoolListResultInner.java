@@ -32,7 +32,7 @@ public final class InstancePoolListResultInner {
      * 
      * @return the value value.
      */
-    public List<InstancePoolInner> getValue() {
+    public List<InstancePoolInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class InstancePoolListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

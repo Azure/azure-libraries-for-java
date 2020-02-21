@@ -142,7 +142,7 @@ public final class ServiceTierAdvisorsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
+            res.getValue().value(),
             null,
             null));
     }

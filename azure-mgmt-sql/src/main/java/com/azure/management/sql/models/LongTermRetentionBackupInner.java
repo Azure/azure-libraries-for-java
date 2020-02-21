@@ -60,7 +60,7 @@ public class LongTermRetentionBackupInner extends ProxyResource {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -69,7 +69,7 @@ public class LongTermRetentionBackupInner extends ProxyResource {
      * 
      * @return the serverCreateTime value.
      */
-    public OffsetDateTime getServerCreateTime() {
+    public OffsetDateTime serverCreateTime() {
         return this.serverCreateTime;
     }
 
@@ -79,7 +79,7 @@ public class LongTermRetentionBackupInner extends ProxyResource {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -88,7 +88,7 @@ public class LongTermRetentionBackupInner extends ProxyResource {
      * 
      * @return the databaseDeletionTime value.
      */
-    public OffsetDateTime getDatabaseDeletionTime() {
+    public OffsetDateTime databaseDeletionTime() {
         return this.databaseDeletionTime;
     }
 
@@ -97,7 +97,7 @@ public class LongTermRetentionBackupInner extends ProxyResource {
      * 
      * @return the backupTime value.
      */
-    public OffsetDateTime getBackupTime() {
+    public OffsetDateTime backupTime() {
         return this.backupTime;
     }
 
@@ -107,7 +107,7 @@ public class LongTermRetentionBackupInner extends ProxyResource {
      * 
      * @return the backupExpirationTime value.
      */
-    public OffsetDateTime getBackupExpirationTime() {
+    public OffsetDateTime backupExpirationTime() {
         return this.backupExpirationTime;
     }
 }

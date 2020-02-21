@@ -32,7 +32,7 @@ public final class ManagedDatabaseListResultInner {
      * 
      * @return the value value.
      */
-    public List<ManagedDatabaseInner> getValue() {
+    public List<ManagedDatabaseInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class ManagedDatabaseListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

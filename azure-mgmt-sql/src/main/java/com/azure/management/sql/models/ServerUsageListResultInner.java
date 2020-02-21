@@ -26,7 +26,7 @@ public final class ServerUsageListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServerUsageInner> getValue() {
+    public List<ServerUsageInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class ServerUsageListResultInner {
      * @param value the value value to set.
      * @return the ServerUsageListResultInner object itself.
      */
-    public ServerUsageListResultInner setValue(List<ServerUsageInner> value) {
+    public ServerUsageListResultInner withValue(List<ServerUsageInner> value) {
         this.value = value;
         return this;
     }

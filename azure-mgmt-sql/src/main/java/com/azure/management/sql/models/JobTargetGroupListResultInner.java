@@ -32,7 +32,7 @@ public final class JobTargetGroupListResultInner {
      * 
      * @return the value value.
      */
-    public List<JobTargetGroupInner> getValue() {
+    public List<JobTargetGroupInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class JobTargetGroupListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

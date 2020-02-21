@@ -32,7 +32,7 @@ public final class JobCredentialListResultInner {
      * 
      * @return the value value.
      */
-    public List<JobCredentialInner> getValue() {
+    public List<JobCredentialInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class JobCredentialListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

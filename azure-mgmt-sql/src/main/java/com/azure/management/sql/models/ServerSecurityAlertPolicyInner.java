@@ -80,7 +80,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public SecurityAlertPolicyState getState() {
+    public SecurityAlertPolicyState state() {
         return this.state;
     }
 
@@ -91,7 +91,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * @param state the state value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
-    public ServerSecurityAlertPolicyInner setState(SecurityAlertPolicyState state) {
+    public ServerSecurityAlertPolicyInner withState(SecurityAlertPolicyState state) {
         this.state = state;
         return this;
     }
@@ -104,7 +104,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * 
      * @return the disabledAlerts value.
      */
-    public List<String> getDisabledAlerts() {
+    public List<String> disabledAlerts() {
         return this.disabledAlerts;
     }
 
@@ -117,7 +117,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * @param disabledAlerts the disabledAlerts value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
-    public ServerSecurityAlertPolicyInner setDisabledAlerts(List<String> disabledAlerts) {
+    public ServerSecurityAlertPolicyInner withDisabledAlerts(List<String> disabledAlerts) {
         this.disabledAlerts = disabledAlerts;
         return this;
     }
@@ -128,7 +128,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * 
      * @return the emailAddresses value.
      */
-    public List<String> getEmailAddresses() {
+    public List<String> emailAddresses() {
         return this.emailAddresses;
     }
 
@@ -139,7 +139,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * @param emailAddresses the emailAddresses value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
-    public ServerSecurityAlertPolicyInner setEmailAddresses(List<String> emailAddresses) {
+    public ServerSecurityAlertPolicyInner withEmailAddresses(List<String> emailAddresses) {
         this.emailAddresses = emailAddresses;
         return this;
     }
@@ -150,7 +150,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * 
      * @return the emailAccountAdmins value.
      */
-    public Boolean isEmailAccountAdmins() {
+    public Boolean emailAccountAdmins() {
         return this.emailAccountAdmins;
     }
 
@@ -161,7 +161,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * @param emailAccountAdmins the emailAccountAdmins value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
-    public ServerSecurityAlertPolicyInner setEmailAccountAdmins(Boolean emailAccountAdmins) {
+    public ServerSecurityAlertPolicyInner withEmailAccountAdmins(Boolean emailAccountAdmins) {
         this.emailAccountAdmins = emailAccountAdmins;
         return this;
     }
@@ -173,7 +173,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * 
      * @return the storageEndpoint value.
      */
-    public String getStorageEndpoint() {
+    public String storageEndpoint() {
         return this.storageEndpoint;
     }
 
@@ -185,7 +185,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * @param storageEndpoint the storageEndpoint value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
-    public ServerSecurityAlertPolicyInner setStorageEndpoint(String storageEndpoint) {
+    public ServerSecurityAlertPolicyInner withStorageEndpoint(String storageEndpoint) {
         this.storageEndpoint = storageEndpoint;
         return this;
     }
@@ -196,7 +196,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * 
      * @return the storageAccountAccessKey value.
      */
-    public String getStorageAccountAccessKey() {
+    public String storageAccountAccessKey() {
         return this.storageAccountAccessKey;
     }
 
@@ -207,7 +207,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * @param storageAccountAccessKey the storageAccountAccessKey value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
-    public ServerSecurityAlertPolicyInner setStorageAccountAccessKey(String storageAccountAccessKey) {
+    public ServerSecurityAlertPolicyInner withStorageAccountAccessKey(String storageAccountAccessKey) {
         this.storageAccountAccessKey = storageAccountAccessKey;
         return this;
     }
@@ -218,7 +218,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * 
      * @return the retentionDays value.
      */
-    public Integer getRetentionDays() {
+    public Integer retentionDays() {
         return this.retentionDays;
     }
 
@@ -229,7 +229,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * @param retentionDays the retentionDays value to set.
      * @return the ServerSecurityAlertPolicyInner object itself.
      */
-    public ServerSecurityAlertPolicyInner setRetentionDays(Integer retentionDays) {
+    public ServerSecurityAlertPolicyInner withRetentionDays(Integer retentionDays) {
         this.retentionDays = retentionDays;
         return this;
     }
@@ -240,7 +240,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResource {
      * 
      * @return the creationTime value.
      */
-    public OffsetDateTime getCreationTime() {
+    public OffsetDateTime creationTime() {
         return this.creationTime;
     }
 }

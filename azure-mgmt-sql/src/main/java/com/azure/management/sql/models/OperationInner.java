@@ -47,7 +47,7 @@ public final class OperationInner {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -57,7 +57,7 @@ public final class OperationInner {
      * 
      * @return the display value.
      */
-    public OperationDisplay getDisplay() {
+    public OperationDisplay display() {
         return this.display;
     }
 
@@ -66,7 +66,7 @@ public final class OperationInner {
      * 
      * @return the origin value.
      */
-    public OperationOrigin getOrigin() {
+    public OperationOrigin origin() {
         return this.origin;
     }
 
@@ -75,7 +75,7 @@ public final class OperationInner {
      * 
      * @return the properties value.
      */
-    public Map<String, Object> getProperties() {
+    public Map<String, Object> properties() {
         return this.properties;
     }
 }

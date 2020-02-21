@@ -80,7 +80,7 @@ public class SyncMemberInner extends ProxyResource {
      * 
      * @return the databaseType value.
      */
-    public SyncMemberDbType getDatabaseType() {
+    public SyncMemberDbType databaseType() {
         return this.databaseType;
     }
 
@@ -90,7 +90,7 @@ public class SyncMemberInner extends ProxyResource {
      * @param databaseType the databaseType value to set.
      * @return the SyncMemberInner object itself.
      */
-    public SyncMemberInner setDatabaseType(SyncMemberDbType databaseType) {
+    public SyncMemberInner withDatabaseType(SyncMemberDbType databaseType) {
         this.databaseType = databaseType;
         return this;
     }
@@ -101,7 +101,7 @@ public class SyncMemberInner extends ProxyResource {
      * 
      * @return the syncAgentId value.
      */
-    public String getSyncAgentId() {
+    public String syncAgentId() {
         return this.syncAgentId;
     }
 
@@ -112,7 +112,7 @@ public class SyncMemberInner extends ProxyResource {
      * @param syncAgentId the syncAgentId value to set.
      * @return the SyncMemberInner object itself.
      */
-    public SyncMemberInner setSyncAgentId(String syncAgentId) {
+    public SyncMemberInner withSyncAgentId(String syncAgentId) {
         this.syncAgentId = syncAgentId;
         return this;
     }
@@ -123,7 +123,7 @@ public class SyncMemberInner extends ProxyResource {
      * 
      * @return the sqlServerDatabaseId value.
      */
-    public UUID getSqlServerDatabaseId() {
+    public UUID sqlServerDatabaseId() {
         return this.sqlServerDatabaseId;
     }
 
@@ -134,7 +134,7 @@ public class SyncMemberInner extends ProxyResource {
      * @param sqlServerDatabaseId the sqlServerDatabaseId value to set.
      * @return the SyncMemberInner object itself.
      */
-    public SyncMemberInner setSqlServerDatabaseId(UUID sqlServerDatabaseId) {
+    public SyncMemberInner withSqlServerDatabaseId(UUID sqlServerDatabaseId) {
         this.sqlServerDatabaseId = sqlServerDatabaseId;
         return this;
     }
@@ -145,7 +145,7 @@ public class SyncMemberInner extends ProxyResource {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -156,7 +156,7 @@ public class SyncMemberInner extends ProxyResource {
      * @param serverName the serverName value to set.
      * @return the SyncMemberInner object itself.
      */
-    public SyncMemberInner setServerName(String serverName) {
+    public SyncMemberInner withServerName(String serverName) {
         this.serverName = serverName;
         return this;
     }
@@ -167,7 +167,7 @@ public class SyncMemberInner extends ProxyResource {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -178,7 +178,7 @@ public class SyncMemberInner extends ProxyResource {
      * @param databaseName the databaseName value to set.
      * @return the SyncMemberInner object itself.
      */
-    public SyncMemberInner setDatabaseName(String databaseName) {
+    public SyncMemberInner withDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -189,7 +189,7 @@ public class SyncMemberInner extends ProxyResource {
      * 
      * @return the userName value.
      */
-    public String getUserName() {
+    public String userName() {
         return this.userName;
     }
 
@@ -200,7 +200,7 @@ public class SyncMemberInner extends ProxyResource {
      * @param userName the userName value to set.
      * @return the SyncMemberInner object itself.
      */
-    public SyncMemberInner setUserName(String userName) {
+    public SyncMemberInner withUserName(String userName) {
         this.userName = userName;
         return this;
     }
@@ -211,7 +211,7 @@ public class SyncMemberInner extends ProxyResource {
      * 
      * @return the password value.
      */
-    public String getPassword() {
+    public String password() {
         return this.password;
     }
 
@@ -222,7 +222,7 @@ public class SyncMemberInner extends ProxyResource {
      * @param password the password value to set.
      * @return the SyncMemberInner object itself.
      */
-    public SyncMemberInner setPassword(String password) {
+    public SyncMemberInner withPassword(String password) {
         this.password = password;
         return this;
     }
@@ -232,7 +232,7 @@ public class SyncMemberInner extends ProxyResource {
      * 
      * @return the syncDirection value.
      */
-    public SyncDirection getSyncDirection() {
+    public SyncDirection syncDirection() {
         return this.syncDirection;
     }
 
@@ -242,7 +242,7 @@ public class SyncMemberInner extends ProxyResource {
      * @param syncDirection the syncDirection value to set.
      * @return the SyncMemberInner object itself.
      */
-    public SyncMemberInner setSyncDirection(SyncDirection syncDirection) {
+    public SyncMemberInner withSyncDirection(SyncDirection syncDirection) {
         this.syncDirection = syncDirection;
         return this;
     }
@@ -252,7 +252,7 @@ public class SyncMemberInner extends ProxyResource {
      * 
      * @return the syncState value.
      */
-    public SyncMemberState getSyncState() {
+    public SyncMemberState syncState() {
         return this.syncState;
     }
 }

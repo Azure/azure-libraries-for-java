@@ -147,8 +147,8 @@ public final class ServersInner implements InnerSupportsGet<ServerInner>, InnerS
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -387,8 +387,8 @@ public final class ServersInner implements InnerSupportsGet<ServerInner>, InnerS
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -428,7 +428,7 @@ public final class ServersInner implements InnerSupportsGet<ServerInner>, InnerS
     public Mono<SimpleResponse<CheckNameAvailabilityResponseInner>> checkNameAvailabilityWithResponseAsync(String name) {
         final String apiVersion = "2019-06-01-preview";
         CheckNameAvailabilityRequest parameters = new CheckNameAvailabilityRequest();
-        parameters.setName(name);
+        parameters.withName(name);
         return service.checkNameAvailability(this.client.getHost(), this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -629,8 +629,8 @@ public final class ServersInner implements InnerSupportsGet<ServerInner>, InnerS
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -648,8 +648,8 @@ public final class ServersInner implements InnerSupportsGet<ServerInner>, InnerS
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

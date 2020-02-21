@@ -41,7 +41,7 @@ public class ServerConnectionPolicyInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -50,7 +50,7 @@ public class ServerConnectionPolicyInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -59,7 +59,7 @@ public class ServerConnectionPolicyInner extends ProxyResource {
      * 
      * @return the connectionType value.
      */
-    public ServerConnectionType getConnectionType() {
+    public ServerConnectionType connectionType() {
         return this.connectionType;
     }
 
@@ -69,7 +69,7 @@ public class ServerConnectionPolicyInner extends ProxyResource {
      * @param connectionType the connectionType value to set.
      * @return the ServerConnectionPolicyInner object itself.
      */
-    public ServerConnectionPolicyInner setConnectionType(ServerConnectionType connectionType) {
+    public ServerConnectionPolicyInner withConnectionType(ServerConnectionType connectionType) {
         this.connectionType = connectionType;
         return this;
     }

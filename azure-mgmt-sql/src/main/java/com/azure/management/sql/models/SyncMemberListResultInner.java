@@ -32,7 +32,7 @@ public final class SyncMemberListResultInner {
      * 
      * @return the value value.
      */
-    public List<SyncMemberInner> getValue() {
+    public List<SyncMemberInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class SyncMemberListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

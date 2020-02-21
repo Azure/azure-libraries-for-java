@@ -32,7 +32,7 @@ public final class RestorableDroppedManagedDatabaseListResultInner {
      * 
      * @return the value value.
      */
-    public List<RestorableDroppedManagedDatabaseInner> getValue() {
+    public List<RestorableDroppedManagedDatabaseInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class RestorableDroppedManagedDatabaseListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

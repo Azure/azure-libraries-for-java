@@ -32,7 +32,7 @@ public final class EncryptionProtectorListResultInner {
      * 
      * @return the value value.
      */
-    public List<EncryptionProtectorInner> getValue() {
+    public List<EncryptionProtectorInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class EncryptionProtectorListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

@@ -56,7 +56,7 @@ public final class MetricValue {
      * 
      * @return the count value.
      */
-    public Integer getCount() {
+    public Integer count() {
         return this.count;
     }
 
@@ -65,7 +65,7 @@ public final class MetricValue {
      * 
      * @return the average value.
      */
-    public Double getAverage() {
+    public Double average() {
         return this.average;
     }
 
@@ -74,7 +74,7 @@ public final class MetricValue {
      * 
      * @return the maximum value.
      */
-    public Double getMaximum() {
+    public Double maximum() {
         return this.maximum;
     }
 
@@ -83,7 +83,7 @@ public final class MetricValue {
      * 
      * @return the minimum value.
      */
-    public Double getMinimum() {
+    public Double minimum() {
         return this.minimum;
     }
 
@@ -92,7 +92,7 @@ public final class MetricValue {
      * 
      * @return the timestamp value.
      */
-    public OffsetDateTime getTimestamp() {
+    public OffsetDateTime timestamp() {
         return this.timestamp;
     }
 
@@ -101,7 +101,7 @@ public final class MetricValue {
      * 
      * @return the total value.
      */
-    public Double getTotal() {
+    public Double total() {
         return this.total;
     }
 }

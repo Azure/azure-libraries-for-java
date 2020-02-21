@@ -33,7 +33,7 @@ public final class ImportExtensionProperties extends ExportRequest {
      * 
      * @return the operationMode value.
      */
-    public String getOperationMode() {
+    public String operationMode() {
         return this.operationMode;
     }
 
@@ -44,7 +44,7 @@ public final class ImportExtensionProperties extends ExportRequest {
      * @param operationMode the operationMode value to set.
      * @return the ImportExtensionProperties object itself.
      */
-    public ImportExtensionProperties setOperationMode(String operationMode) {
+    public ImportExtensionProperties withOperationMode(String operationMode) {
         this.operationMode = operationMode;
         return this;
     }

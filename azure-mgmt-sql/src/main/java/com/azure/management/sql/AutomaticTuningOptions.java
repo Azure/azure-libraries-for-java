@@ -43,7 +43,7 @@ public final class AutomaticTuningOptions {
      * 
      * @return the desiredState value.
      */
-    public AutomaticTuningOptionModeDesired getDesiredState() {
+    public AutomaticTuningOptionModeDesired desiredState() {
         return this.desiredState;
     }
 
@@ -53,7 +53,7 @@ public final class AutomaticTuningOptions {
      * @param desiredState the desiredState value to set.
      * @return the AutomaticTuningOptions object itself.
      */
-    public AutomaticTuningOptions setDesiredState(AutomaticTuningOptionModeDesired desiredState) {
+    public AutomaticTuningOptions withDesiredState(AutomaticTuningOptionModeDesired desiredState) {
         this.desiredState = desiredState;
         return this;
     }
@@ -63,7 +63,7 @@ public final class AutomaticTuningOptions {
      * 
      * @return the actualState value.
      */
-    public AutomaticTuningOptionModeActual getActualState() {
+    public AutomaticTuningOptionModeActual actualState() {
         return this.actualState;
     }
 
@@ -73,7 +73,7 @@ public final class AutomaticTuningOptions {
      * 
      * @return the reasonCode value.
      */
-    public Integer getReasonCode() {
+    public Integer reasonCode() {
         return this.reasonCode;
     }
 
@@ -83,7 +83,7 @@ public final class AutomaticTuningOptions {
      * 
      * @return the reasonDesc value.
      */
-    public AutomaticTuningDisabledReason getReasonDesc() {
+    public AutomaticTuningDisabledReason reasonDesc() {
         return this.reasonDesc;
     }
 }

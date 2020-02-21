@@ -34,7 +34,7 @@ public final class SyncFullSchemaPropertiesInner {
      * 
      * @return the tables value.
      */
-    public List<SyncFullSchemaTable> getTables() {
+    public List<SyncFullSchemaTable> tables() {
         return this.tables;
     }
 
@@ -44,7 +44,7 @@ public final class SyncFullSchemaPropertiesInner {
      * 
      * @return the lastUpdateTime value.
      */
-    public OffsetDateTime getLastUpdateTime() {
+    public OffsetDateTime lastUpdateTime() {
         return this.lastUpdateTime;
     }
 }

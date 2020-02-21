@@ -48,7 +48,7 @@ public class VirtualClusterUpdate {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -58,7 +58,7 @@ public class VirtualClusterUpdate {
      * @param tags the tags value to set.
      * @return the VirtualClusterUpdate object itself.
      */
-    public VirtualClusterUpdate setTags(Map<String, String> tags) {
+    public VirtualClusterUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -68,7 +68,7 @@ public class VirtualClusterUpdate {
      * 
      * @return the subnetId value.
      */
-    public String getSubnetId() {
+    public String subnetId() {
         return this.subnetId;
     }
 
@@ -78,7 +78,7 @@ public class VirtualClusterUpdate {
      * 
      * @return the family value.
      */
-    public String getFamily() {
+    public String family() {
         return this.family;
     }
 
@@ -89,7 +89,7 @@ public class VirtualClusterUpdate {
      * @param family the family value to set.
      * @return the VirtualClusterUpdate object itself.
      */
-    public VirtualClusterUpdate setFamily(String family) {
+    public VirtualClusterUpdate withFamily(String family) {
         this.family = family;
         return this;
     }
@@ -100,7 +100,7 @@ public class VirtualClusterUpdate {
      * 
      * @return the childResources value.
      */
-    public List<String> getChildResources() {
+    public List<String> childResources() {
         return this.childResources;
     }
 }

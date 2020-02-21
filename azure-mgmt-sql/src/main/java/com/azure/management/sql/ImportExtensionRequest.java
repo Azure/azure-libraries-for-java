@@ -83,7 +83,7 @@ public class ImportExtensionRequest {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -93,7 +93,7 @@ public class ImportExtensionRequest {
      * @param name the name value to set.
      * @return the ImportExtensionRequest object itself.
      */
-    public ImportExtensionRequest setName(String name) {
+    public ImportExtensionRequest withName(String name) {
         this.name = name;
         return this;
     }
@@ -103,7 +103,7 @@ public class ImportExtensionRequest {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -113,7 +113,7 @@ public class ImportExtensionRequest {
      * @param type the type value to set.
      * @return the ImportExtensionRequest object itself.
      */
-    public ImportExtensionRequest setType(String type) {
+    public ImportExtensionRequest withType(String type) {
         this.type = type;
         return this;
     }
@@ -123,7 +123,7 @@ public class ImportExtensionRequest {
      * 
      * @return the storageKeyType value.
      */
-    public StorageKeyType getStorageKeyType() {
+    public StorageKeyType storageKeyType() {
         return this.storageKeyType;
     }
 
@@ -133,7 +133,7 @@ public class ImportExtensionRequest {
      * @param storageKeyType the storageKeyType value to set.
      * @return the ImportExtensionRequest object itself.
      */
-    public ImportExtensionRequest setStorageKeyType(StorageKeyType storageKeyType) {
+    public ImportExtensionRequest withStorageKeyType(StorageKeyType storageKeyType) {
         this.storageKeyType = storageKeyType;
         return this;
     }
@@ -144,7 +144,7 @@ public class ImportExtensionRequest {
      * 
      * @return the storageKey value.
      */
-    public String getStorageKey() {
+    public String storageKey() {
         return this.storageKey;
     }
 
@@ -155,7 +155,7 @@ public class ImportExtensionRequest {
      * @param storageKey the storageKey value to set.
      * @return the ImportExtensionRequest object itself.
      */
-    public ImportExtensionRequest setStorageKey(String storageKey) {
+    public ImportExtensionRequest withStorageKey(String storageKey) {
         this.storageKey = storageKey;
         return this;
     }
@@ -165,7 +165,7 @@ public class ImportExtensionRequest {
      * 
      * @return the storageUri value.
      */
-    public String getStorageUri() {
+    public String storageUri() {
         return this.storageUri;
     }
 
@@ -175,7 +175,7 @@ public class ImportExtensionRequest {
      * @param storageUri the storageUri value to set.
      * @return the ImportExtensionRequest object itself.
      */
-    public ImportExtensionRequest setStorageUri(String storageUri) {
+    public ImportExtensionRequest withStorageUri(String storageUri) {
         this.storageUri = storageUri;
         return this;
     }
@@ -185,7 +185,7 @@ public class ImportExtensionRequest {
      * 
      * @return the administratorLogin value.
      */
-    public String getAdministratorLogin() {
+    public String administratorLogin() {
         return this.administratorLogin;
     }
 
@@ -195,7 +195,7 @@ public class ImportExtensionRequest {
      * @param administratorLogin the administratorLogin value to set.
      * @return the ImportExtensionRequest object itself.
      */
-    public ImportExtensionRequest setAdministratorLogin(String administratorLogin) {
+    public ImportExtensionRequest withAdministratorLogin(String administratorLogin) {
         this.administratorLogin = administratorLogin;
         return this;
     }
@@ -206,7 +206,7 @@ public class ImportExtensionRequest {
      * 
      * @return the administratorLoginPassword value.
      */
-    public String getAdministratorLoginPassword() {
+    public String administratorLoginPassword() {
         return this.administratorLoginPassword;
     }
 
@@ -218,7 +218,7 @@ public class ImportExtensionRequest {
      * to set.
      * @return the ImportExtensionRequest object itself.
      */
-    public ImportExtensionRequest setAdministratorLoginPassword(String administratorLoginPassword) {
+    public ImportExtensionRequest withAdministratorLoginPassword(String administratorLoginPassword) {
         this.administratorLoginPassword = administratorLoginPassword;
         return this;
     }
@@ -228,7 +228,7 @@ public class ImportExtensionRequest {
      * 
      * @return the authenticationType value.
      */
-    public AuthenticationType getAuthenticationType() {
+    public AuthenticationType authenticationType() {
         return this.authenticationType;
     }
 
@@ -238,7 +238,7 @@ public class ImportExtensionRequest {
      * @param authenticationType the authenticationType value to set.
      * @return the ImportExtensionRequest object itself.
      */
-    public ImportExtensionRequest setAuthenticationType(AuthenticationType authenticationType) {
+    public ImportExtensionRequest withAuthenticationType(AuthenticationType authenticationType) {
         this.authenticationType = authenticationType;
         return this;
     }
@@ -249,7 +249,7 @@ public class ImportExtensionRequest {
      * 
      * @return the operationMode value.
      */
-    public String getOperationMode() {
+    public String operationMode() {
         return this.operationMode;
     }
 
@@ -260,7 +260,7 @@ public class ImportExtensionRequest {
      * @param operationMode the operationMode value to set.
      * @return the ImportExtensionRequest object itself.
      */
-    public ImportExtensionRequest setOperationMode(String operationMode) {
+    public ImportExtensionRequest withOperationMode(String operationMode) {
         this.operationMode = operationMode;
         return this;
     }

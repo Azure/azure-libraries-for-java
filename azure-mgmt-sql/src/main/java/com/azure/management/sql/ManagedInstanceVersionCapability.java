@@ -50,7 +50,7 @@ public final class ManagedInstanceVersionCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -60,7 +60,7 @@ public final class ManagedInstanceVersionCapability {
      * 
      * @return the supportedEditions value.
      */
-    public List<ManagedInstanceEditionCapability> getSupportedEditions() {
+    public List<ManagedInstanceEditionCapability> supportedEditions() {
         return this.supportedEditions;
     }
 
@@ -70,7 +70,7 @@ public final class ManagedInstanceVersionCapability {
      * 
      * @return the supportedInstancePoolEditions value.
      */
-    public List<InstancePoolEditionCapability> getSupportedInstancePoolEditions() {
+    public List<InstancePoolEditionCapability> supportedInstancePoolEditions() {
         return this.supportedInstancePoolEditions;
     }
 
@@ -79,7 +79,7 @@ public final class ManagedInstanceVersionCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -89,7 +89,7 @@ public final class ManagedInstanceVersionCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -100,7 +100,7 @@ public final class ManagedInstanceVersionCapability {
      * @param reason the reason value to set.
      * @return the ManagedInstanceVersionCapability object itself.
      */
-    public ManagedInstanceVersionCapability setReason(String reason) {
+    public ManagedInstanceVersionCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

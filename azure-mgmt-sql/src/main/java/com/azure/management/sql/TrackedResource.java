@@ -33,7 +33,7 @@ public class TrackedResource extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -43,7 +43,7 @@ public class TrackedResource extends ProxyResource {
      * @param location the location value to set.
      * @return the TrackedResource object itself.
      */
-    public TrackedResource setLocation(String location) {
+    public TrackedResource withLocation(String location) {
         this.location = location;
         return this;
     }
@@ -53,7 +53,7 @@ public class TrackedResource extends ProxyResource {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -63,7 +63,7 @@ public class TrackedResource extends ProxyResource {
      * @param tags the tags value to set.
      * @return the TrackedResource object itself.
      */
-    public TrackedResource setTags(Map<String, String> tags) {
+    public TrackedResource withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }

@@ -26,7 +26,7 @@ public final class GeoBackupPolicyListResultInner {
      * 
      * @return the value value.
      */
-    public List<GeoBackupPolicyInner> getValue() {
+    public List<GeoBackupPolicyInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class GeoBackupPolicyListResultInner {
      * @param value the value value to set.
      * @return the GeoBackupPolicyListResultInner object itself.
      */
-    public GeoBackupPolicyListResultInner setValue(List<GeoBackupPolicyInner> value) {
+    public GeoBackupPolicyListResultInner withValue(List<GeoBackupPolicyInner> value) {
         this.value = value;
         return this;
     }

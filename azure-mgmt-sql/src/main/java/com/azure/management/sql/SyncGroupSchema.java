@@ -32,7 +32,7 @@ public final class SyncGroupSchema {
      * 
      * @return the tables value.
      */
-    public List<SyncGroupSchemaTable> getTables() {
+    public List<SyncGroupSchemaTable> tables() {
         return this.tables;
     }
 
@@ -42,7 +42,7 @@ public final class SyncGroupSchema {
      * @param tables the tables value to set.
      * @return the SyncGroupSchema object itself.
      */
-    public SyncGroupSchema setTables(List<SyncGroupSchemaTable> tables) {
+    public SyncGroupSchema withTables(List<SyncGroupSchemaTable> tables) {
         this.tables = tables;
         return this;
     }
@@ -53,7 +53,7 @@ public final class SyncGroupSchema {
      * 
      * @return the masterSyncMemberName value.
      */
-    public String getMasterSyncMemberName() {
+    public String masterSyncMemberName() {
         return this.masterSyncMemberName;
     }
 
@@ -64,7 +64,7 @@ public final class SyncGroupSchema {
      * @param masterSyncMemberName the masterSyncMemberName value to set.
      * @return the SyncGroupSchema object itself.
      */
-    public SyncGroupSchema setMasterSyncMemberName(String masterSyncMemberName) {
+    public SyncGroupSchema withMasterSyncMemberName(String masterSyncMemberName) {
         this.masterSyncMemberName = masterSyncMemberName;
         return this;
     }

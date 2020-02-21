@@ -77,7 +77,7 @@ public class ImportExportResponseInner extends ProxyResource {
      * 
      * @return the requestType value.
      */
-    public String getRequestType() {
+    public String requestType() {
         return this.requestType;
     }
 
@@ -86,7 +86,7 @@ public class ImportExportResponseInner extends ProxyResource {
      * 
      * @return the requestId value.
      */
-    public UUID getRequestId() {
+    public UUID requestId() {
         return this.requestId;
     }
 
@@ -95,7 +95,7 @@ public class ImportExportResponseInner extends ProxyResource {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -104,7 +104,7 @@ public class ImportExportResponseInner extends ProxyResource {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -113,7 +113,7 @@ public class ImportExportResponseInner extends ProxyResource {
      * 
      * @return the status value.
      */
-    public String getStatus() {
+    public String status() {
         return this.status;
     }
 
@@ -123,7 +123,7 @@ public class ImportExportResponseInner extends ProxyResource {
      * 
      * @return the lastModifiedTime value.
      */
-    public String getLastModifiedTime() {
+    public String lastModifiedTime() {
         return this.lastModifiedTime;
     }
 
@@ -132,7 +132,7 @@ public class ImportExportResponseInner extends ProxyResource {
      * 
      * @return the queuedTime value.
      */
-    public String getQueuedTime() {
+    public String queuedTime() {
         return this.queuedTime;
     }
 
@@ -141,7 +141,7 @@ public class ImportExportResponseInner extends ProxyResource {
      * 
      * @return the blobUri value.
      */
-    public String getBlobUri() {
+    public String blobUri() {
         return this.blobUri;
     }
 
@@ -151,7 +151,7 @@ public class ImportExportResponseInner extends ProxyResource {
      * 
      * @return the errorMessage value.
      */
-    public String getErrorMessage() {
+    public String errorMessage() {
         return this.errorMessage;
     }
 }

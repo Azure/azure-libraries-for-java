@@ -32,7 +32,7 @@ public final class InstanceFailoverGroupListResultInner {
      * 
      * @return the value value.
      */
-    public List<InstanceFailoverGroupInner> getValue() {
+    public List<InstanceFailoverGroupInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class InstanceFailoverGroupListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

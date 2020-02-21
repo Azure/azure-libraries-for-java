@@ -51,7 +51,7 @@ public final class JobSchedule {
      * 
      * @return the startTime value.
      */
-    public OffsetDateTime getStartTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
@@ -61,7 +61,7 @@ public final class JobSchedule {
      * @param startTime the startTime value to set.
      * @return the JobSchedule object itself.
      */
-    public JobSchedule setStartTime(OffsetDateTime startTime) {
+    public JobSchedule withStartTime(OffsetDateTime startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -71,7 +71,7 @@ public final class JobSchedule {
      * 
      * @return the endTime value.
      */
-    public OffsetDateTime getEndTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
@@ -81,7 +81,7 @@ public final class JobSchedule {
      * @param endTime the endTime value to set.
      * @return the JobSchedule object itself.
      */
-    public JobSchedule setEndTime(OffsetDateTime endTime) {
+    public JobSchedule withEndTime(OffsetDateTime endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -91,7 +91,7 @@ public final class JobSchedule {
      * 
      * @return the type value.
      */
-    public JobScheduleType getType() {
+    public JobScheduleType type() {
         return this.type;
     }
 
@@ -101,7 +101,7 @@ public final class JobSchedule {
      * @param type the type value to set.
      * @return the JobSchedule object itself.
      */
-    public JobSchedule setType(JobScheduleType type) {
+    public JobSchedule withType(JobScheduleType type) {
         this.type = type;
         return this;
     }
@@ -111,7 +111,7 @@ public final class JobSchedule {
      * 
      * @return the enabled value.
      */
-    public Boolean isEnabled() {
+    public Boolean enabled() {
         return this.enabled;
     }
 
@@ -121,7 +121,7 @@ public final class JobSchedule {
      * @param enabled the enabled value to set.
      * @return the JobSchedule object itself.
      */
-    public JobSchedule setEnabled(Boolean enabled) {
+    public JobSchedule withEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -132,7 +132,7 @@ public final class JobSchedule {
      * 
      * @return the interval value.
      */
-    public String getInterval() {
+    public String interval() {
         return this.interval;
     }
 
@@ -143,7 +143,7 @@ public final class JobSchedule {
      * @param interval the interval value to set.
      * @return the JobSchedule object itself.
      */
-    public JobSchedule setInterval(String interval) {
+    public JobSchedule withInterval(String interval) {
         this.interval = interval;
         return this;
     }

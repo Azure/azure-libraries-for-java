@@ -54,7 +54,7 @@ public class ServiceObjectiveInner extends ProxyResource {
      * 
      * @return the serviceObjectiveName value.
      */
-    public String getServiceObjectiveName() {
+    public String serviceObjectiveName() {
         return this.serviceObjectiveName;
     }
 
@@ -84,7 +84,7 @@ public class ServiceObjectiveInner extends ProxyResource {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -94,7 +94,7 @@ public class ServiceObjectiveInner extends ProxyResource {
      * 
      * @return the enabled value.
      */
-    public Boolean isEnabled() {
+    public Boolean enabled() {
         return this.enabled;
     }
 }

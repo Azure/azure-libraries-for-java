@@ -47,7 +47,7 @@ public final class ResourceIdentity {
      * 
      * @return the principalId value.
      */
-    public UUID getPrincipalId() {
+    public UUID principalId() {
         return this.principalId;
     }
 
@@ -58,7 +58,7 @@ public final class ResourceIdentity {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -70,7 +70,7 @@ public final class ResourceIdentity {
      * @param type the type value to set.
      * @return the ResourceIdentity object itself.
      */
-    public ResourceIdentity setType(String type) {
+    public ResourceIdentity withType(String type) {
         this.type = type;
         return this;
     }
@@ -80,7 +80,7 @@ public final class ResourceIdentity {
      * 
      * @return the tenantId value.
      */
-    public UUID getTenantId() {
+    public UUID tenantId() {
         return this.tenantId;
     }
 }

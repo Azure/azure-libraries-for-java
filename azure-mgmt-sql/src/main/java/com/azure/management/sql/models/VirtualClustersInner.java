@@ -128,8 +128,8 @@ public final class VirtualClustersInner implements InnerSupportsGet<VirtualClust
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -172,8 +172,8 @@ public final class VirtualClustersInner implements InnerSupportsGet<VirtualClust
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -461,8 +461,8 @@ public final class VirtualClustersInner implements InnerSupportsGet<VirtualClust
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -480,8 +480,8 @@ public final class VirtualClustersInner implements InnerSupportsGet<VirtualClust
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

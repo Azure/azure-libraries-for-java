@@ -43,7 +43,7 @@ public final class OperationImpact {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -53,7 +53,7 @@ public final class OperationImpact {
      * 
      * @return the unit value.
      */
-    public String getUnit() {
+    public String unit() {
         return this.unit;
     }
 
@@ -62,7 +62,7 @@ public final class OperationImpact {
      * 
      * @return the changeValueAbsolute value.
      */
-    public Double getChangeValueAbsolute() {
+    public Double changeValueAbsolute() {
         return this.changeValueAbsolute;
     }
 
@@ -72,7 +72,7 @@ public final class OperationImpact {
      * 
      * @return the changeValueRelative value.
      */
-    public Double getChangeValueRelative() {
+    public Double changeValueRelative() {
         return this.changeValueRelative;
     }
 }

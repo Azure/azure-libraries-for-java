@@ -129,8 +129,8 @@ public final class JobAgentsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -333,7 +333,7 @@ public final class JobAgentsInner {
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags) {
         final String apiVersion = "2017-03-01-preview";
         JobAgentUpdate parameters = new JobAgentUpdate();
-        parameters.setTags(tags);
+        parameters.withTags(tags);
         return service.update(this.client.getHost(), resourceGroupName, serverName, jobAgentName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -490,7 +490,7 @@ public final class JobAgentsInner {
     public Mono<SimpleResponse<JobAgentInner>> beginUpdateWithResponseAsync(String resourceGroupName, String serverName, String jobAgentName, Map<String, String> tags) {
         final String apiVersion = "2017-03-01-preview";
         JobAgentUpdate parameters = new JobAgentUpdate();
-        parameters.setTags(tags);
+        parameters.withTags(tags);
         return service.beginUpdate(this.client.getHost(), resourceGroupName, serverName, jobAgentName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -547,8 +547,8 @@ public final class JobAgentsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

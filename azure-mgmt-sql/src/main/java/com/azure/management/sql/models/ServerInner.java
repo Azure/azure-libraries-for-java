@@ -82,7 +82,7 @@ public class ServerInner extends Resource {
      * 
      * @return the identity value.
      */
-    public ResourceIdentity getIdentity() {
+    public ResourceIdentity identity() {
         return this.identity;
     }
 
@@ -93,7 +93,7 @@ public class ServerInner extends Resource {
      * @param identity the identity value to set.
      * @return the ServerInner object itself.
      */
-    public ServerInner setIdentity(ResourceIdentity identity) {
+    public ServerInner withIdentity(ResourceIdentity identity) {
         this.identity = identity;
         return this;
     }
@@ -104,7 +104,7 @@ public class ServerInner extends Resource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -114,7 +114,7 @@ public class ServerInner extends Resource {
      * 
      * @return the administratorLogin value.
      */
-    public String getAdministratorLogin() {
+    public String administratorLogin() {
         return this.administratorLogin;
     }
 
@@ -125,7 +125,7 @@ public class ServerInner extends Resource {
      * @param administratorLogin the administratorLogin value to set.
      * @return the ServerInner object itself.
      */
-    public ServerInner setAdministratorLogin(String administratorLogin) {
+    public ServerInner withAdministratorLogin(String administratorLogin) {
         this.administratorLogin = administratorLogin;
         return this;
     }
@@ -136,7 +136,7 @@ public class ServerInner extends Resource {
      * 
      * @return the administratorLoginPassword value.
      */
-    public String getAdministratorLoginPassword() {
+    public String administratorLoginPassword() {
         return this.administratorLoginPassword;
     }
 
@@ -148,7 +148,7 @@ public class ServerInner extends Resource {
      * to set.
      * @return the ServerInner object itself.
      */
-    public ServerInner setAdministratorLoginPassword(String administratorLoginPassword) {
+    public ServerInner withAdministratorLoginPassword(String administratorLoginPassword) {
         this.administratorLoginPassword = administratorLoginPassword;
         return this;
     }
@@ -158,7 +158,7 @@ public class ServerInner extends Resource {
      * 
      * @return the version value.
      */
-    public String getVersion() {
+    public String version() {
         return this.version;
     }
 
@@ -168,7 +168,7 @@ public class ServerInner extends Resource {
      * @param version the version value to set.
      * @return the ServerInner object itself.
      */
-    public ServerInner setVersion(String version) {
+    public ServerInner withVersion(String version) {
         this.version = version;
         return this;
     }
@@ -178,7 +178,7 @@ public class ServerInner extends Resource {
      * 
      * @return the state value.
      */
-    public String getState() {
+    public String state() {
         return this.state;
     }
 
@@ -188,7 +188,7 @@ public class ServerInner extends Resource {
      * 
      * @return the fullyQualifiedDomainName value.
      */
-    public String getFullyQualifiedDomainName() {
+    public String fullyQualifiedDomainName() {
         return this.fullyQualifiedDomainName;
     }
 
@@ -198,7 +198,7 @@ public class ServerInner extends Resource {
      * 
      * @return the privateEndpointConnections value.
      */
-    public List<ServerPrivateEndpointConnection> getPrivateEndpointConnections() {
+    public List<ServerPrivateEndpointConnection> privateEndpointConnections() {
         return this.privateEndpointConnections;
     }
 
@@ -208,7 +208,7 @@ public class ServerInner extends Resource {
      * 
      * @return the minimalTlsVersion value.
      */
-    public String getMinimalTlsVersion() {
+    public String minimalTlsVersion() {
         return this.minimalTlsVersion;
     }
 
@@ -219,7 +219,7 @@ public class ServerInner extends Resource {
      * @param minimalTlsVersion the minimalTlsVersion value to set.
      * @return the ServerInner object itself.
      */
-    public ServerInner setMinimalTlsVersion(String minimalTlsVersion) {
+    public ServerInner withMinimalTlsVersion(String minimalTlsVersion) {
         this.minimalTlsVersion = minimalTlsVersion;
         return this;
     }

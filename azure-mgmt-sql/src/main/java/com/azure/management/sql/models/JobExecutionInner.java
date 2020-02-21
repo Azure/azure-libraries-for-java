@@ -105,7 +105,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the jobVersion value.
      */
-    public Integer getJobVersion() {
+    public Integer jobVersion() {
         return this.jobVersion;
     }
 
@@ -114,7 +114,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the stepName value.
      */
-    public String getStepName() {
+    public String stepName() {
         return this.stepName;
     }
 
@@ -123,7 +123,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the stepId value.
      */
-    public Integer getStepId() {
+    public Integer stepId() {
         return this.stepId;
     }
 
@@ -133,7 +133,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the jobExecutionId value.
      */
-    public UUID getJobExecutionId() {
+    public UUID jobExecutionId() {
         return this.jobExecutionId;
     }
 
@@ -142,7 +142,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the lifecycle value.
      */
-    public JobExecutionLifecycle getLifecycle() {
+    public JobExecutionLifecycle lifecycle() {
         return this.lifecycle;
     }
 
@@ -152,7 +152,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the provisioningState value.
      */
-    public ProvisioningState getProvisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -162,7 +162,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the createTime value.
      */
-    public OffsetDateTime getCreateTime() {
+    public OffsetDateTime createTime() {
         return this.createTime;
     }
 
@@ -171,7 +171,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the startTime value.
      */
-    public OffsetDateTime getStartTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
@@ -180,7 +180,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the endTime value.
      */
-    public OffsetDateTime getEndTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
@@ -190,7 +190,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the currentAttempts value.
      */
-    public Integer getCurrentAttempts() {
+    public Integer currentAttempts() {
         return this.currentAttempts;
     }
 
@@ -201,7 +201,7 @@ public class JobExecutionInner extends ProxyResource {
      * @param currentAttempts the currentAttempts value to set.
      * @return the JobExecutionInner object itself.
      */
-    public JobExecutionInner setCurrentAttempts(Integer currentAttempts) {
+    public JobExecutionInner withCurrentAttempts(Integer currentAttempts) {
         this.currentAttempts = currentAttempts;
         return this;
     }
@@ -212,7 +212,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the currentAttemptStartTime value.
      */
-    public OffsetDateTime getCurrentAttemptStartTime() {
+    public OffsetDateTime currentAttemptStartTime() {
         return this.currentAttemptStartTime;
     }
 
@@ -221,7 +221,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the lastMessage value.
      */
-    public String getLastMessage() {
+    public String lastMessage() {
         return this.lastMessage;
     }
 
@@ -230,7 +230,7 @@ public class JobExecutionInner extends ProxyResource {
      * 
      * @return the target value.
      */
-    public JobExecutionTarget getTarget() {
+    public JobExecutionTarget target() {
         return this.target;
     }
 }

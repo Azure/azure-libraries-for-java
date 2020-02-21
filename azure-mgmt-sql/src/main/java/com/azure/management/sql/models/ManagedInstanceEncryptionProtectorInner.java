@@ -55,7 +55,7 @@ public class ManagedInstanceEncryptionProtectorInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -64,7 +64,7 @@ public class ManagedInstanceEncryptionProtectorInner extends ProxyResource {
      * 
      * @return the serverKeyName value.
      */
-    public String getServerKeyName() {
+    public String serverKeyName() {
         return this.serverKeyName;
     }
 
@@ -74,7 +74,7 @@ public class ManagedInstanceEncryptionProtectorInner extends ProxyResource {
      * @param serverKeyName the serverKeyName value to set.
      * @return the ManagedInstanceEncryptionProtectorInner object itself.
      */
-    public ManagedInstanceEncryptionProtectorInner setServerKeyName(String serverKeyName) {
+    public ManagedInstanceEncryptionProtectorInner withServerKeyName(String serverKeyName) {
         this.serverKeyName = serverKeyName;
         return this;
     }
@@ -85,7 +85,7 @@ public class ManagedInstanceEncryptionProtectorInner extends ProxyResource {
      * 
      * @return the serverKeyType value.
      */
-    public ServerKeyType getServerKeyType() {
+    public ServerKeyType serverKeyType() {
         return this.serverKeyType;
     }
 
@@ -96,7 +96,7 @@ public class ManagedInstanceEncryptionProtectorInner extends ProxyResource {
      * @param serverKeyType the serverKeyType value to set.
      * @return the ManagedInstanceEncryptionProtectorInner object itself.
      */
-    public ManagedInstanceEncryptionProtectorInner setServerKeyType(ServerKeyType serverKeyType) {
+    public ManagedInstanceEncryptionProtectorInner withServerKeyType(ServerKeyType serverKeyType) {
         this.serverKeyType = serverKeyType;
         return this;
     }
@@ -106,7 +106,7 @@ public class ManagedInstanceEncryptionProtectorInner extends ProxyResource {
      * 
      * @return the uri value.
      */
-    public String getUri() {
+    public String uri() {
         return this.uri;
     }
 
@@ -115,7 +115,7 @@ public class ManagedInstanceEncryptionProtectorInner extends ProxyResource {
      * 
      * @return the thumbprint value.
      */
-    public String getThumbprint() {
+    public String thumbprint() {
         return this.thumbprint;
     }
 }

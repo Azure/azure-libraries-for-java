@@ -64,7 +64,7 @@ public final class JobTarget {
      * 
      * @return the membershipType value.
      */
-    public JobTargetGroupMembershipType getMembershipType() {
+    public JobTargetGroupMembershipType membershipType() {
         return this.membershipType;
     }
 
@@ -75,7 +75,7 @@ public final class JobTarget {
      * @param membershipType the membershipType value to set.
      * @return the JobTarget object itself.
      */
-    public JobTarget setMembershipType(JobTargetGroupMembershipType membershipType) {
+    public JobTarget withMembershipType(JobTargetGroupMembershipType membershipType) {
         this.membershipType = membershipType;
         return this;
     }
@@ -85,7 +85,7 @@ public final class JobTarget {
      * 
      * @return the type value.
      */
-    public JobTargetType getType() {
+    public JobTargetType type() {
         return this.type;
     }
 
@@ -95,7 +95,7 @@ public final class JobTarget {
      * @param type the type value to set.
      * @return the JobTarget object itself.
      */
-    public JobTarget setType(JobTargetType type) {
+    public JobTarget withType(JobTargetType type) {
         this.type = type;
         return this;
     }
@@ -105,7 +105,7 @@ public final class JobTarget {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -115,7 +115,7 @@ public final class JobTarget {
      * @param serverName the serverName value to set.
      * @return the JobTarget object itself.
      */
-    public JobTarget setServerName(String serverName) {
+    public JobTarget withServerName(String serverName) {
         this.serverName = serverName;
         return this;
     }
@@ -125,7 +125,7 @@ public final class JobTarget {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -135,7 +135,7 @@ public final class JobTarget {
      * @param databaseName the databaseName value to set.
      * @return the JobTarget object itself.
      */
-    public JobTarget setDatabaseName(String databaseName) {
+    public JobTarget withDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -145,7 +145,7 @@ public final class JobTarget {
      * 
      * @return the elasticPoolName value.
      */
-    public String getElasticPoolName() {
+    public String elasticPoolName() {
         return this.elasticPoolName;
     }
 
@@ -155,7 +155,7 @@ public final class JobTarget {
      * @param elasticPoolName the elasticPoolName value to set.
      * @return the JobTarget object itself.
      */
-    public JobTarget setElasticPoolName(String elasticPoolName) {
+    public JobTarget withElasticPoolName(String elasticPoolName) {
         this.elasticPoolName = elasticPoolName;
         return this;
     }
@@ -165,7 +165,7 @@ public final class JobTarget {
      * 
      * @return the shardMapName value.
      */
-    public String getShardMapName() {
+    public String shardMapName() {
         return this.shardMapName;
     }
 
@@ -175,7 +175,7 @@ public final class JobTarget {
      * @param shardMapName the shardMapName value to set.
      * @return the JobTarget object itself.
      */
-    public JobTarget setShardMapName(String shardMapName) {
+    public JobTarget withShardMapName(String shardMapName) {
         this.shardMapName = shardMapName;
         return this;
     }
@@ -187,7 +187,7 @@ public final class JobTarget {
      * 
      * @return the refreshCredential value.
      */
-    public String getRefreshCredential() {
+    public String refreshCredential() {
         return this.refreshCredential;
     }
 
@@ -199,7 +199,7 @@ public final class JobTarget {
      * @param refreshCredential the refreshCredential value to set.
      * @return the JobTarget object itself.
      */
-    public JobTarget setRefreshCredential(String refreshCredential) {
+    public JobTarget withRefreshCredential(String refreshCredential) {
         this.refreshCredential = refreshCredential;
         return this;
     }

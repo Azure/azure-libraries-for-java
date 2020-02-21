@@ -32,7 +32,7 @@ public final class LogicalServerSecurityAlertPolicyListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServerSecurityAlertPolicyInner> getValue() {
+    public List<ServerSecurityAlertPolicyInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class LogicalServerSecurityAlertPolicyListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

@@ -32,7 +32,7 @@ public final class ManagedInstancePairInfo {
      * 
      * @return the primaryManagedInstanceId value.
      */
-    public String getPrimaryManagedInstanceId() {
+    public String primaryManagedInstanceId() {
         return this.primaryManagedInstanceId;
     }
 
@@ -44,7 +44,7 @@ public final class ManagedInstancePairInfo {
      * set.
      * @return the ManagedInstancePairInfo object itself.
      */
-    public ManagedInstancePairInfo setPrimaryManagedInstanceId(String primaryManagedInstanceId) {
+    public ManagedInstancePairInfo withPrimaryManagedInstanceId(String primaryManagedInstanceId) {
         this.primaryManagedInstanceId = primaryManagedInstanceId;
         return this;
     }
@@ -55,7 +55,7 @@ public final class ManagedInstancePairInfo {
      * 
      * @return the partnerManagedInstanceId value.
      */
-    public String getPartnerManagedInstanceId() {
+    public String partnerManagedInstanceId() {
         return this.partnerManagedInstanceId;
     }
 
@@ -67,7 +67,7 @@ public final class ManagedInstancePairInfo {
      * set.
      * @return the ManagedInstancePairInfo object itself.
      */
-    public ManagedInstancePairInfo setPartnerManagedInstanceId(String partnerManagedInstanceId) {
+    public ManagedInstancePairInfo withPartnerManagedInstanceId(String partnerManagedInstanceId) {
         this.partnerManagedInstanceId = partnerManagedInstanceId;
         return this;
     }

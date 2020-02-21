@@ -37,7 +37,7 @@ public final class JobExecutionTarget {
      * 
      * @return the type value.
      */
-    public JobTargetType getType() {
+    public JobTargetType type() {
         return this.type;
     }
 
@@ -46,7 +46,7 @@ public final class JobExecutionTarget {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -55,7 +55,7 @@ public final class JobExecutionTarget {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 }

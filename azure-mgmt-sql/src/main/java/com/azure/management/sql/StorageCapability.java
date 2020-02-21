@@ -38,7 +38,7 @@ public final class StorageCapability {
      * 
      * @return the storageAccountType value.
      */
-    public StorageCapabilityStorageAccountType getStorageAccountType() {
+    public StorageCapabilityStorageAccountType storageAccountType() {
         return this.storageAccountType;
     }
 
@@ -47,7 +47,7 @@ public final class StorageCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -57,7 +57,7 @@ public final class StorageCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -68,7 +68,7 @@ public final class StorageCapability {
      * @param reason the reason value to set.
      * @return the StorageCapability object itself.
      */
-    public StorageCapability setReason(String reason) {
+    public StorageCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

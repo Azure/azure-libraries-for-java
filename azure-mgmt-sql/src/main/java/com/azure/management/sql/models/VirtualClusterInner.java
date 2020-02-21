@@ -42,7 +42,7 @@ public class VirtualClusterInner extends Resource {
      * 
      * @return the subnetId value.
      */
-    public String getSubnetId() {
+    public String subnetId() {
         return this.subnetId;
     }
 
@@ -52,7 +52,7 @@ public class VirtualClusterInner extends Resource {
      * 
      * @return the family value.
      */
-    public String getFamily() {
+    public String family() {
         return this.family;
     }
 
@@ -63,7 +63,7 @@ public class VirtualClusterInner extends Resource {
      * @param family the family value to set.
      * @return the VirtualClusterInner object itself.
      */
-    public VirtualClusterInner setFamily(String family) {
+    public VirtualClusterInner withFamily(String family) {
         this.family = family;
         return this;
     }
@@ -74,7 +74,7 @@ public class VirtualClusterInner extends Resource {
      * 
      * @return the childResources value.
      */
-    public List<String> getChildResources() {
+    public List<String> childResources() {
         return this.childResources;
     }
 }

@@ -281,8 +281,8 @@ public final class WorkloadGroupsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -441,8 +441,8 @@ public final class WorkloadGroupsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

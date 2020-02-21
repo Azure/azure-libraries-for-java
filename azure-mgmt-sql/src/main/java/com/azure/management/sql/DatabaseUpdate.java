@@ -272,7 +272,7 @@ public class DatabaseUpdate {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -282,7 +282,7 @@ public class DatabaseUpdate {
      * @param sku the sku value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setSku(Sku sku) {
+    public DatabaseUpdate withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -292,7 +292,7 @@ public class DatabaseUpdate {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -302,7 +302,7 @@ public class DatabaseUpdate {
      * @param tags the tags value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setTags(Map<String, String> tags) {
+    public DatabaseUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -346,7 +346,7 @@ public class DatabaseUpdate {
      * 
      * @return the createMode value.
      */
-    public CreateMode getCreateMode() {
+    public CreateMode createMode() {
         return this.createMode;
     }
 
@@ -390,7 +390,7 @@ public class DatabaseUpdate {
      * @param createMode the createMode value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setCreateMode(CreateMode createMode) {
+    public DatabaseUpdate withCreateMode(CreateMode createMode) {
         this.createMode = createMode;
         return this;
     }
@@ -400,7 +400,7 @@ public class DatabaseUpdate {
      * 
      * @return the collation value.
      */
-    public String getCollation() {
+    public String collation() {
         return this.collation;
     }
 
@@ -410,7 +410,7 @@ public class DatabaseUpdate {
      * @param collation the collation value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setCollation(String collation) {
+    public DatabaseUpdate withCollation(String collation) {
         this.collation = collation;
         return this;
     }
@@ -421,7 +421,7 @@ public class DatabaseUpdate {
      * 
      * @return the maxSizeBytes value.
      */
-    public Long getMaxSizeBytes() {
+    public Long maxSizeBytes() {
         return this.maxSizeBytes;
     }
 
@@ -432,7 +432,7 @@ public class DatabaseUpdate {
      * @param maxSizeBytes the maxSizeBytes value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setMaxSizeBytes(Long maxSizeBytes) {
+    public DatabaseUpdate withMaxSizeBytes(Long maxSizeBytes) {
         this.maxSizeBytes = maxSizeBytes;
         return this;
     }
@@ -443,7 +443,7 @@ public class DatabaseUpdate {
      * 
      * @return the sampleName value.
      */
-    public SampleName getSampleName() {
+    public SampleName sampleName() {
         return this.sampleName;
     }
 
@@ -454,7 +454,7 @@ public class DatabaseUpdate {
      * @param sampleName the sampleName value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setSampleName(SampleName sampleName) {
+    public DatabaseUpdate withSampleName(SampleName sampleName) {
         this.sampleName = sampleName;
         return this;
     }
@@ -465,7 +465,7 @@ public class DatabaseUpdate {
      * 
      * @return the elasticPoolId value.
      */
-    public String getElasticPoolId() {
+    public String elasticPoolId() {
         return this.elasticPoolId;
     }
 
@@ -476,7 +476,7 @@ public class DatabaseUpdate {
      * @param elasticPoolId the elasticPoolId value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setElasticPoolId(String elasticPoolId) {
+    public DatabaseUpdate withElasticPoolId(String elasticPoolId) {
         this.elasticPoolId = elasticPoolId;
         return this;
     }
@@ -487,7 +487,7 @@ public class DatabaseUpdate {
      * 
      * @return the sourceDatabaseId value.
      */
-    public String getSourceDatabaseId() {
+    public String sourceDatabaseId() {
         return this.sourceDatabaseId;
     }
 
@@ -498,7 +498,7 @@ public class DatabaseUpdate {
      * @param sourceDatabaseId the sourceDatabaseId value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setSourceDatabaseId(String sourceDatabaseId) {
+    public DatabaseUpdate withSourceDatabaseId(String sourceDatabaseId) {
         this.sourceDatabaseId = sourceDatabaseId;
         return this;
     }
@@ -508,7 +508,7 @@ public class DatabaseUpdate {
      * 
      * @return the status value.
      */
-    public DatabaseStatus getStatus() {
+    public DatabaseStatus status() {
         return this.status;
     }
 
@@ -517,7 +517,7 @@ public class DatabaseUpdate {
      * 
      * @return the databaseId value.
      */
-    public UUID getDatabaseId() {
+    public UUID databaseId() {
         return this.databaseId;
     }
 
@@ -527,7 +527,7 @@ public class DatabaseUpdate {
      * 
      * @return the creationDate value.
      */
-    public OffsetDateTime getCreationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
@@ -537,7 +537,7 @@ public class DatabaseUpdate {
      * 
      * @return the currentServiceObjectiveName value.
      */
-    public String getCurrentServiceObjectiveName() {
+    public String currentServiceObjectiveName() {
         return this.currentServiceObjectiveName;
     }
 
@@ -547,7 +547,7 @@ public class DatabaseUpdate {
      * 
      * @return the requestedServiceObjectiveName value.
      */
-    public String getRequestedServiceObjectiveName() {
+    public String requestedServiceObjectiveName() {
         return this.requestedServiceObjectiveName;
     }
 
@@ -557,7 +557,7 @@ public class DatabaseUpdate {
      * 
      * @return the defaultSecondaryLocation value.
      */
-    public String getDefaultSecondaryLocation() {
+    public String defaultSecondaryLocation() {
         return this.defaultSecondaryLocation;
     }
 
@@ -567,7 +567,7 @@ public class DatabaseUpdate {
      * 
      * @return the failoverGroupId value.
      */
-    public String getFailoverGroupId() {
+    public String failoverGroupId() {
         return this.failoverGroupId;
     }
 
@@ -578,7 +578,7 @@ public class DatabaseUpdate {
      * 
      * @return the restorePointInTime value.
      */
-    public OffsetDateTime getRestorePointInTime() {
+    public OffsetDateTime restorePointInTime() {
         return this.restorePointInTime;
     }
 
@@ -590,7 +590,7 @@ public class DatabaseUpdate {
      * @param restorePointInTime the restorePointInTime value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setRestorePointInTime(OffsetDateTime restorePointInTime) {
+    public DatabaseUpdate withRestorePointInTime(OffsetDateTime restorePointInTime) {
         this.restorePointInTime = restorePointInTime;
         return this;
     }
@@ -601,7 +601,7 @@ public class DatabaseUpdate {
      * 
      * @return the sourceDatabaseDeletionDate value.
      */
-    public OffsetDateTime getSourceDatabaseDeletionDate() {
+    public OffsetDateTime sourceDatabaseDeletionDate() {
         return this.sourceDatabaseDeletionDate;
     }
 
@@ -613,7 +613,7 @@ public class DatabaseUpdate {
      * to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setSourceDatabaseDeletionDate(OffsetDateTime sourceDatabaseDeletionDate) {
+    public DatabaseUpdate withSourceDatabaseDeletionDate(OffsetDateTime sourceDatabaseDeletionDate) {
         this.sourceDatabaseDeletionDate = sourceDatabaseDeletionDate;
         return this;
     }
@@ -625,7 +625,7 @@ public class DatabaseUpdate {
      * 
      * @return the recoveryServicesRecoveryPointId value.
      */
-    public String getRecoveryServicesRecoveryPointId() {
+    public String recoveryServicesRecoveryPointId() {
         return this.recoveryServicesRecoveryPointId;
     }
 
@@ -638,7 +638,7 @@ public class DatabaseUpdate {
      * recoveryServicesRecoveryPointId value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setRecoveryServicesRecoveryPointId(String recoveryServicesRecoveryPointId) {
+    public DatabaseUpdate withRecoveryServicesRecoveryPointId(String recoveryServicesRecoveryPointId) {
         this.recoveryServicesRecoveryPointId = recoveryServicesRecoveryPointId;
         return this;
     }
@@ -650,7 +650,7 @@ public class DatabaseUpdate {
      * 
      * @return the longTermRetentionBackupResourceId value.
      */
-    public String getLongTermRetentionBackupResourceId() {
+    public String longTermRetentionBackupResourceId() {
         return this.longTermRetentionBackupResourceId;
     }
 
@@ -663,7 +663,7 @@ public class DatabaseUpdate {
      * longTermRetentionBackupResourceId value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setLongTermRetentionBackupResourceId(String longTermRetentionBackupResourceId) {
+    public DatabaseUpdate withLongTermRetentionBackupResourceId(String longTermRetentionBackupResourceId) {
         this.longTermRetentionBackupResourceId = longTermRetentionBackupResourceId;
         return this;
     }
@@ -674,7 +674,7 @@ public class DatabaseUpdate {
      * 
      * @return the recoverableDatabaseId value.
      */
-    public String getRecoverableDatabaseId() {
+    public String recoverableDatabaseId() {
         return this.recoverableDatabaseId;
     }
 
@@ -685,7 +685,7 @@ public class DatabaseUpdate {
      * @param recoverableDatabaseId the recoverableDatabaseId value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setRecoverableDatabaseId(String recoverableDatabaseId) {
+    public DatabaseUpdate withRecoverableDatabaseId(String recoverableDatabaseId) {
         this.recoverableDatabaseId = recoverableDatabaseId;
         return this;
     }
@@ -697,7 +697,7 @@ public class DatabaseUpdate {
      * 
      * @return the restorableDroppedDatabaseId value.
      */
-    public String getRestorableDroppedDatabaseId() {
+    public String restorableDroppedDatabaseId() {
         return this.restorableDroppedDatabaseId;
     }
 
@@ -710,7 +710,7 @@ public class DatabaseUpdate {
      * to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setRestorableDroppedDatabaseId(String restorableDroppedDatabaseId) {
+    public DatabaseUpdate withRestorableDroppedDatabaseId(String restorableDroppedDatabaseId) {
         this.restorableDroppedDatabaseId = restorableDroppedDatabaseId;
         return this;
     }
@@ -720,7 +720,7 @@ public class DatabaseUpdate {
      * 
      * @return the catalogCollation value.
      */
-    public CatalogCollationType getCatalogCollation() {
+    public CatalogCollationType catalogCollation() {
         return this.catalogCollation;
     }
 
@@ -730,7 +730,7 @@ public class DatabaseUpdate {
      * @param catalogCollation the catalogCollation value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setCatalogCollation(CatalogCollationType catalogCollation) {
+    public DatabaseUpdate withCatalogCollation(CatalogCollationType catalogCollation) {
         this.catalogCollation = catalogCollation;
         return this;
     }
@@ -742,7 +742,7 @@ public class DatabaseUpdate {
      * 
      * @return the zoneRedundant value.
      */
-    public Boolean isZoneRedundant() {
+    public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
 
@@ -754,7 +754,7 @@ public class DatabaseUpdate {
      * @param zoneRedundant the zoneRedundant value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setZoneRedundant(Boolean zoneRedundant) {
+    public DatabaseUpdate withZoneRedundant(Boolean zoneRedundant) {
         this.zoneRedundant = zoneRedundant;
         return this;
     }
@@ -765,7 +765,7 @@ public class DatabaseUpdate {
      * 
      * @return the licenseType value.
      */
-    public DatabaseLicenseType getLicenseType() {
+    public DatabaseLicenseType licenseType() {
         return this.licenseType;
     }
 
@@ -776,7 +776,7 @@ public class DatabaseUpdate {
      * @param licenseType the licenseType value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setLicenseType(DatabaseLicenseType licenseType) {
+    public DatabaseUpdate withLicenseType(DatabaseLicenseType licenseType) {
         this.licenseType = licenseType;
         return this;
     }
@@ -786,7 +786,7 @@ public class DatabaseUpdate {
      * 
      * @return the maxLogSizeBytes value.
      */
-    public Long getMaxLogSizeBytes() {
+    public Long maxLogSizeBytes() {
         return this.maxLogSizeBytes;
     }
 
@@ -797,7 +797,7 @@ public class DatabaseUpdate {
      * 
      * @return the earliestRestoreDate value.
      */
-    public OffsetDateTime getEarliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.earliestRestoreDate;
     }
 
@@ -809,7 +809,7 @@ public class DatabaseUpdate {
      * 
      * @return the readScale value.
      */
-    public DatabaseReadScale getReadScale() {
+    public DatabaseReadScale readScale() {
         return this.readScale;
     }
 
@@ -822,7 +822,7 @@ public class DatabaseUpdate {
      * @param readScale the readScale value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setReadScale(DatabaseReadScale readScale) {
+    public DatabaseUpdate withReadScale(DatabaseReadScale readScale) {
         this.readScale = readScale;
         return this;
     }
@@ -835,7 +835,7 @@ public class DatabaseUpdate {
      * 
      * @return the readReplicaCount value.
      */
-    public Integer getReadReplicaCount() {
+    public Integer readReplicaCount() {
         return this.readReplicaCount;
     }
 
@@ -848,7 +848,7 @@ public class DatabaseUpdate {
      * @param readReplicaCount the readReplicaCount value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setReadReplicaCount(Integer readReplicaCount) {
+    public DatabaseUpdate withReadReplicaCount(Integer readReplicaCount) {
         this.readReplicaCount = readReplicaCount;
         return this;
     }
@@ -858,7 +858,7 @@ public class DatabaseUpdate {
      * 
      * @return the currentSku value.
      */
-    public Sku getCurrentSku() {
+    public Sku currentSku() {
         return this.currentSku;
     }
 
@@ -869,7 +869,7 @@ public class DatabaseUpdate {
      * 
      * @return the autoPauseDelay value.
      */
-    public Integer getAutoPauseDelay() {
+    public Integer autoPauseDelay() {
         return this.autoPauseDelay;
     }
 
@@ -881,7 +881,7 @@ public class DatabaseUpdate {
      * @param autoPauseDelay the autoPauseDelay value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setAutoPauseDelay(Integer autoPauseDelay) {
+    public DatabaseUpdate withAutoPauseDelay(Integer autoPauseDelay) {
         this.autoPauseDelay = autoPauseDelay;
         return this;
     }
@@ -892,7 +892,7 @@ public class DatabaseUpdate {
      * 
      * @return the minCapacity value.
      */
-    public Double getMinCapacity() {
+    public Double minCapacity() {
         return this.minCapacity;
     }
 
@@ -903,7 +903,7 @@ public class DatabaseUpdate {
      * @param minCapacity the minCapacity value to set.
      * @return the DatabaseUpdate object itself.
      */
-    public DatabaseUpdate setMinCapacity(Double minCapacity) {
+    public DatabaseUpdate withMinCapacity(Double minCapacity) {
         this.minCapacity = minCapacity;
         return this;
     }
@@ -914,7 +914,7 @@ public class DatabaseUpdate {
      * 
      * @return the pausedDate value.
      */
-    public OffsetDateTime getPausedDate() {
+    public OffsetDateTime pausedDate() {
         return this.pausedDate;
     }
 
@@ -925,7 +925,7 @@ public class DatabaseUpdate {
      * 
      * @return the resumedDate value.
      */
-    public OffsetDateTime getResumedDate() {
+    public OffsetDateTime resumedDate() {
         return this.resumedDate;
     }
 }

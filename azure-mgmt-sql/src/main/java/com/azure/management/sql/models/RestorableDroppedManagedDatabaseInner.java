@@ -47,7 +47,7 @@ public class RestorableDroppedManagedDatabaseInner extends Resource {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -57,7 +57,7 @@ public class RestorableDroppedManagedDatabaseInner extends Resource {
      * 
      * @return the creationDate value.
      */
-    public OffsetDateTime getCreationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
@@ -67,7 +67,7 @@ public class RestorableDroppedManagedDatabaseInner extends Resource {
      * 
      * @return the deletionDate value.
      */
-    public OffsetDateTime getDeletionDate() {
+    public OffsetDateTime deletionDate() {
         return this.deletionDate;
     }
 
@@ -77,7 +77,7 @@ public class RestorableDroppedManagedDatabaseInner extends Resource {
      * 
      * @return the earliestRestoreDate value.
      */
-    public OffsetDateTime getEarliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.earliestRestoreDate;
     }
 }

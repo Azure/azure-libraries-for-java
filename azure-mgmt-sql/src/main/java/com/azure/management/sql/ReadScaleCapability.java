@@ -38,7 +38,7 @@ public final class ReadScaleCapability {
      * 
      * @return the maxNumberOfReplicas value.
      */
-    public Integer getMaxNumberOfReplicas() {
+    public Integer maxNumberOfReplicas() {
         return this.maxNumberOfReplicas;
     }
 
@@ -47,7 +47,7 @@ public final class ReadScaleCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -57,7 +57,7 @@ public final class ReadScaleCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -68,7 +68,7 @@ public final class ReadScaleCapability {
      * @param reason the reason value to set.
      * @return the ReadScaleCapability object itself.
      */
-    public ReadScaleCapability setReason(String reason) {
+    public ReadScaleCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

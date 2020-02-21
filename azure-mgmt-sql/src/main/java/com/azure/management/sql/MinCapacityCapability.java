@@ -37,7 +37,7 @@ public final class MinCapacityCapability {
      * 
      * @return the value value.
      */
-    public Double getValue() {
+    public Double value() {
         return this.value;
     }
 
@@ -46,7 +46,7 @@ public final class MinCapacityCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -56,7 +56,7 @@ public final class MinCapacityCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -67,7 +67,7 @@ public final class MinCapacityCapability {
      * @param reason the reason value to set.
      * @return the MinCapacityCapability object itself.
      */
-    public MinCapacityCapability setReason(String reason) {
+    public MinCapacityCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

@@ -57,7 +57,7 @@ public final class ImportRequest extends ExportRequest {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -67,7 +67,7 @@ public final class ImportRequest extends ExportRequest {
      * @param databaseName the databaseName value to set.
      * @return the ImportRequest object itself.
      */
-    public ImportRequest setDatabaseName(String databaseName) {
+    public ImportRequest withDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -90,7 +90,7 @@ public final class ImportRequest extends ExportRequest {
      * 
      * @return the edition value.
      */
-    public DatabaseEdition getEdition() {
+    public DatabaseEdition edition() {
         return this.edition;
     }
 
@@ -113,7 +113,7 @@ public final class ImportRequest extends ExportRequest {
      * @param edition the edition value to set.
      * @return the ImportRequest object itself.
      */
-    public ImportRequest setEdition(DatabaseEdition edition) {
+    public ImportRequest withEdition(DatabaseEdition edition) {
         this.edition = edition;
         return this;
     }
@@ -124,7 +124,7 @@ public final class ImportRequest extends ExportRequest {
      * 
      * @return the serviceObjectiveName value.
      */
-    public ServiceObjectiveName getServiceObjectiveName() {
+    public ServiceObjectiveName serviceObjectiveName() {
         return this.serviceObjectiveName;
     }
 
@@ -135,7 +135,7 @@ public final class ImportRequest extends ExportRequest {
      * @param serviceObjectiveName the serviceObjectiveName value to set.
      * @return the ImportRequest object itself.
      */
-    public ImportRequest setServiceObjectiveName(ServiceObjectiveName serviceObjectiveName) {
+    public ImportRequest withServiceObjectiveName(ServiceObjectiveName serviceObjectiveName) {
         this.serviceObjectiveName = serviceObjectiveName;
         return this;
     }
@@ -146,7 +146,7 @@ public final class ImportRequest extends ExportRequest {
      * 
      * @return the maxSizeBytes value.
      */
-    public String getMaxSizeBytes() {
+    public String maxSizeBytes() {
         return this.maxSizeBytes;
     }
 
@@ -157,7 +157,7 @@ public final class ImportRequest extends ExportRequest {
      * @param maxSizeBytes the maxSizeBytes value to set.
      * @return the ImportRequest object itself.
      */
-    public ImportRequest setMaxSizeBytes(String maxSizeBytes) {
+    public ImportRequest withMaxSizeBytes(String maxSizeBytes) {
         this.maxSizeBytes = maxSizeBytes;
         return this;
     }

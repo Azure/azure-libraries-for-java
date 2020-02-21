@@ -54,7 +54,7 @@ public class RestorePointInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -63,7 +63,7 @@ public class RestorePointInner extends ProxyResource {
      * 
      * @return the restorePointType value.
      */
-    public RestorePointType getRestorePointType() {
+    public RestorePointType restorePointType() {
         return this.restorePointType;
     }
 
@@ -73,7 +73,7 @@ public class RestorePointInner extends ProxyResource {
      * 
      * @return the earliestRestoreDate value.
      */
-    public OffsetDateTime getEarliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.earliestRestoreDate;
     }
 
@@ -83,7 +83,7 @@ public class RestorePointInner extends ProxyResource {
      * 
      * @return the restorePointCreationDate value.
      */
-    public OffsetDateTime getRestorePointCreationDate() {
+    public OffsetDateTime restorePointCreationDate() {
         return this.restorePointCreationDate;
     }
 
@@ -93,7 +93,7 @@ public class RestorePointInner extends ProxyResource {
      * 
      * @return the restorePointLabel value.
      */
-    public String getRestorePointLabel() {
+    public String restorePointLabel() {
         return this.restorePointLabel;
     }
 }

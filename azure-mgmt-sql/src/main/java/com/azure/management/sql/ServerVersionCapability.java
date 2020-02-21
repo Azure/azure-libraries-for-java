@@ -50,7 +50,7 @@ public final class ServerVersionCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -60,7 +60,7 @@ public final class ServerVersionCapability {
      * 
      * @return the supportedEditions value.
      */
-    public List<EditionCapability> getSupportedEditions() {
+    public List<EditionCapability> supportedEditions() {
         return this.supportedEditions;
     }
 
@@ -70,7 +70,7 @@ public final class ServerVersionCapability {
      * 
      * @return the supportedElasticPoolEditions value.
      */
-    public List<ElasticPoolEditionCapability> getSupportedElasticPoolEditions() {
+    public List<ElasticPoolEditionCapability> supportedElasticPoolEditions() {
         return this.supportedElasticPoolEditions;
     }
 
@@ -79,7 +79,7 @@ public final class ServerVersionCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -89,7 +89,7 @@ public final class ServerVersionCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -100,7 +100,7 @@ public final class ServerVersionCapability {
      * @param reason the reason value to set.
      * @return the ServerVersionCapability object itself.
      */
-    public ServerVersionCapability setReason(String reason) {
+    public ServerVersionCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

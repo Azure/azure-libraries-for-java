@@ -41,7 +41,7 @@ public class JobInner extends ProxyResource {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -51,7 +51,7 @@ public class JobInner extends ProxyResource {
      * @param description the description value to set.
      * @return the JobInner object itself.
      */
-    public JobInner setDescription(String description) {
+    public JobInner withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -61,7 +61,7 @@ public class JobInner extends ProxyResource {
      * 
      * @return the version value.
      */
-    public Integer getVersion() {
+    public Integer version() {
         return this.version;
     }
 
@@ -70,7 +70,7 @@ public class JobInner extends ProxyResource {
      * 
      * @return the schedule value.
      */
-    public JobSchedule getSchedule() {
+    public JobSchedule schedule() {
         return this.schedule;
     }
 
@@ -80,7 +80,7 @@ public class JobInner extends ProxyResource {
      * @param schedule the schedule value to set.
      * @return the JobInner object itself.
      */
-    public JobInner setSchedule(JobSchedule schedule) {
+    public JobInner withSchedule(JobSchedule schedule) {
         this.schedule = schedule;
         return this;
     }

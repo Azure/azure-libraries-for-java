@@ -32,7 +32,7 @@ public final class DatabaseOperationListResultInner {
      * 
      * @return the value value.
      */
-    public List<DatabaseOperationInner> getValue() {
+    public List<DatabaseOperationInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class DatabaseOperationListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

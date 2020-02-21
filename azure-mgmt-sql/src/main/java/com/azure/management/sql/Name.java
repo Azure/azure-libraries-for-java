@@ -31,7 +31,7 @@ public final class Name {
      * 
      * @return the value value.
      */
-    public String getValue() {
+    public String value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class Name {
      * @param value the value value to set.
      * @return the Name object itself.
      */
-    public Name setValue(String value) {
+    public Name withValue(String value) {
         this.value = value;
         return this;
     }
@@ -51,7 +51,7 @@ public final class Name {
      * 
      * @return the localizedValue value.
      */
-    public String getLocalizedValue() {
+    public String localizedValue() {
         return this.localizedValue;
     }
 
@@ -61,7 +61,7 @@ public final class Name {
      * @param localizedValue the localizedValue value to set.
      * @return the Name object itself.
      */
-    public Name setLocalizedValue(String localizedValue) {
+    public Name withLocalizedValue(String localizedValue) {
         this.localizedValue = localizedValue;
         return this;
     }

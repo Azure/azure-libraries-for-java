@@ -99,7 +99,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -108,7 +108,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -128,7 +128,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the replicationMode value.
      */
-    public String getReplicationMode() {
+    public String replicationMode() {
         return this.replicationMode;
     }
 
@@ -138,7 +138,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the partnerServer value.
      */
-    public String getPartnerServer() {
+    public String partnerServer() {
         return this.partnerServer;
     }
 
@@ -147,7 +147,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the partnerDatabase value.
      */
-    public String getPartnerDatabase() {
+    public String partnerDatabase() {
         return this.partnerDatabase;
     }
 
@@ -157,7 +157,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the partnerLocation value.
      */
-    public String getPartnerLocation() {
+    public String partnerLocation() {
         return this.partnerLocation;
     }
 
@@ -166,7 +166,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the role value.
      */
-    public ReplicationRole getRole() {
+    public ReplicationRole role() {
         return this.role;
     }
 
@@ -176,7 +176,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the partnerRole value.
      */
-    public ReplicationRole getPartnerRole() {
+    public ReplicationRole partnerRole() {
         return this.partnerRole;
     }
 
@@ -185,7 +185,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the startTime value.
      */
-    public OffsetDateTime getStartTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
@@ -195,7 +195,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the percentComplete value.
      */
-    public Integer getPercentComplete() {
+    public Integer percentComplete() {
         return this.percentComplete;
     }
 
@@ -205,7 +205,7 @@ public class ReplicationLinkInner extends ProxyResource {
      * 
      * @return the replicationState value.
      */
-    public ReplicationState getReplicationState() {
+    public ReplicationState replicationState() {
         return this.replicationState;
     }
 }

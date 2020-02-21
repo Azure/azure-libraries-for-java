@@ -29,7 +29,7 @@ public class ServerDnsAliasInner extends ProxyResource {
      * 
      * @return the azureDnsRecord value.
      */
-    public String getAzureDnsRecord() {
+    public String azureDnsRecord() {
         return this.azureDnsRecord;
     }
 }

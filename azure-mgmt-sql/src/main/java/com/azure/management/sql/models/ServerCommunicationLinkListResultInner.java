@@ -26,7 +26,7 @@ public final class ServerCommunicationLinkListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServerCommunicationLinkInner> getValue() {
+    public List<ServerCommunicationLinkInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class ServerCommunicationLinkListResultInner {
      * @param value the value value to set.
      * @return the ServerCommunicationLinkListResultInner object itself.
      */
-    public ServerCommunicationLinkListResultInner setValue(List<ServerCommunicationLinkInner> value) {
+    public ServerCommunicationLinkListResultInner withValue(List<ServerCommunicationLinkInner> value) {
         this.value = value;
         return this;
     }

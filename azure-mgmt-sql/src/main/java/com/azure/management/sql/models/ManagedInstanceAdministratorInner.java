@@ -55,7 +55,7 @@ public class ManagedInstanceAdministratorInner extends ProxyResource {
      * 
      * @return the administratorType value.
      */
-    public String getAdministratorType() {
+    public String administratorType() {
         return this.administratorType;
     }
 
@@ -66,7 +66,7 @@ public class ManagedInstanceAdministratorInner extends ProxyResource {
      * @param administratorType the administratorType value to set.
      * @return the ManagedInstanceAdministratorInner object itself.
      */
-    public ManagedInstanceAdministratorInner setAdministratorType(String administratorType) {
+    public ManagedInstanceAdministratorInner withAdministratorType(String administratorType) {
         this.administratorType = administratorType;
         return this;
     }
@@ -77,7 +77,7 @@ public class ManagedInstanceAdministratorInner extends ProxyResource {
      * 
      * @return the login value.
      */
-    public String getLogin() {
+    public String login() {
         return this.login;
     }
 
@@ -88,7 +88,7 @@ public class ManagedInstanceAdministratorInner extends ProxyResource {
      * @param login the login value to set.
      * @return the ManagedInstanceAdministratorInner object itself.
      */
-    public ManagedInstanceAdministratorInner setLogin(String login) {
+    public ManagedInstanceAdministratorInner withLogin(String login) {
         this.login = login;
         return this;
     }
@@ -99,7 +99,7 @@ public class ManagedInstanceAdministratorInner extends ProxyResource {
      * 
      * @return the sid value.
      */
-    public UUID getSid() {
+    public UUID sid() {
         return this.sid;
     }
 
@@ -110,7 +110,7 @@ public class ManagedInstanceAdministratorInner extends ProxyResource {
      * @param sid the sid value to set.
      * @return the ManagedInstanceAdministratorInner object itself.
      */
-    public ManagedInstanceAdministratorInner setSid(UUID sid) {
+    public ManagedInstanceAdministratorInner withSid(UUID sid) {
         this.sid = sid;
         return this;
     }
@@ -121,7 +121,7 @@ public class ManagedInstanceAdministratorInner extends ProxyResource {
      * 
      * @return the tenantId value.
      */
-    public UUID getTenantId() {
+    public UUID tenantId() {
         return this.tenantId;
     }
 
@@ -132,7 +132,7 @@ public class ManagedInstanceAdministratorInner extends ProxyResource {
      * @param tenantId the tenantId value to set.
      * @return the ManagedInstanceAdministratorInner object itself.
      */
-    public ManagedInstanceAdministratorInner setTenantId(UUID tenantId) {
+    public ManagedInstanceAdministratorInner withTenantId(UUID tenantId) {
         this.tenantId = tenantId;
         return this;
     }

@@ -32,7 +32,7 @@ public final class SubscriptionUsageListResultInner {
      * 
      * @return the value value.
      */
-    public List<SubscriptionUsageInner> getValue() {
+    public List<SubscriptionUsageInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class SubscriptionUsageListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

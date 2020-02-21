@@ -32,7 +32,7 @@ public final class JobAgentListResultInner {
      * 
      * @return the value value.
      */
-    public List<JobAgentInner> getValue() {
+    public List<JobAgentInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class JobAgentListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

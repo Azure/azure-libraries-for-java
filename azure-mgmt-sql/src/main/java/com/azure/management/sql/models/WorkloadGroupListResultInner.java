@@ -32,7 +32,7 @@ public final class WorkloadGroupListResultInner {
      * 
      * @return the value value.
      */
-    public List<WorkloadGroupInner> getValue() {
+    public List<WorkloadGroupInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class WorkloadGroupListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

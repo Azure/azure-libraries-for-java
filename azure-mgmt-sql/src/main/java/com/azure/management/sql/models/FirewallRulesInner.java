@@ -255,7 +255,7 @@ public final class FirewallRulesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
+            res.getValue().value(),
             null,
             null));
     }

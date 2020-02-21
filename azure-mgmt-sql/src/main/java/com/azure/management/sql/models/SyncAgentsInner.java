@@ -185,7 +185,7 @@ public final class SyncAgentsInner {
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String serverName, String syncAgentName, String syncDatabaseId) {
         final String apiVersion = "2015-05-01-preview";
         SyncAgentInner parameters = new SyncAgentInner();
-        parameters.setSyncDatabaseId(syncDatabaseId);
+        parameters.withSyncDatabaseId(syncDatabaseId);
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, serverName, syncAgentName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -289,8 +289,8 @@ public final class SyncAgentsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -394,8 +394,8 @@ public final class SyncAgentsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -446,7 +446,7 @@ public final class SyncAgentsInner {
     public Mono<SimpleResponse<SyncAgentInner>> beginCreateOrUpdateWithResponseAsync(String resourceGroupName, String serverName, String syncAgentName, String syncDatabaseId) {
         final String apiVersion = "2015-05-01-preview";
         SyncAgentInner parameters = new SyncAgentInner();
-        parameters.setSyncDatabaseId(syncDatabaseId);
+        parameters.withSyncDatabaseId(syncDatabaseId);
         return service.beginCreateOrUpdate(this.client.getHost(), resourceGroupName, serverName, syncAgentName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -550,8 +550,8 @@ public final class SyncAgentsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -569,8 +569,8 @@ public final class SyncAgentsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

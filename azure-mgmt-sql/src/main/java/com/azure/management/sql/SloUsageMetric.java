@@ -39,7 +39,7 @@ public final class SloUsageMetric {
      * 
      * @return the serviceLevelObjective value.
      */
-    public ServiceObjectiveName getServiceLevelObjective() {
+    public ServiceObjectiveName serviceLevelObjective() {
         return this.serviceLevelObjective;
     }
 
@@ -49,7 +49,7 @@ public final class SloUsageMetric {
      * 
      * @return the serviceLevelObjectiveId value.
      */
-    public UUID getServiceLevelObjectiveId() {
+    public UUID serviceLevelObjectiveId() {
         return this.serviceLevelObjectiveId;
     }
 
@@ -59,7 +59,7 @@ public final class SloUsageMetric {
      * 
      * @return the inRangeTimeRatio value.
      */
-    public Double getInRangeTimeRatio() {
+    public Double inRangeTimeRatio() {
         return this.inRangeTimeRatio;
     }
 }

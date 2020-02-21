@@ -68,7 +68,7 @@ public class JobStepInner extends ProxyResource {
      * 
      * @return the stepId value.
      */
-    public Integer getStepId() {
+    public Integer stepId() {
         return this.stepId;
     }
 
@@ -81,7 +81,7 @@ public class JobStepInner extends ProxyResource {
      * @param stepId the stepId value to set.
      * @return the JobStepInner object itself.
      */
-    public JobStepInner setStepId(Integer stepId) {
+    public JobStepInner withStepId(Integer stepId) {
         this.stepId = stepId;
         return this;
     }
@@ -92,7 +92,7 @@ public class JobStepInner extends ProxyResource {
      * 
      * @return the targetGroup value.
      */
-    public String getTargetGroup() {
+    public String targetGroup() {
         return this.targetGroup;
     }
 
@@ -103,7 +103,7 @@ public class JobStepInner extends ProxyResource {
      * @param targetGroup the targetGroup value to set.
      * @return the JobStepInner object itself.
      */
-    public JobStepInner setTargetGroup(String targetGroup) {
+    public JobStepInner withTargetGroup(String targetGroup) {
         this.targetGroup = targetGroup;
         return this;
     }
@@ -114,7 +114,7 @@ public class JobStepInner extends ProxyResource {
      * 
      * @return the credential value.
      */
-    public String getCredential() {
+    public String credential() {
         return this.credential;
     }
 
@@ -125,7 +125,7 @@ public class JobStepInner extends ProxyResource {
      * @param credential the credential value to set.
      * @return the JobStepInner object itself.
      */
-    public JobStepInner setCredential(String credential) {
+    public JobStepInner withCredential(String credential) {
         this.credential = credential;
         return this;
     }
@@ -135,7 +135,7 @@ public class JobStepInner extends ProxyResource {
      * 
      * @return the action value.
      */
-    public JobStepAction getAction() {
+    public JobStepAction action() {
         return this.action;
     }
 
@@ -145,7 +145,7 @@ public class JobStepInner extends ProxyResource {
      * @param action the action value to set.
      * @return the JobStepInner object itself.
      */
-    public JobStepInner setAction(JobStepAction action) {
+    public JobStepInner withAction(JobStepAction action) {
         this.action = action;
         return this;
     }
@@ -155,7 +155,7 @@ public class JobStepInner extends ProxyResource {
      * 
      * @return the output value.
      */
-    public JobStepOutput getOutput() {
+    public JobStepOutput output() {
         return this.output;
     }
 
@@ -165,7 +165,7 @@ public class JobStepInner extends ProxyResource {
      * @param output the output value to set.
      * @return the JobStepInner object itself.
      */
-    public JobStepInner setOutput(JobStepOutput output) {
+    public JobStepInner withOutput(JobStepOutput output) {
         this.output = output;
         return this;
     }
@@ -175,7 +175,7 @@ public class JobStepInner extends ProxyResource {
      * 
      * @return the executionOptions value.
      */
-    public JobStepExecutionOptions getExecutionOptions() {
+    public JobStepExecutionOptions executionOptions() {
         return this.executionOptions;
     }
 
@@ -185,7 +185,7 @@ public class JobStepInner extends ProxyResource {
      * @param executionOptions the executionOptions value to set.
      * @return the JobStepInner object itself.
      */
-    public JobStepInner setExecutionOptions(JobStepExecutionOptions executionOptions) {
+    public JobStepInner withExecutionOptions(JobStepExecutionOptions executionOptions) {
         this.executionOptions = executionOptions;
         return this;
     }

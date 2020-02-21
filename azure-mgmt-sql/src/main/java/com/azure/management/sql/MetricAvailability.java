@@ -32,7 +32,7 @@ public final class MetricAvailability {
      * 
      * @return the retention value.
      */
-    public String getRetention() {
+    public String retention() {
         return this.retention;
     }
 
@@ -41,7 +41,7 @@ public final class MetricAvailability {
      * 
      * @return the timeGrain value.
      */
-    public String getTimeGrain() {
+    public String timeGrain() {
         return this.timeGrain;
     }
 }

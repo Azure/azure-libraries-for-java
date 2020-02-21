@@ -31,7 +31,7 @@ public final class MetricName {
      * 
      * @return the value value.
      */
-    public String getValue() {
+    public String value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class MetricName {
      * 
      * @return the localizedValue value.
      */
-    public String getLocalizedValue() {
+    public String localizedValue() {
         return this.localizedValue;
     }
 }

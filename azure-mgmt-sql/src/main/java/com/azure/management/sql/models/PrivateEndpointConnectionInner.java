@@ -42,7 +42,7 @@ public class PrivateEndpointConnectionInner extends ProxyResource {
      * 
      * @return the privateEndpoint value.
      */
-    public PrivateEndpointProperty getPrivateEndpoint() {
+    public PrivateEndpointProperty privateEndpoint() {
         return this.privateEndpoint;
     }
 
@@ -52,7 +52,7 @@ public class PrivateEndpointConnectionInner extends ProxyResource {
      * @param privateEndpoint the privateEndpoint value to set.
      * @return the PrivateEndpointConnectionInner object itself.
      */
-    public PrivateEndpointConnectionInner setPrivateEndpoint(PrivateEndpointProperty privateEndpoint) {
+    public PrivateEndpointConnectionInner withPrivateEndpoint(PrivateEndpointProperty privateEndpoint) {
         this.privateEndpoint = privateEndpoint;
         return this;
     }
@@ -63,7 +63,7 @@ public class PrivateEndpointConnectionInner extends ProxyResource {
      * 
      * @return the privateLinkServiceConnectionState value.
      */
-    public PrivateLinkServiceConnectionStateProperty getPrivateLinkServiceConnectionState() {
+    public PrivateLinkServiceConnectionStateProperty privateLinkServiceConnectionState() {
         return this.privateLinkServiceConnectionState;
     }
 
@@ -75,7 +75,7 @@ public class PrivateEndpointConnectionInner extends ProxyResource {
      * privateLinkServiceConnectionState value to set.
      * @return the PrivateEndpointConnectionInner object itself.
      */
-    public PrivateEndpointConnectionInner setPrivateLinkServiceConnectionState(PrivateLinkServiceConnectionStateProperty privateLinkServiceConnectionState) {
+    public PrivateEndpointConnectionInner withPrivateLinkServiceConnectionState(PrivateLinkServiceConnectionStateProperty privateLinkServiceConnectionState) {
         this.privateLinkServiceConnectionState = privateLinkServiceConnectionState;
         return this;
     }
@@ -86,7 +86,7 @@ public class PrivateEndpointConnectionInner extends ProxyResource {
      * 
      * @return the provisioningState value.
      */
-    public String getProvisioningState() {
+    public String provisioningState() {
         return this.provisioningState;
     }
 }

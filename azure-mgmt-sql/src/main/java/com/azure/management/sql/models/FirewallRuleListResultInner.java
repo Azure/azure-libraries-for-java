@@ -26,7 +26,7 @@ public final class FirewallRuleListResultInner {
      * 
      * @return the value value.
      */
-    public List<FirewallRuleInner> getValue() {
+    public List<FirewallRuleInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class FirewallRuleListResultInner {
      * @param value the value value to set.
      * @return the FirewallRuleListResultInner object itself.
      */
-    public FirewallRuleListResultInner setValue(List<FirewallRuleInner> value) {
+    public FirewallRuleListResultInner withValue(List<FirewallRuleInner> value) {
         this.value = value;
         return this;
     }

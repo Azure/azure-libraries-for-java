@@ -108,7 +108,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -118,7 +118,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the supportedMaxSizes value.
      */
-    public List<MaxSizeRangeCapability> getSupportedMaxSizes() {
+    public List<MaxSizeRangeCapability> supportedMaxSizes() {
         return this.supportedMaxSizes;
     }
 
@@ -127,7 +127,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the performanceLevel value.
      */
-    public PerformanceLevelCapability getPerformanceLevel() {
+    public PerformanceLevelCapability performanceLevel() {
         return this.performanceLevel;
     }
 
@@ -136,7 +136,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -145,7 +145,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the supportedLicenseTypes value.
      */
-    public List<LicenseTypeCapability> getSupportedLicenseTypes() {
+    public List<LicenseTypeCapability> supportedLicenseTypes() {
         return this.supportedLicenseTypes;
     }
 
@@ -154,7 +154,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the includedMaxSize value.
      */
-    public MaxSizeCapability getIncludedMaxSize() {
+    public MaxSizeCapability includedMaxSize() {
         return this.includedMaxSize;
     }
 
@@ -164,7 +164,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the zoneRedundant value.
      */
-    public Boolean isZoneRedundant() {
+    public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
 
@@ -174,7 +174,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the supportedAutoPauseDelay value.
      */
-    public AutoPauseDelayTimeRange getSupportedAutoPauseDelay() {
+    public AutoPauseDelayTimeRange supportedAutoPauseDelay() {
         return this.supportedAutoPauseDelay;
     }
 
@@ -184,7 +184,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the supportedMinCapacities value.
      */
-    public List<MinCapacityCapability> getSupportedMinCapacities() {
+    public List<MinCapacityCapability> supportedMinCapacities() {
         return this.supportedMinCapacities;
     }
 
@@ -193,7 +193,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the computeModel value.
      */
-    public String getComputeModel() {
+    public String computeModel() {
         return this.computeModel;
     }
 
@@ -202,7 +202,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -212,7 +212,7 @@ public final class ServiceObjectiveCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -223,7 +223,7 @@ public final class ServiceObjectiveCapability {
      * @param reason the reason value to set.
      * @return the ServiceObjectiveCapability object itself.
      */
-    public ServiceObjectiveCapability setReason(String reason) {
+    public ServiceObjectiveCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

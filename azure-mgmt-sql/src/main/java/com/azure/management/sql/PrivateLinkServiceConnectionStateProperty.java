@@ -37,7 +37,7 @@ public final class PrivateLinkServiceConnectionStateProperty {
      * 
      * @return the status value.
      */
-    public String getStatus() {
+    public String status() {
         return this.status;
     }
 
@@ -47,7 +47,7 @@ public final class PrivateLinkServiceConnectionStateProperty {
      * @param status the status value to set.
      * @return the PrivateLinkServiceConnectionStateProperty object itself.
      */
-    public PrivateLinkServiceConnectionStateProperty setStatus(String status) {
+    public PrivateLinkServiceConnectionStateProperty withStatus(String status) {
         this.status = status;
         return this;
     }
@@ -58,7 +58,7 @@ public final class PrivateLinkServiceConnectionStateProperty {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 
@@ -69,7 +69,7 @@ public final class PrivateLinkServiceConnectionStateProperty {
      * @param description the description value to set.
      * @return the PrivateLinkServiceConnectionStateProperty object itself.
      */
-    public PrivateLinkServiceConnectionStateProperty setDescription(String description) {
+    public PrivateLinkServiceConnectionStateProperty withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -80,7 +80,7 @@ public final class PrivateLinkServiceConnectionStateProperty {
      * 
      * @return the actionsRequired value.
      */
-    public String getActionsRequired() {
+    public String actionsRequired() {
         return this.actionsRequired;
     }
 }

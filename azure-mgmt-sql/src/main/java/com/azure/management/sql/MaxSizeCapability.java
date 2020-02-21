@@ -32,7 +32,7 @@ public final class MaxSizeCapability {
      * 
      * @return the limit value.
      */
-    public Integer getLimit() {
+    public Integer limit() {
         return this.limit;
     }
 
@@ -41,7 +41,7 @@ public final class MaxSizeCapability {
      * 
      * @return the unit value.
      */
-    public MaxSizeUnit getUnit() {
+    public MaxSizeUnit unit() {
         return this.unit;
     }
 }

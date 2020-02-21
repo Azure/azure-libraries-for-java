@@ -84,7 +84,7 @@ public final class TransparentDataEncryptionsInner {
         final String transparentDataEncryptionName = "current";
         final String apiVersion = "2014-04-01";
         TransparentDataEncryptionInner parameters = new TransparentDataEncryptionInner();
-        parameters.setStatus(status);
+        parameters.withStatus(status);
         return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, serverName, databaseName, transparentDataEncryptionName, parameters, apiVersion);
     }
 

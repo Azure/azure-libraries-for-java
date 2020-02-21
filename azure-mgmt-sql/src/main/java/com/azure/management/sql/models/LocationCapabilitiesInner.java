@@ -53,7 +53,7 @@ public final class LocationCapabilitiesInner {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -63,7 +63,7 @@ public final class LocationCapabilitiesInner {
      * 
      * @return the supportedServerVersions value.
      */
-    public List<ServerVersionCapability> getSupportedServerVersions() {
+    public List<ServerVersionCapability> supportedServerVersions() {
         return this.supportedServerVersions;
     }
 
@@ -73,7 +73,7 @@ public final class LocationCapabilitiesInner {
      * 
      * @return the supportedManagedInstanceVersions value.
      */
-    public List<ManagedInstanceVersionCapability> getSupportedManagedInstanceVersions() {
+    public List<ManagedInstanceVersionCapability> supportedManagedInstanceVersions() {
         return this.supportedManagedInstanceVersions;
     }
 
@@ -82,7 +82,7 @@ public final class LocationCapabilitiesInner {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -92,7 +92,7 @@ public final class LocationCapabilitiesInner {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -103,7 +103,7 @@ public final class LocationCapabilitiesInner {
      * @param reason the reason value to set.
      * @return the LocationCapabilitiesInner object itself.
      */
-    public LocationCapabilitiesInner setReason(String reason) {
+    public LocationCapabilitiesInner withReason(String reason) {
         this.reason = reason;
         return this;
     }

@@ -32,7 +32,7 @@ public final class ElasticPoolPerDatabaseSettings {
      * 
      * @return the minCapacity value.
      */
-    public Double getMinCapacity() {
+    public Double minCapacity() {
         return this.minCapacity;
     }
 
@@ -43,7 +43,7 @@ public final class ElasticPoolPerDatabaseSettings {
      * @param minCapacity the minCapacity value to set.
      * @return the ElasticPoolPerDatabaseSettings object itself.
      */
-    public ElasticPoolPerDatabaseSettings setMinCapacity(Double minCapacity) {
+    public ElasticPoolPerDatabaseSettings withMinCapacity(Double minCapacity) {
         this.minCapacity = minCapacity;
         return this;
     }
@@ -54,7 +54,7 @@ public final class ElasticPoolPerDatabaseSettings {
      * 
      * @return the maxCapacity value.
      */
-    public Double getMaxCapacity() {
+    public Double maxCapacity() {
         return this.maxCapacity;
     }
 
@@ -65,7 +65,7 @@ public final class ElasticPoolPerDatabaseSettings {
      * @param maxCapacity the maxCapacity value to set.
      * @return the ElasticPoolPerDatabaseSettings object itself.
      */
-    public ElasticPoolPerDatabaseSettings setMaxCapacity(Double maxCapacity) {
+    public ElasticPoolPerDatabaseSettings withMaxCapacity(Double maxCapacity) {
         this.maxCapacity = maxCapacity;
         return this;
     }

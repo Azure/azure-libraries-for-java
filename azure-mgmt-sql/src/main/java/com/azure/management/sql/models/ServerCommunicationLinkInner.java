@@ -47,7 +47,7 @@ public class ServerCommunicationLinkInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -57,7 +57,7 @@ public class ServerCommunicationLinkInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -66,7 +66,7 @@ public class ServerCommunicationLinkInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public String getState() {
+    public String state() {
         return this.state;
     }
 
@@ -75,7 +75,7 @@ public class ServerCommunicationLinkInner extends ProxyResource {
      * 
      * @return the partnerServer value.
      */
-    public String getPartnerServer() {
+    public String partnerServer() {
         return this.partnerServer;
     }
 
@@ -85,7 +85,7 @@ public class ServerCommunicationLinkInner extends ProxyResource {
      * @param partnerServer the partnerServer value to set.
      * @return the ServerCommunicationLinkInner object itself.
      */
-    public ServerCommunicationLinkInner setPartnerServer(String partnerServer) {
+    public ServerCommunicationLinkInner withPartnerServer(String partnerServer) {
         this.partnerServer = partnerServer;
         return this;
     }

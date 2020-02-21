@@ -32,7 +32,7 @@ public final class DatabaseBlobAuditingPolicyListResultInner {
      * 
      * @return the value value.
      */
-    public List<DatabaseBlobAuditingPolicyInner> getValue() {
+    public List<DatabaseBlobAuditingPolicyInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class DatabaseBlobAuditingPolicyListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

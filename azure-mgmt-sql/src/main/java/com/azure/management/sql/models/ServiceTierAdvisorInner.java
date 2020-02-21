@@ -150,7 +150,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the observationPeriodStart value.
      */
-    public OffsetDateTime getObservationPeriodStart() {
+    public OffsetDateTime observationPeriodStart() {
         return this.observationPeriodStart;
     }
 
@@ -160,7 +160,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the observationPeriodEnd value.
      */
-    public OffsetDateTime getObservationPeriodEnd() {
+    public OffsetDateTime observationPeriodEnd() {
         return this.observationPeriodEnd;
     }
 
@@ -170,7 +170,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the activeTimeRatio value.
      */
-    public Double getActiveTimeRatio() {
+    public Double activeTimeRatio() {
         return this.activeTimeRatio;
     }
 
@@ -179,7 +179,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the minDtu value.
      */
-    public Double getMinDtu() {
+    public Double minDtu() {
         return this.minDtu;
     }
 
@@ -188,7 +188,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the avgDtu value.
      */
-    public Double getAvgDtu() {
+    public Double avgDtu() {
         return this.avgDtu;
     }
 
@@ -197,7 +197,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the maxDtu value.
      */
-    public Double getMaxDtu() {
+    public Double maxDtu() {
         return this.maxDtu;
     }
 
@@ -207,7 +207,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the maxSizeInGB value.
      */
-    public Double getMaxSizeInGB() {
+    public Double maxSizeInGB() {
         return this.maxSizeInGB;
     }
 
@@ -217,7 +217,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the serviceLevelObjectiveUsageMetrics value.
      */
-    public List<SloUsageMetric> getServiceLevelObjectiveUsageMetrics() {
+    public List<SloUsageMetric> serviceLevelObjectiveUsageMetrics() {
         return this.serviceLevelObjectiveUsageMetrics;
     }
 
@@ -227,7 +227,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the currentServiceLevelObjective value.
      */
-    public String getCurrentServiceLevelObjective() {
+    public String currentServiceLevelObjective() {
         return this.currentServiceLevelObjective;
     }
 
@@ -237,7 +237,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the currentServiceLevelObjectiveId value.
      */
-    public UUID getCurrentServiceLevelObjectiveId() {
+    public UUID currentServiceLevelObjectiveId() {
         return this.currentServiceLevelObjectiveId;
     }
 
@@ -248,7 +248,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the usageBasedRecommendationServiceLevelObjective value.
      */
-    public String getUsageBasedRecommendationServiceLevelObjective() {
+    public String usageBasedRecommendationServiceLevelObjective() {
         return this.usageBasedRecommendationServiceLevelObjective;
     }
 
@@ -259,7 +259,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the usageBasedRecommendationServiceLevelObjectiveId value.
      */
-    public UUID getUsageBasedRecommendationServiceLevelObjectiveId() {
+    public UUID usageBasedRecommendationServiceLevelObjectiveId() {
         return this.usageBasedRecommendationServiceLevelObjectiveId;
     }
 
@@ -270,7 +270,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the databaseSizeBasedRecommendationServiceLevelObjective value.
      */
-    public String getDatabaseSizeBasedRecommendationServiceLevelObjective() {
+    public String databaseSizeBasedRecommendationServiceLevelObjective() {
         return this.databaseSizeBasedRecommendationServiceLevelObjective;
     }
 
@@ -282,7 +282,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * @return the databaseSizeBasedRecommendationServiceLevelObjectiveId
      * value.
      */
-    public UUID getDatabaseSizeBasedRecommendationServiceLevelObjectiveId() {
+    public UUID databaseSizeBasedRecommendationServiceLevelObjectiveId() {
         return this.databaseSizeBasedRecommendationServiceLevelObjectiveId;
     }
 
@@ -293,7 +293,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the disasterPlanBasedRecommendationServiceLevelObjective value.
      */
-    public String getDisasterPlanBasedRecommendationServiceLevelObjective() {
+    public String disasterPlanBasedRecommendationServiceLevelObjective() {
         return this.disasterPlanBasedRecommendationServiceLevelObjective;
     }
 
@@ -305,7 +305,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * @return the disasterPlanBasedRecommendationServiceLevelObjectiveId
      * value.
      */
-    public UUID getDisasterPlanBasedRecommendationServiceLevelObjectiveId() {
+    public UUID disasterPlanBasedRecommendationServiceLevelObjectiveId() {
         return this.disasterPlanBasedRecommendationServiceLevelObjectiveId;
     }
 
@@ -316,7 +316,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the overallRecommendationServiceLevelObjective value.
      */
-    public String getOverallRecommendationServiceLevelObjective() {
+    public String overallRecommendationServiceLevelObjective() {
         return this.overallRecommendationServiceLevelObjective;
     }
 
@@ -327,7 +327,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the overallRecommendationServiceLevelObjectiveId value.
      */
-    public UUID getOverallRecommendationServiceLevelObjectiveId() {
+    public UUID overallRecommendationServiceLevelObjectiveId() {
         return this.overallRecommendationServiceLevelObjectiveId;
     }
 
@@ -337,7 +337,7 @@ public class ServiceTierAdvisorInner extends ProxyResource {
      * 
      * @return the confidence value.
      */
-    public Double getConfidence() {
+    public Double confidence() {
         return this.confidence;
     }
 }

@@ -26,7 +26,7 @@ public final class JobAgentUpdate {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -36,7 +36,7 @@ public final class JobAgentUpdate {
      * @param tags the tags value to set.
      * @return the JobAgentUpdate object itself.
      */
-    public JobAgentUpdate setTags(Map<String, String> tags) {
+    public JobAgentUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }

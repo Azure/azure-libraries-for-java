@@ -32,7 +32,7 @@ public final class SyncAgentListResultInner {
      * 
      * @return the value value.
      */
-    public List<SyncAgentInner> getValue() {
+    public List<SyncAgentInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class SyncAgentListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

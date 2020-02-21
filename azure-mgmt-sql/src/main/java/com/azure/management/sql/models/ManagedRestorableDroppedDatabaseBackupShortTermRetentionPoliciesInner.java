@@ -169,7 +169,7 @@ public final class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolic
         final String policyName = "default";
         final String apiVersion = "2017-03-01-preview";
         ManagedBackupShortTermRetentionPolicyInner parameters = new ManagedBackupShortTermRetentionPolicyInner();
-        parameters.setRetentionDays(retentionDays);
+        parameters.withRetentionDays(retentionDays);
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, managedInstanceName, restorableDroppedDatabaseId, policyName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -224,7 +224,7 @@ public final class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolic
         final String policyName = "default";
         final String apiVersion = "2017-03-01-preview";
         ManagedBackupShortTermRetentionPolicyInner parameters = new ManagedBackupShortTermRetentionPolicyInner();
-        parameters.setRetentionDays(retentionDays);
+        parameters.withRetentionDays(retentionDays);
         return service.update(this.client.getHost(), resourceGroupName, managedInstanceName, restorableDroppedDatabaseId, policyName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -280,8 +280,8 @@ public final class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolic
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -333,7 +333,7 @@ public final class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolic
         final String policyName = "default";
         final String apiVersion = "2017-03-01-preview";
         ManagedBackupShortTermRetentionPolicyInner parameters = new ManagedBackupShortTermRetentionPolicyInner();
-        parameters.setRetentionDays(retentionDays);
+        parameters.withRetentionDays(retentionDays);
         return service.beginCreateOrUpdate(this.client.getHost(), resourceGroupName, managedInstanceName, restorableDroppedDatabaseId, policyName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -392,7 +392,7 @@ public final class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolic
         final String policyName = "default";
         final String apiVersion = "2017-03-01-preview";
         ManagedBackupShortTermRetentionPolicyInner parameters = new ManagedBackupShortTermRetentionPolicyInner();
-        parameters.setRetentionDays(retentionDays);
+        parameters.withRetentionDays(retentionDays);
         return service.beginUpdate(this.client.getHost(), resourceGroupName, managedInstanceName, restorableDroppedDatabaseId, policyName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -449,8 +449,8 @@ public final class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolic
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

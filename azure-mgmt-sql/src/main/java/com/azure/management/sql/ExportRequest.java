@@ -56,7 +56,7 @@ public class ExportRequest {
      * 
      * @return the storageKeyType value.
      */
-    public StorageKeyType getStorageKeyType() {
+    public StorageKeyType storageKeyType() {
         return this.storageKeyType;
     }
 
@@ -66,7 +66,7 @@ public class ExportRequest {
      * @param storageKeyType the storageKeyType value to set.
      * @return the ExportRequest object itself.
      */
-    public ExportRequest setStorageKeyType(StorageKeyType storageKeyType) {
+    public ExportRequest withStorageKeyType(StorageKeyType storageKeyType) {
         this.storageKeyType = storageKeyType;
         return this;
     }
@@ -77,7 +77,7 @@ public class ExportRequest {
      * 
      * @return the storageKey value.
      */
-    public String getStorageKey() {
+    public String storageKey() {
         return this.storageKey;
     }
 
@@ -88,7 +88,7 @@ public class ExportRequest {
      * @param storageKey the storageKey value to set.
      * @return the ExportRequest object itself.
      */
-    public ExportRequest setStorageKey(String storageKey) {
+    public ExportRequest withStorageKey(String storageKey) {
         this.storageKey = storageKey;
         return this;
     }
@@ -98,7 +98,7 @@ public class ExportRequest {
      * 
      * @return the storageUri value.
      */
-    public String getStorageUri() {
+    public String storageUri() {
         return this.storageUri;
     }
 
@@ -108,7 +108,7 @@ public class ExportRequest {
      * @param storageUri the storageUri value to set.
      * @return the ExportRequest object itself.
      */
-    public ExportRequest setStorageUri(String storageUri) {
+    public ExportRequest withStorageUri(String storageUri) {
         this.storageUri = storageUri;
         return this;
     }
@@ -118,7 +118,7 @@ public class ExportRequest {
      * 
      * @return the administratorLogin value.
      */
-    public String getAdministratorLogin() {
+    public String administratorLogin() {
         return this.administratorLogin;
     }
 
@@ -128,7 +128,7 @@ public class ExportRequest {
      * @param administratorLogin the administratorLogin value to set.
      * @return the ExportRequest object itself.
      */
-    public ExportRequest setAdministratorLogin(String administratorLogin) {
+    public ExportRequest withAdministratorLogin(String administratorLogin) {
         this.administratorLogin = administratorLogin;
         return this;
     }
@@ -139,7 +139,7 @@ public class ExportRequest {
      * 
      * @return the administratorLoginPassword value.
      */
-    public String getAdministratorLoginPassword() {
+    public String administratorLoginPassword() {
         return this.administratorLoginPassword;
     }
 
@@ -151,7 +151,7 @@ public class ExportRequest {
      * to set.
      * @return the ExportRequest object itself.
      */
-    public ExportRequest setAdministratorLoginPassword(String administratorLoginPassword) {
+    public ExportRequest withAdministratorLoginPassword(String administratorLoginPassword) {
         this.administratorLoginPassword = administratorLoginPassword;
         return this;
     }
@@ -161,7 +161,7 @@ public class ExportRequest {
      * 
      * @return the authenticationType value.
      */
-    public AuthenticationType getAuthenticationType() {
+    public AuthenticationType authenticationType() {
         return this.authenticationType;
     }
 
@@ -171,7 +171,7 @@ public class ExportRequest {
      * @param authenticationType the authenticationType value to set.
      * @return the ExportRequest object itself.
      */
-    public ExportRequest setAuthenticationType(AuthenticationType authenticationType) {
+    public ExportRequest withAuthenticationType(AuthenticationType authenticationType) {
         this.authenticationType = authenticationType;
         return this;
     }

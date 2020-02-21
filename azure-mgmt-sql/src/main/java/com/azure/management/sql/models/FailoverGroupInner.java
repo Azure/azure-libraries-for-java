@@ -76,7 +76,7 @@ public class FailoverGroupInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -85,7 +85,7 @@ public class FailoverGroupInner extends ProxyResource {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -95,7 +95,7 @@ public class FailoverGroupInner extends ProxyResource {
      * @param tags the tags value to set.
      * @return the FailoverGroupInner object itself.
      */
-    public FailoverGroupInner setTags(Map<String, String> tags) {
+    public FailoverGroupInner withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -106,7 +106,7 @@ public class FailoverGroupInner extends ProxyResource {
      * 
      * @return the readWriteEndpoint value.
      */
-    public FailoverGroupReadWriteEndpoint getReadWriteEndpoint() {
+    public FailoverGroupReadWriteEndpoint readWriteEndpoint() {
         return this.readWriteEndpoint;
     }
 
@@ -117,7 +117,7 @@ public class FailoverGroupInner extends ProxyResource {
      * @param readWriteEndpoint the readWriteEndpoint value to set.
      * @return the FailoverGroupInner object itself.
      */
-    public FailoverGroupInner setReadWriteEndpoint(FailoverGroupReadWriteEndpoint readWriteEndpoint) {
+    public FailoverGroupInner withReadWriteEndpoint(FailoverGroupReadWriteEndpoint readWriteEndpoint) {
         this.readWriteEndpoint = readWriteEndpoint;
         return this;
     }
@@ -128,7 +128,7 @@ public class FailoverGroupInner extends ProxyResource {
      * 
      * @return the readOnlyEndpoint value.
      */
-    public FailoverGroupReadOnlyEndpoint getReadOnlyEndpoint() {
+    public FailoverGroupReadOnlyEndpoint readOnlyEndpoint() {
         return this.readOnlyEndpoint;
     }
 
@@ -139,7 +139,7 @@ public class FailoverGroupInner extends ProxyResource {
      * @param readOnlyEndpoint the readOnlyEndpoint value to set.
      * @return the FailoverGroupInner object itself.
      */
-    public FailoverGroupInner setReadOnlyEndpoint(FailoverGroupReadOnlyEndpoint readOnlyEndpoint) {
+    public FailoverGroupInner withReadOnlyEndpoint(FailoverGroupReadOnlyEndpoint readOnlyEndpoint) {
         this.readOnlyEndpoint = readOnlyEndpoint;
         return this;
     }
@@ -150,7 +150,7 @@ public class FailoverGroupInner extends ProxyResource {
      * 
      * @return the replicationRole value.
      */
-    public FailoverGroupReplicationRole getReplicationRole() {
+    public FailoverGroupReplicationRole replicationRole() {
         return this.replicationRole;
     }
 
@@ -160,7 +160,7 @@ public class FailoverGroupInner extends ProxyResource {
      * 
      * @return the replicationState value.
      */
-    public String getReplicationState() {
+    public String replicationState() {
         return this.replicationState;
     }
 
@@ -170,7 +170,7 @@ public class FailoverGroupInner extends ProxyResource {
      * 
      * @return the partnerServers value.
      */
-    public List<PartnerInfo> getPartnerServers() {
+    public List<PartnerInfo> partnerServers() {
         return this.partnerServers;
     }
 
@@ -181,7 +181,7 @@ public class FailoverGroupInner extends ProxyResource {
      * @param partnerServers the partnerServers value to set.
      * @return the FailoverGroupInner object itself.
      */
-    public FailoverGroupInner setPartnerServers(List<PartnerInfo> partnerServers) {
+    public FailoverGroupInner withPartnerServers(List<PartnerInfo> partnerServers) {
         this.partnerServers = partnerServers;
         return this;
     }
@@ -191,7 +191,7 @@ public class FailoverGroupInner extends ProxyResource {
      * 
      * @return the databases value.
      */
-    public List<String> getDatabases() {
+    public List<String> databases() {
         return this.databases;
     }
 
@@ -201,7 +201,7 @@ public class FailoverGroupInner extends ProxyResource {
      * @param databases the databases value to set.
      * @return the FailoverGroupInner object itself.
      */
-    public FailoverGroupInner setDatabases(List<String> databases) {
+    public FailoverGroupInner withDatabases(List<String> databases) {
         this.databases = databases;
         return this;
     }

@@ -45,7 +45,7 @@ public final class OperationDisplay {
      * 
      * @return the provider value.
      */
-    public String getProvider() {
+    public String provider() {
         return this.provider;
     }
 
@@ -55,7 +55,7 @@ public final class OperationDisplay {
      * 
      * @return the resource value.
      */
-    public String getResource() {
+    public String resource() {
         return this.resource;
     }
 
@@ -65,7 +65,7 @@ public final class OperationDisplay {
      * 
      * @return the operation value.
      */
-    public String getOperation() {
+    public String operation() {
         return this.operation;
     }
 
@@ -75,7 +75,7 @@ public final class OperationDisplay {
      * 
      * @return the description value.
      */
-    public String getDescription() {
+    public String description() {
         return this.description;
     }
 }

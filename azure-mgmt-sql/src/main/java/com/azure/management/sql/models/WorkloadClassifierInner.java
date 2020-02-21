@@ -58,7 +58,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * 
      * @return the memberName value.
      */
-    public String getMemberName() {
+    public String memberName() {
         return this.memberName;
     }
 
@@ -68,7 +68,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * @param memberName the memberName value to set.
      * @return the WorkloadClassifierInner object itself.
      */
-    public WorkloadClassifierInner setMemberName(String memberName) {
+    public WorkloadClassifierInner withMemberName(String memberName) {
         this.memberName = memberName;
         return this;
     }
@@ -78,7 +78,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * 
      * @return the label value.
      */
-    public String getLabel() {
+    public String label() {
         return this.label;
     }
 
@@ -88,7 +88,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * @param label the label value to set.
      * @return the WorkloadClassifierInner object itself.
      */
-    public WorkloadClassifierInner setLabel(String label) {
+    public WorkloadClassifierInner withLabel(String label) {
         this.label = label;
         return this;
     }
@@ -98,7 +98,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * 
      * @return the context value.
      */
-    public String getContext() {
+    public String context() {
         return this.context;
     }
 
@@ -108,7 +108,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * @param context the context value to set.
      * @return the WorkloadClassifierInner object itself.
      */
-    public WorkloadClassifierInner setContext(String context) {
+    public WorkloadClassifierInner withContext(String context) {
         this.context = context;
         return this;
     }
@@ -119,7 +119,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * 
      * @return the startTime value.
      */
-    public String getStartTime() {
+    public String startTime() {
         return this.startTime;
     }
 
@@ -130,7 +130,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * @param startTime the startTime value to set.
      * @return the WorkloadClassifierInner object itself.
      */
-    public WorkloadClassifierInner setStartTime(String startTime) {
+    public WorkloadClassifierInner withStartTime(String startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -141,7 +141,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * 
      * @return the endTime value.
      */
-    public String getEndTime() {
+    public String endTime() {
         return this.endTime;
     }
 
@@ -152,7 +152,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * @param endTime the endTime value to set.
      * @return the WorkloadClassifierInner object itself.
      */
-    public WorkloadClassifierInner setEndTime(String endTime) {
+    public WorkloadClassifierInner withEndTime(String endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -162,7 +162,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * 
      * @return the importance value.
      */
-    public String getImportance() {
+    public String importance() {
         return this.importance;
     }
 
@@ -172,7 +172,7 @@ public class WorkloadClassifierInner extends ProxyResource {
      * @param importance the importance value to set.
      * @return the WorkloadClassifierInner object itself.
      */
-    public WorkloadClassifierInner setImportance(String importance) {
+    public WorkloadClassifierInner withImportance(String importance) {
         this.importance = importance;
         return this;
     }

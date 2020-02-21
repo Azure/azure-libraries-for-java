@@ -27,7 +27,7 @@ public final class TransparentDataEncryptionActivityListResultInner {
      * 
      * @return the value value.
      */
-    public List<TransparentDataEncryptionActivityInner> getValue() {
+    public List<TransparentDataEncryptionActivityInner> value() {
         return this.value;
     }
 
@@ -39,7 +39,7 @@ public final class TransparentDataEncryptionActivityListResultInner {
      * @return the TransparentDataEncryptionActivityListResultInner object
      * itself.
      */
-    public TransparentDataEncryptionActivityListResultInner setValue(List<TransparentDataEncryptionActivityInner> value) {
+    public TransparentDataEncryptionActivityListResultInner withValue(List<TransparentDataEncryptionActivityInner> value) {
         this.value = value;
         return this;
     }

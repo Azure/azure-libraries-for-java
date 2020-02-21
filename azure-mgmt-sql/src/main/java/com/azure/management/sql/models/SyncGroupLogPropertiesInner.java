@@ -58,7 +58,7 @@ public final class SyncGroupLogPropertiesInner {
      * 
      * @return the timestamp value.
      */
-    public OffsetDateTime getTimestamp() {
+    public OffsetDateTime timestamp() {
         return this.timestamp;
     }
 
@@ -67,7 +67,7 @@ public final class SyncGroupLogPropertiesInner {
      * 
      * @return the type value.
      */
-    public SyncGroupLogType getType() {
+    public SyncGroupLogType type() {
         return this.type;
     }
 
@@ -76,7 +76,7 @@ public final class SyncGroupLogPropertiesInner {
      * 
      * @return the source value.
      */
-    public String getSource() {
+    public String source() {
         return this.source;
     }
 
@@ -85,7 +85,7 @@ public final class SyncGroupLogPropertiesInner {
      * 
      * @return the details value.
      */
-    public String getDetails() {
+    public String details() {
         return this.details;
     }
 
@@ -94,7 +94,7 @@ public final class SyncGroupLogPropertiesInner {
      * 
      * @return the tracingId value.
      */
-    public UUID getTracingId() {
+    public UUID tracingId() {
         return this.tracingId;
     }
 
@@ -103,7 +103,7 @@ public final class SyncGroupLogPropertiesInner {
      * 
      * @return the operationStatus value.
      */
-    public String getOperationStatus() {
+    public String operationStatus() {
         return this.operationStatus;
     }
 }

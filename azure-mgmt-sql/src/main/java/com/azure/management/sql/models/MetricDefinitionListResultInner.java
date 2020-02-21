@@ -26,7 +26,7 @@ public final class MetricDefinitionListResultInner {
      * 
      * @return the value value.
      */
-    public List<MetricDefinitionInner> getValue() {
+    public List<MetricDefinitionInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class MetricDefinitionListResultInner {
      * @param value the value value to set.
      * @return the MetricDefinitionListResultInner object itself.
      */
-    public MetricDefinitionListResultInner setValue(List<MetricDefinitionInner> value) {
+    public MetricDefinitionListResultInner withValue(List<MetricDefinitionInner> value) {
         this.value = value;
         return this;
     }

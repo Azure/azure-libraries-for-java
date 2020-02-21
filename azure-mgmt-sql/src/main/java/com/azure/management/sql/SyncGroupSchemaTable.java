@@ -32,7 +32,7 @@ public final class SyncGroupSchemaTable {
      * 
      * @return the columns value.
      */
-    public List<SyncGroupSchemaTableColumn> getColumns() {
+    public List<SyncGroupSchemaTableColumn> columns() {
         return this.columns;
     }
 
@@ -42,7 +42,7 @@ public final class SyncGroupSchemaTable {
      * @param columns the columns value to set.
      * @return the SyncGroupSchemaTable object itself.
      */
-    public SyncGroupSchemaTable setColumns(List<SyncGroupSchemaTableColumn> columns) {
+    public SyncGroupSchemaTable withColumns(List<SyncGroupSchemaTableColumn> columns) {
         this.columns = columns;
         return this;
     }
@@ -52,7 +52,7 @@ public final class SyncGroupSchemaTable {
      * 
      * @return the quotedName value.
      */
-    public String getQuotedName() {
+    public String quotedName() {
         return this.quotedName;
     }
 
@@ -62,7 +62,7 @@ public final class SyncGroupSchemaTable {
      * @param quotedName the quotedName value to set.
      * @return the SyncGroupSchemaTable object itself.
      */
-    public SyncGroupSchemaTable setQuotedName(String quotedName) {
+    public SyncGroupSchemaTable withQuotedName(String quotedName) {
         this.quotedName = quotedName;
         return this;
     }

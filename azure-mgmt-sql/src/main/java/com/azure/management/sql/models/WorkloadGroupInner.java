@@ -59,7 +59,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * 
      * @return the minResourcePercent value.
      */
-    public Integer getMinResourcePercent() {
+    public Integer minResourcePercent() {
         return this.minResourcePercent;
     }
 
@@ -70,7 +70,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * @param minResourcePercent the minResourcePercent value to set.
      * @return the WorkloadGroupInner object itself.
      */
-    public WorkloadGroupInner setMinResourcePercent(Integer minResourcePercent) {
+    public WorkloadGroupInner withMinResourcePercent(Integer minResourcePercent) {
         this.minResourcePercent = minResourcePercent;
         return this;
     }
@@ -81,7 +81,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * 
      * @return the maxResourcePercent value.
      */
-    public Integer getMaxResourcePercent() {
+    public Integer maxResourcePercent() {
         return this.maxResourcePercent;
     }
 
@@ -92,7 +92,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * @param maxResourcePercent the maxResourcePercent value to set.
      * @return the WorkloadGroupInner object itself.
      */
-    public WorkloadGroupInner setMaxResourcePercent(Integer maxResourcePercent) {
+    public WorkloadGroupInner withMaxResourcePercent(Integer maxResourcePercent) {
         this.maxResourcePercent = maxResourcePercent;
         return this;
     }
@@ -103,7 +103,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * 
      * @return the minResourcePercentPerRequest value.
      */
-    public Double getMinResourcePercentPerRequest() {
+    public Double minResourcePercentPerRequest() {
         return this.minResourcePercentPerRequest;
     }
 
@@ -115,7 +115,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * value to set.
      * @return the WorkloadGroupInner object itself.
      */
-    public WorkloadGroupInner setMinResourcePercentPerRequest(Double minResourcePercentPerRequest) {
+    public WorkloadGroupInner withMinResourcePercentPerRequest(Double minResourcePercentPerRequest) {
         this.minResourcePercentPerRequest = minResourcePercentPerRequest;
         return this;
     }
@@ -126,7 +126,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * 
      * @return the maxResourcePercentPerRequest value.
      */
-    public Double getMaxResourcePercentPerRequest() {
+    public Double maxResourcePercentPerRequest() {
         return this.maxResourcePercentPerRequest;
     }
 
@@ -138,7 +138,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * value to set.
      * @return the WorkloadGroupInner object itself.
      */
-    public WorkloadGroupInner setMaxResourcePercentPerRequest(Double maxResourcePercentPerRequest) {
+    public WorkloadGroupInner withMaxResourcePercentPerRequest(Double maxResourcePercentPerRequest) {
         this.maxResourcePercentPerRequest = maxResourcePercentPerRequest;
         return this;
     }
@@ -148,7 +148,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * 
      * @return the importance value.
      */
-    public String getImportance() {
+    public String importance() {
         return this.importance;
     }
 
@@ -158,7 +158,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * @param importance the importance value to set.
      * @return the WorkloadGroupInner object itself.
      */
-    public WorkloadGroupInner setImportance(String importance) {
+    public WorkloadGroupInner withImportance(String importance) {
         this.importance = importance;
         return this;
     }
@@ -169,7 +169,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * 
      * @return the queryExecutionTimeout value.
      */
-    public Integer getQueryExecutionTimeout() {
+    public Integer queryExecutionTimeout() {
         return this.queryExecutionTimeout;
     }
 
@@ -180,7 +180,7 @@ public class WorkloadGroupInner extends ProxyResource {
      * @param queryExecutionTimeout the queryExecutionTimeout value to set.
      * @return the WorkloadGroupInner object itself.
      */
-    public WorkloadGroupInner setQueryExecutionTimeout(Integer queryExecutionTimeout) {
+    public WorkloadGroupInner withQueryExecutionTimeout(Integer queryExecutionTimeout) {
         this.queryExecutionTimeout = queryExecutionTimeout;
         return this;
     }

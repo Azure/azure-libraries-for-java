@@ -26,7 +26,7 @@ public final class RecommendedElasticPoolListMetricsResultInner {
      * 
      * @return the value value.
      */
-    public List<RecommendedElasticPoolMetricInner> getValue() {
+    public List<RecommendedElasticPoolMetricInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class RecommendedElasticPoolListMetricsResultInner {
      * @param value the value value to set.
      * @return the RecommendedElasticPoolListMetricsResultInner object itself.
      */
-    public RecommendedElasticPoolListMetricsResultInner setValue(List<RecommendedElasticPoolMetricInner> value) {
+    public RecommendedElasticPoolListMetricsResultInner withValue(List<RecommendedElasticPoolMetricInner> value) {
         this.value = value;
         return this;
     }

@@ -32,7 +32,7 @@ public final class RestorePointListResultInner {
      * 
      * @return the value value.
      */
-    public List<RestorePointInner> getValue() {
+    public List<RestorePointInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class RestorePointListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

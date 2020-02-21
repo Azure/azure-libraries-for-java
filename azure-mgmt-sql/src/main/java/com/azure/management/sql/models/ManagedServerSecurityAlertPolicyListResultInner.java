@@ -32,7 +32,7 @@ public final class ManagedServerSecurityAlertPolicyListResultInner {
      * 
      * @return the value value.
      */
-    public List<ManagedServerSecurityAlertPolicyInner> getValue() {
+    public List<ManagedServerSecurityAlertPolicyInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class ManagedServerSecurityAlertPolicyListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

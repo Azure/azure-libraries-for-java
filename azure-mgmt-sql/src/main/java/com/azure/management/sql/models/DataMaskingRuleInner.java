@@ -120,7 +120,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -130,7 +130,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -139,7 +139,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the idPropertiesId value.
      */
-    public String getIdPropertiesId() {
+    public String idPropertiesId() {
         return this.idPropertiesId;
     }
 
@@ -149,7 +149,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the aliasName value.
      */
-    public String getAliasName() {
+    public String aliasName() {
         return this.aliasName;
     }
 
@@ -160,7 +160,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param aliasName the aliasName value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setAliasName(String aliasName) {
+    public DataMaskingRuleInner withAliasName(String aliasName) {
         this.aliasName = aliasName;
         return this;
     }
@@ -174,7 +174,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the ruleState value.
      */
-    public DataMaskingRuleState getRuleState() {
+    public DataMaskingRuleState ruleState() {
         return this.ruleState;
     }
 
@@ -188,7 +188,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param ruleState the ruleState value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setRuleState(DataMaskingRuleState ruleState) {
+    public DataMaskingRuleInner withRuleState(DataMaskingRuleState ruleState) {
         this.ruleState = ruleState;
         return this;
     }
@@ -199,7 +199,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the schemaName value.
      */
-    public String getSchemaName() {
+    public String schemaName() {
         return this.schemaName;
     }
 
@@ -210,7 +210,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param schemaName the schemaName value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setSchemaName(String schemaName) {
+    public DataMaskingRuleInner withSchemaName(String schemaName) {
         this.schemaName = schemaName;
         return this;
     }
@@ -221,7 +221,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the tableName value.
      */
-    public String getTableName() {
+    public String tableName() {
         return this.tableName;
     }
 
@@ -232,7 +232,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param tableName the tableName value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setTableName(String tableName) {
+    public DataMaskingRuleInner withTableName(String tableName) {
         this.tableName = tableName;
         return this;
     }
@@ -243,7 +243,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the columnName value.
      */
-    public String getColumnName() {
+    public String columnName() {
         return this.columnName;
     }
 
@@ -254,7 +254,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param columnName the columnName value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setColumnName(String columnName) {
+    public DataMaskingRuleInner withColumnName(String columnName) {
         this.columnName = columnName;
         return this;
     }
@@ -265,7 +265,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the maskingFunction value.
      */
-    public DataMaskingFunction getMaskingFunction() {
+    public DataMaskingFunction maskingFunction() {
         return this.maskingFunction;
     }
 
@@ -276,7 +276,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param maskingFunction the maskingFunction value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setMaskingFunction(DataMaskingFunction maskingFunction) {
+    public DataMaskingRuleInner withMaskingFunction(DataMaskingFunction maskingFunction) {
         this.maskingFunction = maskingFunction;
         return this;
     }
@@ -288,7 +288,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the numberFrom value.
      */
-    public String getNumberFrom() {
+    public String numberFrom() {
         return this.numberFrom;
     }
 
@@ -300,7 +300,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param numberFrom the numberFrom value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setNumberFrom(String numberFrom) {
+    public DataMaskingRuleInner withNumberFrom(String numberFrom) {
         this.numberFrom = numberFrom;
         return this;
     }
@@ -312,7 +312,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the numberTo value.
      */
-    public String getNumberTo() {
+    public String numberTo() {
         return this.numberTo;
     }
 
@@ -324,7 +324,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param numberTo the numberTo value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setNumberTo(String numberTo) {
+    public DataMaskingRuleInner withNumberTo(String numberTo) {
         this.numberTo = numberTo;
         return this;
     }
@@ -336,7 +336,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the prefixSize value.
      */
-    public String getPrefixSize() {
+    public String prefixSize() {
         return this.prefixSize;
     }
 
@@ -348,7 +348,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param prefixSize the prefixSize value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setPrefixSize(String prefixSize) {
+    public DataMaskingRuleInner withPrefixSize(String prefixSize) {
         this.prefixSize = prefixSize;
         return this;
     }
@@ -360,7 +360,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the suffixSize value.
      */
-    public String getSuffixSize() {
+    public String suffixSize() {
         return this.suffixSize;
     }
 
@@ -372,7 +372,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param suffixSize the suffixSize value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setSuffixSize(String suffixSize) {
+    public DataMaskingRuleInner withSuffixSize(String suffixSize) {
         this.suffixSize = suffixSize;
         return this;
     }
@@ -384,7 +384,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * 
      * @return the replacementString value.
      */
-    public String getReplacementString() {
+    public String replacementString() {
         return this.replacementString;
     }
 
@@ -396,7 +396,7 @@ public class DataMaskingRuleInner extends ProxyResource {
      * @param replacementString the replacementString value to set.
      * @return the DataMaskingRuleInner object itself.
      */
-    public DataMaskingRuleInner setReplacementString(String replacementString) {
+    public DataMaskingRuleInner withReplacementString(String replacementString) {
         this.replacementString = replacementString;
         return this;
     }

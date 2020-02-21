@@ -47,7 +47,7 @@ public final class PartnerInfo {
      * @param id the id value to set.
      * @return the PartnerInfo object itself.
      */
-    public PartnerInfo setId(String id) {
+    public PartnerInfo withId(String id) {
         this.id = id;
         return this;
     }
@@ -57,7 +57,7 @@ public final class PartnerInfo {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -67,7 +67,7 @@ public final class PartnerInfo {
      * 
      * @return the replicationRole value.
      */
-    public FailoverGroupReplicationRole getReplicationRole() {
+    public FailoverGroupReplicationRole replicationRole() {
         return this.replicationRole;
     }
 }

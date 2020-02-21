@@ -129,7 +129,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -139,7 +139,7 @@ public class ManagedDatabaseUpdate {
      * @param tags the tags value to set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setTags(Map<String, String> tags) {
+    public ManagedDatabaseUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -149,7 +149,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the collation value.
      */
-    public String getCollation() {
+    public String collation() {
         return this.collation;
     }
 
@@ -159,7 +159,7 @@ public class ManagedDatabaseUpdate {
      * @param collation the collation value to set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setCollation(String collation) {
+    public ManagedDatabaseUpdate withCollation(String collation) {
         this.collation = collation;
         return this;
     }
@@ -169,7 +169,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the status value.
      */
-    public ManagedDatabaseStatus getStatus() {
+    public ManagedDatabaseStatus status() {
         return this.status;
     }
 
@@ -178,7 +178,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the creationDate value.
      */
-    public OffsetDateTime getCreationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
@@ -188,7 +188,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the earliestRestorePoint value.
      */
-    public OffsetDateTime getEarliestRestorePoint() {
+    public OffsetDateTime earliestRestorePoint() {
         return this.earliestRestorePoint;
     }
 
@@ -200,7 +200,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the restorePointInTime value.
      */
-    public OffsetDateTime getRestorePointInTime() {
+    public OffsetDateTime restorePointInTime() {
         return this.restorePointInTime;
     }
 
@@ -213,7 +213,7 @@ public class ManagedDatabaseUpdate {
      * @param restorePointInTime the restorePointInTime value to set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setRestorePointInTime(OffsetDateTime restorePointInTime) {
+    public ManagedDatabaseUpdate withRestorePointInTime(OffsetDateTime restorePointInTime) {
         this.restorePointInTime = restorePointInTime;
         return this;
     }
@@ -223,7 +223,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the defaultSecondaryLocation value.
      */
-    public String getDefaultSecondaryLocation() {
+    public String defaultSecondaryLocation() {
         return this.defaultSecondaryLocation;
     }
 
@@ -232,7 +232,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the catalogCollation value.
      */
-    public CatalogCollationType getCatalogCollation() {
+    public CatalogCollationType catalogCollation() {
         return this.catalogCollation;
     }
 
@@ -242,7 +242,7 @@ public class ManagedDatabaseUpdate {
      * @param catalogCollation the catalogCollation value to set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setCatalogCollation(CatalogCollationType catalogCollation) {
+    public ManagedDatabaseUpdate withCatalogCollation(CatalogCollationType catalogCollation) {
         this.catalogCollation = catalogCollation;
         return this;
     }
@@ -260,7 +260,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the createMode value.
      */
-    public ManagedDatabaseCreateMode getCreateMode() {
+    public ManagedDatabaseCreateMode createMode() {
         return this.createMode;
     }
 
@@ -278,7 +278,7 @@ public class ManagedDatabaseUpdate {
      * @param createMode the createMode value to set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setCreateMode(ManagedDatabaseCreateMode createMode) {
+    public ManagedDatabaseUpdate withCreateMode(ManagedDatabaseCreateMode createMode) {
         this.createMode = createMode;
         return this;
     }
@@ -290,7 +290,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the storageContainerUri value.
      */
-    public String getStorageContainerUri() {
+    public String storageContainerUri() {
         return this.storageContainerUri;
     }
 
@@ -302,7 +302,7 @@ public class ManagedDatabaseUpdate {
      * @param storageContainerUri the storageContainerUri value to set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setStorageContainerUri(String storageContainerUri) {
+    public ManagedDatabaseUpdate withStorageContainerUri(String storageContainerUri) {
         this.storageContainerUri = storageContainerUri;
         return this;
     }
@@ -313,7 +313,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the sourceDatabaseId value.
      */
-    public String getSourceDatabaseId() {
+    public String sourceDatabaseId() {
         return this.sourceDatabaseId;
     }
 
@@ -324,7 +324,7 @@ public class ManagedDatabaseUpdate {
      * @param sourceDatabaseId the sourceDatabaseId value to set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setSourceDatabaseId(String sourceDatabaseId) {
+    public ManagedDatabaseUpdate withSourceDatabaseId(String sourceDatabaseId) {
         this.sourceDatabaseId = sourceDatabaseId;
         return this;
     }
@@ -335,7 +335,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the restorableDroppedDatabaseId value.
      */
-    public String getRestorableDroppedDatabaseId() {
+    public String restorableDroppedDatabaseId() {
         return this.restorableDroppedDatabaseId;
     }
 
@@ -347,7 +347,7 @@ public class ManagedDatabaseUpdate {
      * to set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setRestorableDroppedDatabaseId(String restorableDroppedDatabaseId) {
+    public ManagedDatabaseUpdate withRestorableDroppedDatabaseId(String restorableDroppedDatabaseId) {
         this.restorableDroppedDatabaseId = restorableDroppedDatabaseId;
         return this;
     }
@@ -359,7 +359,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the storageContainerSasToken value.
      */
-    public String getStorageContainerSasToken() {
+    public String storageContainerSasToken() {
         return this.storageContainerSasToken;
     }
 
@@ -372,7 +372,7 @@ public class ManagedDatabaseUpdate {
      * set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setStorageContainerSasToken(String storageContainerSasToken) {
+    public ManagedDatabaseUpdate withStorageContainerSasToken(String storageContainerSasToken) {
         this.storageContainerSasToken = storageContainerSasToken;
         return this;
     }
@@ -383,7 +383,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the failoverGroupId value.
      */
-    public String getFailoverGroupId() {
+    public String failoverGroupId() {
         return this.failoverGroupId;
     }
 
@@ -393,7 +393,7 @@ public class ManagedDatabaseUpdate {
      * 
      * @return the recoverableDatabaseId value.
      */
-    public String getRecoverableDatabaseId() {
+    public String recoverableDatabaseId() {
         return this.recoverableDatabaseId;
     }
 
@@ -404,7 +404,7 @@ public class ManagedDatabaseUpdate {
      * @param recoverableDatabaseId the recoverableDatabaseId value to set.
      * @return the ManagedDatabaseUpdate object itself.
      */
-    public ManagedDatabaseUpdate setRecoverableDatabaseId(String recoverableDatabaseId) {
+    public ManagedDatabaseUpdate withRecoverableDatabaseId(String recoverableDatabaseId) {
         this.recoverableDatabaseId = recoverableDatabaseId;
         return this;
     }

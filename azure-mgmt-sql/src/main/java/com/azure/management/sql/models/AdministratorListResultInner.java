@@ -32,7 +32,7 @@ public final class AdministratorListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServerAzureADAdministratorInner> getValue() {
+    public List<ServerAzureADAdministratorInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class AdministratorListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

@@ -26,7 +26,7 @@ public final class ServiceObjectiveListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServiceObjectiveInner> getValue() {
+    public List<ServiceObjectiveInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class ServiceObjectiveListResultInner {
      * @param value the value value to set.
      * @return the ServiceObjectiveListResultInner object itself.
      */
-    public ServiceObjectiveListResultInner setValue(List<ServiceObjectiveInner> value) {
+    public ServiceObjectiveListResultInner withValue(List<ServiceObjectiveInner> value) {
         this.value = value;
         return this;
     }

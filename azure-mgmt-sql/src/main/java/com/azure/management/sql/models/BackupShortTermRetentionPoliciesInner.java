@@ -170,7 +170,7 @@ public final class BackupShortTermRetentionPoliciesInner {
         final String policyName = "default";
         final String apiVersion = "2017-10-01-preview";
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
-        parameters.setRetentionDays(retentionDays);
+        parameters.withRetentionDays(retentionDays);
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, serverName, databaseName, policyName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -225,7 +225,7 @@ public final class BackupShortTermRetentionPoliciesInner {
         final String policyName = "default";
         final String apiVersion = "2017-10-01-preview";
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
-        parameters.setRetentionDays(retentionDays);
+        parameters.withRetentionDays(retentionDays);
         return service.update(this.client.getHost(), resourceGroupName, serverName, databaseName, policyName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -281,8 +281,8 @@ public final class BackupShortTermRetentionPoliciesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -334,7 +334,7 @@ public final class BackupShortTermRetentionPoliciesInner {
         final String policyName = "default";
         final String apiVersion = "2017-10-01-preview";
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
-        parameters.setRetentionDays(retentionDays);
+        parameters.withRetentionDays(retentionDays);
         return service.beginCreateOrUpdate(this.client.getHost(), resourceGroupName, serverName, databaseName, policyName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -393,7 +393,7 @@ public final class BackupShortTermRetentionPoliciesInner {
         final String policyName = "default";
         final String apiVersion = "2017-10-01-preview";
         BackupShortTermRetentionPolicyInner parameters = new BackupShortTermRetentionPolicyInner();
-        parameters.setRetentionDays(retentionDays);
+        parameters.withRetentionDays(retentionDays);
         return service.beginUpdate(this.client.getHost(), resourceGroupName, serverName, databaseName, policyName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -450,8 +450,8 @@ public final class BackupShortTermRetentionPoliciesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

@@ -47,7 +47,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResource {
      * 
      * @return the weeklyRetention value.
      */
-    public String getWeeklyRetention() {
+    public String weeklyRetention() {
         return this.weeklyRetention;
     }
 
@@ -58,7 +58,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResource {
      * @param weeklyRetention the weeklyRetention value to set.
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner setWeeklyRetention(String weeklyRetention) {
+    public BackupLongTermRetentionPolicyInner withWeeklyRetention(String weeklyRetention) {
         this.weeklyRetention = weeklyRetention;
         return this;
     }
@@ -69,7 +69,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResource {
      * 
      * @return the monthlyRetention value.
      */
-    public String getMonthlyRetention() {
+    public String monthlyRetention() {
         return this.monthlyRetention;
     }
 
@@ -80,7 +80,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResource {
      * @param monthlyRetention the monthlyRetention value to set.
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner setMonthlyRetention(String monthlyRetention) {
+    public BackupLongTermRetentionPolicyInner withMonthlyRetention(String monthlyRetention) {
         this.monthlyRetention = monthlyRetention;
         return this;
     }
@@ -91,7 +91,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResource {
      * 
      * @return the yearlyRetention value.
      */
-    public String getYearlyRetention() {
+    public String yearlyRetention() {
         return this.yearlyRetention;
     }
 
@@ -102,7 +102,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResource {
      * @param yearlyRetention the yearlyRetention value to set.
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner setYearlyRetention(String yearlyRetention) {
+    public BackupLongTermRetentionPolicyInner withYearlyRetention(String yearlyRetention) {
         this.yearlyRetention = yearlyRetention;
         return this;
     }
@@ -113,7 +113,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResource {
      * 
      * @return the weekOfYear value.
      */
-    public Integer getWeekOfYear() {
+    public Integer weekOfYear() {
         return this.weekOfYear;
     }
 
@@ -124,7 +124,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResource {
      * @param weekOfYear the weekOfYear value to set.
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner setWeekOfYear(Integer weekOfYear) {
+    public BackupLongTermRetentionPolicyInner withWeekOfYear(Integer weekOfYear) {
         this.weekOfYear = weekOfYear;
         return this;
     }

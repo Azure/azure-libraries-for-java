@@ -143,7 +143,7 @@ public final class RecommendedElasticPoolsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
+            res.getValue().value(),
             null,
             null));
     }
@@ -194,7 +194,7 @@ public final class RecommendedElasticPoolsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
+            res.getValue().value(),
             null,
             null));
     }

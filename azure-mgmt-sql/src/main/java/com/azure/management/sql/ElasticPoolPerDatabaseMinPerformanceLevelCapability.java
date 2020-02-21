@@ -43,7 +43,7 @@ public final class ElasticPoolPerDatabaseMinPerformanceLevelCapability {
      * 
      * @return the limit value.
      */
-    public Double getLimit() {
+    public Double limit() {
         return this.limit;
     }
 
@@ -52,7 +52,7 @@ public final class ElasticPoolPerDatabaseMinPerformanceLevelCapability {
      * 
      * @return the unit value.
      */
-    public PerformanceLevelUnit getUnit() {
+    public PerformanceLevelUnit unit() {
         return this.unit;
     }
 
@@ -61,7 +61,7 @@ public final class ElasticPoolPerDatabaseMinPerformanceLevelCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -71,7 +71,7 @@ public final class ElasticPoolPerDatabaseMinPerformanceLevelCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -83,7 +83,7 @@ public final class ElasticPoolPerDatabaseMinPerformanceLevelCapability {
      * @return the ElasticPoolPerDatabaseMinPerformanceLevelCapability object
      * itself.
      */
-    public ElasticPoolPerDatabaseMinPerformanceLevelCapability setReason(String reason) {
+    public ElasticPoolPerDatabaseMinPerformanceLevelCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

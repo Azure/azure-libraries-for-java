@@ -35,7 +35,7 @@ public class TransparentDataEncryptionInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -45,7 +45,7 @@ public class TransparentDataEncryptionInner extends ProxyResource {
      * 
      * @return the status value.
      */
-    public TransparentDataEncryptionStatus getStatus() {
+    public TransparentDataEncryptionStatus status() {
         return this.status;
     }
 
@@ -56,7 +56,7 @@ public class TransparentDataEncryptionInner extends ProxyResource {
      * @param status the status value to set.
      * @return the TransparentDataEncryptionInner object itself.
      */
-    public TransparentDataEncryptionInner setStatus(TransparentDataEncryptionStatus status) {
+    public TransparentDataEncryptionInner withStatus(TransparentDataEncryptionStatus status) {
         this.status = status;
         return this;
     }

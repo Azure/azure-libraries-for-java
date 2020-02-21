@@ -63,7 +63,7 @@ public class DataMaskingPolicyInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -73,7 +73,7 @@ public class DataMaskingPolicyInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -82,7 +82,7 @@ public class DataMaskingPolicyInner extends ProxyResource {
      * 
      * @return the dataMaskingState value.
      */
-    public DataMaskingState getDataMaskingState() {
+    public DataMaskingState dataMaskingState() {
         return this.dataMaskingState;
     }
 
@@ -92,7 +92,7 @@ public class DataMaskingPolicyInner extends ProxyResource {
      * @param dataMaskingState the dataMaskingState value to set.
      * @return the DataMaskingPolicyInner object itself.
      */
-    public DataMaskingPolicyInner setDataMaskingState(DataMaskingState dataMaskingState) {
+    public DataMaskingPolicyInner withDataMaskingState(DataMaskingState dataMaskingState) {
         this.dataMaskingState = dataMaskingState;
         return this;
     }
@@ -105,7 +105,7 @@ public class DataMaskingPolicyInner extends ProxyResource {
      * 
      * @return the exemptPrincipals value.
      */
-    public String getExemptPrincipals() {
+    public String exemptPrincipals() {
         return this.exemptPrincipals;
     }
 
@@ -118,7 +118,7 @@ public class DataMaskingPolicyInner extends ProxyResource {
      * @param exemptPrincipals the exemptPrincipals value to set.
      * @return the DataMaskingPolicyInner object itself.
      */
-    public DataMaskingPolicyInner setExemptPrincipals(String exemptPrincipals) {
+    public DataMaskingPolicyInner withExemptPrincipals(String exemptPrincipals) {
         this.exemptPrincipals = exemptPrincipals;
         return this;
     }
@@ -129,7 +129,7 @@ public class DataMaskingPolicyInner extends ProxyResource {
      * 
      * @return the applicationPrincipals value.
      */
-    public String getApplicationPrincipals() {
+    public String applicationPrincipals() {
         return this.applicationPrincipals;
     }
 
@@ -139,7 +139,7 @@ public class DataMaskingPolicyInner extends ProxyResource {
      * 
      * @return the maskingLevel value.
      */
-    public String getMaskingLevel() {
+    public String maskingLevel() {
         return this.maskingLevel;
     }
 }

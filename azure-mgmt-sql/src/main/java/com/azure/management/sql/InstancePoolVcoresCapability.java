@@ -49,7 +49,7 @@ public final class InstancePoolVcoresCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -58,7 +58,7 @@ public final class InstancePoolVcoresCapability {
      * 
      * @return the value value.
      */
-    public Integer getValue() {
+    public Integer value() {
         return this.value;
     }
 
@@ -67,7 +67,7 @@ public final class InstancePoolVcoresCapability {
      * 
      * @return the storageLimit value.
      */
-    public MaxSizeCapability getStorageLimit() {
+    public MaxSizeCapability storageLimit() {
         return this.storageLimit;
     }
 
@@ -76,7 +76,7 @@ public final class InstancePoolVcoresCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -86,7 +86,7 @@ public final class InstancePoolVcoresCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -97,7 +97,7 @@ public final class InstancePoolVcoresCapability {
      * @param reason the reason value to set.
      * @return the InstancePoolVcoresCapability object itself.
      */
-    public InstancePoolVcoresCapability setReason(String reason) {
+    public InstancePoolVcoresCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

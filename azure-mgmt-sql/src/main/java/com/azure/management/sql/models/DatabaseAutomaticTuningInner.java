@@ -43,7 +43,7 @@ public class DatabaseAutomaticTuningInner extends ProxyResource {
      * 
      * @return the desiredState value.
      */
-    public AutomaticTuningMode getDesiredState() {
+    public AutomaticTuningMode desiredState() {
         return this.desiredState;
     }
 
@@ -53,7 +53,7 @@ public class DatabaseAutomaticTuningInner extends ProxyResource {
      * @param desiredState the desiredState value to set.
      * @return the DatabaseAutomaticTuningInner object itself.
      */
-    public DatabaseAutomaticTuningInner setDesiredState(AutomaticTuningMode desiredState) {
+    public DatabaseAutomaticTuningInner withDesiredState(AutomaticTuningMode desiredState) {
         this.desiredState = desiredState;
         return this;
     }
@@ -63,7 +63,7 @@ public class DatabaseAutomaticTuningInner extends ProxyResource {
      * 
      * @return the actualState value.
      */
-    public AutomaticTuningMode getActualState() {
+    public AutomaticTuningMode actualState() {
         return this.actualState;
     }
 
@@ -72,7 +72,7 @@ public class DatabaseAutomaticTuningInner extends ProxyResource {
      * 
      * @return the options value.
      */
-    public Map<String, AutomaticTuningOptions> getOptions() {
+    public Map<String, AutomaticTuningOptions> options() {
         return this.options;
     }
 
@@ -82,7 +82,7 @@ public class DatabaseAutomaticTuningInner extends ProxyResource {
      * @param options the options value to set.
      * @return the DatabaseAutomaticTuningInner object itself.
      */
-    public DatabaseAutomaticTuningInner setOptions(Map<String, AutomaticTuningOptions> options) {
+    public DatabaseAutomaticTuningInner withOptions(Map<String, AutomaticTuningOptions> options) {
         this.options = options;
         return this;
     }

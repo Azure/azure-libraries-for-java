@@ -30,7 +30,7 @@ public class JobTargetGroupInner extends ProxyResource {
      * 
      * @return the members value.
      */
-    public List<JobTarget> getMembers() {
+    public List<JobTarget> members() {
         return this.members;
     }
 
@@ -40,7 +40,7 @@ public class JobTargetGroupInner extends ProxyResource {
      * @param members the members value to set.
      * @return the JobTargetGroupInner object itself.
      */
-    public JobTargetGroupInner setMembers(List<JobTarget> members) {
+    public JobTargetGroupInner withMembers(List<JobTarget> members) {
         this.members = members;
         return this;
     }

@@ -45,7 +45,7 @@ public final class JobStepAction {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -55,7 +55,7 @@ public final class JobStepAction {
      * @param type the type value to set.
      * @return the JobStepAction object itself.
      */
-    public JobStepAction setType(String type) {
+    public JobStepAction withType(String type) {
         this.type = type;
         return this;
     }
@@ -65,7 +65,7 @@ public final class JobStepAction {
      * 
      * @return the source value.
      */
-    public String getSource() {
+    public String source() {
         return this.source;
     }
 
@@ -75,7 +75,7 @@ public final class JobStepAction {
      * @param source the source value to set.
      * @return the JobStepAction object itself.
      */
-    public JobStepAction setSource(String source) {
+    public JobStepAction withSource(String source) {
         this.source = source;
         return this;
     }
@@ -86,7 +86,7 @@ public final class JobStepAction {
      * 
      * @return the value value.
      */
-    public String getValue() {
+    public String value() {
         return this.value;
     }
 
@@ -97,7 +97,7 @@ public final class JobStepAction {
      * @param value the value value to set.
      * @return the JobStepAction object itself.
      */
-    public JobStepAction setValue(String value) {
+    public JobStepAction withValue(String value) {
         this.value = value;
         return this;
     }

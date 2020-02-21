@@ -44,7 +44,7 @@ public final class InstancePoolEditionCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -53,7 +53,7 @@ public final class InstancePoolEditionCapability {
      * 
      * @return the supportedFamilies value.
      */
-    public List<InstancePoolFamilyCapability> getSupportedFamilies() {
+    public List<InstancePoolFamilyCapability> supportedFamilies() {
         return this.supportedFamilies;
     }
 
@@ -62,7 +62,7 @@ public final class InstancePoolEditionCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -72,7 +72,7 @@ public final class InstancePoolEditionCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -83,7 +83,7 @@ public final class InstancePoolEditionCapability {
      * @param reason the reason value to set.
      * @return the InstancePoolEditionCapability object itself.
      */
-    public InstancePoolEditionCapability setReason(String reason) {
+    public InstancePoolEditionCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

@@ -51,7 +51,7 @@ public final class Sku {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -62,7 +62,7 @@ public final class Sku {
      * @param name the name value to set.
      * @return the Sku object itself.
      */
-    public Sku setName(String name) {
+    public Sku withName(String name) {
         this.name = name;
         return this;
     }
@@ -73,7 +73,7 @@ public final class Sku {
      * 
      * @return the tier value.
      */
-    public String getTier() {
+    public String tier() {
         return this.tier;
     }
 
@@ -84,7 +84,7 @@ public final class Sku {
      * @param tier the tier value to set.
      * @return the Sku object itself.
      */
-    public Sku setTier(String tier) {
+    public Sku withTier(String tier) {
         this.tier = tier;
         return this;
     }
@@ -94,7 +94,7 @@ public final class Sku {
      * 
      * @return the size value.
      */
-    public String getSize() {
+    public String size() {
         return this.size;
     }
 
@@ -104,7 +104,7 @@ public final class Sku {
      * @param size the size value to set.
      * @return the Sku object itself.
      */
-    public Sku setSize(String size) {
+    public Sku withSize(String size) {
         this.size = size;
         return this;
     }
@@ -115,7 +115,7 @@ public final class Sku {
      * 
      * @return the family value.
      */
-    public String getFamily() {
+    public String family() {
         return this.family;
     }
 
@@ -126,7 +126,7 @@ public final class Sku {
      * @param family the family value to set.
      * @return the Sku object itself.
      */
-    public Sku setFamily(String family) {
+    public Sku withFamily(String family) {
         this.family = family;
         return this;
     }
@@ -136,7 +136,7 @@ public final class Sku {
      * 
      * @return the capacity value.
      */
-    public Integer getCapacity() {
+    public Integer capacity() {
         return this.capacity;
     }
 
@@ -146,7 +146,7 @@ public final class Sku {
      * @param capacity the capacity value to set.
      * @return the Sku object itself.
      */
-    public Sku setCapacity(Integer capacity) {
+    public Sku withCapacity(Integer capacity) {
         this.capacity = capacity;
         return this;
     }

@@ -95,7 +95,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the databaseEdition value.
      */
-    public ElasticPoolEdition getDatabaseEdition() {
+    public ElasticPoolEdition databaseEdition() {
         return this.databaseEdition;
     }
 
@@ -104,7 +104,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the dtu value.
      */
-    public Double getDtu() {
+    public Double dtu() {
         return this.dtu;
     }
 
@@ -114,7 +114,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * @param dtu the dtu value to set.
      * @return the RecommendedElasticPoolInner object itself.
      */
-    public RecommendedElasticPoolInner setDtu(Double dtu) {
+    public RecommendedElasticPoolInner withDtu(Double dtu) {
         this.dtu = dtu;
         return this;
     }
@@ -124,7 +124,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the databaseDtuMin value.
      */
-    public Double getDatabaseDtuMin() {
+    public Double databaseDtuMin() {
         return this.databaseDtuMin;
     }
 
@@ -134,7 +134,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * @param databaseDtuMin the databaseDtuMin value to set.
      * @return the RecommendedElasticPoolInner object itself.
      */
-    public RecommendedElasticPoolInner setDatabaseDtuMin(Double databaseDtuMin) {
+    public RecommendedElasticPoolInner withDatabaseDtuMin(Double databaseDtuMin) {
         this.databaseDtuMin = databaseDtuMin;
         return this;
     }
@@ -144,7 +144,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the databaseDtuMax value.
      */
-    public Double getDatabaseDtuMax() {
+    public Double databaseDtuMax() {
         return this.databaseDtuMax;
     }
 
@@ -154,7 +154,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * @param databaseDtuMax the databaseDtuMax value to set.
      * @return the RecommendedElasticPoolInner object itself.
      */
-    public RecommendedElasticPoolInner setDatabaseDtuMax(Double databaseDtuMax) {
+    public RecommendedElasticPoolInner withDatabaseDtuMax(Double databaseDtuMax) {
         this.databaseDtuMax = databaseDtuMax;
         return this;
     }
@@ -164,7 +164,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the storageMB value.
      */
-    public Double getStorageMB() {
+    public Double storageMB() {
         return this.storageMB;
     }
 
@@ -174,7 +174,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * @param storageMB the storageMB value to set.
      * @return the RecommendedElasticPoolInner object itself.
      */
-    public RecommendedElasticPoolInner setStorageMB(Double storageMB) {
+    public RecommendedElasticPoolInner withStorageMB(Double storageMB) {
         this.storageMB = storageMB;
         return this;
     }
@@ -185,7 +185,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the observationPeriodStart value.
      */
-    public OffsetDateTime getObservationPeriodStart() {
+    public OffsetDateTime observationPeriodStart() {
         return this.observationPeriodStart;
     }
 
@@ -195,7 +195,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the observationPeriodEnd value.
      */
-    public OffsetDateTime getObservationPeriodEnd() {
+    public OffsetDateTime observationPeriodEnd() {
         return this.observationPeriodEnd;
     }
 
@@ -204,7 +204,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the maxObservedDtu value.
      */
-    public Double getMaxObservedDtu() {
+    public Double maxObservedDtu() {
         return this.maxObservedDtu;
     }
 
@@ -214,7 +214,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the maxObservedStorageMB value.
      */
-    public Double getMaxObservedStorageMB() {
+    public Double maxObservedStorageMB() {
         return this.maxObservedStorageMB;
     }
 
@@ -224,7 +224,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the databases value.
      */
-    public List<TrackedResource> getDatabases() {
+    public List<TrackedResource> databases() {
         return this.databases;
     }
 
@@ -234,7 +234,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * 
      * @return the metrics value.
      */
-    public List<RecommendedElasticPoolMetricInner> getMetrics() {
+    public List<RecommendedElasticPoolMetricInner> metrics() {
         return this.metrics;
     }
 }

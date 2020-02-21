@@ -109,7 +109,7 @@ public final class RestorePointsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
+            res.getValue().value(),
             null,
             null));
     }
@@ -160,7 +160,7 @@ public final class RestorePointsInner {
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createWithResponseAsync(String resourceGroupName, String serverName, String databaseName, String restorePointLabel) {
         final String apiVersion = "2017-03-01-preview";
         CreateDatabaseRestorePointDefinition parameters = new CreateDatabaseRestorePointDefinition();
-        parameters.setRestorePointLabel(restorePointLabel);
+        parameters.withRestorePointLabel(restorePointLabel);
         return service.create(this.client.getHost(), resourceGroupName, serverName, databaseName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -320,7 +320,7 @@ public final class RestorePointsInner {
     public Mono<SimpleResponse<RestorePointInner>> beginCreateWithResponseAsync(String resourceGroupName, String serverName, String databaseName, String restorePointLabel) {
         final String apiVersion = "2017-03-01-preview";
         CreateDatabaseRestorePointDefinition parameters = new CreateDatabaseRestorePointDefinition();
-        parameters.setRestorePointLabel(restorePointLabel);
+        parameters.withRestorePointLabel(restorePointLabel);
         return service.beginCreate(this.client.getHost(), resourceGroupName, serverName, databaseName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 

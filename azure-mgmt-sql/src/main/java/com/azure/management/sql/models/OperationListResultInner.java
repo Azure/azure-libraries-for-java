@@ -32,7 +32,7 @@ public final class OperationListResultInner {
      * 
      * @return the value value.
      */
-    public List<OperationInner> getValue() {
+    public List<OperationInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class OperationListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

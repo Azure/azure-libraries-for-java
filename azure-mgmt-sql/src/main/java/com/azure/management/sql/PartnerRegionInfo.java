@@ -32,7 +32,7 @@ public final class PartnerRegionInfo {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -43,7 +43,7 @@ public final class PartnerRegionInfo {
      * @param location the location value to set.
      * @return the PartnerRegionInfo object itself.
      */
-    public PartnerRegionInfo setLocation(String location) {
+    public PartnerRegionInfo withLocation(String location) {
         this.location = location;
         return this;
     }
@@ -54,7 +54,7 @@ public final class PartnerRegionInfo {
      * 
      * @return the replicationRole value.
      */
-    public InstanceFailoverGroupReplicationRole getReplicationRole() {
+    public InstanceFailoverGroupReplicationRole replicationRole() {
         return this.replicationRole;
     }
 }

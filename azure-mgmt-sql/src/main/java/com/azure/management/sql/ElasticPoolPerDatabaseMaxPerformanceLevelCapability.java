@@ -50,7 +50,7 @@ public final class ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
      * 
      * @return the limit value.
      */
-    public Double getLimit() {
+    public Double limit() {
         return this.limit;
     }
 
@@ -59,7 +59,7 @@ public final class ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
      * 
      * @return the unit value.
      */
-    public PerformanceLevelUnit getUnit() {
+    public PerformanceLevelUnit unit() {
         return this.unit;
     }
 
@@ -69,7 +69,7 @@ public final class ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
      * 
      * @return the supportedPerDatabaseMinPerformanceLevels value.
      */
-    public List<ElasticPoolPerDatabaseMinPerformanceLevelCapability> getSupportedPerDatabaseMinPerformanceLevels() {
+    public List<ElasticPoolPerDatabaseMinPerformanceLevelCapability> supportedPerDatabaseMinPerformanceLevels() {
         return this.supportedPerDatabaseMinPerformanceLevels;
     }
 
@@ -78,7 +78,7 @@ public final class ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -88,7 +88,7 @@ public final class ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -100,7 +100,7 @@ public final class ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
      * @return the ElasticPoolPerDatabaseMaxPerformanceLevelCapability object
      * itself.
      */
-    public ElasticPoolPerDatabaseMaxPerformanceLevelCapability setReason(String reason) {
+    public ElasticPoolPerDatabaseMaxPerformanceLevelCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

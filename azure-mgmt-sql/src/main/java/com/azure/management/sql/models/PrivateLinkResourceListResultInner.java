@@ -32,7 +32,7 @@ public final class PrivateLinkResourceListResultInner {
      * 
      * @return the value value.
      */
-    public List<PrivateLinkResourceInner> getValue() {
+    public List<PrivateLinkResourceInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class PrivateLinkResourceListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

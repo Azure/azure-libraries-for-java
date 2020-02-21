@@ -61,7 +61,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * 
      * @return the labelName value.
      */
-    public String getLabelName() {
+    public String labelName() {
         return this.labelName;
     }
 
@@ -71,7 +71,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * @param labelName the labelName value to set.
      * @return the SensitivityLabelInner object itself.
      */
-    public SensitivityLabelInner setLabelName(String labelName) {
+    public SensitivityLabelInner withLabelName(String labelName) {
         this.labelName = labelName;
         return this;
     }
@@ -81,7 +81,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * 
      * @return the labelId value.
      */
-    public String getLabelId() {
+    public String labelId() {
         return this.labelId;
     }
 
@@ -91,7 +91,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * @param labelId the labelId value to set.
      * @return the SensitivityLabelInner object itself.
      */
-    public SensitivityLabelInner setLabelId(String labelId) {
+    public SensitivityLabelInner withLabelId(String labelId) {
         this.labelId = labelId;
         return this;
     }
@@ -101,7 +101,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * 
      * @return the informationType value.
      */
-    public String getInformationType() {
+    public String informationType() {
         return this.informationType;
     }
 
@@ -111,7 +111,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * @param informationType the informationType value to set.
      * @return the SensitivityLabelInner object itself.
      */
-    public SensitivityLabelInner setInformationType(String informationType) {
+    public SensitivityLabelInner withInformationType(String informationType) {
         this.informationType = informationType;
         return this;
     }
@@ -121,7 +121,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * 
      * @return the informationTypeId value.
      */
-    public String getInformationTypeId() {
+    public String informationTypeId() {
         return this.informationTypeId;
     }
 
@@ -131,7 +131,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * @param informationTypeId the informationTypeId value to set.
      * @return the SensitivityLabelInner object itself.
      */
-    public SensitivityLabelInner setInformationTypeId(String informationTypeId) {
+    public SensitivityLabelInner withInformationTypeId(String informationTypeId) {
         this.informationTypeId = informationTypeId;
         return this;
     }
@@ -153,7 +153,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * 
      * @return the rank value.
      */
-    public SensitivityLabelRank getRank() {
+    public SensitivityLabelRank rank() {
         return this.rank;
     }
 
@@ -163,7 +163,7 @@ public class SensitivityLabelInner extends ProxyResource {
      * @param rank the rank value to set.
      * @return the SensitivityLabelInner object itself.
      */
-    public SensitivityLabelInner setRank(SensitivityLabelRank rank) {
+    public SensitivityLabelInner withRank(SensitivityLabelRank rank) {
         this.rank = rank;
         return this;
     }

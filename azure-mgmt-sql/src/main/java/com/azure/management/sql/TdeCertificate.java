@@ -35,7 +35,7 @@ public class TdeCertificate extends ProxyResource {
      * 
      * @return the privateBlob value.
      */
-    public String getPrivateBlob() {
+    public String privateBlob() {
         return this.privateBlob;
     }
 
@@ -46,7 +46,7 @@ public class TdeCertificate extends ProxyResource {
      * @param privateBlob the privateBlob value to set.
      * @return the TdeCertificate object itself.
      */
-    public TdeCertificate setPrivateBlob(String privateBlob) {
+    public TdeCertificate withPrivateBlob(String privateBlob) {
         this.privateBlob = privateBlob;
         return this;
     }
@@ -56,7 +56,7 @@ public class TdeCertificate extends ProxyResource {
      * 
      * @return the certPassword value.
      */
-    public String getCertPassword() {
+    public String certPassword() {
         return this.certPassword;
     }
 
@@ -66,7 +66,7 @@ public class TdeCertificate extends ProxyResource {
      * @param certPassword the certPassword value to set.
      * @return the TdeCertificate object itself.
      */
-    public TdeCertificate setCertPassword(String certPassword) {
+    public TdeCertificate withCertPassword(String certPassword) {
         this.certPassword = certPassword;
         return this;
     }

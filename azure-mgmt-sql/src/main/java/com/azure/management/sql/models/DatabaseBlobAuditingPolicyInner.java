@@ -183,7 +183,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -193,7 +193,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public BlobAuditingPolicyState getState() {
+    public BlobAuditingPolicyState state() {
         return this.state;
     }
 
@@ -204,7 +204,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param state the state value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
-    public DatabaseBlobAuditingPolicyInner setState(BlobAuditingPolicyState state) {
+    public DatabaseBlobAuditingPolicyInner withState(BlobAuditingPolicyState state) {
         this.state = state;
         return this;
     }
@@ -216,7 +216,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the storageEndpoint value.
      */
-    public String getStorageEndpoint() {
+    public String storageEndpoint() {
         return this.storageEndpoint;
     }
 
@@ -228,7 +228,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param storageEndpoint the storageEndpoint value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
-    public DatabaseBlobAuditingPolicyInner setStorageEndpoint(String storageEndpoint) {
+    public DatabaseBlobAuditingPolicyInner withStorageEndpoint(String storageEndpoint) {
         this.storageEndpoint = storageEndpoint;
         return this;
     }
@@ -240,7 +240,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the storageAccountAccessKey value.
      */
-    public String getStorageAccountAccessKey() {
+    public String storageAccountAccessKey() {
         return this.storageAccountAccessKey;
     }
 
@@ -252,7 +252,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param storageAccountAccessKey the storageAccountAccessKey value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
-    public DatabaseBlobAuditingPolicyInner setStorageAccountAccessKey(String storageAccountAccessKey) {
+    public DatabaseBlobAuditingPolicyInner withStorageAccountAccessKey(String storageAccountAccessKey) {
         this.storageAccountAccessKey = storageAccountAccessKey;
         return this;
     }
@@ -263,7 +263,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the retentionDays value.
      */
-    public Integer getRetentionDays() {
+    public Integer retentionDays() {
         return this.retentionDays;
     }
 
@@ -274,7 +274,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param retentionDays the retentionDays value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
-    public DatabaseBlobAuditingPolicyInner setRetentionDays(Integer retentionDays) {
+    public DatabaseBlobAuditingPolicyInner withRetentionDays(Integer retentionDays) {
         this.retentionDays = retentionDays;
         return this;
     }
@@ -355,7 +355,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the auditActionsAndGroups value.
      */
-    public List<String> getAuditActionsAndGroups() {
+    public List<String> auditActionsAndGroups() {
         return this.auditActionsAndGroups;
     }
 
@@ -436,7 +436,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param auditActionsAndGroups the auditActionsAndGroups value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
-    public DatabaseBlobAuditingPolicyInner setAuditActionsAndGroups(List<String> auditActionsAndGroups) {
+    public DatabaseBlobAuditingPolicyInner withAuditActionsAndGroups(List<String> auditActionsAndGroups) {
         this.auditActionsAndGroups = auditActionsAndGroups;
         return this;
     }
@@ -447,7 +447,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the storageAccountSubscriptionId value.
      */
-    public UUID getStorageAccountSubscriptionId() {
+    public UUID storageAccountSubscriptionId() {
         return this.storageAccountSubscriptionId;
     }
 
@@ -459,7 +459,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
-    public DatabaseBlobAuditingPolicyInner setStorageAccountSubscriptionId(UUID storageAccountSubscriptionId) {
+    public DatabaseBlobAuditingPolicyInner withStorageAccountSubscriptionId(UUID storageAccountSubscriptionId) {
         this.storageAccountSubscriptionId = storageAccountSubscriptionId;
         return this;
     }
@@ -482,7 +482,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
-    public DatabaseBlobAuditingPolicyInner setIsStorageSecondaryKeyInUse(Boolean isStorageSecondaryKeyInUse) {
+    public DatabaseBlobAuditingPolicyInner withIsStorageSecondaryKeyInUse(Boolean isStorageSecondaryKeyInUse) {
         this.isStorageSecondaryKeyInUse = isStorageSecondaryKeyInUse;
         return this;
     }
@@ -539,7 +539,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
-    public DatabaseBlobAuditingPolicyInner setIsAzureMonitorTargetEnabled(Boolean isAzureMonitorTargetEnabled) {
+    public DatabaseBlobAuditingPolicyInner withIsAzureMonitorTargetEnabled(Boolean isAzureMonitorTargetEnabled) {
         this.isAzureMonitorTargetEnabled = isAzureMonitorTargetEnabled;
         return this;
     }
@@ -553,7 +553,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the queueDelayMs value.
      */
-    public Integer getQueueDelayMs() {
+    public Integer queueDelayMs() {
         return this.queueDelayMs;
     }
 
@@ -567,7 +567,7 @@ public class DatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param queueDelayMs the queueDelayMs value to set.
      * @return the DatabaseBlobAuditingPolicyInner object itself.
      */
-    public DatabaseBlobAuditingPolicyInner setQueueDelayMs(Integer queueDelayMs) {
+    public DatabaseBlobAuditingPolicyInner withQueueDelayMs(Integer queueDelayMs) {
         this.queueDelayMs = queueDelayMs;
         return this;
     }

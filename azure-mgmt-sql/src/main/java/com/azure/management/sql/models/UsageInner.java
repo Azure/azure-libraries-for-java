@@ -71,7 +71,7 @@ public final class UsageInner {
      * 
      * @return the name value.
      */
-    public Name getName() {
+    public Name name() {
         return this.name;
     }
 
@@ -80,7 +80,7 @@ public final class UsageInner {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -89,7 +89,7 @@ public final class UsageInner {
      * 
      * @return the unit value.
      */
-    public String getUnit() {
+    public String unit() {
         return this.unit;
     }
 
@@ -98,7 +98,7 @@ public final class UsageInner {
      * 
      * @return the currentValue value.
      */
-    public Integer getCurrentValue() {
+    public Integer currentValue() {
         return this.currentValue;
     }
 
@@ -107,7 +107,7 @@ public final class UsageInner {
      * 
      * @return the limit value.
      */
-    public Integer getLimit() {
+    public Integer limit() {
         return this.limit;
     }
 
@@ -116,7 +116,7 @@ public final class UsageInner {
      * 
      * @return the requestedLimit value.
      */
-    public Integer getRequestedLimit() {
+    public Integer requestedLimit() {
         return this.requestedLimit;
     }
 }

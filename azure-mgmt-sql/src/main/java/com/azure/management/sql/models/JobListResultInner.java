@@ -32,7 +32,7 @@ public final class JobListResultInner {
      * 
      * @return the value value.
      */
-    public List<JobInner> getValue() {
+    public List<JobInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class JobListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

@@ -32,7 +32,7 @@ public final class ServerDnsAliasListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServerDnsAliasInner> getValue() {
+    public List<ServerDnsAliasInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class ServerDnsAliasListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

@@ -107,8 +107,8 @@ public final class JobTargetGroupsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -216,7 +216,7 @@ public final class JobTargetGroupsInner {
     public Mono<SimpleResponse<JobTargetGroupInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTarget> members) {
         final String apiVersion = "2017-03-01-preview";
         JobTargetGroupInner parameters = new JobTargetGroupInner();
-        parameters.setMembers(members);
+        parameters.withMembers(members);
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, serverName, jobAgentName, targetGroupName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -325,8 +325,8 @@ public final class JobTargetGroupsInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

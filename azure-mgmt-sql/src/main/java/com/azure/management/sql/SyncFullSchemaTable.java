@@ -51,7 +51,7 @@ public final class SyncFullSchemaTable {
      * 
      * @return the columns value.
      */
-    public List<SyncFullSchemaTableColumn> getColumns() {
+    public List<SyncFullSchemaTableColumn> columns() {
         return this.columns;
     }
 
@@ -60,7 +60,7 @@ public final class SyncFullSchemaTable {
      * 
      * @return the errorId value.
      */
-    public String getErrorId() {
+    public String errorId() {
         return this.errorId;
     }
 
@@ -69,7 +69,7 @@ public final class SyncFullSchemaTable {
      * 
      * @return the hasError value.
      */
-    public Boolean isHasError() {
+    public Boolean hasError() {
         return this.hasError;
     }
 
@@ -78,7 +78,7 @@ public final class SyncFullSchemaTable {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -87,7 +87,7 @@ public final class SyncFullSchemaTable {
      * 
      * @return the quotedName value.
      */
-    public String getQuotedName() {
+    public String quotedName() {
         return this.quotedName;
     }
 }

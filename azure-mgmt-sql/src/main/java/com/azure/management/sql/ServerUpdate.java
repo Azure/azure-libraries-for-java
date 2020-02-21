@@ -72,7 +72,7 @@ public class ServerUpdate {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -82,7 +82,7 @@ public class ServerUpdate {
      * @param tags the tags value to set.
      * @return the ServerUpdate object itself.
      */
-    public ServerUpdate setTags(Map<String, String> tags) {
+    public ServerUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -93,7 +93,7 @@ public class ServerUpdate {
      * 
      * @return the administratorLogin value.
      */
-    public String getAdministratorLogin() {
+    public String administratorLogin() {
         return this.administratorLogin;
     }
 
@@ -104,7 +104,7 @@ public class ServerUpdate {
      * @param administratorLogin the administratorLogin value to set.
      * @return the ServerUpdate object itself.
      */
-    public ServerUpdate setAdministratorLogin(String administratorLogin) {
+    public ServerUpdate withAdministratorLogin(String administratorLogin) {
         this.administratorLogin = administratorLogin;
         return this;
     }
@@ -115,7 +115,7 @@ public class ServerUpdate {
      * 
      * @return the administratorLoginPassword value.
      */
-    public String getAdministratorLoginPassword() {
+    public String administratorLoginPassword() {
         return this.administratorLoginPassword;
     }
 
@@ -127,7 +127,7 @@ public class ServerUpdate {
      * to set.
      * @return the ServerUpdate object itself.
      */
-    public ServerUpdate setAdministratorLoginPassword(String administratorLoginPassword) {
+    public ServerUpdate withAdministratorLoginPassword(String administratorLoginPassword) {
         this.administratorLoginPassword = administratorLoginPassword;
         return this;
     }
@@ -137,7 +137,7 @@ public class ServerUpdate {
      * 
      * @return the version value.
      */
-    public String getVersion() {
+    public String version() {
         return this.version;
     }
 
@@ -147,7 +147,7 @@ public class ServerUpdate {
      * @param version the version value to set.
      * @return the ServerUpdate object itself.
      */
-    public ServerUpdate setVersion(String version) {
+    public ServerUpdate withVersion(String version) {
         this.version = version;
         return this;
     }
@@ -157,7 +157,7 @@ public class ServerUpdate {
      * 
      * @return the state value.
      */
-    public String getState() {
+    public String state() {
         return this.state;
     }
 
@@ -167,7 +167,7 @@ public class ServerUpdate {
      * 
      * @return the fullyQualifiedDomainName value.
      */
-    public String getFullyQualifiedDomainName() {
+    public String fullyQualifiedDomainName() {
         return this.fullyQualifiedDomainName;
     }
 
@@ -177,7 +177,7 @@ public class ServerUpdate {
      * 
      * @return the privateEndpointConnections value.
      */
-    public List<ServerPrivateEndpointConnection> getPrivateEndpointConnections() {
+    public List<ServerPrivateEndpointConnection> privateEndpointConnections() {
         return this.privateEndpointConnections;
     }
 
@@ -187,7 +187,7 @@ public class ServerUpdate {
      * 
      * @return the minimalTlsVersion value.
      */
-    public String getMinimalTlsVersion() {
+    public String minimalTlsVersion() {
         return this.minimalTlsVersion;
     }
 
@@ -198,7 +198,7 @@ public class ServerUpdate {
      * @param minimalTlsVersion the minimalTlsVersion value to set.
      * @return the ServerUpdate object itself.
      */
-    public ServerUpdate setMinimalTlsVersion(String minimalTlsVersion) {
+    public ServerUpdate withMinimalTlsVersion(String minimalTlsVersion) {
         this.minimalTlsVersion = minimalTlsVersion;
         return this;
     }

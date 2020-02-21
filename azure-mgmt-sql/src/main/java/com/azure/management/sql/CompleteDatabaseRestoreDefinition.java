@@ -25,7 +25,7 @@ public final class CompleteDatabaseRestoreDefinition {
      * 
      * @return the lastBackupName value.
      */
-    public String getLastBackupName() {
+    public String lastBackupName() {
         return this.lastBackupName;
     }
 
@@ -35,7 +35,7 @@ public final class CompleteDatabaseRestoreDefinition {
      * @param lastBackupName the lastBackupName value to set.
      * @return the CompleteDatabaseRestoreDefinition object itself.
      */
-    public CompleteDatabaseRestoreDefinition setLastBackupName(String lastBackupName) {
+    public CompleteDatabaseRestoreDefinition withLastBackupName(String lastBackupName) {
         this.lastBackupName = lastBackupName;
         return this;
     }

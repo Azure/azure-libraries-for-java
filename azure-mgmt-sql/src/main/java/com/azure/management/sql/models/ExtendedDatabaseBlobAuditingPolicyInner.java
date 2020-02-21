@@ -184,7 +184,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the predicateExpression value.
      */
-    public String getPredicateExpression() {
+    public String predicateExpression() {
         return this.predicateExpression;
     }
 
@@ -195,7 +195,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param predicateExpression the predicateExpression value to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setPredicateExpression(String predicateExpression) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withPredicateExpression(String predicateExpression) {
         this.predicateExpression = predicateExpression;
         return this;
     }
@@ -206,7 +206,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public BlobAuditingPolicyState getState() {
+    public BlobAuditingPolicyState state() {
         return this.state;
     }
 
@@ -217,7 +217,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param state the state value to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setState(BlobAuditingPolicyState state) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withState(BlobAuditingPolicyState state) {
         this.state = state;
         return this;
     }
@@ -229,7 +229,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the storageEndpoint value.
      */
-    public String getStorageEndpoint() {
+    public String storageEndpoint() {
         return this.storageEndpoint;
     }
 
@@ -241,7 +241,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param storageEndpoint the storageEndpoint value to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setStorageEndpoint(String storageEndpoint) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withStorageEndpoint(String storageEndpoint) {
         this.storageEndpoint = storageEndpoint;
         return this;
     }
@@ -253,7 +253,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the storageAccountAccessKey value.
      */
-    public String getStorageAccountAccessKey() {
+    public String storageAccountAccessKey() {
         return this.storageAccountAccessKey;
     }
 
@@ -265,7 +265,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param storageAccountAccessKey the storageAccountAccessKey value to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setStorageAccountAccessKey(String storageAccountAccessKey) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withStorageAccountAccessKey(String storageAccountAccessKey) {
         this.storageAccountAccessKey = storageAccountAccessKey;
         return this;
     }
@@ -276,7 +276,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the retentionDays value.
      */
-    public Integer getRetentionDays() {
+    public Integer retentionDays() {
         return this.retentionDays;
     }
 
@@ -287,7 +287,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param retentionDays the retentionDays value to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setRetentionDays(Integer retentionDays) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withRetentionDays(Integer retentionDays) {
         this.retentionDays = retentionDays;
         return this;
     }
@@ -368,7 +368,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the auditActionsAndGroups value.
      */
-    public List<String> getAuditActionsAndGroups() {
+    public List<String> auditActionsAndGroups() {
         return this.auditActionsAndGroups;
     }
 
@@ -449,7 +449,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param auditActionsAndGroups the auditActionsAndGroups value to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setAuditActionsAndGroups(List<String> auditActionsAndGroups) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withAuditActionsAndGroups(List<String> auditActionsAndGroups) {
         this.auditActionsAndGroups = auditActionsAndGroups;
         return this;
     }
@@ -460,7 +460,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the storageAccountSubscriptionId value.
      */
-    public UUID getStorageAccountSubscriptionId() {
+    public UUID storageAccountSubscriptionId() {
         return this.storageAccountSubscriptionId;
     }
 
@@ -472,7 +472,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * value to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setStorageAccountSubscriptionId(UUID storageAccountSubscriptionId) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withStorageAccountSubscriptionId(UUID storageAccountSubscriptionId) {
         this.storageAccountSubscriptionId = storageAccountSubscriptionId;
         return this;
     }
@@ -495,7 +495,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setIsStorageSecondaryKeyInUse(Boolean isStorageSecondaryKeyInUse) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withIsStorageSecondaryKeyInUse(Boolean isStorageSecondaryKeyInUse) {
         this.isStorageSecondaryKeyInUse = isStorageSecondaryKeyInUse;
         return this;
     }
@@ -552,7 +552,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setIsAzureMonitorTargetEnabled(Boolean isAzureMonitorTargetEnabled) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withIsAzureMonitorTargetEnabled(Boolean isAzureMonitorTargetEnabled) {
         this.isAzureMonitorTargetEnabled = isAzureMonitorTargetEnabled;
         return this;
     }
@@ -566,7 +566,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the queueDelayMs value.
      */
-    public Integer getQueueDelayMs() {
+    public Integer queueDelayMs() {
         return this.queueDelayMs;
     }
 
@@ -580,7 +580,7 @@ public class ExtendedDatabaseBlobAuditingPolicyInner extends ProxyResource {
      * @param queueDelayMs the queueDelayMs value to set.
      * @return the ExtendedDatabaseBlobAuditingPolicyInner object itself.
      */
-    public ExtendedDatabaseBlobAuditingPolicyInner setQueueDelayMs(Integer queueDelayMs) {
+    public ExtendedDatabaseBlobAuditingPolicyInner withQueueDelayMs(Integer queueDelayMs) {
         this.queueDelayMs = queueDelayMs;
         return this;
     }

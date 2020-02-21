@@ -32,7 +32,7 @@ public final class BackupShortTermRetentionPolicyListResultInner {
      * 
      * @return the value value.
      */
-    public List<BackupShortTermRetentionPolicyInner> getValue() {
+    public List<BackupShortTermRetentionPolicyInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class BackupShortTermRetentionPolicyListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

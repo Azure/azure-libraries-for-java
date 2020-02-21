@@ -32,7 +32,7 @@ public final class VirtualNetworkRuleListResultInner {
      * 
      * @return the value value.
      */
-    public List<VirtualNetworkRuleInner> getValue() {
+    public List<VirtualNetworkRuleInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class VirtualNetworkRuleListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

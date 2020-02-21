@@ -42,7 +42,7 @@ public class JobAgentInner extends Resource {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -52,7 +52,7 @@ public class JobAgentInner extends Resource {
      * @param sku the sku value to set.
      * @return the JobAgentInner object itself.
      */
-    public JobAgentInner setSku(Sku sku) {
+    public JobAgentInner withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -63,7 +63,7 @@ public class JobAgentInner extends Resource {
      * 
      * @return the databaseId value.
      */
-    public String getDatabaseId() {
+    public String databaseId() {
         return this.databaseId;
     }
 
@@ -74,7 +74,7 @@ public class JobAgentInner extends Resource {
      * @param databaseId the databaseId value to set.
      * @return the JobAgentInner object itself.
      */
-    public JobAgentInner setDatabaseId(String databaseId) {
+    public JobAgentInner withDatabaseId(String databaseId) {
         this.databaseId = databaseId;
         return this;
     }
@@ -84,7 +84,7 @@ public class JobAgentInner extends Resource {
      * 
      * @return the state value.
      */
-    public JobAgentState getState() {
+    public JobAgentState state() {
         return this.state;
     }
 }

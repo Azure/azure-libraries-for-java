@@ -178,7 +178,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public BlobAuditingPolicyState getState() {
+    public BlobAuditingPolicyState state() {
         return this.state;
     }
 
@@ -189,7 +189,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * @param state the state value to set.
      * @return the ServerBlobAuditingPolicyInner object itself.
      */
-    public ServerBlobAuditingPolicyInner setState(BlobAuditingPolicyState state) {
+    public ServerBlobAuditingPolicyInner withState(BlobAuditingPolicyState state) {
         this.state = state;
         return this;
     }
@@ -201,7 +201,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the storageEndpoint value.
      */
-    public String getStorageEndpoint() {
+    public String storageEndpoint() {
         return this.storageEndpoint;
     }
 
@@ -213,7 +213,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * @param storageEndpoint the storageEndpoint value to set.
      * @return the ServerBlobAuditingPolicyInner object itself.
      */
-    public ServerBlobAuditingPolicyInner setStorageEndpoint(String storageEndpoint) {
+    public ServerBlobAuditingPolicyInner withStorageEndpoint(String storageEndpoint) {
         this.storageEndpoint = storageEndpoint;
         return this;
     }
@@ -225,7 +225,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the storageAccountAccessKey value.
      */
-    public String getStorageAccountAccessKey() {
+    public String storageAccountAccessKey() {
         return this.storageAccountAccessKey;
     }
 
@@ -237,7 +237,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * @param storageAccountAccessKey the storageAccountAccessKey value to set.
      * @return the ServerBlobAuditingPolicyInner object itself.
      */
-    public ServerBlobAuditingPolicyInner setStorageAccountAccessKey(String storageAccountAccessKey) {
+    public ServerBlobAuditingPolicyInner withStorageAccountAccessKey(String storageAccountAccessKey) {
         this.storageAccountAccessKey = storageAccountAccessKey;
         return this;
     }
@@ -248,7 +248,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the retentionDays value.
      */
-    public Integer getRetentionDays() {
+    public Integer retentionDays() {
         return this.retentionDays;
     }
 
@@ -259,7 +259,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * @param retentionDays the retentionDays value to set.
      * @return the ServerBlobAuditingPolicyInner object itself.
      */
-    public ServerBlobAuditingPolicyInner setRetentionDays(Integer retentionDays) {
+    public ServerBlobAuditingPolicyInner withRetentionDays(Integer retentionDays) {
         this.retentionDays = retentionDays;
         return this;
     }
@@ -340,7 +340,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the auditActionsAndGroups value.
      */
-    public List<String> getAuditActionsAndGroups() {
+    public List<String> auditActionsAndGroups() {
         return this.auditActionsAndGroups;
     }
 
@@ -421,7 +421,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * @param auditActionsAndGroups the auditActionsAndGroups value to set.
      * @return the ServerBlobAuditingPolicyInner object itself.
      */
-    public ServerBlobAuditingPolicyInner setAuditActionsAndGroups(List<String> auditActionsAndGroups) {
+    public ServerBlobAuditingPolicyInner withAuditActionsAndGroups(List<String> auditActionsAndGroups) {
         this.auditActionsAndGroups = auditActionsAndGroups;
         return this;
     }
@@ -432,7 +432,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the storageAccountSubscriptionId value.
      */
-    public UUID getStorageAccountSubscriptionId() {
+    public UUID storageAccountSubscriptionId() {
         return this.storageAccountSubscriptionId;
     }
 
@@ -444,7 +444,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * value to set.
      * @return the ServerBlobAuditingPolicyInner object itself.
      */
-    public ServerBlobAuditingPolicyInner setStorageAccountSubscriptionId(UUID storageAccountSubscriptionId) {
+    public ServerBlobAuditingPolicyInner withStorageAccountSubscriptionId(UUID storageAccountSubscriptionId) {
         this.storageAccountSubscriptionId = storageAccountSubscriptionId;
         return this;
     }
@@ -467,7 +467,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * to set.
      * @return the ServerBlobAuditingPolicyInner object itself.
      */
-    public ServerBlobAuditingPolicyInner setIsStorageSecondaryKeyInUse(Boolean isStorageSecondaryKeyInUse) {
+    public ServerBlobAuditingPolicyInner withIsStorageSecondaryKeyInUse(Boolean isStorageSecondaryKeyInUse) {
         this.isStorageSecondaryKeyInUse = isStorageSecondaryKeyInUse;
         return this;
     }
@@ -524,7 +524,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * to set.
      * @return the ServerBlobAuditingPolicyInner object itself.
      */
-    public ServerBlobAuditingPolicyInner setIsAzureMonitorTargetEnabled(Boolean isAzureMonitorTargetEnabled) {
+    public ServerBlobAuditingPolicyInner withIsAzureMonitorTargetEnabled(Boolean isAzureMonitorTargetEnabled) {
         this.isAzureMonitorTargetEnabled = isAzureMonitorTargetEnabled;
         return this;
     }
@@ -538,7 +538,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * 
      * @return the queueDelayMs value.
      */
-    public Integer getQueueDelayMs() {
+    public Integer queueDelayMs() {
         return this.queueDelayMs;
     }
 
@@ -552,7 +552,7 @@ public class ServerBlobAuditingPolicyInner extends ProxyResource {
      * @param queueDelayMs the queueDelayMs value to set.
      * @return the ServerBlobAuditingPolicyInner object itself.
      */
-    public ServerBlobAuditingPolicyInner setQueueDelayMs(Integer queueDelayMs) {
+    public ServerBlobAuditingPolicyInner withQueueDelayMs(Integer queueDelayMs) {
         this.queueDelayMs = queueDelayMs;
         return this;
     }

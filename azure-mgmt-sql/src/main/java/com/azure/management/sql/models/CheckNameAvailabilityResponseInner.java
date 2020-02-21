@@ -46,7 +46,7 @@ public final class CheckNameAvailabilityResponseInner {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -56,7 +56,7 @@ public final class CheckNameAvailabilityResponseInner {
      * 
      * @return the available value.
      */
-    public Boolean isAvailable() {
+    public Boolean available() {
         return this.available;
     }
 
@@ -66,7 +66,7 @@ public final class CheckNameAvailabilityResponseInner {
      * 
      * @return the reason value.
      */
-    public CheckNameAvailabilityReason getReason() {
+    public CheckNameAvailabilityReason reason() {
         return this.reason;
     }
 
@@ -76,7 +76,7 @@ public final class CheckNameAvailabilityResponseInner {
      * 
      * @return the message value.
      */
-    public String getMessage() {
+    public String message() {
         return this.message;
     }
 }

@@ -32,7 +32,7 @@ public final class ManagedInstanceEncryptionProtectorListResultInner {
      * 
      * @return the value value.
      */
-    public List<ManagedInstanceEncryptionProtectorInner> getValue() {
+    public List<ManagedInstanceEncryptionProtectorInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class ManagedInstanceEncryptionProtectorListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

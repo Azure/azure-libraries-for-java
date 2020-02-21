@@ -32,7 +32,7 @@ public final class SyncFullSchemaPropertiesListResultInner {
      * 
      * @return the value value.
      */
-    public List<SyncFullSchemaPropertiesInner> getValue() {
+    public List<SyncFullSchemaPropertiesInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class SyncFullSchemaPropertiesListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

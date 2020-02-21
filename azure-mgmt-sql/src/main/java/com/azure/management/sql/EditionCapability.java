@@ -62,7 +62,7 @@ public final class EditionCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -72,7 +72,7 @@ public final class EditionCapability {
      * 
      * @return the supportedServiceLevelObjectives value.
      */
-    public List<ServiceObjectiveCapability> getSupportedServiceLevelObjectives() {
+    public List<ServiceObjectiveCapability> supportedServiceLevelObjectives() {
         return this.supportedServiceLevelObjectives;
     }
 
@@ -82,7 +82,7 @@ public final class EditionCapability {
      * 
      * @return the zoneRedundant value.
      */
-    public Boolean isZoneRedundant() {
+    public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
 
@@ -91,7 +91,7 @@ public final class EditionCapability {
      * 
      * @return the readScale value.
      */
-    public ReadScaleCapability getReadScale() {
+    public ReadScaleCapability readScale() {
         return this.readScale;
     }
 
@@ -101,7 +101,7 @@ public final class EditionCapability {
      * 
      * @return the supportedStorageCapabilities value.
      */
-    public List<StorageCapability> getSupportedStorageCapabilities() {
+    public List<StorageCapability> supportedStorageCapabilities() {
         return this.supportedStorageCapabilities;
     }
 
@@ -110,7 +110,7 @@ public final class EditionCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -120,7 +120,7 @@ public final class EditionCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -131,7 +131,7 @@ public final class EditionCapability {
      * @param reason the reason value to set.
      * @return the EditionCapability object itself.
      */
-    public EditionCapability setReason(String reason) {
+    public EditionCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

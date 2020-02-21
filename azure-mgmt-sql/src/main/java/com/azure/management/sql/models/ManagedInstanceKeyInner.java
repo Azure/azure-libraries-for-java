@@ -57,7 +57,7 @@ public class ManagedInstanceKeyInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -67,7 +67,7 @@ public class ManagedInstanceKeyInner extends ProxyResource {
      * 
      * @return the serverKeyType value.
      */
-    public ServerKeyType getServerKeyType() {
+    public ServerKeyType serverKeyType() {
         return this.serverKeyType;
     }
 
@@ -78,7 +78,7 @@ public class ManagedInstanceKeyInner extends ProxyResource {
      * @param serverKeyType the serverKeyType value to set.
      * @return the ManagedInstanceKeyInner object itself.
      */
-    public ManagedInstanceKeyInner setServerKeyType(ServerKeyType serverKeyType) {
+    public ManagedInstanceKeyInner withServerKeyType(ServerKeyType serverKeyType) {
         this.serverKeyType = serverKeyType;
         return this;
     }
@@ -89,7 +89,7 @@ public class ManagedInstanceKeyInner extends ProxyResource {
      * 
      * @return the uri value.
      */
-    public String getUri() {
+    public String uri() {
         return this.uri;
     }
 
@@ -100,7 +100,7 @@ public class ManagedInstanceKeyInner extends ProxyResource {
      * @param uri the uri value to set.
      * @return the ManagedInstanceKeyInner object itself.
      */
-    public ManagedInstanceKeyInner setUri(String uri) {
+    public ManagedInstanceKeyInner withUri(String uri) {
         this.uri = uri;
         return this;
     }
@@ -110,7 +110,7 @@ public class ManagedInstanceKeyInner extends ProxyResource {
      * 
      * @return the thumbprint value.
      */
-    public String getThumbprint() {
+    public String thumbprint() {
         return this.thumbprint;
     }
 
@@ -119,7 +119,7 @@ public class ManagedInstanceKeyInner extends ProxyResource {
      * 
      * @return the creationDate value.
      */
-    public OffsetDateTime getCreationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 }

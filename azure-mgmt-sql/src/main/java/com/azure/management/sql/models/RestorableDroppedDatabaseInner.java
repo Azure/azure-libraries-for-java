@@ -77,7 +77,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -86,7 +86,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResource {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -95,7 +95,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResource {
      * 
      * @return the edition value.
      */
-    public String getEdition() {
+    public String edition() {
         return this.edition;
     }
 
@@ -104,7 +104,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResource {
      * 
      * @return the maxSizeBytes value.
      */
-    public String getMaxSizeBytes() {
+    public String maxSizeBytes() {
         return this.maxSizeBytes;
     }
 
@@ -114,7 +114,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResource {
      * 
      * @return the serviceLevelObjective value.
      */
-    public String getServiceLevelObjective() {
+    public String serviceLevelObjective() {
         return this.serviceLevelObjective;
     }
 
@@ -123,7 +123,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResource {
      * 
      * @return the elasticPoolName value.
      */
-    public String getElasticPoolName() {
+    public String elasticPoolName() {
         return this.elasticPoolName;
     }
 
@@ -133,7 +133,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResource {
      * 
      * @return the creationDate value.
      */
-    public OffsetDateTime getCreationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
@@ -143,7 +143,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResource {
      * 
      * @return the deletionDate value.
      */
-    public OffsetDateTime getDeletionDate() {
+    public OffsetDateTime deletionDate() {
         return this.deletionDate;
     }
 
@@ -153,7 +153,7 @@ public class RestorableDroppedDatabaseInner extends ProxyResource {
      * 
      * @return the earliestRestoreDate value.
      */
-    public OffsetDateTime getEarliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.earliestRestoreDate;
     }
 }

@@ -32,7 +32,7 @@ public final class PrivateEndpointConnectionListResultInner {
      * 
      * @return the value value.
      */
-    public List<PrivateEndpointConnectionInner> getValue() {
+    public List<PrivateEndpointConnectionInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class PrivateEndpointConnectionListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

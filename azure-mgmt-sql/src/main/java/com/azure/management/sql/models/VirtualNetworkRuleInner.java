@@ -43,7 +43,7 @@ public class VirtualNetworkRuleInner extends ProxyResource {
      * 
      * @return the virtualNetworkSubnetId value.
      */
-    public String getVirtualNetworkSubnetId() {
+    public String virtualNetworkSubnetId() {
         return this.virtualNetworkSubnetId;
     }
 
@@ -54,7 +54,7 @@ public class VirtualNetworkRuleInner extends ProxyResource {
      * @param virtualNetworkSubnetId the virtualNetworkSubnetId value to set.
      * @return the VirtualNetworkRuleInner object itself.
      */
-    public VirtualNetworkRuleInner setVirtualNetworkSubnetId(String virtualNetworkSubnetId) {
+    public VirtualNetworkRuleInner withVirtualNetworkSubnetId(String virtualNetworkSubnetId) {
         this.virtualNetworkSubnetId = virtualNetworkSubnetId;
         return this;
     }
@@ -65,7 +65,7 @@ public class VirtualNetworkRuleInner extends ProxyResource {
      * 
      * @return the ignoreMissingVnetServiceEndpoint value.
      */
-    public Boolean isIgnoreMissingVnetServiceEndpoint() {
+    public Boolean ignoreMissingVnetServiceEndpoint() {
         return this.ignoreMissingVnetServiceEndpoint;
     }
 
@@ -77,7 +77,7 @@ public class VirtualNetworkRuleInner extends ProxyResource {
      * ignoreMissingVnetServiceEndpoint value to set.
      * @return the VirtualNetworkRuleInner object itself.
      */
-    public VirtualNetworkRuleInner setIgnoreMissingVnetServiceEndpoint(Boolean ignoreMissingVnetServiceEndpoint) {
+    public VirtualNetworkRuleInner withIgnoreMissingVnetServiceEndpoint(Boolean ignoreMissingVnetServiceEndpoint) {
         this.ignoreMissingVnetServiceEndpoint = ignoreMissingVnetServiceEndpoint;
         return this;
     }
@@ -87,7 +87,7 @@ public class VirtualNetworkRuleInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public VirtualNetworkRuleState getState() {
+    public VirtualNetworkRuleState state() {
         return this.state;
     }
 }

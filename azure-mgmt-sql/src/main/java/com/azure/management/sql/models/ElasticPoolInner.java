@@ -78,7 +78,7 @@ public class ElasticPoolInner extends Resource {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -88,7 +88,7 @@ public class ElasticPoolInner extends Resource {
      * @param sku the sku value to set.
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner setSku(Sku sku) {
+    public ElasticPoolInner withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -99,7 +99,7 @@ public class ElasticPoolInner extends Resource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -108,7 +108,7 @@ public class ElasticPoolInner extends Resource {
      * 
      * @return the state value.
      */
-    public ElasticPoolState getState() {
+    public ElasticPoolState state() {
         return this.state;
     }
 
@@ -118,7 +118,7 @@ public class ElasticPoolInner extends Resource {
      * 
      * @return the creationDate value.
      */
-    public OffsetDateTime getCreationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
@@ -128,7 +128,7 @@ public class ElasticPoolInner extends Resource {
      * 
      * @return the maxSizeBytes value.
      */
-    public Long getMaxSizeBytes() {
+    public Long maxSizeBytes() {
         return this.maxSizeBytes;
     }
 
@@ -139,7 +139,7 @@ public class ElasticPoolInner extends Resource {
      * @param maxSizeBytes the maxSizeBytes value to set.
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner setMaxSizeBytes(Long maxSizeBytes) {
+    public ElasticPoolInner withMaxSizeBytes(Long maxSizeBytes) {
         this.maxSizeBytes = maxSizeBytes;
         return this;
     }
@@ -150,7 +150,7 @@ public class ElasticPoolInner extends Resource {
      * 
      * @return the perDatabaseSettings value.
      */
-    public ElasticPoolPerDatabaseSettings getPerDatabaseSettings() {
+    public ElasticPoolPerDatabaseSettings perDatabaseSettings() {
         return this.perDatabaseSettings;
     }
 
@@ -161,7 +161,7 @@ public class ElasticPoolInner extends Resource {
      * @param perDatabaseSettings the perDatabaseSettings value to set.
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner setPerDatabaseSettings(ElasticPoolPerDatabaseSettings perDatabaseSettings) {
+    public ElasticPoolInner withPerDatabaseSettings(ElasticPoolPerDatabaseSettings perDatabaseSettings) {
         this.perDatabaseSettings = perDatabaseSettings;
         return this;
     }
@@ -173,7 +173,7 @@ public class ElasticPoolInner extends Resource {
      * 
      * @return the zoneRedundant value.
      */
-    public Boolean isZoneRedundant() {
+    public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
 
@@ -185,7 +185,7 @@ public class ElasticPoolInner extends Resource {
      * @param zoneRedundant the zoneRedundant value to set.
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner setZoneRedundant(Boolean zoneRedundant) {
+    public ElasticPoolInner withZoneRedundant(Boolean zoneRedundant) {
         this.zoneRedundant = zoneRedundant;
         return this;
     }
@@ -196,7 +196,7 @@ public class ElasticPoolInner extends Resource {
      * 
      * @return the licenseType value.
      */
-    public ElasticPoolLicenseType getLicenseType() {
+    public ElasticPoolLicenseType licenseType() {
         return this.licenseType;
     }
 
@@ -207,7 +207,7 @@ public class ElasticPoolInner extends Resource {
      * @param licenseType the licenseType value to set.
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner setLicenseType(ElasticPoolLicenseType licenseType) {
+    public ElasticPoolInner withLicenseType(ElasticPoolLicenseType licenseType) {
         this.licenseType = licenseType;
         return this;
     }

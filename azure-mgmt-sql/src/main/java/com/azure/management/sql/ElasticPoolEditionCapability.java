@@ -50,7 +50,7 @@ public final class ElasticPoolEditionCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -60,7 +60,7 @@ public final class ElasticPoolEditionCapability {
      * 
      * @return the supportedElasticPoolPerformanceLevels value.
      */
-    public List<ElasticPoolPerformanceLevelCapability> getSupportedElasticPoolPerformanceLevels() {
+    public List<ElasticPoolPerformanceLevelCapability> supportedElasticPoolPerformanceLevels() {
         return this.supportedElasticPoolPerformanceLevels;
     }
 
@@ -70,7 +70,7 @@ public final class ElasticPoolEditionCapability {
      * 
      * @return the zoneRedundant value.
      */
-    public Boolean isZoneRedundant() {
+    public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
 
@@ -79,7 +79,7 @@ public final class ElasticPoolEditionCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -89,7 +89,7 @@ public final class ElasticPoolEditionCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -100,7 +100,7 @@ public final class ElasticPoolEditionCapability {
      * @param reason the reason value to set.
      * @return the ElasticPoolEditionCapability object itself.
      */
-    public ElasticPoolEditionCapability setReason(String reason) {
+    public ElasticPoolEditionCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

@@ -46,7 +46,7 @@ public class SubscriptionUsageInner extends ProxyResource {
      * 
      * @return the displayName value.
      */
-    public String getDisplayName() {
+    public String displayName() {
         return this.displayName;
     }
 
@@ -55,7 +55,7 @@ public class SubscriptionUsageInner extends ProxyResource {
      * 
      * @return the currentValue value.
      */
-    public Double getCurrentValue() {
+    public Double currentValue() {
         return this.currentValue;
     }
 
@@ -64,7 +64,7 @@ public class SubscriptionUsageInner extends ProxyResource {
      * 
      * @return the limit value.
      */
-    public Double getLimit() {
+    public Double limit() {
         return this.limit;
     }
 
@@ -73,7 +73,7 @@ public class SubscriptionUsageInner extends ProxyResource {
      * 
      * @return the unit value.
      */
-    public String getUnit() {
+    public String unit() {
         return this.unit;
     }
 }

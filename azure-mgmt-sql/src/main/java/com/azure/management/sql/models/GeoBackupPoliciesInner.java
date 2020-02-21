@@ -93,7 +93,7 @@ public final class GeoBackupPoliciesInner {
         final String geoBackupPolicyName = "Default";
         final String apiVersion = "2014-04-01";
         GeoBackupPolicyInner parameters = new GeoBackupPolicyInner();
-        parameters.setState(state);
+        parameters.withState(state);
         return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, serverName, databaseName, geoBackupPolicyName, parameters, apiVersion);
     }
 
@@ -207,7 +207,7 @@ public final class GeoBackupPoliciesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
+            res.getValue().value(),
             null,
             null));
     }

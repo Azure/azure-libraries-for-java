@@ -70,7 +70,7 @@ public final class ManagedInstanceVcoresCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -79,7 +79,7 @@ public final class ManagedInstanceVcoresCapability {
      * 
      * @return the value value.
      */
-    public Integer getValue() {
+    public Integer value() {
         return this.value;
     }
 
@@ -88,7 +88,7 @@ public final class ManagedInstanceVcoresCapability {
      * 
      * @return the includedMaxSize value.
      */
-    public MaxSizeCapability getIncludedMaxSize() {
+    public MaxSizeCapability includedMaxSize() {
         return this.includedMaxSize;
     }
 
@@ -97,7 +97,7 @@ public final class ManagedInstanceVcoresCapability {
      * 
      * @return the supportedStorageSizes value.
      */
-    public List<MaxSizeRangeCapability> getSupportedStorageSizes() {
+    public List<MaxSizeRangeCapability> supportedStorageSizes() {
         return this.supportedStorageSizes;
     }
 
@@ -107,7 +107,7 @@ public final class ManagedInstanceVcoresCapability {
      * 
      * @return the instancePoolSupported value.
      */
-    public Boolean isInstancePoolSupported() {
+    public Boolean instancePoolSupported() {
         return this.instancePoolSupported;
     }
 
@@ -117,7 +117,7 @@ public final class ManagedInstanceVcoresCapability {
      * 
      * @return the standaloneSupported value.
      */
-    public Boolean isStandaloneSupported() {
+    public Boolean standaloneSupported() {
         return this.standaloneSupported;
     }
 
@@ -126,7 +126,7 @@ public final class ManagedInstanceVcoresCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -136,7 +136,7 @@ public final class ManagedInstanceVcoresCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -147,7 +147,7 @@ public final class ManagedInstanceVcoresCapability {
      * @param reason the reason value to set.
      * @return the ManagedInstanceVcoresCapability object itself.
      */
-    public ManagedInstanceVcoresCapability setReason(String reason) {
+    public ManagedInstanceVcoresCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

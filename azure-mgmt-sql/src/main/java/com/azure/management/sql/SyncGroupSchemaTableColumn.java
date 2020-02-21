@@ -37,7 +37,7 @@ public final class SyncGroupSchemaTableColumn {
      * 
      * @return the quotedName value.
      */
-    public String getQuotedName() {
+    public String quotedName() {
         return this.quotedName;
     }
 
@@ -47,7 +47,7 @@ public final class SyncGroupSchemaTableColumn {
      * @param quotedName the quotedName value to set.
      * @return the SyncGroupSchemaTableColumn object itself.
      */
-    public SyncGroupSchemaTableColumn setQuotedName(String quotedName) {
+    public SyncGroupSchemaTableColumn withQuotedName(String quotedName) {
         this.quotedName = quotedName;
         return this;
     }
@@ -57,7 +57,7 @@ public final class SyncGroupSchemaTableColumn {
      * 
      * @return the dataSize value.
      */
-    public String getDataSize() {
+    public String dataSize() {
         return this.dataSize;
     }
 
@@ -67,7 +67,7 @@ public final class SyncGroupSchemaTableColumn {
      * @param dataSize the dataSize value to set.
      * @return the SyncGroupSchemaTableColumn object itself.
      */
-    public SyncGroupSchemaTableColumn setDataSize(String dataSize) {
+    public SyncGroupSchemaTableColumn withDataSize(String dataSize) {
         this.dataSize = dataSize;
         return this;
     }
@@ -77,7 +77,7 @@ public final class SyncGroupSchemaTableColumn {
      * 
      * @return the dataType value.
      */
-    public String getDataType() {
+    public String dataType() {
         return this.dataType;
     }
 
@@ -87,7 +87,7 @@ public final class SyncGroupSchemaTableColumn {
      * @param dataType the dataType value to set.
      * @return the SyncGroupSchemaTableColumn object itself.
      */
-    public SyncGroupSchemaTableColumn setDataType(String dataType) {
+    public SyncGroupSchemaTableColumn withDataType(String dataType) {
         this.dataType = dataType;
         return this;
     }

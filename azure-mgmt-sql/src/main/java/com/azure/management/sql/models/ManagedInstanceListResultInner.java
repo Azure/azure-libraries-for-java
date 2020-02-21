@@ -32,7 +32,7 @@ public final class ManagedInstanceListResultInner {
      * 
      * @return the value value.
      */
-    public List<ManagedInstanceInner> getValue() {
+    public List<ManagedInstanceInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class ManagedInstanceListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

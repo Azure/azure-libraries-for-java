@@ -37,7 +37,7 @@ public final class InstanceFailoverGroupReadWriteEndpoint {
      * 
      * @return the failoverPolicy value.
      */
-    public ReadWriteEndpointFailoverPolicy getFailoverPolicy() {
+    public ReadWriteEndpointFailoverPolicy failoverPolicy() {
         return this.failoverPolicy;
     }
 
@@ -49,7 +49,7 @@ public final class InstanceFailoverGroupReadWriteEndpoint {
      * @param failoverPolicy the failoverPolicy value to set.
      * @return the InstanceFailoverGroupReadWriteEndpoint object itself.
      */
-    public InstanceFailoverGroupReadWriteEndpoint setFailoverPolicy(ReadWriteEndpointFailoverPolicy failoverPolicy) {
+    public InstanceFailoverGroupReadWriteEndpoint withFailoverPolicy(ReadWriteEndpointFailoverPolicy failoverPolicy) {
         this.failoverPolicy = failoverPolicy;
         return this;
     }
@@ -62,7 +62,7 @@ public final class InstanceFailoverGroupReadWriteEndpoint {
      * 
      * @return the failoverWithDataLossGracePeriodMinutes value.
      */
-    public Integer getFailoverWithDataLossGracePeriodMinutes() {
+    public Integer failoverWithDataLossGracePeriodMinutes() {
         return this.failoverWithDataLossGracePeriodMinutes;
     }
 
@@ -76,7 +76,7 @@ public final class InstanceFailoverGroupReadWriteEndpoint {
      * failoverWithDataLossGracePeriodMinutes value to set.
      * @return the InstanceFailoverGroupReadWriteEndpoint object itself.
      */
-    public InstanceFailoverGroupReadWriteEndpoint setFailoverWithDataLossGracePeriodMinutes(Integer failoverWithDataLossGracePeriodMinutes) {
+    public InstanceFailoverGroupReadWriteEndpoint withFailoverWithDataLossGracePeriodMinutes(Integer failoverWithDataLossGracePeriodMinutes) {
         this.failoverWithDataLossGracePeriodMinutes = failoverWithDataLossGracePeriodMinutes;
         return this;
     }

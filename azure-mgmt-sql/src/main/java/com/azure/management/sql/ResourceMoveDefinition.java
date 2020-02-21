@@ -35,7 +35,7 @@ public final class ResourceMoveDefinition {
      * @param id the id value to set.
      * @return the ResourceMoveDefinition object itself.
      */
-    public ResourceMoveDefinition setId(String id) {
+    public ResourceMoveDefinition withId(String id) {
         this.id = id;
         return this;
     }

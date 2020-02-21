@@ -26,7 +26,7 @@ public final class ElasticPoolActivityListResultInner {
      * 
      * @return the value value.
      */
-    public List<ElasticPoolActivityInner> getValue() {
+    public List<ElasticPoolActivityInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class ElasticPoolActivityListResultInner {
      * @param value the value value to set.
      * @return the ElasticPoolActivityListResultInner object itself.
      */
-    public ElasticPoolActivityListResultInner setValue(List<ElasticPoolActivityInner> value) {
+    public ElasticPoolActivityListResultInner withValue(List<ElasticPoolActivityInner> value) {
         this.value = value;
         return this;
     }

@@ -84,7 +84,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the status value.
      */
-    public String getStatus() {
+    public String status() {
         return this.status;
     }
 
@@ -93,7 +93,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the currentRestoringFileName value.
      */
-    public String getCurrentRestoringFileName() {
+    public String currentRestoringFileName() {
         return this.currentRestoringFileName;
     }
 
@@ -102,7 +102,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the lastRestoredFileName value.
      */
-    public String getLastRestoredFileName() {
+    public String lastRestoredFileName() {
         return this.lastRestoredFileName;
     }
 
@@ -111,7 +111,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the lastRestoredFileTime value.
      */
-    public OffsetDateTime getLastRestoredFileTime() {
+    public OffsetDateTime lastRestoredFileTime() {
         return this.lastRestoredFileTime;
     }
 
@@ -120,7 +120,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the percentCompleted value.
      */
-    public Double getPercentCompleted() {
+    public Double percentCompleted() {
         return this.percentCompleted;
     }
 
@@ -129,7 +129,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the unrestorableFiles value.
      */
-    public List<String> getUnrestorableFiles() {
+    public List<String> unrestorableFiles() {
         return this.unrestorableFiles;
     }
 
@@ -138,7 +138,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the numberOfFilesDetected value.
      */
-    public Long getNumberOfFilesDetected() {
+    public Long numberOfFilesDetected() {
         return this.numberOfFilesDetected;
     }
 
@@ -147,7 +147,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the lastUploadedFileName value.
      */
-    public String getLastUploadedFileName() {
+    public String lastUploadedFileName() {
         return this.lastUploadedFileName;
     }
 
@@ -156,7 +156,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the lastUploadedFileTime value.
      */
-    public OffsetDateTime getLastUploadedFileTime() {
+    public OffsetDateTime lastUploadedFileTime() {
         return this.lastUploadedFileTime;
     }
 
@@ -166,7 +166,7 @@ public class ManagedDatabaseRestoreDetailsResultInner extends ProxyResource {
      * 
      * @return the blockReason value.
      */
-    public String getBlockReason() {
+    public String blockReason() {
         return this.blockReason;
     }
 }

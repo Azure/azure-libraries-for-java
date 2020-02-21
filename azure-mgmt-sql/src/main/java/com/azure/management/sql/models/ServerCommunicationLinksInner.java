@@ -206,7 +206,7 @@ public final class ServerCommunicationLinksInner {
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer) {
         final String apiVersion = "2014-04-01";
         ServerCommunicationLinkInner parameters = new ServerCommunicationLinkInner();
-        parameters.setPartnerServer(partnerServer);
+        parameters.withPartnerServer(partnerServer);
         return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, serverName, communicationLinkName, parameters, apiVersion);
     }
 
@@ -261,7 +261,7 @@ public final class ServerCommunicationLinksInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
+            res.getValue().value(),
             null,
             null));
     }
@@ -310,7 +310,7 @@ public final class ServerCommunicationLinksInner {
     public Mono<SimpleResponse<ServerCommunicationLinkInner>> beginCreateOrUpdateWithResponseAsync(String resourceGroupName, String serverName, String communicationLinkName, String partnerServer) {
         final String apiVersion = "2014-04-01";
         ServerCommunicationLinkInner parameters = new ServerCommunicationLinkInner();
-        parameters.setPartnerServer(partnerServer);
+        parameters.withPartnerServer(partnerServer);
         return service.beginCreateOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, serverName, communicationLinkName, parameters, apiVersion);
     }
 

@@ -280,8 +280,8 @@ public final class ServerDnsAliasesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -330,7 +330,7 @@ public final class ServerDnsAliasesInner {
     public Mono<SimpleResponse<Flux<ByteBuffer>>> acquireWithResponseAsync(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId) {
         final String apiVersion = "2017-03-01-preview";
         ServerDnsAliasAcquisition parameters = new ServerDnsAliasAcquisition();
-        parameters.setOldServerDnsAliasId(oldServerDnsAliasId);
+        parameters.withOldServerDnsAliasId(oldServerDnsAliasId);
         return service.acquire(this.client.getHost(), resourceGroupName, serverName, dnsAliasName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -484,7 +484,7 @@ public final class ServerDnsAliasesInner {
     public Mono<Response<Void>> beginAcquireWithResponseAsync(String resourceGroupName, String serverName, String dnsAliasName, String oldServerDnsAliasId) {
         final String apiVersion = "2017-03-01-preview";
         ServerDnsAliasAcquisition parameters = new ServerDnsAliasAcquisition();
-        parameters.setOldServerDnsAliasId(oldServerDnsAliasId);
+        parameters.withOldServerDnsAliasId(oldServerDnsAliasId);
         return service.beginAcquire(this.client.getHost(), resourceGroupName, serverName, dnsAliasName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -535,8 +535,8 @@ public final class ServerDnsAliasesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

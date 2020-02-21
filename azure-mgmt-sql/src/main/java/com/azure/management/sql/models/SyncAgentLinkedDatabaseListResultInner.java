@@ -32,7 +32,7 @@ public final class SyncAgentLinkedDatabaseListResultInner {
      * 
      * @return the value value.
      */
-    public List<SyncAgentLinkedDatabaseInner> getValue() {
+    public List<SyncAgentLinkedDatabaseInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class SyncAgentLinkedDatabaseListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

@@ -32,7 +32,7 @@ public final class WorkloadClassifierListResultInner {
      * 
      * @return the value value.
      */
-    public List<WorkloadClassifierInner> getValue() {
+    public List<WorkloadClassifierInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class WorkloadClassifierListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

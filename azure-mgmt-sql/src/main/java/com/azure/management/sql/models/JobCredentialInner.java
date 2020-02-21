@@ -34,7 +34,7 @@ public class JobCredentialInner extends ProxyResource {
      * 
      * @return the username value.
      */
-    public String getUsername() {
+    public String username() {
         return this.username;
     }
 
@@ -44,7 +44,7 @@ public class JobCredentialInner extends ProxyResource {
      * @param username the username value to set.
      * @return the JobCredentialInner object itself.
      */
-    public JobCredentialInner setUsername(String username) {
+    public JobCredentialInner withUsername(String username) {
         this.username = username;
         return this;
     }
@@ -54,7 +54,7 @@ public class JobCredentialInner extends ProxyResource {
      * 
      * @return the password value.
      */
-    public String getPassword() {
+    public String password() {
         return this.password;
     }
 
@@ -64,7 +64,7 @@ public class JobCredentialInner extends ProxyResource {
      * @param password the password value to set.
      * @return the JobCredentialInner object itself.
      */
-    public JobCredentialInner setPassword(String password) {
+    public JobCredentialInner withPassword(String password) {
         this.password = password;
         return this;
     }

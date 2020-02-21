@@ -49,7 +49,7 @@ public class GeoBackupPolicyInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -58,7 +58,7 @@ public class GeoBackupPolicyInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -67,7 +67,7 @@ public class GeoBackupPolicyInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public GeoBackupPolicyState getState() {
+    public GeoBackupPolicyState state() {
         return this.state;
     }
 
@@ -77,7 +77,7 @@ public class GeoBackupPolicyInner extends ProxyResource {
      * @param state the state value to set.
      * @return the GeoBackupPolicyInner object itself.
      */
-    public GeoBackupPolicyInner setState(GeoBackupPolicyState state) {
+    public GeoBackupPolicyInner withState(GeoBackupPolicyState state) {
         this.state = state;
         return this;
     }
@@ -87,7 +87,7 @@ public class GeoBackupPolicyInner extends ProxyResource {
      * 
      * @return the storageType value.
      */
-    public String getStorageType() {
+    public String storageType() {
         return this.storageType;
     }
 }

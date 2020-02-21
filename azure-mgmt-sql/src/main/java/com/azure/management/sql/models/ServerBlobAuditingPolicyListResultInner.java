@@ -32,7 +32,7 @@ public final class ServerBlobAuditingPolicyListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServerBlobAuditingPolicyInner> getValue() {
+    public List<ServerBlobAuditingPolicyInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class ServerBlobAuditingPolicyListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

@@ -168,7 +168,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -178,7 +178,7 @@ public class ManagedInstanceUpdate {
      * @param sku the sku value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setSku(Sku sku) {
+    public ManagedInstanceUpdate withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -188,7 +188,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -198,7 +198,7 @@ public class ManagedInstanceUpdate {
      * @param tags the tags value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setTags(Map<String, String> tags) {
+    public ManagedInstanceUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -215,7 +215,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the managedInstanceCreateMode value.
      */
-    public ManagedServerCreateMode getManagedInstanceCreateMode() {
+    public ManagedServerCreateMode managedInstanceCreateMode() {
         return this.managedInstanceCreateMode;
     }
 
@@ -233,7 +233,7 @@ public class ManagedInstanceUpdate {
      * set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setManagedInstanceCreateMode(ManagedServerCreateMode managedInstanceCreateMode) {
+    public ManagedInstanceUpdate withManagedInstanceCreateMode(ManagedServerCreateMode managedInstanceCreateMode) {
         this.managedInstanceCreateMode = managedInstanceCreateMode;
         return this;
     }
@@ -244,7 +244,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the fullyQualifiedDomainName value.
      */
-    public String getFullyQualifiedDomainName() {
+    public String fullyQualifiedDomainName() {
         return this.fullyQualifiedDomainName;
     }
 
@@ -255,7 +255,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the administratorLogin value.
      */
-    public String getAdministratorLogin() {
+    public String administratorLogin() {
         return this.administratorLogin;
     }
 
@@ -267,7 +267,7 @@ public class ManagedInstanceUpdate {
      * @param administratorLogin the administratorLogin value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setAdministratorLogin(String administratorLogin) {
+    public ManagedInstanceUpdate withAdministratorLogin(String administratorLogin) {
         this.administratorLogin = administratorLogin;
         return this;
     }
@@ -278,7 +278,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the administratorLoginPassword value.
      */
-    public String getAdministratorLoginPassword() {
+    public String administratorLoginPassword() {
         return this.administratorLoginPassword;
     }
 
@@ -290,7 +290,7 @@ public class ManagedInstanceUpdate {
      * to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setAdministratorLoginPassword(String administratorLoginPassword) {
+    public ManagedInstanceUpdate withAdministratorLoginPassword(String administratorLoginPassword) {
         this.administratorLoginPassword = administratorLoginPassword;
         return this;
     }
@@ -300,7 +300,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the subnetId value.
      */
-    public String getSubnetId() {
+    public String subnetId() {
         return this.subnetId;
     }
 
@@ -310,7 +310,7 @@ public class ManagedInstanceUpdate {
      * @param subnetId the subnetId value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setSubnetId(String subnetId) {
+    public ManagedInstanceUpdate withSubnetId(String subnetId) {
         this.subnetId = subnetId;
         return this;
     }
@@ -320,7 +320,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the state value.
      */
-    public String getState() {
+    public String state() {
         return this.state;
     }
 
@@ -331,7 +331,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the licenseType value.
      */
-    public ManagedInstanceLicenseType getLicenseType() {
+    public ManagedInstanceLicenseType licenseType() {
         return this.licenseType;
     }
 
@@ -343,7 +343,7 @@ public class ManagedInstanceUpdate {
      * @param licenseType the licenseType value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setLicenseType(ManagedInstanceLicenseType licenseType) {
+    public ManagedInstanceUpdate withLicenseType(ManagedInstanceLicenseType licenseType) {
         this.licenseType = licenseType;
         return this;
     }
@@ -354,7 +354,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the vCores value.
      */
-    public Integer getVCores() {
+    public Integer vCores() {
         return this.vCores;
     }
 
@@ -365,7 +365,7 @@ public class ManagedInstanceUpdate {
      * @param vCores the vCores value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setVCores(Integer vCores) {
+    public ManagedInstanceUpdate withVCores(Integer vCores) {
         this.vCores = vCores;
         return this;
     }
@@ -376,7 +376,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the storageSizeInGB value.
      */
-    public Integer getStorageSizeInGB() {
+    public Integer storageSizeInGB() {
         return this.storageSizeInGB;
     }
 
@@ -387,7 +387,7 @@ public class ManagedInstanceUpdate {
      * @param storageSizeInGB the storageSizeInGB value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setStorageSizeInGB(Integer storageSizeInGB) {
+    public ManagedInstanceUpdate withStorageSizeInGB(Integer storageSizeInGB) {
         this.storageSizeInGB = storageSizeInGB;
         return this;
     }
@@ -397,7 +397,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the collation value.
      */
-    public String getCollation() {
+    public String collation() {
         return this.collation;
     }
 
@@ -407,7 +407,7 @@ public class ManagedInstanceUpdate {
      * @param collation the collation value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setCollation(String collation) {
+    public ManagedInstanceUpdate withCollation(String collation) {
         this.collation = collation;
         return this;
     }
@@ -417,7 +417,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the dnsZone value.
      */
-    public String getDnsZone() {
+    public String dnsZone() {
         return this.dnsZone;
     }
 
@@ -427,7 +427,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the dnsZonePartner value.
      */
-    public String getDnsZonePartner() {
+    public String dnsZonePartner() {
         return this.dnsZonePartner;
     }
 
@@ -438,7 +438,7 @@ public class ManagedInstanceUpdate {
      * @param dnsZonePartner the dnsZonePartner value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setDnsZonePartner(String dnsZonePartner) {
+    public ManagedInstanceUpdate withDnsZonePartner(String dnsZonePartner) {
         this.dnsZonePartner = dnsZonePartner;
         return this;
     }
@@ -449,7 +449,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the publicDataEndpointEnabled value.
      */
-    public Boolean isPublicDataEndpointEnabled() {
+    public Boolean publicDataEndpointEnabled() {
         return this.publicDataEndpointEnabled;
     }
 
@@ -461,7 +461,7 @@ public class ManagedInstanceUpdate {
      * set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setPublicDataEndpointEnabled(Boolean publicDataEndpointEnabled) {
+    public ManagedInstanceUpdate withPublicDataEndpointEnabled(Boolean publicDataEndpointEnabled) {
         this.publicDataEndpointEnabled = publicDataEndpointEnabled;
         return this;
     }
@@ -473,7 +473,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the sourceManagedInstanceId value.
      */
-    public String getSourceManagedInstanceId() {
+    public String sourceManagedInstanceId() {
         return this.sourceManagedInstanceId;
     }
 
@@ -485,7 +485,7 @@ public class ManagedInstanceUpdate {
      * @param sourceManagedInstanceId the sourceManagedInstanceId value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setSourceManagedInstanceId(String sourceManagedInstanceId) {
+    public ManagedInstanceUpdate withSourceManagedInstanceId(String sourceManagedInstanceId) {
         this.sourceManagedInstanceId = sourceManagedInstanceId;
         return this;
     }
@@ -497,7 +497,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the restorePointInTime value.
      */
-    public OffsetDateTime getRestorePointInTime() {
+    public OffsetDateTime restorePointInTime() {
         return this.restorePointInTime;
     }
 
@@ -509,7 +509,7 @@ public class ManagedInstanceUpdate {
      * @param restorePointInTime the restorePointInTime value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setRestorePointInTime(OffsetDateTime restorePointInTime) {
+    public ManagedInstanceUpdate withRestorePointInTime(OffsetDateTime restorePointInTime) {
         this.restorePointInTime = restorePointInTime;
         return this;
     }
@@ -520,7 +520,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the proxyOverride value.
      */
-    public ManagedInstanceProxyOverride getProxyOverride() {
+    public ManagedInstanceProxyOverride proxyOverride() {
         return this.proxyOverride;
     }
 
@@ -531,7 +531,7 @@ public class ManagedInstanceUpdate {
      * @param proxyOverride the proxyOverride value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setProxyOverride(ManagedInstanceProxyOverride proxyOverride) {
+    public ManagedInstanceUpdate withProxyOverride(ManagedInstanceProxyOverride proxyOverride) {
         this.proxyOverride = proxyOverride;
         return this;
     }
@@ -552,7 +552,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the timezoneId value.
      */
-    public String getTimezoneId() {
+    public String timezoneId() {
         return this.timezoneId;
     }
 
@@ -573,7 +573,7 @@ public class ManagedInstanceUpdate {
      * @param timezoneId the timezoneId value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setTimezoneId(String timezoneId) {
+    public ManagedInstanceUpdate withTimezoneId(String timezoneId) {
         this.timezoneId = timezoneId;
         return this;
     }
@@ -584,7 +584,7 @@ public class ManagedInstanceUpdate {
      * 
      * @return the instancePoolId value.
      */
-    public String getInstancePoolId() {
+    public String instancePoolId() {
         return this.instancePoolId;
     }
 
@@ -595,7 +595,7 @@ public class ManagedInstanceUpdate {
      * @param instancePoolId the instancePoolId value to set.
      * @return the ManagedInstanceUpdate object itself.
      */
-    public ManagedInstanceUpdate setInstancePoolId(String instancePoolId) {
+    public ManagedInstanceUpdate withInstancePoolId(String instancePoolId) {
         this.instancePoolId = instancePoolId;
         return this;
     }

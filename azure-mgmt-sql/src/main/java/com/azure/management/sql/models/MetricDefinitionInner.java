@@ -54,7 +54,7 @@ public final class MetricDefinitionInner {
      * 
      * @return the name value.
      */
-    public MetricName getName() {
+    public MetricName name() {
         return this.name;
     }
 
@@ -64,7 +64,7 @@ public final class MetricDefinitionInner {
      * 
      * @return the primaryAggregationType value.
      */
-    public PrimaryAggregationType getPrimaryAggregationType() {
+    public PrimaryAggregationType primaryAggregationType() {
         return this.primaryAggregationType;
     }
 
@@ -73,7 +73,7 @@ public final class MetricDefinitionInner {
      * 
      * @return the resourceUri value.
      */
-    public String getResourceUri() {
+    public String resourceUri() {
         return this.resourceUri;
     }
 
@@ -82,7 +82,7 @@ public final class MetricDefinitionInner {
      * 
      * @return the unit value.
      */
-    public UnitDefinitionType getUnit() {
+    public UnitDefinitionType unit() {
         return this.unit;
     }
 
@@ -92,7 +92,7 @@ public final class MetricDefinitionInner {
      * 
      * @return the metricAvailabilities value.
      */
-    public List<MetricAvailability> getMetricAvailabilities() {
+    public List<MetricAvailability> metricAvailabilities() {
         return this.metricAvailabilities;
     }
 }

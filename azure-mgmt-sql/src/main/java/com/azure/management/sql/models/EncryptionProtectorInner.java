@@ -67,7 +67,7 @@ public class EncryptionProtectorInner extends ProxyResource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -76,7 +76,7 @@ public class EncryptionProtectorInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -85,7 +85,7 @@ public class EncryptionProtectorInner extends ProxyResource {
      * 
      * @return the subregion value.
      */
-    public String getSubregion() {
+    public String subregion() {
         return this.subregion;
     }
 
@@ -94,7 +94,7 @@ public class EncryptionProtectorInner extends ProxyResource {
      * 
      * @return the serverKeyName value.
      */
-    public String getServerKeyName() {
+    public String serverKeyName() {
         return this.serverKeyName;
     }
 
@@ -104,7 +104,7 @@ public class EncryptionProtectorInner extends ProxyResource {
      * @param serverKeyName the serverKeyName value to set.
      * @return the EncryptionProtectorInner object itself.
      */
-    public EncryptionProtectorInner setServerKeyName(String serverKeyName) {
+    public EncryptionProtectorInner withServerKeyName(String serverKeyName) {
         this.serverKeyName = serverKeyName;
         return this;
     }
@@ -115,7 +115,7 @@ public class EncryptionProtectorInner extends ProxyResource {
      * 
      * @return the serverKeyType value.
      */
-    public ServerKeyType getServerKeyType() {
+    public ServerKeyType serverKeyType() {
         return this.serverKeyType;
     }
 
@@ -126,7 +126,7 @@ public class EncryptionProtectorInner extends ProxyResource {
      * @param serverKeyType the serverKeyType value to set.
      * @return the EncryptionProtectorInner object itself.
      */
-    public EncryptionProtectorInner setServerKeyType(ServerKeyType serverKeyType) {
+    public EncryptionProtectorInner withServerKeyType(ServerKeyType serverKeyType) {
         this.serverKeyType = serverKeyType;
         return this;
     }
@@ -136,7 +136,7 @@ public class EncryptionProtectorInner extends ProxyResource {
      * 
      * @return the uri value.
      */
-    public String getUri() {
+    public String uri() {
         return this.uri;
     }
 
@@ -145,7 +145,7 @@ public class EncryptionProtectorInner extends ProxyResource {
      * 
      * @return the thumbprint value.
      */
-    public String getThumbprint() {
+    public String thumbprint() {
         return this.thumbprint;
     }
 }

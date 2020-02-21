@@ -26,7 +26,7 @@ public final class RecoverableDatabaseListResultInner {
      * 
      * @return the value value.
      */
-    public List<RecoverableDatabaseInner> getValue() {
+    public List<RecoverableDatabaseInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class RecoverableDatabaseListResultInner {
      * @param value the value value to set.
      * @return the RecoverableDatabaseListResultInner object itself.
      */
-    public RecoverableDatabaseListResultInner setValue(List<RecoverableDatabaseInner> value) {
+    public RecoverableDatabaseListResultInner withValue(List<RecoverableDatabaseInner> value) {
         this.value = value;
         return this;
     }

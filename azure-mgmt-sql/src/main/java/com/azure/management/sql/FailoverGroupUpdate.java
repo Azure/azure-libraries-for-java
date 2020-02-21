@@ -47,7 +47,7 @@ public class FailoverGroupUpdate {
      * 
      * @return the tags value.
      */
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return this.tags;
     }
 
@@ -57,7 +57,7 @@ public class FailoverGroupUpdate {
      * @param tags the tags value to set.
      * @return the FailoverGroupUpdate object itself.
      */
-    public FailoverGroupUpdate setTags(Map<String, String> tags) {
+    public FailoverGroupUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
         return this;
     }
@@ -68,7 +68,7 @@ public class FailoverGroupUpdate {
      * 
      * @return the readWriteEndpoint value.
      */
-    public FailoverGroupReadWriteEndpoint getReadWriteEndpoint() {
+    public FailoverGroupReadWriteEndpoint readWriteEndpoint() {
         return this.readWriteEndpoint;
     }
 
@@ -79,7 +79,7 @@ public class FailoverGroupUpdate {
      * @param readWriteEndpoint the readWriteEndpoint value to set.
      * @return the FailoverGroupUpdate object itself.
      */
-    public FailoverGroupUpdate setReadWriteEndpoint(FailoverGroupReadWriteEndpoint readWriteEndpoint) {
+    public FailoverGroupUpdate withReadWriteEndpoint(FailoverGroupReadWriteEndpoint readWriteEndpoint) {
         this.readWriteEndpoint = readWriteEndpoint;
         return this;
     }
@@ -90,7 +90,7 @@ public class FailoverGroupUpdate {
      * 
      * @return the readOnlyEndpoint value.
      */
-    public FailoverGroupReadOnlyEndpoint getReadOnlyEndpoint() {
+    public FailoverGroupReadOnlyEndpoint readOnlyEndpoint() {
         return this.readOnlyEndpoint;
     }
 
@@ -101,7 +101,7 @@ public class FailoverGroupUpdate {
      * @param readOnlyEndpoint the readOnlyEndpoint value to set.
      * @return the FailoverGroupUpdate object itself.
      */
-    public FailoverGroupUpdate setReadOnlyEndpoint(FailoverGroupReadOnlyEndpoint readOnlyEndpoint) {
+    public FailoverGroupUpdate withReadOnlyEndpoint(FailoverGroupReadOnlyEndpoint readOnlyEndpoint) {
         this.readOnlyEndpoint = readOnlyEndpoint;
         return this;
     }
@@ -111,7 +111,7 @@ public class FailoverGroupUpdate {
      * 
      * @return the databases value.
      */
-    public List<String> getDatabases() {
+    public List<String> databases() {
         return this.databases;
     }
 
@@ -121,7 +121,7 @@ public class FailoverGroupUpdate {
      * @param databases the databases value to set.
      * @return the FailoverGroupUpdate object itself.
      */
-    public FailoverGroupUpdate setDatabases(List<String> databases) {
+    public FailoverGroupUpdate withDatabases(List<String> databases) {
         this.databases = databases;
         return this;
     }

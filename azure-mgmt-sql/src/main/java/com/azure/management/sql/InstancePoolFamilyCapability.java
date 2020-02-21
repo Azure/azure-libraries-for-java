@@ -50,7 +50,7 @@ public final class InstancePoolFamilyCapability {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -59,7 +59,7 @@ public final class InstancePoolFamilyCapability {
      * 
      * @return the supportedLicenseTypes value.
      */
-    public List<LicenseTypeCapability> getSupportedLicenseTypes() {
+    public List<LicenseTypeCapability> supportedLicenseTypes() {
         return this.supportedLicenseTypes;
     }
 
@@ -69,7 +69,7 @@ public final class InstancePoolFamilyCapability {
      * 
      * @return the supportedVcoresValues value.
      */
-    public List<InstancePoolVcoresCapability> getSupportedVcoresValues() {
+    public List<InstancePoolVcoresCapability> supportedVcoresValues() {
         return this.supportedVcoresValues;
     }
 
@@ -78,7 +78,7 @@ public final class InstancePoolFamilyCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -88,7 +88,7 @@ public final class InstancePoolFamilyCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -99,7 +99,7 @@ public final class InstancePoolFamilyCapability {
      * @param reason the reason value to set.
      * @return the InstancePoolFamilyCapability object itself.
      */
-    public InstancePoolFamilyCapability setReason(String reason) {
+    public InstancePoolFamilyCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

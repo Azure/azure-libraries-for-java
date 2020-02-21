@@ -83,7 +83,7 @@ public final class ServerConnectionPoliciesInner {
         final String connectionPolicyName = "default";
         final String apiVersion = "2014-04-01";
         ServerConnectionPolicyInner parameters = new ServerConnectionPolicyInner();
-        parameters.setConnectionType(connectionType);
+        parameters.withConnectionType(connectionType);
         return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, serverName, connectionPolicyName, parameters, apiVersion);
     }
 

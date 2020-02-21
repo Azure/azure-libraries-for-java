@@ -27,7 +27,7 @@ public final class ServiceTierAdvisorListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServiceTierAdvisorInner> getValue() {
+    public List<ServiceTierAdvisorInner> value() {
         return this.value;
     }
 
@@ -38,7 +38,7 @@ public final class ServiceTierAdvisorListResultInner {
      * @param value the value value to set.
      * @return the ServiceTierAdvisorListResultInner object itself.
      */
-    public ServiceTierAdvisorListResultInner setValue(List<ServiceTierAdvisorInner> value) {
+    public ServiceTierAdvisorListResultInner withValue(List<ServiceTierAdvisorInner> value) {
         this.value = value;
         return this;
     }

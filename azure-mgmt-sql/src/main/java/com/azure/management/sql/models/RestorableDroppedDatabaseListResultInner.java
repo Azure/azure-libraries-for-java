@@ -26,7 +26,7 @@ public final class RestorableDroppedDatabaseListResultInner {
      * 
      * @return the value value.
      */
-    public List<RestorableDroppedDatabaseInner> getValue() {
+    public List<RestorableDroppedDatabaseInner> value() {
         return this.value;
     }
 
@@ -36,7 +36,7 @@ public final class RestorableDroppedDatabaseListResultInner {
      * @param value the value value to set.
      * @return the RestorableDroppedDatabaseListResultInner object itself.
      */
-    public RestorableDroppedDatabaseListResultInner setValue(List<RestorableDroppedDatabaseInner> value) {
+    public RestorableDroppedDatabaseListResultInner withValue(List<RestorableDroppedDatabaseInner> value) {
         this.value = value;
         return this;
     }

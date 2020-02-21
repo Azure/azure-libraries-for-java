@@ -86,7 +86,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the performanceLevel value.
      */
-    public PerformanceLevelCapability getPerformanceLevel() {
+    public PerformanceLevelCapability performanceLevel() {
         return this.performanceLevel;
     }
 
@@ -95,7 +95,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -104,7 +104,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the supportedLicenseTypes value.
      */
-    public List<LicenseTypeCapability> getSupportedLicenseTypes() {
+    public List<LicenseTypeCapability> supportedLicenseTypes() {
         return this.supportedLicenseTypes;
     }
 
@@ -114,7 +114,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the maxDatabaseCount value.
      */
-    public Integer getMaxDatabaseCount() {
+    public Integer maxDatabaseCount() {
         return this.maxDatabaseCount;
     }
 
@@ -123,7 +123,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the includedMaxSize value.
      */
-    public MaxSizeCapability getIncludedMaxSize() {
+    public MaxSizeCapability includedMaxSize() {
         return this.includedMaxSize;
     }
 
@@ -132,7 +132,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the supportedMaxSizes value.
      */
-    public List<MaxSizeRangeCapability> getSupportedMaxSizes() {
+    public List<MaxSizeRangeCapability> supportedMaxSizes() {
         return this.supportedMaxSizes;
     }
 
@@ -142,7 +142,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the supportedPerDatabaseMaxSizes value.
      */
-    public List<MaxSizeRangeCapability> getSupportedPerDatabaseMaxSizes() {
+    public List<MaxSizeRangeCapability> supportedPerDatabaseMaxSizes() {
         return this.supportedPerDatabaseMaxSizes;
     }
 
@@ -152,7 +152,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the supportedPerDatabaseMaxPerformanceLevels value.
      */
-    public List<ElasticPoolPerDatabaseMaxPerformanceLevelCapability> getSupportedPerDatabaseMaxPerformanceLevels() {
+    public List<ElasticPoolPerDatabaseMaxPerformanceLevelCapability> supportedPerDatabaseMaxPerformanceLevels() {
         return this.supportedPerDatabaseMaxPerformanceLevels;
     }
 
@@ -162,7 +162,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the zoneRedundant value.
      */
-    public Boolean isZoneRedundant() {
+    public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
 
@@ -171,7 +171,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the status value.
      */
-    public CapabilityStatus getStatus() {
+    public CapabilityStatus status() {
         return this.status;
     }
 
@@ -181,7 +181,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * 
      * @return the reason value.
      */
-    public String getReason() {
+    public String reason() {
         return this.reason;
     }
 
@@ -192,7 +192,7 @@ public final class ElasticPoolPerformanceLevelCapability {
      * @param reason the reason value to set.
      * @return the ElasticPoolPerformanceLevelCapability object itself.
      */
-    public ElasticPoolPerformanceLevelCapability setReason(String reason) {
+    public ElasticPoolPerformanceLevelCapability withReason(String reason) {
         this.reason = reason;
         return this;
     }

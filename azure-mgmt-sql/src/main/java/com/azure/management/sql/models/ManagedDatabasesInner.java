@@ -141,8 +141,8 @@ public final class ManagedDatabasesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 
@@ -397,7 +397,7 @@ public final class ManagedDatabasesInner {
     public Mono<SimpleResponse<Flux<ByteBuffer>>> completeRestoreWithResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName) {
         final String apiVersion = "2018-06-01-preview";
         CompleteDatabaseRestoreDefinition parameters = new CompleteDatabaseRestoreDefinition();
-        parameters.setLastBackupName(lastBackupName);
+        parameters.withLastBackupName(lastBackupName);
         return service.completeRestore(this.client.getHost(), resourceGroupName, managedInstanceName, databaseName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -610,7 +610,7 @@ public final class ManagedDatabasesInner {
     public Mono<Response<Void>> beginCompleteRestoreWithResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName) {
         final String apiVersion = "2018-06-01-preview";
         CompleteDatabaseRestoreDefinition parameters = new CompleteDatabaseRestoreDefinition();
-        parameters.setLastBackupName(lastBackupName);
+        parameters.withLastBackupName(lastBackupName);
         return service.beginCompleteRestore(this.client.getHost(), resourceGroupName, managedInstanceName, databaseName, this.client.getSubscriptionId(), parameters, apiVersion);
     }
 
@@ -661,8 +661,8 @@ public final class ManagedDatabasesInner {
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
+            res.getValue().value(),
+            res.getValue().nextLink(),
             null));
     }
 }

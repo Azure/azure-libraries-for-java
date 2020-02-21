@@ -32,7 +32,7 @@ public final class FailoverGroupListResultInner {
      * 
      * @return the value value.
      */
-    public List<FailoverGroupInner> getValue() {
+    public List<FailoverGroupInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class FailoverGroupListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

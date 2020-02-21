@@ -150,7 +150,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -160,7 +160,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * @param location the location value to set.
      * @return the ElasticPoolActivityInner object itself.
      */
-    public ElasticPoolActivityInner setLocation(String location) {
+    public ElasticPoolActivityInner withLocation(String location) {
         this.location = location;
         return this;
     }
@@ -171,7 +171,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the endTime value.
      */
-    public OffsetDateTime getEndTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
@@ -180,7 +180,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the errorCode value.
      */
-    public Integer getErrorCode() {
+    public Integer errorCode() {
         return this.errorCode;
     }
 
@@ -189,7 +189,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the errorMessage value.
      */
-    public String getErrorMessage() {
+    public String errorMessage() {
         return this.errorMessage;
     }
 
@@ -198,7 +198,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the errorSeverity value.
      */
-    public Integer getErrorSeverity() {
+    public Integer errorSeverity() {
         return this.errorSeverity;
     }
 
@@ -207,7 +207,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the operation value.
      */
-    public String getOperation() {
+    public String operation() {
         return this.operation;
     }
 
@@ -216,7 +216,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the operationId value.
      */
-    public UUID getOperationId() {
+    public UUID operationId() {
         return this.operationId;
     }
 
@@ -225,7 +225,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the percentComplete value.
      */
-    public Integer getPercentComplete() {
+    public Integer percentComplete() {
         return this.percentComplete;
     }
 
@@ -235,7 +235,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the requestedDatabaseDtuMax value.
      */
-    public Integer getRequestedDatabaseDtuMax() {
+    public Integer requestedDatabaseDtuMax() {
         return this.requestedDatabaseDtuMax;
     }
 
@@ -245,7 +245,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the requestedDatabaseDtuMin value.
      */
-    public Integer getRequestedDatabaseDtuMin() {
+    public Integer requestedDatabaseDtuMin() {
         return this.requestedDatabaseDtuMin;
     }
 
@@ -255,7 +255,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the requestedDtu value.
      */
-    public Integer getRequestedDtu() {
+    public Integer requestedDtu() {
         return this.requestedDtu;
     }
 
@@ -265,7 +265,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the requestedElasticPoolName value.
      */
-    public String getRequestedElasticPoolName() {
+    public String requestedElasticPoolName() {
         return this.requestedElasticPoolName;
     }
 
@@ -275,7 +275,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the requestedStorageLimitInGB value.
      */
-    public Long getRequestedStorageLimitInGB() {
+    public Long requestedStorageLimitInGB() {
         return this.requestedStorageLimitInGB;
     }
 
@@ -284,7 +284,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the elasticPoolName value.
      */
-    public String getElasticPoolName() {
+    public String elasticPoolName() {
         return this.elasticPoolName;
     }
 
@@ -294,7 +294,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -304,7 +304,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the startTime value.
      */
-    public OffsetDateTime getStartTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
@@ -313,7 +313,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public String getState() {
+    public String state() {
         return this.state;
     }
 
@@ -323,7 +323,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the requestedStorageLimitInMB value.
      */
-    public Integer getRequestedStorageLimitInMB() {
+    public Integer requestedStorageLimitInMB() {
         return this.requestedStorageLimitInMB;
     }
 
@@ -333,7 +333,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the requestedDatabaseDtuGuarantee value.
      */
-    public Integer getRequestedDatabaseDtuGuarantee() {
+    public Integer requestedDatabaseDtuGuarantee() {
         return this.requestedDatabaseDtuGuarantee;
     }
 
@@ -343,7 +343,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the requestedDatabaseDtuCap value.
      */
-    public Integer getRequestedDatabaseDtuCap() {
+    public Integer requestedDatabaseDtuCap() {
         return this.requestedDatabaseDtuCap;
     }
 
@@ -352,7 +352,7 @@ public class ElasticPoolActivityInner extends ProxyResource {
      * 
      * @return the requestedDtuGuarantee value.
      */
-    public Integer getRequestedDtuGuarantee() {
+    public Integer requestedDtuGuarantee() {
         return this.requestedDtuGuarantee;
     }
 }

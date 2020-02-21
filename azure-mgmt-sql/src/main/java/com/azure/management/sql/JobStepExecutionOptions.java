@@ -51,7 +51,7 @@ public final class JobStepExecutionOptions {
      * 
      * @return the timeoutSeconds value.
      */
-    public Integer getTimeoutSeconds() {
+    public Integer timeoutSeconds() {
         return this.timeoutSeconds;
     }
 
@@ -61,7 +61,7 @@ public final class JobStepExecutionOptions {
      * @param timeoutSeconds the timeoutSeconds value to set.
      * @return the JobStepExecutionOptions object itself.
      */
-    public JobStepExecutionOptions setTimeoutSeconds(Integer timeoutSeconds) {
+    public JobStepExecutionOptions withTimeoutSeconds(Integer timeoutSeconds) {
         this.timeoutSeconds = timeoutSeconds;
         return this;
     }
@@ -72,7 +72,7 @@ public final class JobStepExecutionOptions {
      * 
      * @return the retryAttempts value.
      */
-    public Integer getRetryAttempts() {
+    public Integer retryAttempts() {
         return this.retryAttempts;
     }
 
@@ -83,7 +83,7 @@ public final class JobStepExecutionOptions {
      * @param retryAttempts the retryAttempts value to set.
      * @return the JobStepExecutionOptions object itself.
      */
-    public JobStepExecutionOptions setRetryAttempts(Integer retryAttempts) {
+    public JobStepExecutionOptions withRetryAttempts(Integer retryAttempts) {
         this.retryAttempts = retryAttempts;
         return this;
     }
@@ -94,7 +94,7 @@ public final class JobStepExecutionOptions {
      * 
      * @return the initialRetryIntervalSeconds value.
      */
-    public Integer getInitialRetryIntervalSeconds() {
+    public Integer initialRetryIntervalSeconds() {
         return this.initialRetryIntervalSeconds;
     }
 
@@ -106,7 +106,7 @@ public final class JobStepExecutionOptions {
      * to set.
      * @return the JobStepExecutionOptions object itself.
      */
-    public JobStepExecutionOptions setInitialRetryIntervalSeconds(Integer initialRetryIntervalSeconds) {
+    public JobStepExecutionOptions withInitialRetryIntervalSeconds(Integer initialRetryIntervalSeconds) {
         this.initialRetryIntervalSeconds = initialRetryIntervalSeconds;
         return this;
     }
@@ -117,7 +117,7 @@ public final class JobStepExecutionOptions {
      * 
      * @return the maximumRetryIntervalSeconds value.
      */
-    public Integer getMaximumRetryIntervalSeconds() {
+    public Integer maximumRetryIntervalSeconds() {
         return this.maximumRetryIntervalSeconds;
     }
 
@@ -129,7 +129,7 @@ public final class JobStepExecutionOptions {
      * to set.
      * @return the JobStepExecutionOptions object itself.
      */
-    public JobStepExecutionOptions setMaximumRetryIntervalSeconds(Integer maximumRetryIntervalSeconds) {
+    public JobStepExecutionOptions withMaximumRetryIntervalSeconds(Integer maximumRetryIntervalSeconds) {
         this.maximumRetryIntervalSeconds = maximumRetryIntervalSeconds;
         return this;
     }
@@ -140,7 +140,7 @@ public final class JobStepExecutionOptions {
      * 
      * @return the retryIntervalBackoffMultiplier value.
      */
-    public Float getRetryIntervalBackoffMultiplier() {
+    public Float retryIntervalBackoffMultiplier() {
         return this.retryIntervalBackoffMultiplier;
     }
 
@@ -152,7 +152,7 @@ public final class JobStepExecutionOptions {
      * value to set.
      * @return the JobStepExecutionOptions object itself.
      */
-    public JobStepExecutionOptions setRetryIntervalBackoffMultiplier(Float retryIntervalBackoffMultiplier) {
+    public JobStepExecutionOptions withRetryIntervalBackoffMultiplier(Float retryIntervalBackoffMultiplier) {
         this.retryIntervalBackoffMultiplier = retryIntervalBackoffMultiplier;
         return this;
     }

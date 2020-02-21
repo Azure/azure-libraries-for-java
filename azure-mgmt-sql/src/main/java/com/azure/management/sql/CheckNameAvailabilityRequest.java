@@ -38,7 +38,7 @@ public final class CheckNameAvailabilityRequest {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -48,7 +48,7 @@ public final class CheckNameAvailabilityRequest {
      * @param name the name value to set.
      * @return the CheckNameAvailabilityRequest object itself.
      */
-    public CheckNameAvailabilityRequest setName(String name) {
+    public CheckNameAvailabilityRequest withName(String name) {
         this.name = name;
         return this;
     }
@@ -58,7 +58,7 @@ public final class CheckNameAvailabilityRequest {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -68,7 +68,7 @@ public final class CheckNameAvailabilityRequest {
      * @param type the type value to set.
      * @return the CheckNameAvailabilityRequest object itself.
      */
-    public CheckNameAvailabilityRequest setType(String type) {
+    public CheckNameAvailabilityRequest withType(String type) {
         this.type = type;
         return this;
     }

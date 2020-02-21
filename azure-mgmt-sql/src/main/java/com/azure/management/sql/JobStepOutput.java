@@ -76,7 +76,7 @@ public final class JobStepOutput {
      * 
      * @return the type value.
      */
-    public String getType() {
+    public String type() {
         return this.type;
     }
 
@@ -86,7 +86,7 @@ public final class JobStepOutput {
      * @param type the type value to set.
      * @return the JobStepOutput object itself.
      */
-    public JobStepOutput setType(String type) {
+    public JobStepOutput withType(String type) {
         this.type = type;
         return this;
     }
@@ -96,7 +96,7 @@ public final class JobStepOutput {
      * 
      * @return the subscriptionId value.
      */
-    public UUID getSubscriptionId() {
+    public UUID subscriptionId() {
         return this.subscriptionId;
     }
 
@@ -106,7 +106,7 @@ public final class JobStepOutput {
      * @param subscriptionId the subscriptionId value to set.
      * @return the JobStepOutput object itself.
      */
-    public JobStepOutput setSubscriptionId(UUID subscriptionId) {
+    public JobStepOutput withSubscriptionId(UUID subscriptionId) {
         this.subscriptionId = subscriptionId;
         return this;
     }
@@ -117,7 +117,7 @@ public final class JobStepOutput {
      * 
      * @return the resourceGroupName value.
      */
-    public String getResourceGroupName() {
+    public String resourceGroupName() {
         return this.resourceGroupName;
     }
 
@@ -128,7 +128,7 @@ public final class JobStepOutput {
      * @param resourceGroupName the resourceGroupName value to set.
      * @return the JobStepOutput object itself.
      */
-    public JobStepOutput setResourceGroupName(String resourceGroupName) {
+    public JobStepOutput withResourceGroupName(String resourceGroupName) {
         this.resourceGroupName = resourceGroupName;
         return this;
     }
@@ -138,7 +138,7 @@ public final class JobStepOutput {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -148,7 +148,7 @@ public final class JobStepOutput {
      * @param serverName the serverName value to set.
      * @return the JobStepOutput object itself.
      */
-    public JobStepOutput setServerName(String serverName) {
+    public JobStepOutput withServerName(String serverName) {
         this.serverName = serverName;
         return this;
     }
@@ -158,7 +158,7 @@ public final class JobStepOutput {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -168,7 +168,7 @@ public final class JobStepOutput {
      * @param databaseName the databaseName value to set.
      * @return the JobStepOutput object itself.
      */
-    public JobStepOutput setDatabaseName(String databaseName) {
+    public JobStepOutput withDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
@@ -178,7 +178,7 @@ public final class JobStepOutput {
      * 
      * @return the schemaName value.
      */
-    public String getSchemaName() {
+    public String schemaName() {
         return this.schemaName;
     }
 
@@ -188,7 +188,7 @@ public final class JobStepOutput {
      * @param schemaName the schemaName value to set.
      * @return the JobStepOutput object itself.
      */
-    public JobStepOutput setSchemaName(String schemaName) {
+    public JobStepOutput withSchemaName(String schemaName) {
         this.schemaName = schemaName;
         return this;
     }
@@ -198,7 +198,7 @@ public final class JobStepOutput {
      * 
      * @return the tableName value.
      */
-    public String getTableName() {
+    public String tableName() {
         return this.tableName;
     }
 
@@ -208,7 +208,7 @@ public final class JobStepOutput {
      * @param tableName the tableName value to set.
      * @return the JobStepOutput object itself.
      */
-    public JobStepOutput setTableName(String tableName) {
+    public JobStepOutput withTableName(String tableName) {
         this.tableName = tableName;
         return this;
     }
@@ -219,7 +219,7 @@ public final class JobStepOutput {
      * 
      * @return the credential value.
      */
-    public String getCredential() {
+    public String credential() {
         return this.credential;
     }
 
@@ -230,7 +230,7 @@ public final class JobStepOutput {
      * @param credential the credential value to set.
      * @return the JobStepOutput object itself.
      */
-    public JobStepOutput setCredential(String credential) {
+    public JobStepOutput withCredential(String credential) {
         this.credential = credential;
         return this;
     }

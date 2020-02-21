@@ -32,7 +32,7 @@ public final class ServerListResultInner {
      * 
      * @return the value value.
      */
-    public List<ServerInner> getValue() {
+    public List<ServerInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class ServerListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

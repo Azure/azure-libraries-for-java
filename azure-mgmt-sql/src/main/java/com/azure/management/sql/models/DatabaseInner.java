@@ -285,7 +285,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -295,7 +295,7 @@ public class DatabaseInner extends Resource {
      * @param sku the sku value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setSku(Sku sku) {
+    public DatabaseInner withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -306,7 +306,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the kind value.
      */
-    public String getKind() {
+    public String kind() {
         return this.kind;
     }
 
@@ -315,7 +315,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the managedBy value.
      */
-    public String getManagedBy() {
+    public String managedBy() {
         return this.managedBy;
     }
 
@@ -358,7 +358,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the createMode value.
      */
-    public CreateMode getCreateMode() {
+    public CreateMode createMode() {
         return this.createMode;
     }
 
@@ -402,7 +402,7 @@ public class DatabaseInner extends Resource {
      * @param createMode the createMode value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setCreateMode(CreateMode createMode) {
+    public DatabaseInner withCreateMode(CreateMode createMode) {
         this.createMode = createMode;
         return this;
     }
@@ -412,7 +412,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the collation value.
      */
-    public String getCollation() {
+    public String collation() {
         return this.collation;
     }
 
@@ -422,7 +422,7 @@ public class DatabaseInner extends Resource {
      * @param collation the collation value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setCollation(String collation) {
+    public DatabaseInner withCollation(String collation) {
         this.collation = collation;
         return this;
     }
@@ -433,7 +433,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the maxSizeBytes value.
      */
-    public Long getMaxSizeBytes() {
+    public Long maxSizeBytes() {
         return this.maxSizeBytes;
     }
 
@@ -444,7 +444,7 @@ public class DatabaseInner extends Resource {
      * @param maxSizeBytes the maxSizeBytes value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setMaxSizeBytes(Long maxSizeBytes) {
+    public DatabaseInner withMaxSizeBytes(Long maxSizeBytes) {
         this.maxSizeBytes = maxSizeBytes;
         return this;
     }
@@ -455,7 +455,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the sampleName value.
      */
-    public SampleName getSampleName() {
+    public SampleName sampleName() {
         return this.sampleName;
     }
 
@@ -466,7 +466,7 @@ public class DatabaseInner extends Resource {
      * @param sampleName the sampleName value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setSampleName(SampleName sampleName) {
+    public DatabaseInner withSampleName(SampleName sampleName) {
         this.sampleName = sampleName;
         return this;
     }
@@ -477,7 +477,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the elasticPoolId value.
      */
-    public String getElasticPoolId() {
+    public String elasticPoolId() {
         return this.elasticPoolId;
     }
 
@@ -488,7 +488,7 @@ public class DatabaseInner extends Resource {
      * @param elasticPoolId the elasticPoolId value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setElasticPoolId(String elasticPoolId) {
+    public DatabaseInner withElasticPoolId(String elasticPoolId) {
         this.elasticPoolId = elasticPoolId;
         return this;
     }
@@ -499,7 +499,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the sourceDatabaseId value.
      */
-    public String getSourceDatabaseId() {
+    public String sourceDatabaseId() {
         return this.sourceDatabaseId;
     }
 
@@ -510,7 +510,7 @@ public class DatabaseInner extends Resource {
      * @param sourceDatabaseId the sourceDatabaseId value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setSourceDatabaseId(String sourceDatabaseId) {
+    public DatabaseInner withSourceDatabaseId(String sourceDatabaseId) {
         this.sourceDatabaseId = sourceDatabaseId;
         return this;
     }
@@ -520,7 +520,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the status value.
      */
-    public DatabaseStatus getStatus() {
+    public DatabaseStatus status() {
         return this.status;
     }
 
@@ -529,7 +529,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the databaseId value.
      */
-    public UUID getDatabaseId() {
+    public UUID databaseId() {
         return this.databaseId;
     }
 
@@ -539,7 +539,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the creationDate value.
      */
-    public OffsetDateTime getCreationDate() {
+    public OffsetDateTime creationDate() {
         return this.creationDate;
     }
 
@@ -549,7 +549,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the currentServiceObjectiveName value.
      */
-    public String getCurrentServiceObjectiveName() {
+    public String currentServiceObjectiveName() {
         return this.currentServiceObjectiveName;
     }
 
@@ -559,7 +559,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the requestedServiceObjectiveName value.
      */
-    public String getRequestedServiceObjectiveName() {
+    public String requestedServiceObjectiveName() {
         return this.requestedServiceObjectiveName;
     }
 
@@ -569,7 +569,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the defaultSecondaryLocation value.
      */
-    public String getDefaultSecondaryLocation() {
+    public String defaultSecondaryLocation() {
         return this.defaultSecondaryLocation;
     }
 
@@ -579,7 +579,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the failoverGroupId value.
      */
-    public String getFailoverGroupId() {
+    public String failoverGroupId() {
         return this.failoverGroupId;
     }
 
@@ -590,7 +590,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the restorePointInTime value.
      */
-    public OffsetDateTime getRestorePointInTime() {
+    public OffsetDateTime restorePointInTime() {
         return this.restorePointInTime;
     }
 
@@ -602,7 +602,7 @@ public class DatabaseInner extends Resource {
      * @param restorePointInTime the restorePointInTime value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setRestorePointInTime(OffsetDateTime restorePointInTime) {
+    public DatabaseInner withRestorePointInTime(OffsetDateTime restorePointInTime) {
         this.restorePointInTime = restorePointInTime;
         return this;
     }
@@ -613,7 +613,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the sourceDatabaseDeletionDate value.
      */
-    public OffsetDateTime getSourceDatabaseDeletionDate() {
+    public OffsetDateTime sourceDatabaseDeletionDate() {
         return this.sourceDatabaseDeletionDate;
     }
 
@@ -625,7 +625,7 @@ public class DatabaseInner extends Resource {
      * to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setSourceDatabaseDeletionDate(OffsetDateTime sourceDatabaseDeletionDate) {
+    public DatabaseInner withSourceDatabaseDeletionDate(OffsetDateTime sourceDatabaseDeletionDate) {
         this.sourceDatabaseDeletionDate = sourceDatabaseDeletionDate;
         return this;
     }
@@ -637,7 +637,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the recoveryServicesRecoveryPointId value.
      */
-    public String getRecoveryServicesRecoveryPointId() {
+    public String recoveryServicesRecoveryPointId() {
         return this.recoveryServicesRecoveryPointId;
     }
 
@@ -650,7 +650,7 @@ public class DatabaseInner extends Resource {
      * recoveryServicesRecoveryPointId value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setRecoveryServicesRecoveryPointId(String recoveryServicesRecoveryPointId) {
+    public DatabaseInner withRecoveryServicesRecoveryPointId(String recoveryServicesRecoveryPointId) {
         this.recoveryServicesRecoveryPointId = recoveryServicesRecoveryPointId;
         return this;
     }
@@ -662,7 +662,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the longTermRetentionBackupResourceId value.
      */
-    public String getLongTermRetentionBackupResourceId() {
+    public String longTermRetentionBackupResourceId() {
         return this.longTermRetentionBackupResourceId;
     }
 
@@ -675,7 +675,7 @@ public class DatabaseInner extends Resource {
      * longTermRetentionBackupResourceId value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setLongTermRetentionBackupResourceId(String longTermRetentionBackupResourceId) {
+    public DatabaseInner withLongTermRetentionBackupResourceId(String longTermRetentionBackupResourceId) {
         this.longTermRetentionBackupResourceId = longTermRetentionBackupResourceId;
         return this;
     }
@@ -686,7 +686,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the recoverableDatabaseId value.
      */
-    public String getRecoverableDatabaseId() {
+    public String recoverableDatabaseId() {
         return this.recoverableDatabaseId;
     }
 
@@ -697,7 +697,7 @@ public class DatabaseInner extends Resource {
      * @param recoverableDatabaseId the recoverableDatabaseId value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setRecoverableDatabaseId(String recoverableDatabaseId) {
+    public DatabaseInner withRecoverableDatabaseId(String recoverableDatabaseId) {
         this.recoverableDatabaseId = recoverableDatabaseId;
         return this;
     }
@@ -709,7 +709,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the restorableDroppedDatabaseId value.
      */
-    public String getRestorableDroppedDatabaseId() {
+    public String restorableDroppedDatabaseId() {
         return this.restorableDroppedDatabaseId;
     }
 
@@ -722,7 +722,7 @@ public class DatabaseInner extends Resource {
      * to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setRestorableDroppedDatabaseId(String restorableDroppedDatabaseId) {
+    public DatabaseInner withRestorableDroppedDatabaseId(String restorableDroppedDatabaseId) {
         this.restorableDroppedDatabaseId = restorableDroppedDatabaseId;
         return this;
     }
@@ -732,7 +732,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the catalogCollation value.
      */
-    public CatalogCollationType getCatalogCollation() {
+    public CatalogCollationType catalogCollation() {
         return this.catalogCollation;
     }
 
@@ -742,7 +742,7 @@ public class DatabaseInner extends Resource {
      * @param catalogCollation the catalogCollation value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setCatalogCollation(CatalogCollationType catalogCollation) {
+    public DatabaseInner withCatalogCollation(CatalogCollationType catalogCollation) {
         this.catalogCollation = catalogCollation;
         return this;
     }
@@ -754,7 +754,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the zoneRedundant value.
      */
-    public Boolean isZoneRedundant() {
+    public Boolean zoneRedundant() {
         return this.zoneRedundant;
     }
 
@@ -766,7 +766,7 @@ public class DatabaseInner extends Resource {
      * @param zoneRedundant the zoneRedundant value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setZoneRedundant(Boolean zoneRedundant) {
+    public DatabaseInner withZoneRedundant(Boolean zoneRedundant) {
         this.zoneRedundant = zoneRedundant;
         return this;
     }
@@ -777,7 +777,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the licenseType value.
      */
-    public DatabaseLicenseType getLicenseType() {
+    public DatabaseLicenseType licenseType() {
         return this.licenseType;
     }
 
@@ -788,7 +788,7 @@ public class DatabaseInner extends Resource {
      * @param licenseType the licenseType value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setLicenseType(DatabaseLicenseType licenseType) {
+    public DatabaseInner withLicenseType(DatabaseLicenseType licenseType) {
         this.licenseType = licenseType;
         return this;
     }
@@ -798,7 +798,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the maxLogSizeBytes value.
      */
-    public Long getMaxLogSizeBytes() {
+    public Long maxLogSizeBytes() {
         return this.maxLogSizeBytes;
     }
 
@@ -809,7 +809,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the earliestRestoreDate value.
      */
-    public OffsetDateTime getEarliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.earliestRestoreDate;
     }
 
@@ -821,7 +821,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the readScale value.
      */
-    public DatabaseReadScale getReadScale() {
+    public DatabaseReadScale readScale() {
         return this.readScale;
     }
 
@@ -834,7 +834,7 @@ public class DatabaseInner extends Resource {
      * @param readScale the readScale value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setReadScale(DatabaseReadScale readScale) {
+    public DatabaseInner withReadScale(DatabaseReadScale readScale) {
         this.readScale = readScale;
         return this;
     }
@@ -847,7 +847,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the readReplicaCount value.
      */
-    public Integer getReadReplicaCount() {
+    public Integer readReplicaCount() {
         return this.readReplicaCount;
     }
 
@@ -860,7 +860,7 @@ public class DatabaseInner extends Resource {
      * @param readReplicaCount the readReplicaCount value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setReadReplicaCount(Integer readReplicaCount) {
+    public DatabaseInner withReadReplicaCount(Integer readReplicaCount) {
         this.readReplicaCount = readReplicaCount;
         return this;
     }
@@ -870,7 +870,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the currentSku value.
      */
-    public Sku getCurrentSku() {
+    public Sku currentSku() {
         return this.currentSku;
     }
 
@@ -881,7 +881,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the autoPauseDelay value.
      */
-    public Integer getAutoPauseDelay() {
+    public Integer autoPauseDelay() {
         return this.autoPauseDelay;
     }
 
@@ -893,7 +893,7 @@ public class DatabaseInner extends Resource {
      * @param autoPauseDelay the autoPauseDelay value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setAutoPauseDelay(Integer autoPauseDelay) {
+    public DatabaseInner withAutoPauseDelay(Integer autoPauseDelay) {
         this.autoPauseDelay = autoPauseDelay;
         return this;
     }
@@ -904,7 +904,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the minCapacity value.
      */
-    public Double getMinCapacity() {
+    public Double minCapacity() {
         return this.minCapacity;
     }
 
@@ -915,7 +915,7 @@ public class DatabaseInner extends Resource {
      * @param minCapacity the minCapacity value to set.
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner setMinCapacity(Double minCapacity) {
+    public DatabaseInner withMinCapacity(Double minCapacity) {
         this.minCapacity = minCapacity;
         return this;
     }
@@ -926,7 +926,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the pausedDate value.
      */
-    public OffsetDateTime getPausedDate() {
+    public OffsetDateTime pausedDate() {
         return this.pausedDate;
     }
 
@@ -937,7 +937,7 @@ public class DatabaseInner extends Resource {
      * 
      * @return the resumedDate value.
      */
-    public OffsetDateTime getResumedDate() {
+    public OffsetDateTime resumedDate() {
         return this.resumedDate;
     }
 }

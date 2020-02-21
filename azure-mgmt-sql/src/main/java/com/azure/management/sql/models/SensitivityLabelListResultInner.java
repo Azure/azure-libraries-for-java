@@ -32,7 +32,7 @@ public final class SensitivityLabelListResultInner {
      * 
      * @return the value value.
      */
-    public List<SensitivityLabelInner> getValue() {
+    public List<SensitivityLabelInner> value() {
         return this.value;
     }
 
@@ -41,7 +41,7 @@ public final class SensitivityLabelListResultInner {
      * 
      * @return the nextLink value.
      */
-    public String getNextLink() {
+    public String nextLink() {
         return this.nextLink;
     }
 }

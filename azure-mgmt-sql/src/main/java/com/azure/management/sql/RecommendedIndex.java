@@ -102,7 +102,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the action value.
      */
-    public RecommendedIndexAction getAction() {
+    public RecommendedIndexAction action() {
         return this.action;
     }
 
@@ -111,7 +111,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the state value.
      */
-    public RecommendedIndexState getState() {
+    public RecommendedIndexState state() {
         return this.state;
     }
 
@@ -121,7 +121,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the created value.
      */
-    public OffsetDateTime getCreated() {
+    public OffsetDateTime created() {
         return this.created;
     }
 
@@ -131,7 +131,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the lastModified value.
      */
-    public OffsetDateTime getLastModified() {
+    public OffsetDateTime lastModified() {
         return this.lastModified;
     }
 
@@ -141,7 +141,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the indexType value.
      */
-    public RecommendedIndexType getIndexType() {
+    public RecommendedIndexType indexType() {
         return this.indexType;
     }
 
@@ -151,7 +151,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the schema value.
      */
-    public String getSchema() {
+    public String schema() {
         return this.schema;
     }
 
@@ -160,7 +160,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the table value.
      */
-    public String getTable() {
+    public String table() {
         return this.table;
     }
 
@@ -169,7 +169,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the columns value.
      */
-    public List<String> getColumns() {
+    public List<String> columns() {
         return this.columns;
     }
 
@@ -179,7 +179,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the includedColumns value.
      */
-    public List<String> getIncludedColumns() {
+    public List<String> includedColumns() {
         return this.includedColumns;
     }
 
@@ -188,7 +188,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the indexScript value.
      */
-    public String getIndexScript() {
+    public String indexScript() {
         return this.indexScript;
     }
 
@@ -198,7 +198,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the estimatedImpact value.
      */
-    public List<OperationImpact> getEstimatedImpact() {
+    public List<OperationImpact> estimatedImpact() {
         return this.estimatedImpact;
     }
 
@@ -208,7 +208,7 @@ public class RecommendedIndex extends ProxyResource {
      * 
      * @return the reportedImpact value.
      */
-    public List<OperationImpact> getReportedImpact() {
+    public List<OperationImpact> reportedImpact() {
         return this.reportedImpact;
     }
 }

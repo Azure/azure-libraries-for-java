@@ -120,7 +120,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the location value.
      */
-    public String getLocation() {
+    public String location() {
         return this.location;
     }
 
@@ -130,7 +130,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * @param location the location value to set.
      * @return the ElasticPoolDatabaseActivityInner object itself.
      */
-    public ElasticPoolDatabaseActivityInner setLocation(String location) {
+    public ElasticPoolDatabaseActivityInner withLocation(String location) {
         this.location = location;
         return this;
     }
@@ -140,7 +140,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the databaseName value.
      */
-    public String getDatabaseName() {
+    public String databaseName() {
         return this.databaseName;
     }
 
@@ -150,7 +150,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the endTime value.
      */
-    public OffsetDateTime getEndTime() {
+    public OffsetDateTime endTime() {
         return this.endTime;
     }
 
@@ -159,7 +159,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the errorCode value.
      */
-    public Integer getErrorCode() {
+    public Integer errorCode() {
         return this.errorCode;
     }
 
@@ -168,7 +168,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the errorMessage value.
      */
-    public String getErrorMessage() {
+    public String errorMessage() {
         return this.errorMessage;
     }
 
@@ -177,7 +177,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the errorSeverity value.
      */
-    public Integer getErrorSeverity() {
+    public Integer errorSeverity() {
         return this.errorSeverity;
     }
 
@@ -186,7 +186,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the operation value.
      */
-    public String getOperation() {
+    public String operation() {
         return this.operation;
     }
 
@@ -195,7 +195,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the operationId value.
      */
-    public UUID getOperationId() {
+    public UUID operationId() {
         return this.operationId;
     }
 
@@ -204,7 +204,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the percentComplete value.
      */
-    public Integer getPercentComplete() {
+    public Integer percentComplete() {
         return this.percentComplete;
     }
 
@@ -214,7 +214,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the requestedElasticPoolName value.
      */
-    public String getRequestedElasticPoolName() {
+    public String requestedElasticPoolName() {
         return this.requestedElasticPoolName;
     }
 
@@ -224,7 +224,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the currentElasticPoolName value.
      */
-    public String getCurrentElasticPoolName() {
+    public String currentElasticPoolName() {
         return this.currentElasticPoolName;
     }
 
@@ -234,7 +234,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the currentServiceObjective value.
      */
-    public String getCurrentServiceObjective() {
+    public String currentServiceObjective() {
         return this.currentServiceObjective;
     }
 
@@ -244,7 +244,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the requestedServiceObjective value.
      */
-    public String getRequestedServiceObjective() {
+    public String requestedServiceObjective() {
         return this.requestedServiceObjective;
     }
 
@@ -254,7 +254,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the serverName value.
      */
-    public String getServerName() {
+    public String serverName() {
         return this.serverName;
     }
 
@@ -264,7 +264,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the startTime value.
      */
-    public OffsetDateTime getStartTime() {
+    public OffsetDateTime startTime() {
         return this.startTime;
     }
 
@@ -273,7 +273,7 @@ public class ElasticPoolDatabaseActivityInner extends ProxyResource {
      * 
      * @return the state value.
      */
-    public String getState() {
+    public String state() {
         return this.state;
     }
 }

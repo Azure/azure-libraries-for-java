@@ -62,7 +62,7 @@ public final class ServerUsageInner {
      * 
      * @return the name value.
      */
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -71,7 +71,7 @@ public final class ServerUsageInner {
      * 
      * @return the resourceName value.
      */
-    public String getResourceName() {
+    public String resourceName() {
         return this.resourceName;
     }
 
@@ -80,7 +80,7 @@ public final class ServerUsageInner {
      * 
      * @return the displayName value.
      */
-    public String getDisplayName() {
+    public String displayName() {
         return this.displayName;
     }
 
@@ -89,7 +89,7 @@ public final class ServerUsageInner {
      * 
      * @return the currentValue value.
      */
-    public Double getCurrentValue() {
+    public Double currentValue() {
         return this.currentValue;
     }
 
@@ -98,7 +98,7 @@ public final class ServerUsageInner {
      * 
      * @return the limit value.
      */
-    public Double getLimit() {
+    public Double limit() {
         return this.limit;
     }
 
@@ -107,7 +107,7 @@ public final class ServerUsageInner {
      * 
      * @return the unit value.
      */
-    public String getUnit() {
+    public String unit() {
         return this.unit;
     }
 
@@ -117,7 +117,7 @@ public final class ServerUsageInner {
      * 
      * @return the nextResetTime value.
      */
-    public OffsetDateTime getNextResetTime() {
+    public OffsetDateTime nextResetTime() {
         return this.nextResetTime;
     }
 }

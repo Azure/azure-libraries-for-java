@@ -174,7 +174,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the identity value.
      */
-    public ResourceIdentity getIdentity() {
+    public ResourceIdentity identity() {
         return this.identity;
     }
 
@@ -185,7 +185,7 @@ public class ManagedInstanceInner extends Resource {
      * @param identity the identity value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setIdentity(ResourceIdentity identity) {
+    public ManagedInstanceInner withIdentity(ResourceIdentity identity) {
         this.identity = identity;
         return this;
     }
@@ -195,7 +195,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public Sku sku() {
         return this.sku;
     }
 
@@ -205,7 +205,7 @@ public class ManagedInstanceInner extends Resource {
      * @param sku the sku value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setSku(Sku sku) {
+    public ManagedInstanceInner withSku(Sku sku) {
         this.sku = sku;
         return this;
     }
@@ -222,7 +222,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the managedInstanceCreateMode value.
      */
-    public ManagedServerCreateMode getManagedInstanceCreateMode() {
+    public ManagedServerCreateMode managedInstanceCreateMode() {
         return this.managedInstanceCreateMode;
     }
 
@@ -240,7 +240,7 @@ public class ManagedInstanceInner extends Resource {
      * set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setManagedInstanceCreateMode(ManagedServerCreateMode managedInstanceCreateMode) {
+    public ManagedInstanceInner withManagedInstanceCreateMode(ManagedServerCreateMode managedInstanceCreateMode) {
         this.managedInstanceCreateMode = managedInstanceCreateMode;
         return this;
     }
@@ -251,7 +251,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the fullyQualifiedDomainName value.
      */
-    public String getFullyQualifiedDomainName() {
+    public String fullyQualifiedDomainName() {
         return this.fullyQualifiedDomainName;
     }
 
@@ -262,7 +262,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the administratorLogin value.
      */
-    public String getAdministratorLogin() {
+    public String administratorLogin() {
         return this.administratorLogin;
     }
 
@@ -274,7 +274,7 @@ public class ManagedInstanceInner extends Resource {
      * @param administratorLogin the administratorLogin value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setAdministratorLogin(String administratorLogin) {
+    public ManagedInstanceInner withAdministratorLogin(String administratorLogin) {
         this.administratorLogin = administratorLogin;
         return this;
     }
@@ -285,7 +285,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the administratorLoginPassword value.
      */
-    public String getAdministratorLoginPassword() {
+    public String administratorLoginPassword() {
         return this.administratorLoginPassword;
     }
 
@@ -297,7 +297,7 @@ public class ManagedInstanceInner extends Resource {
      * to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setAdministratorLoginPassword(String administratorLoginPassword) {
+    public ManagedInstanceInner withAdministratorLoginPassword(String administratorLoginPassword) {
         this.administratorLoginPassword = administratorLoginPassword;
         return this;
     }
@@ -307,7 +307,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the subnetId value.
      */
-    public String getSubnetId() {
+    public String subnetId() {
         return this.subnetId;
     }
 
@@ -317,7 +317,7 @@ public class ManagedInstanceInner extends Resource {
      * @param subnetId the subnetId value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setSubnetId(String subnetId) {
+    public ManagedInstanceInner withSubnetId(String subnetId) {
         this.subnetId = subnetId;
         return this;
     }
@@ -327,7 +327,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the state value.
      */
-    public String getState() {
+    public String state() {
         return this.state;
     }
 
@@ -338,7 +338,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the licenseType value.
      */
-    public ManagedInstanceLicenseType getLicenseType() {
+    public ManagedInstanceLicenseType licenseType() {
         return this.licenseType;
     }
 
@@ -350,7 +350,7 @@ public class ManagedInstanceInner extends Resource {
      * @param licenseType the licenseType value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setLicenseType(ManagedInstanceLicenseType licenseType) {
+    public ManagedInstanceInner withLicenseType(ManagedInstanceLicenseType licenseType) {
         this.licenseType = licenseType;
         return this;
     }
@@ -361,7 +361,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the vCores value.
      */
-    public Integer getVCores() {
+    public Integer vCores() {
         return this.vCores;
     }
 
@@ -372,7 +372,7 @@ public class ManagedInstanceInner extends Resource {
      * @param vCores the vCores value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setVCores(Integer vCores) {
+    public ManagedInstanceInner withVCores(Integer vCores) {
         this.vCores = vCores;
         return this;
     }
@@ -383,7 +383,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the storageSizeInGB value.
      */
-    public Integer getStorageSizeInGB() {
+    public Integer storageSizeInGB() {
         return this.storageSizeInGB;
     }
 
@@ -394,7 +394,7 @@ public class ManagedInstanceInner extends Resource {
      * @param storageSizeInGB the storageSizeInGB value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setStorageSizeInGB(Integer storageSizeInGB) {
+    public ManagedInstanceInner withStorageSizeInGB(Integer storageSizeInGB) {
         this.storageSizeInGB = storageSizeInGB;
         return this;
     }
@@ -404,7 +404,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the collation value.
      */
-    public String getCollation() {
+    public String collation() {
         return this.collation;
     }
 
@@ -414,7 +414,7 @@ public class ManagedInstanceInner extends Resource {
      * @param collation the collation value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setCollation(String collation) {
+    public ManagedInstanceInner withCollation(String collation) {
         this.collation = collation;
         return this;
     }
@@ -424,7 +424,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the dnsZone value.
      */
-    public String getDnsZone() {
+    public String dnsZone() {
         return this.dnsZone;
     }
 
@@ -434,7 +434,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the dnsZonePartner value.
      */
-    public String getDnsZonePartner() {
+    public String dnsZonePartner() {
         return this.dnsZonePartner;
     }
 
@@ -445,7 +445,7 @@ public class ManagedInstanceInner extends Resource {
      * @param dnsZonePartner the dnsZonePartner value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setDnsZonePartner(String dnsZonePartner) {
+    public ManagedInstanceInner withDnsZonePartner(String dnsZonePartner) {
         this.dnsZonePartner = dnsZonePartner;
         return this;
     }
@@ -456,7 +456,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the publicDataEndpointEnabled value.
      */
-    public Boolean isPublicDataEndpointEnabled() {
+    public Boolean publicDataEndpointEnabled() {
         return this.publicDataEndpointEnabled;
     }
 
@@ -468,7 +468,7 @@ public class ManagedInstanceInner extends Resource {
      * set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setPublicDataEndpointEnabled(Boolean publicDataEndpointEnabled) {
+    public ManagedInstanceInner withPublicDataEndpointEnabled(Boolean publicDataEndpointEnabled) {
         this.publicDataEndpointEnabled = publicDataEndpointEnabled;
         return this;
     }
@@ -480,7 +480,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the sourceManagedInstanceId value.
      */
-    public String getSourceManagedInstanceId() {
+    public String sourceManagedInstanceId() {
         return this.sourceManagedInstanceId;
     }
 
@@ -492,7 +492,7 @@ public class ManagedInstanceInner extends Resource {
      * @param sourceManagedInstanceId the sourceManagedInstanceId value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setSourceManagedInstanceId(String sourceManagedInstanceId) {
+    public ManagedInstanceInner withSourceManagedInstanceId(String sourceManagedInstanceId) {
         this.sourceManagedInstanceId = sourceManagedInstanceId;
         return this;
     }
@@ -504,7 +504,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the restorePointInTime value.
      */
-    public OffsetDateTime getRestorePointInTime() {
+    public OffsetDateTime restorePointInTime() {
         return this.restorePointInTime;
     }
 
@@ -516,7 +516,7 @@ public class ManagedInstanceInner extends Resource {
      * @param restorePointInTime the restorePointInTime value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setRestorePointInTime(OffsetDateTime restorePointInTime) {
+    public ManagedInstanceInner withRestorePointInTime(OffsetDateTime restorePointInTime) {
         this.restorePointInTime = restorePointInTime;
         return this;
     }
@@ -527,7 +527,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the proxyOverride value.
      */
-    public ManagedInstanceProxyOverride getProxyOverride() {
+    public ManagedInstanceProxyOverride proxyOverride() {
         return this.proxyOverride;
     }
 
@@ -538,7 +538,7 @@ public class ManagedInstanceInner extends Resource {
      * @param proxyOverride the proxyOverride value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setProxyOverride(ManagedInstanceProxyOverride proxyOverride) {
+    public ManagedInstanceInner withProxyOverride(ManagedInstanceProxyOverride proxyOverride) {
         this.proxyOverride = proxyOverride;
         return this;
     }
@@ -559,7 +559,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the timezoneId value.
      */
-    public String getTimezoneId() {
+    public String timezoneId() {
         return this.timezoneId;
     }
 
@@ -580,7 +580,7 @@ public class ManagedInstanceInner extends Resource {
      * @param timezoneId the timezoneId value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setTimezoneId(String timezoneId) {
+    public ManagedInstanceInner withTimezoneId(String timezoneId) {
         this.timezoneId = timezoneId;
         return this;
     }
@@ -591,7 +591,7 @@ public class ManagedInstanceInner extends Resource {
      * 
      * @return the instancePoolId value.
      */
-    public String getInstancePoolId() {
+    public String instancePoolId() {
         return this.instancePoolId;
     }
 
@@ -602,7 +602,7 @@ public class ManagedInstanceInner extends Resource {
      * @param instancePoolId the instancePoolId value to set.
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner setInstancePoolId(String instancePoolId) {
+    public ManagedInstanceInner withInstancePoolId(String instancePoolId) {
         this.instancePoolId = instancePoolId;
         return this;
     }

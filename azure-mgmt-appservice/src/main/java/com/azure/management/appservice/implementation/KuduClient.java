@@ -12,6 +12,7 @@ import com.azure.core.annotation.Headers;
 import com.azure.core.annotation.Host;
 import com.azure.core.annotation.HostParam;
 import com.azure.core.annotation.Post;
+import com.azure.core.annotation.QueryParam;
 import com.azure.core.annotation.ServiceInterface;
 import com.azure.core.http.HttpPipelineCallContext;
 import com.azure.core.http.HttpPipelineNextPolicy;
@@ -94,7 +95,7 @@ class KuduClient {
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps warDeploy", "x-ms-body-logging: false" })
         @Post("api/wardeploy")
-        Mono<Void> warDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") byte[] warFile, String appName);
+        Mono<Void> warDeploy(@HostParam("$host") String host, @BodyParam("application/octet-stream") byte[] warFile, @QueryParam("name") String appName);
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
         @Post("api/zipdeploy")

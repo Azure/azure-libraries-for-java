@@ -35,7 +35,7 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
         super(TestBase.RunCondition.LIVE_ONLY);
     }
 
-    private static String RG_NAME = "";
+    private String RG_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

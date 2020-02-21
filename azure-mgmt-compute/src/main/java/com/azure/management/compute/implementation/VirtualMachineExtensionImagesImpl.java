@@ -46,6 +46,7 @@ class VirtualMachineExtensionImagesImpl
         return publishers.listByRegionAsync(regionName)
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(virtualMachinePublisher -> virtualMachinePublisher.extensionTypes().listAsync()
+                        .onErrorResume(e -> Mono.empty())
                         .flatMapMany(Flux::fromIterable)
                         .flatMap(imageType -> imageType.versions().listAsync()
                                 .flatMapMany(Flux::fromIterable)

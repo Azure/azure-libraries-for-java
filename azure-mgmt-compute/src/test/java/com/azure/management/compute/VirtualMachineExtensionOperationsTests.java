@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 public class VirtualMachineExtensionOperationsTests extends ComputeManagementTest {
-    private static String RG_NAME = "";
-    private static Region REGION = Region.US_SOUTH_CENTRAL;
+    private String RG_NAME = "";
+    private Region REGION = Region.US_SOUTH_CENTRAL;
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("vmexttest", 15);

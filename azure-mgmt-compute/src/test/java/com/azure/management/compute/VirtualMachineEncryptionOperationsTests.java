@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTest {
-    private static String RG_NAME = "";
-    private static Region REGION = Region.US_EAST;
+    private String RG_NAME = "";
+    private Region REGION = Region.US_EAST;
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("vmencryptst", 18);

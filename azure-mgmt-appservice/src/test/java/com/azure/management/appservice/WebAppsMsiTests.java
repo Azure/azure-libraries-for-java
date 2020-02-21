@@ -6,6 +6,7 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.Response;
 import com.azure.management.RestClient;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.msi.Identity;
@@ -14,7 +15,6 @@ import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -74,9 +74,9 @@ public class WebAppsMsiTests extends AppServiceTest {
 
             SdkContext.sleep(10000);
 
-            Response response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
-            Assertions.assertEquals(200, response.code());
-            String body = response.body().string();
+            Response<String> response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
+            Assertions.assertEquals(200, response.getStatusCode());
+            String body = response.getValue();
             Assertions.assertNotNull(body);
             Assertions.assertTrue(body.contains(webApp.resourceGroupName()));
             Assertions.assertTrue(body.contains(webApp.id()));
@@ -147,9 +147,9 @@ public class WebAppsMsiTests extends AppServiceTest {
 
             SdkContext.sleep(10000);
 
-            Response response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
-            Assertions.assertEquals(200, response.code());
-            String body = response.body().string();
+            Response<String> response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
+            Assertions.assertEquals(200, response.getStatusCode());
+            String body = response.getValue();
             Assertions.assertNotNull(body);
             Assertions.assertTrue(body.contains(webApp.resourceGroupName()));
             Assertions.assertTrue(body.contains(webApp.id()));

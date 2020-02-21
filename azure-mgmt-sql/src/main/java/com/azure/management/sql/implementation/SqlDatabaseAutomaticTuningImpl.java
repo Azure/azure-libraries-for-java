@@ -13,7 +13,6 @@ import com.azure.management.sql.SqlDatabaseAutomaticTuning;
 import com.azure.management.sql.models.DatabaseAutomaticTuningInner;
 import reactor.core.publisher.Mono;
 
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,7 +107,7 @@ public class SqlDatabaseAutomaticTuningImpl
 
     @Override
     public SqlDatabaseAutomaticTuning apply() {
-        return this.applyAsync().toBlocking().last();
+        return this.applyAsync().block();
     }
 
     @Override
@@ -117,13 +116,10 @@ public class SqlDatabaseAutomaticTuningImpl
         this.inner().withOptions(this.automaticTuningOptionsMap);
         return this.sqlServerManager.inner().databaseAutomaticTunings()
             .updateAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.inner())
-            .map(new Func1<DatabaseAutomaticTuningInner, SqlDatabaseAutomaticTuning>() {
-                @Override
-                public SqlDatabaseAutomaticTuning call(DatabaseAutomaticTuningInner databaseAutomaticTuningInner) {
-                    self.setInner(databaseAutomaticTuningInner);
-                    self.automaticTuningOptionsMap.clear();
-                    return self;
-                }
+            .map(databaseAutomaticTuningInner -> {
+                self.setInner(databaseAutomaticTuningInner);
+                self.automaticTuningOptionsMap.clear();
+                return self;
             });
     }
 

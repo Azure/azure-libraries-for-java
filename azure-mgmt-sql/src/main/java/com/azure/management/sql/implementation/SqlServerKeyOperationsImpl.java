@@ -5,8 +5,8 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlServerKey;
@@ -50,12 +50,7 @@ public class SqlServerKeyOperationsImpl
         final SqlServerKeyOperationsImpl self = this;
         return this.sqlServerManager.inner().serverKeys()
             .getAsync(resourceGroupName, sqlServerName, name)
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
-                    return new SqlServerKeyImpl(resourceGroupName, sqlServerName, name, serverKeyInner, self.sqlServerManager);
-                }
-            });
+            .map(serverKeyInner -> new SqlServerKeyImpl(resourceGroupName, sqlServerName, name, serverKeyInner, self.sqlServerManager));
     }
 
     @Override
@@ -71,12 +66,7 @@ public class SqlServerKeyOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverKeys()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
-                    return new SqlServerKeyImpl(name, (SqlServerImpl) sqlServer, serverKeyInner, sqlServer.manager());
-                }
-            });
+            .map(serverKeyInner -> new SqlServerKeyImpl(name, (SqlServerImpl) sqlServer, serverKeyInner, sqlServer.manager()));
     }
 
     @Override
@@ -86,17 +76,17 @@ public class SqlServerKeyOperationsImpl
 
     @Override
     public Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
-        return this.sqlServerManager.inner().serverKeys().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
+        return this.sqlServerManager.inner().serverKeys().deleteAsync(resourceGroupName, sqlServerName, name);
     }
 
     @Override
     public List<SqlServerKey> listBySqlServer(String resourceGroupName, String sqlServerName) {
         List<SqlServerKey> serverKeys = new ArrayList<>();
-        List<ServerKeyInner> serverKeyInners = this.sqlServerManager.inner().serverKeys()
+        PagedIterable<ServerKeyInner> serverKeyInners = this.sqlServerManager.inner().serverKeys()
             .listByServer(resourceGroupName, sqlServerName);
         if (serverKeyInners != null) {
             for (ServerKeyInner inner : serverKeyInners) {
-                serverKeys.add(new SqlServerKeyImpl(resourceGroupName, sqlServerName, inner.name(), inner, this.sqlServerManager));
+                serverKeys.add(new SqlServerKeyImpl(resourceGroupName, sqlServerName, inner.getName(), inner, this.sqlServerManager));
             }
         }
         return Collections.unmodifiableList(serverKeys);
@@ -107,29 +97,18 @@ public class SqlServerKeyOperationsImpl
         final SqlServerKeyOperationsImpl self = this;
         return this.sqlServerManager.inner().serverKeys()
             .listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<Page<ServerKeyInner>, Observable<ServerKeyInner>>() {
-                @Override
-                public Observable<ServerKeyInner> call(Page<ServerKeyInner> serverKeyInnerPage) {
-                    return Observable.from(serverKeyInnerPage.items());
-                }
-            })
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
-                    return new SqlServerKeyImpl(resourceGroupName, sqlServerName, serverKeyInner.name(), serverKeyInner, self.sqlServerManager);
-                }
-            });
+            .mapPage(serverKeyInner -> new SqlServerKeyImpl(resourceGroupName, sqlServerName, serverKeyInner.getName(), serverKeyInner, self.sqlServerManager));
     }
 
     @Override
     public List<SqlServerKey> listBySqlServer(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         List<SqlServerKey> serverKeys = new ArrayList<>();
-        List<ServerKeyInner> serverKeyInners = sqlServer.manager().inner().serverKeys()
+        PagedIterable<ServerKeyInner> serverKeyInners = sqlServer.manager().inner().serverKeys()
             .listByServer(sqlServer.resourceGroupName(), sqlServer.name());
         if (serverKeyInners != null) {
             for (ServerKeyInner inner : serverKeyInners) {
-                serverKeys.add(new SqlServerKeyImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager()));
+                serverKeys.add(new SqlServerKeyImpl(inner.getName(), (SqlServerImpl) sqlServer, inner, sqlServer.manager()));
             }
         }
         return Collections.unmodifiableList(serverKeys);
@@ -140,18 +119,7 @@ public class SqlServerKeyOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverKeys()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<Page<ServerKeyInner>, Observable<ServerKeyInner>>() {
-                @Override
-                public Observable<ServerKeyInner> call(Page<ServerKeyInner> serverKeyInnerPage) {
-                    return Observable.from(serverKeyInnerPage.items());
-                }
-            })
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
-                    return new SqlServerKeyImpl(serverKeyInner.name(), (SqlServerImpl) sqlServer, serverKeyInner, sqlServer.manager());
-                }
-            });
+            .mapPage(serverKeyInner -> new SqlServerKeyImpl(serverKeyInner.getName(), (SqlServerImpl) sqlServer, serverKeyInner, sqlServer.manager()));
     }
 
     @Override

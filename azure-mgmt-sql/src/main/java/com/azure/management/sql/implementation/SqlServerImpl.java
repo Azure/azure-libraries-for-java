@@ -7,6 +7,7 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
@@ -46,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 /**
  * Implementation for SqlServer and its parent interfaces.
@@ -173,7 +175,7 @@ public class SqlServerImpl
 
     @Override
     public boolean isManagedServiceIdentityEnabled() {
-        return this.inner().identity() != null && this.inner().identity().type().equals(IdentityType.SYSTEM_ASSIGNED);
+        return this.inner().identity() != null && this.inner().identity().type().equalsIgnoreCase("SystemAssigned");
     }
 
     @Override
@@ -199,7 +201,7 @@ public class SqlServerImpl
     @Override
     public List<ServerMetric> listUsageMetrics() {
         List<ServerMetric> serverMetrics = new ArrayList<>();
-        List<ServerUsageInner> serverUsageInners = this.manager().inner().serverUsages()
+        PagedIterable<ServerUsageInner> serverUsageInners = this.manager().inner().serverUsages()
             .listByServer(this.resourceGroupName(), this.name());
         if (serverUsageInners != null) {
             for (ServerUsageInner serverUsageInner : serverUsageInners) {
@@ -212,7 +214,7 @@ public class SqlServerImpl
     @Override
     public List<ServiceObjective> listServiceObjectives() {
         List<ServiceObjective> serviceObjectives = new ArrayList<>();
-        List<ServiceObjectiveInner> serviceObjectiveInners = this.manager().inner().serviceObjectives()
+        PagedIterable<ServiceObjectiveInner> serviceObjectiveInners = this.manager().inner().serviceObjectives()
             .listByServer(this.resourceGroupName(), this.name());
         if (serviceObjectiveInners != null) {
             for (ServiceObjectiveInner inner : serviceObjectiveInners) {
@@ -232,11 +234,11 @@ public class SqlServerImpl
     @Override
     public Map<String, RecommendedElasticPool> listRecommendedElasticPools() {
         Map<String, RecommendedElasticPool> recommendedElasticPoolMap = new HashMap<>();
-        List<RecommendedElasticPoolInner> recommendedElasticPoolInners = this.manager().inner()
+        PagedIterable<RecommendedElasticPoolInner> recommendedElasticPoolInners = this.manager().inner()
             .recommendedElasticPools().listByServer(this.resourceGroupName(), this.name());
         if (recommendedElasticPoolInners != null) {
             for (RecommendedElasticPoolInner inner : recommendedElasticPoolInners) {
-                recommendedElasticPoolMap.put(inner.name(), new RecommendedElasticPoolImpl(inner, this));
+                recommendedElasticPoolMap.put(inner.getName(), new RecommendedElasticPoolImpl(inner, this));
             }
         }
 
@@ -246,7 +248,7 @@ public class SqlServerImpl
     @Override
     public List<SqlRestorableDroppedDatabase> listRestorableDroppedDatabases() {
         List<SqlRestorableDroppedDatabase> sqlRestorableDroppedDatabases = new ArrayList<>();
-        List<RestorableDroppedDatabaseInner> restorableDroppedDatabasesInners = this.manager().inner()
+        PagedIterable<RestorableDroppedDatabaseInner> restorableDroppedDatabasesInners = this.manager().inner()
             .restorableDroppedDatabases().listByServer(this.resourceGroupName(), this.name());
         if (restorableDroppedDatabasesInners != null) {
             for (RestorableDroppedDatabaseInner restorableDroppedDatabaseInner : restorableDroppedDatabasesInners) {
@@ -261,7 +263,7 @@ public class SqlServerImpl
         final SqlServerImpl self = this;
         return this.manager().inner()
             .restorableDroppedDatabases().listByServerAsync(this.resourceGroupName(), this.name())
-            .map(restorableDroppedDatabaseInner -> new SqlRestorableDroppedDatabaseImpl(self.resourceGroupName(), self.name(), restorableDroppedDatabaseInner, self.manager()));
+            .mapPage(restorableDroppedDatabaseInner -> new SqlRestorableDroppedDatabaseImpl(self.resourceGroupName(), self.name(), restorableDroppedDatabaseInner, self.manager()));
     }
 
     @Override
@@ -361,23 +363,15 @@ public class SqlServerImpl
     @Override
     public SqlServer.DefinitionStages.WithCreate withActiveDirectoryAdministrator(final String userLogin, final String objectId) {
         final SqlServerImpl self = this;
-        sqlADAdminCreator = new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(final Context context) {
-                ServerAzureADAdministratorInner serverAzureADAdministratorInner = new ServerAzureADAdministratorInner()
-                    .withLogin(userLogin)
-                    .withSid(UUID.fromString(objectId))
-                    .withTenantId(UUID.fromString(self.manager().tenantId()));
+        sqlADAdminCreator = context -> {
+            ServerAzureADAdministratorInner serverAzureADAdministratorInner = new ServerAzureADAdministratorInner()
+                .withLogin(userLogin)
+                .withSid(UUID.fromString(objectId))
+                .withTenantId(UUID.fromString(self.manager().tenantId()));
 
-                return self.manager().inner().serverAzureADAdministrators()
-                    .createOrUpdateAsync(self.resourceGroupName(), self.name(), serverAzureADAdministratorInner)
-                    .flatMap(new Func1<ServerAzureADAdministratorInner, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(ServerAzureADAdministratorInner serverAzureADAdministratorInner) {
-                            return context.voidObservable();
-                        }
-                    });
-            }
+            return self.manager().inner().serverAzureADAdministrators()
+                .createOrUpdateAsync(self.resourceGroupName(), self.name(), serverAzureADAdministratorInner)
+                .flatMap((Function<ServerAzureADAdministratorInner, Mono<Indexable>>) serverAzureADAdministratorInner1 -> context.voidMono());
         };
         return this;
     }
@@ -524,7 +518,7 @@ public class SqlServerImpl
 
     @Override
     public SqlServerImpl withSystemAssignedManagedServiceIdentity() {
-        this.inner().withIdentity(new ResourceIdentity().withType(IdentityType.SYSTEM_ASSIGNED));
+        this.inner().withIdentity(new ResourceIdentity().withType("SystemAssigned"));
         return this;
     }
 }

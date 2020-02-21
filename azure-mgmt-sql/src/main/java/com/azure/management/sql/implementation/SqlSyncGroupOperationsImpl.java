@@ -5,7 +5,6 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.Region;
@@ -13,7 +12,6 @@ import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.SqlSyncGroup;
 import com.azure.management.sql.SqlSyncGroupOperations;
-import com.azure.management.sql.models.SyncDatabaseIdPropertiesInner;
 import com.azure.management.sql.models.SyncGroupInner;
 import reactor.core.publisher.Mono;
 
@@ -62,43 +60,20 @@ public class SqlSyncGroupOperationsImpl
     public Mono<SqlSyncGroup> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String databaseName, final String name) {
         return this.sqlServerManager.inner().syncGroups()
             .getAsync(resourceGroupName, sqlServerName, databaseName, name)
-            .map(new Func1<SyncGroupInner, SqlSyncGroup>() {
-                @Override
-                public SqlSyncGroup call(SyncGroupInner syncGroupInner) {
-                    return new SqlSyncGroupImpl(resourceGroupName, sqlServerName, databaseName, name, syncGroupInner, sqlServerManager);
-                }
-            });
+            .map(syncGroupInner -> new SqlSyncGroupImpl(resourceGroupName, sqlServerName, databaseName, name, syncGroupInner, sqlServerManager));
     }
 
     @Override
     public PagedIterable<String> listSyncDatabaseIds(String locationName) {
-        final SqlSyncGroupOperationsImpl self = this;
-        final PagedListConverter<SyncDatabaseIdPropertiesInner, String> converter = new PagedListConverter<SyncDatabaseIdPropertiesInner, String>() {
-            @Override
-            public Observable<String> typeConvertAsync(SyncDatabaseIdPropertiesInner inner) {
-                return Observable.just(inner.id());
-            }
-        };
-        return converter.convert(this.sqlServerManager.inner().syncGroups()
-            .listSyncDatabaseIds(locationName));
+        return this.sqlServerManager.inner().syncGroups()
+            .listSyncDatabaseIds(locationName).mapPage(inner -> inner.getId());
     }
 
     @Override
     public PagedFlux<String> listSyncDatabaseIdsAsync(String locationName) {
         return this.sqlServerManager.inner().syncGroups()
             .listSyncDatabaseIdsAsync(locationName)
-            .flatMap(new Func1<Page<SyncDatabaseIdPropertiesInner>, Observable<SyncDatabaseIdPropertiesInner>>() {
-                @Override
-                public Observable<SyncDatabaseIdPropertiesInner> call(Page<SyncDatabaseIdPropertiesInner> syncDatabaseIdPropertiesInnerPage) {
-                    return Observable.from(syncDatabaseIdPropertiesInnerPage.items());
-                }
-            })
-            .map(new Func1<SyncDatabaseIdPropertiesInner, String>() {
-                @Override
-                public String call(SyncDatabaseIdPropertiesInner syncDatabaseIdPropertiesInner) {
-                    return syncDatabaseIdPropertiesInner.id();
-                }
-            });
+            .mapPage(syncDatabaseIdPropertiesInner -> syncDatabaseIdPropertiesInner.getId());
     }
 
     @Override
@@ -177,7 +152,7 @@ public class SqlSyncGroupOperationsImpl
             return null;
         }
         return this.sqlServerManager.inner().syncGroups()
-            .deleteAsync(this.sqlDatabase.resourceGroupName(), this.sqlDatabase.sqlServerName(), this.sqlDatabase.name(), name).toCompletable();
+            .deleteAsync(this.sqlDatabase.resourceGroupName(), this.sqlDatabase.sqlServerName(), this.sqlDatabase.name(), name);
     }
 
     @Override
@@ -200,7 +175,7 @@ public class SqlSyncGroupOperationsImpl
             return this.sqlServerManager.inner().syncGroups().deleteAsync(resourceId.resourceGroupName(),
                 resourceId.parent().parent().name(),
                 resourceId.parent().name(),
-                resourceId.name()).toCompletable();
+                resourceId.name());
         } catch (NullPointerException e) {
         }
         return null;
@@ -210,11 +185,11 @@ public class SqlSyncGroupOperationsImpl
     public List<SqlSyncGroup> list() {
         List<SqlSyncGroup> sqlSyncGroups = new ArrayList<>();
         if (this.sqlDatabase != null) {
-            PagedList<SyncGroupInner> syncGroupInners = this.sqlServerManager.inner().syncGroups()
+            PagedIterable<SyncGroupInner> syncGroupInners = this.sqlServerManager.inner().syncGroups()
                 .listByDatabase(this.sqlDatabase.resourceGroupName(), this.sqlDatabase.sqlServerName(), this.sqlDatabase.name());
             if (syncGroupInners != null) {
                 for (SyncGroupInner groupInner : syncGroupInners) {
-                    sqlSyncGroups.add(new SqlSyncGroupImpl(groupInner.name(), this.sqlDatabase, groupInner, this.sqlServerManager));
+                    sqlSyncGroups.add(new SqlSyncGroupImpl(groupInner.getName(), this.sqlDatabase, groupInner, this.sqlServerManager));
                 }
             }
         }
@@ -226,17 +201,6 @@ public class SqlSyncGroupOperationsImpl
         final SqlSyncGroupOperationsImpl self = this;
         return this.sqlServerManager.inner().syncGroups()
             .listByDatabaseAsync(this.sqlDatabase.resourceGroupName(), this.sqlDatabase.sqlServerName(), this.sqlDatabase.name())
-            .flatMap(new Func1<Page<SyncGroupInner>, Observable<SyncGroupInner>>() {
-                @Override
-                public Observable<SyncGroupInner> call(Page<SyncGroupInner> syncGroupInnerPage) {
-                    return Observable.from(syncGroupInnerPage.items());
-                }
-            })
-            .map(new Func1<SyncGroupInner, SqlSyncGroup>() {
-                @Override
-                public SqlSyncGroup call(SyncGroupInner syncGroupInner) {
-                    return new SqlSyncGroupImpl(syncGroupInner.name(), self.sqlDatabase, syncGroupInner, self.sqlServerManager);
-                }
-            });
+            .mapPage(syncGroupInner -> new SqlSyncGroupImpl(syncGroupInner.getName(), self.sqlDatabase, syncGroupInner, self.sqlServerManager));
     }
 }

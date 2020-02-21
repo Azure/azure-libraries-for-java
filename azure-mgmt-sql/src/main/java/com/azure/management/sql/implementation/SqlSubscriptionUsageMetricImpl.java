@@ -37,12 +37,12 @@ public class SqlSubscriptionUsageMetricImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -67,6 +67,6 @@ public class SqlSubscriptionUsageMetricImpl
 
     @Override
     public String type() {
-        return this.inner().type();
+        return this.inner().getType();
     }
 }

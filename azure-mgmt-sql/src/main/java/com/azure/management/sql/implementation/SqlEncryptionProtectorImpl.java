@@ -13,6 +13,7 @@ import com.azure.management.sql.ServerKeyType;
 import com.azure.management.sql.SqlEncryptionProtector;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.models.EncryptionProtectorInner;
+import org.apache.commons.lang3.NotImplementedException;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -47,8 +48,8 @@ public class SqlEncryptionProtectorImpl
         this.sqlServerManager = sqlServerManager;
         this.resourceGroupName = parent.resourceGroupName();
         this.sqlServerName = parent.name();
-        if (innerObject != null && innerObject.name() != null) {
-            this.serverKeyName = innerObject.name();
+        if (innerObject != null && innerObject.getName() != null) {
+            this.serverKeyName = innerObject.getName();
         }
     }
 
@@ -66,8 +67,8 @@ public class SqlEncryptionProtectorImpl
         this.sqlServerManager = sqlServerManager;
         this.resourceGroupName = resourceGroupName;
         this.sqlServerName = sqlServerName;
-        if (innerObject != null && innerObject.name() != null) {
-            this.serverKeyName = innerObject.name();
+        if (innerObject != null && innerObject.getName() != null) {
+            this.serverKeyName = innerObject.getName();
         }
     }
 
@@ -81,12 +82,12 @@ public class SqlEncryptionProtectorImpl
         super("", null, innerObject);
         Objects.requireNonNull(sqlServerManager);
         this.sqlServerManager = sqlServerManager;
-        if (innerObject != null && innerObject.id() != null) {
-            if (innerObject.name() != null) {
-                this.serverKeyName = innerObject.name();
+        if (innerObject != null && innerObject.getId() != null) {
+            if (innerObject.getName() != null) {
+                this.serverKeyName = innerObject.getName();
             }
             try {
-                ResourceId resourceId = ResourceId.fromString(innerObject.id());
+                ResourceId resourceId = ResourceId.fromString(innerObject.getId());
                 this.resourceGroupName = resourceId.resourceGroupName();
                 this.sqlServerName = resourceId.parent().name();
             } catch (NullPointerException e) {
@@ -96,7 +97,7 @@ public class SqlEncryptionProtectorImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -111,7 +112,7 @@ public class SqlEncryptionProtectorImpl
 
     @Override
     public String parentId() {
-        return ResourceUtils.parentResourceIdFromResourceId(this.inner().id());
+        return ResourceUtils.parentResourceIdFromResourceId(this.inner().getId());
     }
 
     @Override
@@ -163,12 +164,9 @@ public class SqlEncryptionProtectorImpl
         final SqlEncryptionProtectorImpl self = this;
         return this.sqlServerManager.inner().encryptionProtectors()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.inner())
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    self.setInner(encryptionProtectorInner);
-                    return self;
-                }
+            .map(encryptionProtectorInner -> {
+                self.setInner(encryptionProtectorInner);
+                return self;
             });
     }
 

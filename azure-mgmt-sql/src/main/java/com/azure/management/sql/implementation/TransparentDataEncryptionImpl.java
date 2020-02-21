@@ -7,6 +7,7 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.azure.management.sql.TransparentDataEncryption;
@@ -36,17 +37,17 @@ class TransparentDataEncryptionImpl
         this.resourceGroupName = resourceGroupName;
         this.sqlServerName = sqlServerName;
         this.sqlServerManager = sqlServerManager;
-        this.resourceId = ResourceId.fromString(this.inner().id());
+        this.resourceId = ResourceId.fromString(this.inner().getId());
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -84,19 +85,16 @@ class TransparentDataEncryptionImpl
         final TransparentDataEncryptionImpl self = this;
         return this.sqlServerManager.inner().transparentDataEncryptions()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.databaseName(), transparentDataEncryptionState)
-            .map(new Func1<TransparentDataEncryptionInner, TransparentDataEncryption>() {
-                @Override
-                public TransparentDataEncryption call(TransparentDataEncryptionInner transparentDataEncryptionInner) {
-                    self.setInner(transparentDataEncryptionInner);
-                    return self;
-                }
+            .map(transparentDataEncryptionInner -> {
+                self.setInner(transparentDataEncryptionInner);
+                return self;
             });
     }
 
     @Override
     public List<TransparentDataEncryptionActivity> listActivities() {
         List<TransparentDataEncryptionActivity> transparentDataEncryptionActivities = new ArrayList<>();
-        List<TransparentDataEncryptionActivityInner> transparentDataEncryptionActivityInners = this.sqlServerManager.inner().transparentDataEncryptionActivities()
+        PagedIterable<TransparentDataEncryptionActivityInner> transparentDataEncryptionActivityInners = this.sqlServerManager.inner().transparentDataEncryptionActivities()
             .listByConfiguration(this.resourceGroupName, this.sqlServerName, this.databaseName());
         if (transparentDataEncryptionActivityInners != null) {
             for (TransparentDataEncryptionActivityInner transparentDataEncryptionActivityInner : transparentDataEncryptionActivityInners) {
@@ -110,18 +108,7 @@ class TransparentDataEncryptionImpl
     public PagedFlux<TransparentDataEncryptionActivity> listActivitiesAsync() {
         return this.sqlServerManager.inner().transparentDataEncryptionActivities()
             .listByConfigurationAsync(this.resourceGroupName, this.sqlServerName, this.databaseName())
-            .flatMap(new Func1<List<TransparentDataEncryptionActivityInner>, Observable<TransparentDataEncryptionActivityInner>>() {
-                @Override
-                public Observable<TransparentDataEncryptionActivityInner> call(List<TransparentDataEncryptionActivityInner> transparentDataEncryptionActivityInners) {
-                    return Observable.from(transparentDataEncryptionActivityInners);
-                }
-            })
-            .map(new Func1<TransparentDataEncryptionActivityInner, TransparentDataEncryptionActivity>() {
-                @Override
-                public TransparentDataEncryptionActivity call(TransparentDataEncryptionActivityInner transparentDataEncryptionActivityInner) {
-                    return new TransparentDataEncryptionActivityImpl(transparentDataEncryptionActivityInner);
-                }
-            });
+            .mapPage(transparentDataEncryptionActivityInner -> new TransparentDataEncryptionActivityImpl(transparentDataEncryptionActivityInner));
     }
 
     @Override

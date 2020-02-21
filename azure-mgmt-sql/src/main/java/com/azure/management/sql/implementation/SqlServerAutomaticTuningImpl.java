@@ -103,7 +103,7 @@ public class SqlServerAutomaticTuningImpl
 
     @Override
     public SqlServerAutomaticTuning apply() {
-        return this.applyAsync().toBlocking().last();
+        return this.applyAsync().block();
     }
 
     @Override
@@ -111,12 +111,9 @@ public class SqlServerAutomaticTuningImpl
         final SqlServerAutomaticTuningImpl self = this;
         return this.sqlServerManager.inner().serverAutomaticTunings()
             .updateAsync(this.resourceGroupName, this.sqlServerName, this.inner())
-            .map(new Func1<ServerAutomaticTuningInner, SqlServerAutomaticTuning>() {
-                @Override
-                public SqlServerAutomaticTuning call(ServerAutomaticTuningInner serverAutomaticTuningInner) {
-                    self.setInner(serverAutomaticTuningInner);
-                    return self;
-                }
+            .map(serverAutomaticTuningInner -> {
+                self.setInner(serverAutomaticTuningInner);
+                return self;
             });
     }
 

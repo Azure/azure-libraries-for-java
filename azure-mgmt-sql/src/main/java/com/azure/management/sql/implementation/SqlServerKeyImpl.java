@@ -51,8 +51,8 @@ public class SqlServerKeyImpl
         this.sqlServerManager = sqlServerManager;
         this.resourceGroupName = parent.resourceGroupName();
         this.sqlServerName = parent.name();
-        if (innerObject != null && innerObject.name() != null) {
-            this.serverKeyName = innerObject.name();
+        if (innerObject != null && innerObject.getName() != null) {
+            this.serverKeyName = innerObject.getName();
         }
     }
 
@@ -71,8 +71,8 @@ public class SqlServerKeyImpl
         this.sqlServerManager = sqlServerManager;
         this.resourceGroupName = resourceGroupName;
         this.sqlServerName = sqlServerName;
-        if (innerObject != null && innerObject.name() != null) {
-            this.serverKeyName = innerObject.name();
+        if (innerObject != null && innerObject.getName() != null) {
+            this.serverKeyName = innerObject.getName();
         }
     }
 
@@ -87,12 +87,12 @@ public class SqlServerKeyImpl
         super(name, null, innerObject);
         Objects.requireNonNull(sqlServerManager);
         this.sqlServerManager = sqlServerManager;
-        if (innerObject != null && innerObject.id() != null) {
-            if (innerObject.name() != null) {
-                this.serverKeyName = innerObject.name();
+        if (innerObject != null && innerObject.getId() != null) {
+            if (innerObject.getName() != null) {
+                this.serverKeyName = innerObject.getName();
             }
             try {
-                ResourceId resourceId = ResourceId.fromString(innerObject.id());
+                ResourceId resourceId = ResourceId.fromString(innerObject.getId());
                 this.resourceGroupName = resourceId.resourceGroupName();
                 this.sqlServerName = resourceId.parent().name();
             } catch (NullPointerException e) {
@@ -102,7 +102,7 @@ public class SqlServerKeyImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -162,12 +162,9 @@ public class SqlServerKeyImpl
         final SqlServerKeyImpl self = this;
         return this.sqlServerManager.inner().serverKeys()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.serverKeyName, self.inner())
-            .map(new Func1<ServerKeyInner, SqlServerKey>() {
-                @Override
-                public SqlServerKey call(ServerKeyInner serverKeyInner) {
-                    self.setInner(serverKeyInner);
-                    return self;
-                }
+            .map(serverKeyInner -> {
+                self.setInner(serverKeyInner);
+                return self;
             });
     }
 
@@ -200,7 +197,7 @@ public class SqlServerKeyImpl
 
     @Override
     public String parentId() {
-        return ResourceUtils.parentResourceIdFromResourceId(this.inner().id());
+        return ResourceUtils.parentResourceIdFromResourceId(this.inner().getId());
     }
 
     @Override
@@ -241,7 +238,7 @@ public class SqlServerKeyImpl
 
     @Override
     public Mono<Void> deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override

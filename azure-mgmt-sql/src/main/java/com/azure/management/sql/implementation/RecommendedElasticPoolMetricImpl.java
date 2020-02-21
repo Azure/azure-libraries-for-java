@@ -24,8 +24,8 @@ class RecommendedElasticPoolMetricImpl
     }
 
     @Override
-    public OffsetDateTime dateTimeProperty() {
-        return this.inner().dateTimeProperty();
+    public OffsetDateTime dateTime() {
+        return this.inner().dateTime();
     }
 
     @Override

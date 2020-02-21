@@ -24,17 +24,17 @@ class ElasticPoolDatabaseActivityImpl
 
     protected ElasticPoolDatabaseActivityImpl(ElasticPoolDatabaseActivityInner innerObject) {
         super(innerObject);
-        this.resourceId = ResourceId.fromString(this.inner().id());
+        this.resourceId = ResourceId.fromString(this.inner().getId());
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override

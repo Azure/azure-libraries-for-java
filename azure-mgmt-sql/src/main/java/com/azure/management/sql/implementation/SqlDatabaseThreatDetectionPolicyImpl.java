@@ -44,7 +44,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl extends
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl extends
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -118,12 +118,9 @@ public class SqlDatabaseThreatDetectionPolicyImpl extends
         final SqlDatabaseThreatDetectionPolicyImpl self = this;
         return this.sqlServerManager.inner().databaseThreatDetectionPolicies()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.parent().name(), this.inner())
-            .map(new Func1<DatabaseSecurityAlertPolicyInner, SqlDatabaseThreatDetectionPolicy>() {
-                @Override
-                public SqlDatabaseThreatDetectionPolicy call(DatabaseSecurityAlertPolicyInner databaseSecurityAlertPolicyInner) {
-                    self.setInner(databaseSecurityAlertPolicyInner);
-                    return self;
-                }
+            .map(databaseSecurityAlertPolicyInner -> {
+                self.setInner(databaseSecurityAlertPolicyInner);
+                return self;
             });
     }
 

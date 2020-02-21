@@ -6,14 +6,13 @@
 
 package com.azure.management.sql;
 
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.implementation.ResourceManager;
 import com.azure.management.sql.implementation.SqlServerManager;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.RestClient;
-
-import java.util.concurrent.TimeUnit;
 
 public abstract class SqlServerTest extends TestBase {
     protected static ResourceManager resourceManager;
@@ -23,10 +22,9 @@ public abstract class SqlServerTest extends TestBase {
     protected static String SQL_SERVER_NAME = "";
 
     @Override
-    protected RestClient buildRestClient(RestClient.Builder builder, boolean isMocked) {
-        if (!isMocked) {
-        return super.buildRestClient(builder.withReadTimeout(150, TimeUnit.SECONDS) , isMocked);
-    }
+    protected RestClient buildRestClient(RestClientBuilder builder, boolean isMocked) {
+//        if (!isMocked) {
+//        return super.buildRestClient(builder.withReadTimeout(150, TimeUnit.SECONDS) , isMocked);
         return super.buildRestClient(builder, isMocked);
     }
 

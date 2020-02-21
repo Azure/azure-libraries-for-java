@@ -15,9 +15,7 @@ import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlDatabaseExportRequest;
 import com.azure.management.sql.SqlDatabaseImportExportResponse;
 import com.azure.management.sql.StorageKeyType;
-import com.azure.management.sql.models.ImportExportResponseInner;
 import com.azure.management.storage.StorageAccount;
-import com.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
@@ -26,7 +24,6 @@ import reactor.core.publisher.Mono;
 
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -61,12 +58,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     public Mono<SqlDatabaseImportExportResponse> executeWorkAsync() {
         return this.sqlServerManager.inner().databases()
             .exportAsync(this.sqlDatabase.resourceGroupName, this.sqlDatabase.sqlServerName, this.sqlDatabase.name(), this.inner())
-            .map(new Func1<ImportExportResponseInner, SqlDatabaseImportExportResponse>() {
-                @Override
-                public SqlDatabaseImportExportResponse call(ImportExportResponseInner importExportResponseInner) {
-                    return new SqlDatabaseImportExportResponseImpl(importExportResponseInner);
-                }
-            });
+            .map(importExportResponseInner -> new SqlDatabaseImportExportResponseImpl(importExportResponseInner));
     }
 
     @Override
@@ -81,35 +73,27 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     private Mono<Indexable> getOrCreateStorageAccountContainer(final StorageAccount storageAccount, final String containerName, final String fileName, final FunctionalTaskItem.Context context) {
         final SqlDatabaseExportRequestImpl self = this;
         return storageAccount.getKeysAsync()
-            .flatMap(new Func1<List<StorageAccountKey>, Observable<StorageAccountKey>>() {
-                @Override
-                public Observable<StorageAccountKey> call(List<StorageAccountKey> storageAccountKeys) {
-                    return Observable.from(storageAccountKeys).first();
+            .flatMap(storageAccountKeys -> Mono.justOrEmpty(storageAccountKeys.stream().findFirst()))
+            .flatMap(storageAccountKey -> {
+                self.inner.withStorageUri(String.format("%s%s/%s", storageAccount.endPoints().primary().getBlob(), containerName, fileName));
+                self.inner.withStorageKeyType(StorageKeyType.STORAGE_ACCESS_KEY);
+                self.inner.withStorageKey(storageAccountKey.getValue());
+                try {
+                    CloudStorageAccount cloudStorageAccount =
+                        CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", storageAccount.name(), storageAccountKey.getValue()));
+                    CloudBlobClient blobClient = cloudStorageAccount.createCloudBlobClient();
+                    blobClient.getContainerReference(containerName)
+                        .createIfNotExists();
+                } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                    throw Exceptions.propagate(indexOutOfBoundsException);
+                } catch (URISyntaxException syntaxException) {
+                    throw Exceptions.propagate(syntaxException);
+                } catch (StorageException stgException) {
+                    throw Exceptions.propagate(stgException);
+                } catch (InvalidKeyException keyException) {
+                    throw Exceptions.propagate(keyException);
                 }
-            })
-            .flatMap(new Func1<StorageAccountKey, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(StorageAccountKey storageAccountKey) {
-                    self.inner.withStorageUri(String.format("%s%s/%s", storageAccount.endPoints().primary().blob(), containerName, fileName));
-                    self.inner.withStorageKeyType(StorageKeyType.STORAGE_ACCESS_KEY);
-                    self.inner.withStorageKey(storageAccountKey.value());
-                    try {
-                        CloudStorageAccount cloudStorageAccount =
-                            CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", storageAccount.name(), storageAccountKey.value()));
-                        CloudBlobClient blobClient = cloudStorageAccount.createCloudBlobClient();
-                        blobClient.getContainerReference(containerName)
-                            .createIfNotExists();
-                    } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                        throw Exceptions.propagate(indexOutOfBoundsException);
-                    } catch (URISyntaxException syntaxException) {
-                        throw Exceptions.propagate(syntaxException);
-                    } catch (StorageException stgException) {
-                        throw Exceptions.propagate(stgException);
-                    } catch (InvalidKeyException keyException) {
-                        throw Exceptions.propagate(keyException);
-                    }
-                    return context.voidObservable();
-                }
+                return context.voidMono();
             });
     }
 
@@ -122,12 +106,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
             this.inner = new ExportRequest();
         }
         final SqlDatabaseExportRequestImpl self = this;
-        this.addDependency(new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(final Context context) {
-                return getOrCreateStorageAccountContainer(storageAccount, containerName, fileName, context);
-            }
-        });
+        this.addDependency(context -> getOrCreateStorageAccountContainer(storageAccount, containerName, fileName, context));
         return this;
     }
 
@@ -136,19 +115,9 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
         if (this.inner == null) {
             this.inner = new ExportRequest();
         }
-        this.addDependency(new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(final Context context) {
-                return storageAccountCreatable.createAsync()
-                    .last()
-                    .flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(final Indexable storageAccount) {
-                            return getOrCreateStorageAccountContainer((StorageAccount) storageAccount, containerName, fileName, context);
-                        }
-                    });
-            }
-        });
+        this.addDependency(context -> storageAccountCreatable.createAsync()
+            .last()
+            .flatMap(storageAccount -> getOrCreateStorageAccountContainer((StorageAccount) storageAccount, containerName, fileName, context)));
         return this;
     }
 

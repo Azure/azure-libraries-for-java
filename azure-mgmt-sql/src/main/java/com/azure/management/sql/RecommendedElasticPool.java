@@ -89,7 +89,7 @@ public interface RecommendedElasticPool extends
     /**
      * @return the list of Azure SQL Databases in this pool. Expanded property.
      */
-    List<SqlDatabase> databases();
+    List<TrackedResource> databases();
 
     /**
      * Fetches list of databases by making call to Azure.

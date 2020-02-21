@@ -34,7 +34,8 @@ class SqlWarehouseImpl
     @Override
     public Mono<Void> pauseDataWarehouseAsync() {
         return this.sqlServerManager.inner().databases()
-            .pauseAsync(this.resourceGroupName, this.sqlServerName, this.name()).toCompletable();
+            .pauseAsync(this.resourceGroupName, this.sqlServerName, this.name())
+            .flatMap(databaseInner -> Mono.empty());
     }
 
     @Override
@@ -46,6 +47,7 @@ class SqlWarehouseImpl
     @Override
     public Mono<Void> resumeDataWarehouseAsync() {
         return this.sqlServerManager.inner().databases()
-            .resumeAsync(this.resourceGroupName, this.sqlServerName, this.name()).toCompletable();
+            .resumeAsync(this.resourceGroupName, this.sqlServerName, this.name())
+            .flatMap(databaseInner -> Mono.empty());
     }
 }

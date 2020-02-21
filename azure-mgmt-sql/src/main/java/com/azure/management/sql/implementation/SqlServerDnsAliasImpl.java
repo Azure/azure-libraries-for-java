@@ -76,9 +76,9 @@ public class SqlServerDnsAliasImpl
         super(name, null, innerObject);
         Objects.requireNonNull(sqlServerManager);
         this.sqlServerManager = sqlServerManager;
-        if (innerObject != null && innerObject.id() != null) {
+        if (innerObject != null && innerObject.getId() != null) {
             try {
-                ResourceId resourceId = ResourceId.fromString(innerObject.id());
+                ResourceId resourceId = ResourceId.fromString(innerObject.getId());
                 this.resourceGroupName = resourceId.resourceGroupName();
                 this.sqlServerName = resourceId.parent().name();
             } catch (NullPointerException e) {
@@ -93,7 +93,7 @@ public class SqlServerDnsAliasImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -108,7 +108,7 @@ public class SqlServerDnsAliasImpl
 
     @Override
     public String parentId() {
-        return ResourceUtils.parentResourceIdFromResourceId(this.inner().id());
+        return ResourceUtils.parentResourceIdFromResourceId(this.inner().getId());
     }
 
     @Override
@@ -119,7 +119,7 @@ public class SqlServerDnsAliasImpl
 
     @Override
     public Mono<Void> deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override
@@ -151,12 +151,9 @@ public class SqlServerDnsAliasImpl
         final SqlServerDnsAliasImpl self = this;
         return this.sqlServerManager.inner().serverDnsAliases()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.name())
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    self.setInner(serverDnsAliasInner);
-                    return self;
-                }
+            .map(serverDnsAliasInner -> {
+                self.setInner(serverDnsAliasInner);
+                return self;
             });
     }
 

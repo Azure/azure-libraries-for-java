@@ -5,12 +5,12 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.azure.management.sql.Enum15;
 import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlSyncFullSchemaProperty;
 import com.azure.management.sql.SqlSyncGroup;
@@ -20,9 +20,7 @@ import com.azure.management.sql.SqlSyncMemberOperations;
 import com.azure.management.sql.SyncConflictResolutionPolicy;
 import com.azure.management.sql.SyncGroupSchema;
 import com.azure.management.sql.SyncGroupState;
-import com.azure.management.sql.models.SyncFullSchemaPropertiesInner;
 import com.azure.management.sql.models.SyncGroupInner;
-import com.azure.management.sql.models.SyncGroupLogPropertiesInner;
 import reactor.core.publisher.Mono;
 
 import java.time.OffsetDateTime;
@@ -95,9 +93,9 @@ public class SqlSyncGroupImpl
         super(name, null, innerObject);
         Objects.requireNonNull(sqlServerManager);
         this.sqlServerManager = sqlServerManager;
-        if (innerObject != null && innerObject.id() != null) {
+        if (innerObject != null && innerObject.getId() != null) {
             try {
-                ResourceId resourceId = ResourceId.fromString(innerObject.id());
+                ResourceId resourceId = ResourceId.fromString(innerObject.getId());
                 this.resourceGroupName = resourceId.resourceGroupName();
                 this.sqlServerName = resourceId.parent().parent().name();
                 this.sqlDatabaseName = resourceId.parent().name();
@@ -113,7 +111,7 @@ public class SqlSyncGroupImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -128,7 +126,7 @@ public class SqlSyncGroupImpl
 
     @Override
     public String parentId() {
-        return ResourceUtils.parentResourceIdFromResourceId(this.inner().id());
+        return ResourceUtils.parentResourceIdFromResourceId(this.inner().getId());
     }
 
     @Override
@@ -175,69 +173,35 @@ public class SqlSyncGroupImpl
     @Override
     public Mono<Void> refreshHubSchemaAsync() {
         return this.sqlServerManager.inner().syncGroups()
-            .refreshHubSchemaAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name()).toCompletable();
+            .refreshHubSchemaAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name());
     }
 
     @Override
     public PagedIterable<SqlSyncFullSchemaProperty> listHubSchemas() {
-        final PagedListConverter<SyncFullSchemaPropertiesInner, SqlSyncFullSchemaProperty> converter = new PagedListConverter<SyncFullSchemaPropertiesInner, SqlSyncFullSchemaProperty>() {
-            @Override
-            public Observable<SqlSyncFullSchemaProperty> typeConvertAsync(SyncFullSchemaPropertiesInner inner) {
-                return Observable.just((SqlSyncFullSchemaProperty) new SqlSyncFullSchemaPropertyImpl(inner));
-            }
-        };
-
-        return converter.convert(this.sqlServerManager.inner().syncGroups()
-            .listHubSchemas(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name()));
+        return this.sqlServerManager.inner().syncGroups()
+            .listHubSchemas(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name())
+            .mapPage(inner -> new SqlSyncFullSchemaPropertyImpl(inner));
     }
 
     @Override
     public PagedFlux<SqlSyncFullSchemaProperty> listHubSchemasAsync() {
         return this.sqlServerManager.inner().syncGroups()
             .listHubSchemasAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name())
-            .flatMap(new Func1<Page<SyncFullSchemaPropertiesInner>, Observable<SyncFullSchemaPropertiesInner>>() {
-                @Override
-                public Observable<SyncFullSchemaPropertiesInner> call(Page<SyncFullSchemaPropertiesInner> syncFullSchemaPropertiesInnerPage) {
-                    return Observable.from(syncFullSchemaPropertiesInnerPage.items());
-                }
-            })
-            .map(new Func1<SyncFullSchemaPropertiesInner, SqlSyncFullSchemaProperty>() {
-                @Override
-                public SqlSyncFullSchemaProperty call(SyncFullSchemaPropertiesInner syncFullSchemaPropertiesInner) {
-                    return new SqlSyncFullSchemaPropertyImpl(syncFullSchemaPropertiesInner);
-                }
-            });
+            .mapPage(syncFullSchemaPropertiesInner -> new SqlSyncFullSchemaPropertyImpl(syncFullSchemaPropertiesInner));
     }
 
     @Override
     public PagedIterable<SqlSyncGroupLogProperty> listLogs(String startTime, String endTime, String type) {
-        final PagedListConverter<SyncGroupLogPropertiesInner, SqlSyncGroupLogProperty> converter = new PagedListConverter<SyncGroupLogPropertiesInner, SqlSyncGroupLogProperty>() {
-            @Override
-            public Observable<SqlSyncGroupLogProperty> typeConvertAsync(SyncGroupLogPropertiesInner inner) {
-                return Observable.just((SqlSyncGroupLogProperty) new SqlSyncGroupLogPropertyImpl(inner));
-            }
-        };
-
-        return converter.convert(this.sqlServerManager.inner().syncGroups()
-            .listLogs(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name(), startTime, endTime, type));
+        return this.sqlServerManager.inner().syncGroups()
+            .listLogs(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name(), startTime, endTime, Enum15.fromString(type))
+            .mapPage(inner -> new SqlSyncGroupLogPropertyImpl(inner));
     }
 
     @Override
     public PagedFlux<SqlSyncGroupLogProperty> listLogsAsync(String startTime, String endTime, String type) {
         return this.sqlServerManager.inner().syncGroups()
-            .listLogsAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name(), startTime, endTime, type)
-            .flatMap(new Func1<Page<SyncGroupLogPropertiesInner>, Observable<SyncGroupLogPropertiesInner>>() {
-                @Override
-                public Observable<SyncGroupLogPropertiesInner> call(Page<SyncGroupLogPropertiesInner> syncGroupLogPropertiesInnerPage) {
-                    return Observable.from(syncGroupLogPropertiesInnerPage.items());
-                }
-            })
-            .map(new Func1<SyncGroupLogPropertiesInner, SqlSyncGroupLogProperty>() {
-                @Override
-                public SqlSyncGroupLogProperty call(SyncGroupLogPropertiesInner syncGroupLogPropertiesInner) {
-                    return new SqlSyncGroupLogPropertyImpl(syncGroupLogPropertiesInner);
-                }
-            });
+            .listLogsAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name(), startTime, endTime, Enum15.fromString(type))
+            .mapPage(syncGroupLogPropertiesInner -> new SqlSyncGroupLogPropertyImpl(syncGroupLogPropertiesInner));
     }
 
     @Override
@@ -249,7 +213,7 @@ public class SqlSyncGroupImpl
     @Override
     public Mono<Void> triggerSynchronizationAsync() {
         return this.sqlServerManager.inner().syncGroups()
-            .triggerSyncAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name()).toCompletable();
+            .triggerSyncAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name());
     }
 
     @Override
@@ -261,7 +225,7 @@ public class SqlSyncGroupImpl
     @Override
     public Mono<Void> cancelSynchronizationAsync() {
         return this.sqlServerManager.inner().syncGroups()
-            .cancelSyncAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name()).toCompletable();
+            .cancelSyncAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name());
     }
 
     @Override
@@ -338,12 +302,9 @@ public class SqlSyncGroupImpl
         final SqlSyncGroupImpl self = this;
         return this.sqlServerManager.inner().syncGroups()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.name(), this.inner())
-            .map(new Func1<SyncGroupInner, SqlSyncGroup>() {
-                @Override
-                public SqlSyncGroup call(SyncGroupInner syncGroupInner) {
-                    self.setInner(syncGroupInner);
-                    return self;
-                }
+            .map(syncGroupInner -> {
+                self.setInner(syncGroupInner);
+                return self;
             });
     }
 
@@ -372,7 +333,7 @@ public class SqlSyncGroupImpl
 
     @Override
     public Mono<Void> deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override

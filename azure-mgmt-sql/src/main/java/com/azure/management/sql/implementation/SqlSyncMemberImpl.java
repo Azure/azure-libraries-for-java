@@ -5,7 +5,6 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
@@ -19,7 +18,6 @@ import com.azure.management.sql.SqlSyncMemberOperations;
 import com.azure.management.sql.SyncDirection;
 import com.azure.management.sql.SyncMemberDbType;
 import com.azure.management.sql.SyncMemberState;
-import com.azure.management.sql.models.SyncFullSchemaPropertiesInner;
 import com.azure.management.sql.models.SyncMemberInner;
 import reactor.core.publisher.Mono;
 
@@ -94,9 +92,9 @@ public class SqlSyncMemberImpl
         super(name, null, innerObject);
         Objects.requireNonNull(sqlServerManager);
         this.sqlServerManager = sqlServerManager;
-        if (innerObject != null && innerObject.id() != null) {
+        if (innerObject != null && innerObject.getId() != null) {
             try {
-                ResourceId resourceId = ResourceId.fromString(innerObject.id());
+                ResourceId resourceId = ResourceId.fromString(innerObject.getId());
                 this.resourceGroupName = resourceId.resourceGroupName();
                 this.sqlServerName = resourceId.parent().parent().parent().name();
                 this.sqlDatabaseName = resourceId.parent().parent().name();
@@ -113,7 +111,7 @@ public class SqlSyncMemberImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -133,7 +131,7 @@ public class SqlSyncMemberImpl
 
     @Override
     public String parentId() {
-        return ResourceUtils.parentResourceIdFromResourceId(this.inner().id());
+        return ResourceUtils.parentResourceIdFromResourceId(this.inner().getId());
     }
 
     @Override
@@ -181,12 +179,9 @@ public class SqlSyncMemberImpl
         final SqlSyncMemberImpl self = this;
         return this.sqlServerManager.inner().syncMembers()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name(), this.inner())
-            .map(new Func1<SyncMemberInner, SqlSyncMember>() {
-                @Override
-                public SqlSyncMember call(SyncMemberInner syncMemberInner) {
-                    self.setInner(syncMemberInner);
-                    return self;
-                }
+            .map(syncMemberInner -> {
+                self.setInner(syncMemberInner);
+                return self;
             });
     }
 
@@ -215,7 +210,7 @@ public class SqlSyncMemberImpl
 
     @Override
     public Mono<Void> deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override
@@ -226,33 +221,16 @@ public class SqlSyncMemberImpl
 
     @Override
     public PagedIterable<SqlSyncFullSchemaProperty> listMemberSchemas() {
-        final PagedListConverter<SyncFullSchemaPropertiesInner, SqlSyncFullSchemaProperty> converter = new PagedListConverter<SyncFullSchemaPropertiesInner, SqlSyncFullSchemaProperty>() {
-            @Override
-            public Observable<SqlSyncFullSchemaProperty> typeConvertAsync(SyncFullSchemaPropertiesInner inner) {
-                return Observable.just((SqlSyncFullSchemaProperty) new SqlSyncFullSchemaPropertyImpl(inner));
-            }
-        };
-
-        return converter.convert(this.sqlServerManager.inner().syncMembers()
-            .listMemberSchemas(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name()));
+        return this.sqlServerManager.inner().syncMembers()
+            .listMemberSchemas(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name())
+            .mapPage(inner -> new SqlSyncFullSchemaPropertyImpl(inner));
     }
 
     @Override
     public PagedFlux<SqlSyncFullSchemaProperty> listMemberSchemasAsync() {
         return this.sqlServerManager.inner().syncMembers()
             .listMemberSchemasAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name())
-            .flatMap(new Func1<Page<SyncFullSchemaPropertiesInner>, Observable<SyncFullSchemaPropertiesInner>>() {
-                @Override
-                public Observable<SyncFullSchemaPropertiesInner> call(Page<SyncFullSchemaPropertiesInner> syncFullSchemaPropertiesInnerPage) {
-                    return Observable.from(syncFullSchemaPropertiesInnerPage.items());
-                }
-            })
-            .map(new Func1<SyncFullSchemaPropertiesInner, SqlSyncFullSchemaProperty>() {
-                @Override
-                public SqlSyncFullSchemaProperty call(SyncFullSchemaPropertiesInner syncFullSchemaPropertiesInner) {
-                    return new SqlSyncFullSchemaPropertyImpl(syncFullSchemaPropertiesInner);
-                }
-            });
+            .mapPage(syncFullSchemaPropertiesInner -> new SqlSyncFullSchemaPropertyImpl(syncFullSchemaPropertiesInner));
     }
 
     @Override
@@ -264,7 +242,7 @@ public class SqlSyncMemberImpl
     @Override
     public Mono<Void> refreshMemberSchemaAsync() {
         return this.sqlServerManager.inner().syncMembers()
-            .refreshMemberSchemaAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name()).toCompletable();
+            .refreshMemberSchemaAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName, this.sqlSyncGroupName, this.name());
     }
 
     @Override

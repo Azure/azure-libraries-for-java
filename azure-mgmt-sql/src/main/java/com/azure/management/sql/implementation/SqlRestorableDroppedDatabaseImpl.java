@@ -78,17 +78,17 @@ public class SqlRestorableDroppedDatabaseImpl extends RefreshableWrapperImpl<Res
 
     @Override
     protected Mono<RestorableDroppedDatabaseInner> getInnerAsync() {
-        return this.sqlServerManager.inner().restorableDroppedDatabases().getAsync(this.resourceGroupName, this.sqlServerName, this.inner().id());
+        return this.sqlServerManager.inner().restorableDroppedDatabases().getAsync(this.resourceGroupName, this.sqlServerName, this.inner().getId());
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override

@@ -7,18 +7,19 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.azure.management.sql.ElasticPoolEdition;
 import com.azure.management.sql.RecommendedElasticPool;
 import com.azure.management.sql.RecommendedElasticPoolMetric;
 import com.azure.management.sql.SqlDatabase;
-import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.azure.management.sql.ElasticPoolEdition;
-import java.time.OffsetDateTime;
-
+import com.azure.management.sql.TrackedResource;
 import com.azure.management.sql.models.DatabaseInner;
 import com.azure.management.sql.models.RecommendedElasticPoolInner;
 import com.azure.management.sql.models.RecommendedElasticPoolMetricInner;
 import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -99,26 +100,20 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    public List<SqlDatabase> databases() {
-        ArrayList<SqlDatabase> databases = new ArrayList<>();
-
-        for (DatabaseInner databaseInner : this.inner().databases()) {
-            databases.add(new SqlDatabaseImpl(databaseInner.name(), this.sqlServer, databaseInner, this.manager()));
-        }
-
-        return Collections.unmodifiableList(databases);
+    public List<TrackedResource> databases() {
+        return this.inner().databases();
     }
 
     @Override
     public List<SqlDatabase> listDatabases() {
         List<SqlDatabase> databasesList = new ArrayList<>();
-        List<DatabaseInner> databaseInners = this.sqlServer.manager().inner().databases().listByRecommendedElasticPool(
+        PagedIterable<DatabaseInner> databaseInners = this.sqlServer.manager().inner().databases().listByElasticPool(
             this.sqlServer.resourceGroupName(),
             this.sqlServer.name(),
             this.name());
         if (databaseInners != null) {
             for (DatabaseInner inner : databaseInners) {
-                databasesList.add(new SqlDatabaseImpl(inner.name(), this.sqlServer, inner, this.manager()));
+                databasesList.add(new SqlDatabaseImpl(inner.getName(), this.sqlServer, inner, this.manager()));
             }
         }
         return Collections.unmodifiableList(databasesList);
@@ -127,54 +122,37 @@ class RecommendedElasticPoolImpl
     @Override
     public PagedFlux<SqlDatabase> listDatabasesAsync() {
         final RecommendedElasticPoolImpl self = this;
-        return this.sqlServer.manager().inner().databases().listByRecommendedElasticPoolAsync(
+        return this.sqlServer.manager().inner().databases().listByElasticPoolAsync(
             this.sqlServer.resourceGroupName(),
             this.sqlServer.name(),
             this.name())
-            .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
-                @Override
-                public Observable<DatabaseInner> call(List<DatabaseInner> databaseInners) {
-                    return Observable.from(databaseInners);
-                }
-            }).map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner databaseInner) {
-                    return new SqlDatabaseImpl(databaseInner.name(), self.sqlServer, databaseInner, self.manager());
-                }
-            });
+            .mapPage(databaseInner -> new SqlDatabaseImpl(databaseInner.getName(), self.sqlServer, databaseInner, self.manager()));
     }
 
     @Override
     public SqlDatabase getDatabase(String databaseName) {
-        DatabaseInner databaseInner = this.sqlServer.manager().inner().databases().getByRecommendedElasticPool(
+        DatabaseInner databaseInner = this.sqlServer.manager().inner().databases().get(
             this.sqlServer.resourceGroupName(),
             this.sqlServer.name(),
-            this.name(),
             databaseName);
 
-        return new SqlDatabaseImpl(databaseInner.name(), this.sqlServer, databaseInner, this.manager());
+        return new SqlDatabaseImpl(databaseInner.getName(), this.sqlServer, databaseInner, this.manager());
     }
 
     @Override
     public Mono<SqlDatabase> getDatabaseAsync(String databaseName) {
         final RecommendedElasticPoolImpl self = this;
-        return this.sqlServer.manager().inner().databases().getByRecommendedElasticPoolAsync(
+        return this.sqlServer.manager().inner().databases().getAsync(
                 this.sqlServer.resourceGroupName(),
                 this.sqlServer.name(),
-                this.name(),
                 databaseName)
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner databaseInner) {
-                    return new SqlDatabaseImpl(databaseInner.name(), self.sqlServer, databaseInner, self.manager());
-                }
-            });
+            .map(databaseInner -> new SqlDatabaseImpl(databaseInner.getName(), self.sqlServer, databaseInner, self.manager()));
     }
 
     @Override
     public List<RecommendedElasticPoolMetric> listMetrics() {
         List<RecommendedElasticPoolMetric> recommendedElasticPoolMetrics = new ArrayList<>();
-        List<RecommendedElasticPoolMetricInner> recommendedElasticPoolMetricInners = this.sqlServer.manager().inner()
+        PagedIterable<RecommendedElasticPoolMetricInner> recommendedElasticPoolMetricInners = this.sqlServer.manager().inner()
             .recommendedElasticPools().listMetrics(
                         this.resourceGroupName(),
                         this.sqlServerName(),
@@ -189,12 +167,12 @@ class RecommendedElasticPoolImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override

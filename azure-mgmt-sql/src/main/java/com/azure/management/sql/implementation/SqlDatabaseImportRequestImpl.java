@@ -14,12 +14,9 @@ import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlDatabaseImportExportResponse;
 import com.azure.management.sql.SqlDatabaseImportRequest;
 import com.azure.management.sql.StorageKeyType;
-import com.azure.management.sql.models.ImportExportResponseInner;
 import com.azure.management.storage.StorageAccount;
-import com.azure.management.storage.StorageAccountKey;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -55,38 +52,20 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
         final SqlDatabaseImportRequestImpl self = this;
         return this.sqlServerManager.inner().databases()
             .createImportOperationAsync(this.sqlDatabase.resourceGroupName, this.sqlDatabase.sqlServerName, this.sqlDatabase.name(), this.inner())
-            .flatMap(new Func1<ImportExportResponseInner, Observable<SqlDatabaseImportExportResponse>>() {
-                @Override
-                public Observable<SqlDatabaseImportExportResponse> call(final ImportExportResponseInner importExportResponseInner) {
-                    return self.sqlDatabase
-                        .refreshAsync()
-                        .map(new Func1<SqlDatabase, SqlDatabaseImportExportResponse>() {
-                            @Override
-                            public SqlDatabaseImportExportResponse call(SqlDatabase sqlDatabase) {
-                                return new SqlDatabaseImportExportResponseImpl(importExportResponseInner);
-                            }
-                        });
-                }
-            });
+            .flatMap(importExportResponseInner -> self.sqlDatabase
+                .refreshAsync()
+                .map(sqlDatabase -> new SqlDatabaseImportExportResponseImpl(importExportResponseInner)));
     }
 
     private Mono<Indexable> getOrCreateStorageAccountContainer(final StorageAccount storageAccount, final String containerName, final String fileName, final FunctionalTaskItem.Context context) {
         final SqlDatabaseImportRequestImpl self = this;
         return storageAccount.getKeysAsync()
-            .flatMap(new Func1<List<StorageAccountKey>, Observable<StorageAccountKey>>() {
-                @Override
-                public Observable<StorageAccountKey> call(List<StorageAccountKey> storageAccountKeys) {
-                    return Observable.from(storageAccountKeys).first();
-                }
-            })
-            .flatMap(new Func1<StorageAccountKey, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(StorageAccountKey storageAccountKey) {
-                    self.inner.withStorageUri(String.format("%s%s/%s", storageAccount.endPoints().primary().blob(), containerName, fileName));
+            .flatMap(storageAccountKeys -> Mono.justOrEmpty(storageAccountKeys.stream().findFirst()))
+            .flatMap(storageAccountKey -> {
+                    self.inner.withStorageUri(String.format("%s%s/%s", storageAccount.endPoints().primary().getBlob(), containerName, fileName));
                     self.inner.withStorageKeyType(StorageKeyType.STORAGE_ACCESS_KEY);
-                    self.inner.withStorageKey(storageAccountKey.value());
-                    return context.voidObservable();
-                }
+                    self.inner.withStorageKey(storageAccountKey.getValue());
+                    return context.voidMono();
             });
     }
 
@@ -108,12 +87,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
             this.inner = new ImportExtensionRequest();
         }
         final SqlDatabaseImportRequestImpl self = this;
-        this.addDependency(new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(final Context context) {
-                return getOrCreateStorageAccountContainer(storageAccount, containerName, fileName, context);
-            }
-        });
+        this.addDependency(context -> getOrCreateStorageAccountContainer(storageAccount, containerName, fileName, context));
         return this;
     }
 

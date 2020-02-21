@@ -34,7 +34,7 @@ class ReplicationLinkImpl
         this.resourceGroupName = resourceGroupName;
         this.sqlServerName = sqlServerName;
         this.sqlServerManager = sqlServerManager;
-        this.resourceId = ResourceId.fromString(this.inner().id());
+        this.resourceId = ResourceId.fromString(this.inner().getId());
     }
 
     @Override
@@ -135,7 +135,7 @@ class ReplicationLinkImpl
             .failoverAsync(this.resourceGroupName,
                 this.sqlServerName,
                 this.databaseName(),
-                this.name()).toCompletable();
+                this.name());
     }
 
     @Override
@@ -153,17 +153,17 @@ class ReplicationLinkImpl
             .failoverAllowDataLossAsync(this.resourceGroupName,
                 this.sqlServerName,
                 this.databaseName(),
-                this.name()).toCompletable();
+                this.name());
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override

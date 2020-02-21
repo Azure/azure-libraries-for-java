@@ -95,7 +95,7 @@ public class SqlFirewallRuleImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -130,12 +130,12 @@ public class SqlFirewallRuleImpl
 
     @Override
     public void delete() {
-        this.deleteResourceAsync().toBlocking().last();
+        this.deleteResourceAsync().block();
     }
 
     @Override
     public Mono<Void> deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override
@@ -148,12 +148,9 @@ public class SqlFirewallRuleImpl
         final SqlFirewallRuleImpl self = this;
         return this.sqlServerManager.inner().firewallRules()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
-            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
-                @Override
-                public SqlFirewallRule call(FirewallRuleInner inner) {
-                    self.setInner(inner);
-                    return self;
-                }
+            .map(inner -> {
+                self.setInner(inner);
+                return self;
             });
     }
 
@@ -162,12 +159,9 @@ public class SqlFirewallRuleImpl
         final SqlFirewallRuleImpl self = this;
         return this.sqlServerManager.inner().firewallRules()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
-            .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
-                @Override
-                public SqlFirewallRule call(FirewallRuleInner inner) {
-                    self.setInner(inner);
-                    return self;
-                }
+            .map(inner -> {
+                self.setInner(inner);
+                return self;
             });
     }
 

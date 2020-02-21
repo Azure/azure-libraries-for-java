@@ -36,11 +36,11 @@ public class SqlDatabaseForElasticPoolImpl
         Objects.requireNonNull(sqlDatabase.inner());
         this.sqlElasticPool = sqlElasticPool;
         this.sqlDatabase = sqlDatabase;
-        this.sqlDatabase.inner().withLocation(sqlElasticPool.regionName());
-        this.sqlDatabase.inner().withElasticPoolName(this.sqlElasticPool.name());
-        this.sqlDatabase.inner().withEdition(null);
-        this.sqlDatabase.inner().withRequestedServiceObjectiveId(null);
-        this.sqlDatabase.inner().withRequestedServiceObjectiveName(null);
+//        this.sqlDatabase.inner().withLocation(sqlElasticPool.regionName());
+//        this.sqlDatabase.inner().withElasticPoolName(this.sqlElasticPool.name());
+//        this.sqlDatabase.inner().withEdition(null);
+//        this.sqlDatabase.inner().withRequestedServiceObjectiveId(null);
+//        this.sqlDatabase.inner().withRequestedServiceObjectiveName(null);
     }
 
     @Override

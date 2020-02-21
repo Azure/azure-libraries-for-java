@@ -46,18 +46,13 @@ public class SqlDatabaseOperationsImpl
     @Override
     public SqlDatabase getBySqlServer(String resourceGroupName, String sqlServerName, String name) {
         DatabaseInner inner = this.manager.inner().databases().get(resourceGroupName, sqlServerName, name);
-        return (inner != null) ? new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager) : null;
+        return (inner != null) ? new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.getLocation(), inner.getName(), inner, manager) : null;
     }
 
     @Override
     public Mono<SqlDatabase> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         return this.manager.inner().databases().getAsync(resourceGroupName, sqlServerName, name)
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner inner) {
-                    return new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager);
-                }
-            });
+            .map(inner -> new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.getLocation(), inner.getName(), inner, manager));
     }
 
     @Override
@@ -66,19 +61,14 @@ public class SqlDatabaseOperationsImpl
             return null;
         }
         DatabaseInner inner = this.manager.inner().databases().get(sqlServer.resourceGroupName(), sqlServer.name(), name);
-        return (inner != null) ? new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager) : null;
+        return (inner != null) ? new SqlDatabaseImpl(inner.getName(), (SqlServerImpl) sqlServer, inner, manager) : null;
     }
 
     @Override
     public Mono<SqlDatabase> getBySqlServerAsync(final SqlServer sqlServer, String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().databases().getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner inner) {
-                    return new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager);
-                }
-            });
+            .map(inner -> new SqlDatabaseImpl(inner.getName(), (SqlServerImpl) sqlServer, inner, manager));
     }
 
     @Override
@@ -120,7 +110,7 @@ public class SqlDatabaseOperationsImpl
 
     @Override
     public Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
-        return this.manager.inner().databases().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
+        return this.manager.inner().databases().deleteAsync(resourceGroupName, sqlServerName, name);
     }
 
     @Override
@@ -158,7 +148,7 @@ public class SqlDatabaseOperationsImpl
     public List<SqlDatabase> listBySqlServer(String resourceGroupName, String sqlServerName) {
         List<SqlDatabase> databasesSet = new ArrayList<>();
         for (DatabaseInner inner : this.manager.inner().databases().listByServer(resourceGroupName, sqlServerName)) {
-            databasesSet.add(new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager));
+            databasesSet.add(new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.getLocation(), inner.getName(), inner, manager));
         }
         return Collections.unmodifiableList(databasesSet);
     }
@@ -166,18 +156,7 @@ public class SqlDatabaseOperationsImpl
     @Override
     public PagedFlux<SqlDatabase> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         return this.manager.inner().databases().listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
-                @Override
-                public Observable<DatabaseInner> call(List<DatabaseInner> databaseInners) {
-                    return Observable.from(databaseInners);
-                }
-            })
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner inner) {
-                    return new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager);
-                }
-            });
+            .mapPage(inner -> new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.getLocation(), inner.getName(), inner, manager));
     }
 
     @Override
@@ -185,7 +164,7 @@ public class SqlDatabaseOperationsImpl
         List<SqlDatabase> firewallRuleSet = new ArrayList<>();
         if (sqlServer != null) {
             for (DatabaseInner inner : this.manager.inner().databases().listByServer(sqlServer.resourceGroupName(), sqlServer.name())) {
-                firewallRuleSet.add(new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, manager));
+                firewallRuleSet.add(new SqlDatabaseImpl(inner.getName(), (SqlServerImpl) sqlServer, inner, manager));
             }
         }
         return Collections.unmodifiableList(firewallRuleSet);
@@ -194,18 +173,7 @@ public class SqlDatabaseOperationsImpl
     @Override
     public PagedFlux<SqlDatabase> listBySqlServerAsync(final SqlServer sqlServer) {
         return sqlServer.manager().inner().databases().listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
-                @Override
-                public Observable<DatabaseInner> call(List<DatabaseInner> databaseInners) {
-                    return Observable.from(databaseInners);
-                }
-            })
-            .map(new Func1<DatabaseInner, SqlDatabase>() {
-                @Override
-                public SqlDatabase call(DatabaseInner inner) {
-                    return new SqlDatabaseImpl(inner.name(), (SqlServerImpl) sqlServer, inner, sqlServer.manager());
-                }
-            });
+            .mapPage(inner -> new SqlDatabaseImpl(inner.getName(), (SqlServerImpl) sqlServer, inner, sqlServer.manager()));
     }
 
     @Override

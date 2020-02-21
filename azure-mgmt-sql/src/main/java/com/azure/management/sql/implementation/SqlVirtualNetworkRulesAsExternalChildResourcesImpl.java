@@ -51,29 +51,29 @@ public class SqlVirtualNetworkRulesAsExternalChildResourcesImpl
     }
 
     SqlVirtualNetworkRuleImpl defineInlineVirtualNetworkRule(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineDefine(new SqlVirtualNetworkRuleImpl(name, new VirtualNetworkRuleInner(), this.sqlServerManager));
         } else {
-            return prepareInlineDefine(new SqlVirtualNetworkRuleImpl(name, this.parent(), new VirtualNetworkRuleInner(), this.parent().manager()));
+            return prepareInlineDefine(new SqlVirtualNetworkRuleImpl(name, this.getParent(), new VirtualNetworkRuleInner(), this.getParent().manager()));
         }
     }
 
     SqlVirtualNetworkRuleImpl updateInlineVirtualNetworkRule(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineUpdate(new SqlVirtualNetworkRuleImpl(name, new VirtualNetworkRuleInner(), this.sqlServerManager));
         } else {
-            return prepareInlineUpdate(new SqlVirtualNetworkRuleImpl(name, this.parent(), new VirtualNetworkRuleInner(), this.parent().manager()));
+            return prepareInlineUpdate(new SqlVirtualNetworkRuleImpl(name, this.getParent(), new VirtualNetworkRuleInner(), this.getParent().manager()));
         }
     }
 
     void removeInlineVirtualNetworkRule(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             prepareInlineRemove(new SqlVirtualNetworkRuleImpl(name, new VirtualNetworkRuleInner(), this.sqlServerManager));
         } else {
-            prepareInlineRemove(new SqlVirtualNetworkRuleImpl(name, this.parent(), new VirtualNetworkRuleInner(), this.parent().manager()));
+            prepareInlineRemove(new SqlVirtualNetworkRuleImpl(name, this.getParent(), new VirtualNetworkRuleInner(), this.getParent().manager()));
         }
     }
 }

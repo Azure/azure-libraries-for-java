@@ -5,11 +5,11 @@
  */
 package com.azure.management.sql.implementation;
 
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlServerSecurityAlertPolicy;
 import com.azure.management.sql.SqlServerSecurityAlertPolicyOperations;
-import com.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.models.ServerSecurityAlertPolicyInner;
 import reactor.core.publisher.Mono;
 
@@ -73,12 +73,7 @@ public class SqlServerSecurityAlertPolicyOperationsImpl
         final SqlServerSecurityAlertPolicyOperationsImpl self = this;
         return this.sqlServerManager.inner().serverSecurityAlertPolicies()
             .getAsync(resourceGroupName, sqlServerName)
-            .map(new Func1<ServerSecurityAlertPolicyInner, SqlServerSecurityAlertPolicy>() {
-                @Override
-                public SqlServerSecurityAlertPolicy call(ServerSecurityAlertPolicyInner serverSecurityAlertPolicyInner) {
-                    return new SqlServerSecurityAlertPolicyImpl(resourceGroupName, sqlServerName, serverSecurityAlertPolicyInner, self.sqlServerManager);
-                }
-            });
+            .map(serverSecurityAlertPolicyInner -> new SqlServerSecurityAlertPolicyImpl(resourceGroupName, sqlServerName, serverSecurityAlertPolicyInner, self.sqlServerManager));
     }
 
     @Override
@@ -94,12 +89,7 @@ public class SqlServerSecurityAlertPolicyOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverSecurityAlertPolicies()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .map(new Func1<ServerSecurityAlertPolicyInner, SqlServerSecurityAlertPolicy>() {
-                @Override
-                public SqlServerSecurityAlertPolicy call(ServerSecurityAlertPolicyInner serverSecurityAlertPolicyInner) {
-                    return new SqlServerSecurityAlertPolicyImpl((SqlServerImpl) sqlServer, serverSecurityAlertPolicyInner, sqlServer.manager());
-                }
-            });
+            .map(serverSecurityAlertPolicyInner -> new SqlServerSecurityAlertPolicyImpl((SqlServerImpl) sqlServer, serverSecurityAlertPolicyInner, sqlServer.manager()));
     }
 
     @Override

@@ -51,29 +51,29 @@ public class SqlFirewallRulesAsExternalChildResourcesImpl
     }
 
     SqlFirewallRuleImpl defineInlineFirewallRule(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineDefine(new SqlFirewallRuleImpl(name, new FirewallRuleInner(), this.sqlServerManager));
         } else {
-            return prepareInlineDefine(new SqlFirewallRuleImpl(name, this.parent(), new FirewallRuleInner(), this.parent().manager()));
+            return prepareInlineDefine(new SqlFirewallRuleImpl(name, this.getParent(), new FirewallRuleInner(), this.getParent().manager()));
         }
     }
 
     SqlFirewallRuleImpl updateInlineFirewallRule(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineUpdate(new SqlFirewallRuleImpl(name, new FirewallRuleInner(), this.sqlServerManager));
         } else {
-            return prepareInlineUpdate(new SqlFirewallRuleImpl(name, this.parent(), new FirewallRuleInner(), this.parent().manager()));
+            return prepareInlineUpdate(new SqlFirewallRuleImpl(name, this.getParent(), new FirewallRuleInner(), this.getParent().manager()));
         }
     }
 
     void removeInlineFirewallRule(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             prepareInlineRemove(new SqlFirewallRuleImpl(name, new FirewallRuleInner(), this.sqlServerManager));
         } else {
-            prepareInlineRemove(new SqlFirewallRuleImpl(name, this.parent(), new FirewallRuleInner(), this.parent().manager()));
+            prepareInlineRemove(new SqlFirewallRuleImpl(name, this.getParent(), new FirewallRuleInner(), this.getParent().manager()));
         }
     }
 }

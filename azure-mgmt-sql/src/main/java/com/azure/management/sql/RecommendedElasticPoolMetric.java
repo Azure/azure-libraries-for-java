@@ -22,7 +22,7 @@ public interface RecommendedElasticPoolMetric extends
     /**
      * @return the time of metric (ISO8601 format).
      */
-    OffsetDateTime dateTimeProperty();
+    OffsetDateTime dateTime();
 
     /**
      * @return the DTUs (Database Transaction Units)

@@ -68,29 +68,29 @@ public class SqlElasticPoolsAsExternalChildResourcesImpl
     }
 
     SqlElasticPoolImpl defineInlineElasticPool(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineDefine(new SqlElasticPoolImpl(name, new ElasticPoolInner(), this.sqlServerManager));
         } else {
-            return prepareInlineDefine(new SqlElasticPoolImpl(name, this.parent(), new ElasticPoolInner(), this.parent().manager()));
+            return prepareInlineDefine(new SqlElasticPoolImpl(name, this.getParent(), new ElasticPoolInner(), this.getParent().manager()));
         }
     }
 
     SqlElasticPoolImpl updateInlineElasticPool(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineUpdate(new SqlElasticPoolImpl(name, new ElasticPoolInner(), this.sqlServerManager));
         } else {
-            return prepareInlineUpdate(new SqlElasticPoolImpl(name, this.parent(), new ElasticPoolInner(), this.parent().manager()));
+            return prepareInlineUpdate(new SqlElasticPoolImpl(name, this.getParent(), new ElasticPoolInner(), this.getParent().manager()));
         }
     }
 
     void removeInlineElasticPool(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             prepareInlineRemove(new SqlElasticPoolImpl(name, new ElasticPoolInner(), this.sqlServerManager));
         } else {
-            prepareInlineRemove(new SqlElasticPoolImpl(name, this.parent(), new ElasticPoolInner(), this.parent().manager()));
+            prepareInlineRemove(new SqlElasticPoolImpl(name, this.getParent(), new ElasticPoolInner(), this.getParent().manager()));
         }
     }
 

@@ -5,15 +5,14 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlServer;
-import com.azure.management.sql.SqlVirtualNetworkRule;
-import com.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.SqlVirtualNetworkRule;
+import com.azure.management.sql.SqlVirtualNetworkRuleOperations;
 import com.azure.management.sql.models.VirtualNetworkRuleInner;
 import reactor.core.publisher.Mono;
-
 
 import java.util.Objects;
 
@@ -86,12 +85,9 @@ public class SqlVirtualNetworkRuleImpl
         final SqlVirtualNetworkRuleImpl self = this;
         return this.sqlServerManager.inner().virtualNetworkRules()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
-            .map(new Func1<VirtualNetworkRuleInner, SqlVirtualNetworkRule>() {
-                @Override
-                public SqlVirtualNetworkRule call(VirtualNetworkRuleInner inner) {
-                    self.setInner(inner);
-                    return self;
-                }
+            .map(inner -> {
+                self.setInner(inner);
+                return self;
             });
     }
 
@@ -119,7 +115,7 @@ public class SqlVirtualNetworkRuleImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -149,12 +145,12 @@ public class SqlVirtualNetworkRuleImpl
 
     @Override
     public void delete() {
-        this.deleteResourceAsync().toBlocking().last();
+        this.deleteResourceAsync().block();
     }
 
     @Override
     public Mono<Void> deleteAsync() {
-        return this.deleteResourceAsync().toCompletable();
+        return this.deleteResourceAsync();
     }
 
     @Override

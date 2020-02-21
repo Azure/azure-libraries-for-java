@@ -75,43 +75,43 @@ public class SqlDatabasesAsExternalChildResourcesImpl
     }
 
     SqlDatabaseImpl defineInlineDatabase(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineDefine(new SqlDatabaseImpl(null, null, null, name, new DatabaseInner(), this.sqlServerManager));
         } else {
             return prepareInlineDefine(
-                    new SqlDatabaseImpl(name, this.parent(), new DatabaseInner(), this.parent().manager())
+                    new SqlDatabaseImpl(name, this.getParent(), new DatabaseInner(), this.getParent().manager())
                             .withStandardEdition(SqlDatabaseStandardServiceObjective.S0)
             );
         }
     }
 
     SqlDatabaseImpl patchUpdateDatabase(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineUpdate(new SqlDatabaseImpl(null, null, null, name, new DatabaseInner(), this.sqlServerManager))
                 .withPatchUpdate();
         } else {
-            return prepareInlineUpdate(new SqlDatabaseImpl(name, this.parent(), new DatabaseInner(), this.parent().manager()))
+            return prepareInlineUpdate(new SqlDatabaseImpl(name, this.getParent(), new DatabaseInner(), this.getParent().manager()))
                 .withPatchUpdate();
         }
     }
 
     SqlDatabaseImpl updateInlineDatabase(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineUpdate(new SqlDatabaseImpl(null, null, null, name, new DatabaseInner(), this.sqlServerManager));
         } else {
-            return prepareInlineUpdate(new SqlDatabaseImpl(name, this.parent(), new DatabaseInner(), this.parent().manager()));
+            return prepareInlineUpdate(new SqlDatabaseImpl(name, this.getParent(), new DatabaseInner(), this.getParent().manager()));
         }
     }
 
     void removeInlineDatabase(String name) {
-        if (this.parent() == null) {
+        if (this.getParent() == null) {
             // resource group and server name will be set by the next method in the Fluent flow
             prepareInlineRemove(new SqlDatabaseImpl(null, null, null, name, new DatabaseInner(), this.sqlServerManager));
         } else {
-            prepareInlineRemove(new SqlDatabaseImpl(name, this.parent(), new DatabaseInner(), this.parent().manager()));
+            prepareInlineRemove(new SqlDatabaseImpl(name, this.getParent(), new DatabaseInner(), this.getParent().manager()));
         }
     }
 

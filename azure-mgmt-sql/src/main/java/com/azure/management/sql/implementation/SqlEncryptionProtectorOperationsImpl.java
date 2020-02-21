@@ -5,8 +5,8 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.sql.SqlEncryptionProtector;
 import com.azure.management.sql.SqlEncryptionProtectorOperations;
@@ -54,12 +54,7 @@ public class SqlEncryptionProtectorOperationsImpl
         final SqlEncryptionProtectorOperationsImpl self = this;
         return this.sqlServerManager.inner().encryptionProtectors()
             .getAsync(resourceGroupName, sqlServerName)
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    return new SqlEncryptionProtectorImpl(resourceGroupName, sqlServerName, encryptionProtectorInner, self.sqlServerManager);
-                }
-            });
+            .map(encryptionProtectorInner -> new SqlEncryptionProtectorImpl(resourceGroupName, sqlServerName, encryptionProtectorInner, self.sqlServerManager));
     }
 
     @Override
@@ -75,12 +70,7 @@ public class SqlEncryptionProtectorOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().encryptionProtectors()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    return new SqlEncryptionProtectorImpl((SqlServerImpl) sqlServer, encryptionProtectorInner, sqlServer.manager());
-                }
-            });
+            .map(encryptionProtectorInner -> new SqlEncryptionProtectorImpl((SqlServerImpl) sqlServer, encryptionProtectorInner, sqlServer.manager()));
     }
 
     @Override
@@ -132,7 +122,7 @@ public class SqlEncryptionProtectorOperationsImpl
     @Override
     public List<SqlEncryptionProtector> listBySqlServer(String resourceGroupName, String sqlServerName) {
         List<SqlEncryptionProtector> encryptionProtectors = new ArrayList<>();
-        List<EncryptionProtectorInner> encryptionProtectorInners = this.sqlServerManager.inner().encryptionProtectors()
+        PagedIterable<EncryptionProtectorInner> encryptionProtectorInners = this.sqlServerManager.inner().encryptionProtectors()
             .listByServer(resourceGroupName, sqlServerName);
         if (encryptionProtectorInners != null) {
             for (EncryptionProtectorInner inner : encryptionProtectorInners) {
@@ -147,25 +137,14 @@ public class SqlEncryptionProtectorOperationsImpl
         final SqlEncryptionProtectorOperationsImpl self = this;
         return this.sqlServerManager.inner().encryptionProtectors()
             .listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<Page<EncryptionProtectorInner>, Observable<EncryptionProtectorInner>>() {
-                @Override
-                public Observable<EncryptionProtectorInner> call(Page<EncryptionProtectorInner> encryptionProtectorInnerPage) {
-                    return Observable.from(encryptionProtectorInnerPage.items());
-                }
-            })
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    return new SqlEncryptionProtectorImpl(resourceGroupName, sqlServerName, encryptionProtectorInner, self.sqlServerManager);
-                }
-            });
+            .mapPage(encryptionProtectorInner -> new SqlEncryptionProtectorImpl(resourceGroupName, sqlServerName, encryptionProtectorInner, self.sqlServerManager));
     }
 
     @Override
     public List<SqlEncryptionProtector> listBySqlServer(SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         List<SqlEncryptionProtector> encryptionProtectors = new ArrayList<>();
-        List<EncryptionProtectorInner> encryptionProtectorInners = sqlServer.manager().inner().encryptionProtectors()
+        PagedIterable<EncryptionProtectorInner> encryptionProtectorInners = sqlServer.manager().inner().encryptionProtectors()
             .listByServer(sqlServer.resourceGroupName(), sqlServer.name());
         if (encryptionProtectorInners != null) {
             for (EncryptionProtectorInner inner : encryptionProtectorInners) {
@@ -180,17 +159,6 @@ public class SqlEncryptionProtectorOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().encryptionProtectors()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<Page<EncryptionProtectorInner>, Observable<EncryptionProtectorInner>>() {
-                @Override
-                public Observable<EncryptionProtectorInner> call(Page<EncryptionProtectorInner> encryptionProtectorInnerPage) {
-                    return Observable.from(encryptionProtectorInnerPage.items());
-                }
-            })
-            .map(new Func1<EncryptionProtectorInner, SqlEncryptionProtector>() {
-                @Override
-                public SqlEncryptionProtector call(EncryptionProtectorInner encryptionProtectorInner) {
-                    return new SqlEncryptionProtectorImpl((SqlServerImpl) sqlServer, encryptionProtectorInner, sqlServer.manager());
-                }
-            });
+            .mapPage(encryptionProtectorInner -> new SqlEncryptionProtectorImpl((SqlServerImpl) sqlServer, encryptionProtectorInner, sqlServer.manager()));
     }
 }

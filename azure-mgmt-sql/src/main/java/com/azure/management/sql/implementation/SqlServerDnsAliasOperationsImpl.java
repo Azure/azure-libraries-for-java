@@ -5,8 +5,8 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.SqlServer;
@@ -53,12 +53,7 @@ public class SqlServerDnsAliasOperationsImpl
         final SqlServerDnsAliasOperationsImpl self = this;
         return this.sqlServerManager.inner().serverDnsAliases()
             .getAsync(resourceGroupName, sqlServerName, name)
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    return new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, name, serverDnsAliasInner, self.sqlServerManager);
-                }
-            });
+            .map(serverDnsAliasInner -> new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, name, serverDnsAliasInner, self.sqlServerManager));
     }
 
     @Override
@@ -74,12 +69,7 @@ public class SqlServerDnsAliasOperationsImpl
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverDnsAliases()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    return new SqlServerDnsAliasImpl(name, (SqlServerImpl) sqlServer, serverDnsAliasInner, sqlServer.manager());
-                }
-            });
+            .map(serverDnsAliasInner -> new SqlServerDnsAliasImpl(name, (SqlServerImpl) sqlServer, serverDnsAliasInner, sqlServer.manager()));
     }
 
     @Override
@@ -89,17 +79,17 @@ public class SqlServerDnsAliasOperationsImpl
 
     @Override
     public Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
-        return this.sqlServerManager.inner().serverDnsAliases().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
+        return this.sqlServerManager.inner().serverDnsAliases().deleteAsync(resourceGroupName, sqlServerName, name);
     }
 
     @Override
     public List<SqlServerDnsAlias> listBySqlServer(String resourceGroupName, String sqlServerName) {
         List<SqlServerDnsAlias> serverDnsAliases = new ArrayList<>();
-        List<ServerDnsAliasInner> serverDnsAliasInners = this.sqlServerManager.inner().serverDnsAliases()
+        PagedIterable<ServerDnsAliasInner> serverDnsAliasInners = this.sqlServerManager.inner().serverDnsAliases()
             .listByServer(resourceGroupName, sqlServerName);
         if (serverDnsAliasInners != null) {
             for (ServerDnsAliasInner inner : serverDnsAliasInners) {
-                serverDnsAliases.add(new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, inner.name(), inner, this.sqlServerManager));
+                serverDnsAliases.add(new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, inner.getName(), inner, this.sqlServerManager));
             }
         }
         return Collections.unmodifiableList(serverDnsAliases);
@@ -110,28 +100,17 @@ public class SqlServerDnsAliasOperationsImpl
         final SqlServerDnsAliasOperationsImpl self = this;
         return this.sqlServerManager.inner().serverDnsAliases()
             .listByServerAsync(resourceGroupName, sqlServerName)
-            .flatMap(new Func1<Page<ServerDnsAliasInner>, Observable<ServerDnsAliasInner>>() {
-                @Override
-                public Observable<ServerDnsAliasInner> call(Page<ServerDnsAliasInner> serverDnsAliasInnerPage) {
-                    return Observable.from(serverDnsAliasInnerPage.items());
-                }
-            })
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    return new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, serverDnsAliasInner.name(), serverDnsAliasInner, self.sqlServerManager);
-                }
-            });
+            .mapPage(serverDnsAliasInner -> new SqlServerDnsAliasImpl(resourceGroupName, sqlServerName, serverDnsAliasInner.getName(), serverDnsAliasInner, self.sqlServerManager));
     }
 
     @Override
     public List<SqlServerDnsAlias> listBySqlServer(SqlServer sqlServer) {
         List<SqlServerDnsAlias> serverDnsAliases = new ArrayList<>();
-        List<ServerDnsAliasInner> serverDnsAliasInners = sqlServer.manager().inner().serverDnsAliases()
+        PagedIterable<ServerDnsAliasInner> serverDnsAliasInners = sqlServer.manager().inner().serverDnsAliases()
             .listByServer(sqlServer.resourceGroupName(), sqlServer.name());
         if (serverDnsAliasInners != null) {
             for (ServerDnsAliasInner inner : serverDnsAliasInners) {
-                serverDnsAliases.add(new SqlServerDnsAliasImpl(inner.name(), (SqlServerImpl) sqlServer, inner, this.sqlServerManager));
+                serverDnsAliases.add(new SqlServerDnsAliasImpl(inner.getName(), (SqlServerImpl) sqlServer, inner, this.sqlServerManager));
             }
         }
         return Collections.unmodifiableList(serverDnsAliases);
@@ -141,18 +120,7 @@ public class SqlServerDnsAliasOperationsImpl
     public PagedFlux<SqlServerDnsAlias> listBySqlServerAsync(final SqlServer sqlServer) {
         return sqlServer.manager().inner().serverDnsAliases()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
-            .flatMap(new Func1<Page<ServerDnsAliasInner>, Observable<ServerDnsAliasInner>>() {
-                @Override
-                public Observable<ServerDnsAliasInner> call(Page<ServerDnsAliasInner> serverDnsAliasInnerPage) {
-                    return Observable.from(serverDnsAliasInnerPage.items());
-                }
-            })
-            .map(new Func1<ServerDnsAliasInner, SqlServerDnsAlias>() {
-                @Override
-                public SqlServerDnsAlias call(ServerDnsAliasInner serverDnsAliasInner) {
-                    return new SqlServerDnsAliasImpl(serverDnsAliasInner.name(), (SqlServerImpl) sqlServer, serverDnsAliasInner, sqlServer.manager());
-                }
-            });
+            .mapPage(serverDnsAliasInner -> new SqlServerDnsAliasImpl(serverDnsAliasInner.getName(), (SqlServerImpl) sqlServer, serverDnsAliasInner, sqlServer.manager()));
     }
 
     @Override
@@ -164,7 +132,7 @@ public class SqlServerDnsAliasOperationsImpl
     @Override
     public Mono<Void> acquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String sqlServerId) {
         return this.sqlServerManager.inner().serverDnsAliases()
-            .acquireAsync(resourceGroupName, serverName, dnsAliasName, sqlServerId + DNS_ALIASES + dnsAliasName).toCompletable();
+            .acquireAsync(resourceGroupName, serverName, dnsAliasName, sqlServerId + DNS_ALIASES + dnsAliasName);
     }
 
     @Override
@@ -180,7 +148,7 @@ public class SqlServerDnsAliasOperationsImpl
         Objects.requireNonNull(oldSqlServerId);
         ResourceId resourceId = ResourceId.fromString(oldSqlServerId);
         return this.sqlServerManager.inner().serverDnsAliases()
-            .acquireAsync(resourceId.resourceGroupName(), resourceId.name(), dnsAliasName, newSqlServerId + DNS_ALIASES + dnsAliasName).toCompletable();
+            .acquireAsync(resourceId.resourceGroupName(), resourceId.name(), dnsAliasName, newSqlServerId + DNS_ALIASES + dnsAliasName);
     }
 
     @Override

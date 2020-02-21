@@ -65,11 +65,6 @@ public abstract class ComputeManagementTest extends TestBase {
                 .authenticate(restClient, domain, defaultSubscription);
 
         rbacManager = GraphRbacManager.authenticate(restClient, domain);
-
-        System.setProperty("http.proxyHost", "127.0.0.1");
-        System.setProperty("https.proxyHost", "127.0.0.1");
-        System.setProperty("http.proxyPort", "8888");
-        System.setProperty("https.proxyPort", "8888");
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
@@ -15,7 +16,7 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.DatabaseSecurityAlertPolicyInner;
+import com.azure.management.sql.models.DatabaseSecurityAlertPolicyInner;
 
 /**
  * A representation of the Azure SQL Database threat detection policy.

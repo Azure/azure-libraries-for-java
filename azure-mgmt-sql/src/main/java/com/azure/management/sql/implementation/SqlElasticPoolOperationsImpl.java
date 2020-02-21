@@ -5,13 +5,14 @@
  */
 package com.azure.management.sql.implementation;
 
+
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.sql.SqlElasticPool;
 import com.azure.management.sql.SqlElasticPoolOperations;
 import com.azure.management.sql.SqlServer;
-import com.azure.management.resources.fluentcore.arm.ResourceUtils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.ElasticPoolInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +51,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Observable<SqlElasticPool> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
+    public Mono<SqlElasticPool> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         return this.manager.inner().elasticPools().getAsync(resourceGroupName, sqlServerName, name)
             .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
                 @Override
@@ -70,7 +71,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Observable<SqlElasticPool> getBySqlServerAsync(final SqlServer sqlServer, String name) {
+    public Mono<SqlElasticPool> getBySqlServerAsync(final SqlServer sqlServer, String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().elasticPools().getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
             .map(new Func1<ElasticPoolInner, SqlElasticPool>() {
@@ -90,7 +91,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Observable<SqlElasticPool> getAsync(String name) {
+    public Mono<SqlElasticPool> getAsync(String name) {
         if (sqlServer == null) {
             return null;
         }
@@ -106,7 +107,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Observable<SqlElasticPool> getByIdAsync(String id) {
+    public Mono<SqlElasticPool> getByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.getBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
@@ -121,7 +122,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Completable deleteAsync(String name) {
+    public Mono<Void> deleteAsync(String name) {
         if (sqlServer == null) {
             return null;
         }
@@ -134,7 +135,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
+    public Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
         return this.manager.inner().elasticPools().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
     }
 
@@ -147,7 +148,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<Void> deleteByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.deleteBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
@@ -163,7 +164,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Observable<SqlElasticPool> listAsync() {
+    public PagedFlux<SqlElasticPool> listAsync() {
         if (sqlServer == null) {
             return null;
         }
@@ -180,7 +181,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Observable<SqlElasticPool> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
+    public PagedFlux<SqlElasticPool> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         return this.manager.inner().elasticPools().listByServerAsync(resourceGroupName, sqlServerName)
             .flatMap(new Func1<List<ElasticPoolInner>, Observable<ElasticPoolInner>>() {
                 @Override
@@ -208,7 +209,7 @@ public class SqlElasticPoolOperationsImpl
     }
 
     @Override
-    public Observable<SqlElasticPool> listBySqlServerAsync(final SqlServer sqlServer) {
+    public PagedFlux<SqlElasticPool> listBySqlServerAsync(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().elasticPools().listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
             .flatMap(new Func1<List<ElasticPoolInner>, Observable<ElasticPoolInner>>() {

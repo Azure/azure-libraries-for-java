@@ -122,7 +122,7 @@ public class SqlDatabaseForElasticPoolImpl
     }
 
     @Override
-    public SqlDatabaseForElasticPoolImpl fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime) {
+    public SqlDatabaseForElasticPoolImpl fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime) {
         this.sqlDatabase.fromRestorePoint(restorePoint, restorePointDateTime);
         return this;
     }

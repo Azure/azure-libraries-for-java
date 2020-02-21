@@ -5,16 +5,17 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.SyncMemberInner;
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.sql.models.SyncMemberInner;
+import reactor.core.publisher.Mono;
 
 /**
  * An immutable client-side representation of an Azure SQL Server Sync Member.
@@ -97,21 +98,21 @@ public interface SqlSyncMember
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteAsync();
+    Mono<Void> deleteAsync();
 
     /**
      * Lists the sync member database schemas.
      *
      * @return the paged list object if successful.
      */
-    PagedList<SqlSyncFullSchemaProperty> listMemberSchemas();
+    PagedIterable<SqlSyncFullSchemaProperty> listMemberSchemas();
 
     /**
      * Lists the sync member database schemas asynchronously.
      *
      * @return a representation of the deferred computation of this call.
      */
-    Observable<SqlSyncFullSchemaProperty> listMemberSchemasAsync();
+    PagedFlux<SqlSyncFullSchemaProperty> listMemberSchemasAsync();
 
     /**
      * Refreshes a sync member database schema.
@@ -123,7 +124,7 @@ public interface SqlSyncMember
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable refreshMemberSchemaAsync();
+    Mono<Void> refreshMemberSchemaAsync();
 
 
 

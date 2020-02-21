@@ -6,11 +6,20 @@
 
 package com.azure.management.sql.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.sql.ElasticPoolEdition;
 import com.azure.management.sql.RecommendedElasticPool;
+import com.azure.management.sql.ResourceIdentity;
 import com.azure.management.sql.ServerMetric;
 import com.azure.management.sql.ServiceObjective;
 import com.azure.management.sql.SqlDatabaseOperations;
 import com.azure.management.sql.SqlElasticPoolOperations;
+import com.azure.management.sql.SqlEncryptionProtectorOperations;
 import com.azure.management.sql.SqlFailoverGroupOperations;
 import com.azure.management.sql.SqlFirewallRule;
 import com.azure.management.sql.SqlFirewallRuleOperations;
@@ -22,14 +31,6 @@ import com.azure.management.sql.SqlServerKeyOperations;
 import com.azure.management.sql.SqlServerSecurityAlertPolicyOperations;
 import com.azure.management.sql.SqlVirtualNetworkRule;
 import com.azure.management.sql.SqlVirtualNetworkRuleOperations;
-import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.azure.management.sql.ElasticPoolEdition;
-import com.azure.management.sql.ResourceIdentity;
-import com.azure.management.sql.SqlEncryptionProtectorOperations;
 import com.azure.management.sql.models.RecommendedElasticPoolInner;
 import com.azure.management.sql.models.RestorableDroppedDatabaseInner;
 import com.azure.management.sql.models.ServerAutomaticTuningInner;
@@ -37,6 +38,7 @@ import com.azure.management.sql.models.ServerAzureADAdministratorInner;
 import com.azure.management.sql.models.ServerInner;
 import com.azure.management.sql.models.ServerUsageInner;
 import com.azure.management.sql.models.ServiceObjectiveInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,21 +90,18 @@ public class SqlServerImpl
     }
 
     @Override
-    protected Observable<ServerInner> getInnerAsync() {
+    protected Mono<ServerInner> getInnerAsync() {
         return this.manager().inner().servers().getByResourceGroupAsync(
                 this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<SqlServer> createResourceAsync() {
+    public Mono<SqlServer> createResourceAsync() {
         final SqlServer self = this;
         return this.manager().inner().servers().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
-            .map(new Func1<ServerInner, SqlServer>() {
-                @Override
-                public SqlServer call(ServerInner serverInner) {
-                    setInner(serverInner);
-                    return self;
-                }
+            .map(serverInner -> {
+                setInner(serverInner);
+                return this;
             });
     }
 
@@ -144,12 +143,12 @@ public class SqlServerImpl
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+    public Mono<Void> afterPostRunAsync(boolean isGroupFaulted) {
         this.sqlADAdminCreator = null;
         this.sqlFirewallRules.clear();
         this.sqlElasticPools.clear();
         this.sqlDatabases.clear();
-        return Completable.complete();
+        return Mono.empty();
     }
 
     @Override
@@ -188,7 +187,7 @@ public class SqlServerImpl
     }
 
     @Override
-    public IdentityType managedServiceIdentityType() {
+    public String managedServiceIdentityType() {
         return this.inner().identity() != null ? this.inner().identity().type() : null;
     }
 
@@ -258,22 +257,11 @@ public class SqlServerImpl
     }
 
     @Override
-    public Observable<SqlRestorableDroppedDatabase> listRestorableDroppedDatabasesAsync() {
+    public PagedFlux<SqlRestorableDroppedDatabase> listRestorableDroppedDatabasesAsync() {
         final SqlServerImpl self = this;
         return this.manager().inner()
             .restorableDroppedDatabases().listByServerAsync(this.resourceGroupName(), this.name())
-            .flatMap(new Func1<List<RestorableDroppedDatabaseInner>, Observable<RestorableDroppedDatabaseInner>>() {
-                @Override
-                public Observable<RestorableDroppedDatabaseInner> call(List<RestorableDroppedDatabaseInner> restorableDroppedDatabaseInners) {
-                    return Observable.from(restorableDroppedDatabaseInners);
-                }
-            })
-            .map(new Func1<RestorableDroppedDatabaseInner, SqlRestorableDroppedDatabase>() {
-                @Override
-                public SqlRestorableDroppedDatabase call(RestorableDroppedDatabaseInner restorableDroppedDatabaseInner) {
-                    return new SqlRestorableDroppedDatabaseImpl(self.resourceGroupName(), self.name(), restorableDroppedDatabaseInner, self.manager());
-                }
-            });
+            .map(restorableDroppedDatabaseInner -> new SqlRestorableDroppedDatabaseImpl(self.resourceGroupName(), self.name(), restorableDroppedDatabaseInner, self.manager()));
     }
 
     @Override

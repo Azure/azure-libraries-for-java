@@ -6,11 +6,14 @@
 
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.RestorePoint;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.sql.RestorePoint;
 import com.azure.management.sql.RestorePointType;
+import com.azure.management.sql.models.RestorePointInner;
+
 import java.time.OffsetDateTime;
+
 
 /**
  * Implementation for Restore point interface.
@@ -65,12 +68,12 @@ class RestorePointImpl
     }
 
     @Override
-    public DateTime restorePointCreationDate() {
+    public OffsetDateTime restorePointCreationDate() {
         return this.inner().restorePointCreationDate();
     }
 
     @Override
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.inner().earliestRestoreDate();
     }
 }

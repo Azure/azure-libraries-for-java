@@ -5,19 +5,19 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlDatabase;
-import com.azure.management.sql.SqlDatabaseImportExportResponse;
-import com.azure.management.sql.SqlDatabaseImportRequest;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import com.azure.management.sql.AuthenticationType;
 import com.azure.management.sql.ImportExtensionRequest;
+import com.azure.management.sql.SqlDatabase;
+import com.azure.management.sql.SqlDatabaseImportExportResponse;
+import com.azure.management.sql.SqlDatabaseImportRequest;
 import com.azure.management.sql.StorageKeyType;
+import com.azure.management.sql.models.ImportExportResponseInner;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountKey;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +51,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     }
 
     @Override
-    public Observable<SqlDatabaseImportExportResponse> executeWorkAsync() {
+    public Mono<SqlDatabaseImportExportResponse> executeWorkAsync() {
         final SqlDatabaseImportRequestImpl self = this;
         return this.sqlServerManager.inner().databases()
             .createImportOperationAsync(this.sqlDatabase.resourceGroupName, this.sqlDatabase.sqlServerName, this.sqlDatabase.name(), this.inner())
@@ -70,7 +70,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
             });
     }
 
-    private Observable<Indexable> getOrCreateStorageAccountContainer(final StorageAccount storageAccount, final String containerName, final String fileName, final FunctionalTaskItem.Context context) {
+    private Mono<Indexable> getOrCreateStorageAccountContainer(final StorageAccount storageAccount, final String containerName, final String fileName, final FunctionalTaskItem.Context context) {
         final SqlDatabaseImportRequestImpl self = this;
         return storageAccount.getKeysAsync()
             .flatMap(new Func1<List<StorageAccountKey>, Observable<StorageAccountKey>>() {

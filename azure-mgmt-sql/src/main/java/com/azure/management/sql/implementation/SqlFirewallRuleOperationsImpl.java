@@ -5,13 +5,13 @@
  */
 package com.azure.management.sql.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.sql.SqlFirewallRule;
 import com.azure.management.sql.SqlFirewallRuleOperations;
 import com.azure.management.sql.SqlServer;
-import com.azure.management.resources.fluentcore.arm.ResourceUtils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.FirewallRuleInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +50,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlFirewallRule> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
+    public Mono<SqlFirewallRule> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         return this.sqlServerManager.inner().firewallRules()
             .getAsync(resourceGroupName, sqlServerName, name)
             .map(new Func1<FirewallRuleInner, SqlFirewallRule>() {
@@ -69,7 +69,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlFirewallRule> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
+    public Mono<SqlFirewallRule> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
         Objects.requireNonNull(sqlServer);
         return this.sqlServerManager.inner().firewallRules()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
@@ -90,7 +90,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlFirewallRule> getAsync(String name) {
+    public Mono<SqlFirewallRule> getAsync(String name) {
         if (this.sqlServer == null) {
             return null;
         }
@@ -106,7 +106,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlFirewallRule> getByIdAsync(String id) {
+    public Mono<SqlFirewallRule> getByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.getBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
@@ -119,7 +119,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
+    public Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
         return this.sqlServerManager.inner().firewallRules().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
     }
 
@@ -132,7 +132,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<Void> deleteByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.deleteBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
@@ -147,7 +147,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Completable deleteAsync(String name) {
+    public Mono<Void> deleteAsync(String name) {
         if (this.sqlServer == null) {
             return null;
         }
@@ -167,7 +167,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlFirewallRule> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
+    public PagedFlux<SqlFirewallRule> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         return this.sqlServerManager.inner().firewallRules().listByServerAsync(resourceGroupName, sqlServerName)
             .flatMap(new Func1<List<FirewallRuleInner>, Observable<FirewallRuleInner>>() {
                 @Override
@@ -194,7 +194,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlFirewallRule> listBySqlServerAsync(final SqlServer sqlServer) {
+    public PagedFlux<SqlFirewallRule> listBySqlServerAsync(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().firewallRules()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
@@ -221,7 +221,7 @@ public class SqlFirewallRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlFirewallRule> listAsync() {
+    public PagedFlux<SqlFirewallRule> listAsync() {
         if (sqlServer == null) {
             return null;
         }

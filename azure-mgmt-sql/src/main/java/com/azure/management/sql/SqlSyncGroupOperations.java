@@ -5,11 +5,13 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * A representation of the Azure SQL Sync Group operations.
@@ -38,7 +40,7 @@ public interface SqlSyncGroupOperations extends
      * @param name the name of the child resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    Observable<SqlSyncGroup> getBySqlServerAsync(String resourceGroupName, String sqlServerName, String databaseName, String name);
+    Mono<SqlSyncGroup> getBySqlServerAsync(String resourceGroupName, String sqlServerName, String databaseName, String name);
 
     /**
      * Gets a collection of sync database ids.
@@ -46,7 +48,7 @@ public interface SqlSyncGroupOperations extends
      * @param locationName The name of the region where the resource is located.
      * @return a paged list of database IDs if successful.
      */
-    PagedList<String> listSyncDatabaseIds(String locationName);
+    PagedIterable<String> listSyncDatabaseIds(String locationName);
 
     /**
      * Gets a collection of sync database ids.
@@ -54,7 +56,7 @@ public interface SqlSyncGroupOperations extends
      * @param locationName The name of the region where the resource is located.
      * @return a paged list of database IDs if successful.
      */
-    Observable<String> listSyncDatabaseIdsAsync(String locationName);
+    PagedFlux<String> listSyncDatabaseIdsAsync(String locationName);
 
     /**
      * Gets a collection of sync database ids.
@@ -62,7 +64,7 @@ public interface SqlSyncGroupOperations extends
      * @param region the region where the resource is located.
      * @return a paged list of database IDs if successful.
      */
-    PagedList<String> listSyncDatabaseIds(Region region);
+    PagedIterable<String> listSyncDatabaseIds(Region region);
 
     /**
      * Gets a collection of sync database ids.
@@ -70,7 +72,7 @@ public interface SqlSyncGroupOperations extends
      * @param region the region where the resource is located.
      * @return a paged list of database IDs if successful.
      */
-    Observable<String> listSyncDatabaseIdsAsync(Region region);
+    PagedFlux<String> listSyncDatabaseIdsAsync(Region region);
 
 
     /**

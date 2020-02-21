@@ -6,6 +6,7 @@
 
 package com.azure.management.sql.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.sql.ReplicationLink;
 import com.azure.management.sql.RestorePoint;
 import com.azure.management.sql.ServiceTierAdvisor;
@@ -44,13 +45,22 @@ import com.azure.management.sql.SqlDatabaseStandardStorage;
 import com.azure.management.sql.SqlWarehouse;
 import com.azure.management.sql.StorageKeyType;
 import com.azure.management.sql.DatabaseUpdate;
+import com.azure.management.sql.models.DatabaseAutomaticTuningInner;
+import com.azure.management.sql.models.DatabaseInner;
+import com.azure.management.sql.models.DatabaseSecurityAlertPolicyInner;
+import com.azure.management.sql.models.DatabaseUsageInner;
+import com.azure.management.sql.models.ImportExportResponseInner;
+import com.azure.management.sql.models.MetricDefinitionInner;
+import com.azure.management.sql.models.MetricInner;
+import com.azure.management.sql.models.ReplicationLinkInner;
+import com.azure.management.sql.models.RestorePointInner;
+import com.azure.management.sql.models.ServiceTierAdvisorInner;
+import com.azure.management.sql.models.TransparentDataEncryptionInner;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountKey;
-import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -178,7 +188,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner().creationDate();
     }
 
@@ -193,7 +203,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.inner().earliestRestoreDate();
     }
 
@@ -269,7 +279,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<RestorePoint> listRestorePointsAsync() {
+    public PagedFlux<RestorePoint> listRestorePointsAsync() {
         final SqlDatabaseImpl self = this;
         return this.sqlServerManager.inner()
             .restorePoints().listByDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.name())
@@ -301,7 +311,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<ReplicationLink> listReplicationLinksAsync() {
+    public PagedFlux<ReplicationLink> listReplicationLinksAsync() {
         final SqlDatabaseImpl self = this;
         return this.sqlServerManager.inner()
             .replicationLinks().listByDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.name())
@@ -385,7 +395,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<SqlDatabaseUsageMetric> listUsageMetricsAsync() {
+    public PagedFlux<SqlDatabaseUsageMetric> listUsageMetricsAsync() {
         return this.sqlServerManager.inner().databaseUsages()
             .listByDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.name())
             .flatMap(new Func1<List<DatabaseUsageInner>, Observable<DatabaseUsageInner>>() {
@@ -413,7 +423,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<SqlDatabase> renameAsync(final String newDatabaseName) {
+    public Mono<SqlDatabase> renameAsync(final String newDatabaseName) {
         final SqlDatabaseImpl self = this;
         ResourceId resourceId = ResourceId.fromString(this.id());
         String newId = resourceId.parent().id() + "/databases/" + newDatabaseName;
@@ -448,7 +458,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<SqlDatabaseMetric> listMetricsAsync(final String filter) {
+    public PagedFlux<SqlDatabaseMetric> listMetricsAsync(final String filter) {
         return this.sqlServerManager.inner().databases()
             .listMetricsAsync(this.resourceGroupName, this.sqlServerName, this.name(), filter)
             .flatMap(new Func1<List<MetricInner>, Observable<MetricInner>>() {
@@ -480,7 +490,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<SqlDatabaseMetricDefinition> listMetricDefinitionsAsync() {
+    public PagedFlux<SqlDatabaseMetricDefinition> listMetricDefinitionsAsync() {
         return this.sqlServerManager.inner().databases()
             .listMetricDefinitionsAsync(this.resourceGroupName, this.sqlServerName, this.name())
             .flatMap(new Func1<List<MetricDefinitionInner>, Observable<MetricDefinitionInner>>() {
@@ -505,7 +515,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<TransparentDataEncryption> getTransparentDataEncryptionAsync() {
+    public Mono<TransparentDataEncryption> getTransparentDataEncryptionAsync() {
         final SqlDatabaseImpl self = this;
         return this.sqlServerManager.inner()
             .transparentDataEncryptions().getAsync(this.resourceGroupName, this.sqlServerName, this.name())
@@ -532,7 +542,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<ServiceTierAdvisor> listServiceTierAdvisorsAsync() {
+    public PagedFlux<ServiceTierAdvisor> listServiceTierAdvisorsAsync() {
         final SqlDatabaseImpl self = this;
         return this.sqlServerManager.inner()
             .serviceTierAdvisors().listByDatabaseAsync(this.resourceGroupName, this.sqlServerName, this.name())
@@ -581,7 +591,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    protected Observable<DatabaseInner> getInnerAsync() {
+    protected Mono<DatabaseInner> getInnerAsync() {
         return this.sqlServerManager.inner().databases().getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -612,7 +622,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<SqlDatabase> createResourceAsync() {
+    public Mono<SqlDatabase> createResourceAsync() {
         final SqlDatabaseImpl self = this;
         this.inner().withLocation(this.sqlServerLocation);
         if (this.importRequestInner != null) {
@@ -654,7 +664,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<SqlDatabase> updateResourceAsync() {
+    public Mono<SqlDatabase> updateResourceAsync() {
         if (this.isPatchUpdate) {
             final SqlDatabaseImpl self = this;
             DatabaseUpdate databaseUpdateInner = new DatabaseUpdate()
@@ -689,7 +699,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+    public Mono<Void> afterPostRunAsync(boolean isGroupFaulted) {
         if (this.sqlElasticPools != null) {
             this.sqlElasticPools.clear();
         }
@@ -699,7 +709,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         return this.sqlServerManager.inner().databases().deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -709,7 +719,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public Completable deleteAsync() {
+    public Mono<Void> deleteAsync() {
         return this.deleteResourceAsync().toCompletable();
     }
 
@@ -883,7 +893,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public SqlDatabaseImpl fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime) {
+    public SqlDatabaseImpl fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime) {
         Objects.requireNonNull(restorePoint);
         this.inner().withRestorePointInTime(restorePointDateTime);
         return this.withSourceDatabase(restorePoint.databaseId())

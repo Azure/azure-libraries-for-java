@@ -6,11 +6,13 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.RestorePointInner;
+import com.azure.management.sql.models.RestorePointInner;
+
 import java.time.OffsetDateTime;
 
 
@@ -47,12 +49,12 @@ public interface RestorePoint extends
      * @return restore point creation time (ISO8601 format). Populated when
      * restorePointType = CONTINUOUS. Null otherwise.
      */
-    DateTime restorePointCreationDate();
+    OffsetDateTime restorePointCreationDate();
 
     /**
      * @return earliest restore time (ISO8601 format). Populated when restorePointType
      * = DISCRETE. Null otherwise.
      */
-    DateTime earliestRestoreDate();
+    OffsetDateTime earliestRestoreDate();
 }
 

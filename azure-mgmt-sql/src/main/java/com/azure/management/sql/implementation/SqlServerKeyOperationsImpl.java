@@ -5,14 +5,14 @@
  */
 package com.azure.management.sql.implementation;
 
+import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlServerKey;
 import com.azure.management.sql.SqlServerKeyOperations;
-import com.microsoft.azure.Page;
-import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.ServerKeyInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +46,7 @@ public class SqlServerKeyOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerKey> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
+    public Mono<SqlServerKey> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         final SqlServerKeyOperationsImpl self = this;
         return this.sqlServerManager.inner().serverKeys()
             .getAsync(resourceGroupName, sqlServerName, name)
@@ -67,7 +67,7 @@ public class SqlServerKeyOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerKey> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
+    public Mono<SqlServerKey> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverKeys()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
@@ -85,7 +85,7 @@ public class SqlServerKeyOperationsImpl
     }
 
     @Override
-    public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
+    public Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
         return this.sqlServerManager.inner().serverKeys().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
     }
 
@@ -103,7 +103,7 @@ public class SqlServerKeyOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerKey> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
+    public PagedFlux<SqlServerKey> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         final SqlServerKeyOperationsImpl self = this;
         return this.sqlServerManager.inner().serverKeys()
             .listByServerAsync(resourceGroupName, sqlServerName)
@@ -136,7 +136,7 @@ public class SqlServerKeyOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerKey> listBySqlServerAsync(final SqlServer sqlServer) {
+    public PagedFlux<SqlServerKey> listBySqlServerAsync(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverKeys()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())

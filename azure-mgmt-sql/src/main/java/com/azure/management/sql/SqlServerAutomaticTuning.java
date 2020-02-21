@@ -6,11 +6,13 @@
 
 package com.azure.management.sql;
 
+
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.ServerAutomaticTuningInner;
+import com.azure.management.sql.models.ServerAutomaticTuningInner;
 
 import java.util.Map;
 
@@ -19,9 +21,9 @@ import java.util.Map;
  */
 @Fluent
 public interface SqlServerAutomaticTuning extends
-    HasInner<ServerAutomaticTuningInner>,
-    Refreshable<SqlServerAutomaticTuning>,
-    Updatable<SqlServerAutomaticTuning.Update> {
+        HasInner<ServerAutomaticTuningInner>,
+        Refreshable<SqlServerAutomaticTuning>,
+        Updatable<SqlServerAutomaticTuning.Update> {
 
     /**
      * @return the server automatic tuning desired state
@@ -50,7 +52,7 @@ public interface SqlServerAutomaticTuning extends
     interface Update extends
         SqlServerAutomaticTuning.UpdateStages.WithAutomaticTuningMode,
         SqlServerAutomaticTuning.UpdateStages.WithAutomaticTuningOptions,
-        Appliable<SqlServerAutomaticTuning> {
+            Appliable<SqlServerAutomaticTuning> {
     }
 
     /**

@@ -5,6 +5,7 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 
 /**
  * Response containing the Azure SQL Active Directory administrator.

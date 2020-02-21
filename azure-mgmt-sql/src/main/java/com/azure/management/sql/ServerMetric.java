@@ -6,8 +6,10 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.ServerUsageInner;
+import com.azure.management.sql.models.ServerUsageInner;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -15,7 +17,7 @@ import java.time.OffsetDateTime;
  */
 @Fluent
 public interface ServerMetric extends
-    HasInner<ServerUsageInner> {
+        HasInner<ServerUsageInner> {
 
     /**
      * @return Name of the server usage metric
@@ -50,5 +52,5 @@ public interface ServerMetric extends
     /**
      * @return the next reset time for the metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }

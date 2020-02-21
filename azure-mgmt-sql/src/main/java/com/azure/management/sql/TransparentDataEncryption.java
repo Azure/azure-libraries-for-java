@@ -6,13 +6,15 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
-import com.azure.management.sql.implementation.TransparentDataEncryptionInner;
-import rx.Observable;
+import com.azure.management.sql.models.TransparentDataEncryptionInner;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -56,7 +58,7 @@ public interface TransparentDataEncryption extends
      * @param transparentDataEncryptionState state of the data encryption to set
      * @return a representation of the deferred computation of the new encryption settings after the update operation
      */
-    Observable<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStatus transparentDataEncryptionState);
+    Mono<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStatus transparentDataEncryptionState);
 
     /**
      * @return an Azure SQL Database Transparent Data Encryption Activities
@@ -66,6 +68,6 @@ public interface TransparentDataEncryption extends
     /**
      * @return an Azure SQL Database Transparent Data Encryption Activities
      */
-    Observable<TransparentDataEncryptionActivity> listActivitiesAsync();
+    PagedFlux<TransparentDataEncryptionActivity> listActivitiesAsync();
 }
 

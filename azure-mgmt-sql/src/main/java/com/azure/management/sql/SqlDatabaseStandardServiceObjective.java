@@ -5,7 +5,8 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.rest.ExpandableStringEnum;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 import java.util.Collection;
 

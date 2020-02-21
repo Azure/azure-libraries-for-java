@@ -6,11 +6,12 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.DatabaseAutomaticTuningInner;
+import com.azure.management.sql.models.DatabaseAutomaticTuningInner;
 
 import java.util.Map;
 

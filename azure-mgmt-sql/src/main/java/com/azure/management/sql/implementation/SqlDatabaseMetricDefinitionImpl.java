@@ -5,12 +5,13 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlDatabaseMetricAvailability;
-import com.azure.management.sql.SqlDatabaseMetricDefinition;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.MetricAvailability;
 import com.azure.management.sql.PrimaryAggregationType;
+import com.azure.management.sql.SqlDatabaseMetricAvailability;
+import com.azure.management.sql.SqlDatabaseMetricDefinition;
 import com.azure.management.sql.UnitDefinitionType;
+import com.azure.management.sql.models.MetricDefinitionInner;
 
 import java.util.ArrayList;
 import java.util.Collections;

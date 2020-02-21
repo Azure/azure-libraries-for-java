@@ -6,13 +6,15 @@
 
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.TransparentDataEncryption;
-import com.azure.management.sql.TransparentDataEncryptionActivity;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.azure.management.sql.TransparentDataEncryption;
+import com.azure.management.sql.TransparentDataEncryptionActivity;
 import com.azure.management.sql.TransparentDataEncryptionStatus;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.TransparentDataEncryptionActivityInner;
+import com.azure.management.sql.models.TransparentDataEncryptionInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,7 +80,7 @@ class TransparentDataEncryptionImpl
     }
 
     @Override
-    public Observable<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStatus transparentDataEncryptionState) {
+    public Mono<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStatus transparentDataEncryptionState) {
         final TransparentDataEncryptionImpl self = this;
         return this.sqlServerManager.inner().transparentDataEncryptions()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.databaseName(), transparentDataEncryptionState)
@@ -105,7 +107,7 @@ class TransparentDataEncryptionImpl
     }
 
     @Override
-    public Observable<TransparentDataEncryptionActivity> listActivitiesAsync() {
+    public PagedFlux<TransparentDataEncryptionActivity> listActivitiesAsync() {
         return this.sqlServerManager.inner().transparentDataEncryptionActivities()
             .listByConfigurationAsync(this.resourceGroupName, this.sqlServerName, this.databaseName())
             .flatMap(new Func1<List<TransparentDataEncryptionActivityInner>, Observable<TransparentDataEncryptionActivityInner>>() {
@@ -123,7 +125,7 @@ class TransparentDataEncryptionImpl
     }
 
     @Override
-    protected Observable<TransparentDataEncryptionInner> getInnerAsync() {
+    protected Mono<TransparentDataEncryptionInner> getInnerAsync() {
         return this.sqlServerManager.inner().transparentDataEncryptions().getAsync(this.resourceGroupName, this.sqlServerName, this.databaseName());
     }
 }

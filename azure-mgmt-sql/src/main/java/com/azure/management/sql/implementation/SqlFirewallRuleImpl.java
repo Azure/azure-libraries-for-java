@@ -5,16 +5,15 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlFirewallRule;
-import com.azure.management.sql.SqlFirewallRuleOperations;
-import com.azure.management.sql.SqlServer;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlFirewallRule;
+import com.azure.management.sql.SqlFirewallRuleOperations;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.models.FirewallRuleInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -83,7 +82,7 @@ public class SqlFirewallRuleImpl
     }
 
     @Override
-    protected Observable<FirewallRuleInner> getInnerAsync() {
+    protected Mono<FirewallRuleInner> getInnerAsync() {
         return this.sqlServerManager.inner().firewallRules().getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
@@ -135,7 +134,7 @@ public class SqlFirewallRuleImpl
     }
 
     @Override
-    public Completable deleteAsync() {
+    public Mono<Void> deleteAsync() {
         return this.deleteResourceAsync().toCompletable();
     }
 
@@ -145,7 +144,7 @@ public class SqlFirewallRuleImpl
     }
 
     @Override
-    public Observable<SqlFirewallRule> createResourceAsync() {
+    public Mono<SqlFirewallRule> createResourceAsync() {
         final SqlFirewallRuleImpl self = this;
         return this.sqlServerManager.inner().firewallRules()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
@@ -159,7 +158,7 @@ public class SqlFirewallRuleImpl
     }
 
     @Override
-    public Observable<SqlFirewallRule> updateResourceAsync() {
+    public Mono<SqlFirewallRule> updateResourceAsync() {
         final SqlFirewallRuleImpl self = this;
         return this.sqlServerManager.inner().firewallRules()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
@@ -173,7 +172,7 @@ public class SqlFirewallRuleImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         return this.sqlServerManager.inner().firewallRules().deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 

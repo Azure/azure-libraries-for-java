@@ -5,13 +5,13 @@
  */
 package com.azure.management.sql.implementation;
 
+import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlVirtualNetworkRule;
 import com.azure.management.sql.SqlVirtualNetworkRuleOperations;
-import com.microsoft.azure.Page;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.VirtualNetworkRuleInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +49,7 @@ public class SqlVirtualNetworkRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlVirtualNetworkRule> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
+    public Mono<SqlVirtualNetworkRule> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         return this.sqlServerManager.inner().virtualNetworkRules()
             .getAsync(resourceGroupName, sqlServerName, name)
             .map(new Func1<VirtualNetworkRuleInner, SqlVirtualNetworkRule>() {
@@ -71,7 +71,7 @@ public class SqlVirtualNetworkRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlVirtualNetworkRule> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
+    public Mono<SqlVirtualNetworkRule> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().virtualNetworkRules()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
@@ -89,7 +89,7 @@ public class SqlVirtualNetworkRuleOperationsImpl
     }
 
     @Override
-    public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
+    public Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
         return this.sqlServerManager.inner().virtualNetworkRules().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
     }
 
@@ -103,7 +103,7 @@ public class SqlVirtualNetworkRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlVirtualNetworkRule> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
+    public PagedFlux<SqlVirtualNetworkRule> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         return this.sqlServerManager.inner().virtualNetworkRules().listByServerAsync(resourceGroupName, sqlServerName)
             .flatMap(new Func1<Page<VirtualNetworkRuleInner>, Observable<VirtualNetworkRuleInner>>() {
                 @Override
@@ -131,7 +131,7 @@ public class SqlVirtualNetworkRuleOperationsImpl
     }
 
     @Override
-    public Observable<SqlVirtualNetworkRule> listBySqlServerAsync(final SqlServer sqlServer) {
+    public PagedFlux<SqlVirtualNetworkRule> listBySqlServerAsync(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().virtualNetworkRules()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())

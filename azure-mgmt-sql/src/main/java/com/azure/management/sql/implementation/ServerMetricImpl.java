@@ -5,8 +5,10 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.ServerMetric;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.sql.ServerMetric;
+import com.azure.management.sql.models.ServerUsageInner;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -51,7 +53,7 @@ class ServerMetricImpl
     }
 
     @Override
-    public DateTime nextResetTime() {
+    public OffsetDateTime nextResetTime() {
         return this.inner().nextResetTime();
     }
 }

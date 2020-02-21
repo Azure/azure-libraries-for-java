@@ -5,17 +5,17 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlSyncGroup;
-import com.azure.management.sql.SqlSyncGroupOperations;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlSyncGroup;
+import com.azure.management.sql.SqlSyncGroupOperations;
+import com.azure.management.sql.models.SyncDatabaseIdPropertiesInner;
+import com.azure.management.sql.models.SyncGroupInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +59,7 @@ public class SqlSyncGroupOperationsImpl
     }
 
     @Override
-    public Observable<SqlSyncGroup> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String databaseName, final String name) {
+    public Mono<SqlSyncGroup> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String databaseName, final String name) {
         return this.sqlServerManager.inner().syncGroups()
             .getAsync(resourceGroupName, sqlServerName, databaseName, name)
             .map(new Func1<SyncGroupInner, SqlSyncGroup>() {
@@ -71,7 +71,7 @@ public class SqlSyncGroupOperationsImpl
     }
 
     @Override
-    public PagedList<String> listSyncDatabaseIds(String locationName) {
+    public PagedIterable<String> listSyncDatabaseIds(String locationName) {
         final SqlSyncGroupOperationsImpl self = this;
         final PagedListConverter<SyncDatabaseIdPropertiesInner, String> converter = new PagedListConverter<SyncDatabaseIdPropertiesInner, String>() {
             @Override
@@ -84,7 +84,7 @@ public class SqlSyncGroupOperationsImpl
     }
 
     @Override
-    public Observable<String> listSyncDatabaseIdsAsync(String locationName) {
+    public PagedFlux<String> listSyncDatabaseIdsAsync(String locationName) {
         return this.sqlServerManager.inner().syncGroups()
             .listSyncDatabaseIdsAsync(locationName)
             .flatMap(new Func1<Page<SyncDatabaseIdPropertiesInner>, Observable<SyncDatabaseIdPropertiesInner>>() {
@@ -102,12 +102,12 @@ public class SqlSyncGroupOperationsImpl
     }
 
     @Override
-    public PagedList<String> listSyncDatabaseIds(Region region) {
+    public PagedIterable<String> listSyncDatabaseIds(Region region) {
         return this.listSyncDatabaseIds(region.name());
     }
 
     @Override
-    public Observable<String> listSyncDatabaseIdsAsync(Region region) {
+    public PagedFlux<String> listSyncDatabaseIdsAsync(Region region) {
         return this.listSyncDatabaseIdsAsync(region.name());
     }
 
@@ -127,7 +127,7 @@ public class SqlSyncGroupOperationsImpl
     }
 
     @Override
-    public Observable<SqlSyncGroup> getAsync(String name) {
+    public Mono<SqlSyncGroup> getAsync(String name) {
         if (this.sqlDatabase == null) {
             return null;
         }
@@ -149,7 +149,7 @@ public class SqlSyncGroupOperationsImpl
     }
 
     @Override
-    public Observable<SqlSyncGroup> getByIdAsync(String id) {
+    public Mono<SqlSyncGroup> getByIdAsync(String id) {
         Objects.requireNonNull(id);
         try {
             ResourceId resourceId = ResourceId.fromString(id);
@@ -172,7 +172,7 @@ public class SqlSyncGroupOperationsImpl
     }
 
     @Override
-    public Completable deleteAsync(String name) {
+    public Mono<Void> deleteAsync(String name) {
         if (this.sqlDatabase == null) {
             return null;
         }
@@ -194,7 +194,7 @@ public class SqlSyncGroupOperationsImpl
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<Void> deleteByIdAsync(String id) {
         try {
             ResourceId resourceId = ResourceId.fromString(id);
             return this.sqlServerManager.inner().syncGroups().deleteAsync(resourceId.resourceGroupName(),
@@ -222,7 +222,7 @@ public class SqlSyncGroupOperationsImpl
     }
 
     @Override
-    public Observable<SqlSyncGroup> listAsync() {
+    public PagedFlux<SqlSyncGroup> listAsync() {
         final SqlSyncGroupOperationsImpl self = this;
         return this.sqlServerManager.inner().syncGroups()
             .listByDatabaseAsync(this.sqlDatabase.resourceGroupName(), this.sqlDatabase.sqlServerName(), this.sqlDatabase.name())

@@ -5,11 +5,12 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.sql.implementation.ImportExportResponseInner;
+import com.azure.management.sql.models.ImportExportResponseInner;
 
 /**
  * Response containing result of the Azure SQL Database import or export operation.

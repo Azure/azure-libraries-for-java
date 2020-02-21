@@ -5,19 +5,18 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlServer;
-import com.azure.management.sql.SqlServerKey;
-import com.azure.management.sql.SqlServerKeyOperations;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.ServerKeyType;
-import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.SqlServerKey;
+import com.azure.management.sql.SqlServerKeyOperations;
+import com.azure.management.sql.models.ServerKeyInner;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 /**
@@ -153,13 +152,13 @@ public class SqlServerKeyImpl
     }
 
     @Override
-    public SqlServerKeyImpl withCreationDate(DateTime creationDate) {
+    public SqlServerKeyImpl withCreationDate(OffsetDateTime creationDate) {
         this.inner().withCreationDate(creationDate);
         return this;
     }
 
     @Override
-    public Observable<SqlServerKey> createResourceAsync() {
+    public Mono<SqlServerKey> createResourceAsync() {
         final SqlServerKeyImpl self = this;
         return this.sqlServerManager.inner().serverKeys()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.serverKeyName, self.inner())
@@ -173,18 +172,18 @@ public class SqlServerKeyImpl
     }
 
     @Override
-    public Observable<SqlServerKey> updateResourceAsync() {
+    public Mono<SqlServerKey> updateResourceAsync() {
         return this.createResourceAsync();
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         return this.sqlServerManager.inner().serverKeys()
             .deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
-    protected Observable<ServerKeyInner> getInnerAsync() {
+    protected Mono<ServerKeyInner> getInnerAsync() {
         return this.sqlServerManager.inner().serverKeys()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
@@ -230,7 +229,7 @@ public class SqlServerKeyImpl
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner().creationDate();
     }
 
@@ -241,7 +240,7 @@ public class SqlServerKeyImpl
     }
 
     @Override
-    public Completable deleteAsync() {
+    public Mono<Void> deleteAsync() {
         return this.deleteResourceAsync().toCompletable();
     }
 

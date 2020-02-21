@@ -5,10 +5,11 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.SyncFullSchemaPropertiesInner;
-import java.time.OffsetDateTime;
+import com.azure.management.sql.models.SyncFullSchemaPropertiesInner;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -26,5 +27,5 @@ public interface SqlSyncFullSchemaProperty
     /**
      * @return last update time of the database schema.
      */
-    DateTime lastUpdateTime();
+    OffsetDateTime lastUpdateTime();
 }

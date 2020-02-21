@@ -5,6 +5,8 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
@@ -15,12 +17,11 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.DatabaseInner;
+import com.azure.management.sql.models.DatabaseInner;
 import com.azure.management.storage.StorageAccount;
-import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -50,7 +51,7 @@ public interface SqlDatabase
     /**
      * @return the creation date of the Azure SQL Database
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * @return the current Service Level Objective Id of the Azure SQL Database, this is the Id of the
@@ -69,7 +70,7 @@ public interface SqlDatabase
      * records the start date and time when recovery is available for this
      * Azure SQL Database.
      */
-    DateTime earliestRestoreDate();
+    OffsetDateTime earliestRestoreDate();
 
     /**
      * @return the edition of the Azure SQL Database
@@ -149,7 +150,7 @@ public interface SqlDatabase
     /**
      * @return the list of all restore points on this database
      */
-    Observable<RestorePoint> listRestorePointsAsync();
+    PagedFlux<RestorePoint> listRestorePointsAsync();
 
     /**
      * @return the list of usages (DatabaseMetrics) of this database
@@ -167,7 +168,7 @@ public interface SqlDatabase
      * @param filter an OData filter expression that describes a subset of metrics to return.
      * @return a representation of the deferred computation of the metrics for this database
      */
-    Observable<SqlDatabaseMetric> listMetricsAsync(String filter);
+    PagedFlux<SqlDatabaseMetric> listMetricsAsync(String filter);
 
     /**
      * @return the list of metric definitions for this database
@@ -177,7 +178,7 @@ public interface SqlDatabase
     /**
      * @return a representation of the deferred computation of the metric definitions for this database
      */
-    Observable<SqlDatabaseMetricDefinition> listMetricDefinitionsAsync();
+    PagedFlux<SqlDatabaseMetricDefinition> listMetricDefinitionsAsync();
 
     /**
      * Gets an Azure SQL Database Transparent Data Encryption for this database.
@@ -191,7 +192,7 @@ public interface SqlDatabase
      *
      * @return a representation of the deferred computation of an Azure SQL Database Transparent Data Encryption for this database
      */
-    Observable<TransparentDataEncryption> getTransparentDataEncryptionAsync();
+    Mono<TransparentDataEncryption> getTransparentDataEncryptionAsync();
 
     /**
      * @return information about service tier advisors for the current database
@@ -201,7 +202,7 @@ public interface SqlDatabase
     /**
      * @return a representation of the deferred computation of the information about service tier advisors for this database
      */
-    Observable<ServiceTierAdvisor> listServiceTierAdvisorsAsync();
+    PagedFlux<ServiceTierAdvisor> listServiceTierAdvisorsAsync();
 
     /**
      * @return all the replication links associated with this database
@@ -211,7 +212,7 @@ public interface SqlDatabase
     /**
      * @return a representation of the deferred computation of all the replication links associated with this database
      */
-    Observable<ReplicationLink> listReplicationLinksAsync();
+    PagedFlux<ReplicationLink> listReplicationLinksAsync();
 
     /**
      * Exports the current database to a specified URI path.
@@ -293,7 +294,7 @@ public interface SqlDatabase
      *
      * @return a representation of the deferred computation of this call returning the SQL database usage metrics
      */
-    Observable<SqlDatabaseUsageMetric> listUsageMetricsAsync();
+    PagedFlux<SqlDatabaseUsageMetric> listUsageMetricsAsync();
 
 
     /**
@@ -310,7 +311,7 @@ public interface SqlDatabase
      * @param newDatabaseName the new name for the database
      * @return a representation of the deferred computation of this call
      */
-    Observable<SqlDatabase> renameAsync(String newDatabaseName);
+    Mono<SqlDatabase> renameAsync(String newDatabaseName);
 
     /**
      * Deletes the database from the server.
@@ -322,7 +323,7 @@ public interface SqlDatabase
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteAsync();
+    Mono<Void> deleteAsync();
 
     /**
      * @return the SQL Sync Group entry point for the current database
@@ -596,7 +597,7 @@ public interface SqlDatabase
              * @param restorePointDateTime date and time to restore from
              * @return The next stage of the definition.
              */
-            SqlDatabase.DefinitionStages.WithAttachAfterElasticPoolOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
+            SqlDatabase.DefinitionStages.WithAttachAfterElasticPoolOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
         /**
@@ -620,7 +621,7 @@ public interface SqlDatabase
              * @param restorePointDateTime date and time to restore from
              * @return The next stage of the definition.
              */
-            SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
+            SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
         /**

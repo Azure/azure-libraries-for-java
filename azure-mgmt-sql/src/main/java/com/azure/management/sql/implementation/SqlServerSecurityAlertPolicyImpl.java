@@ -5,15 +5,15 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlServer;
-import com.azure.management.sql.SqlServerSecurityAlertPolicy;
-import com.azure.management.sql.SqlServerSecurityAlertPolicyOperations;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.SecurityAlertPolicyState;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.SqlServerSecurityAlertPolicy;
+import com.azure.management.sql.SqlServerSecurityAlertPolicyOperations;
+import com.azure.management.sql.models.ServerSecurityAlertPolicyInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -181,7 +181,7 @@ public class SqlServerSecurityAlertPolicyImpl
     }
 
     @Override
-    public Observable<SqlServerSecurityAlertPolicy> createResourceAsync() {
+    public Mono<SqlServerSecurityAlertPolicy> createResourceAsync() {
         final SqlServerSecurityAlertPolicyImpl self = this;
         return this.sqlServerManager.inner().serverSecurityAlertPolicies()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.inner())
@@ -195,18 +195,18 @@ public class SqlServerSecurityAlertPolicyImpl
     }
 
     @Override
-    public Observable<SqlServerSecurityAlertPolicy> updateResourceAsync() {
+    public Mono<SqlServerSecurityAlertPolicy> updateResourceAsync() {
         this.inner().withStorageEndpoint(null);
         return createResourceAsync();
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         return null;
     }
 
     @Override
-    protected Observable<ServerSecurityAlertPolicyInner> getInnerAsync() {
+    protected Mono<ServerSecurityAlertPolicyInner> getInnerAsync() {
         return this.sqlServerManager.inner().serverSecurityAlertPolicies()
             .getAsync(this.resourceGroupName, this.sqlServerName);
     }

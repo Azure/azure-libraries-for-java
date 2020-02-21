@@ -5,7 +5,9 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.Creatable;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -103,7 +105,7 @@ public interface SqlServerKeyOperations extends
              * @param creationDate the server key creation date
              * @return The next stage of the definition.
              */
-            SqlServerKeyOperations.DefinitionStages.WithCreate withCreationDate(DateTime creationDate);
+            SqlServerKeyOperations.DefinitionStages.WithCreate withCreationDate(OffsetDateTime creationDate);
         }
 
         /**

@@ -6,15 +6,17 @@
 
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.ServiceLevelObjectiveUsageMetric;
-import com.azure.management.sql.ServiceTierAdvisor;
-import com.azure.management.sql.SloUsageMetricInterface;
+
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.azure.management.sql.ServiceLevelObjectiveUsageMetric;
+import com.azure.management.sql.ServiceTierAdvisor;
 import com.azure.management.sql.SloUsageMetric;
-import java.time.OffsetDateTime;
-import rx.Observable;
+import com.azure.management.sql.SloUsageMetricInterface;
+import com.azure.management.sql.models.ServiceTierAdvisorInner;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -67,12 +69,12 @@ class ServiceTierAdvisorImpl
     }
 
     @Override
-    public DateTime observationPeriodStart() {
+    public OffsetDateTime observationPeriodStart() {
         return this.inner().observationPeriodStart();
     }
 
     @Override
-    public DateTime observationPeriodEnd() {
+    public OffsetDateTime observationPeriodEnd() {
         return this.inner().observationPeriodEnd();
     }
 
@@ -179,7 +181,7 @@ class ServiceTierAdvisorImpl
     }
 
     @Override
-    protected Observable<ServiceTierAdvisorInner> getInnerAsync() {
+    protected Mono<ServiceTierAdvisorInner> getInnerAsync() {
         this.sloUsageMetrics = null;
         this.serviceLevelObjectiveUsageMetrics = null;
 

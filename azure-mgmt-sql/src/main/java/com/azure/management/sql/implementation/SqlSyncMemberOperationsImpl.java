@@ -5,15 +5,14 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlSyncMember;
-import com.azure.management.sql.SqlSyncMemberOperations;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlSyncMember;
+import com.azure.management.sql.SqlSyncMemberOperations;
+import com.azure.management.sql.models.SyncMemberInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +58,7 @@ public class SqlSyncMemberOperationsImpl
     }
 
     @Override
-    public Observable<SqlSyncMember> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String databaseName, final String syncGroupName, final String name) {
+    public Mono<SqlSyncMember> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String databaseName, final String syncGroupName, final String name) {
         return this.sqlServerManager.inner().syncMembers()
             .getAsync(resourceGroupName, sqlServerName, databaseName, syncGroupName, name)
             .map(new Func1<SyncMemberInner, SqlSyncMember>() {
@@ -79,7 +78,7 @@ public class SqlSyncMemberOperationsImpl
     }
 
     @Override
-    public Observable<SqlSyncMember> getAsync(String name) {
+    public Mono<SqlSyncMember> getAsync(String name) {
         if (this.sqlSyncGroup == null) {
             return null;
         }
@@ -102,7 +101,7 @@ public class SqlSyncMemberOperationsImpl
     }
 
     @Override
-    public Observable<SqlSyncMember> getByIdAsync(String id) {
+    public Mono<SqlSyncMember> getByIdAsync(String id) {
         Objects.requireNonNull(id);
         try {
             ResourceId resourceId = ResourceId.fromString(id);
@@ -126,7 +125,7 @@ public class SqlSyncMemberOperationsImpl
     }
 
     @Override
-    public Completable deleteAsync(String name) {
+    public Mono<Void> deleteAsync(String name) {
         if (this.sqlSyncGroup == null) {
             return null;
         }
@@ -148,7 +147,7 @@ public class SqlSyncMemberOperationsImpl
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<Void> deleteByIdAsync(String id) {
         try {
             ResourceId resourceId = ResourceId.fromString(id);
             return this.sqlServerManager.inner().syncMembers().deleteAsync(resourceId.resourceGroupName(),
@@ -178,7 +177,7 @@ public class SqlSyncMemberOperationsImpl
     }
 
     @Override
-    public Observable<SqlSyncMember> listAsync() {
+    public PagedFlux<SqlSyncMember> listAsync() {
         final SqlSyncMemberOperationsImpl self = this;
         return this.sqlServerManager.inner().syncMembers()
             .listBySyncGroupAsync(this.sqlSyncGroup.resourceGroupName(), this.sqlSyncGroup.sqlServerName(), this.sqlSyncGroup.sqlDatabaseName(), this.sqlSyncGroup.name())

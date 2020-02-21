@@ -6,9 +6,9 @@
 
 package com.azure.management.sql;
 
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
+
+import com.azure.core.annotation.Fluent;
+import reactor.core.publisher.Mono;
 
 /**
  * An immutable client-side representation of an Azure SQL Warehouse.
@@ -26,15 +26,7 @@ public interface SqlWarehouse extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable pauseDataWarehouseAsync();
-
-    /**
-     * Pause an Azure SQL Data Warehouse database asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> pauseDataWarehouseAsync(ServiceCallback<Void> callback);
+    Mono<Void> pauseDataWarehouseAsync();
 
     /**
      * Resume an Azure SQL Data Warehouse database.
@@ -46,14 +38,6 @@ public interface SqlWarehouse extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable resumeDataWarehouseAsync();
-
-    /**
-     * Resume an Azure SQL Data Warehouse database asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> resumeDataWarehouseAsync(ServiceCallback<Void> callback);
+    Mono<Void> resumeDataWarehouseAsync();
  }
 

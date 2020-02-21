@@ -5,11 +5,13 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlSyncFullSchemaProperty;
-import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.azure.management.sql.SyncFullSchemaTable;
-import java.time.OffsetDateTime;
 
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.sql.SqlSyncFullSchemaProperty;
+import com.azure.management.sql.SyncFullSchemaTable;
+import com.azure.management.sql.models.SyncFullSchemaPropertiesInner;
+
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +35,7 @@ public class SqlSyncFullSchemaPropertyImpl
     }
 
     @Override
-    public DateTime lastUpdateTime() {
+    public OffsetDateTime lastUpdateTime() {
         return this.inner().lastUpdateTime();
     }
 }

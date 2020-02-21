@@ -5,9 +5,11 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.DatabaseUsageInner;
+import com.azure.management.sql.models.DatabaseUsageInner;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -46,5 +48,5 @@ public interface SqlDatabaseUsageMetric extends
     /**
      * @return the next reset time for the usage metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }

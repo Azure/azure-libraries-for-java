@@ -7,6 +7,7 @@
 package com.azure.management.sql;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
@@ -14,11 +15,10 @@ import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.sql.implementation.SqlServerManager;
+import com.azure.management.sql.models.RecommendedElasticPoolInner;
+import reactor.core.publisher.Mono;
 
 import java.time.OffsetDateTime;
-
-import com.azure.management.sql.models.RecommendedElasticPoolInner;
-
 import java.util.List;
 
 /**
@@ -101,7 +101,7 @@ public interface RecommendedElasticPool extends
      * Fetches list of databases by making call to Azure.
      * @return a representation of the deferred computation of the databases in this recommended elastic pool
      */
-    Observable<SqlDatabase> listDatabasesAsync();
+    PagedFlux<SqlDatabase> listDatabasesAsync();
 
     /**
      * Get a specific database in the recommended database.
@@ -117,7 +117,7 @@ public interface RecommendedElasticPool extends
      * @param databaseName name of the database to be fetched
      * @return a representation of the deferred computation to get the database in the recommended elastic pool
      */
-    Observable<SqlDatabase> getDatabaseAsync(String databaseName);
+    Mono<SqlDatabase> getDatabaseAsync(String databaseName);
 
     /**
      * Fetches list of metrics information by making call to Azure.

@@ -5,11 +5,14 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlRestorableDroppedDatabase;
+
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.azure.management.sql.SqlRestorableDroppedDatabase;
+import com.azure.management.sql.models.RestorableDroppedDatabaseInner;
+import reactor.core.publisher.Mono;
+
 import java.time.OffsetDateTime;
-import rx.Observable;
 
 /**
  * Implementation for SQL restorable dropped database interface.
@@ -59,22 +62,22 @@ public class SqlRestorableDroppedDatabaseImpl extends RefreshableWrapperImpl<Res
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner().creationDate();
     }
 
     @Override
-    public DateTime deletionDate() {
+    public OffsetDateTime deletionDate() {
         return this.inner().deletionDate();
     }
 
     @Override
-    public DateTime earliestRestoreDate() {
+    public OffsetDateTime earliestRestoreDate() {
         return this.inner().earliestRestoreDate();
     }
 
     @Override
-    protected Observable<RestorableDroppedDatabaseInner> getInnerAsync() {
+    protected Mono<RestorableDroppedDatabaseInner> getInnerAsync() {
         return this.sqlServerManager.inner().restorableDroppedDatabases().getAsync(this.resourceGroupName, this.sqlServerName, this.inner().id());
     }
 

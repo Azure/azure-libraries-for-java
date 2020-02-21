@@ -7,9 +7,8 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.sql.SqlWarehouse;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
+import com.azure.management.sql.models.DatabaseInner;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation for SqlWarehouse and its parent interfaces.
@@ -33,14 +32,9 @@ class SqlWarehouseImpl
     }
 
     @Override
-    public Completable pauseDataWarehouseAsync() {
+    public Mono<Void> pauseDataWarehouseAsync() {
         return this.sqlServerManager.inner().databases()
             .pauseAsync(this.resourceGroupName, this.sqlServerName, this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> pauseDataWarehouseAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.pauseDataWarehouseAsync(), callback);
     }
 
     @Override
@@ -50,13 +44,8 @@ class SqlWarehouseImpl
     }
 
     @Override
-    public Completable resumeDataWarehouseAsync() {
+    public Mono<Void> resumeDataWarehouseAsync() {
         return this.sqlServerManager.inner().databases()
             .resumeAsync(this.resourceGroupName, this.sqlServerName, this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> resumeDataWarehouseAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.resumeDataWarehouseAsync(), callback);
     }
 }

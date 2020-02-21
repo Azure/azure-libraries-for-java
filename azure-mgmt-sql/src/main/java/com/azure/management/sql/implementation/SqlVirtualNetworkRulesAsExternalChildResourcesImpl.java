@@ -8,6 +8,7 @@ package com.azure.management.sql.implementation;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlVirtualNetworkRule;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
+import com.azure.management.sql.models.VirtualNetworkRuleInner;
 
 /**
  * Represents a SQL Virtual Network Rules collection associated with an Azure SQL server.
@@ -16,8 +17,8 @@ public class SqlVirtualNetworkRulesAsExternalChildResourcesImpl
     extends
         ExternalChildResourcesNonCachedImpl<SqlVirtualNetworkRuleImpl,
                 SqlVirtualNetworkRule,
-            VirtualNetworkRuleInner,
-            SqlServerImpl,
+                VirtualNetworkRuleInner,
+                SqlServerImpl,
                 SqlServer> {
 
     SqlServerManager sqlServerManager;

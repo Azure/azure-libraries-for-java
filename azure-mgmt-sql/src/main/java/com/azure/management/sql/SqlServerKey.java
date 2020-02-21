@@ -5,6 +5,7 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
@@ -14,9 +15,10 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.ServerKeyInner;
+import com.azure.management.sql.models.ServerKeyInner;
+import reactor.core.publisher.Mono;
+
 import java.time.OffsetDateTime;
-import rx.Completable;
 
 /**
  * An immutable client-side representation of an Azure SQL Server Key.
@@ -69,7 +71,7 @@ public interface SqlServerKey
     /**
      * @return the server key creation date
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * Deletes the SQL Server Key.
@@ -81,7 +83,7 @@ public interface SqlServerKey
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteAsync();
+    Mono<Void> deleteAsync();
 
     /**
      * The template for a SQL Server Key update operation, containing all the settings that can be modified.
@@ -119,7 +121,7 @@ public interface SqlServerKey
              * @param creationDate the server key creation date
              * @return The next stage of the definition.
              */
-            SqlServerKey.Update withCreationDate(DateTime creationDate);
+            SqlServerKey.Update withCreationDate(OffsetDateTime creationDate);
         }
     }
 }

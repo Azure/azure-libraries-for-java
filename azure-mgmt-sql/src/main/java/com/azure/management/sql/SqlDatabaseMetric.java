@@ -5,10 +5,12 @@
  */
 package com.azure.management.sql;
 
-import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.MetricInner;
-import java.time.OffsetDateTime;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.sql.models.MetricInner;
+
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -25,12 +27,12 @@ public interface SqlDatabaseMetric extends HasInner<MetricInner> {
     /**
      * @return the start time
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the end time
      */
-    DateTime endTime();
+    OffsetDateTime endTime();
 
     /**
      * @return the time grain

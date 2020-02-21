@@ -10,8 +10,8 @@ import com.azure.management.sql.SqlServerSecurityAlertPolicy;
 import com.azure.management.sql.SqlServerSecurityAlertPolicyOperations;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.ServerSecurityAlertPolicyInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -54,7 +54,7 @@ public class SqlServerSecurityAlertPolicyOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerSecurityAlertPolicy> getAsync() {
+    public Mono<SqlServerSecurityAlertPolicy> getAsync() {
         if (this.sqlServer == null) {
             return null;
         }
@@ -69,7 +69,7 @@ public class SqlServerSecurityAlertPolicyOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerSecurityAlertPolicy> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
+    public Mono<SqlServerSecurityAlertPolicy> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         final SqlServerSecurityAlertPolicyOperationsImpl self = this;
         return this.sqlServerManager.inner().serverSecurityAlertPolicies()
             .getAsync(resourceGroupName, sqlServerName)
@@ -90,7 +90,7 @@ public class SqlServerSecurityAlertPolicyOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerSecurityAlertPolicy> getBySqlServerAsync(final SqlServer sqlServer) {
+    public Mono<SqlServerSecurityAlertPolicy> getBySqlServerAsync(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverSecurityAlertPolicies()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name())
@@ -110,7 +110,7 @@ public class SqlServerSecurityAlertPolicyOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerSecurityAlertPolicy> getByIdAsync(String id) {
+    public Mono<SqlServerSecurityAlertPolicy> getByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.getBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)));

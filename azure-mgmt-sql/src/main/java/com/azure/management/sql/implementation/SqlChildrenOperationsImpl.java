@@ -5,11 +5,11 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlServer;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.sql.SqlChildrenOperations;
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.sql.SqlServer;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +42,7 @@ public abstract class SqlChildrenOperationsImpl<FluentModelT>
     }
 
     @Override
-    public Observable<FluentModelT> getAsync(String name) {
+    public Mono<FluentModelT> getAsync(String name) {
         if (this.sqlServer == null) {
             return null;
         }
@@ -58,7 +58,7 @@ public abstract class SqlChildrenOperationsImpl<FluentModelT>
     }
 
     @Override
-    public Observable<FluentModelT> getByIdAsync(String id) {
+    public Mono<FluentModelT> getByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.getBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
@@ -73,7 +73,7 @@ public abstract class SqlChildrenOperationsImpl<FluentModelT>
     }
 
     @Override
-    public Completable deleteAsync(String name) {
+    public Mono<Void> deleteAsync(String name) {
         if (this.sqlServer == null) {
             return null;
         }
@@ -89,7 +89,7 @@ public abstract class SqlChildrenOperationsImpl<FluentModelT>
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<Void> deleteByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.deleteBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
@@ -105,7 +105,7 @@ public abstract class SqlChildrenOperationsImpl<FluentModelT>
     }
 
     @Override
-    public Observable<FluentModelT> listAsync() {
+    public PagedFlux<FluentModelT> listAsync() {
         if (sqlServer == null) {
             return null;
         }

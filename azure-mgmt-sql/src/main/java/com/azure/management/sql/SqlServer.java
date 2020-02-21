@@ -6,15 +6,16 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.ServerInner;
 import com.azure.management.sql.implementation.SqlServerManager;
-import rx.Observable;
+import com.azure.management.sql.models.ServerInner;
 
 import java.util.List;
 import java.util.Map;
@@ -73,7 +74,7 @@ public interface SqlServer extends
     /**
      * @return the type of Managed Service Identity used for the SQL server.
      */
-    IdentityType managedServiceIdentityType();
+    String managedServiceIdentityType();
 
 
     // Actions
@@ -116,7 +117,7 @@ public interface SqlServer extends
     /**
      * @return the list of all restorable dropped databases
      */
-    Observable<SqlRestorableDroppedDatabase> listRestorableDroppedDatabasesAsync();
+    PagedFlux<SqlRestorableDroppedDatabase> listRestorableDroppedDatabasesAsync();
 
     /**
      * Sets the Azure services default access to this server to true.

@@ -6,6 +6,7 @@
 
 package com.azure.management.sql.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.sql.RecommendedElasticPool;
 import com.azure.management.sql.RecommendedElasticPoolMetric;
 import com.azure.management.sql.SqlDatabase;
@@ -16,6 +17,7 @@ import java.time.OffsetDateTime;
 import com.azure.management.sql.models.DatabaseInner;
 import com.azure.management.sql.models.RecommendedElasticPoolInner;
 import com.azure.management.sql.models.RecommendedElasticPoolMetricInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +38,7 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    protected Observable<RecommendedElasticPoolInner> getInnerAsync() {
+    protected Mono<RecommendedElasticPoolInner> getInnerAsync() {
         return this.manager().inner().recommendedElasticPools().getAsync(
                 this.resourceGroupName(), this.sqlServerName(), this.name());
     }
@@ -123,7 +125,7 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    public Observable<SqlDatabase> listDatabasesAsync() {
+    public PagedFlux<SqlDatabase> listDatabasesAsync() {
         final RecommendedElasticPoolImpl self = this;
         return this.sqlServer.manager().inner().databases().listByRecommendedElasticPoolAsync(
             this.sqlServer.resourceGroupName(),
@@ -154,7 +156,7 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    public Observable<SqlDatabase> getDatabaseAsync(String databaseName) {
+    public Mono<SqlDatabase> getDatabaseAsync(String databaseName) {
         final RecommendedElasticPoolImpl self = this;
         return this.sqlServer.manager().inner().databases().getByRecommendedElasticPoolAsync(
                 this.sqlServer.resourceGroupName(),

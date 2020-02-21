@@ -10,6 +10,7 @@ import com.azure.management.sql.SqlServer;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
+import com.azure.management.sql.models.ElasticPoolInner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,8 @@ public class SqlElasticPoolsAsExternalChildResourcesImpl
     extends
         ExternalChildResourcesNonCachedImpl<SqlElasticPoolImpl,
                 SqlElasticPool,
-            ElasticPoolInner,
-            SqlServerImpl,
+                ElasticPoolInner,
+                SqlServerImpl,
                 SqlServer> {
 
     SqlServerManager sqlServerManager;

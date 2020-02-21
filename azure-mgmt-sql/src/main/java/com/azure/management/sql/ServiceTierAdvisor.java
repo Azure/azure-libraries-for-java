@@ -6,14 +6,15 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.ServiceTierAdvisorInner;
-import java.time.OffsetDateTime;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.sql.models.ServiceTierAdvisorInner;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,12 +43,12 @@ public interface ServiceTierAdvisor extends
     /**
      * @return the observation period start (ISO8601 format)
      */
-    DateTime observationPeriodStart();
+    OffsetDateTime observationPeriodStart();
 
     /**
      * @return the observation period start (ISO8601 format)
      */
-    DateTime observationPeriodEnd();
+    OffsetDateTime observationPeriodEnd();
 
     /**
      * @return the activeTimeRatio for the service tier advisor

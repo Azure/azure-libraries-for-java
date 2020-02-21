@@ -5,9 +5,10 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import rx.Observable;
+import com.azure.management.sql.SqlSubscriptionUsageMetric;
+import com.azure.management.sql.models.SubscriptionUsageInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class SqlSubscriptionUsageMetricImpl
     }
 
     @Override
-    protected Observable<SubscriptionUsageInner> getInnerAsync() {
+    protected Mono<SubscriptionUsageInner> getInnerAsync() {
         return this.sqlServerManager.inner().subscriptionUsages()
             .getAsync(this.location, this.name());
     }

@@ -6,9 +6,10 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.LocationCapabilitiesInner;
+import com.azure.management.sql.models.LocationCapabilitiesInner;
 
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 @Fluent
 public interface RegionCapabilities extends
-    HasInner<LocationCapabilitiesInner> {
+        HasInner<LocationCapabilitiesInner> {
     /**
      * @return the location name
      */

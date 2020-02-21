@@ -8,12 +8,14 @@ package com.azure.management.sql.implementation;
 
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.AzureTokenCredential;
 import com.azure.management.RestClient;
-import com.azure.management.sql.SqlServers;
-import com.azure.management.sql.models.SqlManagementClientImpl;
+import com.azure.management.RestClientBuilder;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
+import com.azure.management.sql.SqlServers;
+import com.azure.management.sql.models.SqlManagementClientImpl;
 
 /**
  * Entry point to Azure SQLServer resource management.
@@ -27,7 +29,7 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
         super(
                 restClient,
                 subscriptionId,
-                new SqlManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+                new SqlManagementClientImpl(restClient.getHttpPipeline()));
         this.tenantId = tenantId;
     }
 
@@ -43,19 +45,19 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
     /**
      * Creates an instance of SqlServer that exposes Compute resource management API entry points.
      *
-     * @param credentials the credentials to use
+     * @param credential the credentials to use
      * @param subscriptionId the subscription
      * @return the SqlServer
      */
-    public static SqlServerManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new SqlServerManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
+    public static SqlServerManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+        return new SqlServerManager(new RestClientBuilder()
+                .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), credentials.domain(), subscriptionId);
+//                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
+//                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
+//                .withInterceptor(new ResourceManagerThrottlingInterceptor())
+                .buildClient(), credential.getDomain(), subscriptionId);
     }
 
     /**
@@ -79,11 +81,11 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
         /**
          * Creates an instance of SqlServer that exposes Compute resource management API entry points.
          *
-         * @param credentials the credentials to use
+         * @param credential the credentials to use
          * @param subscriptionId the subscription
          * @return the SqlServer
          */
-        SqlServerManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
+        SqlServerManager authenticate(AzureTokenCredential credential, String subscriptionId);
     }
 
     /**
@@ -91,8 +93,8 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
         @Override
-        public SqlServerManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return SqlServerManager.authenticate(buildRestClient(credentials), credentials.domain(), subscriptionId);
+        public SqlServerManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+            return SqlServerManager.authenticate(buildRestClient(credential), credential.getDomain(), subscriptionId);
         }
     }
 

@@ -7,6 +7,7 @@ package com.azure.management.sql.implementation;
 
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.SqlActiveDirectoryAdministrator;
+import com.azure.management.sql.models.ServerAzureADAdministratorInner;
 
 /**
  * Response containing the SQL Active Directory administrator.

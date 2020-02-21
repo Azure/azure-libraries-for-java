@@ -6,10 +6,15 @@
 
 package com.azure.management.sql.implementation;
 
+import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.azure.management.sql.CheckNameAvailabilityResult;
 import com.azure.management.sql.RegionCapabilities;
 import com.azure.management.sql.SqlDatabaseOperations;
 import com.azure.management.sql.SqlElasticPoolOperations;
+import com.azure.management.sql.SqlEncryptionProtectorOperations;
 import com.azure.management.sql.SqlFirewallRuleOperations;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlServerKeyOperations;
@@ -19,12 +24,12 @@ import com.azure.management.sql.SqlSubscriptionUsageMetric;
 import com.azure.management.sql.SqlSyncGroupOperations;
 import com.azure.management.sql.SqlSyncMemberOperations;
 import com.azure.management.sql.SqlVirtualNetworkRuleOperations;
-import com.microsoft.azure.Page;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import com.azure.management.sql.SqlEncryptionProtectorOperations;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.CheckNameAvailabilityResponseInner;
+import com.azure.management.sql.models.LocationCapabilitiesInner;
+import com.azure.management.sql.models.ServerInner;
+import com.azure.management.sql.models.ServersInner;
+import com.azure.management.sql.models.SubscriptionUsageInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,11 +41,11 @@ import java.util.Objects;
  */
 class SqlServersImpl
         extends TopLevelModifiableResourcesImpl<
-        SqlServer,
-            SqlServerImpl,
-            ServerInner,
-            ServersInner,
-            SqlServerManager>
+                SqlServer,
+                    SqlServerImpl,
+                ServerInner,
+                ServersInner,
+                    SqlServerManager>
         implements SqlServers {
 
     private SqlFirewallRuleOperations firewallRules;
@@ -184,7 +189,7 @@ class SqlServersImpl
     }
 
     @Override
-    public Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
+    public Mono<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
         return this.inner().checkNameAvailabilityAsync(name)
             .map(new Func1<CheckNameAvailabilityResponseInner, CheckNameAvailabilityResult>() {
                 @Override
@@ -202,7 +207,7 @@ class SqlServersImpl
     }
 
     @Override
-    public Observable<RegionCapabilities> getCapabilitiesByRegionAsync(Region region) {
+    public Mono<RegionCapabilities> getCapabilitiesByRegionAsync(Region region) {
         return this.manager().inner().capabilities()
             .listByLocationAsync(region.name())
             .map(new Func1<LocationCapabilitiesInner, RegionCapabilities>() {
@@ -228,7 +233,7 @@ class SqlServersImpl
     }
 
     @Override
-    public Observable<SqlSubscriptionUsageMetric> listUsageByRegionAsync(final Region region) {
+    public PagedFlux<SqlSubscriptionUsageMetric> listUsageByRegionAsync(final Region region) {
         Objects.requireNonNull(region);
         final SqlServers self = this;
         return this.manager().inner().subscriptionUsages()

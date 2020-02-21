@@ -5,15 +5,15 @@
  */
 package com.azure.management.sql.implementation;
 
+import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.management.resources.fluentcore.arm.ResourceId;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlServerDnsAlias;
 import com.azure.management.sql.SqlServerDnsAliasOperations;
-import com.microsoft.azure.Page;
-import com.azure.management.resources.fluentcore.arm.ResourceId;
-import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.ServerDnsAliasInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +49,7 @@ public class SqlServerDnsAliasOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerDnsAlias> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
+    public Mono<SqlServerDnsAlias> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         final SqlServerDnsAliasOperationsImpl self = this;
         return this.sqlServerManager.inner().serverDnsAliases()
             .getAsync(resourceGroupName, sqlServerName, name)
@@ -70,7 +70,7 @@ public class SqlServerDnsAliasOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerDnsAlias> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
+    public Mono<SqlServerDnsAlias> getBySqlServerAsync(final SqlServer sqlServer, final String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().serverDnsAliases()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
@@ -88,7 +88,7 @@ public class SqlServerDnsAliasOperationsImpl
     }
 
     @Override
-    public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
+    public Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
         return this.sqlServerManager.inner().serverDnsAliases().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
     }
 
@@ -106,7 +106,7 @@ public class SqlServerDnsAliasOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerDnsAlias> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
+    public PagedFlux<SqlServerDnsAlias> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         final SqlServerDnsAliasOperationsImpl self = this;
         return this.sqlServerManager.inner().serverDnsAliases()
             .listByServerAsync(resourceGroupName, sqlServerName)
@@ -138,7 +138,7 @@ public class SqlServerDnsAliasOperationsImpl
     }
 
     @Override
-    public Observable<SqlServerDnsAlias> listBySqlServerAsync(final SqlServer sqlServer) {
+    public PagedFlux<SqlServerDnsAlias> listBySqlServerAsync(final SqlServer sqlServer) {
         return sqlServer.manager().inner().serverDnsAliases()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
             .flatMap(new Func1<Page<ServerDnsAliasInner>, Observable<ServerDnsAliasInner>>() {
@@ -162,7 +162,7 @@ public class SqlServerDnsAliasOperationsImpl
     }
 
     @Override
-    public Completable acquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String sqlServerId) {
+    public Mono<Void> acquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String sqlServerId) {
         return this.sqlServerManager.inner().serverDnsAliases()
             .acquireAsync(resourceGroupName, serverName, dnsAliasName, sqlServerId + DNS_ALIASES + dnsAliasName).toCompletable();
     }
@@ -176,7 +176,7 @@ public class SqlServerDnsAliasOperationsImpl
     }
 
     @Override
-    public Completable acquireAsync(String dnsAliasName, String oldSqlServerId, String newSqlServerId) {
+    public Mono<Void> acquireAsync(String dnsAliasName, String oldSqlServerId, String newSqlServerId) {
         Objects.requireNonNull(oldSqlServerId);
         ResourceId resourceId = ResourceId.fromString(oldSqlServerId);
         return this.sqlServerManager.inner().serverDnsAliases()
@@ -196,7 +196,7 @@ public class SqlServerDnsAliasOperationsImpl
     }
 
     @Override
-    public Completable acquireAsync(String dnsAliasName, String sqlServerId) {
+    public Mono<Void> acquireAsync(String dnsAliasName, String sqlServerId) {
         return this.acquireAsync(this.sqlServer.resourceGroupName(), this.sqlServer.name(), dnsAliasName, sqlServerId);
     }
 }

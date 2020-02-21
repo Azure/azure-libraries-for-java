@@ -5,9 +5,10 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * A representation of the Azure SQL Sync Member operations.
@@ -38,7 +39,7 @@ public interface SqlSyncMemberOperations  extends
      * @param name the name of the child resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    Observable<SqlSyncMember> getBySqlServerAsync(String resourceGroupName, String sqlServerName, String databaseName, String syncGroupName, String name);
+    Mono<SqlSyncMember> getBySqlServerAsync(String resourceGroupName, String sqlServerName, String databaseName, String syncGroupName, String name);
 
     /**
      * Container interface for all the definitions that need to be implemented.

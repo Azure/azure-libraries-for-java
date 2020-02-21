@@ -5,15 +5,14 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlDatabaseAutomaticTuning;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.azure.management.sql.AutomaticTuningMode;
 import com.azure.management.sql.AutomaticTuningOptionModeDesired;
 import com.azure.management.sql.AutomaticTuningOptions;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlDatabaseAutomaticTuning;
+import com.azure.management.sql.models.DatabaseAutomaticTuningInner;
+import reactor.core.publisher.Mono;
+
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -102,7 +101,7 @@ public class SqlDatabaseAutomaticTuningImpl
     }
 
     @Override
-    protected Observable<DatabaseAutomaticTuningInner> getInnerAsync() {
+    protected Mono<DatabaseAutomaticTuningInner> getInnerAsync() {
         return this.sqlServerManager.inner().databaseAutomaticTunings()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.sqlDatabaseName);
     }
@@ -113,7 +112,7 @@ public class SqlDatabaseAutomaticTuningImpl
     }
 
     @Override
-    public Observable<SqlDatabaseAutomaticTuning> applyAsync() {
+    public Mono<SqlDatabaseAutomaticTuning> applyAsync() {
         final SqlDatabaseAutomaticTuningImpl self = this;
         this.inner().withOptions(this.automaticTuningOptionsMap);
         return this.sqlServerManager.inner().databaseAutomaticTunings()
@@ -126,11 +125,6 @@ public class SqlDatabaseAutomaticTuningImpl
                     return self;
                 }
             });
-    }
-
-    @Override
-    public ServiceFuture<SqlDatabaseAutomaticTuning> applyAsync(ServiceCallback<SqlDatabaseAutomaticTuning> callback) {
-        return ServiceFuture.fromBody(applyAsync(), callback);
     }
 
     @Override

@@ -6,9 +6,10 @@
 
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.ServiceObjective;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import rx.Observable;
+import com.azure.management.sql.ServiceObjective;
+import com.azure.management.sql.models.ServiceObjectiveInner;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation for Azure SQL Server's Service Objective.
@@ -69,7 +70,7 @@ class ServiceObjectiveImpl
     }
 
     @Override
-    protected Observable<ServiceObjectiveInner> getInnerAsync() {
+    protected Mono<ServiceObjectiveInner> getInnerAsync() {
         return this.sqlServer.manager().inner().serviceObjectives()
             .getAsync(this.resourceGroupName(), this.sqlServerName(), this.name());
     }

@@ -5,14 +5,15 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.FailoverGroupInner;
-import rx.Completable;
+import com.azure.management.sql.models.FailoverGroupInner;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -83,7 +84,7 @@ public interface SqlFailoverGroup
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteAsync();
+    Mono<Void> deleteAsync();
 
 
     /**

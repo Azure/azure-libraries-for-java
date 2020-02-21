@@ -5,13 +5,14 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlDatabaseMetric;
-import com.azure.management.sql.SqlDatabaseMetricValue;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.MetricValue;
+import com.azure.management.sql.SqlDatabaseMetric;
+import com.azure.management.sql.SqlDatabaseMetricValue;
 import com.azure.management.sql.UnitType;
-import java.time.OffsetDateTime;
+import com.azure.management.sql.models.MetricInner;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,12 +31,12 @@ public class SqlDatabaseMetricImpl extends WrapperImpl<MetricInner> implements S
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.inner().startTime();
     }
 
     @Override
-    public DateTime endTime() {
+    public OffsetDateTime endTime() {
         return this.inner().endTime();
     }
 

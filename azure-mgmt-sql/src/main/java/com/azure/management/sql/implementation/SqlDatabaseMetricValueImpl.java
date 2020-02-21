@@ -5,9 +5,11 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlDatabaseMetricValue;
+
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.MetricValue;
+import com.azure.management.sql.SqlDatabaseMetricValue;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -40,7 +42,7 @@ public class SqlDatabaseMetricValueImpl extends WrapperImpl<MetricValue>
     }
 
     @Override
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         return this.inner().timestamp();
     }
 

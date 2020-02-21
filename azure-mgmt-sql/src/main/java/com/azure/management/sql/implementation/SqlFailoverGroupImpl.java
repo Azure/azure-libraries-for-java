@@ -5,9 +5,6 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlFailoverGroup;
-import com.azure.management.sql.SqlFailoverGroupOperations;
-import com.azure.management.sql.SqlServer;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -18,9 +15,11 @@ import com.azure.management.sql.FailoverGroupReplicationRole;
 import com.azure.management.sql.PartnerInfo;
 import com.azure.management.sql.ReadOnlyEndpointFailoverPolicy;
 import com.azure.management.sql.ReadWriteEndpointFailoverPolicy;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlFailoverGroup;
+import com.azure.management.sql.SqlFailoverGroupOperations;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.models.FailoverGroupInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -166,7 +165,7 @@ public class SqlFailoverGroupImpl
     }
 
     @Override
-    public Completable deleteAsync() {
+    public Mono<Void> deleteAsync() {
         return this.deleteResourceAsync().toCompletable();
     }
 
@@ -194,7 +193,7 @@ public class SqlFailoverGroupImpl
     }
 
     @Override
-    public Observable<SqlFailoverGroup> createResourceAsync() {
+    public Mono<SqlFailoverGroup> createResourceAsync() {
         final SqlFailoverGroupImpl self = this;
         return this.sqlServerManager.inner().failoverGroups()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.name(), self.inner())
@@ -208,18 +207,18 @@ public class SqlFailoverGroupImpl
     }
 
     @Override
-    public Observable<SqlFailoverGroup> updateResourceAsync() {
+    public Mono<SqlFailoverGroup> updateResourceAsync() {
         return this.createResourceAsync();
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         return this.sqlServerManager.inner().failoverGroups()
             .deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
-    protected Observable<FailoverGroupInner> getInnerAsync() {
+    protected Mono<FailoverGroupInner> getInnerAsync() {
         return this.sqlServerManager.inner().failoverGroups()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }

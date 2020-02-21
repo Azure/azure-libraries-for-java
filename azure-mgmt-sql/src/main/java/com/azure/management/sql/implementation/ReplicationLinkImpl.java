@@ -5,17 +5,17 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.ReplicationLink;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.sql.ReplicationLink;
 import com.azure.management.sql.ReplicationRole;
 import com.azure.management.sql.ReplicationState;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.azure.management.sql.models.ReplicationLinkInner;
+import reactor.core.publisher.Mono;
+
 import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
+
 
 /**
  * Implementation for SQL replication link interface.
@@ -38,7 +38,7 @@ class ReplicationLinkImpl
     }
 
     @Override
-    protected Observable<ReplicationLinkInner> getInnerAsync() {
+    protected Mono<ReplicationLinkInner> getInnerAsync() {
         return this.sqlServerManager.inner().replicationLinks()
             .getAsync(this.resourceGroupName,
                 this.sqlServerName,
@@ -82,7 +82,7 @@ class ReplicationLinkImpl
     }
 
     @Override
-    public DateTime startTime() {
+    public OffsetDateTime startTime() {
         return this.inner().startTime();
     }
 
@@ -130,17 +130,12 @@ class ReplicationLinkImpl
     }
 
     @Override
-    public Completable failoverAsync() {
+    public Mono<Void> failoverAsync() {
         return this.sqlServerManager.inner().replicationLinks()
             .failoverAsync(this.resourceGroupName,
                 this.sqlServerName,
                 this.databaseName(),
                 this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> failoverAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.failoverAsync(), callback);
     }
 
     @Override
@@ -153,17 +148,12 @@ class ReplicationLinkImpl
     }
 
     @Override
-    public Completable forceFailoverAllowDataLossAsync() {
+    public Mono<Void> forceFailoverAllowDataLossAsync() {
         return this.sqlServerManager.inner().replicationLinks()
             .failoverAllowDataLossAsync(this.resourceGroupName,
                 this.sqlServerName,
                 this.databaseName(),
                 this.name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> forceFailoverAllowDataLossAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.forceFailoverAllowDataLossAsync(), callback);
     }
 
     @Override

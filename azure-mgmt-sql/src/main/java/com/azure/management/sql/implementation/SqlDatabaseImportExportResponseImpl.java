@@ -5,9 +5,10 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlDatabaseImportExportResponse;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.sql.SqlDatabaseImportExportResponse;
+import com.azure.management.sql.models.ImportExportResponseInner;
 
 /**
  * Implementation for SqlDatabaseImportExportResponse.

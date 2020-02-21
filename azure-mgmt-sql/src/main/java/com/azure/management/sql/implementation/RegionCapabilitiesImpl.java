@@ -5,11 +5,12 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.RegionCapabilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.azure.management.sql.CapabilityStatus;
+import com.azure.management.sql.RegionCapabilities;
 import com.azure.management.sql.ServerVersionCapability;
+import com.azure.management.sql.models.LocationCapabilitiesInner;
 
 import java.util.Collections;
 import java.util.HashMap;

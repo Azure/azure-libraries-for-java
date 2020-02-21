@@ -6,6 +6,8 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
@@ -15,12 +17,10 @@ import com.azure.management.resources.fluentcore.model.Attachable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.ElasticPoolInner;
+import com.azure.management.sql.models.ElasticPoolInner;
+import reactor.core.publisher.Mono;
 
 import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
-
 import java.util.List;
 
 /**
@@ -43,7 +43,7 @@ public interface SqlElasticPool
     /**
      * @return the creation date of the Azure SQL Elastic Pool
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * @return the state of the Azure SQL Elastic Pool
@@ -107,7 +107,7 @@ public interface SqlElasticPool
     /**
      * @return a representation of the deferred computation of the information about elastic pool activities
      */
-    Observable<ElasticPoolActivity> listActivitiesAsync();
+    PagedFlux<ElasticPoolActivity> listActivitiesAsync();
 
     /**
      * @return the information about elastic pool database activities
@@ -117,7 +117,7 @@ public interface SqlElasticPool
     /**
      * @return the information about elastic pool database activities
      */
-    Observable<ElasticPoolDatabaseActivity> listDatabaseActivitiesAsync();
+    PagedFlux<ElasticPoolDatabaseActivity> listDatabaseActivitiesAsync();
 
     /**
      * Lists the database metrics for this SQL Elastic Pool.
@@ -133,7 +133,7 @@ public interface SqlElasticPool
      * @param filter an OData filter expression that describes a subset of metrics to return
      * @return a representation of the deferred computation of this call
      */
-    Observable<SqlDatabaseMetric> listDatabaseMetricsAsync(String filter);
+    PagedFlux<SqlDatabaseMetric> listDatabaseMetricsAsync(String filter);
 
     /**
      * Lists the database metric definitions for this SQL Elastic Pool.
@@ -147,7 +147,7 @@ public interface SqlElasticPool
      *
      * @return a representation of the deferred computation of this call
      */
-    Observable<SqlDatabaseMetricDefinition> listDatabaseMetricDefinitionsAsync();
+    PagedFlux<SqlDatabaseMetricDefinition> listDatabaseMetricDefinitionsAsync();
 
     /**
      * Lists the SQL databases in this SQL Elastic Pool.
@@ -161,7 +161,7 @@ public interface SqlElasticPool
      *
      * @return a representation of the deferred computation of this call
      */
-    Observable<SqlDatabase> listDatabasesAsync();
+    PagedFlux<SqlDatabase> listDatabasesAsync();
 
     /**
      * Gets the specific database in the elastic pool.
@@ -213,7 +213,7 @@ public interface SqlElasticPool
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteAsync();
+    Mono<Void> deleteAsync();
 
 
     /**************************************************************

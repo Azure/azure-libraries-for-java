@@ -6,8 +6,10 @@
 
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.RecommendedElasticPoolMetric;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.sql.RecommendedElasticPoolMetric;
+import com.azure.management.sql.models.RecommendedElasticPoolMetricInner;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -22,7 +24,7 @@ class RecommendedElasticPoolMetricImpl
     }
 
     @Override
-    public DateTime dateTimeProperty() {
+    public OffsetDateTime dateTimeProperty() {
         return this.inner().dateTimeProperty();
     }
 

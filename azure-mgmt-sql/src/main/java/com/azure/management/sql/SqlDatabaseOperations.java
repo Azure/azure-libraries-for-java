@@ -5,10 +5,12 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.storage.StorageAccount;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -285,7 +287,7 @@ public interface SqlDatabaseOperations extends
              * @param restorePointDateTime date and time to restore from
              * @return The next stage of the definition.
              */
-            SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
+            SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
         /**
@@ -307,7 +309,7 @@ public interface SqlDatabaseOperations extends
              * @param restorePointDateTime date and time to restore from
              * @return The next stage of the definition.
              */
-            SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions fromRestorePoint(RestorePoint restorePoint, DateTime restorePointDateTime);
+            SqlDatabaseOperations.DefinitionStages.WithCreateAfterElasticPoolOptions fromRestorePoint(RestorePoint restorePoint, OffsetDateTime restorePointDateTime);
         }
 
         /**

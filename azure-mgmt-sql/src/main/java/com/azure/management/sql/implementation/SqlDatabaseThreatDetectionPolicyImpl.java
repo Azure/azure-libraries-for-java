@@ -5,15 +5,15 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlDatabase;
-import com.azure.management.sql.SqlDatabaseThreatDetectionPolicy;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.SecurityAlertPolicyEmailAccountAdmins;
 import com.azure.management.sql.SecurityAlertPolicyState;
 import com.azure.management.sql.SecurityAlertPolicyUseServerDefault;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlDatabase;
+import com.azure.management.sql.SqlDatabaseThreatDetectionPolicy;
+import com.azure.management.sql.models.DatabaseSecurityAlertPolicyInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -108,13 +108,13 @@ public class SqlDatabaseThreatDetectionPolicyImpl extends
     }
 
     @Override
-    protected Observable<DatabaseSecurityAlertPolicyInner> getInnerAsync() {
+    protected Mono<DatabaseSecurityAlertPolicyInner> getInnerAsync() {
         return this.sqlServerManager.inner().databaseThreatDetectionPolicies()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.parent().name());
     }
 
     @Override
-    public Observable<SqlDatabaseThreatDetectionPolicy> createResourceAsync() {
+    public Mono<SqlDatabaseThreatDetectionPolicy> createResourceAsync() {
         final SqlDatabaseThreatDetectionPolicyImpl self = this;
         return this.sqlServerManager.inner().databaseThreatDetectionPolicies()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.parent().name(), this.inner())
@@ -128,7 +128,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl extends
     }
 
     @Override
-    public Observable<SqlDatabaseThreatDetectionPolicy> updateResourceAsync() {
+    public Mono<SqlDatabaseThreatDetectionPolicy> updateResourceAsync() {
         return createResourceAsync();
     }
 
@@ -139,7 +139,7 @@ public class SqlDatabaseThreatDetectionPolicyImpl extends
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         return null;
     }
 

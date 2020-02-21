@@ -6,11 +6,13 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
@@ -18,9 +20,9 @@ import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.ServersInner;
 import com.azure.management.sql.implementation.SqlServerManager;
-import rx.Observable;
+import com.azure.management.sql.models.ServersInner;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -110,7 +112,7 @@ public interface SqlServers extends
      * @param name the container registry name to check
      * @return a representation of the future computation of this call, returning whether the name is available or other info if not
      */
-    Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
+    Mono<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
 
     /**
      * Gets the Azure SQL server capabilities for a given Azure region.
@@ -126,7 +128,7 @@ public interface SqlServers extends
      * @param region the location to get the Azure SQL server capabilities for
      * @return a representation of the future computation of this call, returning the server capabilities object
      */
-    Observable<RegionCapabilities> getCapabilitiesByRegionAsync(Region region);
+    Mono<RegionCapabilities> getCapabilitiesByRegionAsync(Region region);
 
     /**
      * Lists the Azure SQL server usages for a given Azure region.
@@ -142,5 +144,5 @@ public interface SqlServers extends
      * @param region the location to get the Azure SQL server usages for
      * @return a representation of the future computation of this call, returning the server usages object
      */
-    Observable<SqlSubscriptionUsageMetric> listUsageByRegionAsync(Region region);
+    PagedFlux<SqlSubscriptionUsageMetric> listUsageByRegionAsync(Region region);
 }

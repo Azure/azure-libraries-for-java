@@ -6,10 +6,11 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.ServerUsageInner;
-import java.time.OffsetDateTime;
+import com.azure.management.sql.models.ServerUsageInner;
 
+import java.time.OffsetDateTime;
 
 /**
  * An immutable client-side representation of an Azure SQL server usage metric.
@@ -51,6 +52,6 @@ public interface ServerUsage extends
     /**
      * @return the next reset time for the metric (ISO8601 format)
      */
-    DateTime nextResetTime();
+    OffsetDateTime nextResetTime();
 }
 

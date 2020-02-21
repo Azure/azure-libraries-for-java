@@ -5,17 +5,19 @@
  */
 package com.azure.management.sql;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.sql.implementation.SyncGroupInner;
+import com.azure.management.sql.models.SyncGroupInner;
+import reactor.core.publisher.Mono;
+
 import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
 
 /**
  * An immutable client-side representation of an Azure SQL Server Sync Group.
@@ -51,7 +53,7 @@ public interface SqlSyncGroup
     /**
      * @return last sync time of the sync group
      */
-    DateTime lastSyncTime();
+    OffsetDateTime lastSyncTime();
 
     /**
      * @return conflict resolution policy of the sync group
@@ -88,7 +90,7 @@ public interface SqlSyncGroup
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteAsync();
+    Mono<Void> deleteAsync();
 
     /**
      * Refreshes a hub database schema.
@@ -100,21 +102,21 @@ public interface SqlSyncGroup
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable refreshHubSchemaAsync();
+    Mono<Void> refreshHubSchemaAsync();
 
     /**
      * Gets a collection of hub database schemas.
      *
      * @return the paged list of SyncFullSchemaProperty objects if successful.
      */
-    PagedList<SqlSyncFullSchemaProperty> listHubSchemas();
+    PagedIterable<SqlSyncFullSchemaProperty> listHubSchemas();
 
     /**
      * Gets a collection of hub database schemas asynchronously.
      *
      * @return a representation of the deferred computation of this call.
      */
-    Observable<SqlSyncFullSchemaProperty> listHubSchemasAsync();
+    PagedFlux<SqlSyncFullSchemaProperty> listHubSchemasAsync();
 
     /**
      * Gets a collection of sync group logs.
@@ -124,7 +126,7 @@ public interface SqlSyncGroup
      * @param type the types of logs to retrieve
      * @return the paged list containing the group log property objects if successful.
      */
-    PagedList<SqlSyncGroupLogProperty> listLogs(String startTime, String endTime, String type);
+    PagedIterable<SqlSyncGroupLogProperty> listLogs(String startTime, String endTime, String type);
 
     /**
      * Gets a collection of sync group logs asynchronously.
@@ -134,7 +136,7 @@ public interface SqlSyncGroup
      * @param type the types of logs to retrieve
      * @return a representation of the deferred computation of this call returning the group log property objects if successful.
      */
-    Observable<SqlSyncGroupLogProperty> listLogsAsync(String startTime, String endTime, String type);
+    PagedFlux<SqlSyncGroupLogProperty> listLogsAsync(String startTime, String endTime, String type);
 
     /**
      * Triggers a sync group synchronization.
@@ -146,7 +148,7 @@ public interface SqlSyncGroup
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable triggerSynchronizationAsync();
+    Mono<Void> triggerSynchronizationAsync();
 
     /**
      * Cancels a sync group synchronization.
@@ -158,7 +160,7 @@ public interface SqlSyncGroup
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable cancelSynchronizationAsync();
+    Mono<Void> cancelSynchronizationAsync();
 
     /**
      * @return the SQL Sync Member entry point

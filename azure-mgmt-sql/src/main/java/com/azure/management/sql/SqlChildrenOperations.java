@@ -5,8 +5,9 @@
  */
 package com.azure.management.sql;
 
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public interface SqlChildrenOperations<T> {
      * @param name the name of the child resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    Observable<T> getBySqlServerAsync(String resourceGroupName, String sqlServerName, String name);
+    Mono<T> getBySqlServerAsync(String resourceGroupName, String sqlServerName, String name);
 
     /**
      * Gets the information about a child resource from Azure SQL server, identifying it by its name and its resource group.
@@ -54,7 +55,7 @@ public interface SqlChildrenOperations<T> {
      * @param name the name of the child resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    Observable<T> getBySqlServerAsync(SqlServer sqlServer, String name);
+    Mono<T> getBySqlServerAsync(SqlServer sqlServer, String name);
 
     /**
      * Gets the information about a child resource from Azure SQL server using the resource ID.
@@ -70,7 +71,7 @@ public interface SqlChildrenOperations<T> {
      * @param id the ID of the resource.
      * @return a representation of the deferred computation of this call
      */
-    Observable<T> getByIdAsync(String id);
+    Mono<T> getByIdAsync(String id);
 
     /**
      * Deletes a child resource from Azure SQL server, identifying it by its name and its resource group.
@@ -89,7 +90,7 @@ public interface SqlChildrenOperations<T> {
      * @param name the name of the child resource
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name);
+    Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name);
 
     /**
      * Deletes a child resource from Azure SQL server, identifying it by its resource ID.
@@ -104,7 +105,7 @@ public interface SqlChildrenOperations<T> {
      * @param id the resource ID of the resource to delete
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteByIdAsync(String id);
+    Mono<Void> deleteByIdAsync(String id);
 
     /**
      * Lists Azure SQL child resources of the specified Azure SQL server in the specified resource group.
@@ -122,7 +123,7 @@ public interface SqlChildrenOperations<T> {
      * @param sqlServerName the name of parent Azure SQL server.
      * @return a representation of the deferred computation of this call
      */
-    Observable<T> listBySqlServerAsync(String resourceGroupName, String sqlServerName);
+    PagedFlux<T> listBySqlServerAsync(String resourceGroupName, String sqlServerName);
 
     /**
      * Lists Azure SQL child resources of the specified Azure SQL server in the specified resource group.
@@ -138,7 +139,7 @@ public interface SqlChildrenOperations<T> {
      * @param sqlServer the parent Azure SQL server.
      * @return a representation of the deferred computation of this call
      */
-    Observable<T> listBySqlServerAsync(SqlServer sqlServer);
+    PagedFlux<T> listBySqlServerAsync(SqlServer sqlServer);
 
     /**
      * Base interface for Azure SQL Server child resource actions.
@@ -160,7 +161,7 @@ public interface SqlChildrenOperations<T> {
          * @param name the name of the child resource
          * @return a representation of the deferred computation of this call returning the found resource
          */
-        Observable<T> getAsync(String name);
+        Mono<T> getAsync(String name);
 
         /**
          * Gets the information about a child resource from Azure SQL server using the resource ID.
@@ -176,7 +177,7 @@ public interface SqlChildrenOperations<T> {
          * @param id the ID of the resource.
          * @return an immutable representation of the resource
          */
-        Observable<T> getByIdAsync(String id);
+        Mono<T> getByIdAsync(String id);
 
         /**
          * Deletes a child resource from Azure SQL server.
@@ -191,7 +192,7 @@ public interface SqlChildrenOperations<T> {
          * @param name the name of the child resource
          * @return a representation of the deferred computation of this call
          */
-        Completable deleteAsync(String name);
+        Mono<Void> deleteAsync(String name);
 
         /**
          * Deletes a child resource from Azure SQL server, identifying it by its resource ID.
@@ -206,7 +207,7 @@ public interface SqlChildrenOperations<T> {
          * @param id the resource ID of the resource to delete
          * @return a representation of the deferred computation of this call
          */
-        Completable deleteByIdAsync(String id);
+        Mono<Void> deleteByIdAsync(String id);
 
         /**
          * Lists Azure SQL child resources.
@@ -220,7 +221,7 @@ public interface SqlChildrenOperations<T> {
          *
          * @return a representation of the deferred computation of this call
          */
-        Observable<T> listAsync();
+        PagedFlux<T> listAsync();
     }
 }
 

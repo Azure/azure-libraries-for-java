@@ -5,6 +5,7 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.azure.management.resources.fluentcore.model.Executable;
 import com.azure.management.resources.fluentcore.model.HasInner;

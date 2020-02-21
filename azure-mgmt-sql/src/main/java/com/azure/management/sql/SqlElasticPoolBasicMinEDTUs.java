@@ -6,6 +6,8 @@
 package com.azure.management.sql;
 
 
+import com.azure.core.annotation.Fluent;
+
 /**
  * The minimum limit of the reserved eDTUs value range for a "Basic" edition of an Azure SQL Elastic Pool.
  */

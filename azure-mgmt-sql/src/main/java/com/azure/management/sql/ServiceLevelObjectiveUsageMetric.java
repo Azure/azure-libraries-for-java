@@ -6,7 +6,9 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
+
 import java.util.UUID;
 
 

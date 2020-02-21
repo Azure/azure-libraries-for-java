@@ -5,25 +5,25 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.ElasticPoolActivity;
-import com.azure.management.sql.ElasticPoolDatabaseActivity;
-import com.azure.management.sql.SqlDatabase;
-import com.azure.management.sql.SqlDatabaseMetric;
-import com.azure.management.sql.SqlDatabaseMetricDefinition;
-import com.azure.management.sql.SqlElasticPool;
-import com.azure.management.sql.SqlElasticPoolOperations;
-import com.azure.management.sql.SqlServer;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.sql.ElasticPoolActivity;
+import com.azure.management.sql.ElasticPoolDatabaseActivity;
 import com.azure.management.sql.ElasticPoolEdition;
 import com.azure.management.sql.ElasticPoolState;
+import com.azure.management.sql.SqlDatabase;
+import com.azure.management.sql.SqlDatabaseMetric;
+import com.azure.management.sql.SqlDatabaseMetricDefinition;
 import com.azure.management.sql.SqlDatabaseStandardServiceObjective;
+import com.azure.management.sql.SqlElasticPool;
 import com.azure.management.sql.SqlElasticPoolBasicEDTUs;
 import com.azure.management.sql.SqlElasticPoolBasicMaxEDTUs;
 import com.azure.management.sql.SqlElasticPoolBasicMinEDTUs;
+import com.azure.management.sql.SqlElasticPoolOperations;
 import com.azure.management.sql.SqlElasticPoolPremiumEDTUs;
 import com.azure.management.sql.SqlElasticPoolPremiumMaxEDTUs;
 import com.azure.management.sql.SqlElasticPoolPremiumMinEDTUs;
@@ -32,11 +32,16 @@ import com.azure.management.sql.SqlElasticPoolStandardEDTUs;
 import com.azure.management.sql.SqlElasticPoolStandardMaxEDTUs;
 import com.azure.management.sql.SqlElasticPoolStandardMinEDTUs;
 import com.azure.management.sql.SqlElasticPoolStandardStorage;
-import java.time.OffsetDateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.models.DatabaseInner;
+import com.azure.management.sql.models.ElasticPoolActivityInner;
+import com.azure.management.sql.models.ElasticPoolDatabaseActivityInner;
+import com.azure.management.sql.models.ElasticPoolInner;
+import com.azure.management.sql.models.MetricDefinitionInner;
+import com.azure.management.sql.models.MetricInner;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -137,7 +142,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner().creationDate();
     }
 
@@ -205,7 +210,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Observable<ElasticPoolActivity> listActivitiesAsync() {
+    public PagedFlux<ElasticPoolActivity> listActivitiesAsync() {
         return this.sqlServerManager.inner()
             .elasticPoolActivities().listByElasticPoolAsync(this.resourceGroupName, this.sqlServerName, this.name())
             .flatMap(new Func1<List<ElasticPoolActivityInner>, Observable<ElasticPoolActivityInner>>() {
@@ -236,7 +241,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Observable<ElasticPoolDatabaseActivity> listDatabaseActivitiesAsync() {
+    public PagedFlux<ElasticPoolDatabaseActivity> listDatabaseActivitiesAsync() {
         return this.sqlServerManager.inner()
             .elasticPoolDatabaseActivities().listByElasticPoolAsync(this.resourceGroupName, this.sqlServerName, this.name())
             .flatMap(new Func1<List<ElasticPoolDatabaseActivityInner>, Observable<ElasticPoolDatabaseActivityInner>>() {
@@ -266,7 +271,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Observable<SqlDatabaseMetric> listDatabaseMetricsAsync(String filter) {
+    public PagedFlux<SqlDatabaseMetric> listDatabaseMetricsAsync(String filter) {
         return this.sqlServerManager.inner().elasticPools().listMetricsAsync(this.resourceGroupName, this.sqlServerName, this.name(), filter)
             .flatMap(new Func1<List<MetricInner>, Observable<MetricInner>>() {
                 @Override
@@ -295,7 +300,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Observable<SqlDatabaseMetricDefinition> listDatabaseMetricDefinitionsAsync() {
+    public PagedFlux<SqlDatabaseMetricDefinition> listDatabaseMetricDefinitionsAsync() {
         return this.sqlServerManager.inner().elasticPools().listMetricDefinitionsAsync(this.resourceGroupName, this.sqlServerName, this.name())
             .flatMap(new Func1<List<MetricDefinitionInner>, Observable<MetricDefinitionInner>>() {
                 @Override
@@ -324,7 +329,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Observable<SqlDatabase> listDatabasesAsync() {
+    public PagedFlux<SqlDatabase> listDatabasesAsync() {
         final SqlElasticPoolImpl self = this;
         return this.sqlServerManager.inner().databases()
             .listByElasticPoolAsync(self.resourceGroupName, self.sqlServerName, this.name())
@@ -389,17 +394,17 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Completable deleteAsync() {
+    public Mono<Void> deleteAsync() {
         return this.deleteResourceAsync().toCompletable();
     }
 
     @Override
-    protected Observable<ElasticPoolInner> getInnerAsync() {
+    protected Mono<ElasticPoolInner> getInnerAsync() {
         return this.sqlServerManager.inner().elasticPools().getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
-    public Observable<SqlElasticPool> createResourceAsync() {
+    public Mono<SqlElasticPool> createResourceAsync() {
         final SqlElasticPoolImpl self = this;
         this.inner().withLocation(this.sqlServerLocation);
         return this.sqlServerManager.inner().elasticPools()
@@ -414,7 +419,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Observable<SqlElasticPool> updateResourceAsync() {
+    public Mono<SqlElasticPool> updateResourceAsync() {
         final SqlElasticPoolImpl self = this;
         return this.sqlServerManager.inner().elasticPools()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
@@ -436,7 +441,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+    public Mono<Void> afterPostRunAsync(boolean isGroupFaulted) {
         if (this.sqlDatabases != null) {
             this.sqlDatabases.clear();
         }
@@ -445,7 +450,7 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         return this.sqlServerManager.inner().elasticPools().deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 

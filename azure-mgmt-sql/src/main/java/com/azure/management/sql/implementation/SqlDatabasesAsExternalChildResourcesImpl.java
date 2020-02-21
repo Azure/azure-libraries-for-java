@@ -11,6 +11,7 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.E
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.sql.SqlDatabaseStandardServiceObjective;
+import com.azure.management.sql.models.DatabaseInner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,8 @@ public class SqlDatabasesAsExternalChildResourcesImpl
     extends
         ExternalChildResourcesNonCachedImpl<SqlDatabaseImpl,
                 SqlDatabase,
-            DatabaseInner,
-            SqlServerImpl,
+                DatabaseInner,
+                SqlServerImpl,
                 SqlServer> {
 
     SqlServerManager sqlServerManager;

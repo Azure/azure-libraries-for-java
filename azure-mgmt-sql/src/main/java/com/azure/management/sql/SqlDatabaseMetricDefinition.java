@@ -5,8 +5,9 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.MetricDefinitionInner;
+import com.azure.management.sql.models.MetricDefinitionInner;
 
 import java.util.List;
 

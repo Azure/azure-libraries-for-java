@@ -5,15 +5,14 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlServer;
-import com.azure.management.sql.SqlServerDnsAlias;
-import com.azure.management.sql.SqlServerDnsAliasOperations;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.SqlServerDnsAlias;
+import com.azure.management.sql.SqlServerDnsAliasOperations;
+import com.azure.management.sql.models.ServerDnsAliasInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -119,7 +118,7 @@ public class SqlServerDnsAliasImpl
     }
 
     @Override
-    public Completable deleteAsync() {
+    public Mono<Void> deleteAsync() {
         return this.deleteResourceAsync().toCompletable();
     }
 
@@ -148,7 +147,7 @@ public class SqlServerDnsAliasImpl
     }
 
     @Override
-    public Observable<SqlServerDnsAlias> createResourceAsync() {
+    public Mono<SqlServerDnsAlias> createResourceAsync() {
         final SqlServerDnsAliasImpl self = this;
         return this.sqlServerManager.inner().serverDnsAliases()
             .createOrUpdateAsync(self.resourceGroupName, self.sqlServerName, self.name())
@@ -162,18 +161,18 @@ public class SqlServerDnsAliasImpl
     }
 
     @Override
-    public Observable<SqlServerDnsAlias> updateResourceAsync() {
+    public Mono<SqlServerDnsAlias> updateResourceAsync() {
         return this.createResourceAsync();
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         return this.sqlServerManager.inner().serverDnsAliases()
             .deleteAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }
 
     @Override
-    protected Observable<ServerDnsAliasInner> getInnerAsync() {
+    protected Mono<ServerDnsAliasInner> getInnerAsync() {
         return this.sqlServerManager.inner().serverDnsAliases()
             .getAsync(this.resourceGroupName, this.sqlServerName, this.name());
     }

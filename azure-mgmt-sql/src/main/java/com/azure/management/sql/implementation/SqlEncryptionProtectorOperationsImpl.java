@@ -5,13 +5,14 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlEncryptionProtector;
-import com.azure.management.sql.SqlServer;
-import com.microsoft.azure.Page;
+import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.sql.SqlEncryptionProtector;
 import com.azure.management.sql.SqlEncryptionProtectorOperations;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.models.EncryptionProtectorInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,7 @@ public class SqlEncryptionProtectorOperationsImpl
     }
 
     @Override
-    public Observable<SqlEncryptionProtector> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
+    public Mono<SqlEncryptionProtector> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         final SqlEncryptionProtectorOperationsImpl self = this;
         return this.sqlServerManager.inner().encryptionProtectors()
             .getAsync(resourceGroupName, sqlServerName)
@@ -70,7 +71,7 @@ public class SqlEncryptionProtectorOperationsImpl
     }
 
     @Override
-    public Observable<SqlEncryptionProtector> getBySqlServerAsync(final SqlServer sqlServer) {
+    public Mono<SqlEncryptionProtector> getBySqlServerAsync(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().encryptionProtectors()
             .getAsync(sqlServer.resourceGroupName(), sqlServer.name())
@@ -91,7 +92,7 @@ public class SqlEncryptionProtectorOperationsImpl
     }
 
     @Override
-    public Observable<SqlEncryptionProtector> getAsync() {
+    public Mono<SqlEncryptionProtector> getAsync() {
         if (this.sqlServer == null) {
             return null;
         }
@@ -106,7 +107,7 @@ public class SqlEncryptionProtectorOperationsImpl
     }
 
     @Override
-    public Observable<SqlEncryptionProtector> getByIdAsync(String id) {
+    public Mono<SqlEncryptionProtector> getByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.getBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)));
@@ -121,7 +122,7 @@ public class SqlEncryptionProtectorOperationsImpl
     }
 
     @Override
-    public Observable<SqlEncryptionProtector> listAsync() {
+    public PagedFlux<SqlEncryptionProtector> listAsync() {
         if (sqlServer == null) {
             return null;
         }
@@ -142,7 +143,7 @@ public class SqlEncryptionProtectorOperationsImpl
     }
 
     @Override
-    public Observable<SqlEncryptionProtector> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
+    public PagedFlux<SqlEncryptionProtector> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         final SqlEncryptionProtectorOperationsImpl self = this;
         return this.sqlServerManager.inner().encryptionProtectors()
             .listByServerAsync(resourceGroupName, sqlServerName)
@@ -175,7 +176,7 @@ public class SqlEncryptionProtectorOperationsImpl
     }
 
     @Override
-    public Observable<SqlEncryptionProtector> listBySqlServerAsync(final SqlServer sqlServer) {
+    public PagedFlux<SqlEncryptionProtector> listBySqlServerAsync(final SqlServer sqlServer) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().encryptionProtectors()
             .listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())

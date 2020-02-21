@@ -5,9 +5,10 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import rx.Completable;
+import reactor.core.publisher.Mono;
 
 /**
  * A representation of the Azure SQL Server DNS alias operations.
@@ -36,7 +37,7 @@ public interface SqlServerDnsAliasOperations extends
      * @param sqlServerId the id of the other SQL server that the DNS alias was pointing to
      * @return a representation of the deferred computation of this call
      */
-    Completable acquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String sqlServerId);
+    Mono<Void> acquireAsync(String resourceGroupName, String serverName, String dnsAliasName, String sqlServerId);
 
     /**
      * Acquires server DNS alias from another server.
@@ -55,7 +56,7 @@ public interface SqlServerDnsAliasOperations extends
      * @param newSqlServerId the id of the server that the alias is pointing to
      * @return a representation of the deferred computation of this call
      */
-    Completable acquireAsync(String dnsAliasName, String oldSqlServerId, String newSqlServerId);
+    Mono<Void> acquireAsync(String dnsAliasName, String oldSqlServerId, String newSqlServerId);
 
     /**
      * Container interface for all the definitions that need to be implemented.
@@ -133,6 +134,6 @@ public interface SqlServerDnsAliasOperations extends
          * @param sqlServerId the id of the other SQL server that the DNS alias was pointing to
          * @return a representation of the deferred computation of this call
          */
-        Completable acquireAsync(String dnsAliasName, String sqlServerId);
+        Mono<Void> acquireAsync(String dnsAliasName, String sqlServerId);
     }
 }

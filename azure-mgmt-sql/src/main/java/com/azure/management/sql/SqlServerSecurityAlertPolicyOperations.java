@@ -5,8 +5,9 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * A representation of the Azure SQL Server Security Alert Policy operations.
@@ -39,7 +40,7 @@ public interface SqlServerSecurityAlertPolicyOperations {
      * @param sqlServerName the name of SQL server parent resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    Observable<SqlServerSecurityAlertPolicy> getBySqlServerAsync(String resourceGroupName, String sqlServerName);
+    Mono<SqlServerSecurityAlertPolicy> getBySqlServerAsync(String resourceGroupName, String sqlServerName);
 
     /**
      * Gets the information about a SQL Server Security Alert Policy resource from Azure SQL server, identifying it by
@@ -57,7 +58,7 @@ public interface SqlServerSecurityAlertPolicyOperations {
      * @param sqlServer the SQL server parent resource
      * @return a representation of the deferred computation of this call returning the found resource
      */
-    Observable<SqlServerSecurityAlertPolicy> getBySqlServerAsync(SqlServer sqlServer);
+    Mono<SqlServerSecurityAlertPolicy> getBySqlServerAsync(SqlServer sqlServer);
 
     /**
      * Gets the information about a SQL Server Security Alert Policy resource from Azure SQL server using the resource ID.
@@ -74,7 +75,7 @@ public interface SqlServerSecurityAlertPolicyOperations {
      * @param id the ID of the resource.
      * @return a representation of the deferred computation of this call
      */
-    Observable<SqlServerSecurityAlertPolicy> getByIdAsync(String id);
+    Mono<SqlServerSecurityAlertPolicy> getByIdAsync(String id);
 
 
     /**
@@ -245,6 +246,6 @@ public interface SqlServerSecurityAlertPolicyOperations {
          *
          * @return a representation of the deferred computation of this call returning the found resource
          */
-        Observable<SqlServerSecurityAlertPolicy> getAsync();
+        Mono<SqlServerSecurityAlertPolicy> getAsync();
     }
 }

@@ -6,8 +6,10 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.RecommendedElasticPoolMetricInner;
+import com.azure.management.sql.models.RecommendedElasticPoolMetricInner;
+
 import java.time.OffsetDateTime;
 
 
@@ -20,7 +22,7 @@ public interface RecommendedElasticPoolMetric extends
     /**
      * @return the time of metric (ISO8601 format).
      */
-    DateTime dateTimeProperty();
+    OffsetDateTime dateTimeProperty();
 
     /**
      * @return the DTUs (Database Transaction Units)

@@ -6,16 +6,16 @@
 
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
-import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.ReplicationLinkInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.sql.models.ReplicationLinkInner;
+import reactor.core.publisher.Mono;
+
 import java.time.OffsetDateTime;
-import rx.Completable;
 
 
 /**
@@ -67,7 +67,7 @@ public interface ReplicationLink extends
     /**
      * @return start time for the replication link (ISO8601 format)
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the percentage of the seeding completed for the replication link
@@ -108,14 +108,7 @@ public interface ReplicationLink extends
      * Fails over the Azure SQL Database Replication Link.
      * @return a representation of the deferred computation of this call
      */
-    Completable failoverAsync();
-
-    /**
-     * Fails over the Azure SQL Database Replication Link.
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> failoverAsync(ServiceCallback<Void> callback);
+    Mono<Void> failoverAsync();
 
     /**
      * Forces fail over the Azure SQL Database Replication Link which may result in data loss.
@@ -126,13 +119,6 @@ public interface ReplicationLink extends
      * Forces fail over the Azure SQL Database Replication Link which may result in data loss.
      * @return a representation of the deferred computation of this call
      */
-    Completable forceFailoverAllowDataLossAsync();
-
-    /**
-     * Forces fail over the Azure SQL Database Replication Link which may result in data loss.
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> forceFailoverAllowDataLossAsync(ServiceCallback<Void> callback);
+    Mono<Void> forceFailoverAllowDataLossAsync();
 }
 

@@ -6,6 +6,8 @@
 package com.azure.management.sql;
 
 
+import com.azure.core.annotation.Fluent;
+
 /**
  * The maximum limit of the reserved eDTUs value range for a "Premium" edition of an Azure SQL Elastic Pool.
  */

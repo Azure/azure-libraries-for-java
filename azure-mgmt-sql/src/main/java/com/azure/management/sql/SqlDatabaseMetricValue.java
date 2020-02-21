@@ -5,7 +5,9 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -36,7 +38,7 @@ public interface SqlDatabaseMetricValue extends HasInner<MetricValue> {
     /**
      * @return the metric timestamp (ISO-8601 format)
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return the total value of the metric

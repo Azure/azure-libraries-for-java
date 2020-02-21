@@ -6,6 +6,8 @@
 package com.azure.management.sql;
 
 
+import com.azure.core.annotation.Fluent;
+
 /**
  * The maximum allowed storage capacity for a "Standard" edition of an Azure SQL Elastic Pool.
  */

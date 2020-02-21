@@ -5,13 +5,13 @@
  */
 package com.azure.management.sql.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlDatabaseOperations;
 import com.azure.management.sql.SqlServer;
-import com.azure.management.resources.fluentcore.arm.ResourceUtils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.models.DatabaseInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +50,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Observable<SqlDatabase> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
+    public Mono<SqlDatabase> getBySqlServerAsync(final String resourceGroupName, final String sqlServerName, final String name) {
         return this.manager.inner().databases().getAsync(resourceGroupName, sqlServerName, name)
             .map(new Func1<DatabaseInner, SqlDatabase>() {
                 @Override
@@ -70,7 +70,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Observable<SqlDatabase> getBySqlServerAsync(final SqlServer sqlServer, String name) {
+    public Mono<SqlDatabase> getBySqlServerAsync(final SqlServer sqlServer, String name) {
         Objects.requireNonNull(sqlServer);
         return sqlServer.manager().inner().databases().getAsync(sqlServer.resourceGroupName(), sqlServer.name(), name)
             .map(new Func1<DatabaseInner, SqlDatabase>() {
@@ -90,7 +90,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Observable<SqlDatabase> getAsync(String name) {
+    public Mono<SqlDatabase> getAsync(String name) {
         if (sqlServer == null) {
             return null;
         }
@@ -106,7 +106,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Observable<SqlDatabase> getByIdAsync(String id) {
+    public Mono<SqlDatabase> getByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.getBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
@@ -119,7 +119,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Completable deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
+    public Mono<Void> deleteBySqlServerAsync(String resourceGroupName, String sqlServerName, String name) {
         return this.manager.inner().databases().deleteAsync(resourceGroupName, sqlServerName, name).toCompletable();
     }
 
@@ -132,7 +132,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<Void> deleteByIdAsync(String id) {
         Objects.requireNonNull(id);
         return this.deleteBySqlServerAsync(ResourceUtils.groupFromResourceId(id),
             ResourceUtils.nameFromResourceId(ResourceUtils.parentRelativePathFromResourceId(id)),
@@ -147,7 +147,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Completable deleteAsync(String name) {
+    public Mono<Void> deleteAsync(String name) {
         if (sqlServer == null) {
             return null;
         }
@@ -164,7 +164,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Observable<SqlDatabase> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
+    public PagedFlux<SqlDatabase> listBySqlServerAsync(final String resourceGroupName, final String sqlServerName) {
         return this.manager.inner().databases().listByServerAsync(resourceGroupName, sqlServerName)
             .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
                 @Override
@@ -192,7 +192,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Observable<SqlDatabase> listBySqlServerAsync(final SqlServer sqlServer) {
+    public PagedFlux<SqlDatabase> listBySqlServerAsync(final SqlServer sqlServer) {
         return sqlServer.manager().inner().databases().listByServerAsync(sqlServer.resourceGroupName(), sqlServer.name())
             .flatMap(new Func1<List<DatabaseInner>, Observable<DatabaseInner>>() {
                 @Override
@@ -217,7 +217,7 @@ public class SqlDatabaseOperationsImpl
     }
 
     @Override
-    public Observable<SqlDatabase> listAsync() {
+    public PagedFlux<SqlDatabase> listAsync() {
         if (sqlServer == null) {
             return null;
         }

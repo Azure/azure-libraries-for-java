@@ -5,16 +5,15 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlEncryptionProtector;
-import com.azure.management.sql.SqlServer;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.sql.ServerKeyType;
-import org.apache.commons.lang3.NotImplementedException;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.sql.SqlEncryptionProtector;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.models.EncryptionProtectorInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -160,7 +159,7 @@ public class SqlEncryptionProtectorImpl
     }
 
     @Override
-    public Observable<SqlEncryptionProtector> createResourceAsync() {
+    public Mono<SqlEncryptionProtector> createResourceAsync() {
         final SqlEncryptionProtectorImpl self = this;
         return this.sqlServerManager.inner().encryptionProtectors()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.inner())
@@ -179,17 +178,17 @@ public class SqlEncryptionProtectorImpl
     }
 
     @Override
-    public Observable<SqlEncryptionProtector> updateResourceAsync() {
+    public Mono<SqlEncryptionProtector> updateResourceAsync() {
         return createResourceAsync();
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         throw new NotImplementedException("Operation not supported");
     }
 
     @Override
-    protected Observable<EncryptionProtectorInner> getInnerAsync() {
+    protected Mono<EncryptionProtectorInner> getInnerAsync() {
         return this.sqlServerManager.inner().encryptionProtectors()
             .getAsync(this.resourceGroupName, this.sqlServerName);
     }

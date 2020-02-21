@@ -5,21 +5,22 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Refreshable;
-import com.azure.management.sql.implementation.SubscriptionUsageInner;
+import com.azure.management.sql.models.SubscriptionUsageInner;
 
 /**
  * The result of SQL server usages per current subscription.
  */
 @Fluent
 public interface SqlSubscriptionUsageMetric extends
-    Refreshable<SqlSubscriptionUsageMetric>,
-    HasId,
-    HasName,
-    HasInner<SubscriptionUsageInner> {
+        Refreshable<SqlSubscriptionUsageMetric>,
+        HasId,
+        HasName,
+        HasInner<SubscriptionUsageInner> {
 
     /**
      * @return a user-readable name of the metric

@@ -5,24 +5,24 @@
  */
 package com.azure.management.sql.implementation;
 
-import com.azure.management.sql.SqlDatabase;
-import com.azure.management.sql.SqlDatabaseExportRequest;
-import com.azure.management.sql.SqlDatabaseImportExportResponse;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import com.azure.management.sql.AuthenticationType;
 import com.azure.management.sql.ExportRequest;
+import com.azure.management.sql.SqlDatabase;
+import com.azure.management.sql.SqlDatabaseExportRequest;
+import com.azure.management.sql.SqlDatabaseImportExportResponse;
 import com.azure.management.sql.StorageKeyType;
+import com.azure.management.sql.models.ImportExportResponseInner;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
-import rx.Observable;
-import rx.exceptions.Exceptions;
-import rx.functions.Func1;
+import reactor.core.Exceptions;
+import reactor.core.publisher.Mono;
 
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
@@ -58,7 +58,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     }
 
     @Override
-    public Observable<SqlDatabaseImportExportResponse> executeWorkAsync() {
+    public Mono<SqlDatabaseImportExportResponse> executeWorkAsync() {
         return this.sqlServerManager.inner().databases()
             .exportAsync(this.sqlDatabase.resourceGroupName, this.sqlDatabase.sqlServerName, this.sqlDatabase.name(), this.inner())
             .map(new Func1<ImportExportResponseInner, SqlDatabaseImportExportResponse>() {
@@ -78,7 +78,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
         return this;
     }
 
-    private Observable<Indexable> getOrCreateStorageAccountContainer(final StorageAccount storageAccount, final String containerName, final String fileName, final FunctionalTaskItem.Context context) {
+    private Mono<Indexable> getOrCreateStorageAccountContainer(final StorageAccount storageAccount, final String containerName, final String fileName, final FunctionalTaskItem.Context context) {
         final SqlDatabaseExportRequestImpl self = this;
         return storageAccount.getKeysAsync()
             .flatMap(new Func1<List<StorageAccountKey>, Observable<StorageAccountKey>>() {

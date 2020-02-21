@@ -5,8 +5,10 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.sql.implementation.SyncGroupLogPropertiesInner;
+import com.azure.management.sql.models.SyncGroupLogPropertiesInner;
+
 import java.time.OffsetDateTime;
 
 /**
@@ -19,7 +21,7 @@ public interface SqlSyncGroupLogProperty
     /**
      * @return timestamp of the sync group log
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return the type of the sync group log

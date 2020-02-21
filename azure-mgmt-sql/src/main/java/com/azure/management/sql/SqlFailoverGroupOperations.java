@@ -5,10 +5,11 @@
  */
 package com.azure.management.sql;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * A representation of the Azure SQL Failover Group operations.
@@ -36,7 +37,7 @@ public interface SqlFailoverGroupOperations extends
      * @param failoverGroupName the name of the failover group
      * @return a representation of the deferred computation of this call returning the SqlFailoverGroup object
      */
-    Observable<SqlFailoverGroup> failoverAsync(String resourceGroupName, String serverName, String failoverGroupName);
+    Mono<SqlFailoverGroup> failoverAsync(String resourceGroupName, String serverName, String failoverGroupName);
 
     /**
      * Fails over from the current primary server to this server. This operation might result in data loss.
@@ -56,7 +57,7 @@ public interface SqlFailoverGroupOperations extends
      * @param failoverGroupName the name of the failover group
      * @return a representation of the deferred computation of this call returning the SqlFailoverGroup object
      */
-    Observable<SqlFailoverGroup> forceFailoverAllowDataLossAsync(String resourceGroupName, String serverName, String failoverGroupName);
+    Mono<SqlFailoverGroup> forceFailoverAllowDataLossAsync(String resourceGroupName, String serverName, String failoverGroupName);
 
 
     /**
@@ -208,7 +209,7 @@ public interface SqlFailoverGroupOperations extends
          * @param failoverGroupName the name of the failover group
          * @return a representation of the deferred computation of this call returning the SqlFailoverGroup object
          */
-        Observable<SqlFailoverGroup> failoverAsync(String failoverGroupName);
+        Mono<SqlFailoverGroup> failoverAsync(String failoverGroupName);
 
         /**
          * Fails over from the current primary server to this server. This operation might result in data loss.
@@ -224,6 +225,6 @@ public interface SqlFailoverGroupOperations extends
          * @param failoverGroupName the name of the failover group
          * @return a representation of the deferred computation of this call returning the SqlFailoverGroup object
          */
-        Observable<SqlFailoverGroup> forceFailoverAllowDataLossAsync(String failoverGroupName);
+        Mono<SqlFailoverGroup> forceFailoverAllowDataLossAsync(String failoverGroupName);
     }
 }

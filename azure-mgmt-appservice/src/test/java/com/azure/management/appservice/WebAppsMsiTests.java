@@ -72,7 +72,7 @@ public class WebAppsMsiTests extends AppServiceTest {
             // Check availability of environment variables
             uploadFileToWebApp(webApp.getPublishingProfile(), "appservicemsi.war", WebAppsMsiTests.class.getResourceAsStream("/appservicemsi.war"));
 
-            SdkContext.sleep(10000);
+            SdkContext.sleep(30000);
 
             Response<String> response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
             Assertions.assertEquals(200, response.getStatusCode());
@@ -145,7 +145,7 @@ public class WebAppsMsiTests extends AppServiceTest {
             // Check availability of environment variables
             uploadFileToWebApp(webApp.getPublishingProfile(), "appservicemsi.war", WebAppsMsiTests.class.getResourceAsStream("/appservicemsi.war"));
 
-            SdkContext.sleep(10000);
+            SdkContext.sleep(30000);
 
             Response<String> response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
             Assertions.assertEquals(200, response.getStatusCode());

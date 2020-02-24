@@ -18,7 +18,6 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1031,13 +1030,13 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .apply();
         sqlDatabase = sqlServer.databases().get(SQL_DATABASE_NAME);
         Assert.assertEquals(sqlDatabase.edition(), DatabaseEdition.PREMIUM);
-        Assert.assertEquals(sqlDatabase.serviceLevelObjective(), ServiceObjectiveName.P1);
+        Assert.assertEquals(sqlDatabase.currentServiceObjectiveName(), ServiceObjectiveName.P1.toString());
 
         // Update just the service level objective for database.
         sqlDatabase.update().withServiceObjective(ServiceObjectiveName.P2).apply();
         sqlDatabase = sqlServer.databases().get(SQL_DATABASE_NAME);
-        Assert.assertEquals(sqlDatabase.serviceLevelObjective(), ServiceObjectiveName.P2);
-        Assert.assertEquals(sqlDatabase.requestedServiceObjectiveName(), ServiceObjectiveName.P2);
+        Assert.assertEquals(sqlDatabase.currentServiceObjectiveName(), ServiceObjectiveName.P2.toString());
+        Assert.assertEquals(sqlDatabase.requestedServiceObjectiveName(), ServiceObjectiveName.P2.toString());
 
         // Update max size bytes of the database.
         sqlDatabase.update()
@@ -1122,7 +1121,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .withDtu(100)
                 .withDatabaseDtuMax(20)
                 .withDatabaseDtuMin(10)
-                .withStorageCapacity(102400)
+                .withStorageCapacity(102400 * 1024 * 1024L)
                 .withNewDatabase(SQL_DATABASE_NAME)
                 .withTag("tag2", "value2")
                 .apply();

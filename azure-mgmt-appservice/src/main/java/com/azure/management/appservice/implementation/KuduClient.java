@@ -23,6 +23,7 @@ import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.StreamResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.FluxUtil;
 import com.azure.management.RestClient;
 import com.azure.management.RestClientBuilder;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -37,9 +38,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * A client which interacts with Kudu service.
@@ -122,23 +127,79 @@ class KuduClient {
         return streamFromFluxBytes(service.streamAllLogs(host).flatMapMany(StreamResponse::getValue));
     }
 
-    private Flux<String> streamFromFluxBytes(final Flux<ByteBuffer> source) {
-        // FIXME
-        return source.map(StandardCharsets.UTF_8::decode).map(CharBuffer::toString);
+    Flux<String> streamFromFluxBytes(final Flux<ByteBuffer> source) {
+        final byte newLine = '\n';
+        final byte newLineR = '\r';
 
-//        return Observable.create(new Action1<Emitter<String>>() {
-//            @Override
-//            public void call(Emitter<String> stringEmitter) {
-//                try {
-//                    while (!source.exhausted()) {
-//                        stringEmitter.onNext(source.readUtf8Line());
-//                    }
-//                    stringEmitter.onCompleted();
-//                } catch (IOException e) {
-//                    stringEmitter.onError(e);
-//                }
-//            }
-//        }, BackpressureMode.BUFFER);
+        final ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        return source.concatMap(byteBuffer -> {
+            int index = findByte(byteBuffer, newLine);
+            if (index == -1) {
+                // no newLine byte found, definitely not a line
+                try {
+                    stream.write(FluxUtil.byteBufferToArray(byteBuffer));
+                    return Flux.empty();
+                } catch (IOException e) {
+                    return Flux.error(e);
+                }
+            } else {
+                // no newLine byte found, possible a line
+                List<String> lines = new ArrayList<>();
+                while ((index = findByte(byteBuffer, newLine)) != -1) {
+                    byte[] byteArray = new byte[index + 1];
+                    byteBuffer.get(byteArray);
+                    try {
+                        stream.write(byteArray);
+                        try {
+                            // try to decode the stream
+                            CharBuffer possibleLineCharBuffer = StandardCharsets.UTF_8.newDecoder()
+                                    .onMalformedInput(CodingErrorAction.REPORT)
+                                    .onUnmappableCharacter(CodingErrorAction.REPORT)
+                                    .decode(ByteBuffer.wrap(stream.toByteArray()));
+                            String line = possibleLineCharBuffer.toString();
+                            if (!line.isEmpty() && line.charAt(line.length() - 1) == newLine) {
+                                // OK this is a line, end with newLine char
+                                line = line.substring(0, line.length() - 1);
+                                if (!line.isEmpty() && line.charAt(line.length() - 1) == newLineR) {
+                                    line = line.substring(0, line.length() - 1);
+                                }
+                                lines.add(line);
+                                stream.reset();
+                            }
+                        } catch (CharacterCodingException codingException) {
+                            // failed to decode, this is not a line
+                        }
+                    } catch (IOException e) {
+                        return Flux.error(e);
+                    }
+                }
+                if (index == -1 && byteBuffer.hasRemaining()) {
+                    try {
+                        stream.write(FluxUtil.byteBufferToArray(byteBuffer));
+                        return Flux.empty();
+                    } catch (IOException e) {
+                        return Flux.error(e);
+                    }
+                }
+                if (lines.isEmpty()) {
+                    return Flux.empty();
+                } else {
+                    return Flux.fromIterable(lines);
+                }
+            }
+        });
+    }
+
+    private int findByte(ByteBuffer byteBuffer, byte b) {
+        final int position = byteBuffer.position();
+        int index = -1;
+        for (int i = 0; i < byteBuffer.remaining(); ++i) {
+            if (byteBuffer.get(position + i) == b) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 
     Mono<Void> warDeployAsync(InputStream warFile, String appName) {

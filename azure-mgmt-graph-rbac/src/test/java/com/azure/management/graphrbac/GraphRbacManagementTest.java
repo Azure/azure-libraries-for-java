@@ -6,8 +6,10 @@
 
 package com.azure.management.graphrbac;
 
+import com.azure.management.ApplicationTokenCredential;
 import com.azure.management.RestClient;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.azure.management.resources.core.AzureTestCredential;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.implementation.ResourceManager;
 
@@ -24,7 +26,14 @@ public abstract class GraphRbacManagementTest extends TestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        graphRbacManager = GraphRbacManager.authenticate(restClient, domain);
+        RestClient graphRestClient;
+        if (isPlaybackMode()) {
+            ApplicationTokenCredential credentials = new AzureTestCredential(playbackUri.replace("http", "https"), ZERO_TENANT, true);
+            graphRestClient = restClient.newBuilder().withCredential(credentials).clone().buildClient();
+        } else {
+            graphRestClient = restClient;
+        }
+        graphRbacManager = GraphRbacManager.authenticate(graphRestClient, domain);
         resourceManager = ResourceManager.authenticate(restClient).withSubscription(defaultSubscription);
     }
 

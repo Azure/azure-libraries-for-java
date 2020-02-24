@@ -7,11 +7,13 @@
 package com.azure.management.msi;
 
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.ApplicationTokenCredential;
 import com.azure.management.RestClient;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.graphrbac.RoleAssignment;
 import com.azure.management.msi.implementation.MSIManager;
 import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.core.AzureTestCredential;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
@@ -34,6 +36,10 @@ public class MSIIdentityManagementTests extends TestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException {
+        if (isPlaybackMode()) {
+            ApplicationTokenCredential credentials = new AzureTestCredential(playbackUri.replace("http", "https"), ZERO_TENANT, true);
+            restClient = restClient.newBuilder().withCredential(credentials).clone().buildClient();
+        }
         this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
         this.resourceManager = msiManager.getResourceManager();
     }

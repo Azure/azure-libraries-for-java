@@ -4,19 +4,14 @@
 package com.azure.management;
 
 import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.implementation.polling.PollerFactory;
-import com.azure.core.management.implementation.polling.PollingState;
 import com.azure.core.management.polling.PollResult;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
-import com.azure.core.util.FluxUtil;
-import com.azure.core.util.polling.LongRunningOperationStatus;
-import com.azure.core.util.polling.PollResponse;
 import com.azure.core.util.polling.PollerFlux;
-import com.azure.core.util.polling.PollingContext;
 import com.azure.core.util.serializer.SerializerAdapter;
-import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,65 +23,22 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.NetworkInterface;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalQueries;
-import java.util.function.Function;
-
-import static com.azure.core.util.FluxUtil.withContext;
+import java.util.Enumeration;
 
 /**
  * ServiceClient is the abstraction for accessing REST operations and their payload data types.
  */
 public abstract class AzureServiceClient {
-//    /**
-//     * Initializes a new instance of the ServiceClient class.
-//     *
-//     * @param baseUrl     the service base uri
-//     * @param credentials the credentials
-//     */
-//    protected AzureServiceClient(String baseUrl, TokenCredential credentials) {
-//        this(new RestClientBuilder()
-//                .withBaseUrl(baseUrl)
-//                .withCredential(credentials)
-//                .withSerializerAdapter(new AzureJacksonAdapter())
-//                .buildClient());
-//    }
-//
-//    /**
-//     * Initializes a new instance of the ServiceClient class.
-//     *
-//     * @param restClient the REST client
-//     */
-//    protected AzureServiceClient(RestClient restClient) {
-//        super(restClient);
-//    }
-
-    static class DateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
-
-        public static SimpleModule getModule() {
-            SimpleModule module = new SimpleModule();
-            module.addDeserializer(OffsetDateTime.class, new DateTimeDeserializer());
-            return module;
-        }
-
-        @Override
-        public OffsetDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-            String string = jsonParser.getText();
-            TemporalAccessor temporal = DateTimeFormatter.ISO_DATE_TIME.parseBest(string, OffsetDateTime::from, LocalDateTime::from);
-            if (temporal.query(TemporalQueries.offset()) == null) {
-                return LocalDateTime.from(temporal).atOffset(ZoneOffset.UTC);
-            } else {
-                return OffsetDateTime.from(temporal);
-            }
-        }
-    }
 
     protected AzureServiceClient(HttpPipeline httpPipeline, AzureEnvironment environment) {
         ((AzureJacksonAdapter) serializerAdapter).serializer().registerModule(DateTimeDeserializer.getModule());
@@ -112,20 +64,20 @@ public abstract class AzureServiceClient {
     static {
         OS = System.getProperty("os.name") + "/" + System.getProperty("os.version");
         String macAddress = "Unknown";
-//        try {
-//            Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
-//            while (networks.hasMoreElements()) {
-//                NetworkInterface network = networks.nextElement();
-//                byte[] mac = network.getHardwareAddress();
-//
-//                if (mac != null) {
-//                    macAddress = Hashing.sha256().hashBytes(mac).toString();
-//                    break;
-//                }
-//            }
-//        } catch (Throwable t) {
-//            // It's okay ignore mac address hash telemetry
-//        }
+        try {
+            Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
+            while (networks.hasMoreElements()) {
+                NetworkInterface network = networks.nextElement();
+                byte[] mac = network.getHardwareAddress();
+
+                if (mac != null) {
+                    macAddress = getSha256(mac);
+                    break;
+                }
+            }
+        } catch (Throwable t) {
+            // It's okay ignore mac address hash telemetry
+        }
         MAC_ADDRESS_HASH = macAddress;
         String version = System.getProperty("java.version");
         JAVA_VERSION = version != null ? version : "Unknown";
@@ -145,30 +97,44 @@ public abstract class AzureServiceClient {
                 httpPipeline,
                 pollResultType,
                 finalResultType,
-                Duration.ofSeconds(SdkContext.getLroRetryTimeOut()),
-                activationOperation(lroInit, pollResultType));
+                SdkContext.getLroRetryDuration(),
+                activationOperation(lroInit)
+        );
     }
 
-    private <T> Function<PollingContext<PollResult<T>>, Mono<PollResponse<PollResult<T>>>> activationOperation(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit, Type type) {
-        return (pollingContext) -> withContext(context -> lroInit
-                .flatMap(response -> {
-                    Mono<String> bodyAsString = FluxUtil.collectBytesInByteBufferStream(response.getValue().map(ByteBuffer::duplicate)).map(bytes -> bytes == null ? null : new String(bytes, StandardCharsets.UTF_8));
-                    return bodyAsString.flatMap(body -> {
-                        try {
-                            PollingState state = PollingState.create(getSerializerAdapter(), response.getRequest(), response.getStatusCode(), response.getHeaders(), body);
-                            state.store(pollingContext);
-                            T result = getSerializerAdapter().deserialize(body, type, SerializerEncoding.JSON);
+    private Mono<Response<Flux<ByteBuffer>>> activationOperation(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit) {
+        return lroInit.flatMap(fluxSimpleResponse -> Mono.just(fluxSimpleResponse));
+    }
 
-                            if (response.getStatusCode() == 200) {
-                                return Mono.just(new PollResponse<>(state.getOperationStatus(), new PollResult<>(result)));
-                            }
-                            return Mono.just(new PollResponse<>(LongRunningOperationStatus.NOT_STARTED, new PollResult<>(result)));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return Mono.just(new PollResponse<>(LongRunningOperationStatus.NOT_STARTED, new PollResult<>((T) null)));
-                        }
-                    });
-                }));
-        // TODO: onErrorMap(error -> Mono.just(new PollResult<T>((PollResult.Error) error)));
+    private static String getSha256(byte[] bytes) {
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(bytes);
+            messageDigest.digest(bytes).toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "Unknown";
+    }
+
+    static class DateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
+
+        public static SimpleModule getModule() {
+            SimpleModule module = new SimpleModule();
+            module.addDeserializer(OffsetDateTime.class, new DateTimeDeserializer());
+            return module;
+        }
+
+        @Override
+        public OffsetDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+            String string = jsonParser.getText();
+            TemporalAccessor temporal = DateTimeFormatter.ISO_DATE_TIME.parseBest(string, OffsetDateTime::from, LocalDateTime::from);
+            if (temporal.query(TemporalQueries.offset()) == null) {
+                return LocalDateTime.from(temporal).atOffset(ZoneOffset.UTC);
+            } else {
+                return OffsetDateTime.from(temporal);
+            }
+        }
     }
 }

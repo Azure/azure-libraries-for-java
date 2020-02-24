@@ -407,7 +407,7 @@ class NetworkPeeringImpl
                     if (localPeering.remoteNetwork != null && localPeering.isSameSubscription()) {
                         return localPeering.remoteNetwork.refreshAsync();
                     } else {
-                        return Mono.just(null);
+                        return Mono.empty();
                     }
                 })
 

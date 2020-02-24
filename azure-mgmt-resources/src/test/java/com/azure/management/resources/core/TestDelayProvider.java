@@ -7,7 +7,6 @@
 package com.azure.management.resources.core;
 
 import com.azure.management.resources.fluentcore.utils.DelayProvider;
-import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 
@@ -26,8 +25,8 @@ public class TestDelayProvider extends DelayProvider {
     }
 
     @Override
-    public int getLroRetryTimeout() {
-        return isLiveMode ? super.getLroRetryTimeout() : 1;
+    public Duration getLroRetryTimeout() {
+        return isLiveMode ? super.getLroRetryTimeout() : Duration.ofMillis(1);
     }
 
     @Override

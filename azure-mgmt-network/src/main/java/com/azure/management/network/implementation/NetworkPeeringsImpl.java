@@ -87,7 +87,7 @@ class NetworkPeeringsImpl
                 // Then delete each peering (this will be called for each of the peerings, so at least once for the local peering, and second time for the remote one if any
                 .flatMap(peering -> {
                     if (peering == null) {
-                        return Mono.just(null);
+                        return Mono.empty();
                     } else {
                         String networkName = ResourceUtils.nameFromResourceId(peering.networkId());
                         return peering.manager().inner().virtualNetworkPeerings().deleteAsync(

@@ -239,6 +239,7 @@ class WebAppImpl
                     // list metadata
                     .then(listMetadata())
                     // merge with change, then update
+                    .switchIfEmpty(Mono.just(new StringDictionaryInner()))
                     .flatMap(stringDictionaryInner -> {
                         if (stringDictionaryInner.properties() == null) {
                             stringDictionaryInner.withProperties(new HashMap<String, String>());

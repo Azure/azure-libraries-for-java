@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MSIIdentityManagementTests extends TestBase {
-    private static String RG_NAME = "";
-    private static Region region = Region.fromName("West Central US");
+    private String RG_NAME = "";
+    private Region region = Region.fromName("West Central US");
 
     private MSIManager msiManager;
     private ResourceManager resourceManager;
@@ -174,8 +174,9 @@ public class MSIIdentityManagementTests extends TestBase {
                 .withAccessToCurrentResourceGroup(BuiltInRole.READER)
                 .withAccessTo(anotherResourceGroup, BuiltInRole.CONTRIBUTOR)
                 .createAsync()
-                .doOnNext(indexable -> createdResosurces.add(indexable))
-                .blockLast();
+                .collectList()
+                .block()
+                .forEach(indexable -> createdResosurces.add(indexable));
 
         int roleAssignmentResourcesCount = 0;
         int identityResourcesCount = 0;

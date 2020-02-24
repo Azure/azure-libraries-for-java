@@ -53,7 +53,7 @@ public abstract class TestBase {
 
     protected final static String ZERO_SUBSCRIPTION = "00000000-0000-0000-0000-000000000000";
     protected final static String ZERO_TENANT = "00000000-0000-0000-0000-000000000000";
-    private static final String PLAYBACK_URI_BASE = "http://localhost:";
+    private static final String PLAYBACK_URI_BASE = "https://localhost:";
     protected static String playbackUri = null;
 
     private final RunCondition runCondition;
@@ -163,6 +163,7 @@ public abstract class TestBase {
             restClient = buildRestClient(new RestClientBuilder()
                     .withBaseUrl(playbackUri + "/")
                     .withSerializerAdapter(new AzureJacksonAdapter())
+                    .withCredential(credentials)
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .withPolicy(interceptorManager.initInterceptor())
                     .withPolicy(new HostPolicy(playbackUri + "/"))

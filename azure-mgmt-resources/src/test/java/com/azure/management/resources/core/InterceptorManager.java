@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -161,7 +162,8 @@ public class InterceptorManager {
         synchronized (recordedData) {
             for (Iterator<NetworkCallRecord> iterator = recordedData.getNetworkCallRecords().iterator(); iterator.hasNext(); ) {
                 NetworkCallRecord record = iterator.next();
-                if (record.Method.equalsIgnoreCase(incomingMethod) && removeHost(record.Uri).equalsIgnoreCase(incomingUrl)) {
+                String hostUrl = removeHost(record.Uri);
+                if (record.Method.equalsIgnoreCase(incomingMethod) && isExpectedUrl(hostUrl, incomingUrl)) {
                     networkCallRecord = record;
                     iterator.remove();
                     break;
@@ -342,5 +344,10 @@ public class InterceptorManager {
         synchronized (recordedData.getVariables()) {
             return recordedData.getVariables().remove();
         }
+    }
+
+    private boolean isExpectedUrl(String hostUrl, String incomingUrl) {
+        Pattern pattern = Pattern.compile("roleAssignments\\/\\w+-\\w+-\\w+-\\w+-\\w+\\?");
+        return hostUrl.equalsIgnoreCase(incomingUrl) || pattern.matcher(hostUrl).find();
     }
 }

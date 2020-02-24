@@ -41,7 +41,7 @@ public final class RestClientBuilder {
     private SerializerAdapter serializerAdapter;
     private List<String> scopes;
 
-    private final RetryPolicy retryPolicy;
+    private RetryPolicy retryPolicy;
 
     /**
      * The constructor with defaults.
@@ -107,6 +107,11 @@ public final class RestClientBuilder {
 
     public RestClientBuilder withHttpLogOptions(HttpLogOptions logOptions) {
         httpLogOptions = logOptions;
+        return this;
+    }
+
+    public RestClientBuilder withRetryPolicy(RetryPolicy retryPolicy) {
+        this.retryPolicy = retryPolicy;
         return this;
     }
 

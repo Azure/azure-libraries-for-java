@@ -14,7 +14,9 @@ import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.sql.ElasticPoolActivity;
 import com.azure.management.sql.ElasticPoolDatabaseActivity;
 import com.azure.management.sql.ElasticPoolEdition;
+import com.azure.management.sql.ElasticPoolPerDatabaseSettings;
 import com.azure.management.sql.ElasticPoolState;
+import com.azure.management.sql.Sku;
 import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlDatabaseMetric;
 import com.azure.management.sql.SqlDatabaseMetricDefinition;
@@ -44,6 +46,7 @@ import reactor.core.publisher.Mono;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -152,39 +155,27 @@ public class SqlElasticPoolImpl
 
     @Override
     public ElasticPoolEdition edition() {
-        // TODO
-//        return this.inner().edition();
-        return null;
+        return ElasticPoolEdition.fromString(this.inner().sku().tier());
     }
 
     @Override
     public int dtu() {
-//        return Utils.toPrimitiveInt(this.inner().dtu());
-        return 0;
+        return this.inner().sku().capacity();
     }
 
     @Override
-    public int databaseDtuMax() {
-//        return Utils.toPrimitiveInt(this.inner().databaseDtuMax());
-        return 0;
+    public Double databaseDtuMax() {
+        return this.inner().perDatabaseSettings().maxCapacity();
     }
 
     @Override
-    public int databaseDtuMin() {
-//        return Utils.toPrimitiveInt(this.inner().databaseDtuMin());
-        return 0;
+    public Double databaseDtuMin() {
+        return this.inner().perDatabaseSettings().minCapacity();
     }
 
     @Override
-    public int storageMB() {
-//        return Utils.toPrimitiveInt(this.inner().storageMB());
-        return 0;
-    }
-
-    @Override
-    public int storageCapacityInMB() {
-//        return Utils.toPrimitiveInt(this.inner().storageMB());
-        return 0;
+    public Long storageCapacity() {
+        return this.inner().maxSizeBytes();
     }
 
     @Override
@@ -361,7 +352,7 @@ public class SqlElasticPoolImpl
     @Override
     public Mono<SqlElasticPool> createResourceAsync() {
         final SqlElasticPoolImpl self = this;
-//        this.inner().withLocation(this.sqlServerLocation);
+        this.inner().setLocation(this.sqlServerLocation);
         return this.sqlServerManager.inner().elasticPools()
             .createOrUpdateAsync(this.resourceGroupName, this.sqlServerName, this.name(), this.inner())
             .map(inner -> {
@@ -427,117 +418,118 @@ public class SqlElasticPoolImpl
         return this;
     }
 
-    @Override
     public SqlElasticPoolImpl withEdition(ElasticPoolEdition edition) {
-//        this.inner().withEdition(edition);
+        if (this.inner().sku() == null) {
+            this.inner().withSku(new Sku());
+        }
+        this.inner().sku().withTier(edition.toString());
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withBasicPool() {
-//        this.inner().withEdition(ElasticPoolEdition.BASIC);
+        this.withEdition(ElasticPoolEdition.BASIC);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withStandardPool() {
-//        this.inner().withEdition(ElasticPoolEdition.STANDARD);
+        this.withEdition(ElasticPoolEdition.STANDARD);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withPremiumPool() {
-//        this.inner().withEdition(ElasticPoolEdition.PREMIUM);
+        this.withEdition(ElasticPoolEdition.PREMIUM);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withReservedDtu(SqlElasticPoolBasicEDTUs eDTU) {
-//        this.inner().withDtu(eDTU.value());
-        return this;
+        return this.withDtu(eDTU.value());
     }
 
     @Override
     public SqlElasticPoolImpl withDatabaseDtuMax(SqlElasticPoolBasicMaxEDTUs eDTU) {
-//        this.inner().withDatabaseDtuMax(eDTU.value());
-        return this;
+        return this.withDatabaseDtuMax(eDTU.value());
     }
 
     @Override
     public SqlElasticPoolImpl withDatabaseDtuMin(SqlElasticPoolBasicMinEDTUs eDTU) {
-//        this.inner().withDatabaseDtuMin(eDTU.value());
-        return this;
+        return this.withDatabaseDtuMin(eDTU.value());
     }
 
     @Override
     public SqlElasticPoolImpl withReservedDtu(SqlElasticPoolStandardEDTUs eDTU) {
-//        this.inner().withDtu(eDTU.value());
-        return this;
+        return this.withDtu(eDTU.value());
     }
 
     @Override
     public SqlElasticPoolImpl withDatabaseDtuMax(SqlElasticPoolStandardMaxEDTUs eDTU) {
-//        this.inner().withDatabaseDtuMax(eDTU.value());
-        return this;
+        return this.withDatabaseDtuMax(eDTU.value());
     }
 
     @Override
     public SqlElasticPoolImpl withDatabaseDtuMin(SqlElasticPoolStandardMinEDTUs eDTU) {
-//        this.inner().withDatabaseDtuMin(eDTU.value());
-        return this;
+        return this.withDatabaseDtuMin(eDTU.value());
     }
 
     @Override
     public SqlElasticPoolImpl withStorageCapacity(SqlElasticPoolStandardStorage storageCapacity) {
-//        this.inner().withStorageMB(storageCapacity.capacityInMB());
+        this.withStorageCapacity(storageCapacity.capacityInMB() * 1024L * 1024L);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withReservedDtu(SqlElasticPoolPremiumEDTUs eDTU) {
-//        this.inner().withDtu(eDTU.value());
-        return this;
+        return this.withDtu(eDTU.value());
     }
 
     @Override
     public SqlElasticPoolImpl withDatabaseDtuMax(SqlElasticPoolPremiumMaxEDTUs eDTU) {
-//        this.inner().withDatabaseDtuMax(eDTU.value());
-        return this;
+        return this.withDatabaseDtuMax(eDTU.value());
     }
 
     @Override
     public SqlElasticPoolImpl withDatabaseDtuMin(SqlElasticPoolPremiumMinEDTUs eDTU) {
-//        this.inner().withDatabaseDtuMin(eDTU.value());
-        return this;
+        return this.withDatabaseDtuMin(eDTU.value());
     }
 
     @Override
     public SqlElasticPoolImpl withStorageCapacity(SqlElasticPoolPremiumSorage storageCapacity) {
-//        this.inner().withStorageMB(storageCapacity.capacityInMB());
+        return this.withStorageCapacity(storageCapacity.capacityInMB() * 1024L * 1024L);
+    }
+
+    @Override
+    public SqlElasticPoolImpl withDatabaseDtuMin(double databaseDtuMin) {
+        if (this.inner().perDatabaseSettings() == null) {
+            this.inner().withPerDatabaseSettings(new ElasticPoolPerDatabaseSettings());
+        }
+        this.inner().perDatabaseSettings().withMinCapacity(databaseDtuMin);
         return this;
     }
 
     @Override
-    public SqlElasticPoolImpl withDatabaseDtuMin(int databaseDtuMin) {
-//        this.inner().withDatabaseDtuMin(databaseDtuMin);
-        return this;
-    }
-
-    @Override
-    public SqlElasticPoolImpl withDatabaseDtuMax(int databaseDtuMax) {
-//        this.inner().withDatabaseDtuMax(databaseDtuMax);
+    public SqlElasticPoolImpl withDatabaseDtuMax(double databaseDtuMax) {
+        if (this.inner().perDatabaseSettings() == null) {
+            this.inner().withPerDatabaseSettings(new ElasticPoolPerDatabaseSettings());
+        }
+        this.inner().perDatabaseSettings().withMaxCapacity(databaseDtuMax);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withDtu(int dtu) {
-//        this.inner().withDtu(dtu);
+        if (this.inner().sku() == null) {
+            this.inner().withSku(new Sku());
+        }
+        this.inner().sku().withCapacity(dtu);
         return this;
     }
 
     @Override
-    public SqlElasticPoolImpl withStorageCapacity(int storageMB) {
-//        this.inner().withStorageMB(storageMB);
+    public SqlElasticPoolImpl withStorageCapacity(Long maxSizeBytes) {
+        this.inner().withMaxSizeBytes(maxSizeBytes);
         return this;
     }
 
@@ -586,14 +578,14 @@ public class SqlElasticPoolImpl
 
     @Override
     public SqlElasticPoolImpl withTags(Map<String, String> tags) {
-//        this.inner().withTags(new HashMap<>(tags));
+        this.inner().setTags(new HashMap<>(tags));
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withTag(String key, String value) {
         if (this.inner().getTags() == null) {
-//            this.inner().withTags(new HashMap<String, String>());
+            this.inner().setTags(new HashMap<String, String>());
         }
         this.inner().getTags().put(key, value);
         return this;

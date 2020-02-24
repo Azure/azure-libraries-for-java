@@ -63,23 +63,18 @@ public interface SqlElasticPool
     /**
      * @return the maximum DTU any one SQL Azure database can consume.
      */
-    int databaseDtuMax();
+    Double databaseDtuMax();
 
     /**
      * @return the minimum DTU all SQL Azure Databases are guaranteed
      */
-    int databaseDtuMin();
+    Double databaseDtuMin();
+
 
     /**
-     * @return the storage limit for the SQL Azure Database Elastic Pool in MB
+     * @return the storage capacity limit for the SQL Azure Database Elastic Pool in Bytes
      */
-    @Deprecated
-    int storageMB();
-
-    /**
-     * @return the storage capacity limit for the SQL Azure Database Elastic Pool in MB
-     */
-    int storageCapacityInMB();
+    Long storageCapacity();
 
     /**
      * @return the parent SQL server ID
@@ -405,7 +400,7 @@ public interface SqlElasticPool
              * @return The next stage of the definition.
              */
             @Deprecated
-            SqlElasticPool.DefinitionStages.WithAttach<ParentT> withDatabaseDtuMin(int databaseDtuMin);
+            SqlElasticPool.DefinitionStages.WithAttach<ParentT> withDatabaseDtuMin(double databaseDtuMin);
         }
 
         /**
@@ -421,7 +416,7 @@ public interface SqlElasticPool
              * @return The next stage of the definition.
              */
             @Deprecated
-            SqlElasticPool.DefinitionStages.WithAttach<ParentT> withDatabaseDtuMax(int databaseDtuMax);
+            SqlElasticPool.DefinitionStages.WithAttach<ParentT> withDatabaseDtuMax(double databaseDtuMax);
         }
 
         /**
@@ -441,19 +436,19 @@ public interface SqlElasticPool
         }
 
         /**
-         * The SQL Elastic Pool definition to set the storage limit for the SQL Azure Database Elastic Pool in MB.
+         * The SQL Elastic Pool definition to set the storage limit for the SQL Azure Database Elastic Pool in Bytes.
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithStorageCapacity<ParentT> {
             /**
-             * Sets the storage limit for the SQL Azure Database Elastic Pool in MB.
+             * Sets the storage limit for the SQL Azure Database Elastic Pool in Bytes.
              *
-             * @param storageMB storage limit for the SQL Azure Database Elastic Pool in MB
+             * @param storageCapacity storage limit for the SQL Azure Database Elastic Pool in Bytes
              * @return The next stage of the definition.
              */
             @Deprecated
-            SqlElasticPool.DefinitionStages.WithAttach<ParentT> withStorageCapacity(int storageMB);
+            SqlElasticPool.DefinitionStages.WithAttach<ParentT> withStorageCapacity(Long storageCapacity);
         }
 
         /** The final stage of the SQL Elastic Pool definition.
@@ -501,7 +496,7 @@ public interface SqlElasticPool
              * @return The next stage of definition.
              */
             @Deprecated
-            Update withDatabaseDtuMin(int databaseDtuMin);
+            Update withDatabaseDtuMin(double databaseDtuMin);
         }
 
         /**
@@ -515,7 +510,7 @@ public interface SqlElasticPool
              * @return The next stage of definition.
              */
             @Deprecated
-            Update withDatabaseDtuMax(int databaseDtuMax);
+            Update withDatabaseDtuMax(double databaseDtuMax);
         }
 
         /**
@@ -533,17 +528,17 @@ public interface SqlElasticPool
         }
 
         /**
-         * The SQL Elastic Pool definition to set the storage limit for the SQL Azure Database Elastic Pool in MB.
+         * The SQL Elastic Pool definition to set the storage limit for the SQL Azure Database Elastic Pool in Bytes.
          */
         interface WithStorageCapacity {
             /**
-             * Sets the storage limit for the SQL Azure Database Elastic Pool in MB.
+             * Sets the storage limit for the SQL Azure Database Elastic Pool in Bytes.
              *
-             * @param storageMB storage limit for the SQL Azure Database Elastic Pool in MB
+             * @param storageCapacity storage limit for the SQL Azure Database Elastic Pool in Bytes
              * @return The next stage of definition.
              */
             @Deprecated
-            Update withStorageCapacity(int storageMB);
+            Update withStorageCapacity(Long storageCapacity);
         }
 
         /**

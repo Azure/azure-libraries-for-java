@@ -42,7 +42,6 @@ public class SqlElasticPoolForDatabaseImpl
         return this.sqlDatabase;
     }
 
-    @Override
     public SqlElasticPoolForDatabaseImpl withEdition(ElasticPoolEdition edition) {
         this.sqlElasticPool.withEdition(edition);
         return this;
@@ -133,13 +132,13 @@ public class SqlElasticPoolForDatabaseImpl
     }
 
     @Override
-    public SqlElasticPoolForDatabaseImpl withDatabaseDtuMin(int databaseDtuMin) {
+    public SqlElasticPoolForDatabaseImpl withDatabaseDtuMin(double databaseDtuMin) {
         this.sqlElasticPool.withDatabaseDtuMin(databaseDtuMin);
         return this;
     }
 
     @Override
-    public SqlElasticPoolForDatabaseImpl withDatabaseDtuMax(int databaseDtuMax) {
+    public SqlElasticPoolForDatabaseImpl withDatabaseDtuMax(double databaseDtuMax) {
         this.sqlElasticPool.withDatabaseDtuMax(databaseDtuMax);
         return this;
     }
@@ -151,8 +150,8 @@ public class SqlElasticPoolForDatabaseImpl
     }
 
     @Override
-    public SqlElasticPoolForDatabaseImpl withStorageCapacity(int storageMB) {
-        this.sqlElasticPool.withStorageCapacity(storageMB);
+    public SqlElasticPoolForDatabaseImpl withStorageCapacity(Long storageCapacity) {
+        this.sqlElasticPool.withStorageCapacity(storageCapacity);
         return this;
     }
 }

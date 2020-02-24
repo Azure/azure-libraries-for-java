@@ -8,6 +8,7 @@ package com.azure.management.sql.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
@@ -135,7 +136,7 @@ public class SqlServerImpl
             List<SqlElasticPoolImpl> epToBeCreated = this.sqlElasticPools.getChildren(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
             for (SqlElasticPoolImpl epItem : epToBeCreated) {
                 for (SqlDatabaseImpl dbItem : dbToBeCreated) {
-                    if (dbItem.elasticPoolName() != null && dbItem.elasticPoolName().equals(epItem.name())) {
+                    if (dbItem.elasticPoolId() != null && ResourceUtils.nameFromResourceId(dbItem.elasticPoolId()).equals(epItem.name())) {
                         dbItem.addParentDependency(epItem);
                     }
                 }

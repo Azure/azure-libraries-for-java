@@ -24,7 +24,6 @@ import reactor.core.publisher.Mono;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * An immutable client-side representation of an Azure SQL Server Database.
@@ -54,11 +53,10 @@ public interface SqlDatabase
     OffsetDateTime creationDate();
 
     /**
-     * @return the current Service Level Objective Id of the Azure SQL Database, this is the Id of the
+     * @return the current Service Level Objective Name of the Azure SQL Database, this is the Name of the
      * Service Level Objective that is currently active
      */
-    UUID currentServiceObjectiveId();
-
+    String currentServiceObjectiveName();
 
     /**
      * @return the Id of the Azure SQL Database
@@ -78,14 +76,6 @@ public interface SqlDatabase
     DatabaseEdition edition();
 
     /**
-     *
-     * @return the configured Service Level Objective Id of the Azure SQL
-     * Database, this is the Service Level Objective that is being applied to
-     * the Azure SQL Database
-     */
-    UUID requestedServiceObjectiveId();
-
-    /**
      * @return the max size of the Azure SQL Database expressed in bytes.
      */
     long maxSizeBytes();
@@ -95,17 +85,17 @@ public interface SqlDatabase
      * SQL Database, this is the Service Level Objective that is being
      * applied to the Azure SQL Database
      */
-    ServiceObjectiveName requestedServiceObjectiveName();
-
-    /**
-     * @return the Service Level Objective of the Azure SQL Database.
-     */
-    ServiceObjectiveName serviceLevelObjective();
+    String requestedServiceObjectiveName();
 
     /**
      * @return the status of the Azure SQL Database
      */
-    String status();
+    DatabaseStatus status();
+
+    /**
+     * @return the elasticPoolId value
+     */
+    String elasticPoolId();
 
     /**
      * @return the elasticPoolName value
@@ -397,6 +387,14 @@ public interface SqlDatabase
              * @return The next stage of the definition.
              */
             WithExistingDatabaseAfterElasticPool<ParentT> withExistingElasticPool(String elasticPoolName);
+
+            /**
+             * Sets the existing elastic pool for the SQLDatabase.
+             *
+             * @param elasticPoolId for the SQL Database
+             * @return The next stage of the definition.
+             */
+            WithExistingDatabaseAfterElasticPool<ParentT> withExistingElasticPoolId(String elasticPoolId);
 
             /**
              * Sets the existing elastic pool for the SQLDatabase.
@@ -1033,6 +1031,14 @@ public interface SqlDatabase
              * @return The next stage of the update.
              */
             Update withExistingElasticPool(String elasticPoolName);
+
+            /**
+             * Sets the existing elastic pool for the SQLDatabase.
+             *
+             * @param elasticPoolId for the SQL Database
+             * @return The next stage of the definition.
+             */
+            Update withExistingElasticPoolId(String elasticPoolId);
 
             /**
              * Sets the existing elastic pool for the SQLDatabase.

@@ -14,6 +14,8 @@ import com.azure.management.RestClientBuilder;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
+import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
+import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
 import com.azure.management.sql.SqlServers;
 import com.azure.management.sql.models.SqlManagementClientImpl;
 
@@ -54,9 +56,8 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
                 .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-//                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-//                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-//                .withInterceptor(new ResourceManagerThrottlingInterceptor())
+                .withPolicy(new ProviderRegistrationPolicy(credential))
+                .withPolicy(new ResourceManagerThrottlingPolicy())
                 .buildClient(), credential.getDomain(), subscriptionId);
     }
 

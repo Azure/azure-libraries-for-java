@@ -205,7 +205,7 @@ public interface SqlElasticPoolOperations extends
              * @return The next stage of the definition.
              */
             @Deprecated
-            SqlElasticPoolOperations.DefinitionStages.WithCreate withDatabaseDtuMin(int databaseDtuMin);
+            SqlElasticPoolOperations.DefinitionStages.WithCreate withDatabaseDtuMin(double databaseDtuMin);
         }
 
         /**
@@ -219,7 +219,7 @@ public interface SqlElasticPoolOperations extends
              * @return The next stage of the definition.
              */
             @Deprecated
-            SqlElasticPoolOperations.DefinitionStages.WithCreate withDatabaseDtuMax(int databaseDtuMax);
+            SqlElasticPoolOperations.DefinitionStages.WithCreate withDatabaseDtuMax(double databaseDtuMax);
         }
 
         /**
@@ -237,17 +237,17 @@ public interface SqlElasticPoolOperations extends
         }
 
         /**
-         * The SQL Elastic Pool definition to set the storage limit for the SQL Azure Database Elastic Pool in MB.
+         * The SQL Elastic Pool definition to set the storage limit for the SQL Azure Database Elastic Pool in Bytes.
          */
         interface WithStorageCapacity {
             /**
-             * Sets the storage limit for the SQL Azure Database Elastic Pool in MB.
+             * Sets the storage limit for the SQL Azure Database Elastic Pool in Bytes.
              *
-             * @param storageMB storage limit for the SQL Azure Database Elastic Pool in MB
+             * @param storageCapacity storage limit for the SQL Azure Database Elastic Pool in Bytes
              * @return The next stage of the definition.
              */
             @Deprecated
-            SqlElasticPoolOperations.DefinitionStages.WithCreate withStorageCapacity(int storageMB);
+            SqlElasticPoolOperations.DefinitionStages.WithCreate withStorageCapacity(Long storageCapacity);
         }
 
         /**

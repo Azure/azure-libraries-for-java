@@ -143,7 +143,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
             this.restClient = restClient;
             this.subscriptionClient = (new SubscriptionClientBuilder())
                     .pipeline(restClient.getHttpPipeline())
-                    .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                    .host(restClient.getBaseUrl().toString())
                     .build();
         }
 
@@ -172,20 +172,19 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
         super.setResourceManager(this);
         this.resourceManagementClient = (new ResourceManagementClientBuilder())
                 .pipeline(restClient.getHttpPipeline())
-                .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                .host(restClient.getBaseUrl().toString())
                 .subscriptionId(subscriptionId)
                 .build();
 
-
         this.featureClient = (new FeatureClientBuilder())
                 .pipeline(restClient.getHttpPipeline())
-                .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                .host(restClient.getBaseUrl().toString())
                 .subscriptionId(subscriptionId)
                 .build();
 
         this.subscriptionClientClient = (new SubscriptionClientBuilder())
                 .pipeline(restClient.getHttpPipeline())
-                .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                .host(restClient.getBaseUrl().toString())
                 .build();
 //                new ResourceManagementClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
         // this.resourceManagementClient.withSubscriptionId(subscriptionId);

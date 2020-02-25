@@ -141,7 +141,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
                 subscriptionId,
                 new NetworkManagementClientBuilder()
                         .pipeline(restClient.getHttpPipeline())
-                        .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                        .host(restClient.getBaseUrl().toString())
                         .subscriptionId(subscriptionId)
                         .build());
     }

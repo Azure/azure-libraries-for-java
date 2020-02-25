@@ -17,6 +17,7 @@ import com.azure.management.resources.fluentcore.arm.implementation.Manager;
 import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
 import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
 import com.azure.management.sql.SqlServers;
+import com.azure.management.sql.models.SqlManagementClientBuilder;
 import com.azure.management.sql.models.SqlManagementClientImpl;
 
 /**
@@ -31,7 +32,11 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
         super(
                 restClient,
                 subscriptionId,
-                new SqlManagementClientImpl(restClient.getHttpPipeline()));
+                new SqlManagementClientBuilder()
+                    .pipeline(restClient.getHttpPipeline())
+                    .subscriptionId(subscriptionId)
+                    .host(restClient.getBaseUrl().toString())
+                    .build());
         this.tenantId = tenantId;
     }
 

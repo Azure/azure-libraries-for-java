@@ -16,7 +16,7 @@ import java.time.OffsetDateTime;
  * The class to contain the common factory methods required for SDK framework.
  */
 public class SdkContext {
-    private static ThreadLocal<ResourceNamerFactory> resourceNamerFactory = new ThreadLocal<ResourceNamerFactory>(){
+    private static ThreadLocal<ResourceNamerFactory> resourceNamerFactory = new ThreadLocal<ResourceNamerFactory>() {
         @Override
         protected ResourceNamerFactory initialValue() {
             return new ResourceNamerFactory();
@@ -122,7 +122,7 @@ public class SdkContext {
     /**
      * Get long-running operation retry timeout.
      */
-    public static int getLroRetryTimeOut() {
+    public static Duration getLroRetryDuration() {
         return delayProvider.getLroRetryTimeout();
     }
 

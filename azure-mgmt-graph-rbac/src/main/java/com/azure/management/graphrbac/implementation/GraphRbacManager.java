@@ -110,7 +110,7 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
 
     private GraphRbacManager(RestClient restClient, String tenantId) {
         String graphEndpoint = AzureEnvironment.AZURE.getGraphEndpoint();
-        String resourceManagerEndpoint = AzureEnvironment.AZURE.getResourceManagerEndpoint();
+        String resourceManagerEndpoint = restClient.getBaseUrl().toString();
         if (restClient.getCredential() instanceof AzureTokenCredential) {
             graphEndpoint = ((AzureTokenCredential) restClient.getCredential()).getEnvironment().getGraphEndpoint();
             resourceManagerEndpoint = ((AzureTokenCredential) restClient.getCredential()).getEnvironment().getResourceManagerEndpoint();

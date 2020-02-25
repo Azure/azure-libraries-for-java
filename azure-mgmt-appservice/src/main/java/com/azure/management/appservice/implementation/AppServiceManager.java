@@ -110,7 +110,7 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
                 subscriptionId,
                 new WebSiteManagementClientBuilder()
                         .pipeline(restClient.getHttpPipeline())
-                        .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                        .host(restClient.getBaseUrl().toString())
                         .subscriptionId(subscriptionId).build());
         keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId);
         storageManager = StorageManager.authenticate(restClient, subscriptionId);

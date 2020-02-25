@@ -43,4 +43,11 @@ public abstract class ManagerBase {
     public ResourceManager getResourceManager() {
         return this.resourceManager;
     }
+
+    /**
+     * @return the {@link RestClient} associated with this manager
+     */
+    public RestClient getRestClient() {
+        return this.restClient;
+    }
 }

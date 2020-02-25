@@ -9,18 +9,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StorageBlobContainersTests extends StorageManagementTest {
-    private static String RG_NAME = "";
+    private String rgName = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        RG_NAME = generateRandomResourceName("javacsmrg", 15);
+        rgName = generateRandomResourceName("javacsmrg", 15);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().deleteByName(RG_NAME);
+        resourceManager.resourceGroups().deleteByName(rgName);
     }
 
     @Test
@@ -34,12 +34,12 @@ public class StorageBlobContainersTests extends StorageManagementTest {
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .create();
 
         BlobContainers blobContainers = this.storageManager.blobContainers();
         BlobContainer blobContainer = blobContainers.defineContainer("blob-test")
-                .withExistingBlobService(RG_NAME, SA_NAME)
+                .withExistingBlobService(rgName, SA_NAME)
                 .withPublicAccess(PublicAccess.CONTAINER)
                 .withMetadata("a", "b")
                 .withMetadata("c", "d")
@@ -66,12 +66,12 @@ public class StorageBlobContainersTests extends StorageManagementTest {
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .create();
 
         BlobContainers blobContainers = this.storageManager.blobContainers();
         BlobContainer blobContainer = blobContainers.defineContainer("blob-test")
-                .withExistingBlobService(RG_NAME, SA_NAME)
+                .withExistingBlobService(rgName, SA_NAME)
                 .withPublicAccess(PublicAccess.CONTAINER)
                 .withMetadata(metadataInitial)
                 .create();

@@ -14,15 +14,15 @@ import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.implementation.ResourceManager;
 
 public class NetworkManagementTest extends TestBase {
-    protected static ResourceManager resourceManager;
-    protected static NetworkManager networkManager;
-    protected static KeyVaultManager keyVaultManager;
-    protected static MSIManager msiManager;
-    protected static String RG_NAME = "";
+    protected ResourceManager resourceManager;
+    protected NetworkManager networkManager;
+    protected KeyVaultManager keyVaultManager;
+    protected MSIManager msiManager;
+    protected String rgName = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        RG_NAME = generateRandomResourceName("javanwmrg", 15);
+        rgName = generateRandomResourceName("javanwmrg", 15);
 
         resourceManager = ResourceManager
                 .authenticate(restClient)
@@ -40,6 +40,6 @@ public class NetworkManagementTest extends TestBase {
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
+        resourceManager.resourceGroups().beginDeleteByName(rgName);
     }
 }

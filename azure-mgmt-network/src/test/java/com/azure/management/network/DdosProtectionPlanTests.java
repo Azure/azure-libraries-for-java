@@ -20,7 +20,7 @@ public class DdosProtectionPlanTests extends NetworkManagementTest {
 
         DdosProtectionPlan pPlan = networkManager.ddosProtectionPlans().define(ppName)
                 .withRegion(Region.US_SOUTH_CENTRAL)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withTag("tag1", "value1")
                 .create();
         Assertions.assertEquals("value1", pPlan.tags().get("tag1"));
@@ -28,11 +28,11 @@ public class DdosProtectionPlanTests extends NetworkManagementTest {
         PagedIterable<DdosProtectionPlan> ppList = networkManager.ddosProtectionPlans().list();
         Assertions.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
 
-        ppList = networkManager.ddosProtectionPlans().listByResourceGroup(RG_NAME);
+        ppList = networkManager.ddosProtectionPlans().listByResourceGroup(rgName);
         Assertions.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
 
         networkManager.ddosProtectionPlans().deleteById(pPlan.id());
-        ppList = networkManager.ddosProtectionPlans().listByResourceGroup(RG_NAME);
+        ppList = networkManager.ddosProtectionPlans().listByResourceGroup(rgName);
         Assertions.assertTrue(TestUtilities.isEmpty(ppList));
     }
 }

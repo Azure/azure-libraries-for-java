@@ -21,7 +21,7 @@ public class RouteFilterTests extends NetworkManagementTest {
 
         RouteFilter routeFilter = networkManager.routeFilters().define(rfName)
                 .withRegion(Region.US_SOUTH_CENTRAL)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withTag("tag1", "value1")
                 .create();
         Assertions.assertEquals("value1", routeFilter.tags().get("tag1"));
@@ -29,11 +29,11 @@ public class RouteFilterTests extends NetworkManagementTest {
         PagedIterable<RouteFilter> rfList = networkManager.routeFilters().list();
         Assertions.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
 
-        rfList = networkManager.routeFilters().listByResourceGroup(RG_NAME);
+        rfList = networkManager.routeFilters().listByResourceGroup(rgName);
         Assertions.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
 
         networkManager.routeFilters().deleteById(routeFilter.id());
-        rfList = networkManager.routeFilters().listByResourceGroup(RG_NAME);
+        rfList = networkManager.routeFilters().listByResourceGroup(rgName);
         Assertions.assertTrue(TestUtilities.isEmpty(rfList));
     }
 
@@ -43,7 +43,7 @@ public class RouteFilterTests extends NetworkManagementTest {
         String ruleName = "mynewrule";
         RouteFilter routeFilter = networkManager.routeFilters().define(rfName)
                 .withRegion(Region.US_SOUTH_CENTRAL)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .create();
 
         routeFilter.update()

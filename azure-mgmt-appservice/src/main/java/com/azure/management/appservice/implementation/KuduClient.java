@@ -176,7 +176,6 @@ class KuduClient {
                 if (index == -1 && byteBuffer.hasRemaining()) {
                     try {
                         stream.write(FluxUtil.byteBufferToArray(byteBuffer));
-                        return Flux.empty();
                     } catch (IOException e) {
                         return Flux.error(e);
                     }

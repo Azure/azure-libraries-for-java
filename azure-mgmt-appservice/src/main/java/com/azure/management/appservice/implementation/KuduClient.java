@@ -37,9 +37,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -135,7 +132,7 @@ class KuduClient {
         return source.concatMap(byteBuffer -> {
             int index = findByte(byteBuffer, newLine);
             if (index == -1) {
-                // no newLine byte found, definitely not a line
+                // no newLine byte found, not a line, put it into stream
                 try {
                     stream.write(FluxUtil.byteBufferToArray(byteBuffer));
                     return Flux.empty();
@@ -143,37 +140,29 @@ class KuduClient {
                     return Flux.error(e);
                 }
             } else {
-                // no newLine byte found, possible a line
+                // newLine byte found, at least 1 line
                 List<String> lines = new ArrayList<>();
                 while ((index = findByte(byteBuffer, newLine)) != -1) {
                     byte[] byteArray = new byte[index + 1];
                     byteBuffer.get(byteArray);
                     try {
                         stream.write(byteArray);
-                        try {
-                            // try to decode the stream
-                            CharBuffer possibleLineCharBuffer = StandardCharsets.UTF_8.newDecoder()
-                                    .onMalformedInput(CodingErrorAction.REPORT)
-                                    .onUnmappableCharacter(CodingErrorAction.REPORT)
-                                    .decode(ByteBuffer.wrap(stream.toByteArray()));
-                            String line = possibleLineCharBuffer.toString();
-                            if (!line.isEmpty() && line.charAt(line.length() - 1) == newLine) {
-                                // OK this is a line, end with newLine char
+                        String line = new String(stream.toByteArray(), StandardCharsets.UTF_8);
+                        if (!line.isEmpty() && line.charAt(line.length() - 1) == newLine) {
+                            // OK this is a line, end with newLine char
+                            line = line.substring(0, line.length() - 1);
+                            if (!line.isEmpty() && line.charAt(line.length() - 1) == newLineR) {
                                 line = line.substring(0, line.length() - 1);
-                                if (!line.isEmpty() && line.charAt(line.length() - 1) == newLineR) {
-                                    line = line.substring(0, line.length() - 1);
-                                }
-                                lines.add(line);
-                                stream.reset();
                             }
-                        } catch (CharacterCodingException codingException) {
-                            // failed to decode, this is not a line
+                            lines.add(line);
+                            stream.reset();
                         }
                     } catch (IOException e) {
                         return Flux.error(e);
                     }
                 }
-                if (index == -1 && byteBuffer.hasRemaining()) {
+                if (byteBuffer.hasRemaining()) {
+                    // put rest into stream
                     try {
                         stream.write(FluxUtil.byteBufferToArray(byteBuffer));
                     } catch (IOException e) {

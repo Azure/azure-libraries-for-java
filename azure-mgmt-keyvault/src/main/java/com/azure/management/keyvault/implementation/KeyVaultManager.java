@@ -100,7 +100,7 @@ public final class KeyVaultManager extends Manager<KeyVaultManager, KeyVaultMana
                 subscriptionId,
                 new KeyVaultManagementClientBuilder()
                         .pipeline(restClient.getHttpPipeline())
-                        .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                        .host(restClient.getBaseUrl().toString())
                         .subscriptionId(subscriptionId)
                         .build());
         graphRbacManager = GraphRbacManager.authenticate(restClient, tenantId);

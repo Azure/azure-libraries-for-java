@@ -101,7 +101,7 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
                 subscriptionId,
                 new StorageManagementClientBuilder()
                         .pipeline(restClient.getHttpPipeline())
-                        .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                        .host(restClient.getBaseUrl().toString())
                         .subscriptionId(subscriptionId)
                         .build());
     }

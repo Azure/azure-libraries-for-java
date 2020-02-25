@@ -14,9 +14,9 @@ import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.storage.StorageAccount;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withConflictResolutionPolicyHubWins()
             .withInterval(-1)
             .create();
-        Assert.assertNotNull(sqlSyncGroup);
+        Assertions.assertNotNull(sqlSyncGroup);
 
         SqlSyncMember sqlSyncMember = sqlSyncGroup.syncMembers().define(syncMemberName)
             .withMemberSqlDatabase(dbMember)
@@ -81,7 +81,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withMemberDatabaseType(SyncMemberDbType.AZURE_SQL_DATABASE)
             .withDatabaseType(SyncDirection.ONE_WAY_MEMBER_TO_HUB)
             .create();
-        Assert.assertNotNull(sqlSyncMember);
+        Assertions.assertNotNull(sqlSyncMember);
 
         sqlSyncMember.update()
             .withDatabaseType(SyncDirection.BIDIRECTIONAL)
@@ -90,10 +90,10 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withMemberDatabaseType(SyncMemberDbType.AZURE_SQL_DATABASE)
             .apply();
 
-        Assert.assertFalse(sqlSyncGroup.syncMembers().list().isEmpty());
+        Assertions.assertFalse(sqlSyncGroup.syncMembers().list().isEmpty());
 
         sqlSyncMember = sqlServerManager.sqlServers().syncMembers().getBySqlServer(rgName, sqlServerName, dbSyncName, syncGroupName, syncMemberName);
-        Assert.assertNotNull(sqlSyncMember);
+        Assertions.assertNotNull(sqlSyncMember);
 
         sqlSyncMember.delete();
 
@@ -137,18 +137,18 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withInterval(-1)
             .create();
 
-        Assert.assertNotNull(sqlSyncGroup);
+        Assertions.assertNotNull(sqlSyncGroup);
 
         sqlSyncGroup.update()
             .withInterval(600)
             .withConflictResolutionPolicyMemberWins()
             .apply();
 
-        Assert.assertTrue(sqlServerManager.sqlServers().syncGroups().listSyncDatabaseIds(Region.US_EAST).stream().findAny().isPresent());
-        Assert.assertFalse(dbSync.syncGroups().list().isEmpty());
+        Assertions.assertTrue(sqlServerManager.sqlServers().syncGroups().listSyncDatabaseIds(Region.US_EAST).stream().findAny().isPresent());
+        Assertions.assertFalse(dbSync.syncGroups().list().isEmpty());
 
         sqlSyncGroup = sqlServerManager.sqlServers().syncGroups().getBySqlServer(rgName, sqlServerName, dbSyncName, syncGroupName);
-        Assert.assertNotNull(sqlSyncGroup);
+        Assertions.assertNotNull(sqlSyncGroup);
 
         sqlSyncGroup.delete();
 
@@ -195,7 +195,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withServiceObjective(ServiceObjectiveName.P1)
             .create();
 
-        Assert.assertNotNull(dbCopy);
+        Assertions.assertNotNull(dbCopy);
 
     }
 
@@ -242,58 +242,58 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withPartnerServerId(sqlSecondaryServer.id())
             .withReadOnlyEndpointPolicyDisabled()
             .create();
-        Assert.assertNotNull(failoverGroup);
-        Assert.assertEquals(failoverGroupName, failoverGroup.name());
-        Assert.assertEquals(rgName, failoverGroup.resourceGroupName());
-        Assert.assertEquals(sqlPrimaryServerName, failoverGroup.sqlServerName());
-        Assert.assertEquals(FailoverGroupReplicationRole.PRIMARY, failoverGroup.replicationRole());
-        Assert.assertEquals(1, failoverGroup.partnerServers().size());
-        Assert.assertEquals(sqlSecondaryServer.id(), failoverGroup.partnerServers().get(0).getId());
-        Assert.assertEquals(FailoverGroupReplicationRole.SECONDARY, failoverGroup.partnerServers().get(0).replicationRole());
-        Assert.assertEquals(0, failoverGroup.databases().size());
-        Assert.assertEquals(0, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
-        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroup.readWriteEndpointPolicy());
-        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroup.readOnlyEndpointPolicy());
+        Assertions.assertNotNull(failoverGroup);
+        Assertions.assertEquals(failoverGroupName, failoverGroup.name());
+        Assertions.assertEquals(rgName, failoverGroup.resourceGroupName());
+        Assertions.assertEquals(sqlPrimaryServerName, failoverGroup.sqlServerName());
+        Assertions.assertEquals(FailoverGroupReplicationRole.PRIMARY, failoverGroup.replicationRole());
+        Assertions.assertEquals(1, failoverGroup.partnerServers().size());
+        Assertions.assertEquals(sqlSecondaryServer.id(), failoverGroup.partnerServers().get(0).getId());
+        Assertions.assertEquals(FailoverGroupReplicationRole.SECONDARY, failoverGroup.partnerServers().get(0).replicationRole());
+        Assertions.assertEquals(0, failoverGroup.databases().size());
+        Assertions.assertEquals(0, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
+        Assertions.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroup.readWriteEndpointPolicy());
+        Assertions.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroup.readOnlyEndpointPolicy());
 
         SqlFailoverGroup failoverGroupOnPartner = sqlSecondaryServer.failoverGroups().get(failoverGroup.name());
-        Assert.assertEquals(failoverGroupName, failoverGroupOnPartner.name());
-        Assert.assertEquals(rgName, failoverGroupOnPartner.resourceGroupName());
-        Assert.assertEquals(sqlSecondaryServerName, failoverGroupOnPartner.sqlServerName());
-        Assert.assertEquals(FailoverGroupReplicationRole.SECONDARY, failoverGroupOnPartner.replicationRole());
-        Assert.assertEquals(1, failoverGroupOnPartner.partnerServers().size());
-        Assert.assertEquals(sqlPrimaryServer.id(), failoverGroupOnPartner.partnerServers().get(0).getId());
-        Assert.assertEquals(FailoverGroupReplicationRole.PRIMARY, failoverGroupOnPartner.partnerServers().get(0).replicationRole());
-        Assert.assertEquals(0, failoverGroupOnPartner.databases().size());
-        Assert.assertEquals(0, failoverGroupOnPartner.readWriteEndpointDataLossGracePeriodMinutes());
-        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroupOnPartner.readWriteEndpointPolicy());
-        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroupOnPartner.readOnlyEndpointPolicy());
+        Assertions.assertEquals(failoverGroupName, failoverGroupOnPartner.name());
+        Assertions.assertEquals(rgName, failoverGroupOnPartner.resourceGroupName());
+        Assertions.assertEquals(sqlSecondaryServerName, failoverGroupOnPartner.sqlServerName());
+        Assertions.assertEquals(FailoverGroupReplicationRole.SECONDARY, failoverGroupOnPartner.replicationRole());
+        Assertions.assertEquals(1, failoverGroupOnPartner.partnerServers().size());
+        Assertions.assertEquals(sqlPrimaryServer.id(), failoverGroupOnPartner.partnerServers().get(0).getId());
+        Assertions.assertEquals(FailoverGroupReplicationRole.PRIMARY, failoverGroupOnPartner.partnerServers().get(0).replicationRole());
+        Assertions.assertEquals(0, failoverGroupOnPartner.databases().size());
+        Assertions.assertEquals(0, failoverGroupOnPartner.readWriteEndpointDataLossGracePeriodMinutes());
+        Assertions.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroupOnPartner.readWriteEndpointPolicy());
+        Assertions.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroupOnPartner.readOnlyEndpointPolicy());
 
         SqlFailoverGroup failoverGroup2 = sqlPrimaryServer.failoverGroups().define(failoverGroupName2)
             .withAutomaticReadWriteEndpointPolicyAndDataLossGracePeriod(120)
             .withPartnerServerId(sqlOtherServer.id())
             .withReadOnlyEndpointPolicyEnabled()
             .create();
-        Assert.assertNotNull(failoverGroup2);
-        Assert.assertEquals(failoverGroupName2, failoverGroup2.name());
-        Assert.assertEquals(rgName, failoverGroup2.resourceGroupName());
-        Assert.assertEquals(sqlPrimaryServerName, failoverGroup2.sqlServerName());
-        Assert.assertEquals(FailoverGroupReplicationRole.PRIMARY, failoverGroup2.replicationRole());
-        Assert.assertEquals(1, failoverGroup2.partnerServers().size());
-        Assert.assertEquals(sqlOtherServer.id(), failoverGroup2.partnerServers().get(0).getId());
-        Assert.assertEquals(FailoverGroupReplicationRole.SECONDARY, failoverGroup2.partnerServers().get(0).replicationRole());
-        Assert.assertEquals(0, failoverGroup2.databases().size());
-        Assert.assertEquals(120, failoverGroup2.readWriteEndpointDataLossGracePeriodMinutes());
-        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.AUTOMATIC, failoverGroup2.readWriteEndpointPolicy());
-        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.ENABLED, failoverGroup2.readOnlyEndpointPolicy());
+        Assertions.assertNotNull(failoverGroup2);
+        Assertions.assertEquals(failoverGroupName2, failoverGroup2.name());
+        Assertions.assertEquals(rgName, failoverGroup2.resourceGroupName());
+        Assertions.assertEquals(sqlPrimaryServerName, failoverGroup2.sqlServerName());
+        Assertions.assertEquals(FailoverGroupReplicationRole.PRIMARY, failoverGroup2.replicationRole());
+        Assertions.assertEquals(1, failoverGroup2.partnerServers().size());
+        Assertions.assertEquals(sqlOtherServer.id(), failoverGroup2.partnerServers().get(0).getId());
+        Assertions.assertEquals(FailoverGroupReplicationRole.SECONDARY, failoverGroup2.partnerServers().get(0).replicationRole());
+        Assertions.assertEquals(0, failoverGroup2.databases().size());
+        Assertions.assertEquals(120, failoverGroup2.readWriteEndpointDataLossGracePeriodMinutes());
+        Assertions.assertEquals(ReadWriteEndpointFailoverPolicy.AUTOMATIC, failoverGroup2.readWriteEndpointPolicy());
+        Assertions.assertEquals(ReadOnlyEndpointFailoverPolicy.ENABLED, failoverGroup2.readOnlyEndpointPolicy());
 
         failoverGroup.update()
             .withAutomaticReadWriteEndpointPolicyAndDataLossGracePeriod(120)
             .withReadOnlyEndpointPolicyEnabled()
             .withTag("tag1", "value1")
             .apply();
-        Assert.assertEquals(120, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
-        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.AUTOMATIC, failoverGroup.readWriteEndpointPolicy());
-        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.ENABLED, failoverGroup.readOnlyEndpointPolicy());
+        Assertions.assertEquals(120, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
+        Assertions.assertEquals(ReadWriteEndpointFailoverPolicy.AUTOMATIC, failoverGroup.readWriteEndpointPolicy());
+        Assertions.assertEquals(ReadOnlyEndpointFailoverPolicy.ENABLED, failoverGroup.readOnlyEndpointPolicy());
 
         SqlDatabase db = sqlPrimaryServer.databases().get(dbName);
         failoverGroup.update()
@@ -301,17 +301,17 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withReadOnlyEndpointPolicyDisabled()
             .withNewDatabaseId(db.id())
             .apply();
-        Assert.assertEquals(1, failoverGroup.databases().size());
-        Assert.assertEquals(db.id(), failoverGroup.databases().get(0));
-        Assert.assertEquals(0, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
-        Assert.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroup.readWriteEndpointPolicy());
-        Assert.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroup.readOnlyEndpointPolicy());
+        Assertions.assertEquals(1, failoverGroup.databases().size());
+        Assertions.assertEquals(db.id(), failoverGroup.databases().get(0));
+        Assertions.assertEquals(0, failoverGroup.readWriteEndpointDataLossGracePeriodMinutes());
+        Assertions.assertEquals(ReadWriteEndpointFailoverPolicy.MANUAL, failoverGroup.readWriteEndpointPolicy());
+        Assertions.assertEquals(ReadOnlyEndpointFailoverPolicy.DISABLED, failoverGroup.readOnlyEndpointPolicy());
 
         List<SqlFailoverGroup> failoverGroupsList = sqlPrimaryServer.failoverGroups().list();
-        Assert.assertEquals(2, failoverGroupsList.size());
+        Assertions.assertEquals(2, failoverGroupsList.size());
 
         failoverGroupsList = sqlSecondaryServer.failoverGroups().list();
-        Assert.assertEquals(1, failoverGroupsList.size());
+        Assertions.assertEquals(1, failoverGroupsList.size());
 
         sqlPrimaryServer.failoverGroups().delete(failoverGroup2.name());
     }
@@ -340,13 +340,13 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .attach()
             .create();
         SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
-        Assert.assertNotNull(dbFromSample);
-        Assert.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
+        Assertions.assertNotNull(dbFromSample);
+        Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
 
         SqlServerAutomaticTuning serverAutomaticTuning = sqlServer.getServerAutomaticTuning();
-        Assert.assertEquals(AutomaticTuningServerMode.UNSPECIFIED, serverAutomaticTuning.desiredState());
-        Assert.assertEquals(AutomaticTuningServerMode.UNSPECIFIED, serverAutomaticTuning.actualState());
-        Assert.assertEquals(4, serverAutomaticTuning.tuningOptions().size());
+        Assertions.assertEquals(AutomaticTuningServerMode.UNSPECIFIED, serverAutomaticTuning.desiredState());
+        Assertions.assertEquals(AutomaticTuningServerMode.UNSPECIFIED, serverAutomaticTuning.actualState());
+        Assertions.assertEquals(4, serverAutomaticTuning.tuningOptions().size());
 
         serverAutomaticTuning.update()
             .withAutomaticTuningMode(AutomaticTuningServerMode.AUTO)
@@ -354,16 +354,16 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withAutomaticTuningOption("dropIndex", AutomaticTuningOptionModeDesired.ON)
             .withAutomaticTuningOption("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
             .apply();
-        Assert.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.desiredState());
-        Assert.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.actualState());
-        Assert.assertEquals(AutomaticTuningOptionModeDesired.OFF, serverAutomaticTuning.tuningOptions().get("createIndex").desiredState());
-        Assert.assertEquals(AutomaticTuningOptionModeActual.OFF, serverAutomaticTuning.tuningOptions().get("createIndex").actualState());
-        Assert.assertEquals(AutomaticTuningOptionModeDesired.ON, serverAutomaticTuning.tuningOptions().get("dropIndex").desiredState());
-        Assert.assertEquals(AutomaticTuningOptionModeActual.ON, serverAutomaticTuning.tuningOptions().get("dropIndex").actualState());
-        Assert.assertEquals(AutomaticTuningOptionModeDesired.DEFAULT, serverAutomaticTuning.tuningOptions().get("forceLastGoodPlan").desiredState());
+        Assertions.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.desiredState());
+        Assertions.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.actualState());
+        Assertions.assertEquals(AutomaticTuningOptionModeDesired.OFF, serverAutomaticTuning.tuningOptions().get("createIndex").desiredState());
+        Assertions.assertEquals(AutomaticTuningOptionModeActual.OFF, serverAutomaticTuning.tuningOptions().get("createIndex").actualState());
+        Assertions.assertEquals(AutomaticTuningOptionModeDesired.ON, serverAutomaticTuning.tuningOptions().get("dropIndex").desiredState());
+        Assertions.assertEquals(AutomaticTuningOptionModeActual.ON, serverAutomaticTuning.tuningOptions().get("dropIndex").actualState());
+        Assertions.assertEquals(AutomaticTuningOptionModeDesired.DEFAULT, serverAutomaticTuning.tuningOptions().get("forceLastGoodPlan").desiredState());
 
         SqlDatabaseAutomaticTuning databaseAutomaticTuning = dbFromSample.getDatabaseAutomaticTuning();
-        Assert.assertEquals(4, databaseAutomaticTuning.tuningOptions().size());
+        Assertions.assertEquals(4, databaseAutomaticTuning.tuningOptions().size());
 
         // The following results in "InternalServerError" at the moment
         databaseAutomaticTuning.update()
@@ -372,13 +372,13 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withAutomaticTuningOption("dropIndex", AutomaticTuningOptionModeDesired.ON)
             .withAutomaticTuningOption("forceLastGoodPlan", AutomaticTuningOptionModeDesired.DEFAULT)
             .apply();
-        Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.desiredState());
-        Assert.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.actualState());
-        Assert.assertEquals(AutomaticTuningOptionModeDesired.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").desiredState());
-        Assert.assertEquals(AutomaticTuningOptionModeActual.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").actualState());
-        Assert.assertEquals(AutomaticTuningOptionModeDesired.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").desiredState());
-        Assert.assertEquals(AutomaticTuningOptionModeActual.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").actualState());
-        Assert.assertEquals(AutomaticTuningOptionModeDesired.DEFAULT, databaseAutomaticTuning.tuningOptions().get("forceLastGoodPlan").desiredState());
+        Assertions.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.desiredState());
+        Assertions.assertEquals(AutomaticTuningMode.AUTO, databaseAutomaticTuning.actualState());
+        Assertions.assertEquals(AutomaticTuningOptionModeDesired.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").desiredState());
+        Assertions.assertEquals(AutomaticTuningOptionModeActual.OFF, databaseAutomaticTuning.tuningOptions().get("createIndex").actualState());
+        Assertions.assertEquals(AutomaticTuningOptionModeDesired.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").desiredState());
+        Assertions.assertEquals(AutomaticTuningOptionModeActual.ON, databaseAutomaticTuning.tuningOptions().get("dropIndex").actualState());
+        Assertions.assertEquals(AutomaticTuningOptionModeDesired.DEFAULT, databaseAutomaticTuning.tuningOptions().get("forceLastGoodPlan").desiredState());
 
         // cleanup
         dbFromSample.delete();
@@ -400,23 +400,23 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withAdministratorLogin(sqlServerAdminName)
             .withAdministratorPassword(sqlServerAdminPassword)
             .create();
-        Assert.assertNotNull(sqlServer1);
+        Assertions.assertNotNull(sqlServer1);
 
         SqlServerDnsAlias dnsAlias = sqlServer1.dnsAliases()
             .define(SQL_SERVER_NAME)
             .create();
 
-        Assert.assertNotNull(dnsAlias);
-        Assert.assertEquals(rgName, dnsAlias.resourceGroupName());
-        Assert.assertEquals(sqlServerName1, dnsAlias.sqlServerName());
+        Assertions.assertNotNull(dnsAlias);
+        Assertions.assertEquals(rgName, dnsAlias.resourceGroupName());
+        Assertions.assertEquals(sqlServerName1, dnsAlias.sqlServerName());
 
         dnsAlias = sqlServerManager.sqlServers().dnsAliases()
             .getBySqlServer(rgName, sqlServerName1, SQL_SERVER_NAME);
-        Assert.assertNotNull(dnsAlias);
-        Assert.assertEquals(rgName, dnsAlias.resourceGroupName());
-        Assert.assertEquals(sqlServerName1, dnsAlias.sqlServerName());
+        Assertions.assertNotNull(dnsAlias);
+        Assertions.assertEquals(rgName, dnsAlias.resourceGroupName());
+        Assertions.assertEquals(sqlServerName1, dnsAlias.sqlServerName());
 
-        Assert.assertEquals(1, sqlServer1.databases().list().size());
+        Assertions.assertEquals(1, sqlServer1.databases().list().size());
 
         SqlServer sqlServer2 = sqlServerManager.sqlServers().define(sqlServerName2)
             .withRegion(Region.US_EAST)
@@ -424,15 +424,15 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withAdministratorLogin(sqlServerAdminName)
             .withAdministratorPassword(sqlServerAdminPassword)
             .create();
-        Assert.assertNotNull(sqlServer2);
+        Assertions.assertNotNull(sqlServer2);
 
         sqlServer2.dnsAliases().acquire(SQL_SERVER_NAME, sqlServer1.id());
         SdkContext.sleep(3 * 60 * 1000);
 
         dnsAlias = sqlServer2.dnsAliases().get(SQL_SERVER_NAME);
-        Assert.assertNotNull(dnsAlias);
-        Assert.assertEquals(rgName, dnsAlias.resourceGroupName());
-        Assert.assertEquals(sqlServerName2, dnsAlias.sqlServerName());
+        Assertions.assertNotNull(dnsAlias);
+        Assertions.assertEquals(rgName, dnsAlias.resourceGroupName());
+        Assertions.assertEquals(sqlServerName2, dnsAlias.sqlServerName());
 
         // cleanup
         dnsAlias.delete();
@@ -450,10 +450,10 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String databaseName = "db-from-sample";
 
         RegionCapabilities regionCapabilities = sqlServerManager.sqlServers().getCapabilitiesByRegion(Region.US_EAST);
-        Assert.assertNotNull(regionCapabilities);
-        Assert.assertNotNull(regionCapabilities.supportedCapabilitiesByServerVersion().get("12.0"));
-        Assert.assertTrue(regionCapabilities.supportedCapabilitiesByServerVersion().get("12.0").supportedEditions().size() > 0);
-        Assert.assertTrue(regionCapabilities.supportedCapabilitiesByServerVersion().get("12.0").supportedElasticPoolEditions().size() > 0);
+        Assertions.assertNotNull(regionCapabilities);
+        Assertions.assertNotNull(regionCapabilities.supportedCapabilitiesByServerVersion().get("12.0"));
+        Assertions.assertTrue(regionCapabilities.supportedCapabilitiesByServerVersion().get("12.0").supportedEditions().size() > 0);
+        Assertions.assertTrue(regionCapabilities.supportedCapabilitiesByServerVersion().get("12.0").supportedElasticPoolEditions().size() > 0);
 
         // Create
         SqlServer sqlServer = sqlServerManager
@@ -470,19 +470,19 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .attach()
             .create();
         SqlDatabase dbFromSample = sqlServer.databases().get(databaseName);
-        Assert.assertNotNull(dbFromSample);
-        Assert.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
+        Assertions.assertNotNull(dbFromSample);
+        Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
 
-        Assert.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
-        Assert.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
-        Assert.assertNotNull(sqlServer.systemAssignedManagedServiceIdentityPrincipalId());
+        Assertions.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
+        Assertions.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
+        Assertions.assertNotNull(sqlServer.systemAssignedManagedServiceIdentityPrincipalId());
 
         sqlServer.update()
             .withSystemAssignedManagedServiceIdentity()
             .apply();
-        Assert.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
-        Assert.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
-        Assert.assertNotNull(sqlServer.systemAssignedManagedServiceIdentityPrincipalId());
+        Assertions.assertTrue(sqlServer.isManagedServiceIdentityEnabled());
+        Assertions.assertEquals(sqlServerManager.tenantId(), sqlServer.systemAssignedManagedServiceIdentityTenantId());
+        Assertions.assertNotNull(sqlServer.systemAssignedManagedServiceIdentityPrincipalId());
 
 
         // cleanup
@@ -520,8 +520,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withBasicEdition()
             .withTag("tag1", "value1")
             .create();
-        Assert.assertNotNull(dbFromSample);
-        Assert.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
+        Assertions.assertNotNull(dbFromSample);
+        Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
 
         SqlDatabaseImportExportResponse exportedDB;
         StorageAccount storageAccount = storageManager.storageAccounts().getByResourceGroup(sqlServer.resourceGroupName(), storageName);
@@ -549,8 +549,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withSqlAdministratorLoginAndPassword(sqlServerAdminName, sqlServerAdminPassword)
             .withTag("tag2", "value2")
             .create();
-        Assert.assertNotNull(dbFromImport);
-        Assert.assertEquals("ep1", dbFromImport.elasticPoolName());
+        Assertions.assertNotNull(dbFromImport);
+        Assertions.assertEquals("ep1", dbFromImport.elasticPoolName());
 
         dbFromImport.delete();
         dbFromSample.delete();
@@ -581,47 +581,47 @@ public class SqlServerOperationsTests extends SqlServerTest {
                         .attach()
                     .withTag("tag1", "value1")
                     .create();
-        Assert.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
-        Assert.assertEquals("v12.0", sqlServer.kind());
-        Assert.assertEquals("12.0", sqlServer.version());
+        Assertions.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
+        Assertions.assertEquals("v12.0", sqlServer.kind());
+        Assertions.assertEquals("12.0", sqlServer.version());
 
         sqlServer = sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME);
-        Assert.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
-        Assert.assertEquals("v12.0", sqlServer.kind());
-        Assert.assertEquals("12.0", sqlServer.version());
+        Assertions.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
+        Assertions.assertEquals("v12.0", sqlServer.kind());
+        Assertions.assertEquals("12.0", sqlServer.version());
 
         SqlActiveDirectoryAdministrator sqlADAdmin = sqlServer.getActiveDirectoryAdministrator();
-        Assert.assertNotNull(sqlADAdmin);
-        Assert.assertEquals("DSEng", sqlADAdmin.signInName());
-        Assert.assertNotNull(sqlADAdmin.id());
-        Assert.assertEquals("ActiveDirectory", sqlADAdmin.administratorType());
+        Assertions.assertNotNull(sqlADAdmin);
+        Assertions.assertEquals("DSEng", sqlADAdmin.signInName());
+        Assertions.assertNotNull(sqlADAdmin.id());
+        Assertions.assertEquals("ActiveDirectory", sqlADAdmin.administratorType());
 
         sqlADAdmin = sqlServer.setActiveDirectoryAdministrator("DSEngAll", id);
-        Assert.assertNotNull(sqlADAdmin);
-        Assert.assertEquals("DSEngAll", sqlADAdmin.signInName());
-        Assert.assertNotNull(sqlADAdmin.id());
-        Assert.assertEquals("ActiveDirectory", sqlADAdmin.administratorType());
+        Assertions.assertNotNull(sqlADAdmin);
+        Assertions.assertEquals("DSEngAll", sqlADAdmin.signInName());
+        Assertions.assertNotNull(sqlADAdmin.id());
+        Assertions.assertEquals("ActiveDirectory", sqlADAdmin.administratorType());
         sqlServer.removeActiveDirectoryAdministrator();
         sqlADAdmin = sqlServer.getActiveDirectoryAdministrator();
-        Assert.assertNull(sqlADAdmin);
+        Assertions.assertNull(sqlADAdmin);
 
         SqlFirewallRule firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "somefirewallrule1");
-        Assert.assertEquals("0.0.0.1", firewallRule.startIPAddress());
-        Assert.assertEquals("0.0.0.1", firewallRule.endIPAddress());
+        Assertions.assertEquals("0.0.0.1", firewallRule.startIPAddress());
+        Assertions.assertEquals("0.0.0.1", firewallRule.endIPAddress());
 
         firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "AllowAllWindowsAzureIps");
-        Assert.assertNull(firewallRule);
+        Assertions.assertNull(firewallRule);
 
         sqlServer.enableAccessFromAzureServices();
         firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "AllowAllWindowsAzureIps");
-        Assert.assertEquals("0.0.0.0", firewallRule.startIPAddress());
-        Assert.assertEquals("0.0.0.0", firewallRule.endIPAddress());
+        Assertions.assertEquals("0.0.0.0", firewallRule.startIPAddress());
+        Assertions.assertEquals("0.0.0.0", firewallRule.endIPAddress());
 
         sqlServer.update()
             .withNewFirewallRule("0.0.0.2", "0.0.0.2", "newFirewallRule1")
             .apply();
         sqlServer.firewallRules().delete("newFirewallRule2");
-        Assert.assertNull(sqlServer.firewallRules().get("newFirewallRule2"));
+        Assertions.assertNull(sqlServer.firewallRules().get("newFirewallRule2"));
 
         firewallRule = sqlServerManager.sqlServers().firewallRules()
             .define("newFirewallRule2")
@@ -629,35 +629,35 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withIPAddress("0.0.0.3")
             .create();
 
-        Assert.assertEquals("0.0.0.3", firewallRule.startIPAddress());
-        Assert.assertEquals("0.0.0.3", firewallRule.endIPAddress());
+        Assertions.assertEquals("0.0.0.3", firewallRule.startIPAddress());
+        Assertions.assertEquals("0.0.0.3", firewallRule.endIPAddress());
 
         firewallRule = firewallRule.update().withStartIPAddress("0.0.0.1").apply();
 
-        Assert.assertEquals("0.0.0.1", firewallRule.startIPAddress());
-        Assert.assertEquals("0.0.0.3", firewallRule.endIPAddress());
+        Assertions.assertEquals("0.0.0.1", firewallRule.startIPAddress());
+        Assertions.assertEquals("0.0.0.3", firewallRule.endIPAddress());
 
         sqlServer.firewallRules().delete("somefirewallrule1");
         firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "somefirewallrule1");
-        Assert.assertNull(firewallRule);
+        Assertions.assertNull(firewallRule);
 
         firewallRule = sqlServer.firewallRules().define("somefirewallrule2")
             .withIPAddress("0.0.0.4")
             .create();
 
-        Assert.assertEquals("0.0.0.4", firewallRule.startIPAddress());
-        Assert.assertEquals("0.0.0.4", firewallRule.endIPAddress());
+        Assertions.assertEquals("0.0.0.4", firewallRule.startIPAddress());
+        Assertions.assertEquals("0.0.0.4", firewallRule.endIPAddress());
 
         firewallRule.delete();
     }
 
-    @Ignore("Depends on the existing SQL server")
+    @Disabled("Depends on the existing SQL server")
     @Test
     public void canListRecommendedElasticPools() throws Exception {
         SqlServer sqlServer = sqlServerManager.sqlServers().getByResourceGroup("ans", "ans-secondary");
         sqlServer.databases().list().get(0).listServiceTierAdvisors().values().iterator().next().serviceLevelObjectiveUsageMetrics();
         Map<String, RecommendedElasticPool> recommendedElasticPools = sqlServer.listRecommendedElasticPools();
-        Assert.assertNotNull(recommendedElasticPools);
+        Assertions.assertNotNull(recommendedElasticPools);
     }
 
     @Test
@@ -666,7 +666,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         // Check if the name is available
         CheckNameAvailabilityResult checkNameResult = sqlServerManager.sqlServers()
             .checkNameAvailability(SQL_SERVER_NAME);
-        Assert.assertTrue(checkNameResult.isAvailable());
+        Assertions.assertTrue(checkNameResult.isAvailable());
 
         // Create
         SqlServer sqlServer = createSqlServer();
@@ -676,14 +676,14 @@ public class SqlServerOperationsTests extends SqlServerTest {
         // Confirm the server name is unavailable
         checkNameResult = sqlServerManager.sqlServers()
             .checkNameAvailability(SQL_SERVER_NAME);
-        Assert.assertFalse(checkNameResult.isAvailable());
-        Assert.assertEquals(CheckNameAvailabilityReason.ALREADY_EXISTS.toString(), checkNameResult.unavailabilityReason());
+        Assertions.assertFalse(checkNameResult.isAvailable());
+        Assertions.assertEquals(CheckNameAvailabilityReason.ALREADY_EXISTS.toString(), checkNameResult.unavailabilityReason());
 
         List<ServiceObjective> serviceObjectives = sqlServer.listServiceObjectives();
 
-        Assert.assertNotEquals(serviceObjectives.size(), 0);
-        Assert.assertNotNull(serviceObjectives.get(0).refresh());
-        Assert.assertNotNull(sqlServer.getServiceObjective("d1737d22-a8ea-4de7-9bd0-33395d2a7419"));
+        Assertions.assertNotEquals(serviceObjectives.size(), 0);
+        Assertions.assertNotNull(serviceObjectives.get(0).refresh());
+        Assertions.assertNotNull(sqlServer.getServiceObjective("d1737d22-a8ea-4de7-9bd0-33395d2a7419"));
 
         sqlServer.update().withAdministratorPassword("P@ssword~2").apply();
 
@@ -695,10 +695,10 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 found = true;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
         // Get
         sqlServer = sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME);
-        Assert.assertNotNull(sqlServer);
+        Assertions.assertNotNull(sqlServer);
 
         sqlServerManager.sqlServers().deleteByResourceGroup(sqlServer.resourceGroupName(), sqlServer.name());
         validateSqlServerNotFound(sqlServer);
@@ -753,7 +753,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         validateMultiCreation(database2Name, database1InEPName, database2InEPName, elasticPool1Name, elasticPool2Name, elasticPool3Name, sqlServer, true);
 
         sqlServer.refresh();
-        Assert.assertEquals(sqlServer.elasticPools().list().size(), 0);
+        Assertions.assertEquals(sqlServer.elasticPools().list().size(), 0);
 
         // List
         PagedIterable<SqlServer> sqlServers = sqlServerManager.sqlServers().listByResourceGroup(RG_NAME);
@@ -764,10 +764,10 @@ public class SqlServerOperationsTests extends SqlServerTest {
             }
         }
 
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
         // Get
         sqlServer = sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME);
-        Assert.assertNotNull(sqlServer);
+        Assertions.assertNotNull(sqlServer);
 
         sqlServerManager.sqlServers().deleteByResourceGroup(sqlServer.resourceGroupName(), sqlServer.name());
         validateSqlServerNotFound(sqlServer);
@@ -786,42 +786,42 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .block();
 
         validateSqlDatabase(sqlDatabase, SQL_DATABASE_NAME);
-        Assert.assertTrue(sqlServer.databases().list().size() > 0);
+        Assertions.assertTrue(sqlServer.databases().list().size() > 0);
 
         // Test transparent data encryption settings.
         TransparentDataEncryption transparentDataEncryption = sqlDatabase.getTransparentDataEncryption();
-        Assert.assertNotNull(transparentDataEncryption.status());
+        Assertions.assertNotNull(transparentDataEncryption.status());
 
         List<TransparentDataEncryptionActivity> transparentDataEncryptionActivities = transparentDataEncryption.listActivities();
-        Assert.assertNotNull(transparentDataEncryptionActivities);
+        Assertions.assertNotNull(transparentDataEncryptionActivities);
 
         transparentDataEncryption = transparentDataEncryption.updateStatus(TransparentDataEncryptionStatus.ENABLED);
-        Assert.assertNotNull(transparentDataEncryption);
-        Assert.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionStatus.ENABLED);
+        Assertions.assertNotNull(transparentDataEncryption);
+        Assertions.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionStatus.ENABLED);
 
         transparentDataEncryptionActivities = transparentDataEncryption.listActivities();
-        Assert.assertNotNull(transparentDataEncryptionActivities);
+        Assertions.assertNotNull(transparentDataEncryptionActivities);
 
         TestUtilities.sleep(10000, isRecordMode());
         transparentDataEncryption = sqlDatabase.getTransparentDataEncryption().updateStatus(TransparentDataEncryptionStatus.DISABLED);
-        Assert.assertNotNull(transparentDataEncryption);
-        Assert.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionStatus.DISABLED);
-        Assert.assertEquals(transparentDataEncryption.sqlServerName(), SQL_SERVER_NAME);
-        Assert.assertEquals(transparentDataEncryption.databaseName(), SQL_DATABASE_NAME);
-        Assert.assertNotNull(transparentDataEncryption.name());
-        Assert.assertNotNull(transparentDataEncryption.id());
+        Assertions.assertNotNull(transparentDataEncryption);
+        Assertions.assertEquals(transparentDataEncryption.status(), TransparentDataEncryptionStatus.DISABLED);
+        Assertions.assertEquals(transparentDataEncryption.sqlServerName(), SQL_SERVER_NAME);
+        Assertions.assertEquals(transparentDataEncryption.databaseName(), SQL_DATABASE_NAME);
+        Assertions.assertNotNull(transparentDataEncryption.name());
+        Assertions.assertNotNull(transparentDataEncryption.id());
         // Done testing with encryption settings.
 
-        // Assert.assertNotNull(sqlDatabase.getUpgradeHint()); // This property is null
+        // Assertions.assertNotNull(sqlDatabase.getUpgradeHint()); // This property is null
 
         // Test Service tier advisors.
         Map<String, ServiceTierAdvisor> serviceTierAdvisors = sqlDatabase.listServiceTierAdvisors();
-        Assert.assertNotNull(serviceTierAdvisors);
-        Assert.assertNotNull(serviceTierAdvisors.values().iterator().next().serviceLevelObjectiveUsageMetrics());
-        Assert.assertNotEquals(serviceTierAdvisors.size(), 0);
+        Assertions.assertNotNull(serviceTierAdvisors);
+        Assertions.assertNotNull(serviceTierAdvisors.values().iterator().next().serviceLevelObjectiveUsageMetrics());
+        Assertions.assertNotEquals(serviceTierAdvisors.size(), 0);
 
-        Assert.assertNotNull(serviceTierAdvisors.values().iterator().next().refresh());
-        Assert.assertNotNull(serviceTierAdvisors.values().iterator().next().serviceLevelObjectiveUsageMetrics());
+        Assertions.assertNotNull(serviceTierAdvisors.values().iterator().next().refresh());
+        Assertions.assertNotNull(serviceTierAdvisors.values().iterator().next().serviceLevelObjectiveUsageMetrics());
         // End of testing service tier advisors.
 
         sqlServer =  sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME);
@@ -897,17 +897,17 @@ public class SqlServerOperationsTests extends SqlServerTest {
         TestUtilities.sleep(2000, isRecordMode());
         List<ReplicationLink> replicationLinksInDb1 = new ArrayList<>(databaseInServer1.listReplicationLinks().values());
 
-        Assert.assertEquals(replicationLinksInDb1.size() , 1);
-        Assert.assertEquals(replicationLinksInDb1.get(0).partnerDatabase(), databaseInServer2.name());
-        Assert.assertEquals(replicationLinksInDb1.get(0).partnerServer(), databaseInServer2.sqlServerName());
+        Assertions.assertEquals(replicationLinksInDb1.size() , 1);
+        Assertions.assertEquals(replicationLinksInDb1.get(0).partnerDatabase(), databaseInServer2.name());
+        Assertions.assertEquals(replicationLinksInDb1.get(0).partnerServer(), databaseInServer2.sqlServerName());
 
         List<ReplicationLink> replicationLinksInDb2 = new ArrayList<>(databaseInServer2.listReplicationLinks().values());
 
-        Assert.assertEquals(replicationLinksInDb2.size() , 1);
-        Assert.assertEquals(replicationLinksInDb2.get(0).partnerDatabase(), databaseInServer1.name());
-        Assert.assertEquals(replicationLinksInDb2.get(0).partnerServer(), databaseInServer1.sqlServerName());
+        Assertions.assertEquals(replicationLinksInDb2.size() , 1);
+        Assertions.assertEquals(replicationLinksInDb2.get(0).partnerDatabase(), databaseInServer1.name());
+        Assertions.assertEquals(replicationLinksInDb2.get(0).partnerServer(), databaseInServer1.sqlServerName());
 
-        Assert.assertNotNull(replicationLinksInDb1.get(0).refresh());
+        Assertions.assertNotNull(replicationLinksInDb1.get(0).refresh());
 
         // Failover
         replicationLinksInDb2.get(0).failover();
@@ -920,7 +920,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         TestUtilities.sleep(30000, isRecordMode());
 
         replicationLinksInDb2.get(0).delete();
-        Assert.assertEquals(databaseInServer2.listReplicationLinks().size(), 0);
+        Assertions.assertEquals(databaseInServer2.listReplicationLinks().size(), 0);
 
         sqlServer1.databases().delete(databaseInServer1.name());
         sqlServer2.databases().delete(databaseInServer2.name());
@@ -939,7 +939,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         validateSqlServer(sqlServer);
 
         // List usages for the server.
-        Assert.assertNotNull(sqlServer.listUsages());
+        Assertions.assertNotNull(sqlServer.listUsages());
 
         Flux<Indexable> resourceStream = sqlServer.databases()
                 .define(SQL_DATABASE_NAME)
@@ -950,23 +950,23 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         SqlDatabase sqlDatabase = Utils.<SqlDatabase>rootResource(resourceStream.last())
                 .block();
-        Assert.assertNotNull(sqlDatabase);
+        Assertions.assertNotNull(sqlDatabase);
 
         sqlDatabase = sqlServer.databases().get(SQL_DATABASE_NAME);
-        Assert.assertNotNull(sqlDatabase);
-        Assert.assertTrue(sqlDatabase.isDataWarehouse());
+        Assertions.assertNotNull(sqlDatabase);
+        Assertions.assertTrue(sqlDatabase.isDataWarehouse());
 
         // Get
         SqlWarehouse dataWarehouse = sqlServer.databases().get(SQL_DATABASE_NAME).asWarehouse();
 
-        Assert.assertNotNull(dataWarehouse);
-        Assert.assertEquals(dataWarehouse.name(), SQL_DATABASE_NAME);
-        Assert.assertEquals(dataWarehouse.edition(), DatabaseEdition.DATA_WAREHOUSE);
+        Assertions.assertNotNull(dataWarehouse);
+        Assertions.assertEquals(dataWarehouse.name(), SQL_DATABASE_NAME);
+        Assertions.assertEquals(dataWarehouse.edition(), DatabaseEdition.DATA_WAREHOUSE);
 
         // List Restore points.
-        Assert.assertNotNull(dataWarehouse.listRestorePoints());
+        Assertions.assertNotNull(dataWarehouse.listRestorePoints());
         // Get usages.
-        Assert.assertNotNull(dataWarehouse.listUsages());
+        Assertions.assertNotNull(dataWarehouse.listUsages());
 
         // Pause warehouse
         dataWarehouse.pauseDataWarehouse();
@@ -1021,7 +1021,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .withServiceObjective(ServiceObjectiveName.S3)
             .apply();
         sqlDatabase = sqlServer.databases().get(SQL_DATABASE_NAME);
-        Assert.assertNull(sqlDatabase.elasticPoolName());
+        Assertions.assertNull(sqlDatabase.elasticPoolName());
 
         // Update edition of the SQL database
         sqlDatabase.update()
@@ -1029,14 +1029,14 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .withServiceObjective(ServiceObjectiveName.P1)
                 .apply();
         sqlDatabase = sqlServer.databases().get(SQL_DATABASE_NAME);
-        Assert.assertEquals(sqlDatabase.edition(), DatabaseEdition.PREMIUM);
-        Assert.assertEquals(sqlDatabase.currentServiceObjectiveName(), ServiceObjectiveName.P1.toString());
+        Assertions.assertEquals(sqlDatabase.edition(), DatabaseEdition.PREMIUM);
+        Assertions.assertEquals(sqlDatabase.currentServiceObjectiveName(), ServiceObjectiveName.P1.toString());
 
         // Update just the service level objective for database.
         sqlDatabase.update().withServiceObjective(ServiceObjectiveName.P2).apply();
         sqlDatabase = sqlServer.databases().get(SQL_DATABASE_NAME);
-        Assert.assertEquals(sqlDatabase.currentServiceObjectiveName(), ServiceObjectiveName.P2.toString());
-        Assert.assertEquals(sqlDatabase.requestedServiceObjectiveName(), ServiceObjectiveName.P2.toString());
+        Assertions.assertEquals(sqlDatabase.currentServiceObjectiveName(), ServiceObjectiveName.P2.toString());
+        Assertions.assertEquals(sqlDatabase.requestedServiceObjectiveName(), ServiceObjectiveName.P2.toString());
 
         // Update max size bytes of the database.
         sqlDatabase.update()
@@ -1044,7 +1044,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .apply();
 
         sqlDatabase = sqlServer.databases().get(SQL_DATABASE_NAME);
-        Assert.assertEquals(sqlDatabase.maxSizeBytes(), 268435456000L);
+        Assertions.assertEquals(sqlDatabase.maxSizeBytes(), 268435456000L);
 
         // Put the database back in elastic pool.
         sqlDatabase.update()
@@ -1052,18 +1052,18 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .apply();
 
         sqlDatabase = sqlServer.databases().get(SQL_DATABASE_NAME);
-        Assert.assertEquals(sqlDatabase.elasticPoolName(), SQL_ELASTIC_POOL_NAME);
+        Assertions.assertEquals(sqlDatabase.elasticPoolName(), SQL_ELASTIC_POOL_NAME);
 
         // List Activity in elastic pool
-        Assert.assertNotNull(elasticPool.listActivities());
+        Assertions.assertNotNull(elasticPool.listActivities());
 
         // List Database activity in elastic pool.
-        Assert.assertNotNull(elasticPool.listDatabaseActivities());
+        Assertions.assertNotNull(elasticPool.listDatabaseActivities());
 
         // List databases in elastic pool.
         List<SqlDatabase> databasesInElasticPool = elasticPool.listDatabases();
-        Assert.assertNotNull(databasesInElasticPool);
-        Assert.assertEquals(databasesInElasticPool.size(), 1);
+        Assertions.assertNotNull(databasesInElasticPool);
+        Assertions.assertEquals(databasesInElasticPool.size(), 1);
 
         // Get a particular database in elastic pool.
         SqlDatabase databaseInElasticPool = elasticPool.getDatabase(SQL_DATABASE_NAME);
@@ -1074,7 +1074,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         // Validate that trying to get an invalid database from elastic pool returns null.
         SqlDatabase db_which_does_not_exist = elasticPool.getDatabase("does_not_exist");
-        Assert.assertNull(db_which_does_not_exist);
+        Assertions.assertNull(db_which_does_not_exist);
 
         // Delete
         sqlServer.databases().delete(SQL_DATABASE_NAME);
@@ -1115,7 +1115,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         SqlElasticPool sqlElasticPool = Utils.<SqlElasticPool>rootResource(resourceStream.last())
                 .block();
         validateSqlElasticPool(sqlElasticPool);
-        Assert.assertEquals(sqlElasticPool.listDatabases().size(), 0);
+        Assertions.assertEquals(sqlElasticPool.listDatabases().size(), 0);
 
         sqlElasticPool = sqlElasticPool.update()
                 .withDtu(100)
@@ -1127,7 +1127,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .apply();
 
         validateSqlElasticPool(sqlElasticPool);
-        Assert.assertEquals(sqlElasticPool.listDatabases().size(), 1);
+        Assertions.assertEquals(sqlElasticPool.listDatabases().size(), 1);
 
         // Get
         validateSqlElasticPool(sqlServer.elasticPools().get(SQL_ELASTIC_POOL_NAME));
@@ -1181,17 +1181,17 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 .define(secondFirewallRuleName)
                 .withIPAddress(START_IPADDRESS)
                 .create();
-        Assert.assertNotNull(secondFirewallRule);
+        Assertions.assertNotNull(secondFirewallRule);
 
         secondFirewallRule = sqlServer.firewallRules().get(secondFirewallRuleName);
-        Assert.assertNotNull(secondFirewallRule);
-        Assert.assertEquals(START_IPADDRESS, secondFirewallRule.endIPAddress());
+        Assertions.assertNotNull(secondFirewallRule);
+        Assertions.assertEquals(START_IPADDRESS, secondFirewallRule.endIPAddress());
 
         secondFirewallRule = secondFirewallRule.update().withEndIPAddress(END_IPADDRESS).apply();
 
         validateSqlFirewallRule(secondFirewallRule, secondFirewallRuleName);
         sqlServer.firewallRules().delete(secondFirewallRuleName);
-        Assert.assertNull(sqlServer.firewallRules().get(secondFirewallRuleName));
+        Assertions.assertNull(sqlServer.firewallRules().get(secondFirewallRuleName));
 
         // Get
         sqlFirewallRule = sqlServer.firewallRules().get(SQL_FIREWALLRULE_NAME);
@@ -1201,7 +1201,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         // Making start and end IP address same.
         sqlFirewallRule.update().withEndIPAddress(START_IPADDRESS).apply();
         sqlFirewallRule = sqlServer.firewallRules().get(SQL_FIREWALLRULE_NAME);
-        Assert.assertEquals(sqlFirewallRule.endIPAddress(), START_IPADDRESS);
+        Assertions.assertEquals(sqlFirewallRule.endIPAddress(), START_IPADDRESS);
 
         // List
         validateListSqlFirewallRule(sqlServer.firewallRules().list());
@@ -1215,7 +1215,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         validateSqlServerNotFound(sqlServer);
     }
 
-    private static void validateMultiCreation(
+    private void validateMultiCreation(
             String database2Name,
             String database1InEPName,
             String database2InEPName,
@@ -1230,14 +1230,14 @@ public class SqlServerOperationsTests extends SqlServerTest {
         validateSqlFirewallRule(sqlServer.firewallRules().get(SQL_FIREWALLRULE_NAME), SQL_FIREWALLRULE_NAME);
 
         List<SqlFirewallRule> firewalls = sqlServer.firewallRules().list();
-        Assert.assertEquals(3, firewalls.size());
+        Assertions.assertEquals(3, firewalls.size());
 
         int startIPAddress = 0;
         int endIPAddress = 0;
 
         for (SqlFirewallRule firewall: firewalls) {
             if (!firewall.name().equalsIgnoreCase(SQL_FIREWALLRULE_NAME)) {
-                Assert.assertEquals(firewall.startIPAddress(), START_IPADDRESS);
+                Assertions.assertEquals(firewall.startIPAddress(), START_IPADDRESS);
                 if (firewall.endIPAddress().equalsIgnoreCase(START_IPADDRESS)) {
                     startIPAddress++;
                 }
@@ -1247,27 +1247,27 @@ public class SqlServerOperationsTests extends SqlServerTest {
             }
         }
 
-        Assert.assertEquals(startIPAddress, 1);
-        Assert.assertEquals(endIPAddress, 1);
+        Assertions.assertEquals(startIPAddress, 1);
+        Assertions.assertEquals(endIPAddress, 1);
 
-        Assert.assertNotNull(sqlServer.databases().get(database2Name));
-        Assert.assertNotNull(sqlServer.databases().get(database1InEPName));
-        Assert.assertNotNull(sqlServer.databases().get(database2InEPName));
+        Assertions.assertNotNull(sqlServer.databases().get(database2Name));
+        Assertions.assertNotNull(sqlServer.databases().get(database1InEPName));
+        Assertions.assertNotNull(sqlServer.databases().get(database2InEPName));
 
         SqlElasticPool ep1 = sqlServer.elasticPools().get(elasticPool1Name);
         validateSqlElasticPool(ep1, elasticPool1Name);
         SqlElasticPool ep2 = sqlServer.elasticPools().get(elasticPool2Name);
 
-        Assert.assertNotNull(ep2);
-        Assert.assertEquals(ep2.edition(), ElasticPoolEdition.PREMIUM);
-        Assert.assertEquals(ep2.listDatabases().size(), 2);
-        Assert.assertNotNull(ep2.getDatabase(database1InEPName));
-        Assert.assertNotNull(ep2.getDatabase(database2InEPName));
+        Assertions.assertNotNull(ep2);
+        Assertions.assertEquals(ep2.edition(), ElasticPoolEdition.PREMIUM);
+        Assertions.assertEquals(ep2.listDatabases().size(), 2);
+        Assertions.assertNotNull(ep2.getDatabase(database1InEPName));
+        Assertions.assertNotNull(ep2.getDatabase(database2InEPName));
 
         SqlElasticPool ep3 = sqlServer.elasticPools().get(elasticPool3Name);
 
-        Assert.assertNotNull(ep3);
-        Assert.assertEquals(ep3.edition(), ElasticPoolEdition.STANDARD);
+        Assertions.assertNotNull(ep3);
+        Assertions.assertEquals(ep3.edition(), ElasticPoolEdition.STANDARD);
 
         if (!deleteUsingUpdate) {
             sqlServer.databases().delete(database2Name);
@@ -1275,9 +1275,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
             sqlServer.databases().delete(database2InEPName);
             sqlServer.databases().delete(SQL_DATABASE_NAME);
 
-            Assert.assertEquals(ep1.listDatabases().size(), 0);
-            Assert.assertEquals(ep2.listDatabases().size(), 0);
-            Assert.assertEquals(ep3.listDatabases().size(), 0);
+            Assertions.assertEquals(ep1.listDatabases().size(), 0);
+            Assertions.assertEquals(ep2.listDatabases().size(), 0);
+            Assertions.assertEquals(ep3.listDatabases().size(), 0);
 
             sqlServer.elasticPools().delete(elasticPool1Name);
             sqlServer.elasticPools().delete(elasticPool2Name);
@@ -1301,42 +1301,42 @@ public class SqlServerOperationsTests extends SqlServerTest {
                     .withoutFirewallRule(SQL_FIREWALLRULE_NAME)
                     .apply();
 
-            Assert.assertEquals(sqlServer.elasticPools().list().size(), 0);
+            Assertions.assertEquals(sqlServer.elasticPools().list().size(), 0);
 
             firewalls = sqlServer.firewallRules().list();
-            Assert.assertEquals(firewalls.size(), 2);
+            Assertions.assertEquals(firewalls.size(), 2);
             for (SqlFirewallRule firewallRule :firewalls) {
                 firewallRule.delete();
             }
         }
 
-        Assert.assertEquals(sqlServer.elasticPools().list().size(), 0);
+        Assertions.assertEquals(sqlServer.elasticPools().list().size(), 0);
         // Only master database is remaining in the SQLServer.
-        Assert.assertEquals(sqlServer.databases().list().size(), 1);
+        Assertions.assertEquals(sqlServer.databases().list().size(), 1);
     }
 
-    private static void validateSqlFirewallRuleNotFound() {
-        Assert.assertNull(sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME).firewallRules().get(SQL_FIREWALLRULE_NAME));
+    private void validateSqlFirewallRuleNotFound() {
+        Assertions.assertNull(sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME).firewallRules().get(SQL_FIREWALLRULE_NAME));
     }
 
     private static void validateSqlElasticPoolNotFound(SqlServer sqlServer, String elasticPoolName) {
-        Assert.assertNull(sqlServer.elasticPools().get(elasticPoolName));
+        Assertions.assertNull(sqlServer.elasticPools().get(elasticPoolName));
     }
 
-    private static void validateSqlDatabaseNotFound(String newDatabase) {
-        Assert.assertNull(sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME).databases().get(newDatabase));
+    private void validateSqlDatabaseNotFound(String newDatabase) {
+        Assertions.assertNull(sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME).databases().get(newDatabase));
     }
 
 
-    private static void validateSqlServerNotFound(SqlServer sqlServer) {
-        Assert.assertNull(sqlServerManager.sqlServers().getById(sqlServer.id()));
+    private void validateSqlServerNotFound(SqlServer sqlServer) {
+        Assertions.assertNull(sqlServerManager.sqlServers().getById(sqlServer.id()));
     }
 
-    private static SqlServer createSqlServer() {
+    private SqlServer createSqlServer() {
         return createSqlServer(SQL_SERVER_NAME);
     }
 
-    private static SqlServer createSqlServer(String SQL_SERVER_NAME) {
+    private SqlServer createSqlServer(String SQL_SERVER_NAME) {
         return sqlServerManager.sqlServers()
                 .define(SQL_SERVER_NAME)
                 .withRegion(Region.US_EAST)
@@ -1353,18 +1353,18 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 found = true;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
     }
 
-    private static void validateSqlFirewallRule(SqlFirewallRule sqlFirewallRule, String firewallName) {
-        Assert.assertNotNull(sqlFirewallRule);
-        Assert.assertEquals(firewallName, sqlFirewallRule.name());
-        Assert.assertEquals(SQL_SERVER_NAME, sqlFirewallRule.sqlServerName());
-        Assert.assertEquals(START_IPADDRESS, sqlFirewallRule.startIPAddress());
-        Assert.assertEquals(END_IPADDRESS, sqlFirewallRule.endIPAddress());
-        Assert.assertEquals(RG_NAME, sqlFirewallRule.resourceGroupName());
-        Assert.assertEquals(SQL_SERVER_NAME, sqlFirewallRule.sqlServerName());
-        Assert.assertEquals(Region.US_EAST, sqlFirewallRule.region());
+    private void validateSqlFirewallRule(SqlFirewallRule sqlFirewallRule, String firewallName) {
+        Assertions.assertNotNull(sqlFirewallRule);
+        Assertions.assertEquals(firewallName, sqlFirewallRule.name());
+        Assertions.assertEquals(SQL_SERVER_NAME, sqlFirewallRule.sqlServerName());
+        Assertions.assertEquals(START_IPADDRESS, sqlFirewallRule.startIPAddress());
+        Assertions.assertEquals(END_IPADDRESS, sqlFirewallRule.endIPAddress());
+        Assertions.assertEquals(RG_NAME, sqlFirewallRule.resourceGroupName());
+        Assertions.assertEquals(SQL_SERVER_NAME, sqlFirewallRule.sqlServerName());
+        Assertions.assertEquals(Region.US_EAST, sqlFirewallRule.region());
     }
 
     private static void validateListSqlElasticPool(List<SqlElasticPool> sqlElasticPools) {
@@ -1374,22 +1374,22 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 found = true;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
     }
 
-    private static void validateSqlElasticPool(SqlElasticPool sqlElasticPool) {
+    private void validateSqlElasticPool(SqlElasticPool sqlElasticPool) {
         validateSqlElasticPool(sqlElasticPool, SQL_ELASTIC_POOL_NAME);
     }
 
-    private static void validateSqlElasticPool(SqlElasticPool sqlElasticPool, String elasticPoolName) {
-        Assert.assertNotNull(sqlElasticPool);
-        Assert.assertEquals(RG_NAME, sqlElasticPool.resourceGroupName());
-        Assert.assertEquals(elasticPoolName, sqlElasticPool.name());
-        Assert.assertEquals(SQL_SERVER_NAME, sqlElasticPool.sqlServerName());
-        Assert.assertEquals(ElasticPoolEdition.STANDARD, sqlElasticPool.edition());
-        Assert.assertNotNull(sqlElasticPool.creationDate());
-        Assert.assertNotEquals(0, sqlElasticPool.databaseDtuMax());
-        Assert.assertNotEquals(0, sqlElasticPool.dtu());
+    private void validateSqlElasticPool(SqlElasticPool sqlElasticPool, String elasticPoolName) {
+        Assertions.assertNotNull(sqlElasticPool);
+        Assertions.assertEquals(RG_NAME, sqlElasticPool.resourceGroupName());
+        Assertions.assertEquals(elasticPoolName, sqlElasticPool.name());
+        Assertions.assertEquals(SQL_SERVER_NAME, sqlElasticPool.sqlServerName());
+        Assertions.assertEquals(ElasticPoolEdition.STANDARD, sqlElasticPool.edition());
+        Assertions.assertNotNull(sqlElasticPool.creationDate());
+        Assertions.assertNotEquals(0, sqlElasticPool.databaseDtuMax());
+        Assertions.assertNotEquals(0, sqlElasticPool.dtu());
     }
 
     private static void validateListSqlDatabase(List<SqlDatabase> sqlDatabases) {
@@ -1399,29 +1399,29 @@ public class SqlServerOperationsTests extends SqlServerTest {
                 found = true;
             }
         }
-        Assert.assertTrue(found);
+        Assertions.assertTrue(found);
     }
 
-    private static void validateSqlServer(SqlServer sqlServer) {
-        Assert.assertNotNull(sqlServer);
-        Assert.assertEquals(RG_NAME, sqlServer.resourceGroupName());
-        Assert.assertNotNull(sqlServer.fullyQualifiedDomainName());
-//        Assert.assertEquals(ServerVersion.ONE_TWO_FULL_STOP_ZERO, sqlServer.version());
-        Assert.assertEquals("userName", sqlServer.administratorLogin());
+    private void validateSqlServer(SqlServer sqlServer) {
+        Assertions.assertNotNull(sqlServer);
+        Assertions.assertEquals(RG_NAME, sqlServer.resourceGroupName());
+        Assertions.assertNotNull(sqlServer.fullyQualifiedDomainName());
+//        Assertions.assertEquals(ServerVersion.ONE_TWO_FULL_STOP_ZERO, sqlServer.version());
+        Assertions.assertEquals("userName", sqlServer.administratorLogin());
     }
 
-    private static void validateSqlDatabase(SqlDatabase sqlDatabase, String databaseName) {
-        Assert.assertNotNull(sqlDatabase);
-        Assert.assertEquals(sqlDatabase.name(), databaseName);
-        Assert.assertEquals(SQL_SERVER_NAME, sqlDatabase.sqlServerName());
-        Assert.assertEquals(sqlDatabase.collation(), COLLATION);
-        Assert.assertEquals(sqlDatabase.edition(), DatabaseEdition.STANDARD);
+    private void validateSqlDatabase(SqlDatabase sqlDatabase, String databaseName) {
+        Assertions.assertNotNull(sqlDatabase);
+        Assertions.assertEquals(sqlDatabase.name(), databaseName);
+        Assertions.assertEquals(SQL_SERVER_NAME, sqlDatabase.sqlServerName());
+        Assertions.assertEquals(sqlDatabase.collation(), COLLATION);
+        Assertions.assertEquals(sqlDatabase.edition(), DatabaseEdition.STANDARD);
     }
 
 
-    private static void validateSqlDatabaseWithElasticPool(SqlDatabase sqlDatabase, String databaseName) {
+    private void validateSqlDatabaseWithElasticPool(SqlDatabase sqlDatabase, String databaseName) {
         validateSqlDatabase(sqlDatabase, databaseName);
-        Assert.assertEquals(SQL_ELASTIC_POOL_NAME, sqlDatabase.elasticPoolName());
+        Assertions.assertEquals(SQL_ELASTIC_POOL_NAME, sqlDatabase.elasticPoolName());
     }
 
 }

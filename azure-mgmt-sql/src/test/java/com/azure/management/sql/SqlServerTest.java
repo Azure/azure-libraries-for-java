@@ -15,11 +15,11 @@ import com.azure.management.sql.implementation.SqlServerManager;
 import com.azure.management.storage.implementation.StorageManager;
 
 public abstract class SqlServerTest extends TestBase {
-    protected static ResourceManager resourceManager;
-    protected static SqlServerManager sqlServerManager;
-    protected static StorageManager storageManager;
-    protected static String RG_NAME = "";
-    protected static String SQL_SERVER_NAME = "";
+    protected ResourceManager resourceManager;
+    protected SqlServerManager sqlServerManager;
+    protected StorageManager storageManager;
+    protected String RG_NAME = "";
+    protected String SQL_SERVER_NAME = "";
 
     @Override
     protected RestClient buildRestClient(RestClientBuilder builder, boolean isMocked) {

@@ -19,7 +19,7 @@ public class LoadBalancerTests extends NetworkManagementTest {
         String vmName = SdkContext.randomResourceName("vm", 8);
         String lbName = SdkContext.randomResourceName("lb", 8);
 
-        ResourceGroup resourceGroup = resourceManager.resourceGroups().define(RG_NAME)
+        ResourceGroup resourceGroup = resourceManager.resourceGroups().define(rgName)
                 .withRegion(Region.US_EAST)
                 .create();
 

@@ -39,14 +39,14 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 networkManager.publicIPAddresses()
                         .define(appPublicIp)
                         .withRegion(Region.US_EAST)
-                        .withNewResourceGroup(RG_NAME)
+                        .withNewResourceGroup(rgName)
                         .withSku(PublicIPSkuType.STANDARD)
                         .withStaticIP()
                         .create();
 
         ApplicationGateway appGateway = networkManager.applicationGateways().define(appGatewayName)
                 .withRegion(Region.US_EAST)
-                .withExistingResourceGroup(RG_NAME)
+                .withExistingResourceGroup(rgName)
                 // Request routing rules
                 .defineRequestRoutingRule("rule1")
                 .fromPublicFrontend()
@@ -114,7 +114,7 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
         PublicIPAddress pip = networkManager.publicIPAddresses()
                 .define(appPublicIp)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withSku(PublicIPSkuType.STANDARD)
                 .withStaticIP()
                 .create();
@@ -125,7 +125,7 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
         Identity identity = msiManager.identities()
                 .define(identityName)
                 .withRegion(Region.US_EAST)
-                .withExistingResourceGroup(RG_NAME)
+                .withExistingResourceGroup(rgName)
                 .create();
 
         Assertions.assertNotNull(identity.name());
@@ -138,7 +138,7 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
 
         ApplicationGateway appGateway = networkManager.applicationGateways().define(appGatewayName)
                 .withRegion(Region.US_EAST)
-                .withExistingResourceGroup(RG_NAME)
+                .withExistingResourceGroup(rgName)
                 // Request routing rules
                 .defineRequestRoutingRule("rule1")
                 .fromPublicFrontend()
@@ -179,7 +179,7 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
         Vault vault = keyVaultManager.vaults()
                 .define(vaultName)
                 .withRegion(Region.US_EAST)
-                .withExistingResourceGroup(RG_NAME)
+                .withExistingResourceGroup(rgName)
                 .defineAccessPolicy()
                 .forServicePrincipal(servicePrincipal)
                 .allowSecretAllPermissions()

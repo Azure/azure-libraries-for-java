@@ -6,18 +6,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class StorageBlobServicesTests extends StorageManagementTest {
-    private static String RG_NAME = "";
+    private String rgName = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        RG_NAME = generateRandomResourceName("javacsmrg", 15);
+        rgName = generateRandomResourceName("javacsmrg", 15);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().deleteByName(RG_NAME);
+        resourceManager.resourceGroups().deleteByName(rgName);
     }
 
 
@@ -28,7 +28,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .create();
 
         BlobServices blobServices = this.storageManager.blobServices();
@@ -49,7 +49,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .create();
 
         BlobServices blobServices = this.storageManager.blobServices();

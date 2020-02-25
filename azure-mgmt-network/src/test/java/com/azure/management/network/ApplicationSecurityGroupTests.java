@@ -21,7 +21,7 @@ public class ApplicationSecurityGroupTests extends NetworkManagementTest {
 
         ApplicationSecurityGroup applicationSecurityGroup = networkManager.applicationSecurityGroups().define(asgName)
                 .withRegion(Region.US_SOUTH_CENTRAL)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withTag("tag1", "value1")
                 .create();
         Assertions.assertEquals("value1", applicationSecurityGroup.tags().get("tag1"));
@@ -29,11 +29,11 @@ public class ApplicationSecurityGroupTests extends NetworkManagementTest {
         PagedIterable<ApplicationSecurityGroup> asgList = networkManager.applicationSecurityGroups().list();
         Assertions.assertTrue(TestUtilities.getPagedIterableSize(asgList) > 0);
 
-        asgList = networkManager.applicationSecurityGroups().listByResourceGroup(RG_NAME);
+        asgList = networkManager.applicationSecurityGroups().listByResourceGroup(rgName);
         Assertions.assertTrue(TestUtilities.getPagedIterableSize(asgList) > 0);
 
         networkManager.applicationSecurityGroups().deleteById(applicationSecurityGroup.id());
-        asgList = networkManager.applicationSecurityGroups().listByResourceGroup(RG_NAME);
+        asgList = networkManager.applicationSecurityGroups().listByResourceGroup(rgName);
         Assertions.assertTrue(TestUtilities.isEmpty(asgList));
     }
 }

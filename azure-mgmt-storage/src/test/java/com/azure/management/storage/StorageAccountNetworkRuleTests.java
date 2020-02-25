@@ -13,18 +13,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class StorageAccountNetworkRuleTests extends StorageManagementTest {
-    private static String RG_NAME = "";
+    private String rgName = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        RG_NAME = generateRandomResourceName("javacsmrg", 15);
+        rgName = generateRandomResourceName("javacsmrg", 15);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().deleteByName(RG_NAME);
+        resourceManager.resourceGroups().deleteByName(rgName);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
         StorageAccount storageAccount1 = storageManager.storageAccounts()
                 .define(SA_NAME1)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .create();
 
         Assertions.assertNotNull(storageAccount1.networkSubnetsWithAccess());
@@ -86,7 +86,7 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
         StorageAccount storageAccount3 = storageManager.storageAccounts()
                 .define(SA_NAME3)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withAccessFromAllNetworks()
                 .withAccessFromIpAddress("23.20.0.0")
                 .create();
@@ -143,7 +143,7 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
         StorageAccount storageAccount1 = storageManager.storageAccounts()
                 .define(SA_NAME1)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .create();
 
         Assertions.assertNotNull(storageAccount1.networkSubnetsWithAccess());

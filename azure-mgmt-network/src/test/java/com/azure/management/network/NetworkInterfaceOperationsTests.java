@@ -38,7 +38,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
 
         Network network = networkManager.networks().define(networkName)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withAddressSpace("10.0.0.0/27")
                 .withSubnet("subnet1", "10.0.0.0/28")
                 .withSubnet("subnet2", "10.0.0.16/28")
@@ -48,7 +48,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
                 // 0 - NIC that starts with one IP config and ends with two
                 (Creatable<NetworkInterface>) (networkManager.networkInterfaces().define(nicNames[0])
                         .withRegion(Region.US_EAST)
-                        .withNewResourceGroup(RG_NAME)
+                        .withNewResourceGroup(rgName)
                         .withExistingPrimaryNetwork(network)
                         .withSubnet("subnet1")
                         .withPrimaryPrivateIPAddressDynamic()),
@@ -56,7 +56,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
                 // 1 - NIC that starts with two IP configs and ends with one
                 networkManager.networkInterfaces().define(nicNames[1])
                         .withRegion(Region.US_EAST)
-                        .withNewResourceGroup(RG_NAME)
+                        .withNewResourceGroup(rgName)
                         .withExistingPrimaryNetwork(network)
                         .withSubnet("subnet1")
                         .withPrimaryPrivateIPAddressDynamic()
@@ -69,7 +69,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
                 // 2 - NIC that starts with two IP configs and ends with two
                 networkManager.networkInterfaces().define(nicNames[2])
                         .withRegion(Region.US_EAST)
-                        .withNewResourceGroup(RG_NAME)
+                        .withNewResourceGroup(rgName)
                         .withExistingPrimaryNetwork(network)
                         .withSubnet("subnet1")
                         .withPrimaryPrivateIPAddressDynamic()
@@ -219,7 +219,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
         NetworkInterfaces networkInterfaces = networkManager.networkInterfaces();
 
         Creatable<ResourceGroup> resourceGroupCreatable = resourceGroups
-                .define(RG_NAME)
+                .define(rgName)
                 .withRegion(Region.US_EAST);
 
         final String vnetName = "vnet1212";
@@ -294,7 +294,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
         String vnetName = generateRandomResourceName("vnet", 15);
         networkManager.networks().define(vnetName)
                 .withRegion(Region.US_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withAddressSpace("172.16.0.0/16")
                 .defineSubnet("Front-end")
                 .withAddressPrefix("172.16.1.0/24")
@@ -307,7 +307,7 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
         // TODO: Fix deadlock
         final CountDownLatch latch = new CountDownLatch(1);
         final AtomicInteger counter = new AtomicInteger(0);
-        networkManager.networks().deleteByResourceGroupAsync(RG_NAME, vnetName)
+        networkManager.networks().deleteByResourceGroupAsync(rgName, vnetName)
                 .doOnSuccess(aVoid -> {
                     counter.incrementAndGet();
                     latch.countDown();

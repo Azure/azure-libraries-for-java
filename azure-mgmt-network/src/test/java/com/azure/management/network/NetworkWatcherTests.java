@@ -31,7 +31,7 @@ public class NetworkWatcherTests extends NetworkManagementTest {
         // create Network Watcher
         NetworkWatcher nw = networkManager.networkWatchers().define(nwName)
                 .withRegion(region)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .create();
         AvailableProviders providers = nw.availableProviders()
                 .execute();

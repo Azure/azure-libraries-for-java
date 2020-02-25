@@ -15,8 +15,8 @@ import com.azure.management.storage.implementation.StorageManager;
  * The base for storage manager tests.
  */
 public abstract class StorageManagementTest extends TestBase {
-    protected static ResourceManager resourceManager;
-    protected static StorageManager storageManager;
+    protected ResourceManager resourceManager;
+    protected StorageManager storageManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

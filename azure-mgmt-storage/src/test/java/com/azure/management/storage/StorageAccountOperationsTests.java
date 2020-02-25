@@ -19,20 +19,20 @@ import java.util.List;
 import java.util.Map;
 
 public class StorageAccountOperationsTests extends StorageManagementTest {
-    private static String RG_NAME = "";
-    private static String SA_NAME = "";
+    private String rgName = "";
+    private String saName = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        RG_NAME = generateRandomResourceName("javacsmrg", 15);
-        SA_NAME = generateRandomResourceName("javacsmsa", 15);
+        rgName = generateRandomResourceName("javacsmrg", 15);
+        saName = generateRandomResourceName("javacsmsa", 15);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().deleteByName(RG_NAME);
+        resourceManager.resourceGroups().deleteByName(rgName);
     }
 
     @Test
@@ -44,24 +44,24 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
 //        Assertions.assertEquals(true, result.isAvailable());
         // Create
         Flux<Indexable> resourceStream = storageManager.storageAccounts()
-                .define(SA_NAME)
+                .define(saName)
                 .withRegion(Region.ASIA_EAST)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withGeneralPurposeAccountKindV2()
                 .withTag("tag1", "value1")
                 .withHnsEnabled(true)
                 .withAzureFilesAadIntegrationEnabled(false)
                 .createAsync();
         StorageAccount storageAccount = Utils.<StorageAccount>rootResource(resourceStream.last()).block();
-        Assertions.assertEquals(RG_NAME, storageAccount.resourceGroupName());
+        Assertions.assertEquals(rgName, storageAccount.resourceGroupName());
         Assertions.assertEquals(SkuName.STANDARD_GRS, storageAccount.skuType().name());
         Assertions.assertTrue(storageAccount.isHnsEnabled());
         // Assertions.assertFalse(storageAccount.isAzureFilesAadIntegrationEnabled());
         // List
-        PagedIterable<StorageAccount> accounts = storageManager.storageAccounts().listByResourceGroup(RG_NAME);
+        PagedIterable<StorageAccount> accounts = storageManager.storageAccounts().listByResourceGroup(rgName);
         boolean found = false;
         for (StorageAccount account : accounts) {
-            if (account.name().equals(SA_NAME)) {
+            if (account.name().equals(saName)) {
                 found = true;
             }
         }
@@ -69,7 +69,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
         Assertions.assertEquals(1, storageAccount.tags().size());
 
         // Get
-        storageAccount = storageManager.storageAccounts().getByResourceGroup(RG_NAME, SA_NAME);
+        storageAccount = storageManager.storageAccounts().getByResourceGroup(rgName, saName);
         Assertions.assertNotNull(storageAccount);
 
         // Get Keys
@@ -113,9 +113,9 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
     @Test
     public void canEnableDisableEncryptionOnStorageAccount() throws Exception {
         StorageAccount storageAccount = storageManager.storageAccounts()
-                .define(SA_NAME)
+                .define(saName)
                 .withRegion(Region.US_EAST2)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withBlobEncryption()
                 .create();
 
@@ -146,9 +146,9 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
     @Test
     public void canEnableLargeFileSharesOnStorageAccount() throws Exception {
         StorageAccount storageAccount = storageManager.storageAccounts()
-                .define(SA_NAME)
+                .define(saName)
                 .withRegion(Region.US_EAST2)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withSku(StorageAccountSkuType.STANDARD_LRS)
                 .withLargeFileShares(true)
                 .create();
@@ -159,9 +159,9 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
     @Test
     public void canEnableDisableFileEncryptionOnStorageAccount() throws Exception {
         StorageAccount storageAccount = storageManager.storageAccounts()
-                .define(SA_NAME)
+                .define(saName)
                 .withRegion(Region.US_EAST2)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withFileEncryption()
                 .create();
 

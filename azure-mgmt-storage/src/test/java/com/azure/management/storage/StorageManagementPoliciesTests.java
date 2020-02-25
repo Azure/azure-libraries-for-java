@@ -10,18 +10,18 @@ import java.util.Collections;
 import java.util.List;
 
 public class StorageManagementPoliciesTests extends StorageManagementTest {
-    private static String RG_NAME = "";
+    private String rgName = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        RG_NAME = generateRandomResourceName("javacsmrg", 15);
+        rgName = generateRandomResourceName("javacsmrg", 15);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().deleteByName(RG_NAME);
+        resourceManager.resourceGroups().deleteByName(rgName);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)
                 .withRegion(Region.US_WEST_CENTRAL)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withBlobStorageAccountKind()
                 .withAccessTier(AccessTier.COOL)
                 .create();
@@ -38,7 +38,7 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
 
         ManagementPolicies managementPolicies = this.storageManager.managementPolicies();
         ManagementPolicy managementPolicy = managementPolicies.define("management-test")
-                .withExistingStorageAccount(RG_NAME, SA_NAME)
+                .withExistingStorageAccount(rgName, SA_NAME)
                 .defineRule("rule1")
                     .withLifecycleRuleType()
                     .withBlobTypeToFilterFor(BlobTypes.BLOCK_BLOB)
@@ -72,7 +72,7 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)
                 .withRegion(Region.US_WEST_CENTRAL)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withBlobStorageAccountKind()
                 .withAccessTier(AccessTier.COOL)
                 .create();
@@ -80,7 +80,7 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
 
         ManagementPolicies managementPolicies = this.storageManager.managementPolicies();
         ManagementPolicy managementPolicy = managementPolicies.define("management-test")
-                .withExistingStorageAccount(RG_NAME, SA_NAME)
+                .withExistingStorageAccount(rgName, SA_NAME)
                 .defineRule("rule1")
 	                .withLifecycleRuleType()
 	                .withBlobTypeToFilterFor(BlobTypes.BLOCK_BLOB)
@@ -124,7 +124,7 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)
                 .withRegion(Region.US_WEST_CENTRAL)
-                .withNewResourceGroup(RG_NAME)
+                .withNewResourceGroup(rgName)
                 .withBlobStorageAccountKind()
                 .withAccessTier(AccessTier.COOL)
                 .create();
@@ -132,7 +132,7 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
 
         ManagementPolicies managementPolicies = this.storageManager.managementPolicies();
         ManagementPolicy managementPolicy = managementPolicies.define("management-test")
-                .withExistingStorageAccount(RG_NAME, SA_NAME)
+                .withExistingStorageAccount(rgName, SA_NAME)
                 .defineRule("rule1")
                     .withLifecycleRuleType()
                     .withBlobTypeToFilterFor(BlobTypes.BLOCK_BLOB)

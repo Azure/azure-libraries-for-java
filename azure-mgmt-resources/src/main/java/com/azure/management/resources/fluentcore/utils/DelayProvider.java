@@ -51,8 +51,8 @@ public class DelayProvider {
      *
      * @return delayed observable
      */
-    public int getLroRetryTimeout() {
-        return longRunningOperationRetryTimeout;
+    public Duration getLroRetryTimeout() {
+        return Duration.ofSeconds(this.longRunningOperationRetryTimeout);
     }
 
     /**

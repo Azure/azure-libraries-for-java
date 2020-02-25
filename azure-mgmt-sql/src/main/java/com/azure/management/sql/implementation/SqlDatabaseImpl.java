@@ -660,6 +660,14 @@ class SqlDatabaseImpl
     }
 
     private String generateElasticPoolIdFromName(String elasticPoolName) {
+        if (this.parentId() == null) {
+            return ResourceUtils.constructResourceId(this.sqlServerManager.getSubscriptionId(),
+                    this.resourceGroupName,
+                    "Microsoft.Sql",
+                    "elasticPools",
+                    elasticPoolName,
+                    String.format("servers/%s", this.sqlServerName));
+        }
         return String.format("%s/elasticPools/%s", this.parentId(), elasticPoolName);
     }
 
@@ -839,6 +847,9 @@ class SqlDatabaseImpl
             this.inner().withSku(new Sku());
         }
         this.inner().sku().withTier(edition.toString());
+        if (this.inner().sku().name() == null) {
+            this.inner().sku().withName(edition.toString());
+        }
         this.inner().withElasticPoolId(null);
 
         return this;

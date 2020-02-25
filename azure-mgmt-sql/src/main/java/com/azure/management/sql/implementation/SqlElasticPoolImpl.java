@@ -423,6 +423,7 @@ public class SqlElasticPoolImpl
             this.inner().withSku(new Sku());
         }
         this.inner().sku().withTier(edition.toString());
+        this.inner().sku().withName(edition.toString() + "Pool");
         return this;
     }
 

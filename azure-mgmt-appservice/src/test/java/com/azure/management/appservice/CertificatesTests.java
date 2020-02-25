@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 public class CertificatesTests extends AppServiceTest {
-    private static final String CERTIFICATE_NAME = "javagoodcert319";
+    private final String CERTIFICATE_NAME = "javagoodcert319";
 
     @Override
     protected void cleanUpResources() {

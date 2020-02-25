@@ -16,11 +16,11 @@ import org.junit.jupiter.api.Disabled;
 import java.util.Map;
 
 public class FunctionDeploymentSlotsTests extends AppServiceTest {
-    private static String RG_NAME_1 = "";
-    private static String WEBAPP_NAME_1 = "";
-    private static String SLOT_NAME_1 = "";
-    private static String SLOT_NAME_2 = "";
-    private static String SLOT_NAME_3 = "";
+    private String RG_NAME_1 = "";
+    private String WEBAPP_NAME_1 = "";
+    private String SLOT_NAME_1 = "";
+    private String SLOT_NAME_2 = "";
+    private String SLOT_NAME_3 = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

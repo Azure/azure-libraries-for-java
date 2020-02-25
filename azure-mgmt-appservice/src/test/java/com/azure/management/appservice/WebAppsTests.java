@@ -14,12 +14,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class WebAppsTests extends AppServiceTest {
-    private static String RG_NAME_1 = "";
-    private static String RG_NAME_2 = "";
-    private static String WEBAPP_NAME_1 = "";
-    private static String WEBAPP_NAME_2 = "";
-    private static String WEBAPP_NAME_3 = "";
-    private static String APP_SERVICE_PLAN_NAME_1 = "";
+    private String RG_NAME_1 = "";
+    private String RG_NAME_2 = "";
+    private String WEBAPP_NAME_1 = "";
+    private String WEBAPP_NAME_2 = "";
+    private String WEBAPP_NAME_3 = "";
+    private String APP_SERVICE_PLAN_NAME_1 = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

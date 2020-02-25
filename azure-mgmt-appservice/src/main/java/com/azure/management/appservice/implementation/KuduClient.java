@@ -127,7 +127,7 @@ class KuduClient {
         return streamFromFluxBytes(service.streamAllLogs(host).flatMapMany(StreamResponse::getValue));
     }
 
-    Flux<String> streamFromFluxBytes(final Flux<ByteBuffer> source) {
+    static Flux<String> streamFromFluxBytes(final Flux<ByteBuffer> source) {
         final byte newLine = '\n';
         final byte newLineR = '\r';
 
@@ -190,7 +190,7 @@ class KuduClient {
         });
     }
 
-    private int findByte(ByteBuffer byteBuffer, byte b) {
+    private static int findByte(ByteBuffer byteBuffer, byte b) {
         final int position = byteBuffer.position();
         int index = -1;
         for (int i = 0; i < byteBuffer.remaining(); ++i) {
@@ -210,7 +210,7 @@ class KuduClient {
         return withRetry(service.zipDeploy(host, byteArrayFromInputStream(zipFile)));
     }
 
-    private byte[] byteArrayFromInputStream(InputStream inputStream) {
+    private static byte[] byteArrayFromInputStream(InputStream inputStream) {
         // FIXME core does not yet support InputStream as @BodyParam
         try {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();

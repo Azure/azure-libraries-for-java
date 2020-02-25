@@ -18,8 +18,8 @@ import javax.net.ssl.SSLPeerUnverifiedException;
 import java.util.concurrent.TimeUnit;
 
 public class HostnameSslTests extends AppServiceTest {
-    private static String WEBAPP_NAME = "";
-    private static String APP_SERVICE_PLAN_NAME = "";
+    private String WEBAPP_NAME = "";
+    private String APP_SERVICE_PLAN_NAME = "";
     private String DOMAIN = "";
 
     @Override

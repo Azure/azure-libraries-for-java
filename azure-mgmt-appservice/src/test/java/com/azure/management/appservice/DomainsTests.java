@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class DomainsTests extends AppServiceTest {
-    private static final String DOMAIN_NAME = "javatest720.com";
+    private final String DOMAIN_NAME = "javatest720.com";
 
     @Override
     protected void cleanUpResources() {

@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 public class ZipDeployTests extends AppServiceTest {
-    private static String WEBAPP_NAME_4 = "";
+    private String WEBAPP_NAME_4 = "";
 
     public ZipDeployTests() {
         super(TestBase.RunCondition.LIVE_ONLY);

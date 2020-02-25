@@ -22,9 +22,9 @@ import java.util.Set;
 
 public class WebAppsMsiTests extends AppServiceTest {
     private MSIManager msiManager;
-    private static String RG_NAME_1 = "";
-    private static String WEBAPP_NAME_1 = "";
-    private static String VAULT_NAME = "";
+    private String RG_NAME_1 = "";
+    private String WEBAPP_NAME_1 = "";
+    private String VAULT_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

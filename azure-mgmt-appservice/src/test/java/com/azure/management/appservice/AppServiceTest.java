@@ -47,13 +47,13 @@ import java.nio.charset.StandardCharsets;
  * The base for app service tests.
  */
 public class AppServiceTest extends TestBase {
-    protected static ResourceManager resourceManager;
-    protected static KeyVaultManager keyVaultManager;
-    protected static AppServiceManager appServiceManager;
+    protected ResourceManager resourceManager;
+    protected KeyVaultManager keyVaultManager;
+    protected AppServiceManager appServiceManager;
 
-    protected static AppServiceDomain domain;
-    protected static AppServiceCertificateOrder certificateOrder;
-    protected static String RG_NAME = "";
+    protected AppServiceDomain domain;
+    protected AppServiceCertificateOrder certificateOrder;
+    protected String RG_NAME = "";
 
 //    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(3, TimeUnit.MINUTES).build();
 
@@ -104,7 +104,7 @@ public class AppServiceTest extends TestBase {
         certificateOrder = appServiceManager.certificateOrders().getByResourceGroup(rgName, certOrder);
     }
 
-    private static void createNewDomainAndCertificate() {
+    private void createNewDomainAndCertificate() {
         domain = appServiceManager.domains().define(System.getenv("appservice-domain"))
                 .withExistingResourceGroup(System.getenv("appservice-group"))
                 .defineRegistrantContact()
@@ -166,7 +166,7 @@ public class AppServiceTest extends TestBase {
         }
     }
 
-    static Response<String> curl(String urlString) throws IOException {
+    protected Response<String> curl(String urlString) throws IOException {
         try {
             return stringResponse(httpClient.getString(getHost(urlString), getPathAndQuery(urlString))).block();
         } catch (MalformedURLException e) {
@@ -175,7 +175,7 @@ public class AppServiceTest extends TestBase {
         }
     }
 
-    static String post(String urlString, String body) {
+    protected String post(String urlString, String body) {
         try {
             return stringResponse(httpClient.postString(getHost(urlString), getPathAndQuery(urlString), body)).block().getValue();
         } catch (Exception e) {
@@ -206,7 +206,7 @@ public class AppServiceTest extends TestBase {
         return path;
     }
 
-    static WebAppTestClient httpClient = RestProxy.create(
+    protected WebAppTestClient httpClient = RestProxy.create(
             WebAppTestClient.class,
             new HttpPipelineBuilder()
                     .policies(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)))

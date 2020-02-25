@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class CertificateOrdersTests extends AppServiceTest {
-    private static final String CERTIFICATE_NAME = "graphwildcert319";
+    private final String CERTIFICATE_NAME = "graphwildcert319";
 
     @Override
     protected void cleanUpResources() {

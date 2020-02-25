@@ -27,16 +27,16 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class FunctionAppsTests extends AppServiceTest {
-    private static String RG_NAME_1 = "";
-    private static String RG_NAME_2 = "";
-    private static String WEBAPP_NAME_1 = "";
-    private static String WEBAPP_NAME_2 = "";
-    private static String WEBAPP_NAME_3 = "";
-    private static String APP_SERVICE_PLAN_NAME_1 = "";
-    private static String APP_SERVICE_PLAN_NAME_2 = "";
-    private static String STORAGE_ACCOUNT_NAME_1 = "";
+    private String RG_NAME_1 = "";
+    private String RG_NAME_2 = "";
+    private String WEBAPP_NAME_1 = "";
+    private String WEBAPP_NAME_2 = "";
+    private String WEBAPP_NAME_3 = "";
+    private String APP_SERVICE_PLAN_NAME_1 = "";
+    private String APP_SERVICE_PLAN_NAME_2 = "";
+    private String STORAGE_ACCOUNT_NAME_1 = "";
 
-    protected static StorageManager storageManager;
+    protected StorageManager storageManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

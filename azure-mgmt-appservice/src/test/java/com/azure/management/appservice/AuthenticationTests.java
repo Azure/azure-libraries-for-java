@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class AuthenticationTests extends AppServiceTest {
-    private static String RG_NAME_1 = "";
-    private static String WEBAPP_NAME_1 = "";
+    private String RG_NAME_1 = "";
+    private String WEBAPP_NAME_1 = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

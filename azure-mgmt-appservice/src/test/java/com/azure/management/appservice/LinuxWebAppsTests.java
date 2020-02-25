@@ -18,10 +18,10 @@ import java.io.ByteArrayInputStream;
 import java.util.zip.ZipInputStream;
 
 public class LinuxWebAppsTests extends AppServiceTest {
-    private static String RG_NAME_1 = "";
-    private static String RG_NAME_2 = "";
-    private static String WEBAPP_NAME_1 = "";
-    private static String WEBAPP_NAME_2 = "";
+    private String RG_NAME_1 = "";
+    private String RG_NAME_2 = "";
+    private String WEBAPP_NAME_1 = "";
+    private String WEBAPP_NAME_2 = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

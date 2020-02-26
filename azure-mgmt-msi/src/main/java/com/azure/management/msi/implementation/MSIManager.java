@@ -66,6 +66,18 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
     }
 
     /**
+     * Creates an instance of MSIManager that exposes Managed Service Identity (MSI) resource management API entry points.
+     *
+     * @param restClient the RestClient to be used for API calls.
+     * @param tenantId the tenant UUID
+     * @param subscriptionId the subscription UUID
+     * @return the MSIManager
+     */
+    public static MSIManager authenticate(RestClient restClient, String tenantId, String subscriptionId) {
+        return new MSIManager(restClient, tenantId, subscriptionId);
+    }
+
+    /**
      * The interface allowing configurations to be set.
      */
     public interface Configurable extends AzureConfigurable<Configurable> {
@@ -89,11 +101,25 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
     }
 
     private MSIManager(RestClient restClient, String subscriptionId) {
+        this(restClient, null, subscriptionId);
+    }
+
+    private MSIManager(RestClient restClient, String tenantId, String subscriptionId) {
         super(restClient, subscriptionId, new ManagedServiceIdentityClientBuilder()
                 .pipeline(restClient.getHttpPipeline())
                 .subscriptionId(subscriptionId)
                 .build());
-        rbacManager = GraphRbacManager.authenticate(restClient, ((AzureTokenCredential) (restClient.getCredential())).getDomain());
+        if (tenantId == null) {
+            tenantId = tenantIdFromRestClient(restClient);
+        }
+        rbacManager = GraphRbacManager.authenticate(restClient, tenantId, subscriptionId);
+    }
+
+    private String tenantIdFromRestClient(RestClient restClient) {
+        if (restClient.getCredential() != null && restClient.getCredential() instanceof AzureTokenCredential) {
+            return ((AzureTokenCredential) (restClient.getCredential())).getDomain();
+        }
+        throw new IllegalArgumentException("The credential in RestClient must be an instance of AzureTokenCredential.");
     }
 
     /**

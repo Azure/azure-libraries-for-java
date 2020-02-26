@@ -119,7 +119,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
         if (restClient.getCredential() != null && restClient.getCredential() instanceof AzureTokenCredential) {
             return ((AzureTokenCredential) (restClient.getCredential())).getDomain();
         }
-        throw new IllegalArgumentException("The credential in RestClient must be an instance of AzureTokenCredential.");
+        return null;
     }
 
     /**

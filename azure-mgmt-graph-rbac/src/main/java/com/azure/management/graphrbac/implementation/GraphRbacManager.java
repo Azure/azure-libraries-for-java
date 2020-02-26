@@ -155,7 +155,7 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
         if (restClient.getCredential() != null && restClient.getCredential() instanceof AzureTokenCredential) {
             return ((AzureTokenCredential) restClient.getCredential()).getDefaultSubscriptionId();
         }
-        throw new IllegalArgumentException("The credential in RestClient must be an instance of AzureTokenCredential.");
+        return null;
     }
 
     /**

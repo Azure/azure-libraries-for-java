@@ -140,13 +140,18 @@ class SnapshotImpl
 
     @Override
     public SnapshotImpl withLinuxFromVhd(String vhdUrl) {
+        return withLinuxFromVhd(vhdUrl, constructStorageAccountId(vhdUrl));
+    }
+
+    @Override
+    public SnapshotImpl withLinuxFromVhd(String vhdUrl, String storageAccountId) {
         this.inner()
                 .withOsType(OperatingSystemTypes.LINUX)
                 .withCreationData(new CreationData())
                 .creationData()
                 .withCreateOption(DiskCreateOption.IMPORT)
                 .withSourceUri(vhdUrl)
-                .withStorageAccountId(buildStorageAccountId(vhdUrl));
+                .withStorageAccountId(storageAccountId);
         return this;
     }
 
@@ -194,13 +199,18 @@ class SnapshotImpl
 
     @Override
     public SnapshotImpl withWindowsFromVhd(String vhdUrl) {
+        return withWindowsFromVhd(vhdUrl, constructStorageAccountId(vhdUrl));
+    }
+
+    @Override
+    public SnapshotImpl withWindowsFromVhd(String vhdUrl, String storageAccountId) {
         this.inner()
                 .withOsType(OperatingSystemTypes.WINDOWS)
                 .withCreationData(new CreationData())
                 .creationData()
                 .withCreateOption(DiskCreateOption.IMPORT)
                 .withSourceUri(vhdUrl)
-                .withStorageAccountId(buildStorageAccountId(vhdUrl));
+                .withStorageAccountId(storageAccountId);
         return this;
     }
 
@@ -248,12 +258,17 @@ class SnapshotImpl
 
     @Override
     public SnapshotImpl withDataFromVhd(String vhdUrl) {
+        return withDataFromVhd(vhdUrl, constructStorageAccountId(vhdUrl));
+    }
+
+    @Override
+    public SnapshotImpl withDataFromVhd(String vhdUrl, String storageAccountId) {
         this.inner()
                 .withCreationData(new CreationData())
                 .creationData()
                 .withCreateOption(DiskCreateOption.IMPORT)
                 .withSourceUri(vhdUrl)
-                .withStorageAccountId(buildStorageAccountId(vhdUrl));
+                .withStorageAccountId(storageAccountId);
         return this;
     }
 
@@ -332,7 +347,7 @@ class SnapshotImpl
         return this.manager().inner().snapshots().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
-    private String buildStorageAccountId(String vhdUrl) {
+    private String constructStorageAccountId(String vhdUrl) {
         try {
             return ResourceUtils.constructResourceId(this.manager().subscriptionId(),
                     resourceGroupName(),

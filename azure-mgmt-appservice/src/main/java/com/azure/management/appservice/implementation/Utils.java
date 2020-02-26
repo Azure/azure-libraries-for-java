@@ -24,7 +24,7 @@ class Utils {
     static String base16Encode(byte[] bytes) {
         StringBuilder stringBuilder = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) {
-            stringBuilder.append(String.format("%02x", b));
+            stringBuilder.append(String.format("%02X", b));
         }
         return stringBuilder.toString();
     }

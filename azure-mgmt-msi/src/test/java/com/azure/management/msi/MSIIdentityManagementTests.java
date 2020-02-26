@@ -34,7 +34,7 @@ public class MSIIdentityManagementTests extends TestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException {
-        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
+        this.msiManager = MSIManager.authenticate(restClient, domain, defaultSubscription);
         this.resourceManager = msiManager.getResourceManager();
     }
 

@@ -19,12 +19,12 @@ import java.io.InputStream;
  * The base for storage manager tests.
  */
 public abstract class GraphRbacManagementTest extends TestBase {
-    protected static GraphRbacManager graphRbacManager;
-    protected static ResourceManager resourceManager;
+    protected GraphRbacManager graphRbacManager;
+    protected ResourceManager resourceManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        graphRbacManager = GraphRbacManager.authenticate(restClient, domain);
+        graphRbacManager = GraphRbacManager.authenticate(restClient, domain, defaultSubscription);
         resourceManager = ResourceManager.authenticate(restClient).withSubscription(defaultSubscription);
     }
 

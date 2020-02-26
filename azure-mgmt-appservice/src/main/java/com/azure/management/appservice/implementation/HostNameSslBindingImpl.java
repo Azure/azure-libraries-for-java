@@ -16,7 +16,6 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import com.google.common.io.BaseEncoding;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
@@ -213,7 +212,7 @@ class HostNameSslBindingImpl<
             X509Certificate certificate = (X509Certificate) ks.getCertificate(alias);
             inStream.close();
             MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            return BaseEncoding.base16().encode(sha.digest(certificate.getEncoded()));
+            return com.azure.management.appservice.implementation.Utils.base16Encode(sha.digest(certificate.getEncoded()));
         } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException ex) {
             throw new RuntimeException(ex);
         }

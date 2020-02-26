@@ -8,9 +8,9 @@ package com.azure.management.appservice;
 
 import com.azure.core.http.rest.Response;
 import com.azure.management.RestClient;
-import com.google.common.io.ByteStreams;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -86,7 +86,7 @@ public class LinuxWebAppsTests extends AppServiceTest {
         if (!isPlaybackMode()) {
             ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(logsZip));
             Assertions.assertNotNull(zipInputStream.getNextEntry());
-            byte[] unzipped = ByteStreams.toByteArray(zipInputStream);
+            byte[] unzipped = IOUtils.toByteArray(zipInputStream);
             Assertions.assertTrue(unzipped.length > 0);
         }
 

@@ -27,7 +27,6 @@ import com.azure.core.util.FluxUtil;
 import com.azure.management.RestClient;
 import com.azure.management.RestClientBuilder;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.google.common.base.Joiner;
 import com.azure.management.appservice.WebAppBase;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
@@ -58,7 +57,7 @@ class KuduClient {
                 .replace("http://", "")
                 .replace("https://", "");
         String[] parts = host.split("\\.", 2);
-        host = Joiner.on('.').join(parts[0], "scm", parts[1]);
+        host = parts[0] + ".scm." + parts[1];
         this.host = "https://" + host;
         RestClient client = new RestClientBuilder() //webAppBase.manager().restClient().newBuilder()
                 .withBaseUrl(this.host)

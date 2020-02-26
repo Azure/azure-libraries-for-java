@@ -24,9 +24,10 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.OffsetDateTime;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The implementation for AppServiceDomain.
@@ -49,10 +50,8 @@ class AppServiceDomainImpl
         super(name, innerObject, manager);
         inner().setLocation("global");
         if (inner().managedHostNames() != null) {
-            this.hostNameMap = new HashMap<>();
-            for (HostName hostName : inner().managedHostNames()) {
-                this.hostNameMap.put(hostName.name(), hostName);
-            }
+            this.hostNameMap = inner().managedHostNames().stream()
+                    .collect(Collectors.toMap(HostName::name, Function.identity()));
         }
     }
 

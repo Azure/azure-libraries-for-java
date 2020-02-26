@@ -36,17 +36,17 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class VirtualMachineOperationsTests extends ComputeManagementTest {
-    private static String RG_NAME = "";
-    private static String RG_NAME2 = "";
-    private static final Region REGION = Region.US_EAST;
-    private static final Region REGIONPROXPLACEMENTGROUP = Region.US_WEST_CENTRAL;
-    private static final Region REGIONPROXPLACEMENTGROUP2 = Region.US_SOUTH_CENTRAL;
-    private static final String VMNAME = "javavm";
-    private static final String PROXGROUPNAME = "testproxgroup1";
-    private static final String PROXGROUPNAME2 = "testproxgroup2";
-    private static final String AVAILABILITYSETNAME = "availset1";
-    private static final String AVAILABILITYSETNAME2 = "availset2";
-    private static final ProximityPlacementGroupType PROXGROUPTYPE = ProximityPlacementGroupType.STANDARD;
+    private String RG_NAME = "";
+    private String RG_NAME2 = "";
+    private final Region REGION = Region.US_EAST;
+    private final Region REGIONPROXPLACEMENTGROUP = Region.US_WEST_CENTRAL;
+    private final Region REGIONPROXPLACEMENTGROUP2 = Region.US_SOUTH_CENTRAL;
+    private final String VMNAME = "javavm";
+    private final String PROXGROUPNAME = "testproxgroup1";
+    private final String PROXGROUPNAME2 = "testproxgroup2";
+    private final String AVAILABILITYSETNAME = "availset1";
+    private final String AVAILABILITYSETNAME2 = "availset2";
+    private final ProximityPlacementGroupType PROXGROUPTYPE = ProximityPlacementGroupType.STANDARD;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -338,7 +338,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     .withProximityPlacementGroup(setCreated2.proximityPlacementGroup().id())
                     .apply();
         } catch (CloudException clEx) {
-            Assertions.assertTrue(clEx.getMessage().equalsIgnoreCase("Updating proximity placement group of VM javavm is not allowed while the VM is running. Please stop/deallocate the VM and retry the operation."));
+            Assertions.assertTrue(clEx.getMessage().contains("Updating proximity placement group of VM javavm is not allowed while the VM is running. Please stop/deallocate the VM and retry the operation."));
         }
 
         // Delete VM
@@ -533,7 +533,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     resourceCount.incrementAndGet();
                     return createdResource;
                 })
-                .singleOrEmpty();
+                .collectList().block();
         // 1 resource group, 1 storage, 5 network, 5 publicIp, 5 nic, 5 virtual machines
         // Additional one for CreatableUpdatableResourceRoot.
         // TODO - ans - We should not emit CreatableUpdatableResourceRoot.

@@ -16,9 +16,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class SharedGalleryImageTests extends ComputeManagementTest {
-    private static String RG_NAME = "";
-    private static final Region REGION = Region.US_WEST_CENTRAL;
-    private static final String VMNAME = "javavm";
+    private String RG_NAME = "";
+    private final Region REGION = Region.US_WEST_CENTRAL;
+    private final String VMNAME = "javavm";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

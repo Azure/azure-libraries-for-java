@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ManagedDiskOperationsTests extends ComputeManagementTest {
-    private static String RG_NAME = "";
-    private static Region region = Region.US_WEST_CENTRAL;
+    private String RG_NAME = "";
+    private Region region = Region.US_WEST_CENTRAL;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

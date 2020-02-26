@@ -85,6 +85,7 @@ class VirtualMachineImagesImpl
         return publishers().listByRegionAsync(regionName)
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(publisher -> publisher.offers().listAsync()
+                        .onErrorResume(e -> Mono.empty())
                         .flatMapMany(Flux::fromIterable)
                         .flatMap(offer -> offer.skus().listAsync()
                                 .flatMapMany(Flux::fromIterable)

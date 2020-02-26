@@ -16,9 +16,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementTest {
-    private static String RG_NAME = "";
-    private static Region region = Region.US_EAST;
-    private static KnownLinuxVirtualMachineImage linuxImage = KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS;
+    private String RG_NAME = "";
+    private Region region = Region.US_EAST;
+    private KnownLinuxVirtualMachineImage linuxImage = KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

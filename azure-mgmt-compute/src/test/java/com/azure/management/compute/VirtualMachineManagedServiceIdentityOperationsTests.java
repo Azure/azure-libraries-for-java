@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
 public class VirtualMachineManagedServiceIdentityOperationsTests extends ComputeManagementTest {
-    private static String RG_NAME = "";
-    private static final Region REGION = Region.US_SOUTH_CENTRAL;
-    private static final String VMNAME = "javavm";
+    private String RG_NAME = "";
+    private final Region REGION = Region.US_SOUTH_CENTRAL;
+    private final String VMNAME = "javavm";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -120,14 +120,14 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         final VirtualMachine[] virtualMachines = new VirtualMachine[1];
         final RoleAssignment[] roleAssignments = new RoleAssignment[1];
 
-        resources.subscribe(indexable -> {
-                    if (indexable instanceof VirtualMachine) {
-                        virtualMachines[0] = (VirtualMachine) indexable;
-                    }
-                    if (indexable instanceof RoleAssignment) {
-                        roleAssignments[0] = (RoleAssignment) indexable;
-                    }
-                });
+        resources.collectList().block().forEach(indexable -> {
+            if (indexable instanceof VirtualMachine) {
+                virtualMachines[0] = (VirtualMachine) indexable;
+            }
+            if (indexable instanceof RoleAssignment) {
+                roleAssignments[0] = (RoleAssignment) indexable;
+            }
+        });
 
         Assertions.assertNotNull(virtualMachines[0]);
         Assertions.assertNotNull(roleAssignments[0]);
@@ -173,7 +173,9 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         Assertions.assertNotNull(hasTaskGroup);
         TaskGroup vmTaskGroup = hasTaskGroup.taskGroup();
         vmTaskGroup.invokeAsync(vmTaskGroup.newInvocationContext())
-                .subscribe(indexable -> {
+                .collectList()
+                .block()
+                .forEach(indexable -> {
                     if (indexable instanceof RoleAssignment) {
                         roleAssignments[0] = (RoleAssignment) indexable;
                     }

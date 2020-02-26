@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
-    private static String RG_NAME = "";
-    private static final Region REGION = Region.US_SOUTH_CENTRAL;
-    private static final String VMNAME = "javavm";
+    private String RG_NAME = "";
+    private final Region REGION = Region.US_SOUTH_CENTRAL;
+    private final String VMNAME = "javavm";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

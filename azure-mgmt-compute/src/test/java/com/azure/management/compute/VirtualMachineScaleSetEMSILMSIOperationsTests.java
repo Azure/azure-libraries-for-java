@@ -31,9 +31,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
-    private static String RG_NAME = "";
-    private static Region region = Region.fromName("West Central US");
-    private static final String VMSSNAME = "javavmss";
+    private String RG_NAME = "";
+    private Region region = Region.fromName("West Central US");
+    private final String VMSSNAME = "javavmss";
 
     private ComputeManager computeManager;
     private MSIManager msiManager;

@@ -56,8 +56,8 @@ import java.util.List;
 import java.util.Map;
 
 public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest {
-    private static String RG_NAME = "";
-    private static final Region REGION = Region.US_WEST;
+    private String RG_NAME = "";
+    private final Region REGION = Region.US_WEST;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

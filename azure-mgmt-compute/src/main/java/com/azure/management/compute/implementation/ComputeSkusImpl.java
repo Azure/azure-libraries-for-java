@@ -15,6 +15,8 @@ import com.azure.management.compute.ComputeSku;
 import com.azure.management.compute.ComputeSkus;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for {@link ComputeSkus}.
@@ -83,8 +85,13 @@ final class ComputeSkusImpl
 
     @Override
     public PagedFlux<ComputeSku> listByResourceTypeAsync(final ComputeResourceType resourceType) {
-        return inner().listAsync(String.format("resourceType eq '%s'", resourceType.toString()))
-                .mapPage(this::wrapModel);
+        return PagedConverter.flatMapPage(wrapPageAsync(inner().listAsync()), computeSku -> {
+            if (computeSku.resourceType() != null && computeSku.resourceType().equals(resourceType)) {
+                return Mono.just(computeSku);
+            } else {
+                return Mono.empty();
+            }
+        });
     }
 
     @Override
@@ -94,7 +101,12 @@ final class ComputeSkusImpl
 
     @Override
     public PagedFlux<ComputeSku> listByRegionAndResourceTypeAsync(final Region region, final ComputeResourceType resourceType) {
-        return inner().listAsync(String.format("location eq '%s' and resourceType eq '%s'", region.name(), resourceType.toString()))
-                .mapPage(this::wrapModel);
+        return PagedConverter.flatMapPage(wrapPageAsync(inner().listAsync(String.format("location eq '%s'", region.name()))), computeSku -> {
+            if (computeSku.resourceType() != null && computeSku.resourceType().equals(resourceType)) {
+                return Mono.just(computeSku);
+            } else {
+                return Mono.empty();
+            }
+        });
     }
 }

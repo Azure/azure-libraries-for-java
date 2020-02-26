@@ -27,16 +27,16 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class FunctionAppsTests extends AppServiceTest {
-    private static String RG_NAME_1 = "";
-    private static String RG_NAME_2 = "";
-    private static String WEBAPP_NAME_1 = "";
-    private static String WEBAPP_NAME_2 = "";
-    private static String WEBAPP_NAME_3 = "";
-    private static String APP_SERVICE_PLAN_NAME_1 = "";
-    private static String APP_SERVICE_PLAN_NAME_2 = "";
-    private static String STORAGE_ACCOUNT_NAME_1 = "";
+    private String RG_NAME_1 = "";
+    private String RG_NAME_2 = "";
+    private String WEBAPP_NAME_1 = "";
+    private String WEBAPP_NAME_2 = "";
+    private String WEBAPP_NAME_3 = "";
+    private String APP_SERVICE_PLAN_NAME_1 = "";
+    private String APP_SERVICE_PLAN_NAME_2 = "";
+    private String STORAGE_ACCOUNT_NAME_1 = "";
 
-    protected static StorageManager storageManager;
+    protected StorageManager storageManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -165,6 +165,8 @@ public class FunctionAppsTests extends AppServiceTest {
         Assertions.assertNotEquals(functionApp3.appServicePlanId(), functionApp1.appServicePlanId());
     }
 
+    private static final String FUNCTION_APP_PACKAGE_URL = "https://raw.github.com/Azure/azure-libraries-for-java/master/azure-mgmt-appservice/src/test/resources/java-functions.zip";
+
     @Test
     public void canCRUDLinuxFunctionApp() throws Exception {
         RG_NAME_2 = null;
@@ -175,6 +177,8 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewResourceGroup(RG_NAME_1)
                 .withNewLinuxConsumptionPlan()
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
+                .withHttpsOnly(true)
+                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                 .create();
         Assertions.assertNotNull(functionApp1);
         assertLinuxJava8(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForConsumptionPlan());
@@ -186,22 +190,6 @@ public class FunctionAppsTests extends AppServiceTest {
         Assertions.assertTrue(plan1.inner().reserved());
         Assertions.assertTrue(Arrays.asList(functionApp1.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
 
-//        // function keys
-//        if (!isPlaybackMode()) {
-//            Map<String, String> functionKeys = functionApp1.listFunctionKeys("HttpTrigger-Java");
-//            Assertions.assertNotNull(functionKeys);
-//            Assertions.assertTrue(!functionKeys.isEmpty());
-//        }
-
-        // deploy (zip deploy is not recommended for linux consumption plan)
-        functionApp1.update()
-                .withAppSetting("SCM_DO_BUILD_DURING_DEPLOYMENT", "false")
-                .apply();
-        if (!isPlaybackMode()) {
-            SdkContext.sleep(5000);
-            functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
-        }
-
         PagedIterable<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
         Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functionApps));
 
@@ -211,7 +199,8 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withExistingResourceGroup(RG_NAME_1)
                 .withNewLinuxAppServicePlan(PricingTier.STANDARD_S1)
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
-                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
+                .withHttpsOnly(true)
+                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                 .create();
         Assertions.assertNotNull(functionApp2);
         assertLinuxJava8(functionApp2, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
@@ -226,15 +215,14 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withExistingLinuxAppServicePlan(plan2)
                 .withExistingResourceGroup(RG_NAME_1)
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
-                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
+                .withHttpsOnly(true)
+                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                 .create();
         Assertions.assertNotNull(functionApp3);
         assertLinuxJava8(functionApp3, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
-        // deploy
+        // wait for deploy
         if (!isPlaybackMode()) {
-            functionApp2.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
-            functionApp3.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
             SdkContext.sleep(180000);
         }
 
@@ -262,6 +250,8 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewResourceGroup(RG_NAME_1)
                 .withNewLinuxAppServicePlan(new PricingTier(SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
+                .withHttpsOnly(true)
+                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                 .create();
         Assertions.assertNotNull(functionApp1);
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(functionApp1.appServicePlanId());
@@ -270,9 +260,8 @@ public class FunctionAppsTests extends AppServiceTest {
         Assertions.assertTrue(plan1.inner().reserved());
         assertLinuxJava8(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
-        // deploy (zip deploy is not recommended for linux premium plan)
+        // wait for deploy
         if (!isPlaybackMode()) {
-            functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
             SdkContext.sleep(180000);
         }
 

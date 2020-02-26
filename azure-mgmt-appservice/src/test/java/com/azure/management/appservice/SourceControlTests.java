@@ -6,14 +6,14 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.Response;
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class SourceControlTests extends AppServiceTest {
-    private static String WEBAPP_NAME = "";
+    private String WEBAPP_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -36,9 +36,9 @@ public class SourceControlTests extends AppServiceTest {
                 .create();
         Assertions.assertNotNull(webApp);
         if (!isPlaybackMode()) {
-            Response response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net");
-            Assertions.assertEquals(200, response.code());
-            String body = response.body().string();
+            Response<String> response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net");
+            Assertions.assertEquals(200, response.getStatusCode());
+            String body = response.getValue();
             Assertions.assertNotNull(body);
             Assertions.assertTrue(body.contains("Hello world from linux 4"));
         }

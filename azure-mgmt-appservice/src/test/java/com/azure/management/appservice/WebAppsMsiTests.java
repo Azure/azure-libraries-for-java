@@ -6,6 +6,7 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.Response;
 import com.azure.management.RestClient;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.msi.Identity;
@@ -14,7 +15,6 @@ import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +22,9 @@ import java.util.Set;
 
 public class WebAppsMsiTests extends AppServiceTest {
     private MSIManager msiManager;
-    private static String RG_NAME_1 = "";
-    private static String WEBAPP_NAME_1 = "";
-    private static String VAULT_NAME = "";
+    private String RG_NAME_1 = "";
+    private String WEBAPP_NAME_1 = "";
+    private String VAULT_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -72,11 +72,11 @@ public class WebAppsMsiTests extends AppServiceTest {
             // Check availability of environment variables
             uploadFileToWebApp(webApp.getPublishingProfile(), "appservicemsi.war", WebAppsMsiTests.class.getResourceAsStream("/appservicemsi.war"));
 
-            SdkContext.sleep(10000);
+            SdkContext.sleep(30000);
 
-            Response response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
-            Assertions.assertEquals(200, response.code());
-            String body = response.body().string();
+            Response<String> response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
+            Assertions.assertEquals(200, response.getStatusCode());
+            String body = response.getValue();
             Assertions.assertNotNull(body);
             Assertions.assertTrue(body.contains(webApp.resourceGroupName()));
             Assertions.assertTrue(body.contains(webApp.id()));
@@ -145,11 +145,11 @@ public class WebAppsMsiTests extends AppServiceTest {
             // Check availability of environment variables
             uploadFileToWebApp(webApp.getPublishingProfile(), "appservicemsi.war", WebAppsMsiTests.class.getResourceAsStream("/appservicemsi.war"));
 
-            SdkContext.sleep(10000);
+            SdkContext.sleep(30000);
 
-            Response response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
-            Assertions.assertEquals(200, response.code());
-            String body = response.body().string();
+            Response<String> response = curl("http://" + WEBAPP_NAME_1 + "." + "azurewebsites.net/appservicemsi/");
+            Assertions.assertEquals(200, response.getStatusCode());
+            String body = response.getValue();
             Assertions.assertNotNull(body);
             Assertions.assertTrue(body.contains(webApp.resourceGroupName()));
             Assertions.assertTrue(body.contains(webApp.id()));

@@ -6,6 +6,22 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.annotation.BodyParam;
+import com.azure.core.annotation.ExpectedResponses;
+import com.azure.core.annotation.Get;
+import com.azure.core.annotation.Host;
+import com.azure.core.annotation.HostParam;
+import com.azure.core.annotation.PathParam;
+import com.azure.core.annotation.Post;
+import com.azure.core.annotation.ServiceInterface;
+import com.azure.core.http.HttpPipelineBuilder;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLoggingPolicy;
+import com.azure.core.http.rest.Response;
+import com.azure.core.http.rest.RestProxy;
+import com.azure.core.http.rest.SimpleResponse;
+import com.azure.core.util.FluxUtil;
 import com.azure.management.RestClient;
 import com.azure.management.appservice.implementation.AppServiceManager;
 import com.azure.management.keyvault.implementation.KeyVaultManager;
@@ -14,31 +30,32 @@ import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.implementation.ResourceManager;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.junit.jupiter.api.Assertions;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The base for app service tests.
  */
 public class AppServiceTest extends TestBase {
-    protected static ResourceManager resourceManager;
-    protected static KeyVaultManager keyVaultManager;
-    protected static AppServiceManager appServiceManager;
+    protected ResourceManager resourceManager;
+    protected KeyVaultManager keyVaultManager;
+    protected AppServiceManager appServiceManager;
 
-    protected static AppServiceDomain domain;
-    protected static AppServiceCertificateOrder certificateOrder;
-    protected static String RG_NAME = "";
+    protected AppServiceDomain domain;
+    protected AppServiceCertificateOrder certificateOrder;
+    protected String RG_NAME = "";
 
-    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(3, TimeUnit.MINUTES).build();
+//    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(3, TimeUnit.MINUTES).build();
 
     public AppServiceTest() {
     }
@@ -87,7 +104,7 @@ public class AppServiceTest extends TestBase {
         certificateOrder = appServiceManager.certificateOrders().getByResourceGroup(rgName, certOrder);
     }
 
-    private static void createNewDomainAndCertificate() {
+    private void createNewDomainAndCertificate() {
         domain = appServiceManager.domains().define(System.getenv("appservice-domain"))
                 .withExistingResourceGroup(System.getenv("appservice-group"))
                 .defineRegistrantContact()
@@ -149,17 +166,61 @@ public class AppServiceTest extends TestBase {
         }
     }
 
-    static Response curl(String url) throws IOException {
-        Request request = new Request.Builder().url(url).get().build();
-        return httpClient.newCall(request).execute();
-    }
-
-    static String post(String url, String body) {
-        Request request = new Request.Builder().url(url).post(RequestBody.create(MediaType.parse("text/plain"), body)).build();
+    protected Response<String> curl(String urlString) throws IOException {
         try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
+            return stringResponse(httpClient.getString(getHost(urlString), getPathAndQuery(urlString))).block();
+        } catch (MalformedURLException e) {
+            Assertions.fail();
             return null;
         }
+    }
+
+    protected String post(String urlString, String body) {
+        try {
+            return stringResponse(httpClient.postString(getHost(urlString), getPathAndQuery(urlString), body)).block().getValue();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static Mono<SimpleResponse<String>> stringResponse(Mono<SimpleResponse<Flux<ByteBuffer>>> responseMono) {
+        return responseMono.flatMap(response -> FluxUtil.collectBytesInByteBufferStream(response.getValue())
+                .map(bytes -> new String(bytes, StandardCharsets.UTF_8))
+                .map(str -> new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), str)));
+    }
+
+    private static String getHost(String urlString) throws MalformedURLException {
+        URL url = new URL(urlString);
+        String protocol = url.getProtocol();
+        String host = url.getAuthority();
+        return protocol + "://" + host;
+    }
+
+    private static String getPathAndQuery(String urlString) throws MalformedURLException {
+        URL url = new URL(urlString);
+        String path = url.getPath();
+        String query = url.getQuery();
+        if (query != null && !query.isEmpty()) {
+            path = path + "?" + query;
+        }
+        return path;
+    }
+
+    protected WebAppTestClient httpClient = RestProxy.create(
+            WebAppTestClient.class,
+            new HttpPipelineBuilder()
+                    .policies(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)))
+                    .build());
+
+    @Host("{$host}")
+    @ServiceInterface(name = "WebAppTestClient")
+    private interface WebAppTestClient {
+        @Get("{path}")
+        @ExpectedResponses({200, 400, 404})
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getString(@HostParam("$host") String host, @PathParam(value = "path", encoded = true) String path);
+
+        @Post("{path}")
+        @ExpectedResponses({200, 400, 404})
+        Mono<SimpleResponse<Flux<ByteBuffer>>> postString(@HostParam("$host") String host, @PathParam(value = "path", encoded = true) String path, @BodyParam("text/plain") String body);
     }
 }

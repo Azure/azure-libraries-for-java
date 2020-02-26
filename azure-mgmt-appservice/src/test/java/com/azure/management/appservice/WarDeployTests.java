@@ -6,16 +6,16 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.Response;
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
 public class WarDeployTests extends AppServiceTest {
-    private static String WEBAPP_NAME = "";
+    private String WEBAPP_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -44,9 +44,9 @@ public class WarDeployTests extends AppServiceTest {
             webApp.warDeploy(new File(WarDeployTests.class.getResource("/helloworld.war").getPath()));
 
             if (!isPlaybackMode()) {
-                Response response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net");
-                Assertions.assertEquals(200, response.code());
-                String body = response.body().string();
+                Response<String> response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net");
+                Assertions.assertEquals(200, response.getStatusCode());
+                String body = response.getValue();
                 Assertions.assertNotNull(body);
                 Assertions.assertTrue(body.contains("Azure Samples Hello World"));
             }
@@ -69,15 +69,15 @@ public class WarDeployTests extends AppServiceTest {
             webApp.warDeploy(new File(WarDeployTests.class.getResource("/helloworld.war").getPath()));
             webApp.warDeploy(new File(WarDeployTests.class.getResource("/helloworld.war").getPath()), "app2");
 
-            Response response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net");
-            Assertions.assertEquals(200, response.code());
-            String body = response.body().string();
+            Response<String> response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net");
+            Assertions.assertEquals(200, response.getStatusCode());
+            String body = response.getValue();
             Assertions.assertNotNull(body);
             Assertions.assertTrue(body.contains("Azure Samples Hello World"));
 
             response = curl("http://" + WEBAPP_NAME + "." + "azurewebsites.net/app2");
-            Assertions.assertEquals(200, response.code());
-            body = response.body().string();
+            Assertions.assertEquals(200, response.getStatusCode());
+            body = response.getValue();
             Assertions.assertNotNull(body);
             Assertions.assertTrue(body.contains("Azure Samples Hello World"));
         }

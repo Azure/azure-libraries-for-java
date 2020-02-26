@@ -294,19 +294,19 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
         return this.webApps;
     }
 
-//    /**
-//     * The AppServiceEnvironmentsInner object to access its operations.
-//     */
-//    private AppServiceEnvironmentsInner appServiceEnvironments;
-//
-//    /**
-//     * Gets the AppServiceEnvironmentsInner object to access its operations.
-//     *
-//     * @return the AppServiceEnvironmentsInner object.
-//     */
-//    public AppServiceEnvironmentsInner appServiceEnvironments() {
-//        return this.appServiceEnvironments;
-//    }
+    /**
+     * The AppServiceEnvironmentsInner object to access its operations.
+     */
+    private AppServiceEnvironmentsInner appServiceEnvironments;
+
+    /**
+     * Gets the AppServiceEnvironmentsInner object to access its operations.
+     *
+     * @return the AppServiceEnvironmentsInner object.
+     */
+    public AppServiceEnvironmentsInner appServiceEnvironments() {
+        return this.appServiceEnvironments;
+    }
 
     /**
      * The AppServicePlansInner object to access its operations.
@@ -372,7 +372,7 @@ public final class WebSiteManagementClientImpl extends AzureServiceClient {
         this.providers = new ProvidersInner(this);
         this.recommendations = new RecommendationsInner(this);
         this.webApps = new WebAppsInner(this);
-//        this.appServiceEnvironments = new AppServiceEnvironmentsInner(this);
+        this.appServiceEnvironments = new AppServiceEnvironmentsInner(this);
         this.appServicePlans = new AppServicePlansInner(this);
         this.resourceHealthMetadatas = new ResourceHealthMetadatasInner(this);
         this.service = RestProxy.create(WebSiteManagementClientService.class, this.httpPipeline);

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class AppServicePlansTests extends AppServiceTest {
-    private static String APP_SERVICE_PLAN_NAME = "";
+    private String APP_SERVICE_PLAN_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

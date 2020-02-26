@@ -6,11 +6,10 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.Response;
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -19,9 +18,8 @@ import javax.net.ssl.SSLPeerUnverifiedException;
 import java.util.concurrent.TimeUnit;
 
 public class HostnameSslTests extends AppServiceTest {
-    private static String WEBAPP_NAME = "";
-    private static String APP_SERVICE_PLAN_NAME = "";
-    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
+    private String WEBAPP_NAME = "";
+    private String APP_SERVICE_PLAN_NAME = "";
     private String DOMAIN = "";
 
     @Override
@@ -52,9 +50,9 @@ public class HostnameSslTests extends AppServiceTest {
         WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Assertions.assertNotNull(webApp);
         if (!isPlaybackMode()) {
-            Response response = curl("http://" + WEBAPP_NAME + "." + DOMAIN);
-            Assertions.assertEquals(200, response.code());
-            Assertions.assertNotNull(response.body().string());
+            Response<String> response = curl("http://" + WEBAPP_NAME + "." + DOMAIN);
+            Assertions.assertEquals(200, response.getStatusCode());
+            Assertions.assertNotNull(response.getValue());
         }
         // hostname binding shortcut
         webApp.update()
@@ -62,11 +60,11 @@ public class HostnameSslTests extends AppServiceTest {
                 .apply();
         if (!isPlaybackMode()) {
             Response response = curl("http://" + WEBAPP_NAME + "-1." + DOMAIN);
-            Assertions.assertEquals(200, response.code());
-            Assertions.assertNotNull(response.body().string());
+            Assertions.assertEquals(200, response.getStatusCode());
+            Assertions.assertNotNull(response.getValue());
             response = curl("http://" + WEBAPP_NAME + "-2." + DOMAIN);
-            Assertions.assertEquals(200, response.code());
-            Assertions.assertNotNull(response.body().string());
+            Assertions.assertEquals(200, response.getStatusCode());
+            Assertions.assertNotNull(response.getValue());
         }
         // SSL binding
         webApp.update()
@@ -77,9 +75,10 @@ public class HostnameSslTests extends AppServiceTest {
                     .attach()
                 .apply();
         if (!isPlaybackMode()) {
-            Response response = null;
+            Response<String> response = null;
             int retryCount = 3;
             while (response == null && retryCount > 0) {
+                // FIXME this probably not work after switch from okhttp to azure-core
                 try {
                     response = curl("https://" + WEBAPP_NAME + "." + DOMAIN);
                 } catch (SSLPeerUnverifiedException e) {
@@ -90,8 +89,8 @@ public class HostnameSslTests extends AppServiceTest {
             if (retryCount == 0) {
                 Assertions.fail();
             }
-            Assertions.assertEquals(200, response.code());
-            Assertions.assertNotNull(response.body().string());
+            Assertions.assertEquals(200, response.getStatusCode());
+            Assertions.assertNotNull(response.getValue());
         }
     }
 }

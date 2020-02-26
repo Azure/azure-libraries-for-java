@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class DeploymentSlotsTests extends AppServiceTest {
-    private static String WEBAPP_NAME = "";
-    private static String SLOT_NAME_1 = "";
-    private static String SLOT_NAME_2 = "";
-    private static String SLOT_NAME_3 = "";
+    private String WEBAPP_NAME = "";
+    private String SLOT_NAME_1 = "";
+    private String SLOT_NAME_2 = "";
+    private String SLOT_NAME_3 = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

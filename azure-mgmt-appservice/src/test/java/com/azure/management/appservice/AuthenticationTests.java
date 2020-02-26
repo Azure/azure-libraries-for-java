@@ -8,17 +8,13 @@ package com.azure.management.appservice;
 
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.TimeUnit;
-
 public class AuthenticationTests extends AppServiceTest {
-    private static String RG_NAME_1 = "";
-    private static String WEBAPP_NAME_1 = "";
+    private String RG_NAME_1 = "";
+    private String WEBAPP_NAME_1 = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -53,8 +49,7 @@ public class AuthenticationTests extends AppServiceTest {
         Assertions.assertEquals(Region.US_WEST, plan1.region());
         Assertions.assertEquals(PricingTier.BASIC_B1, plan1.pricingTier());
 
-        Request request = new Request.Builder().url("http://" + webApp1.defaultHostName()).get().build();
-        String response = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build().newCall(request).execute().body().string();
+        String response = curl("http://" + webApp1.defaultHostName()).getValue();
         Assertions.assertTrue(response.contains("do not have permission"));
 
         // Update
@@ -65,8 +60,7 @@ public class AuthenticationTests extends AppServiceTest {
                     .attach()
                 .apply();
 
-        request = new Request.Builder().url("http://" + webApp1.defaultHostName()).get().build();
-        response = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build().newCall(request).execute().body().string();
+        response = curl("http://" + webApp1.defaultHostName()).getValue();
         Assertions.assertFalse(response.contains("do not have permission"));
 
     }

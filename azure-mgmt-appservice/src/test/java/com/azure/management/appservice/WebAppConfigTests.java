@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 public class WebAppConfigTests extends AppServiceTest {
-    private static String WEBAPP_NAME = "";
+    private String WEBAPP_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

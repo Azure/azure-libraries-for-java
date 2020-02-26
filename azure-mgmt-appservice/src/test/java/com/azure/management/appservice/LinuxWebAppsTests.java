@@ -6,25 +6,22 @@
 
 package com.azure.management.appservice;
 
+import com.azure.core.http.rest.Response;
 import com.azure.management.RestClient;
 import com.google.common.io.ByteStreams;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipInputStream;
 
 public class LinuxWebAppsTests extends AppServiceTest {
-    private static String RG_NAME_1 = "";
-    private static String RG_NAME_2 = "";
-    private static String WEBAPP_NAME_1 = "";
-    private static String WEBAPP_NAME_2 = "";
-    private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(5, TimeUnit.MINUTES).build();
+    private String RG_NAME_1 = "";
+    private String RG_NAME_2 = "";
+    private String WEBAPP_NAME_1 = "";
+    private String WEBAPP_NAME_2 = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -114,19 +111,18 @@ public class LinuxWebAppsTests extends AppServiceTest {
         if (!isPlaybackMode()) {
             // maybe 2 minutes is enough?
             SdkContext.sleep(120000);
-            Response response = curl("http://" + webApp1.defaultHostName());
-            Assertions.assertEquals(200, response.code());
-            String body = response.body().string();
+            Response<String> response = curl("http://" + webApp1.defaultHostName());
+            Assertions.assertEquals(200, response.getStatusCode());
+            String body = response.getValue();
             Assertions.assertNotNull(body);
             Assertions.assertTrue(body.contains("Hello world from linux 4"));
+        }
 
          //update to a java 11 image
          webApp = webApp1.update()
                     .withBuiltInImage(RuntimeStack.TOMCAT_9_0_JAVA11)
                     .apply();
          Assertions.assertNotNull(webApp);
-
-        }
     }
 
     @Test
@@ -174,9 +170,9 @@ public class LinuxWebAppsTests extends AppServiceTest {
         if (!isPlaybackMode()) {
             // maybe 2 minutes is enough?
             SdkContext.sleep(120000);
-            Response response = curl("https://" + webApp1.defaultHostName());
-            Assertions.assertEquals(200, response.code());
-            String body = response.body().string();
+            Response<String> response = curl("https://" + webApp1.defaultHostName());
+            Assertions.assertEquals(200, response.getStatusCode());
+            String body = response.getValue();
             Assertions.assertNotNull(body);
             Assertions.assertTrue(body.contains("Hello world from linux 4"));
         }

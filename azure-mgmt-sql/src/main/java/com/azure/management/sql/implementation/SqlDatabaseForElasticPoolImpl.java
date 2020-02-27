@@ -43,7 +43,6 @@ public class SqlDatabaseForElasticPoolImpl
 
     @Override
     public SqlElasticPoolImpl attach() {
-        this.sqlDatabase.addParentDependency(this.sqlElasticPool);
         return this.sqlElasticPool;
     }
 

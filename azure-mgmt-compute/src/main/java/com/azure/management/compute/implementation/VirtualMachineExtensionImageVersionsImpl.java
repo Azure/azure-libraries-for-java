@@ -5,18 +5,15 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.compute.models.VirtualMachineExtensionImageInner;
 import com.azure.management.compute.models.VirtualMachineExtensionImagesInner;
 import com.azure.management.compute.VirtualMachineExtensionImageType;
 import com.azure.management.compute.VirtualMachineExtensionImageVersion;
 import com.azure.management.compute.VirtualMachineExtensionImageVersions;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Function;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 
 /**
  * The implementation for VirtualMachineExtensionImageVersions.
@@ -33,8 +30,8 @@ public class VirtualMachineExtensionImageVersionsImpl
     }
 
     @Override
-    public List<VirtualMachineExtensionImageVersion> list() {
-        return listAsync().block();
+    public PagedIterable<VirtualMachineExtensionImageVersion> list() {
+        return new PagedIterable<>(listAsync());
     }
 
     @Override
@@ -46,11 +43,8 @@ public class VirtualMachineExtensionImageVersionsImpl
     }
 
     @Override
-    public Mono<List<VirtualMachineExtensionImageVersion>> listAsync() {
-        return client.listVersionsAsync(type.regionName(), type.publisher().name(), type.name())
-                .flatMapMany(Flux::fromIterable)
-                .map((Function<VirtualMachineExtensionImageInner, VirtualMachineExtensionImageVersion>) this::wrapModel)
-                .collectList()
-                .map(list -> Collections.unmodifiableList(list));
+    public PagedFlux<VirtualMachineExtensionImageVersion> listAsync() {
+        return PagedConverter.convertListToPagedFlux(client.listVersionsAsync(type.regionName(), type.publisher().name(), type.name()))
+                .mapPage(this::wrapModel);
     }
 }

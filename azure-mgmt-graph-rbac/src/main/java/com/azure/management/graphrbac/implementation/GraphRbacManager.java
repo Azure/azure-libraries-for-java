@@ -11,6 +11,7 @@ import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.azure.management.AzureTokenCredential;
 import com.azure.management.RestClient;
 import com.azure.management.RestClientBuilder;
+import com.azure.management.Utils;
 import com.azure.management.graphrbac.ActiveDirectoryApplications;
 import com.azure.management.graphrbac.ActiveDirectoryGroups;
 import com.azure.management.graphrbac.ActiveDirectoryUsers;
@@ -71,18 +72,6 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
     }
 
     /**
-     * Creates an instance of GraphRbacManager that exposes Graph RBAC management API entry points.
-     *
-     * @param restClient the RestClient to be used for API calls
-     * @param tenantId the tenantId in Active Directory
-     * @param subscriptionId the subscriptionId in Active Directory
-     * @return the interface exposing Graph RBAC management API entry points that work across subscriptions
-     */
-    public static GraphRbacManager authenticate(RestClient restClient, String tenantId, String subscriptionId) {
-        return new GraphRbacManager(restClient, tenantId, subscriptionId);
-    }
-
-    /**
      * Get a Configurable instance that can be used to create GraphRbacManager with optional configuration.
      *
      * @return the instance allowing configurations
@@ -121,10 +110,6 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
     }
 
     private GraphRbacManager(RestClient restClient, String tenantId) {
-        this(restClient, tenantId, null);
-    }
-
-    private GraphRbacManager(RestClient restClient, String tenantId, String subscriptionId) {
         String graphEndpoint = AzureEnvironment.AZURE.getGraphEndpoint();
         String resourceManagerEndpoint = restClient.getBaseUrl().toString();
         if (restClient.getCredential() instanceof AzureTokenCredential) {
@@ -140,22 +125,12 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
                 .host(graphEndpoint)
                 .tenantID(tenantId)
                 .build();
-        if (subscriptionId == null) {
-            subscriptionId = subscriptionIdFromRestClient(restClient);
-        }
         this.authorizationManagementClient = new AuthorizationManagementClientBuilder()
                 .pipeline(restClient.getHttpPipeline())
                 .host(resourceManagerEndpoint)
-                .subscriptionId(subscriptionId)
+                .subscriptionId(Utils.getSubscriptionIdFromRestClient(restClient))
                 .build();
         this.tenantId = tenantId;
-    }
-
-    private String subscriptionIdFromRestClient(RestClient restClient) {
-        if (restClient.getCredential() != null && restClient.getCredential() instanceof AzureTokenCredential) {
-            return ((AzureTokenCredential) restClient.getCredential()).getDefaultSubscriptionId();
-        }
-        return null;
     }
 
     /**

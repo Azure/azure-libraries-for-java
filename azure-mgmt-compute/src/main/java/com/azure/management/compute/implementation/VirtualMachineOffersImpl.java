@@ -5,17 +5,15 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.compute.models.VirtualMachineImageResourceInner;
 import com.azure.management.compute.models.VirtualMachineImagesInner;
 import com.azure.management.compute.VirtualMachineOffer;
 import com.azure.management.compute.VirtualMachineOffers;
 import com.azure.management.compute.VirtualMachinePublisher;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import reactor.core.publisher.Mono;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 
 /**
  * The implementation for {@link VirtualMachineOffers}.
@@ -41,19 +39,13 @@ class VirtualMachineOffersImpl
     }
 
     @Override
-    public List<VirtualMachineOffer> list() {
-        return listAsync().block();
+    public PagedIterable<VirtualMachineOffer> list() {
+        return new PagedIterable<>(listAsync());
     }
 
     @Override
-    public Mono<List<VirtualMachineOffer>> listAsync() {
-        return innerCollection.listOffersAsync(publisher.region().toString(), publisher.name())
-                .map(inners -> {
-                    List<VirtualMachineOffer> offerList = new ArrayList<>();
-                    for (VirtualMachineImageResourceInner inner : inners) {
-                        offerList.add(wrapModel(inner));
-                    }
-                    return Collections.unmodifiableList(offerList);
-                });
+    public PagedFlux<VirtualMachineOffer> listAsync() {
+        return PagedConverter.convertListToPagedFlux(innerCollection.listOffersAsync(publisher.region().toString(), publisher.name()))
+                .mapPage(this::wrapModel);
     }
 }

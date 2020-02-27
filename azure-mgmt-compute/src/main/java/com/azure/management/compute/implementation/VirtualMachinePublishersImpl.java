@@ -5,6 +5,8 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.compute.models.VirtualMachineExtensionImagesInner;
 import com.azure.management.compute.models.VirtualMachineImageResourceInner;
 import com.azure.management.compute.models.VirtualMachineImagesInner;
@@ -12,11 +14,7 @@ import com.azure.management.compute.VirtualMachinePublisher;
 import com.azure.management.compute.VirtualMachinePublishers;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.util.Collections;
-import java.util.List;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 
 /**
  * The implementation for {@link VirtualMachinePublishers}.
@@ -34,7 +32,7 @@ class VirtualMachinePublishersImpl
     }
 
     @Override
-    public List<VirtualMachinePublisher> listByRegion(Region region) {
+    public PagedIterable<VirtualMachinePublisher> listByRegion(Region region) {
         return listByRegion(region.toString());
     }
 
@@ -50,21 +48,18 @@ class VirtualMachinePublishersImpl
     }
 
     @Override
-    public List<VirtualMachinePublisher> listByRegion(String regionName) {
-        return listByRegionAsync(regionName).block();
+    public PagedIterable<VirtualMachinePublisher> listByRegion(String regionName) {
+        return new PagedIterable<>(listByRegionAsync(regionName));
     }
 
     @Override
-    public Mono<List<VirtualMachinePublisher>> listByRegionAsync(Region region) {
+    public PagedFlux<VirtualMachinePublisher> listByRegionAsync(Region region) {
         return listByRegionAsync(region.name());
     }
 
     @Override
-    public Mono<List<VirtualMachinePublisher>> listByRegionAsync(String regionName) {
-        return imagesInnerCollection.listPublishersAsync(regionName)
-                .flatMapMany(Flux::fromIterable)
-                .map(this::wrapModel)
-                .collectList()
-                .map(list -> Collections.unmodifiableList(list));
+    public PagedFlux<VirtualMachinePublisher> listByRegionAsync(String regionName) {
+        return PagedConverter.convertListToPagedFlux(imagesInnerCollection.listPublishersAsync(regionName))
+                .mapPage(this::wrapModel);
     }
 }

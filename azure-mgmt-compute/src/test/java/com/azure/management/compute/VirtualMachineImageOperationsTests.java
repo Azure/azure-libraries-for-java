@@ -6,20 +6,20 @@
 
 package com.azure.management.compute;
 
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 public class VirtualMachineImageOperationsTests extends ComputeManagementTest {
     @Test
     public void canListVirtualMachineImages() throws Exception {
-        List<VirtualMachineImage> images = computeManager.virtualMachineImages()
+        PagedIterable<VirtualMachineImage> images = computeManager.virtualMachineImages()
                 .listByRegion(Region.US_EAST);
-        Assertions.assertTrue(images.size() > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(images) > 0);
 
-        List<VirtualMachinePublisher> publishers =
+        PagedIterable<VirtualMachinePublisher> publishers =
                 computeManager.virtualMachineImages().publishers().listByRegion(Region.US_EAST);
 
         VirtualMachinePublisher canonicalPublisher = null;

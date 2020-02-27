@@ -7,13 +7,13 @@
 package com.azure.management.compute;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.resources.fluentcore.collection.SupportsSimpleListingByRegion;
+import com.azure.management.resources.fluentcore.collection.SupportsListingByRegion;
 
 /**
  *  Entry point to virtual machine extension image management.
  */
 @Fluent
-public interface VirtualMachineExtensionImages extends SupportsSimpleListingByRegion<VirtualMachineExtensionImage> {
+public interface VirtualMachineExtensionImages extends SupportsListingByRegion<VirtualMachineExtensionImage> {
     /**
      * @return entry point to virtual machine extension image publishers
      */

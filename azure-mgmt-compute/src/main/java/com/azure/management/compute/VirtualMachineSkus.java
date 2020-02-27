@@ -6,26 +6,11 @@
 package com.azure.management.compute;
 
 import com.azure.core.annotation.Fluent;
-import reactor.core.publisher.Mono;
-
-import java.util.List;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
 
 /**
  * Entry point to virtual machine image offer SKUs.
  */
 @Fluent
-public interface VirtualMachineSkus {
-    /**
-     * Lists all the resources of the virtual machine sku.
-     *
-     * @return A {@link List} of resources
-     */
-    List<VirtualMachineSku> list();
-
-    /**
-     * Lists all the resources of the virtual machine sku.
-     *
-     * @return A {@link Mono<List>} of resources
-     */
-    Mono<List<VirtualMachineSku>> listAsync();
+public interface VirtualMachineSkus extends SupportsListing<VirtualMachineSku> {
 }

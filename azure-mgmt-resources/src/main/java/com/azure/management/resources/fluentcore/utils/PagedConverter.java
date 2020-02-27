@@ -15,6 +15,7 @@ import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -60,5 +61,22 @@ public class PagedConverter {
                                 values,
                                 pagedResponse.getContinuationToken(),
                                 null));
+    }
+
+    /**
+     * Converts list to PagedFlux.
+     *
+     * @param list the list to convert.
+     * @return the PagedFlux.
+     */
+    public static <T> PagedFlux<T> convertListToPagedFlux(Mono<List<T>> list) {
+        return new PagedFlux<>(() -> list.map(elements -> new PagedResponseBase<HttpRequest, T>(
+                null,
+                200,
+                null,
+                elements,
+                null,
+                null
+        )));
     }
 }

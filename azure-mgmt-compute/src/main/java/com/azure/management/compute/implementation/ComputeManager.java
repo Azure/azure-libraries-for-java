@@ -11,6 +11,7 @@ import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.azure.management.AzureTokenCredential;
 import com.azure.management.RestClient;
 import com.azure.management.RestClientBuilder;
+import com.azure.management.Utils;
 import com.azure.management.compute.AvailabilitySets;
 import com.azure.management.compute.ComputeSkus;
 import com.azure.management.compute.ComputeUsages;
@@ -127,7 +128,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
         );
         storageManager = StorageManager.authenticate(restClient, subscriptionId);
         networkManager = NetworkManager.authenticate(restClient, subscriptionId);
-        rbacManager = GraphRbacManager.authenticate(restClient, ((AzureTokenCredential) (restClient.getCredential())).getDomain());
+        rbacManager = GraphRbacManager.authenticate(restClient, Utils.getTenantIdFromRestClient(restClient));
     }
 
     /**

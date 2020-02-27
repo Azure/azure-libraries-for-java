@@ -7,13 +7,13 @@ package com.azure.management.compute;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.collection.SupportsSimpleListingByRegion;
+import com.azure.management.resources.fluentcore.collection.SupportsListingByRegion;
 
 /**
  *  Entry point to virtual machine image management API.
  */
 @Fluent
-public interface VirtualMachineImages extends SupportsSimpleListingByRegion<VirtualMachineImage> {
+public interface VirtualMachineImages extends SupportsListingByRegion<VirtualMachineImage> {
     /**
      * Gets a virtual machine image.
      *

@@ -5,18 +5,15 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.compute.models.VirtualMachineExtensionImageInner;
 import com.azure.management.compute.models.VirtualMachineExtensionImagesInner;
 import com.azure.management.compute.VirtualMachineExtensionImageType;
 import com.azure.management.compute.VirtualMachineExtensionImageTypes;
 import com.azure.management.compute.VirtualMachinePublisher;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Function;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 
 /**
  * The implementation for VirtualMachineExtensionImageTypes.
@@ -33,8 +30,8 @@ class VirtualMachineExtensionImageTypesImpl
     }
 
     @Override
-    public List<VirtualMachineExtensionImageType> list() {
-        return listAsync().block();
+    public PagedIterable<VirtualMachineExtensionImageType> list() {
+        return new PagedIterable<>(listAsync());
     }
 
     @Override
@@ -46,11 +43,8 @@ class VirtualMachineExtensionImageTypesImpl
     }
 
     @Override
-    public Mono<List<VirtualMachineExtensionImageType>> listAsync() {
-        return client.listTypesAsync(this.publisher.region().toString(), this.publisher.name())
-                .flatMapMany(Flux::fromIterable)
-                .map((Function<VirtualMachineExtensionImageInner, VirtualMachineExtensionImageType>) this::wrapModel)
-                .collectList()
-                .map(list -> Collections.unmodifiableList(list));
+    public PagedFlux<VirtualMachineExtensionImageType> listAsync() {
+        return PagedConverter.convertListToPagedFlux(client.listTypesAsync(this.publisher.region().toString(), this.publisher.name()))
+                .mapPage(this::wrapModel);
     }
 }

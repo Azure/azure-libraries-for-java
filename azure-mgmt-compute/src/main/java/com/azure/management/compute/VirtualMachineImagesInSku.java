@@ -6,11 +6,11 @@
 
 package com.azure.management.compute;
 import com.azure.core.annotation.Fluent;
-import com.azure.management.resources.fluentcore.collection.SupportsSimpleListing;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
 
 /**
  * Entry point to virtual machine SKU images.
  */
 @Fluent
-public interface VirtualMachineImagesInSku extends SupportsSimpleListing<VirtualMachineImage> {
+public interface VirtualMachineImagesInSku extends SupportsListing<VirtualMachineImage> {
 }

@@ -5,17 +5,15 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.compute.models.VirtualMachineImageResourceInner;
 import com.azure.management.compute.models.VirtualMachineImagesInner;
 import com.azure.management.compute.VirtualMachineOffer;
 import com.azure.management.compute.VirtualMachineSku;
 import com.azure.management.compute.VirtualMachineSkus;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import reactor.core.publisher.Mono;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 
 /**
  * The implementation for {@link VirtualMachineSkus}.
@@ -33,8 +31,8 @@ class VirtualMachineSkusImpl
     }
 
     @Override
-    public List<VirtualMachineSku> list() {
-        return listAsync().block();
+    public PagedIterable<VirtualMachineSku> list() {
+        return new PagedIterable<>(listAsync());
     }
 
     @Override
@@ -46,17 +44,11 @@ class VirtualMachineSkusImpl
     }
 
     @Override
-    public Mono<List<VirtualMachineSku>> listAsync() {
-        return innerCollection.listSkusAsync(
+    public PagedFlux<VirtualMachineSku> listAsync() {
+        return PagedConverter.convertListToPagedFlux(innerCollection.listSkusAsync(
                 offer.region().toString(),
                 offer.publisher().name(),
-                offer.name())
-                .map(inners -> {
-                    List<VirtualMachineSku> skuList = new ArrayList<>();
-                    for (VirtualMachineImageResourceInner inner : inners) {
-                        skuList.add(wrapModel(inner));
-                    }
-                    return Collections.unmodifiableList(skuList);
-                });
+                offer.name()))
+                .mapPage(this::wrapModel);
     }
 }

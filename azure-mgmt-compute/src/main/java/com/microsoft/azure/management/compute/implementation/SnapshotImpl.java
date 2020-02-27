@@ -20,6 +20,7 @@ import com.microsoft.azure.management.compute.Snapshot;
 import com.microsoft.azure.management.compute.SnapshotSku;
 import com.microsoft.azure.management.compute.SnapshotSkuType;
 import com.microsoft.azure.management.compute.SnapshotStorageAccountTypes;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceCallback;
@@ -27,6 +28,8 @@ import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
+
+import java.security.InvalidParameterException;
 
 /**
  * The implementation for Snapshot and its create and update interfaces.
@@ -137,12 +140,18 @@ class SnapshotImpl
 
     @Override
     public SnapshotImpl withLinuxFromVhd(String vhdUrl) {
+        return withLinuxFromVhd(vhdUrl, constructStorageAccountId(vhdUrl));
+    }
+
+    @Override
+    public SnapshotImpl withLinuxFromVhd(String vhdUrl, String storageAccountId) {
         this.inner()
                 .withOsType(OperatingSystemTypes.LINUX)
                 .withCreationData(new CreationData())
                 .creationData()
                 .withCreateOption(DiskCreateOption.IMPORT)
-                .withSourceUri(vhdUrl);
+                .withSourceUri(vhdUrl)
+                .withStorageAccountId(storageAccountId);
         return this;
     }
 
@@ -190,12 +199,18 @@ class SnapshotImpl
 
     @Override
     public SnapshotImpl withWindowsFromVhd(String vhdUrl) {
+        return withWindowsFromVhd(vhdUrl, constructStorageAccountId(vhdUrl));
+    }
+
+    @Override
+    public SnapshotImpl withWindowsFromVhd(String vhdUrl, String storageAccountId) {
         this.inner()
                 .withOsType(OperatingSystemTypes.WINDOWS)
                 .withCreationData(new CreationData())
                 .creationData()
                 .withCreateOption(DiskCreateOption.IMPORT)
-                .withSourceUri(vhdUrl);
+                .withSourceUri(vhdUrl)
+                .withStorageAccountId(storageAccountId);
         return this;
     }
 
@@ -243,11 +258,17 @@ class SnapshotImpl
 
     @Override
     public SnapshotImpl withDataFromVhd(String vhdUrl) {
+        return withDataFromVhd(vhdUrl, constructStorageAccountId(vhdUrl));
+    }
+
+    @Override
+    public SnapshotImpl withDataFromVhd(String vhdUrl, String storageAccountId) {
         this.inner()
                 .withCreationData(new CreationData())
                 .creationData()
                 .withCreateOption(DiskCreateOption.IMPORT)
-                .withSourceUri(vhdUrl);
+                .withSourceUri(vhdUrl)
+                .withStorageAccountId(storageAccountId);
         return this;
     }
 
@@ -324,5 +345,18 @@ class SnapshotImpl
     @Override
     protected Observable<SnapshotInner> getInnerAsync() {
         return this.manager().inner().snapshots().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    }
+
+    private String constructStorageAccountId(String vhdUrl) {
+        try {
+            return ResourceUtils.constructResourceId(this.manager().subscriptionId(),
+                    resourceGroupName(),
+                    "Microsoft.Storage",
+                    "storageAccounts",
+                    vhdUrl.split("\\.")[0].replace("https://", ""),
+                    "");
+        } catch (Exception ex) {
+            throw new InvalidParameterException(String.format("%s is not valid URI of a blob to import.", vhdUrl));
+        }
     }
 }

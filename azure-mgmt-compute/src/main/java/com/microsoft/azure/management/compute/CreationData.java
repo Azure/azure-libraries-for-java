@@ -23,9 +23,8 @@ public class CreationData {
     private DiskCreateOption createOption;
 
     /**
-     * If createOption is Import, the Azure Resource Manager identifier of the
-     * storage account containing the blob to import as a disk. Required only
-     * if the blob is in a different subscription.
+     * Required if createOption is Import. The Azure Resource Manager identifier
+     * of the storage account containing the blob to import as a disk.
      */
     @JsonProperty(value = "storageAccountId")
     private String storageAccountId;

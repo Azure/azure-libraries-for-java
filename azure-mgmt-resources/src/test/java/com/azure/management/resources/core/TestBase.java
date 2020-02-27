@@ -261,7 +261,7 @@ public abstract class TestBase {
                     host = System.getProperty("https.proxyHost");
                     port = Integer.parseInt(System.getProperty("https.proxyPort"));
                 } else if (System.getProperty("http.proxyHost") != null && System.getProperty("http.proxyPort") != null) {
-                    host = System.getProperty("https.proxyHost");
+                    host = System.getProperty("http.proxyHost");
                     port = Integer.parseInt(System.getProperty("http.proxyPort"));
                 }
                 if (host != null) {

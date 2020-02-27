@@ -67,7 +67,7 @@ var autoRestExe;
 gulp.task('codegen', function(cb) {
     if (autoRestVersion.match(/[0-9]+\.[0-9]+\.[0-9]+.*/) ||
         autoRestVersion == 'latest') {
-            autoRestExe = 'autorest-beta --version=' + autoRestVersion;
+            autoRestExe = 'autorest --version=' + autoRestVersion;
             handleInput(projects, cb);
     } else {
         autoRestExe = "node " + path.join(autoRestVersion, "src/autorest-core/dist/app.js");
@@ -120,7 +120,7 @@ var codegen = function(project, cb) {
     }
 
     const generatorPath = args['autorest-java']
-        ? `--use=${path.resolve(args['autorest-java'])} `
+        ? `--use=${path.join(path.resolve(args['autorest-java']), '/../fluentnamer')} --use=${path.resolve(args['autorest-java'])} `
         : '';
 
     const regenManager = args['regenerate-manager'] ? ' --regenerate-manager=true ' : '';

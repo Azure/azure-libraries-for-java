@@ -16,8 +16,6 @@ import com.azure.management.appservice.models.DomainInner;
 import com.azure.management.appservice.models.DomainOwnershipIdentifierInner;
 import com.azure.management.appservice.models.DomainsInner;
 import com.azure.management.appservice.models.TldLegalAgreementInner;
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Mono;
@@ -28,6 +26,8 @@ import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The implementation for AppServiceDomain.
@@ -50,12 +50,8 @@ class AppServiceDomainImpl
         super(name, innerObject, manager);
         inner().setLocation("global");
         if (inner().managedHostNames() != null) {
-            this.hostNameMap = Maps.uniqueIndex(inner().managedHostNames(), new Function<HostName, String>() {
-                @Override
-                public String apply(HostName input) {
-                    return input.name();
-                }
-            });
+            this.hostNameMap = inner().managedHostNames().stream()
+                    .collect(Collectors.toMap(HostName::name, Function.identity()));
         }
     }
 

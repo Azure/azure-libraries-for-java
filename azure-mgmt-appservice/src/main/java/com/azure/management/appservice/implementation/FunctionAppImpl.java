@@ -44,7 +44,6 @@ import com.azure.management.appservice.models.SiteConfigResourceInner;
 import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.appservice.models.SiteLogsConfigInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.io.BaseEncoding;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -61,6 +60,7 @@ import java.net.MalformedURLException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -681,7 +681,7 @@ class FunctionAppImpl
             return functionApp.manager().inner().webApps()
                     .getFunctionsAdminTokenAsync(functionApp.resourceGroupName(), functionApp.name())
                     .map(token -> {
-                        String jwt = new String(BaseEncoding.base64Url().decode(token.split("\\.")[1]));
+                        String jwt = new String(Base64.getUrlDecoder().decode(token.split("\\.")[1]));
                         Pattern pattern = Pattern.compile("\"exp\": *([0-9]+),");
                         Matcher matcher = pattern.matcher(jwt);
                         matcher.find();

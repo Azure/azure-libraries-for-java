@@ -81,6 +81,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * The implementation for WebAppBase.
@@ -671,15 +672,11 @@ abstract class WebAppBaseImpl<
 
     @Override
     public Mono<Map<String, AppSetting>> getAppSettingsAsync() {
-        return Mono.zip(listAppSettings(), listSlotConfigurations(), (final StringDictionaryInner appSettingsInner, final SlotConfigNamesResourceInner slotConfigs) -> {
-            Map<String, AppSetting> appSettingMap = new HashMap<>();
-            for (Map.Entry<String, String> entry : appSettingsInner.properties().entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                appSettingMap.put(key, new AppSettingImpl(key, value, slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(key)));
-            }
-            return appSettingMap;
-        });
+        return Mono.zip(listAppSettings(), listSlotConfigurations(),
+                (appSettingsInner, slotConfigs) -> appSettingsInner.properties().entrySet().stream()
+                        .collect(Collectors.toMap(Map.Entry::getKey,
+                                entry -> new AppSettingImpl(entry.getKey(), entry.getValue(),
+                                        slotConfigs.appSettingNames() != null && slotConfigs.appSettingNames().contains(entry.getKey())))));
     }
 
     @Override
@@ -689,15 +686,11 @@ abstract class WebAppBaseImpl<
 
     @Override
     public Mono<Map<String, ConnectionString>> getConnectionStringsAsync() {
-        return Mono.zip(listConnectionStrings(), listSlotConfigurations(), (final ConnectionStringDictionaryInner connectionStringsInner, final SlotConfigNamesResourceInner slotConfigs) -> {
-            Map<String, ConnectionString> connectionStringMap = new HashMap<>();
-            for (Map.Entry<String, ConnStringValueTypePair> entry : connectionStringsInner.properties().entrySet()) {
-                String key = entry.getKey();
-                ConnStringValueTypePair value = entry.getValue();
-                connectionStringMap.put(key, new ConnectionStringImpl(key, value, slotConfigs.connectionStringNames() != null && slotConfigs.connectionStringNames().contains(key)));
-            }
-            return connectionStringMap;
-        });
+        return Mono.zip(listConnectionStrings(), listSlotConfigurations(),
+                (connectionStringsInner, slotConfigs) -> connectionStringsInner.properties().entrySet().stream()
+                        .collect(Collectors.toMap(Map.Entry::getKey,
+                                entry -> new ConnectionStringImpl(entry.getKey(), entry.getValue(),
+                                        slotConfigs.connectionStringNames() != null && slotConfigs.connectionStringNames().contains(entry.getKey())))));
     }
 
     @Override

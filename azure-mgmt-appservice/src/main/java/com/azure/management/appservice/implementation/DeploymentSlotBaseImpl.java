@@ -17,7 +17,6 @@ import com.azure.management.appservice.PublishingProfile;
 import com.azure.management.appservice.WebAppBase;
 import com.azure.management.appservice.WebAppSourceControl;
 import com.azure.management.appservice.models.ConnectionStringDictionaryInner;
-import com.azure.management.appservice.models.HostNameBindingInner;
 import com.azure.management.appservice.models.IdentifierInner;
 import com.azure.management.appservice.models.MSDeployStatusInner;
 import com.azure.management.appservice.models.SiteAuthSettingsInner;
@@ -28,23 +27,14 @@ import com.azure.management.appservice.models.SitePatchResourceInner;
 import com.azure.management.appservice.models.SiteSourceControlInner;
 import com.azure.management.appservice.models.SlotConfigNamesResourceInner;
 import com.azure.management.appservice.models.StringDictionaryInner;
-import com.google.common.base.Function;
-import com.google.common.collect.Maps;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.CharStreams;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Observable;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The implementation for DeploymentSlot.
@@ -84,13 +74,9 @@ abstract class DeploymentSlotBaseImpl<
         return this.manager().inner().webApps().listHostNameBindingsSlotAsync(resourceGroupName(), parent().name(), name())
                 .mapPage(hostNameBindingInner -> new HostNameBindingImpl<FluentT, FluentImplT>(hostNameBindingInner, (FluentImplT) DeploymentSlotBaseImpl.this))
                 .collectList()
-                .map(hostNameBindings -> {
-                    Map<String, HostNameBinding> hostNameBindingMap = new HashMap<>();
-                    for (HostNameBinding binding : hostNameBindings) {
-                        hostNameBindingMap.put(binding.name().replace(name() + "/", ""), binding);
-                    }
-                    return Collections.unmodifiableMap(hostNameBindingMap);
-                });
+                .map(hostNameBindings -> Collections.<String, HostNameBinding>unmodifiableMap(hostNameBindings.stream()
+                        .collect(Collectors.toMap(binding -> binding.name().replace(name() + "/", ""),
+                                Function.identity()))));
     }
 
     @Override

@@ -34,8 +34,10 @@ import com.azure.management.resources.fluentcore.utils.SdkContext;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The base implementation for web apps and function apps.
@@ -152,13 +154,9 @@ abstract class AppServiceBaseImpl<
         return this.manager().inner().webApps().listHostNameBindingsAsync(resourceGroupName(), name())
                 .mapPage(hostNameBindingInner -> new HostNameBindingImpl<>(hostNameBindingInner, (FluentImplT) AppServiceBaseImpl.this))
                 .collectList()
-                .map(hostNameBindings -> {
-                    Map<String, HostNameBinding> hostNameBindingMap = new HashMap<>();
-                    for (HostNameBinding binding : hostNameBindings) {
-                        hostNameBindingMap.put(binding.name().replace(name() + "/", ""), binding);
-                    }
-                    return hostNameBindingMap;
-                });
+                .map(hostNameBindings -> Collections.<String, HostNameBinding>unmodifiableMap(hostNameBindings.stream()
+                        .collect(Collectors.toMap(binding -> binding.name().replace(name() + "/", ""),
+                                Function.identity()))));
     }
 
     @Override

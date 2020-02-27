@@ -16,6 +16,20 @@ import java.util.regex.Pattern;
 class Utils {
 
     /**
+     * Encodes byte array to Base16 string.
+     *
+     * @param bytes byte array to be encoded.
+     * @return Base16 string
+     */
+    static String base16Encode(byte[] bytes) {
+        StringBuilder stringBuilder = new StringBuilder(bytes.length * 2);
+        for (byte b : bytes) {
+            stringBuilder.append(String.format("%02X", b));
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
      * Completes docker image and tag with registry server.
      *
      * @param imageAndTag docker image and tag

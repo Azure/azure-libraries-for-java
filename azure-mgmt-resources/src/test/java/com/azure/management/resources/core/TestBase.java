@@ -6,6 +6,9 @@
 
 package com.azure.management.resources.core;
 
+import com.azure.core.http.HttpClient;
+import com.azure.core.http.ProxyOptions;
+import com.azure.core.http.netty.NettyAsyncHttpClientBuilder;
 import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.http.policy.HostPolicy;
 import com.azure.core.http.policy.HttpLogDetailLevel;
@@ -20,15 +23,21 @@ import com.azure.management.RestClientBuilder;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.BeforeAll;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Properties;
 
 public abstract class TestBase {
@@ -198,6 +207,7 @@ public abstract class TestBase {
                     .withBaseUrl(this.baseUri())
                     .withSerializerAdapter(new AzureJacksonAdapter())
                     .withCredential(credentials)
+                    .withHttpClient(generateHttpClientWithProxy(null))
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .withPolicy(new ResourceGroupTaggingPolicy())
                     .withPolicy(new CookiePolicy());
@@ -222,6 +232,44 @@ public abstract class TestBase {
         }
         cleanUpResources();
         interceptorManager.finalizeInterceptor();
+    }
+
+    protected HttpClient generateHttpClientWithProxy(ProxyOptions proxyOptions) {
+        NettyAsyncHttpClientBuilder clientBuilder = new NettyAsyncHttpClientBuilder();
+        if (proxyOptions != null) {
+            clientBuilder.proxy(proxyOptions);
+        } else {
+            try {
+                System.setProperty("java.net.useSystemProxies", "true");
+                List<Proxy> proxies = ProxySelector.getDefault().select(new URI(AzureEnvironment.AZURE.getResourceManagerEndpoint()));
+                if (!proxies.isEmpty()) {
+                    for (Proxy proxy : proxies) {
+                        if (proxy.address() instanceof InetSocketAddress) {
+                            switch (proxy.type()) {
+                                case HTTP:
+                                    return clientBuilder.proxy(new ProxyOptions(ProxyOptions.Type.HTTP, (InetSocketAddress) proxy.address())).build();
+                                case SOCKS:
+                                    return clientBuilder.proxy(new ProxyOptions(ProxyOptions.Type.SOCKS5, (InetSocketAddress)proxy.address())).build();
+                                default:
+                            }
+                        }
+                    }
+                }
+                String host = null;
+                int port = 0;
+                if (System.getProperty("https.proxyHost") != null && System.getProperty("https.proxyPort") != null) {
+                    host = System.getProperty("https.proxyHost");
+                    port = Integer.parseInt(System.getProperty("https.proxyPort"));
+                } else if (System.getProperty("http.proxyHost") != null && System.getProperty("http.proxyPort") != null) {
+                    host = System.getProperty("http.proxyHost");
+                    port = Integer.parseInt(System.getProperty("http.proxyPort"));
+                }
+                if (host != null) {
+                    clientBuilder.proxy(new ProxyOptions(ProxyOptions.Type.HTTP, new InetSocketAddress(host, port)));
+                }
+            } catch (URISyntaxException e) {}
+        }
+        return clientBuilder.build();
     }
 
     protected void addTextReplacementRule(String from, String to) {

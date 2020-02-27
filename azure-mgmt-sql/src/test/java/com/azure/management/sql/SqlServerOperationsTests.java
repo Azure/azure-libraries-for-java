@@ -7,6 +7,7 @@
 package com.azure.management.sql;
 
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.CloudException;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
@@ -22,6 +23,7 @@ import reactor.core.publisher.Flux;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class SqlServerOperationsTests extends SqlServerTest {
     private static final String SQL_DATABASE_NAME = "myTestDatabase2";
@@ -231,7 +233,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .create();
 
         SqlServer sqlOtherServer = sqlServerManager.sqlServers().define(sqlOtherServerName)
-            .withRegion(Region.US_WEST2)
+            .withRegion(Region.US_SOUTH_CENTRAL)
             .withExistingResourceGroup(rgName)
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)
@@ -344,8 +346,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
 
         SqlServerAutomaticTuning serverAutomaticTuning = sqlServer.getServerAutomaticTuning();
-        Assertions.assertEquals(AutomaticTuningServerMode.UNSPECIFIED, serverAutomaticTuning.desiredState());
-        Assertions.assertEquals(AutomaticTuningServerMode.UNSPECIFIED, serverAutomaticTuning.actualState());
+        Assertions.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.desiredState());
+        Assertions.assertEquals(AutomaticTuningServerMode.AUTO, serverAutomaticTuning.actualState());
         Assertions.assertEquals(4, serverAutomaticTuning.tuningOptions().size());
 
         serverAutomaticTuning.update()
@@ -524,7 +526,12 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertEquals(DatabaseEdition.BASIC, dbFromSample.edition());
 
         SqlDatabaseImportExportResponse exportedDB;
-        StorageAccount storageAccount = storageManager.storageAccounts().getByResourceGroup(sqlServer.resourceGroupName(), storageName);
+        StorageAccount storageAccount = null;
+        try {
+            storageAccount = storageManager.storageAccounts().getByResourceGroup(sqlServer.resourceGroupName(), storageName);
+        } catch (CloudException e) {
+            Assertions.assertEquals(404, e.getResponse().getStatusCode());
+        }
         if (storageAccount == null) {
             Creatable<StorageAccount> storageAccountCreatable = storageManager.storageAccounts()
                 .define(storageName)
@@ -602,15 +609,15 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertNotNull(sqlADAdmin.id());
         Assertions.assertEquals("ActiveDirectory", sqlADAdmin.administratorType());
         sqlServer.removeActiveDirectoryAdministrator();
-        sqlADAdmin = sqlServer.getActiveDirectoryAdministrator();
-        Assertions.assertNull(sqlADAdmin);
+
+        final SqlServer finalSqlServer =sqlServer;
+        validateResourceNotFound(() -> finalSqlServer.getActiveDirectoryAdministrator());
 
         SqlFirewallRule firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "somefirewallrule1");
         Assertions.assertEquals("0.0.0.1", firewallRule.startIPAddress());
         Assertions.assertEquals("0.0.0.1", firewallRule.endIPAddress());
 
-        firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "AllowAllWindowsAzureIps");
-        Assertions.assertNull(firewallRule);
+        validateResourceNotFound(() -> sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "AllowAllWindowsAzureIps"));
 
         sqlServer.enableAccessFromAzureServices();
         firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "AllowAllWindowsAzureIps");
@@ -621,7 +628,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withNewFirewallRule("0.0.0.2", "0.0.0.2", "newFirewallRule1")
             .apply();
         sqlServer.firewallRules().delete("newFirewallRule2");
-        Assertions.assertNull(sqlServer.firewallRules().get("newFirewallRule2"));
+
+        final SqlServer finalSqlServer1 = sqlServer;
+        validateResourceNotFound(() -> finalSqlServer1.firewallRules().get("newFirewallRule2"));
 
         firewallRule = sqlServerManager.sqlServers().firewallRules()
             .define("newFirewallRule2")
@@ -638,8 +647,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assertions.assertEquals("0.0.0.3", firewallRule.endIPAddress());
 
         sqlServer.firewallRules().delete("somefirewallrule1");
-        firewallRule = sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "somefirewallrule1");
-        Assertions.assertNull(firewallRule);
+        validateResourceNotFound(() -> sqlServerManager.sqlServers().firewallRules().getBySqlServer(RG_NAME, SQL_SERVER_NAME, "somefirewallrule1"));
 
         firewallRule = sqlServer.firewallRules().define("somefirewallrule2")
             .withIPAddress("0.0.0.4")
@@ -1073,8 +1081,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         databaseInElasticPool.refresh();
 
         // Validate that trying to get an invalid database from elastic pool returns null.
-        SqlDatabase db_which_does_not_exist = elasticPool.getDatabase("does_not_exist");
-        Assertions.assertNull(db_which_does_not_exist);
+        validateResourceNotFound(() -> elasticPool.getDatabase("does_not_exist"));
 
         // Delete
         sqlServer.databases().delete(SQL_DATABASE_NAME);
@@ -1191,7 +1198,9 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         validateSqlFirewallRule(secondFirewallRule, secondFirewallRuleName);
         sqlServer.firewallRules().delete(secondFirewallRuleName);
-        Assertions.assertNull(sqlServer.firewallRules().get(secondFirewallRuleName));
+
+        final SqlServer finalSqlServer = sqlServer;
+        validateResourceNotFound(() -> finalSqlServer.firewallRules().get(secondFirewallRuleName));
 
         // Get
         sqlFirewallRule = sqlServer.firewallRules().get(SQL_FIREWALLRULE_NAME);
@@ -1316,20 +1325,28 @@ public class SqlServerOperationsTests extends SqlServerTest {
     }
 
     private void validateSqlFirewallRuleNotFound() {
-        Assertions.assertNull(sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME).firewallRules().get(SQL_FIREWALLRULE_NAME));
+        validateResourceNotFound(() -> sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME).firewallRules().get(SQL_FIREWALLRULE_NAME));
     }
 
-    private static void validateSqlElasticPoolNotFound(SqlServer sqlServer, String elasticPoolName) {
-        Assertions.assertNull(sqlServer.elasticPools().get(elasticPoolName));
+    private void validateSqlElasticPoolNotFound(SqlServer sqlServer, String elasticPoolName) {
+        validateResourceNotFound(() -> sqlServer.elasticPools().get(elasticPoolName));
     }
 
     private void validateSqlDatabaseNotFound(String newDatabase) {
-        Assertions.assertNull(sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME).databases().get(newDatabase));
+        validateResourceNotFound(() -> sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME).databases().get(newDatabase));
     }
 
-
     private void validateSqlServerNotFound(SqlServer sqlServer) {
-        Assertions.assertNull(sqlServerManager.sqlServers().getById(sqlServer.id()));
+        validateResourceNotFound(() -> sqlServerManager.sqlServers().getById(sqlServer.id()));
+    }
+
+    private void validateResourceNotFound(Supplier<Object> fetchResource) {
+        try {
+            Object result =  fetchResource.get();
+            Assertions.assertNull(result);
+        } catch (CloudException e) {
+            Assertions.assertEquals(404, e.getResponse().getStatusCode());
+        }
     }
 
     private SqlServer createSqlServer() {

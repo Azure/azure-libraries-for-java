@@ -8,6 +8,7 @@ package com.azure.management.sql.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.CloudException;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -274,8 +275,14 @@ public class SqlServerImpl
 
     @Override
     public SqlFirewallRule enableAccessFromAzureServices() {
-        SqlFirewallRule firewallRule = this.manager().sqlServers().firewallRules()
-                .getBySqlServer(this.resourceGroupName(), this.name(), "AllowAllWindowsAzureIps");
+        SqlFirewallRule firewallRule = null;
+        try {
+            firewallRule = this.manager().sqlServers().firewallRules()
+                    .getBySqlServer(this.resourceGroupName(), this.name(), "AllowAllWindowsAzureIps");
+        } catch (CloudException e) {
+            if (e.getResponse().getStatusCode() != 404) throw e;
+        }
+
         if (firewallRule == null) {
             firewallRule = this.manager().sqlServers().firewallRules()
                 .define("AllowAllWindowsAzureIps")

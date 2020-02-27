@@ -68,7 +68,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 
 /**
  * Implementation for SqlDatabase and its parent interfaces.
@@ -220,8 +219,6 @@ class SqlDatabaseImpl
 
     @Override
     public String requestedServiceObjectiveName() {
-        if (this.inner().sku() != null)
-            return this.inner().sku().name();
         return this.inner().requestedServiceObjectiveName();
     }
 
@@ -529,9 +526,9 @@ class SqlDatabaseImpl
             final String epId = this.elasticPoolId();
             this.addPostRunDependent(context -> {
                 self.importRequestInner = null;
-                self.withExistingElasticPool(epId);
+                self.withExistingElasticPoolId(epId);
                 return self.createResourceAsync()
-                    .flatMap((Function<SqlDatabase, Mono<Indexable>>) sqlDatabase -> context.voidMono());
+                    .flatMap(sqlDatabase -> context.voidMono());
             });
         }
     }
@@ -557,7 +554,7 @@ class SqlDatabaseImpl
                 .flatMap(importExportResponseInner -> {
                     if (self.elasticPoolId() != null) {
                         self.importRequestInner = null;
-                        return self.withExistingElasticPool(self.elasticPoolId()).withPatchUpdate().updateResourceAsync();
+                        return self.withExistingElasticPoolId(self.elasticPoolId()).withPatchUpdate().updateResourceAsync();
                     } else {
                         return self.refreshAsync();
                     }
@@ -850,6 +847,7 @@ class SqlDatabaseImpl
         if (this.inner().sku().name() == null) {
             this.inner().sku().withName(edition.toString());
         }
+        this.inner().sku().withCapacity(null);
         this.inner().withElasticPoolId(null);
 
         return this;
@@ -862,11 +860,10 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withBasicEdition(SqlDatabaseBasicStorage maxStorageCapacity) {
-        if (this.inner().sku() == null) {
-            this.inner().withSku(new Sku());
-        }
-        this.inner().sku().withTier(DatabaseEdition.BASIC.toString());
-        this.inner().sku().withName(ServiceObjectiveName.BASIC.toString());
+        Sku sku = new Sku().withName(ServiceObjectiveName.BASIC.toString())
+                .withTier(DatabaseEdition.BASIC.toString());
+
+        this.inner().withSku(sku);
         this.inner().withMaxSizeBytes(maxStorageCapacity.capacity());
         return this;
     }
@@ -878,11 +875,10 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective, SqlDatabaseStandardStorage maxStorageCapacity) {
-        if (this.inner().sku() == null) {
-            this.inner().withSku(new Sku());
-        }
-        this.inner().sku().withTier(DatabaseEdition.STANDARD.toString());
-        this.inner().sku().withName(serviceObjective.toString());
+        Sku sku = new Sku().withName(serviceObjective.toString())
+                .withTier(DatabaseEdition.STANDARD.toString());
+
+        this.inner().withSku(sku);
         this.inner().withMaxSizeBytes(maxStorageCapacity.capacity());
         return this;
     }
@@ -894,11 +890,10 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective, SqlDatabasePremiumStorage maxStorageCapacity) {
-        if (this.inner().sku() == null) {
-            this.inner().withSku(new Sku());
-        }
-        this.inner().sku().withTier(DatabaseEdition.PREMIUM.toString());
-        this.inner().sku().withName(serviceObjective.toString());
+        Sku sku = new Sku().withName(serviceObjective.toString())
+                .withTier(DatabaseEdition.PREMIUM.toString());
+
+        this.inner().withSku(sku);
         this.inner().withMaxSizeBytes(maxStorageCapacity.capacity());
         return this;
     }
@@ -909,6 +904,7 @@ class SqlDatabaseImpl
             this.inner().withSku(new Sku());
         }
         this.inner().sku().withName(serviceLevelObjective.toString());
+        this.inner().sku().withCapacity(null);
         return this;
     }
 

@@ -155,9 +155,6 @@ public class RuntimeStack {
     /** Tomcat 9.0-jre8 image with catalina root set to Azure wwwroot. */
     public static final RuntimeStack TOMCAT_9_0_JRE8 = COLLECTION.addValue(new RuntimeStack("TOMCAT", "9.0-jre8"));
 
-    /** WildFly 14.0-jre8 image. */
-    public static final RuntimeStack WILDFLY_14_JRE8 = COLLECTION.addValue(new RuntimeStack("WILDFLY", "14-jre8"));
-
     /** The name of the language runtime stack. */
     private String stack;
     /** The version of the runtime. */

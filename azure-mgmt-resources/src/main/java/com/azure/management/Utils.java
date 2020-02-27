@@ -12,6 +12,10 @@ import java.util.Map;
  * Defines a few utilities.
  */
 public class Utils {
+
+    private Utils() {
+    }
+
     /**
      * Generates default scope for oauth2 from the specific request
      * @param request a http request
@@ -67,5 +71,29 @@ public class Utils {
             return s.substring(0, s.length() - 1);
         }
         return s;
+    }
+
+    /**
+     * Gets the subscription ID from rest client.
+     * @param restClient the rest client
+     * @return the subscription ID
+     */
+    public static String getSubscriptionIdFromRestClient(RestClient restClient) {
+        if (restClient.getCredential() instanceof AzureTokenCredential) {
+            return ((AzureTokenCredential) restClient.getCredential()).getDefaultSubscriptionId();
+        }
+        return null;
+    }
+
+    /**
+     * Gets the tenant ID from rest client.
+     * @param restClient the rest client
+     * @return the tenant ID
+     */
+    public static String getTenantIdFromRestClient(RestClient restClient) {
+        if (restClient.getCredential() instanceof AzureTokenCredential) {
+            return ((AzureTokenCredential) restClient.getCredential()).getDomain();
+        }
+        return null;
     }
 }

@@ -5,15 +5,14 @@
  */
 package com.azure.management.compute.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.compute.models.VirtualMachineImagesInner;
 import com.azure.management.compute.VirtualMachineImage;
 import com.azure.management.compute.VirtualMachineImagesInSku;
 import com.azure.management.compute.VirtualMachineSku;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * The implementation for {@link VirtualMachineImagesInSku}.
@@ -29,23 +28,23 @@ class VirtualMachineImagesInSkuImpl implements VirtualMachineImagesInSku {
     }
 
     @Override
-    public List<VirtualMachineImage> list() {
-        return listAsync().block();
+    public PagedIterable<VirtualMachineImage> list() {
+        return new PagedIterable<>(listAsync());
     }
 
     @Override
-    public Mono<List<VirtualMachineImage>> listAsync() {
+    public PagedFlux<VirtualMachineImage> listAsync() {
         final VirtualMachineImagesInSkuImpl self = this;
-        return innerCollection.listAsync(sku.region().toString(),
-                    sku.publisher().name(),
-                    sku.offer().name(),
-                    sku.name())
+        return PagedConverter.convertListToPagedFlux(innerCollection.listAsync(sku.region().toString(),
+                sku.publisher().name(),
+                sku.offer().name(),
+                sku.name())
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(resourceInner -> innerCollection.getAsync(self.sku.region().toString(),
-                            self.sku.publisher().name(),
-                            self.sku.offer().name(),
-                            self.sku.name(),
-                            resourceInner.name())
+                        self.sku.publisher().name(),
+                        self.sku.offer().name(),
+                        self.sku.name(),
+                        resourceInner.name())
                         .map(imageInner -> (VirtualMachineImage)new VirtualMachineImageImpl(self.sku.region(),
                                 self.sku.publisher().name(),
                                 self.sku.offer().name(),
@@ -53,7 +52,6 @@ class VirtualMachineImagesInSkuImpl implements VirtualMachineImagesInSku {
                                 resourceInner.name(),
                                 imageInner))
                 )
-                .collectList()
-                .map(list -> Collections.unmodifiableList(list));
+                .collectList());
     }
 }

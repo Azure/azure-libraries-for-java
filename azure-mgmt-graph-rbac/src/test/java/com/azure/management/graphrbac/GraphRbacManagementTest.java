@@ -24,7 +24,7 @@ public abstract class GraphRbacManagementTest extends TestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        graphRbacManager = GraphRbacManager.authenticate(restClient, domain, defaultSubscription);
+        graphRbacManager = GraphRbacManager.authenticate(restClient, domain);
         resourceManager = ResourceManager.authenticate(restClient).withSubscription(defaultSubscription);
     }
 

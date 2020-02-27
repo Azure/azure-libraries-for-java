@@ -6,18 +6,18 @@
 
 package com.azure.management.compute;
 
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 public class VirtualMachineExtensionImageOperationsTests extends ComputeManagementTest {
     @Test
     public void canListExtensionImages() throws Exception {
         final int maxListing = 20;
         int count = 0;
-        List<VirtualMachineExtensionImage> extensionImages =
+        PagedIterable<VirtualMachineExtensionImage> extensionImages =
                 computeManager.virtualMachineExtensionImages()
                         .listByRegion(Region.US_EAST);
         // Lazy listing
@@ -33,7 +33,7 @@ public class VirtualMachineExtensionImageOperationsTests extends ComputeManageme
 
     @Test
     public void canGetExtensionTypeVersionAndImage() throws Exception {
-        List<VirtualMachineExtensionImage> extensionImages =
+        PagedIterable<VirtualMachineExtensionImage> extensionImages =
                 computeManager.virtualMachineExtensionImages()
                         .listByRegion(Region.US_EAST);
 
@@ -42,7 +42,7 @@ public class VirtualMachineExtensionImageOperationsTests extends ComputeManageme
 
         // Lookup Azure docker extension publisher
         //
-        List<VirtualMachinePublisher> publishers =
+        PagedIterable<VirtualMachinePublisher> publishers =
                 computeManager.virtualMachineExtensionImages()
                         .publishers()
                         .listByRegion(Region.US_EAST);
@@ -59,7 +59,7 @@ public class VirtualMachineExtensionImageOperationsTests extends ComputeManageme
         // Lookup Azure docker extension type
         //
         VirtualMachineExtensionImageTypes extensionImageTypes = azureDockerExtensionPublisher.extensionTypes();
-        Assertions.assertTrue(extensionImageTypes.list().size() > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(extensionImageTypes.list()) > 0);
 
         VirtualMachineExtensionImageType dockerExtensionImageType = null;
         for (VirtualMachineExtensionImageType extensionImageType : extensionImageTypes.list()) {
@@ -82,7 +82,7 @@ public class VirtualMachineExtensionImageOperationsTests extends ComputeManageme
         // Fetch Azure docker extension versions
         //
         VirtualMachineExtensionImageVersions extensionImageVersions = dockerExtensionImageType.versions();
-        Assertions.assertTrue(extensionImageVersions.list().size() > 0);
+        Assertions.assertTrue(TestUtilities.getPagedIterableSize(extensionImageVersions.list()) > 0);
 
         VirtualMachineExtensionImageVersion extensionImageFirstVersion = null;
         for (VirtualMachineExtensionImageVersion extensionImageVersion : extensionImageVersions.list()) {

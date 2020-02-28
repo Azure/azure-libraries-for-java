@@ -1135,6 +1135,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         validateSqlElasticPool(sqlElasticPool);
         Assertions.assertEquals(sqlElasticPool.listDatabases().size(), 1);
+        Assertions.assertNotNull(sqlElasticPool.getDatabase(SQL_DATABASE_NAME));
 
         // Get
         validateSqlElasticPool(sqlServer.elasticPools().get(SQL_ELASTIC_POOL_NAME));

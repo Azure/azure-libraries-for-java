@@ -14,7 +14,6 @@ import com.azure.management.sql.SqlEncryptionProtector;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.models.EncryptionProtectorInner;
 import reactor.core.publisher.Mono;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Objects;
 
@@ -182,7 +181,7 @@ public class SqlEncryptionProtectorImpl
 
     @Override
     public Mono<Void> deleteResourceAsync() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException("Delete operation not supported");
     }
 
     @Override

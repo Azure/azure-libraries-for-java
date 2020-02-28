@@ -16,14 +16,12 @@ import com.azure.management.sql.SqlDatabaseExportRequest;
 import com.azure.management.sql.SqlDatabaseImportExportResponse;
 import com.azure.management.sql.StorageKeyType;
 import com.azure.management.storage.StorageAccount;
-import com.microsoft.azure.storage.CloudStorageAccount;
-import com.microsoft.azure.storage.StorageException;
-import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.implementation.models.StorageErrorException;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
-import java.net.URISyntaxException;
-import java.security.InvalidKeyException;
 import java.util.Objects;
 
 /**
@@ -79,19 +77,15 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
                 self.inner.withStorageKeyType(StorageKeyType.STORAGE_ACCESS_KEY);
                 self.inner.withStorageKey(storageAccountKey.getValue());
                 try {
-                    CloudStorageAccount cloudStorageAccount =
-                        CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", storageAccount.name(), storageAccountKey.getValue()));
-                    CloudBlobClient blobClient = cloudStorageAccount.createCloudBlobClient();
-                    blobClient.getContainerReference(containerName)
-                        .createIfNotExists();
+                    BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
+                            .endpoint(storageAccount.endPoints().primary().getBlob())
+                            .sasToken(storageAccountKey.getValue())
+                            .buildClient();
+                    blobServiceClient.createBlobContainer(containerName);
                 } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
                     throw Exceptions.propagate(indexOutOfBoundsException);
-                } catch (URISyntaxException syntaxException) {
-                    throw Exceptions.propagate(syntaxException);
-                } catch (StorageException stgException) {
+                } catch (StorageErrorException stgException) {
                     throw Exceptions.propagate(stgException);
-                } catch (InvalidKeyException keyException) {
-                    throw Exceptions.propagate(keyException);
                 }
                 return context.voidMono();
             });

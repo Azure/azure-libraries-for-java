@@ -13,14 +13,14 @@ import com.microsoft.azure.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.management.network.NetworkSecurityRule;
 import com.microsoft.azure.management.network.SecurityRuleProtocol;
 import com.microsoft.azure.management.network.Subnet;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -96,15 +96,15 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         nsg.refresh();
 
         // Verify
-        Assertions.assertTrue(nsg.region().equals(region));
-        Assertions.assertTrue(nsg.securityRules().size() == 2);
+        Assert.assertTrue(nsg.region().equals(region));
+        Assert.assertTrue(nsg.securityRules().size() == 2);
 
         // Confirm NIC association
-        Assertions.assertEquals(1, nsg.networkInterfaceIds().size());
-        Assertions.assertTrue(nsg.networkInterfaceIds().contains(nic.id()));
+        Assert.assertEquals(1, nsg.networkInterfaceIds().size());
+        Assert.assertTrue(nsg.networkInterfaceIds().contains(nic.id()));
 
-        Assertions.assertEquals(1, nsg.securityRules().get("rule2").sourceApplicationSecurityGroupIds().size());
-        Assertions.assertEquals(asg.id(), nsg.securityRules().get("rule2").sourceApplicationSecurityGroupIds().iterator().next());
+        Assert.assertEquals(1, nsg.securityRules().get("rule2").sourceApplicationSecurityGroupIds().size());
+        Assert.assertEquals(asg.id(), nsg.securityRules().get("rule2").sourceApplicationSecurityGroupIds().iterator().next());
 
         return nsg;
     }
@@ -132,20 +132,20 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                     .withDescription("bar!!!")
                     .parent()
                 .apply();
-        Assertions.assertTrue(resource.tags().containsKey("tag1"));
-        Assertions.assertTrue(resource.securityRules().get("rule2").sourceApplicationSecurityGroupIds().isEmpty());
-        Assertions.assertNull(resource.securityRules().get("rule2").sourceAddressPrefix());
-        Assertions.assertEquals(2, resource.securityRules().get("rule2").sourceAddressPrefixes().size());
-        Assertions.assertTrue(resource.securityRules().get("rule2").sourceAddressPrefixes().contains("100.1.0.0/29"));
-        Assertions.assertEquals(1, resource.securityRules().get("rule2").sourcePortRanges().size());
-        Assertions.assertEquals("88-90", resource.securityRules().get("rule2").sourcePortRanges().get(0));
+        Assert.assertTrue(resource.tags().containsKey("tag1"));
+        Assert.assertTrue(resource.securityRules().get("rule2").sourceApplicationSecurityGroupIds().isEmpty());
+        Assert.assertNull(resource.securityRules().get("rule2").sourceAddressPrefix());
+        Assert.assertEquals(2, resource.securityRules().get("rule2").sourceAddressPrefixes().size());
+        Assert.assertTrue(resource.securityRules().get("rule2").sourceAddressPrefixes().contains("100.1.0.0/29"));
+        Assert.assertEquals(1, resource.securityRules().get("rule2").sourcePortRanges().size());
+        Assert.assertEquals("88-90", resource.securityRules().get("rule2").sourcePortRanges().get(0));
 
         resource.updateTags()
                 .withTag("tag3", "value3")
                 .withoutTag("tag1")
                 .applyTags();
-        Assertions.assertEquals("value3", resource.tags().get("tag3"));
-        Assertions.assertFalse(resource.tags().containsKey("tag1"));
+        Assert.assertEquals("value3", resource.tags().get("tag3"));
+        Assert.assertFalse(resource.tags().containsKey("tag1"));
         return resource;
     }
 

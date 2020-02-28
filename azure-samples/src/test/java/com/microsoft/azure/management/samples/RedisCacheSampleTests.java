@@ -7,12 +7,12 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.rediscache.samples.ManageRedisCache;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class RedisCacheSampleTests extends SamplesTestBase {
     @Test
     public void testManageRedisCache() {
-        Assertions.assertTrue(ManageRedisCache.runSample(azure));
+        Assert.assertTrue(ManageRedisCache.runSample(azure));
     }
 }

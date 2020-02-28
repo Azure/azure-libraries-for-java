@@ -6,9 +6,9 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.network.samples.ManageNetworkWatcher;
-import com.azure.management.resources.core.TestBase;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import com.microsoft.azure.management.resources.core.TestBase;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class NetworkWatcherSampleLiveOnlyTests extends SamplesTestBase {
     public NetworkWatcherSampleLiveOnlyTests() {
@@ -17,6 +17,6 @@ public class NetworkWatcherSampleLiveOnlyTests extends SamplesTestBase {
 
     @Test
     public void testManageNetworkWatcher() {
-        Assertions.assertTrue(ManageNetworkWatcher.runSample(azure));
+        Assert.assertTrue(ManageNetworkWatcher.runSample(azure));
     }
 }

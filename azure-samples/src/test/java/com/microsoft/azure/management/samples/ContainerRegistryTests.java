@@ -7,9 +7,9 @@
 package com.microsoft.azure.management.samples;
 import com.microsoft.azure.management.containerregistry.samples.ManageContainerRegistry;
 import com.microsoft.azure.management.containerregistry.samples.ManageContainerRegistryWithWebhooks;
-import com.azure.management.resources.core.TestBase;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import com.microsoft.azure.management.resources.core.TestBase;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ContainerRegistryTests extends SamplesTestBase {
     public ContainerRegistryTests() {
@@ -19,11 +19,11 @@ public class ContainerRegistryTests extends SamplesTestBase {
 
     @Test
     public void testManageContainerRegistry() {
-        Assertions.assertTrue(ManageContainerRegistry.runSample(azure));
+        Assert.assertTrue(ManageContainerRegistry.runSample(azure));
     }
 
     @Test
     public void testManageContainerRegistryWithWebhooks() {
-        Assertions.assertTrue(ManageContainerRegistryWithWebhooks.runSample(azure));
+        Assert.assertTrue(ManageContainerRegistryWithWebhooks.runSample(azure));
     }
 }

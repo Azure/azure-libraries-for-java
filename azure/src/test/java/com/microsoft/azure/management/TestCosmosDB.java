@@ -6,8 +6,8 @@
 package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.cosmosdb.*;
-import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.jupiter.api.Assertions;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import org.junit.Assert;
 
 public class TestCosmosDB extends TestTemplate<CosmosDBAccount, CosmosDBAccounts> {
 
@@ -23,11 +23,11 @@ public class TestCosmosDB extends TestTemplate<CosmosDBAccount, CosmosDBAccounts
                 .withReadReplication(Region.US_CENTRAL)
                 .withIpRangeFilter("")
                 .create();
-        Assertions.assertEquals(databaseAccount.name(), newName.toLowerCase());
-        Assertions.assertEquals(databaseAccount.kind(), DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
-        Assertions.assertEquals(databaseAccount.writableReplications().size(), 1);
-        Assertions.assertEquals(databaseAccount.readableReplications().size(), 2);
-        Assertions.assertEquals(databaseAccount.defaultConsistencyLevel(), DefaultConsistencyLevel.SESSION);
+        Assert.assertEquals(databaseAccount.name(), newName.toLowerCase());
+        Assert.assertEquals(databaseAccount.kind(), DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
+        Assert.assertEquals(databaseAccount.writableReplications().size(), 1);
+        Assert.assertEquals(databaseAccount.readableReplications().size(), 2);
+        Assert.assertEquals(databaseAccount.defaultConsistencyLevel(), DefaultConsistencyLevel.SESSION);
         return databaseAccount;
     }
 
@@ -46,9 +46,9 @@ public class TestCosmosDB extends TestTemplate<CosmosDBAccount, CosmosDBAccounts
                 .withTag("tag3", "value3")
                 .withoutTag("tag1")
                 .apply();
-        Assertions.assertEquals(resource.defaultConsistencyLevel(), DefaultConsistencyLevel.EVENTUAL);
-        Assertions.assertTrue(resource.tags().containsKey("tag2"));
-        Assertions.assertTrue(!resource.tags().containsKey("tag1"));
+        Assert.assertEquals(resource.defaultConsistencyLevel(), DefaultConsistencyLevel.EVENTUAL);
+        Assert.assertTrue(resource.tags().containsKey("tag2"));
+        Assert.assertTrue(!resource.tags().containsKey("tag1"));
 
         return resource;
     }

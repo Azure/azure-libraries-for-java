@@ -7,13 +7,13 @@
 package com.microsoft.azure.management;
 
 import com.google.common.util.concurrent.SettableFuture;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServers;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -44,13 +44,13 @@ public class TestSql extends TestTemplate<SqlServer, SqlServers>  {
 
         sqlServers[0] = future.get();
 
-        Assertions.assertNotNull(sqlServers[0].inner());
+        Assert.assertNotNull(sqlServers[0].inner());
 
-        Assertions.assertNotNull(sqlServers[0].inner());
+        Assert.assertNotNull(sqlServers[0].inner());
         // Including master database
-        Assertions.assertEquals(sqlServers[0].databases().list().size(), 3);
-        Assertions.assertEquals(sqlServers[0].elasticPools().list().size(), 1);
-        Assertions.assertEquals(sqlServers[0].firewallRules().list().size(), 2);
+        Assert.assertEquals(sqlServers[0].databases().list().size(), 3);
+        Assert.assertEquals(sqlServers[0].elasticPools().list().size(), 1);
+        Assert.assertEquals(sqlServers[0].firewallRules().list().size(), 2);
 
         return sqlServers[0];
     }
@@ -63,11 +63,11 @@ public class TestSql extends TestTemplate<SqlServer, SqlServers>  {
                 .withoutElasticPool("elasticPool1")
                 .apply();
 
-        Assertions.assertNotNull(sqlServer.inner());
+        Assert.assertNotNull(sqlServer.inner());
         // Just master database
-        Assertions.assertEquals(1, sqlServer.databases().list().size());
-        Assertions.assertEquals(0, sqlServer.elasticPools().list().size());
-        Assertions.assertEquals(2, sqlServer.firewallRules().list().size());
+        Assert.assertEquals(1, sqlServer.databases().list().size());
+        Assert.assertEquals(0, sqlServer.elasticPools().list().size());
+        Assert.assertEquals(2, sqlServer.firewallRules().list().size());
 
         return sqlServer;
     }

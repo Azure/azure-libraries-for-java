@@ -10,15 +10,15 @@ import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachines;
-import com.azure.management.resources.ResourceGroup;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.arm.models.Resource;
-import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccounts;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 import rx.functions.Func1;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -68,7 +68,7 @@ public class TestResourceStreaming extends TestTemplate<VirtualMachine, VirtualM
                     }
                 }).toBlocking().last();
 
-        Assertions.assertTrue(resourceCount.get() == 7);
+        Assert.assertTrue(resourceCount.get() == 7);
         return virtualMachine;
     }
 

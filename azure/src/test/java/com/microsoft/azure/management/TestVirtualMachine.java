@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 
 import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.azure.management.compute.Disk;
@@ -15,9 +15,9 @@ import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachines;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -50,13 +50,13 @@ public class TestVirtualMachine extends TestTemplate<VirtualMachine, VirtualMach
                 });
         vms[0] = future.get();
 
-        Assertions.assertEquals(1, vms[0].dataDisks().size());
+        Assert.assertEquals(1, vms[0].dataDisks().size());
         VirtualMachineDataDisk dataDisk = vms[0].dataDisks().values().iterator().next();
-        Assertions.assertEquals(150, dataDisk.size());
-        Assertions.assertEquals(128, vms[0].osDiskSize());
+        Assert.assertEquals(150, dataDisk.size());
+        Assert.assertEquals(128, vms[0].osDiskSize());
         Disk osDisk = virtualMachines.manager().disks().getById(vms[0].osDiskId());
-        Assertions.assertNotNull(osDisk);
-        Assertions.assertEquals(128, osDisk.sizeInGB());
+        Assert.assertNotNull(osDisk);
+        Assert.assertEquals(128, osDisk.sizeInGB());
 
         return vms[0];
     }

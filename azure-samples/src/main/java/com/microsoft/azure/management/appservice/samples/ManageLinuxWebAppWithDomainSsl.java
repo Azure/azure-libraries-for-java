@@ -13,10 +13,10 @@ import com.microsoft.azure.management.appservice.CustomHostNameDnsRecordType;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.RuntimeStack;
 import com.microsoft.azure.management.appservice.WebApp;
-import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.microsoft.azure.management.resources.fluentcore.arm.CountryPhoneCode;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.rest.LogLevel;
 import okhttp3.OkHttpClient;
@@ -126,8 +126,8 @@ public final class ManageLinuxWebAppWithDomainSsl {
             //============================================================
             // Create a self-singed SSL certificate
 
-            String pfxPath = ManageLinuxWebAppWithDomainSsl.class.getResource("/").getPath() + app2Name + "." + domainName + ".pfx";
-            String cerPath = ManageLinuxWebAppWithDomainSsl.class.getResource("/").getPath() + app2Name + "." + domainName + ".cer";
+            String pfxPath = ManageLinuxWebAppWithDomainSsl.class.getResource("/").getPath() + "webapp_" + ManageLinuxWebAppWithDomainSsl.class.getSimpleName().toLowerCase() + ".pfx";
+            String cerPath = ManageLinuxWebAppWithDomainSsl.class.getResource("/").getPath() + "webapp_" + ManageLinuxWebAppWithDomainSsl.class.getSimpleName().toLowerCase() + ".cer";
 
             System.out.println("Creating a self-signed certificate " + pfxPath + "...");
 

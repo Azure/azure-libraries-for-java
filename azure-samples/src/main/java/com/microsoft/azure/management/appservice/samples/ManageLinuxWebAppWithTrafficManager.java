@@ -13,10 +13,10 @@ import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.RuntimeStack;
 import com.microsoft.azure.management.appservice.WebApp;
-import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.microsoft.azure.management.resources.fluentcore.arm.CountryPhoneCode;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfile;
 import com.microsoft.azure.management.trafficmanager.TrafficRoutingMethod;
@@ -104,8 +104,8 @@ public final class ManageLinuxWebAppWithTrafficManager {
             //============================================================
             // Create a self-singed SSL certificate
 
-            pfxPath = ManageLinuxWebAppWithTrafficManager.class.getResource("/").getPath() + app2Name + "." + domainName + ".pfx";
-            String cerPath = ManageLinuxWebAppWithTrafficManager.class.getResource("/").getPath() + app2Name + "." + domainName + ".cer";
+            pfxPath = ManageLinuxWebAppWithTrafficManager.class.getResource("/").getPath() + "webapp_" + ManageLinuxWebAppWithTrafficManager.class.getSimpleName().toLowerCase() + ".pfx";
+            String cerPath = ManageLinuxWebAppWithTrafficManager.class.getResource("/").getPath() + "webapp_" + ManageLinuxWebAppWithTrafficManager.class.getSimpleName().toLowerCase() + ".cer";
 
             System.out.println("Creating a self-signed certificate " + pfxPath + "...");
 

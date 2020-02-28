@@ -6,17 +6,17 @@
 
 package com.microsoft.azure.management.samples;
 
-import com.azure.management.resources.samples.DeployUsingARMTemplate;
-import com.azure.management.resources.samples.DeployUsingARMTemplateAsync;
-import com.azure.management.resources.samples.DeployUsingARMTemplateWithDeploymentOperations;
-import com.azure.management.resources.samples.DeployUsingARMTemplateWithProgress;
-import com.azure.management.resources.samples.DeployUsingARMTemplateWithTags;
-import com.azure.management.resources.samples.DeployVirtualMachineUsingARMTemplate;
-import com.azure.management.resources.samples.ManageResource;
-import com.azure.management.resources.samples.ManageResourceGroup;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplate;
+import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateAsync;
+import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateWithDeploymentOperations;
+import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateWithProgress;
+import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateWithTags;
+import com.microsoft.azure.management.resources.samples.DeployVirtualMachineUsingARMTemplate;
+import com.microsoft.azure.management.resources.samples.ManageResource;
+import com.microsoft.azure.management.resources.samples.ManageResourceGroup;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class ResourceSampleTests extends SamplesTestBase {
     @Test
@@ -24,45 +24,45 @@ public class ResourceSampleTests extends SamplesTestBase {
         if (isPlaybackMode()) {
             return;
         }
-        Assertions.assertTrue(DeployUsingARMTemplate.runSample(azure));
+        Assert.assertTrue(DeployUsingARMTemplate.runSample(azure));
     }
 
     @Test
     public void testDeployUsingARMTemplateWithProgress() {
-        Assertions.assertTrue(DeployUsingARMTemplateWithProgress.runSample(azure));
+        Assert.assertTrue(DeployUsingARMTemplateWithProgress.runSample(azure));
     }
 
     @Test
     public void testDeployUsingARMTemplateAsync() {
-        Assertions.assertTrue(DeployUsingARMTemplateAsync.runSample(azure));
+        Assert.assertTrue(DeployUsingARMTemplateAsync.runSample(azure));
     }
 
     @Test()
     public void testDeployUsingARMTemplateWithDeploymentOperations() {
         if (isPlaybackMode()) {
-            Assertions.assertTrue(DeployUsingARMTemplateWithDeploymentOperations.runSample(azure, 0));
+            Assert.assertTrue(DeployUsingARMTemplateWithDeploymentOperations.runSample(azure, 0));
         } else {
-            Assertions.assertTrue(DeployUsingARMTemplateWithDeploymentOperations.runSample(azure, -1));
+            Assert.assertTrue(DeployUsingARMTemplateWithDeploymentOperations.runSample(azure, -1));
         }
     }
 
     @Test
     public void testDeployUsingARMTemplateWithTags() {
-        Assertions.assertTrue(DeployUsingARMTemplateWithTags.runSample(azure));
+        Assert.assertTrue(DeployUsingARMTemplateWithTags.runSample(azure));
     }
 
     @Test
     public void testManageResource() {
-        Assertions.assertTrue(ManageResource.runSample(azure));
+        Assert.assertTrue(ManageResource.runSample(azure));
     }
 
     @Test
     public void testManageResourceGroup() {
-        Assertions.assertTrue(ManageResourceGroup.runSample(azure));
+        Assert.assertTrue(ManageResourceGroup.runSample(azure));
     }
 
     @Test
     public void testDeployVirtualMachineUsingARMTemplate() {
-        Assertions.assertTrue(DeployVirtualMachineUsingARMTemplate.runSample(azure));
+        Assert.assertTrue(DeployVirtualMachineUsingARMTemplate.runSample(azure));
     }
 }

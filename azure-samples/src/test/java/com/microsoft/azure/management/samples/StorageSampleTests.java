@@ -6,25 +6,25 @@
 
 package com.microsoft.azure.management.samples;
 
-import com.azure.management.storage.samples.ManageStorageAccount;
-import com.azure.management.storage.samples.ManageStorageAccountAsync;
-import com.azure.management.storage.samples.ManageStorageAccountNetworkRules;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import com.microsoft.azure.management.storage.samples.ManageStorageAccount;
+import com.microsoft.azure.management.storage.samples.ManageStorageAccountAsync;
+import com.microsoft.azure.management.storage.samples.ManageStorageAccountNetworkRules;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class StorageSampleTests extends SamplesTestBase {
     @Test
     public void testManageStorageAccount() {
-        Assertions.assertTrue(ManageStorageAccount.runSample(azure));
+        Assert.assertTrue(ManageStorageAccount.runSample(azure));
     }
 
     @Test
     public void testManageStorageAccountAsync() {
-        Assertions.assertTrue(ManageStorageAccountAsync.runSample(azure));
+        Assert.assertTrue(ManageStorageAccountAsync.runSample(azure));
     }
 
     @Test
     public void testManageStorageAccountNetworkRules() {
-        Assertions.assertTrue(ManageStorageAccountNetworkRules.runSample(azure));
+        Assert.assertTrue(ManageStorageAccountNetworkRules.runSample(azure));
     }
 }

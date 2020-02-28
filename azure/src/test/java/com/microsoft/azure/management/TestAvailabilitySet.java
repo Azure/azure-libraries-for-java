@@ -7,11 +7,11 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 
 import com.microsoft.azure.management.compute.AvailabilitySet;
 import com.microsoft.azure.management.compute.AvailabilitySets;
-import com.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 
 public class TestAvailabilitySet extends TestTemplate<AvailabilitySet, AvailabilitySets> {
     @Override
@@ -25,9 +25,9 @@ public class TestAvailabilitySet extends TestTemplate<AvailabilitySet, Availabil
                 .withTag("tag1", "value1")
                 .create();
         PagedList<VirtualMachineSize> vmSizes = aset.listVirtualMachineSizes();
-        Assertions.assertTrue(vmSizes.size() > 0);
+        Assert.assertTrue(vmSizes.size() > 0);
         for (VirtualMachineSize vmSize : vmSizes) {
-            Assertions.assertNotNull(vmSize.name());
+            Assert.assertNotNull(vmSize.name());
         }
         return aset;
     }
@@ -40,8 +40,8 @@ public class TestAvailabilitySet extends TestTemplate<AvailabilitySet, Availabil
                 .withTag("tag3", "value3")
                 .withoutTag("tag1")
                 .apply();
-        Assertions.assertTrue(resource.tags().containsKey("tag2"));
-        Assertions.assertTrue(!resource.tags().containsKey("tag1"));
+        Assert.assertTrue(resource.tags().containsKey("tag2"));
+        Assert.assertTrue(!resource.tags().containsKey("tag1"));
         return resource;
     }
 

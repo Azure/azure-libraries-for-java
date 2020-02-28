@@ -10,7 +10,7 @@ import com.microsoft.azure.management.compute.VirtualMachineExtensionImage;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionImageType;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionImageVersion;
 import com.microsoft.azure.management.compute.VirtualMachinePublisher;
-import com.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;

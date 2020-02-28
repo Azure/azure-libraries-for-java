@@ -8,9 +8,9 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.PublicIPAddresses;
-import com.azure.management.resources.ResourceGroup;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.trafficmanager.EndpointType;
 import com.microsoft.azure.management.trafficmanager.TargetAzureResourceType;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerAzureEndpoint;
@@ -18,7 +18,7 @@ import com.microsoft.azure.management.trafficmanager.TrafficManagerExternalEndpo
 import com.microsoft.azure.management.trafficmanager.TrafficManagerNestedProfileEndpoint;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfile;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 
 import java.util.Map;
 
@@ -75,15 +75,15 @@ public class TestTrafficManager extends TestTemplate<TrafficManagerProfile, Traf
                 .withTimeToLive(500)
                 .create();
 
-        Assertions.assertTrue(nestedProfile.isEnabled());
-        Assertions.assertNotNull(nestedProfile.monitorStatus());
-        Assertions.assertEquals(nestedProfile.monitoringPort(), 443);
-        Assertions.assertEquals(nestedProfile.monitoringPath(), "/");
-        Assertions.assertEquals(nestedProfile.azureEndpoints().size(), 0);
-        Assertions.assertEquals(nestedProfile.nestedProfileEndpoints().size(), 0);
-        Assertions.assertEquals(nestedProfile.externalEndpoints().size(), 1);
-        Assertions.assertEquals(nestedProfile.fqdn(), nestedTmProfileDnsLabel + ".trafficmanager.net");
-        Assertions.assertEquals(nestedProfile.timeToLive(), 500);
+        Assert.assertTrue(nestedProfile.isEnabled());
+        Assert.assertNotNull(nestedProfile.monitorStatus());
+        Assert.assertEquals(nestedProfile.monitoringPort(), 443);
+        Assert.assertEquals(nestedProfile.monitoringPath(), "/");
+        Assert.assertEquals(nestedProfile.azureEndpoints().size(), 0);
+        Assert.assertEquals(nestedProfile.nestedProfileEndpoints().size(), 0);
+        Assert.assertEquals(nestedProfile.externalEndpoints().size(), 1);
+        Assert.assertEquals(nestedProfile.fqdn(), nestedTmProfileDnsLabel + ".trafficmanager.net");
+        Assert.assertEquals(nestedProfile.timeToLive(), 500);
 
         // Creates a public ip to be used as an Azure endpoint
         //
@@ -93,7 +93,7 @@ public class TestTrafficManager extends TestTemplate<TrafficManagerProfile, Traf
                 .withLeafDomainLabel(pipDnsLabel)
                 .create();
 
-        Assertions.assertNotNull(publicIPAddress.fqdn());
+        Assert.assertNotNull(publicIPAddress.fqdn());
         // Creates a TM profile
         //
 
@@ -106,31 +106,31 @@ public class TestTrafficManager extends TestTemplate<TrafficManagerProfile, Traf
                                     .attach()
                                 .apply();
 
-        Assertions.assertEquals(1, updatedProfile.azureEndpoints().size());
-        Assertions.assertTrue(updatedProfile.azureEndpoints().containsKey(azureEndpointName));
-        Assertions.assertEquals(1, updatedProfile.externalEndpoints().size());
-        Assertions.assertTrue(updatedProfile.externalEndpoints().containsKey(externalEndpointName21));
+        Assert.assertEquals(1, updatedProfile.azureEndpoints().size());
+        Assert.assertTrue(updatedProfile.azureEndpoints().containsKey(azureEndpointName));
+        Assert.assertEquals(1, updatedProfile.externalEndpoints().size());
+        Assert.assertTrue(updatedProfile.externalEndpoints().containsKey(externalEndpointName21));
 
         TrafficManagerProfile updatedProfileFromGet = profiles.getById(updatedProfile.id());
 
-        Assertions.assertEquals(1, updatedProfileFromGet.azureEndpoints().size());
-        Assertions.assertTrue(updatedProfileFromGet.azureEndpoints().containsKey(azureEndpointName));
-        Assertions.assertEquals(1, updatedProfileFromGet.externalEndpoints().size());
-        Assertions.assertTrue(updatedProfileFromGet.externalEndpoints().containsKey(externalEndpointName21));
+        Assert.assertEquals(1, updatedProfileFromGet.azureEndpoints().size());
+        Assert.assertTrue(updatedProfileFromGet.azureEndpoints().containsKey(azureEndpointName));
+        Assert.assertEquals(1, updatedProfileFromGet.externalEndpoints().size());
+        Assert.assertTrue(updatedProfileFromGet.externalEndpoints().containsKey(externalEndpointName21));
 
         nestedProfile.update()
                 .withoutEndpoint(azureEndpointName)
                 .apply();
 
-        Assertions.assertEquals(0, nestedProfile.azureEndpoints().size());
-        Assertions.assertEquals(1, nestedProfile.externalEndpoints().size());
-        Assertions.assertTrue(nestedProfile.externalEndpoints().containsKey(externalEndpointName21));
+        Assert.assertEquals(0, nestedProfile.azureEndpoints().size());
+        Assert.assertEquals(1, nestedProfile.externalEndpoints().size());
+        Assert.assertTrue(nestedProfile.externalEndpoints().containsKey(externalEndpointName21));
 
         updatedProfileFromGet = profiles.getById(updatedProfile.id());
-        Assertions.assertEquals(0, updatedProfileFromGet.azureEndpoints().size());
-        Assertions.assertEquals(nestedProfile.azureEndpoints().size(), updatedProfileFromGet.azureEndpoints().size());
-        Assertions.assertEquals(1, updatedProfileFromGet.externalEndpoints().size());
-        Assertions.assertTrue(updatedProfileFromGet.externalEndpoints().containsKey(externalEndpointName21));
+        Assert.assertEquals(0, updatedProfileFromGet.azureEndpoints().size());
+        Assert.assertEquals(nestedProfile.azureEndpoints().size(), updatedProfileFromGet.azureEndpoints().size());
+        Assert.assertEquals(1, updatedProfileFromGet.externalEndpoints().size());
+        Assert.assertTrue(updatedProfileFromGet.externalEndpoints().containsKey(externalEndpointName21));
         // end of bugfix
 
         TrafficManagerProfile profile = profiles.define(tmProfileName)
@@ -163,66 +163,66 @@ public class TestTrafficManager extends TestTemplate<TrafficManagerProfile, Traf
                 .withHttpMonitoring()
                 .create();
 
-        Assertions.assertTrue(profile.isEnabled());
-        Assertions.assertNotNull(profile.monitorStatus());
-        Assertions.assertEquals(profile.monitoringPort(), 80);
-        Assertions.assertEquals(profile.monitoringPath(), "/");
-        Assertions.assertEquals(profile.azureEndpoints().size(), 1);
-        Assertions.assertEquals(profile.nestedProfileEndpoints().size(), 1);
-        Assertions.assertEquals(profile.externalEndpoints().size(), 2);
-        Assertions.assertEquals(profile.fqdn(), tmProfileDnsLabel + ".trafficmanager.net");
-        Assertions.assertEquals(profile.timeToLive(), 300); // Default
+        Assert.assertTrue(profile.isEnabled());
+        Assert.assertNotNull(profile.monitorStatus());
+        Assert.assertEquals(profile.monitoringPort(), 80);
+        Assert.assertEquals(profile.monitoringPath(), "/");
+        Assert.assertEquals(profile.azureEndpoints().size(), 1);
+        Assert.assertEquals(profile.nestedProfileEndpoints().size(), 1);
+        Assert.assertEquals(profile.externalEndpoints().size(), 2);
+        Assert.assertEquals(profile.fqdn(), tmProfileDnsLabel + ".trafficmanager.net");
+        Assert.assertEquals(profile.timeToLive(), 300); // Default
 
         profile = profile.refresh();
-        Assertions.assertEquals(profile.azureEndpoints().size(), 1);
-        Assertions.assertEquals(profile.nestedProfileEndpoints().size(), 1);
-        Assertions.assertEquals(profile.externalEndpoints().size(), 2);
+        Assert.assertEquals(profile.azureEndpoints().size(), 1);
+        Assert.assertEquals(profile.nestedProfileEndpoints().size(), 1);
+        Assert.assertEquals(profile.externalEndpoints().size(), 2);
 
         int c = 0;
         for (TrafficManagerExternalEndpoint endpoint : profile.externalEndpoints().values()) {
-            Assertions.assertEquals(endpoint.endpointType(), EndpointType.EXTERNAL);
+            Assert.assertEquals(endpoint.endpointType(), EndpointType.EXTERNAL);
             if (endpoint.name().equalsIgnoreCase(externalEndpointName21)) {
-                Assertions.assertEquals(endpoint.routingPriority(), 1);
-                Assertions.assertEquals(endpoint.fqdn(), externalFqdn21);
-                Assertions.assertNotNull(endpoint.monitorStatus());
-                Assertions.assertEquals(endpoint.sourceTrafficLocation(), Region.US_EAST);
+                Assert.assertEquals(endpoint.routingPriority(), 1);
+                Assert.assertEquals(endpoint.fqdn(), externalFqdn21);
+                Assert.assertNotNull(endpoint.monitorStatus());
+                Assert.assertEquals(endpoint.sourceTrafficLocation(), Region.US_EAST);
                 c++;
             } else if (endpoint.name().equalsIgnoreCase(externalEndpointName22)) {
-                Assertions.assertEquals(endpoint.routingPriority(), 2);
-                Assertions.assertEquals(endpoint.fqdn(), externalFqdn22);
-                Assertions.assertNotNull(endpoint.monitorStatus());
-                Assertions.assertEquals(endpoint.sourceTrafficLocation(), Region.US_EAST2);
+                Assert.assertEquals(endpoint.routingPriority(), 2);
+                Assert.assertEquals(endpoint.fqdn(), externalFqdn22);
+                Assert.assertNotNull(endpoint.monitorStatus());
+                Assert.assertEquals(endpoint.sourceTrafficLocation(), Region.US_EAST2);
                 c++;
             }
         }
-        Assertions.assertEquals(c, 2);
+        Assert.assertEquals(c, 2);
 
         c = 0;
         for (TrafficManagerAzureEndpoint endpoint : profile.azureEndpoints().values()) {
-            Assertions.assertEquals(endpoint.endpointType(), EndpointType.AZURE);
+            Assert.assertEquals(endpoint.endpointType(), EndpointType.AZURE);
             if (endpoint.name().equalsIgnoreCase(azureEndpointName)) {
-                Assertions.assertEquals(endpoint.routingPriority(), 3);
-                Assertions.assertNotNull(endpoint.monitorStatus());
-                Assertions.assertEquals(endpoint.targetAzureResourceId(), publicIPAddress.id());
-                Assertions.assertEquals(endpoint.targetResourceType(), TargetAzureResourceType.PUBLICIP);
+                Assert.assertEquals(endpoint.routingPriority(), 3);
+                Assert.assertNotNull(endpoint.monitorStatus());
+                Assert.assertEquals(endpoint.targetAzureResourceId(), publicIPAddress.id());
+                Assert.assertEquals(endpoint.targetResourceType(), TargetAzureResourceType.PUBLICIP);
                 c++;
             }
         }
-        Assertions.assertEquals(c, 1);
+        Assert.assertEquals(c, 1);
 
         c = 0;
         for (TrafficManagerNestedProfileEndpoint endpoint : profile.nestedProfileEndpoints().values()) {
-            Assertions.assertEquals(endpoint.endpointType(), EndpointType.NESTED_PROFILE);
+            Assert.assertEquals(endpoint.endpointType(), EndpointType.NESTED_PROFILE);
             if (endpoint.name().equalsIgnoreCase(nestedProfileEndpointName)) {
-                Assertions.assertEquals(endpoint.routingPriority(), 4);
-                Assertions.assertNotNull(endpoint.monitorStatus());
-                Assertions.assertEquals(endpoint.minimumChildEndpointCount(), 1);
-                Assertions.assertEquals(endpoint.nestedProfileId(), nestedProfile.id());
-                Assertions.assertEquals(endpoint.sourceTrafficLocation(), Region.INDIA_CENTRAL);
+                Assert.assertEquals(endpoint.routingPriority(), 4);
+                Assert.assertNotNull(endpoint.monitorStatus());
+                Assert.assertEquals(endpoint.minimumChildEndpointCount(), 1);
+                Assert.assertEquals(endpoint.nestedProfileId(), nestedProfile.id());
+                Assert.assertEquals(endpoint.sourceTrafficLocation(), Region.INDIA_CENTRAL);
                 c++;
             }
         }
-        Assertions.assertEquals(c, 1);
+        Assert.assertEquals(c, 1);
         return profile;
     }
 
@@ -249,45 +249,45 @@ public class TestTrafficManager extends TestTemplate<TrafficManagerProfile, Traf
                     .attach()
                 .apply();
 
-        Assertions.assertEquals(profile.monitoringPort(), 8080);
-        Assertions.assertEquals(profile.monitoringPath(), "/");
-        Assertions.assertEquals(profile.azureEndpoints().size(), 1);
-        Assertions.assertEquals(profile.nestedProfileEndpoints().size(), 1);
-        Assertions.assertEquals(profile.externalEndpoints().size(), 2);
-        Assertions.assertEquals(profile.timeToLive(), 600);
+        Assert.assertEquals(profile.monitoringPort(), 8080);
+        Assert.assertEquals(profile.monitoringPath(), "/");
+        Assert.assertEquals(profile.azureEndpoints().size(), 1);
+        Assert.assertEquals(profile.nestedProfileEndpoints().size(), 1);
+        Assert.assertEquals(profile.externalEndpoints().size(), 2);
+        Assert.assertEquals(profile.timeToLive(), 600);
 
         int c = 0;
         for (TrafficManagerExternalEndpoint endpoint : profile.externalEndpoints().values()) {
-            Assertions.assertEquals(endpoint.endpointType(), EndpointType.EXTERNAL);
+            Assert.assertEquals(endpoint.endpointType(), EndpointType.EXTERNAL);
              if (endpoint.name().equalsIgnoreCase(externalEndpointName22)) {
-                Assertions.assertEquals(endpoint.routingPriority(), 2);
-                Assertions.assertEquals(endpoint.fqdn(), externalFqdn22);
-                Assertions.assertEquals(endpoint.sourceTrafficLocation(), Region.US_EAST2);
-                Assertions.assertNotNull(endpoint.monitorStatus());
+                Assert.assertEquals(endpoint.routingPriority(), 2);
+                Assert.assertEquals(endpoint.fqdn(), externalFqdn22);
+                Assert.assertEquals(endpoint.sourceTrafficLocation(), Region.US_EAST2);
+                Assert.assertNotNull(endpoint.monitorStatus());
                 c++;
             } else if (endpoint.name().equalsIgnoreCase(externalEndpointName23)) {
-                Assertions.assertEquals(endpoint.routingPriority(), 6);
-                Assertions.assertEquals(endpoint.fqdn(), externalFqdn23);
-                Assertions.assertNotNull(endpoint.monitorStatus());
-                Assertions.assertEquals(endpoint.sourceTrafficLocation(), Region.US_CENTRAL);
+                Assert.assertEquals(endpoint.routingPriority(), 6);
+                Assert.assertEquals(endpoint.fqdn(), externalFqdn23);
+                Assert.assertNotNull(endpoint.monitorStatus());
+                Assert.assertEquals(endpoint.sourceTrafficLocation(), Region.US_CENTRAL);
                 c++;
             } else {
                 c++;
             }
         }
-        Assertions.assertEquals(c, 2);
+        Assert.assertEquals(c, 2);
 
         c = 0;
         for (TrafficManagerAzureEndpoint endpoint : profile.azureEndpoints().values()) {
-            Assertions.assertEquals(endpoint.endpointType(), EndpointType.AZURE);
+            Assert.assertEquals(endpoint.endpointType(), EndpointType.AZURE);
             if (endpoint.name().equalsIgnoreCase(azureEndpointName)) {
-                Assertions.assertEquals(endpoint.routingPriority(), 5);
-                Assertions.assertEquals(endpoint.routingWeight(), 2);
-                Assertions.assertEquals(endpoint.targetResourceType(), TargetAzureResourceType.PUBLICIP);
+                Assert.assertEquals(endpoint.routingPriority(), 5);
+                Assert.assertEquals(endpoint.routingWeight(), 2);
+                Assert.assertEquals(endpoint.targetResourceType(), TargetAzureResourceType.PUBLICIP);
                 c++;
             }
         }
-        Assertions.assertEquals(c, 1);
+        Assert.assertEquals(c, 1);
         return profile;
     }
 

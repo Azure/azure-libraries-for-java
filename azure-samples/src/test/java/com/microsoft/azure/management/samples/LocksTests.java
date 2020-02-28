@@ -8,13 +8,13 @@ package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.locks.samples.ManageLocks;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class LocksTests extends SamplesTestBase {
 
     @Test
     public void testManageLocks() {
-        Assertions.assertTrue(ManageLocks.runSample(azure));
+        Assert.assertTrue(ManageLocks.runSample(azure));
     }
 }

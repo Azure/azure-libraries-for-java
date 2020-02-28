@@ -45,17 +45,17 @@ import com.microsoft.azure.management.containerregistry.implementation.Container
 import com.microsoft.azure.management.containerservice.ContainerServices;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
 import com.microsoft.azure.management.containerservice.implementation.ContainerServiceManager;
-import com.microsoft.azure.management.dns.DnsZones;
-import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccounts;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
+import com.microsoft.azure.management.dns.DnsZones;
+import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
 import com.microsoft.azure.management.eventhub.EventHubDisasterRecoveryPairings;
 import com.microsoft.azure.management.eventhub.EventHubNamespaces;
 import com.microsoft.azure.management.eventhub.EventHubs;
 import com.microsoft.azure.management.eventhub.implementation.EventHubManager;
+import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroups;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUsers;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
 import com.microsoft.azure.management.graphrbac.RoleAssignments;
 import com.microsoft.azure.management.graphrbac.RoleDefinitions;
 import com.microsoft.azure.management.graphrbac.ServicePrincipals;
@@ -83,30 +83,31 @@ import com.microsoft.azure.management.network.LocalNetworkGateways;
 import com.microsoft.azure.management.network.NetworkInterfaces;
 import com.microsoft.azure.management.network.NetworkSecurityGroups;
 import com.microsoft.azure.management.network.NetworkUsages;
-import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.network.NetworkWatchers;
+import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.network.PublicIPAddresses;
+import com.microsoft.azure.management.network.PublicIPPrefixes;
 import com.microsoft.azure.management.network.RouteFilters;
 import com.microsoft.azure.management.network.RouteTables;
 import com.microsoft.azure.management.network.VirtualNetworkGateways;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.redis.RedisCaches;
 import com.microsoft.azure.management.redis.implementation.RedisManager;
-import com.azure.management.resources.Deployments;
-import com.azure.management.resources.Features;
-import com.azure.management.resources.GenericResources;
-import com.azure.management.resources.PolicyAssignments;
-import com.azure.management.resources.PolicyDefinitions;
-import com.azure.management.resources.Providers;
-import com.azure.management.resources.ResourceGroups;
-import com.azure.management.resources.Subscription;
-import com.azure.management.resources.Subscriptions;
-import com.azure.management.resources.Tenants;
-import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.azure.management.resources.implementation.ResourceManager;
+import com.microsoft.azure.management.resources.Deployments;
+import com.microsoft.azure.management.resources.Features;
+import com.microsoft.azure.management.resources.GenericResources;
+import com.microsoft.azure.management.resources.PolicyAssignments;
+import com.microsoft.azure.management.resources.PolicyDefinitions;
+import com.microsoft.azure.management.resources.Providers;
+import com.microsoft.azure.management.resources.ResourceGroups;
+import com.microsoft.azure.management.resources.Subscription;
+import com.microsoft.azure.management.resources.Subscriptions;
+import com.microsoft.azure.management.resources.Tenants;
+import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
+import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
+import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
+import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.azure.management.search.SearchServices;
 import com.microsoft.azure.management.search.implementation.SearchServiceManager;
 import com.microsoft.azure.management.servicebus.ServiceBusNamespaces;
@@ -116,10 +117,10 @@ import com.microsoft.azure.management.sql.implementation.SqlServerManager;
 import com.microsoft.azure.management.storage.BlobContainers;
 import com.microsoft.azure.management.storage.BlobServices;
 import com.microsoft.azure.management.storage.ManagementPolicies;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.storage.StorageAccounts;
 import com.microsoft.azure.management.storage.StorageSkus;
 import com.microsoft.azure.management.storage.Usages;
+import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
 import com.microsoft.azure.management.trafficmanager.implementation.TrafficManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
@@ -305,6 +306,7 @@ public final class Azure {
          * Selects a specific subscription for the APIs to work with.
          * <p>
          * Most Azure APIs require a specific subscription to be selected.
+         *
          * @param subscriptionId the ID of the subscription
          * @return an authenticated Azure client configured to work with the specified subscription
          */
@@ -700,6 +702,13 @@ public final class Azure {
      */
     public PublicIPAddresses publicIPAddresses() {
         return this.networkManager.publicIPAddresses();
+    }
+
+    /**
+     * @return entry point to managing public IP prefixes
+     */
+    public PublicIPPrefixes publicIPPrefixes() {
+        return this.networkManager.publicIPPrefixes();
     }
 
     /**

@@ -7,16 +7,16 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.dns.samples.ManageDns;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class DnsSampleTests extends SamplesTestBase {
 
     @Test
-    @Disabled("The domain name 'the custom domain that you own (e.g. contoso.com)' is invalid.")
+    @Ignore("The domain name 'the custom domain that you own (e.g. contoso.com)' is invalid.")
     public void testManageDns() {
-        Assertions.assertTrue(ManageDns.runSample(azure));
+        Assert.assertTrue(ManageDns.runSample(azure));
     }
 
 }

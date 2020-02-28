@@ -13,9 +13,9 @@ import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
 import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
 import com.microsoft.azure.management.network.VirtualNetworkGateways;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.jupiter.api.Assertions;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import org.junit.Assert;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -82,8 +82,8 @@ public class TestVirtualNetworkGateway {
                     .withoutTag("tag1")
                     .apply();
             resource.refresh();
-            Assertions.assertTrue(resource.tags().containsKey("tag2"));
-            Assertions.assertTrue(!resource.tags().containsKey("tag1"));
+            Assert.assertTrue(resource.tags().containsKey("tag2"));
+            Assert.assertTrue(!resource.tags().containsKey("tag1"));
 
             Map<String, String> tagsMap = new HashMap<>();
             tagsMap.put("tag3", "value3");
@@ -91,8 +91,8 @@ public class TestVirtualNetworkGateway {
             resource.updateTags()
                     .withTags(tagsMap)
                     .applyTags();
-            Assertions.assertEquals(2, resource.tags().size());
-            Assertions.assertEquals("value4", resource.tags().get("tag4"));
+            Assert.assertEquals(2, resource.tags().size());
+            Assert.assertEquals("value4", resource.tags().get("tag4"));
             return resource;
         }
     }
@@ -139,23 +139,23 @@ public class TestVirtualNetworkGateway {
                     .withTag("tag1", "value1")
                     .create();
 
-            Assertions.assertEquals(1, vngw.ipConfigurations().size());
+            Assert.assertEquals(1, vngw.ipConfigurations().size());
             Subnet subnet = vngw.ipConfigurations().iterator().next().getSubnet();
-            Assertions.assertEquals("10.0.0.0/27", subnet.addressPrefix());
-            Assertions.assertTrue(vngw.isBgpEnabled());
-            Assertions.assertEquals("10.12.255.30", vngw.bgpSettings().bgpPeeringAddress());
+            Assert.assertEquals("10.0.0.0/27", subnet.addressPrefix());
+            Assert.assertTrue(vngw.isBgpEnabled());
+            Assert.assertEquals("10.12.255.30", vngw.bgpSettings().bgpPeeringAddress());
 
-            Assertions.assertEquals("40.71.184.214", lngw.ipAddress());
-            Assertions.assertEquals(1, lngw.addressSpaces().size());
-            Assertions.assertEquals("192.168.3.0/24", lngw.addressSpaces().iterator().next());
-            Assertions.assertNotNull(lngw.bgpSettings());
-            Assertions.assertEquals("10.51.255.254", lngw.bgpSettings().bgpPeeringAddress());
+            Assert.assertEquals("40.71.184.214", lngw.ipAddress());
+            Assert.assertEquals(1, lngw.addressSpaces().size());
+            Assert.assertEquals("192.168.3.0/24", lngw.addressSpaces().iterator().next());
+            Assert.assertNotNull(lngw.bgpSettings());
+            Assert.assertEquals("10.51.255.254", lngw.bgpSettings().bgpPeeringAddress());
 
             List<VirtualNetworkGatewayConnection> connections = vngw.listConnections();
-            Assertions.assertEquals(1, connections.size());
-            Assertions.assertEquals(vngw.id(), connections.get(0).virtualNetworkGateway1Id());
-            Assertions.assertEquals(lngw.id(), connections.get(0).localNetworkGateway2Id());
-            Assertions.assertEquals("value1", connection.tags().get("tag1"));
+            Assert.assertEquals(1, connections.size());
+            Assert.assertEquals(vngw.id(), connections.get(0).virtualNetworkGateway1Id());
+            Assert.assertEquals(lngw.id(), connections.get(0).localNetworkGateway2Id());
+            Assert.assertEquals("value1", connection.tags().get("tag1"));
 
             return vngw;
         }
@@ -163,22 +163,22 @@ public class TestVirtualNetworkGateway {
         @Override
         public VirtualNetworkGateway updateResource(VirtualNetworkGateway resource) throws Exception {
             VirtualNetworkGatewayConnection connection = resource.connections().getByName(CONNECTION_NAME);
-            Assertions.assertFalse(connection.isBgpEnabled());
+            Assert.assertFalse(connection.isBgpEnabled());
             connection.update()
                     .withBgp()
                     .apply();
-            Assertions.assertTrue(connection.isBgpEnabled());
+            Assert.assertTrue(connection.isBgpEnabled());
 
             resource.connections().deleteByName(CONNECTION_NAME);
             List<VirtualNetworkGatewayConnection> connections = resource.listConnections();
-            Assertions.assertEquals(0, connections.size());
+            Assert.assertEquals(0, connections.size());
 
             resource.updateTags()
                     .withTag("tag3", "value3")
                     .withoutTag("tag1")
                     .applyTags();
-            Assertions.assertEquals("value3", resource.tags().get("tag3"));
-            Assertions.assertFalse(resource.tags().containsKey("tag1"));
+            Assert.assertEquals("value3", resource.tags().get("tag3"));
+            Assert.assertFalse(resource.tags().containsKey("tag1"));
 
             return resource;
         }
@@ -244,9 +244,9 @@ public class TestVirtualNetworkGateway {
                     .withSharedKey("MySecretKey")
                     .create();
             List<VirtualNetworkGatewayConnection> connections = vngw1.listConnections();
-            Assertions.assertEquals(1, connections.size());
-            Assertions.assertEquals(vngw1.id(), connections.get(0).virtualNetworkGateway1Id());
-            Assertions.assertEquals(vngw2.id(), connections.get(0).virtualNetworkGateway2Id());
+            Assert.assertEquals(1, connections.size());
+            Assert.assertEquals(vngw1.id(), connections.get(0).virtualNetworkGateway1Id());
+            Assert.assertEquals(vngw2.id(), connections.get(0).virtualNetworkGateway2Id());
             return vngw1;
         }
 
@@ -254,7 +254,7 @@ public class TestVirtualNetworkGateway {
         public VirtualNetworkGateway updateResource(VirtualNetworkGateway resource) throws Exception {
             resource.connections().deleteByName(CONNECTION_NAME);
             List<VirtualNetworkGatewayConnection> connections = resource.listConnections();
-            Assertions.assertEquals(0, connections.size());
+            Assert.assertEquals(0, connections.size());
             return resource;
         }
     }
@@ -303,10 +303,10 @@ public class TestVirtualNetworkGateway {
                         .attach()
                     .apply();
 
-            Assertions.assertNotNull(vngw1.vpnClientConfiguration());
-            Assertions.assertEquals("172.16.201.0/24", vngw1.vpnClientConfiguration().vpnClientAddressPool().addressPrefixes().get(0));
-            Assertions.assertEquals(1, vngw1.vpnClientConfiguration().vpnClientRootCertificates().size());
-            Assertions.assertEquals(CERTIFICATE_NAME, vngw1.vpnClientConfiguration().vpnClientRootCertificates().get(0).name());
+            Assert.assertNotNull(vngw1.vpnClientConfiguration());
+            Assert.assertEquals("172.16.201.0/24", vngw1.vpnClientConfiguration().vpnClientAddressPool().addressPrefixes().get(0));
+            Assert.assertEquals(1, vngw1.vpnClientConfiguration().vpnClientRootCertificates().size());
+            Assert.assertEquals(CERTIFICATE_NAME, vngw1.vpnClientConfiguration().vpnClientRootCertificates().get(0).name());
             String profile = vngw1.generateVpnProfile();
             System.out.println(profile);
             return vngw1;
@@ -318,13 +318,13 @@ public class TestVirtualNetworkGateway {
                     .withRevokedCertificate(CERTIFICATE_NAME, "bdf834528f0fff6eaae4c154e06b54322769276c")
                     .parent()
                     .apply();
-            Assertions.assertEquals(CERTIFICATE_NAME, vngw1.vpnClientConfiguration().vpnClientRevokedCertificates().get(0).name());
+            Assert.assertEquals(CERTIFICATE_NAME, vngw1.vpnClientConfiguration().vpnClientRevokedCertificates().get(0).name());
 
             vngw1.update().updatePointToSiteConfiguration()
                     .withoutAzureCertificate(CERTIFICATE_NAME)
                     .parent()
                     .apply();
-            Assertions.assertEquals(0, vngw1.vpnClientConfiguration().vpnClientRootCertificates().size());
+            Assert.assertEquals(0, vngw1.vpnClientConfiguration().vpnClientRootCertificates().size());
             return vngw1;
         }
     }

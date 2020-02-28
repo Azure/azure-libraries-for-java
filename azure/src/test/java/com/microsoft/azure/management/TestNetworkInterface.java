@@ -8,7 +8,7 @@ package com.microsoft.azure.management;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatRule;
@@ -17,7 +17,7 @@ import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkInterfaces;
 import com.microsoft.azure.management.network.NicIPConfiguration;
 import com.microsoft.azure.management.network.Subnet;
-import com.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 
 public class TestNetworkInterface extends TestTemplate<NetworkInterface, NetworkInterfaces> {
     @Override
@@ -47,20 +47,20 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
                 .create();
 
         // Verify NIC settings
-        Assertions.assertTrue(nic.isAcceleratedNetworkingEnabled());
-        Assertions.assertTrue(nic.isIPForwardingEnabled());
+        Assert.assertTrue(nic.isAcceleratedNetworkingEnabled());
+        Assert.assertTrue(nic.isIPForwardingEnabled());
 
         // Verify IP configs
         NicIPConfiguration ipConfig = nic.primaryIPConfiguration();
-        Assertions.assertNotNull(ipConfig);
+        Assert.assertNotNull(ipConfig);
         network = ipConfig.getNetwork();
-        Assertions.assertNotNull(network);
+        Assert.assertNotNull(network);
         Subnet subnet = network.subnets().get(ipConfig.subnetName());
-        Assertions.assertNotNull(subnet);
-        Assertions.assertEquals(1, subnet.networkInterfaceIPConfigurationCount());
+        Assert.assertNotNull(subnet);
+        Assert.assertEquals(1, subnet.networkInterfaceIPConfigurationCount());
         Collection<NicIPConfiguration> ipConfigs = subnet.listNetworkInterfaceIPConfigurations();
-        Assertions.assertNotNull(ipConfigs);
-        Assertions.assertEquals(1, ipConfigs.size());
+        Assert.assertNotNull(ipConfigs);
+        Assert.assertEquals(1, ipConfigs.size());
         NicIPConfiguration ipConfig2 = null;
         for (NicIPConfiguration i : ipConfigs) {
             if (i.name().equalsIgnoreCase(ipConfig.name())) {
@@ -68,8 +68,8 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
                 break;
             }
         }
-        Assertions.assertNotNull(ipConfig2);
-        Assertions.assertTrue(ipConfig.name().equalsIgnoreCase(ipConfig2.name()));
+        Assert.assertNotNull(ipConfig2);
+        Assert.assertTrue(ipConfig.name().equalsIgnoreCase(ipConfig2.name()));
 
         return nic;
     }
@@ -89,23 +89,23 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
                 .apply();
 
         // Verifications
-        Assertions.assertFalse(resource.isAcceleratedNetworkingEnabled());
-        Assertions.assertFalse(resource.isIPForwardingEnabled());
+        Assert.assertFalse(resource.isAcceleratedNetworkingEnabled());
+        Assert.assertFalse(resource.isIPForwardingEnabled());
         NicIPConfiguration primaryIpConfig = resource.primaryIPConfiguration();
-        Assertions.assertNotNull(primaryIpConfig);
-        Assertions.assertTrue(primaryIpConfig.isPrimary());
-        Assertions.assertTrue("subnet2".equalsIgnoreCase(primaryIpConfig.subnetName()));
-        Assertions.assertNull(primaryIpConfig.publicIPAddressId());
-        Assertions.assertTrue(resource.tags().containsKey("tag1"));
+        Assert.assertNotNull(primaryIpConfig);
+        Assert.assertTrue(primaryIpConfig.isPrimary());
+        Assert.assertTrue("subnet2".equalsIgnoreCase(primaryIpConfig.subnetName()));
+        Assert.assertNull(primaryIpConfig.publicIPAddressId());
+        Assert.assertTrue(resource.tags().containsKey("tag1"));
 
-        Assertions.assertEquals(1,  resource.ipConfigurations().size());
+        Assert.assertEquals(1,  resource.ipConfigurations().size());
 
         resource.updateTags()
                 .withoutTag("tag1")
                 .withTag("tag3", "value3")
                 .applyTags();
-        Assertions.assertFalse(resource.tags().containsKey("tag1"));
-        Assertions.assertEquals("value3", resource.tags().get("tag3"));
+        Assert.assertFalse(resource.tags().containsKey("tag1"));
+        Assert.assertEquals("value3", resource.tags().get("tag3"));
         return resource;
     }
 

@@ -11,8 +11,8 @@ import com.microsoft.azure.management.appservice.AppServicePlan;
 import com.microsoft.azure.management.appservice.FunctionApp;
 import com.microsoft.azure.management.appservice.NameValuePair;
 import com.microsoft.azure.management.appservice.PublishingProfile;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.rest.LogLevel;
 import okhttp3.Headers;
@@ -182,7 +182,7 @@ public final class ManageFunctionAppWithAuthentication {
             System.out.println("Deploying a local function app to " + app3Name + " through web deploy...");
 
             app3.deploy()
-                    .withPackageUri("https://github.com/Azure/azure-sdk-for-java/raw/master/azure-samples/src/main/resources/square-function-app-function-auth.zip")
+                    .withPackageUri("https://github.com/Azure/azure-libraries-for-java/raw/master/azure-samples/src/main/resources/square-function-app-function-auth.zip")
                     .withExistingDeploymentsDeleted(false)
                     .execute();
 

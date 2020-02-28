@@ -9,6 +9,7 @@ package com.microsoft.azure.management.samples;
 import com.microsoft.azure.management.appservice.samples.ManageFunctionAppLogs;
 import com.microsoft.azure.management.appservice.samples.ManageFunctionAppSourceControl;
 import com.microsoft.azure.management.appservice.samples.ManageFunctionAppWithAuthentication;
+import com.microsoft.azure.management.appservice.samples.ManageLinuxFunctionAppSourceControl;
 import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppCosmosDbByMsi;
 import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppSourceControl;
 import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppStorageAccountConnection;
@@ -18,9 +19,9 @@ import com.microsoft.azure.management.appservice.samples.ManageWebAppCosmosDbThr
 import com.microsoft.azure.management.appservice.samples.ManageWebAppLogs;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppSourceControl;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppStorageAccountConnection;
-import com.azure.management.resources.core.TestBase;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import com.microsoft.azure.management.resources.core.TestBase;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class AppServiceSampleLiveOnlyTests extends SamplesTestBase {
     public AppServiceSampleLiveOnlyTests() {
@@ -29,61 +30,66 @@ public class AppServiceSampleLiveOnlyTests extends SamplesTestBase {
 
     @Test
     public void testManageWebAppSourceControl() {
-        Assertions.assertTrue(ManageWebAppSourceControl.runSample(azure));
+        Assert.assertTrue(ManageWebAppSourceControl.runSample(azure));
     }
 
     @Test
     public void testManageWebAppStorageAccountConnection() {
-        Assertions.assertTrue(ManageWebAppStorageAccountConnection.runSample(azure));
+        Assert.assertTrue(ManageWebAppStorageAccountConnection.runSample(azure));
     }
 
     @Test
     public void testManageLinuxWebAppSourceControl() {
-        Assertions.assertTrue(ManageLinuxWebAppSourceControl.runSample(azure));
+        Assert.assertTrue(ManageLinuxWebAppSourceControl.runSample(azure));
     }
 
     @Test
     public void testManageLinuxWebAppStorageAccountConnection() {
-        Assertions.assertTrue(ManageLinuxWebAppStorageAccountConnection.runSample(azure));
+        Assert.assertTrue(ManageLinuxWebAppStorageAccountConnection.runSample(azure));
     }
 
     @Test
     public void testManageLinuxWebAppWithContainerRegistry() {
-        Assertions.assertTrue(ManageLinuxWebAppWithContainerRegistry.runSample(azure));
+        Assert.assertTrue(ManageLinuxWebAppWithContainerRegistry.runSample(azure));
     }
 
     @Test
     public void testManageFunctionAppWithAuthentication() {
-        Assertions.assertTrue(ManageFunctionAppWithAuthentication.runSample(azure));
+        Assert.assertTrue(ManageFunctionAppWithAuthentication.runSample(azure));
     }
 
     @Test
     public void testManageFunctionAppSourceControl() {
-        Assertions.assertTrue(ManageFunctionAppSourceControl.runSample(azure));
+        Assert.assertTrue(ManageFunctionAppSourceControl.runSample(azure));
     }
 
     @Test
     public void testManageLinuxWebAppCosmosDbByMsi() {
-        Assertions.assertTrue(ManageLinuxWebAppCosmosDbByMsi.runSample(azure));
+        Assert.assertTrue(ManageLinuxWebAppCosmosDbByMsi.runSample(azure));
     }
 
     @Test
     public void testManageWebAppCosmosDbByMsi() {
-        Assertions.assertTrue(ManageWebAppCosmosDbByMsi.runSample(azure));
+        Assert.assertTrue(ManageWebAppCosmosDbByMsi.runSample(azure));
     }
 
     @Test
     public void testManageWebAppCosmosDbThroughKeyVault() {
-        Assertions.assertTrue(ManageWebAppCosmosDbThroughKeyVault.runSample(azure));
+        Assert.assertTrue(ManageWebAppCosmosDbThroughKeyVault.runSample(azure));
     }
 
     @Test
     public void testManageFunctionAppLogs() {
-        Assertions.assertTrue(ManageFunctionAppLogs.runSample(azure));
+        Assert.assertTrue(ManageFunctionAppLogs.runSample(azure));
     }
 
     @Test
     public void testManageWebAppLogs() {
-        Assertions.assertTrue(ManageWebAppLogs.runSample(azure));
+        Assert.assertTrue(ManageWebAppLogs.runSample(azure));
+    }
+
+    @Test
+    public void testManageLinuxFunctionAppSourceControl() {
+        Assert.assertTrue(ManageLinuxFunctionAppSourceControl.runSample(azure));
     }
 }

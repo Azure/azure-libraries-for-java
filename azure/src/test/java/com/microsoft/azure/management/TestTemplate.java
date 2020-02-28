@@ -7,17 +7,17 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
-import com.azure.management.resources.ResourceGroups;
-import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
-import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.jupiter.api.Assertions;
+import com.microsoft.azure.management.resources.ResourceGroups;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import org.junit.Assert;
 
 import java.io.IOException;
 
@@ -84,7 +84,7 @@ public abstract class TestTemplate<
     public ResourceT verifyGetting() throws CloudException, IOException {
         ResourceT resourceByGroup = this.collection.getByResourceGroup(this.resource.resourceGroupName(), this.resource.name());
         ResourceT resourceById = this.collection.getById(resourceByGroup.id());
-        Assertions.assertTrue(resourceById.id().equalsIgnoreCase(resourceByGroup.id()));
+        Assert.assertTrue(resourceById.id().equalsIgnoreCase(resourceByGroup.id()));
         return resourceById;
     }
 
@@ -128,7 +128,7 @@ public abstract class TestTemplate<
 
         // Verify getting
         this.resource = verifyGetting();
-        Assertions.assertTrue(this.resource != null);
+        Assert.assertTrue(this.resource != null);
         System.out.println("\n------------\nRetrieved resource:\n");
         print(this.resource);
 
@@ -137,7 +137,7 @@ public abstract class TestTemplate<
         // Verify update
         try {
             this.resource = updateResource(this.resource);
-            Assertions.assertTrue(this.resource != null);
+            Assert.assertTrue(this.resource != null);
             System.out.println("\n------------\nUpdated resource:\n");
             message = "Print failed";
             print(this.resource);
@@ -155,8 +155,8 @@ public abstract class TestTemplate<
             e.printStackTrace();
             failedDelete = true;
         }
-        Assertions.assertFalse(failedUpdate, message);
-        Assertions.assertFalse(failedDelete, message);
+        Assert.assertFalse(message, failedUpdate);
+        Assert.assertFalse(message,  failedDelete);
     }
 
     /**
@@ -182,7 +182,7 @@ public abstract class TestTemplate<
 
         // Verify getting
         this.resource = verifyGetting();
-        Assertions.assertTrue(this.resource != null);
+        Assert.assertTrue(this.resource != null);
         System.out.println("\n------------\nRetrieved resource:\n");
         print(this.resource);
 
@@ -191,7 +191,7 @@ public abstract class TestTemplate<
         // Verify update
         try {
             this.resource = updateResource(this.resource);
-            Assertions.assertTrue(this.resource != null);
+            Assert.assertTrue(this.resource != null);
             System.out.println("\n------------\nUpdated resource:\n");
             message = "Print failed";
             print(this.resource);
@@ -209,7 +209,7 @@ public abstract class TestTemplate<
             e.printStackTrace();
             failedDelete = true;
         }
-        Assertions.assertFalse(failedUpdate, message);
-        Assertions.assertFalse(failedDelete, message);
+        Assert.assertFalse(message, failedUpdate);
+        Assert.assertFalse(message,  failedDelete);
     }
 }

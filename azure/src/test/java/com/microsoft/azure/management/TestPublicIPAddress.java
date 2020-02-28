@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.management;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.NetworkInterface;
@@ -13,7 +13,7 @@ import com.microsoft.azure.management.network.NicIPConfiguration;
 import com.microsoft.azure.management.network.LoadBalancerPublicFrontend;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.PublicIPAddresses;
-import com.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 
 /**
  * Tests public IPs.
@@ -44,16 +44,16 @@ public class TestPublicIPAddress extends TestTemplate<PublicIPAddress, PublicIPA
                 .withTag("tag1", "value1")
                 .withTag("tag2", "value2")
                 .apply();
-        Assertions.assertTrue(resource.leafDomainLabel().equalsIgnoreCase(updatedDnsName));
-        Assertions.assertTrue(resource.idleTimeoutInMinutes() == updatedIdleTimeout);
-        Assertions.assertEquals("value2", resource.tags().get("tag2"));
+        Assert.assertTrue(resource.leafDomainLabel().equalsIgnoreCase(updatedDnsName));
+        Assert.assertTrue(resource.idleTimeoutInMinutes() == updatedIdleTimeout);
+        Assert.assertEquals("value2", resource.tags().get("tag2"));
 
         resource.updateTags()
                 .withoutTag("tag1")
                 .withTag("tag3", "value3")
                 .applyTags();
-        Assertions.assertFalse(resource.tags().containsKey("tag1"));
-        Assertions.assertEquals("value3", resource.tags().get("tag3"));
+        Assert.assertFalse(resource.tags().containsKey("tag1"));
+        Assert.assertEquals("value3", resource.tags().get("tag3"));
         return resource;
     }
 

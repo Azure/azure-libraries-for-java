@@ -16,7 +16,7 @@ import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
-import com.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.rest.LogLevel;
 
@@ -44,6 +44,7 @@ public class CreateVirtualMachineUsingSpecializedDiskFromVhd {
         final String managedDataDiskNamePrefix = Utils.createRandomName("ds-data-");
         final String rgName = Utils.createRandomName("rgCOMV");
         final String publicIpDnsLabel = Utils.createRandomName("pip");
+        final String storageAccountName = Utils.createRandomName("stg");
         final String userName = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
@@ -85,6 +86,7 @@ public class CreateVirtualMachineUsingSpecializedDiskFromVhd {
                         .withPublicSetting("fileUris", apacheInstallScriptUris)
                         .withPublicSetting("commandToExecute", apacheInstallCommand)
                         .attach()
+                    .withNewStorageAccount(storageAccountName)
                     .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
                     .create();
 
@@ -116,6 +118,7 @@ public class CreateVirtualMachineUsingSpecializedDiskFromVhd {
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .withLinuxFromVhd(specializedOSVhdUri)
+                    .withStorageAccountName(storageAccountName)
                     .withSizeInGB(100)
                     .create();
 
@@ -135,6 +138,7 @@ public class CreateVirtualMachineUsingSpecializedDiskFromVhd {
                         .withExistingResourceGroup(rgName)
                         .withData()
                         .fromVhd(dataVhdUri)
+                        .withStorageAccountName(storageAccountName)
                         .withSizeInGB(150)
                         .withSku(DiskSkuTypes.STANDARD_LRS)
                         .create();

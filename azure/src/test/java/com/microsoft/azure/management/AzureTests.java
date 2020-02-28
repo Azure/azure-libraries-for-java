@@ -51,18 +51,18 @@ import com.microsoft.azure.management.network.SecurityGroupView;
 import com.microsoft.azure.management.network.Subnet;
 import com.microsoft.azure.management.network.Topology;
 import com.microsoft.azure.management.network.VerificationIPFlow;
-import com.azure.management.resources.Deployment;
-import com.azure.management.resources.DeploymentMode;
-import com.azure.management.resources.GenericResource;
-import com.azure.management.resources.Location;
-import com.azure.management.resources.ResourceGroup;
-import com.azure.management.resources.Subscription;
-import com.azure.management.resources.core.TestBase;
-import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.model.CreatedResources;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.Deployment;
+import com.microsoft.azure.management.resources.DeploymentMode;
+import com.microsoft.azure.management.resources.GenericResource;
+import com.microsoft.azure.management.resources.Location;
+import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.Subscription;
+import com.microsoft.azure.management.resources.core.TestBase;
+import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
@@ -70,9 +70,9 @@ import com.microsoft.rest.RestClient;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -112,40 +112,40 @@ public class AzureTests extends TestBase {
         Runnable reader1 = new Runnable() {
             @Override
             public void run() {
-                Assertions.assertEquals(CountryIsoCode.AFGHANISTAN, CountryIsoCode.fromString("AF"));
-                Assertions.assertEquals(CountryIsoCode.ANTARCTICA, CountryIsoCode.fromString("AQ"));
-                Assertions.assertEquals(CountryIsoCode.ANDORRA, CountryIsoCode.fromString("AD"));
-                Assertions.assertEquals(CountryIsoCode.ARGENTINA, CountryIsoCode.fromString("AR"));
-                Assertions.assertEquals(CountryIsoCode.ALBANIA, CountryIsoCode.fromString("AL"));
-                Assertions.assertEquals(CountryIsoCode.ALGERIA, CountryIsoCode.fromString("DZ"));
-                Assertions.assertEquals(CountryIsoCode.AMERICAN_SAMOA, CountryIsoCode.fromString("AS"));
-                Assertions.assertEquals(CountryIsoCode.ANGOLA, CountryIsoCode.fromString("AO"));
-                Assertions.assertEquals(CountryIsoCode.ANGUILLA, CountryIsoCode.fromString("AI"));
-                Assertions.assertEquals(CountryIsoCode.ANTIGUA_AND_BARBUDA, CountryIsoCode.fromString("AG"));
-                Assertions.assertEquals(CountryIsoCode.ARMENIA, CountryIsoCode.fromString("AM"));
-                Assertions.assertEquals(CountryIsoCode.ARUBA, CountryIsoCode.fromString("AW"));
-                Assertions.assertEquals(CountryIsoCode.AUSTRALIA, CountryIsoCode.fromString("AU"));
-                Assertions.assertEquals(CountryIsoCode.AUSTRIA, CountryIsoCode.fromString("AT"));
-                Assertions.assertEquals(CountryIsoCode.AZERBAIJAN, CountryIsoCode.fromString("AZ"));
-                Assertions.assertEquals(PowerState.DEALLOCATED, PowerState.fromString("PowerState/deallocated"));
-                Assertions.assertEquals(PowerState.DEALLOCATING, PowerState.fromString("PowerState/deallocating"));
-                Assertions.assertEquals(PowerState.RUNNING, PowerState.fromString("PowerState/running"));
+                Assert.assertEquals(CountryIsoCode.AFGHANISTAN, CountryIsoCode.fromString("AF"));
+                Assert.assertEquals(CountryIsoCode.ANTARCTICA, CountryIsoCode.fromString("AQ"));
+                Assert.assertEquals(CountryIsoCode.ANDORRA, CountryIsoCode.fromString("AD"));
+                Assert.assertEquals(CountryIsoCode.ARGENTINA, CountryIsoCode.fromString("AR"));
+                Assert.assertEquals(CountryIsoCode.ALBANIA, CountryIsoCode.fromString("AL"));
+                Assert.assertEquals(CountryIsoCode.ALGERIA, CountryIsoCode.fromString("DZ"));
+                Assert.assertEquals(CountryIsoCode.AMERICAN_SAMOA, CountryIsoCode.fromString("AS"));
+                Assert.assertEquals(CountryIsoCode.ANGOLA, CountryIsoCode.fromString("AO"));
+                Assert.assertEquals(CountryIsoCode.ANGUILLA, CountryIsoCode.fromString("AI"));
+                Assert.assertEquals(CountryIsoCode.ANTIGUA_AND_BARBUDA, CountryIsoCode.fromString("AG"));
+                Assert.assertEquals(CountryIsoCode.ARMENIA, CountryIsoCode.fromString("AM"));
+                Assert.assertEquals(CountryIsoCode.ARUBA, CountryIsoCode.fromString("AW"));
+                Assert.assertEquals(CountryIsoCode.AUSTRALIA, CountryIsoCode.fromString("AU"));
+                Assert.assertEquals(CountryIsoCode.AUSTRIA, CountryIsoCode.fromString("AT"));
+                Assert.assertEquals(CountryIsoCode.AZERBAIJAN, CountryIsoCode.fromString("AZ"));
+                Assert.assertEquals(PowerState.DEALLOCATED, PowerState.fromString("PowerState/deallocated"));
+                Assert.assertEquals(PowerState.DEALLOCATING, PowerState.fromString("PowerState/deallocating"));
+                Assert.assertEquals(PowerState.RUNNING, PowerState.fromString("PowerState/running"));
             }
         };
 
         Runnable reader2 = new Runnable() {
             @Override
             public void run() {
-                Assertions.assertEquals(CountryIsoCode.BAHAMAS, CountryIsoCode.fromString("BS"));
-                Assertions.assertEquals(CountryIsoCode.BAHRAIN, CountryIsoCode.fromString("BH"));
-                Assertions.assertEquals(CountryIsoCode.BANGLADESH, CountryIsoCode.fromString("BD"));
-                Assertions.assertEquals(CountryIsoCode.BARBADOS, CountryIsoCode.fromString("BB"));
-                Assertions.assertEquals(CountryIsoCode.BELARUS, CountryIsoCode.fromString("BY"));
-                Assertions.assertEquals(CountryIsoCode.BELGIUM, CountryIsoCode.fromString("BE"));
-                Assertions.assertEquals(PowerState.STARTING, PowerState.fromString("PowerState/starting"));
-                Assertions.assertEquals(PowerState.STOPPED, PowerState.fromString("PowerState/stopped"));
-                Assertions.assertEquals(PowerState.STOPPING, PowerState.fromString("PowerState/stopping"));
-                Assertions.assertEquals(PowerState.UNKNOWN, PowerState.fromString("PowerState/unknown"));
+                Assert.assertEquals(CountryIsoCode.BAHAMAS, CountryIsoCode.fromString("BS"));
+                Assert.assertEquals(CountryIsoCode.BAHRAIN, CountryIsoCode.fromString("BH"));
+                Assert.assertEquals(CountryIsoCode.BANGLADESH, CountryIsoCode.fromString("BD"));
+                Assert.assertEquals(CountryIsoCode.BARBADOS, CountryIsoCode.fromString("BB"));
+                Assert.assertEquals(CountryIsoCode.BELARUS, CountryIsoCode.fromString("BY"));
+                Assert.assertEquals(CountryIsoCode.BELGIUM, CountryIsoCode.fromString("BE"));
+                Assert.assertEquals(PowerState.STARTING, PowerState.fromString("PowerState/starting"));
+                Assert.assertEquals(PowerState.STOPPED, PowerState.fromString("PowerState/stopped"));
+                Assert.assertEquals(PowerState.STOPPING, PowerState.fromString("PowerState/stopping"));
+                Assert.assertEquals(PowerState.UNKNOWN, PowerState.fromString("PowerState/unknown"));
             }
         };
 
@@ -188,7 +188,7 @@ public class AzureTests extends TestBase {
         for (CountryIsoCode value : countryIsoCodes) {
             System.out.println(value.toString());
         }
-        Assertions.assertEquals(257, countryIsoCodes.size());
+        Assert.assertEquals(257, countryIsoCodes.size());
 
         // Verify power states
         Collection<PowerState> powerStates = PowerState.values();
@@ -196,7 +196,7 @@ public class AzureTests extends TestBase {
         for (PowerState value : powerStates) {
             System.out.println(value.toString());
         }
-        Assertions.assertEquals(27, powerStates.size());
+        Assert.assertEquals(27, powerStates.size());
     }
 
     /**
@@ -242,7 +242,7 @@ public class AzureTests extends TestBase {
             .create();
 
         PagedList<GenericResource> resources = azure.genericResources().listByResourceGroup(nsg.resourceGroupName());
-        Assertions.assertEquals(2, resources.size());
+        Assert.assertEquals(2, resources.size());
         GenericResource firstResource = resources.get(0);
 
         GenericResource resourceById = azure.genericResources().getById(firstResource.id());
@@ -251,7 +251,7 @@ public class AzureTests extends TestBase {
                 firstResource.resourceProviderNamespace(),
                 firstResource.resourceType(),
                 firstResource.name());
-        Assertions.assertTrue(resourceById.id().equalsIgnoreCase(resourceByDetails.id()));
+        Assert.assertTrue(resourceById.id().equalsIgnoreCase(resourceByDetails.id()));
         azure.resourceGroups().beginDeleteByName(nsg.resourceGroupName());
     }
 
@@ -282,7 +282,7 @@ public class AzureTests extends TestBase {
             resourceGroup = azure.resourceGroups().define(rgName)
                     .withRegion(region)
                     .create();
-            Assertions.assertNotNull(resourceGroup);
+            Assert.assertNotNull(resourceGroup);
 
             Creatable<Network> netDefinition = azure.networks().define(netName)
                     .withRegion(region)
@@ -367,72 +367,72 @@ public class AzureTests extends TestBase {
                     .create();
 
             // Verify VM lock
-            Assertions.assertEquals(2, azure.managementLocks().listForResource(vm.id()).size());
+            Assert.assertEquals(2, azure.managementLocks().listForResource(vm.id()).size());
 
-            Assertions.assertNotNull(lockVM);
+            Assert.assertNotNull(lockVM);
             lockVM = azure.managementLocks().getById(lockVM.id());
-            Assertions.assertNotNull(lockVM);
+            Assert.assertNotNull(lockVM);
             TestUtils.print(lockVM);
-            Assertions.assertEquals(LockLevel.READ_ONLY, lockVM.level());
-            Assertions.assertTrue(vm.id().equalsIgnoreCase(lockVM.lockedResourceId()));
+            Assert.assertEquals(LockLevel.READ_ONLY, lockVM.level());
+            Assert.assertTrue(vm.id().equalsIgnoreCase(lockVM.lockedResourceId()));
 
             // Verify resource group lock
-            Assertions.assertNotNull(lockGroup);
+            Assert.assertNotNull(lockGroup);
             lockGroup = azure.managementLocks().getByResourceGroup(resourceGroup.name(), "rglock");
-            Assertions.assertNotNull(lockGroup);
+            Assert.assertNotNull(lockGroup);
             TestUtils.print(lockVM);
-            Assertions.assertEquals(LockLevel.CAN_NOT_DELETE, lockGroup.level());
-            Assertions.assertTrue(resourceGroup.id().equalsIgnoreCase(lockGroup.lockedResourceId()));
+            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockGroup.level());
+            Assert.assertTrue(resourceGroup.id().equalsIgnoreCase(lockGroup.lockedResourceId()));
 
             // Verify storage account lock
-            Assertions.assertEquals(2, azure.managementLocks().listForResource(storage.id()).size());
+            Assert.assertEquals(2, azure.managementLocks().listForResource(storage.id()).size());
 
-            Assertions.assertNotNull(lockStorage);
+            Assert.assertNotNull(lockStorage);
             lockStorage = azure.managementLocks().getById(lockStorage.id());
-            Assertions.assertNotNull(lockStorage);
+            Assert.assertNotNull(lockStorage);
             TestUtils.print(lockStorage);
-            Assertions.assertEquals(LockLevel.CAN_NOT_DELETE, lockStorage.level());
-            Assertions.assertTrue(storage.id().equalsIgnoreCase(lockStorage.lockedResourceId()));
+            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockStorage.level());
+            Assert.assertTrue(storage.id().equalsIgnoreCase(lockStorage.lockedResourceId()));
 
             // Verify disk lock
-            Assertions.assertEquals(3, azure.managementLocks().listForResource(disk.id()).size());
+            Assert.assertEquals(3, azure.managementLocks().listForResource(disk.id()).size());
 
-            Assertions.assertNotNull(lockDiskRO);
+            Assert.assertNotNull(lockDiskRO);
             lockDiskRO = azure.managementLocks().getById(lockDiskRO.id());
-            Assertions.assertNotNull(lockDiskRO);
+            Assert.assertNotNull(lockDiskRO);
             TestUtils.print(lockDiskRO);
-            Assertions.assertEquals(LockLevel.READ_ONLY, lockDiskRO.level());
-            Assertions.assertTrue(disk.id().equalsIgnoreCase(lockDiskRO.lockedResourceId()));
+            Assert.assertEquals(LockLevel.READ_ONLY, lockDiskRO.level());
+            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDiskRO.lockedResourceId()));
 
-            Assertions.assertNotNull(lockDiskDel);
+            Assert.assertNotNull(lockDiskDel);
             lockDiskDel = azure.managementLocks().getById(lockDiskDel.id());
-            Assertions.assertNotNull(lockDiskDel);
+            Assert.assertNotNull(lockDiskDel);
             TestUtils.print(lockDiskDel);
-            Assertions.assertEquals(LockLevel.CAN_NOT_DELETE, lockDiskDel.level());
-            Assertions.assertTrue(disk.id().equalsIgnoreCase(lockDiskDel.lockedResourceId()));
+            Assert.assertEquals(LockLevel.CAN_NOT_DELETE, lockDiskDel.level());
+            Assert.assertTrue(disk.id().equalsIgnoreCase(lockDiskDel.lockedResourceId()));
 
             // Verify subnet lock
-            Assertions.assertEquals(2, azure.managementLocks().listForResource(network.id()).size());
+            Assert.assertEquals(2, azure.managementLocks().listForResource(network.id()).size());
 
             lockSubnet = azure.managementLocks().getById(lockSubnet.id());
-            Assertions.assertNotNull(lockSubnet);
+            Assert.assertNotNull(lockSubnet);
             TestUtils.print(lockSubnet);
-            Assertions.assertEquals(LockLevel.READ_ONLY, lockSubnet.level());
-            Assertions.assertTrue(subnet.inner().id().equalsIgnoreCase(lockSubnet.lockedResourceId()));
+            Assert.assertEquals(LockLevel.READ_ONLY, lockSubnet.level());
+            Assert.assertTrue(subnet.inner().id().equalsIgnoreCase(lockSubnet.lockedResourceId()));
 
             // Verify lock collection
             List<ManagementLock> locksSubscription = azure.managementLocks().list();
             List<ManagementLock> locksGroup = azure.managementLocks().listByResourceGroup(vm.resourceGroupName());
-            Assertions.assertNotNull(locksSubscription);
-            Assertions.assertNotNull(locksGroup);
+            Assert.assertNotNull(locksSubscription);
+            Assert.assertNotNull(locksGroup);
 
             int locksAllCount = locksSubscription.size();
             System.out.println("All locks: " + locksAllCount);
-            Assertions.assertTrue(6 <= locksAllCount);
+            Assert.assertTrue(6 <= locksAllCount);
 
             int locksGroupCount = locksGroup.size();
             System.out.println("Group locks: " + locksGroupCount);
-            Assertions.assertEquals(6, locksGroup.size());
+            Assert.assertEquals(6, locksGroup.size());
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
         } finally {
@@ -469,7 +469,7 @@ public class AzureTests extends TestBase {
     @Test
     public void testVMImages() throws CloudException, IOException {
         List<VirtualMachinePublisher> publishers = azure.virtualMachineImages().publishers().listByRegion(Region.US_WEST);
-        Assertions.assertTrue(publishers.size() > 0);
+        Assert.assertTrue(publishers.size() > 0);
         for (VirtualMachinePublisher p : publishers) {
             System.out.println(String.format("Publisher name: %s, region: %s", p.name(), p.region()));
             try {
@@ -488,7 +488,7 @@ public class AzureTests extends TestBase {
             }
         }
         List<VirtualMachineImage> images = azure.virtualMachineImages().listByRegion(Region.US_WEST);
-        Assertions.assertTrue(images.size() > 0);
+        Assert.assertTrue(images.size() > 0);
         // Seems to help avoid connection refused error on subsequent mock test
         SdkContext.sleep(2000);
     }
@@ -557,7 +557,7 @@ public class AzureTests extends TestBase {
      * @throws Exception
      */
     @Test
-    @Disabled("Though valid scenario, NRP is failing")
+    @Ignore("Though valid scenario, NRP is failing")
     public void testLoadBalancersInternalWithAvailabilityZone() throws Exception {
         new TestLoadBalancer.InternalWithZone(azure.virtualMachines().manager())
                 .runTest(azure.loadBalancers(), azure.resourceGroups());
@@ -599,6 +599,15 @@ public class AzureTests extends TestBase {
     @Test
     public void testPublicIPAddresses() throws Exception {
         new TestPublicIPAddress().runTest(azure.publicIPAddresses(), azure.resourceGroups());
+    }
+
+    /**
+     * Tests the public IP prefix implementation.
+     * @throws Exception
+     */
+    @Test
+    public void testPublicIPPrefixes() throws Exception {
+        new TestPublicIPPrefix().runTest(azure.publicIPPrefixes(), azure.resourceGroups());
     }
 
     /**
@@ -684,15 +693,15 @@ public class AzureTests extends TestBase {
 
         // Look up built-in region
         Region region = Region.fromName("westus");
-        Assertions.assertTrue(region == Region.US_WEST);
+        Assert.assertTrue(region == Region.US_WEST);
 
         // Add a region
         Region region2 = Region.fromName("madeUpRegion");
-        Assertions.assertNotNull(region2);
-        Assertions.assertTrue(region2.name().equalsIgnoreCase("madeUpRegion"));
+        Assert.assertNotNull(region2);
+        Assert.assertTrue(region2.name().equalsIgnoreCase("madeUpRegion"));
         Region region3 = Region.fromName("madeupregion");
-        Assertions.assertEquals(region3, region2);
-        Assertions.assertEquals(Region.values().length, regionsCount + 1);
+        Assert.assertEquals(region3, region2);
+        Assert.assertEquals(Region.values().length, regionsCount + 1);
     }
 
     /**
@@ -714,6 +723,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    @Ignore("Not stable test cases")
     public void testNetworkWatcherFunctions() throws Exception {
         String nwrg = null;
         String tnwrg = null;
@@ -738,21 +748,21 @@ public class AzureTests extends TestBase {
                     .withoutAutoStart()
                     .withMonitoringInterval(35)
                     .create();
-            Assertions.assertEquals("value1", connectionMonitor.tags().get("tag1"));
-            Assertions.assertEquals(35, connectionMonitor.monitoringIntervalInSeconds());
-            Assertions.assertEquals("NotStarted", connectionMonitor.monitoringStatus());
-            Assertions.assertEquals("NewConnectionMonitor", connectionMonitor.name());
+            Assert.assertEquals("value1", connectionMonitor.tags().get("tag1"));
+            Assert.assertEquals(35, connectionMonitor.monitoringIntervalInSeconds());
+            Assert.assertEquals("NotStarted", connectionMonitor.monitoringStatus());
+            Assert.assertEquals("NewConnectionMonitor", connectionMonitor.name());
 
             connectionMonitor.start();
-            Assertions.assertEquals("Running", connectionMonitor.monitoringStatus());
+            Assert.assertEquals("Running", connectionMonitor.monitoringStatus());
             Topology topology = nw.topology().withTargetResourceGroup(virtualMachines[0].resourceGroupName()).execute();
-            Assertions.assertEquals(11, topology.resources().size());
-            Assertions.assertTrue(topology.resources().containsKey(virtualMachines[0].getPrimaryNetworkInterface().networkSecurityGroupId()));
-            Assertions.assertEquals(4, topology.resources().get(virtualMachines[0].primaryNetworkInterfaceId()).associations().size());
+            Assert.assertEquals(11, topology.resources().size());
+            Assert.assertTrue(topology.resources().containsKey(virtualMachines[0].getPrimaryNetworkInterface().networkSecurityGroupId()));
+            Assert.assertEquals(4, topology.resources().get(virtualMachines[0].primaryNetworkInterfaceId()).associations().size());
 
             SecurityGroupView sgViewResult = nw.getSecurityGroupView(virtualMachines[0].id());
-            Assertions.assertEquals(1, sgViewResult.networkInterfaces().size());
-            Assertions.assertEquals(virtualMachines[0].primaryNetworkInterfaceId(), sgViewResult.networkInterfaces().keySet().iterator().next());
+            Assert.assertEquals(1, sgViewResult.networkInterfaces().size());
+            Assert.assertEquals(virtualMachines[0].primaryNetworkInterfaceId(), sgViewResult.networkInterfaces().keySet().iterator().next());
 
             FlowLogSettings flowLogSettings = nw.getFlowLogSettings(virtualMachines[0].getPrimaryNetworkInterface().networkSecurityGroupId());
             StorageAccount storageAccount = tnw.ensureStorageAccount(azure.storageAccounts());
@@ -762,17 +772,17 @@ public class AzureTests extends TestBase {
                     .withRetentionPolicyDays(5)
                     .withRetentionPolicyEnabled()
                     .apply();
-            Assertions.assertEquals(true, flowLogSettings.enabled());
-            Assertions.assertEquals(5, flowLogSettings.retentionDays());
-            Assertions.assertEquals(storageAccount.id(), flowLogSettings.storageId());
+            Assert.assertEquals(true, flowLogSettings.enabled());
+            Assert.assertEquals(5, flowLogSettings.retentionDays());
+            Assert.assertEquals(storageAccount.id(), flowLogSettings.storageId());
 
             NextHop nextHop = nw.nextHop().withTargetResourceId(virtualMachines[0].id())
                     .withSourceIPAddress("10.0.0.4")
                     .withDestinationIPAddress("8.8.8.8")
                     .execute();
-            Assertions.assertEquals("System Route", nextHop.routeTableId());
-            Assertions.assertEquals(NextHopType.INTERNET, nextHop.nextHopType());
-            Assertions.assertNull(nextHop.nextHopIpAddress());
+            Assert.assertEquals("System Route", nextHop.routeTableId());
+            Assert.assertEquals(NextHopType.INTERNET, nextHop.nextHopType());
+            Assert.assertNull(nextHop.nextHopIpAddress());
 
             VerificationIPFlow verificationIPFlow = nw.verifyIPFlow()
                     .withTargetResourceId(virtualMachines[0].id())
@@ -783,12 +793,12 @@ public class AzureTests extends TestBase {
                     .withLocalPort("443")
                     .withRemotePort("443")
                     .execute();
-            Assertions.assertEquals(Access.ALLOW, verificationIPFlow.access());
-            Assertions.assertTrue("defaultSecurityRules/AllowInternetOutBound".equalsIgnoreCase(verificationIPFlow.ruleName()));
+            Assert.assertEquals(Access.ALLOW, verificationIPFlow.access());
+            Assert.assertTrue("defaultSecurityRules/AllowInternetOutBound".equalsIgnoreCase(verificationIPFlow.ruleName()));
 
             // test packet capture
             List<PacketCapture> packetCaptures = nw.packetCaptures().list();
-            Assertions.assertEquals(0, packetCaptures.size());
+            Assert.assertEquals(0, packetCaptures.size());
             PacketCapture packetCapture = nw.packetCaptures()
                     .define("NewPacketCapture")
                     .withTarget(virtualMachines[0].id())
@@ -800,14 +810,14 @@ public class AzureTests extends TestBase {
                     .attach()
                     .create();
             packetCaptures = nw.packetCaptures().list();
-            Assertions.assertEquals(1, packetCaptures.size());
-            Assertions.assertEquals("NewPacketCapture", packetCapture.name());
-            Assertions.assertEquals(1500, packetCapture.timeLimitInSeconds());
-            Assertions.assertEquals(PcProtocol.TCP, packetCapture.filters().get(0).protocol());
-            Assertions.assertEquals("127.0.0.1;127.0.0.5", packetCapture.filters().get(0).localIPAddress());
-//            Assertions.assertEquals("Running", packetCapture.getStatus().packetCaptureStatus().toString());
+            Assert.assertEquals(1, packetCaptures.size());
+            Assert.assertEquals("NewPacketCapture", packetCapture.name());
+            Assert.assertEquals(1500, packetCapture.timeLimitInSeconds());
+            Assert.assertEquals(PcProtocol.TCP, packetCapture.filters().get(0).protocol());
+            Assert.assertEquals("127.0.0.1;127.0.0.5", packetCapture.filters().get(0).localIPAddress());
+//            Assert.assertEquals("Running", packetCapture.getStatus().packetCaptureStatus().toString());
             packetCapture.stop();
-            Assertions.assertEquals(PcStatus.STOPPED, packetCapture.getStatus().packetCaptureStatus());
+            Assert.assertEquals(PcStatus.STOPPED, packetCapture.getStatus().packetCaptureStatus());
             nw.packetCaptures().deleteByName(packetCapture.name());
 
             ConnectivityCheck connectivityCheck = nw.checkConnectivity()
@@ -815,18 +825,18 @@ public class AzureTests extends TestBase {
                     .toDestinationPort(80)
                     .fromSourceVirtualMachine(virtualMachines[0].id())
                     .execute();
-//            Assertions.assertEquals("Reachable", connectivityCheck.connectionStatus().toString());    // not sure why it is Unknown now
+//            Assert.assertEquals("Reachable", connectivityCheck.connectionStatus().toString());    // not sure why it is Unknown now
 
             ConnectionMonitorQueryResult queryResult = connectionMonitor.query();
 
             azure.virtualMachines().deleteById(virtualMachines[1].id());
             topology.execute();
-//            Assertions.assertEquals(10, topology.resources().size());     // not sure why it is 18 now
+//            Assert.assertEquals(10, topology.resources().size());     // not sure why it is 18 now
         } finally {
             if (nwrg != null)
-                azure.resourceGroups().deleteByName(nwrg);
+                azure.resourceGroups().beginDeleteByName(nwrg);
             if (tnwrg != null)
-                azure.resourceGroups().deleteByName(tnwrg);
+                azure.resourceGroups().beginDeleteByName(tnwrg);
         }
     }
 
@@ -862,7 +872,7 @@ public class AzureTests extends TestBase {
      * @throws Exception
      */
     @Test
-    @Disabled("osDiskSize is returned as 127 instead of 128 - known service bug")
+    @Ignore("osDiskSize is returned as 127 instead of 128 - known service bug")
     public void testVirtualMachines() throws Exception {
         // Future: This method needs to have a better specific name since we are going to include unit test for
         // different vm scenarios.
@@ -925,10 +935,10 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void listSubscriptions() throws Exception {
-        Assertions.assertTrue(0 < azure.subscriptions().list().size());
+        Assert.assertTrue(0 < azure.subscriptions().list().size());
         Subscription subscription = azure.getCurrentSubscription();
-        Assertions.assertNotNull(subscription);
-        Assertions.assertTrue(azure.subscriptionId().equalsIgnoreCase(subscription.subscriptionId()));
+        Assert.assertNotNull(subscription);
+        Assert.assertTrue(azure.subscriptionId().equalsIgnoreCase(subscription.subscriptionId()));
     }
 
     /**
@@ -938,17 +948,17 @@ public class AzureTests extends TestBase {
     @Test
     public void listLocations() throws Exception {
         Subscription subscription = azure.getCurrentSubscription();
-        Assertions.assertNotNull(subscription);
+        Assert.assertNotNull(subscription);
         for (Location location : subscription.listLocations()) {
             Region region = Region.fromName(location.name());
-            Assertions.assertNotNull("Could not find region " + location.name(), region);
-            Assertions.assertEquals(region, location.region());
-            Assertions.assertEquals(region.name().toLowerCase(), location.name().toLowerCase());
+            Assert.assertNotNull("Could not find region " + location.name(), region);
+            Assert.assertEquals(region, location.region());
+            Assert.assertEquals(region.name().toLowerCase(), location.name().toLowerCase());
         }
 
         Location location = subscription.getLocationByRegion(Region.US_WEST);
-        Assertions.assertNotNull(location);
-        Assertions.assertTrue(Region.US_WEST.name().equalsIgnoreCase(location.name()));
+        Assert.assertNotNull(location);
+        Assert.assertTrue(Region.US_WEST.name().equalsIgnoreCase(location.name()));
     }
 
     /**
@@ -959,7 +969,7 @@ public class AzureTests extends TestBase {
     public void listResourceGroups() throws Exception {
         int groupCount = azure.resourceGroups().list().size();
         System.out.println(String.format("Group count: %s", groupCount));
-        Assertions.assertTrue(0 < groupCount);
+        Assert.assertTrue(0 < groupCount);
     }
 
     /**
@@ -968,7 +978,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void listStorageAccounts() throws Exception {
-        Assertions.assertTrue(0 < azure.storageAccounts().list().size());
+        Assert.assertTrue(0 < azure.storageAccounts().list().size());
     }
 
     @Test
@@ -980,7 +990,7 @@ public class AzureTests extends TestBase {
                 .withSku(SkuName.PREMIUM_LRS)
                 .create();
 
-        Assertions.assertEquals(storageAccount.name(), storageAccountName);
+        Assert.assertEquals(storageAccount.name(), storageAccountName);
 
         azure.resourceGroups().beginDeleteByName(storageAccount.resourceGroupName());
     }
@@ -991,11 +1001,13 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    @Ignore("Deprecated")
     public void testBatchAI() throws Exception {
         new TestBatchAI.Basic(azure.storageAccounts(), azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
     }
 
     @Test
+    @Ignore("Deprecated")
     public void testBatchAIJob() throws Exception {
         final Region region = Region.US_EAST;
         final String groupName = SdkContext.randomResourceName("rg", 10);
@@ -1017,8 +1029,8 @@ public class AzureTests extends TestBase {
                     .withPassword("MyPassword")
                     .withAutoScale(1, 1)
                     .create();
-            Assertions.assertEquals("resizing", cluster.allocationState().toString());
-            Assertions.assertEquals(userName, cluster.adminUserName());
+            Assert.assertEquals("resizing", cluster.allocationState().toString());
+            Assert.assertEquals(userName, cluster.adminUserName());
 
             BatchAIJob job = experiment.jobs().define("myJob")
                     .withExistingClusterId(cluster.id())
@@ -1036,20 +1048,20 @@ public class AzureTests extends TestBase {
                         .attach()
                     .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
                     .create();
-            Assertions.assertEquals(2,job.outputDirectories().size());
+            Assert.assertEquals(2,job.outputDirectories().size());
             OutputDirectory outputDirectory = null;
             for (OutputDirectory directory : job.outputDirectories()) {
                 if ("OUTPUT".equalsIgnoreCase(directory.id())) {
                     outputDirectory = directory;
                 }
             }
-            Assertions.assertNotNull(outputDirectory);
-            Assertions.assertEquals("suffix", outputDirectory.pathSuffix().toLowerCase());
+            Assert.assertNotNull(outputDirectory);
+            Assert.assertEquals("suffix", outputDirectory.pathSuffix().toLowerCase());
 
             experiment.jobs().list();
 
             BatchAIJob job2 = experiment.jobs().getById(job.id());
-            Assertions.assertEquals(cluster.id(), job2.cluster().id());
+            Assert.assertEquals(cluster.id(), job2.cluster().id());
 
         } finally {
             azure.resourceGroups().beginDeleteByName(groupName);
@@ -1057,6 +1069,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    @Ignore("Deprecated")
     public void testBatchAIFileServer() throws Exception {
         new TestBatchAIFileServers(azure.networks()).runTest(azure.batchAIWorkspaces(), azure.resourceGroups());
     }
@@ -1162,69 +1175,69 @@ public class AzureTests extends TestBase {
                 .withTag("tag1", "value1")
                 .create();
 
-        Assertions.assertEquals(cgName, containerGroup.name());
-        Assertions.assertEquals("Linux", containerGroup.osType().toString());
-        Assertions.assertEquals(0, containerGroup.imageRegistryServers().size());
-        Assertions.assertEquals(1, containerGroup.volumes().size());
-        Assertions.assertNotNull(containerGroup.volumes().get("emptydir1"));
-        Assertions.assertNotNull(containerGroup.ipAddress());
-        Assertions.assertTrue(containerGroup.isIPAddressPublic());
-        Assertions.assertEquals(2, containerGroup.externalTcpPorts().length);
-        Assertions.assertEquals(2, containerGroup.externalPorts().size());
-        Assertions.assertEquals(2, containerGroup.externalTcpPorts().length);
-        Assertions.assertEquals(8080, containerGroup.externalTcpPorts()[0]);
-        Assertions.assertEquals(80, containerGroup.externalTcpPorts()[1]);
-        Assertions.assertEquals(2, containerGroup.containers().size());
+        Assert.assertEquals(cgName, containerGroup.name());
+        Assert.assertEquals("Linux", containerGroup.osType().toString());
+        Assert.assertEquals(0, containerGroup.imageRegistryServers().size());
+        Assert.assertEquals(1, containerGroup.volumes().size());
+        Assert.assertNotNull(containerGroup.volumes().get("emptydir1"));
+        Assert.assertNotNull(containerGroup.ipAddress());
+        Assert.assertTrue(containerGroup.isIPAddressPublic());
+        Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
+        Assert.assertEquals(2, containerGroup.externalPorts().size());
+        Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
+        Assert.assertEquals(8080, containerGroup.externalTcpPorts()[0]);
+        Assert.assertEquals(80, containerGroup.externalTcpPorts()[1]);
+        Assert.assertEquals(2, containerGroup.containers().size());
         Container tomcatContainer = containerGroup.containers().get("tomcat");
-        Assertions.assertNotNull(tomcatContainer);
+        Assert.assertNotNull(tomcatContainer);
         Container nginxContainer = containerGroup.containers().get("nginx");
-        Assertions.assertNotNull(nginxContainer);
-        Assertions.assertEquals("tomcat", tomcatContainer.name());
-        Assertions.assertEquals("tomcat", tomcatContainer.image());
-        Assertions.assertEquals(1.0, tomcatContainer.resources().requests().cpu(), .1);
-        Assertions.assertEquals(1.5, tomcatContainer.resources().requests().memoryInGB(), .1);
-        Assertions.assertEquals(1, tomcatContainer.ports().size());
-        Assertions.assertEquals(8080, tomcatContainer.ports().get(0).port());
-        Assertions.assertNull(tomcatContainer.volumeMounts());
-        Assertions.assertNull(tomcatContainer.command());
-        Assertions.assertNotNull(tomcatContainer.environmentVariables());
-        Assertions.assertEquals(1, tomcatContainer.environmentVariables().size());
-        Assertions.assertEquals("nginx", nginxContainer.name());
-        Assertions.assertEquals("nginx", nginxContainer.image());
-        Assertions.assertEquals(1.0, nginxContainer.resources().requests().cpu(), .1);
-        Assertions.assertEquals(1.5, nginxContainer.resources().requests().memoryInGB(), .1);
-        Assertions.assertEquals(1, nginxContainer.ports().size());
-        Assertions.assertEquals(80, nginxContainer.ports().get(0).port());
-        Assertions.assertNull(nginxContainer.volumeMounts());
-        Assertions.assertNull(nginxContainer.command());
-        Assertions.assertNotNull(nginxContainer.environmentVariables());
-        Assertions.assertEquals(1, nginxContainer.environmentVariables().size());
-        Assertions.assertTrue(containerGroup.tags().containsKey("tag1"));
-        Assertions.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
-        Assertions.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
-        Assertions.assertEquals(ResourceIdentityType.USER_ASSIGNED, containerGroup.managedServiceIdentityType());
-        Assertions.assertNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId()); // No Local MSI enabled
+        Assert.assertNotNull(nginxContainer);
+        Assert.assertEquals("tomcat", tomcatContainer.name());
+        Assert.assertEquals("tomcat", tomcatContainer.image());
+        Assert.assertEquals(1.0, tomcatContainer.resources().requests().cpu(), .1);
+        Assert.assertEquals(1.5, tomcatContainer.resources().requests().memoryInGB(), .1);
+        Assert.assertEquals(1, tomcatContainer.ports().size());
+        Assert.assertEquals(8080, tomcatContainer.ports().get(0).port());
+        Assert.assertNull(tomcatContainer.volumeMounts());
+        Assert.assertNull(tomcatContainer.command());
+        Assert.assertNotNull(tomcatContainer.environmentVariables());
+        Assert.assertEquals(1, tomcatContainer.environmentVariables().size());
+        Assert.assertEquals("nginx", nginxContainer.name());
+        Assert.assertEquals("nginx", nginxContainer.image());
+        Assert.assertEquals(1.0, nginxContainer.resources().requests().cpu(), .1);
+        Assert.assertEquals(1.5, nginxContainer.resources().requests().memoryInGB(), .1);
+        Assert.assertEquals(1, nginxContainer.ports().size());
+        Assert.assertEquals(80, nginxContainer.ports().get(0).port());
+        Assert.assertNull(nginxContainer.volumeMounts());
+        Assert.assertNull(nginxContainer.command());
+        Assert.assertNotNull(nginxContainer.environmentVariables());
+        Assert.assertEquals(1, nginxContainer.environmentVariables().size());
+        Assert.assertTrue(containerGroup.tags().containsKey("tag1"));
+        Assert.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
+        Assert.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
+        Assert.assertEquals(ResourceIdentityType.USER_ASSIGNED, containerGroup.managedServiceIdentityType());
+        Assert.assertNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId()); // No Local MSI enabled
 
         // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
         //
         Set<String> emsiIds = containerGroup.userAssignedManagedServiceIdentityIds();
-        Assertions.assertNotNull(emsiIds);
-        Assertions.assertEquals(2, emsiIds.size());
-        Assertions.assertEquals(cgName, containerGroup.dnsPrefix());
+        Assert.assertNotNull(emsiIds);
+        Assert.assertEquals(2, emsiIds.size());
+        Assert.assertEquals(cgName, containerGroup.dnsPrefix());
 
         //TODO: add network and dns testing when questions have been answered
 
         ContainerGroup containerGroup2 = azure.containerGroups().getByResourceGroup(rgName, cgName);
 
         List<ContainerGroup> containerGroupList = azure.containerGroups().listByResourceGroup(rgName);
-        Assertions.assertTrue(containerGroupList.size() > 0);
-        Assertions.assertNotNull(containerGroupList.get(0).state());
+        Assert.assertTrue(containerGroupList.size() > 0);
+        Assert.assertNotNull(containerGroupList.get(0).state());
 
         containerGroup.refresh();
 
         Set<Operation> containerGroupOperations = azure.containerGroups().listOperations();
         // Number of supported operation can change hence don't assert with a predefined number.
-        Assertions.assertTrue(containerGroupOperations.size() > 0);
+        Assert.assertTrue(containerGroupOperations.size() > 0);
     }
 
     @Test
@@ -1243,7 +1256,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
-    @Disabled("Runs locally find but fails for unknown reason on check in.")
+    @Ignore("Runs locally find but fails for unknown reason on check in.")
     public void testCosmosDB() throws Exception {
         new TestCosmosDB()
                 .runTest(azure.cosmosDBAccounts(), azure.resourceGroups());
@@ -1274,7 +1287,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
-    @Disabled("Util to generate missing regions")
+    @Ignore("Util to generate missing regions")
     public void generateMissingRegion() {
         // Please double check generated code and make adjustment e.g. GERMANY_WEST_CENTRAL -> GERMANY_WESTCENTRAL
 
@@ -1293,6 +1306,6 @@ public class AzureTests extends TestBase {
             }
         }
 
-        Assertions.assertTrue(sb.length() == 0, sb.toString());
+        Assert.assertTrue(sb.toString(), sb.length() == 0);
     }
 }

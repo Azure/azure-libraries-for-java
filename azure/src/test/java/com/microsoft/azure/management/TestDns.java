@@ -24,8 +24,8 @@ import com.microsoft.azure.management.dns.SrvRecord;
 import com.microsoft.azure.management.dns.SrvRecordSet;
 import com.microsoft.azure.management.dns.TxtRecord;
 import com.microsoft.azure.management.dns.TxtRecordSet;
-import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.jupiter.api.Assertions;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import org.junit.Assert;
 
 import java.util.HashMap;
 
@@ -89,64 +89,64 @@ public class TestDns extends TestTemplate<DnsZone, DnsZones> {
                 .create();
 
         // Check Dns zone properties
-        Assertions.assertTrue(dnsZone.name().startsWith(topLevelDomain));
-        Assertions.assertTrue(dnsZone.nameServers().size() > 0); // Default '@' name servers
-        Assertions.assertTrue(dnsZone.tags().size() == 2);
+        Assert.assertTrue(dnsZone.name().startsWith(topLevelDomain));
+        Assert.assertTrue(dnsZone.nameServers().size() > 0); // Default '@' name servers
+        Assert.assertTrue(dnsZone.tags().size() == 2);
 
         // Check SOA record - external child resource (created by default)
         SoaRecordSet soaRecordSet = dnsZone.getSoaRecordSet();
-        Assertions.assertTrue(soaRecordSet.name().startsWith("@"));
+        Assert.assertTrue(soaRecordSet.name().startsWith("@"));
         SoaRecord soaRecord = soaRecordSet.record();
-        Assertions.assertNotNull(soaRecord);
+        Assert.assertNotNull(soaRecord);
 
         // Check explicitly created external child resources [A, AAAA, MX, NS, TXT, SRV, PTR, CNAME]
         //
 
         // Check A records
         PagedList<ARecordSet> aRecordSets = dnsZone.aRecordSets().list();
-        Assertions.assertTrue(aRecordSets.size() == 1);
-        Assertions.assertTrue(aRecordSets.get(0).timeToLive() == 7200);
+        Assert.assertTrue(aRecordSets.size() == 1);
+        Assert.assertTrue(aRecordSets.get(0).timeToLive() == 7200);
 
         // Check AAAA records
         PagedList<AaaaRecordSet> aaaaRecordSets = dnsZone.aaaaRecordSets().list();
-        Assertions.assertTrue(aaaaRecordSets.size() == 1);
-        Assertions.assertTrue(aaaaRecordSets.get(0).name().startsWith("www"));
-        Assertions.assertTrue(aaaaRecordSets.get(0).ipv6Addresses().size() == 2);
+        Assert.assertTrue(aaaaRecordSets.size() == 1);
+        Assert.assertTrue(aaaaRecordSets.get(0).name().startsWith("www"));
+        Assert.assertTrue(aaaaRecordSets.get(0).ipv6Addresses().size() == 2);
 
         // Check MX records
         PagedList<MXRecordSet> mxRecordSets = dnsZone.mxRecordSets().list();
-        Assertions.assertTrue(mxRecordSets.size() == 1);
+        Assert.assertTrue(mxRecordSets.size() == 1);
         MXRecordSet mxRecordSet = mxRecordSets.get(0);
-        Assertions.assertNotNull(mxRecordSet);
-        Assertions.assertTrue(mxRecordSet.name().startsWith("email"));
-        Assertions.assertTrue(mxRecordSet.metadata().size() == 2);
-        Assertions.assertTrue(mxRecordSet.records().size() == 2);
+        Assert.assertNotNull(mxRecordSet);
+        Assert.assertTrue(mxRecordSet.name().startsWith("email"));
+        Assert.assertTrue(mxRecordSet.metadata().size() == 2);
+        Assert.assertTrue(mxRecordSet.records().size() == 2);
         for (MxRecord mxRecord : mxRecordSet.records()) {
-            Assertions.assertTrue(mxRecord.exchange().startsWith("mail.contoso-mail-exchange1.com")
+            Assert.assertTrue(mxRecord.exchange().startsWith("mail.contoso-mail-exchange1.com")
                     || mxRecord.exchange().startsWith("mail.contoso-mail-exchange2.com"));
-            Assertions.assertTrue(mxRecord.preference() == 1
+            Assert.assertTrue(mxRecord.preference() == 1
                     || mxRecord.preference() == 2);
         }
 
         // Check NS records
         PagedList<NSRecordSet> nsRecordSets = dnsZone.nsRecordSets().list();
-        Assertions.assertTrue(nsRecordSets.size() == 2); // One created above with name 'partners' + the default '@'
+        Assert.assertTrue(nsRecordSets.size() == 2); // One created above with name 'partners' + the default '@'
 
         // Check TXT records
         PagedList<TxtRecordSet> txtRecordSets = dnsZone.txtRecordSets().list();
-        Assertions.assertTrue(txtRecordSets.size() == 2);
+        Assert.assertTrue(txtRecordSets.size() == 2);
 
         // Check SRV records
         PagedList<SrvRecordSet> srvRecordSets = dnsZone.srvRecordSets().list();
-        Assertions.assertTrue(srvRecordSets.size() == 1);
+        Assert.assertTrue(srvRecordSets.size() == 1);
 
         // Check PTR records
         PagedList<PtrRecordSet> ptrRecordSets = dnsZone.ptrRecordSets().list();
-        Assertions.assertTrue(ptrRecordSets.size() == 2);
+        Assert.assertTrue(ptrRecordSets.size() == 2);
 
         // Check CNAME records
         PagedList<CNameRecordSet> cnameRecordSets = dnsZone.cNameRecordSets().list();
-        Assertions.assertTrue(cnameRecordSets.size() == 2);
+        Assert.assertTrue(cnameRecordSets.size() == 2);
 
         // Check Generic record set listing
         PagedList<DnsRecordSet> recordSets = dnsZone.listRecordSets();
@@ -161,64 +161,64 @@ public class TestDns extends TestTemplate<DnsZone, DnsZones> {
         typeToCount.put(RecordType.SRV, 0);
         typeToCount.put(RecordType.TXT, 0);
         for (DnsRecordSet recordSet : recordSets) {
-            Assertions.assertNotNull(recordSet);
+            Assert.assertNotNull(recordSet);
             switch (recordSet.recordType()) {
                 case TXT:
                     TxtRecordSet txtRS = (TxtRecordSet) recordSet;
-                    Assertions.assertNotNull(txtRS);
+                    Assert.assertNotNull(txtRS);
                     typeToCount.put(RecordType.TXT, typeToCount.get(RecordType.TXT) + 1);
                     break;
                 case SRV:
                     SrvRecordSet srvRS = (SrvRecordSet) recordSet;
-                    Assertions.assertNotNull(srvRS);
+                    Assert.assertNotNull(srvRS);
                     typeToCount.put(RecordType.SRV, typeToCount.get(RecordType.SRV) + 1);
                     break;
                 case SOA:
                     SoaRecordSet soaRS = (SoaRecordSet) recordSet;
-                    Assertions.assertNotNull(soaRS);
+                    Assert.assertNotNull(soaRS);
                     typeToCount.put(RecordType.SOA, typeToCount.get(RecordType.SOA) + 1);
                     break;
                 case PTR:
                     PtrRecordSet ptrRS = (PtrRecordSet) recordSet;
-                    Assertions.assertNotNull(ptrRS);
+                    Assert.assertNotNull(ptrRS);
                     typeToCount.put(RecordType.PTR, typeToCount.get(RecordType.PTR) + 1);
                     break;
                 case A:
                     ARecordSet aRS = (ARecordSet) recordSet;
-                    Assertions.assertNotNull(aRS);
+                    Assert.assertNotNull(aRS);
                     typeToCount.put(RecordType.A, typeToCount.get(RecordType.A) + 1);
                     break;
                 case AAAA:
                     AaaaRecordSet aaaaRS = (AaaaRecordSet) recordSet;
-                    Assertions.assertNotNull(aaaaRS);
+                    Assert.assertNotNull(aaaaRS);
                     typeToCount.put(RecordType.AAAA, typeToCount.get(RecordType.AAAA) + 1);
                     break;
                 case CNAME:
                     CNameRecordSet cnameRS = (CNameRecordSet) recordSet;
-                    Assertions.assertNotNull(cnameRS);
+                    Assert.assertNotNull(cnameRS);
                     typeToCount.put(RecordType.CNAME, typeToCount.get(RecordType.CNAME) + 1);
                     break;
                 case MX:
                     MXRecordSet mxRS = (MXRecordSet) recordSet;
-                    Assertions.assertNotNull(mxRS);
+                    Assert.assertNotNull(mxRS);
                     typeToCount.put(RecordType.MX, typeToCount.get(RecordType.MX) + 1);
                     break;
                 case NS:
                     NSRecordSet nsRS = (NSRecordSet) recordSet;
-                    Assertions.assertNotNull(nsRS);
+                    Assert.assertNotNull(nsRS);
                     typeToCount.put(RecordType.NS, typeToCount.get(RecordType.NS) + 1);
                     break;
             }
         }
-        Assertions.assertTrue(typeToCount.get(RecordType.SOA) == 1);
-        Assertions.assertTrue(typeToCount.get(RecordType.A) == 1);
-        Assertions.assertTrue(typeToCount.get(RecordType.AAAA) == 1);
-        Assertions.assertTrue(typeToCount.get(RecordType.MX) == 1);
-        Assertions.assertTrue(typeToCount.get(RecordType.NS) == 2);
-        Assertions.assertTrue(typeToCount.get(RecordType.TXT) == 2);
-        Assertions.assertTrue(typeToCount.get(RecordType.SRV) == 1);
-        Assertions.assertTrue(typeToCount.get(RecordType.PTR) == 2);
-        Assertions.assertTrue(typeToCount.get(RecordType.CNAME) == 2);
+        Assert.assertTrue(typeToCount.get(RecordType.SOA) == 1);
+        Assert.assertTrue(typeToCount.get(RecordType.A) == 1);
+        Assert.assertTrue(typeToCount.get(RecordType.AAAA) == 1);
+        Assert.assertTrue(typeToCount.get(RecordType.MX) == 1);
+        Assert.assertTrue(typeToCount.get(RecordType.NS) == 2);
+        Assert.assertTrue(typeToCount.get(RecordType.TXT) == 2);
+        Assert.assertTrue(typeToCount.get(RecordType.SRV) == 1);
+        Assert.assertTrue(typeToCount.get(RecordType.PTR) == 2);
+        Assert.assertTrue(typeToCount.get(RecordType.CNAME) == 2);
         return dnsZone;
     }
 
@@ -252,58 +252,58 @@ public class TestDns extends TestTemplate<DnsZone, DnsZones> {
 
         // Check TXT records
         PagedList<TxtRecordSet> txtRecordSets = dnsZone.txtRecordSets().list();
-        Assertions.assertEquals(txtRecordSets.size(), 1);
+        Assert.assertEquals(txtRecordSets.size(), 1);
 
         // Check CNAME records
         PagedList<CNameRecordSet> cnameRecordSets = dnsZone.cNameRecordSets().list();
-        Assertions.assertEquals(cnameRecordSets.size(), 2);
+        Assert.assertEquals(cnameRecordSets.size(), 2);
         for (CNameRecordSet cnameRecordSet : cnameRecordSets) {
-            Assertions.assertTrue(cnameRecordSet.canonicalName().startsWith("doc.contoso.com"));
-            Assertions.assertTrue(cnameRecordSet.name().startsWith("documents") || cnameRecordSet.name().startsWith("help"));
+            Assert.assertTrue(cnameRecordSet.canonicalName().startsWith("doc.contoso.com"));
+            Assert.assertTrue(cnameRecordSet.name().startsWith("documents") || cnameRecordSet.name().startsWith("help"));
         }
 
         // Check NS records
         PagedList<NSRecordSet> nsRecordSets = dnsZone.nsRecordSets().list();
-        Assertions.assertTrue(nsRecordSets.size() == 2); // One created above with name 'partners' + the default '@'
+        Assert.assertTrue(nsRecordSets.size() == 2); // One created above with name 'partners' + the default '@'
         for (NSRecordSet nsRecordSet : nsRecordSets) {
-            Assertions.assertTrue(nsRecordSet.name().startsWith("partners") || nsRecordSet.name().startsWith("@"));
+            Assert.assertTrue(nsRecordSet.name().startsWith("partners") || nsRecordSet.name().startsWith("@"));
             if (nsRecordSet.name().startsWith("partners")) {
-                Assertions.assertEquals(nsRecordSet.nameServers().size(), 4);
+                Assert.assertEquals(nsRecordSet.nameServers().size(), 4);
                 for (String nameServer : nsRecordSet.nameServers()) {
-                    Assertions.assertFalse(nameServer.startsWith("ns4-05.azure-dns.info"));
+                    Assert.assertFalse(nameServer.startsWith("ns4-05.azure-dns.info"));
                 }
             }
         }
 
         // Check A records
         PagedList<ARecordSet> aRecordSets = dnsZone.aRecordSets().list();
-        Assertions.assertEquals(aRecordSets.size(), 1);
+        Assert.assertEquals(aRecordSets.size(), 1);
         ARecordSet aRecordSet = aRecordSets.get(0);
-        Assertions.assertEquals(aRecordSet.ipv4Addresses().size(), 2);
+        Assert.assertEquals(aRecordSet.ipv4Addresses().size(), 2);
         for (String ipV4Address : aRecordSet.ipv4Addresses()) {
-            Assertions.assertFalse(ipV4Address.startsWith("23.96.104.40"));
+            Assert.assertFalse(ipV4Address.startsWith("23.96.104.40"));
         }
 
         // Check SRV records
         PagedList<SrvRecordSet> srvRecordSets = dnsZone.srvRecordSets().list();
-        Assertions.assertTrue(srvRecordSets.size() == 1);
+        Assert.assertTrue(srvRecordSets.size() == 1);
         SrvRecordSet srvRecordSet = srvRecordSets.get(0);
-        Assertions.assertTrue(srvRecordSet.records().size() == 4);
+        Assert.assertTrue(srvRecordSet.records().size() == 4);
         for (SrvRecord srvRecord : srvRecordSet.records()) {
-            Assertions.assertFalse(srvRecord.target().startsWith("bigbox.contoso-service.com"));
+            Assert.assertFalse(srvRecord.target().startsWith("bigbox.contoso-service.com"));
         }
 
         // Check SOA Records
         SoaRecordSet soaRecordSet = dnsZone.getSoaRecordSet();
-        Assertions.assertTrue(soaRecordSet.name().startsWith("@"));
+        Assert.assertTrue(soaRecordSet.name().startsWith("@"));
         SoaRecord soaRecord = soaRecordSet.record();
-        Assertions.assertNotNull(soaRecord);
-        Assertions.assertEquals(soaRecord.minimumTtl(), Long.valueOf(600));
-        Assertions.assertTrue(soaRecordSet.timeToLive() == 7200);
+        Assert.assertNotNull(soaRecord);
+        Assert.assertEquals(soaRecord.minimumTtl(), Long.valueOf(600));
+        Assert.assertTrue(soaRecordSet.timeToLive() == 7200);
 
         // Check MX records
         PagedList<MXRecordSet> mxRecordSets = dnsZone.mxRecordSets().list();
-        Assertions.assertTrue(mxRecordSets.size() == 2);
+        Assert.assertTrue(mxRecordSets.size() == 2);
 
         dnsZone.update()
                 .updateMXRecordSet("email")
@@ -315,12 +315,12 @@ public class TestDns extends TestTemplate<DnsZone, DnsZones> {
                 .withTag("d", "dd")
                 .apply();
 
-        Assertions.assertTrue(dnsZone.tags().size() == 3);
+        Assert.assertTrue(dnsZone.tags().size() == 3);
         // Check "mail" MX record
         MXRecordSet mxRecordSet = dnsZone.mxRecordSets().getByName("email");
-        Assertions.assertTrue(mxRecordSet.records().size() == 1);
-        Assertions.assertTrue(mxRecordSet.metadata().size() == 3);
-        Assertions.assertTrue(mxRecordSet.records().get(0).exchange().startsWith("mail.contoso-mail-exchange1.com"));
+        Assert.assertTrue(mxRecordSet.records().size() == 1);
+        Assert.assertTrue(mxRecordSet.metadata().size() == 3);
+        Assert.assertTrue(mxRecordSet.records().get(0).exchange().startsWith("mail.contoso-mail-exchange1.com"));
 
         return dnsZone;
     }

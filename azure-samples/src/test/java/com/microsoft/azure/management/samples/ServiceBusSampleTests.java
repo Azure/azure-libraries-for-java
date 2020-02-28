@@ -11,32 +11,32 @@ import com.microsoft.azure.management.servicebus.samples.ServiceBusPublishSubscr
 import com.microsoft.azure.management.servicebus.samples.ServiceBusQueueAdvanceFeatures;
 import com.microsoft.azure.management.servicebus.samples.ServiceBusQueueBasic;
 import com.microsoft.azure.management.servicebus.samples.ServiceBusWithClaimBasedAuthorization;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ServiceBusSampleTests extends SamplesTestBase {
     @Test
     public void testServiceBusQueueBasic() {
-        Assertions.assertTrue(ServiceBusQueueBasic.runSample(azure));
+        Assert.assertTrue(ServiceBusQueueBasic.runSample(azure));
     }
 
     @Test
     public void testServiceBusPublishSubscribeBasic() {
-        Assertions.assertTrue(ServiceBusPublishSubscribeBasic.runSample(azure));
+        Assert.assertTrue(ServiceBusPublishSubscribeBasic.runSample(azure));
     }
 
     @Test
     public void testServiceBusWithClaimBasedAuthorization() {
-        Assertions.assertTrue(ServiceBusWithClaimBasedAuthorization.runSample(azure));
+        Assert.assertTrue(ServiceBusWithClaimBasedAuthorization.runSample(azure));
     }
 
     @Test
     public void testServiceBusQueueAdvanceFeatures() {
-        Assertions.assertTrue(ServiceBusQueueAdvanceFeatures.runSample(azure));
+        Assert.assertTrue(ServiceBusQueueAdvanceFeatures.runSample(azure));
     }
 
     @Test
     public void testServiceBusPublishSubscribeAdvanceFeatures() {
-        Assertions.assertTrue(ServiceBusPublishSubscribeAdvanceFeatures.runSample(azure));
+        Assert.assertTrue(ServiceBusPublishSubscribeAdvanceFeatures.runSample(azure));
     }
 }

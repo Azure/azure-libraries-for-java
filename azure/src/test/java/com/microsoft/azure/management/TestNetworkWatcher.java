@@ -10,14 +10,14 @@ import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.network.*;
-import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.model.CreatedResources;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccounts;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 
-import com.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,15 +65,15 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
                 .withoutTag("tag1")
                 .apply();
         resource.refresh();
-        Assertions.assertTrue(resource.tags().containsKey("tag2"));
-        Assertions.assertFalse(resource.tags().containsKey("tag1"));
+        Assert.assertTrue(resource.tags().containsKey("tag2"));
+        Assert.assertFalse(resource.tags().containsKey("tag1"));
 
         resource.updateTags()
                 .withTag("tag3", "value3")
                 .withoutTag("tag2")
                 .applyTags();
-        Assertions.assertTrue(resource.tags().containsKey("tag3"));
-        Assertions.assertFalse(resource.tags().containsKey("tag2"));
+        Assert.assertTrue(resource.tags().containsKey("tag3"));
+        Assert.assertFalse(resource.tags().containsKey("tag2"));
         return resource;
     }
 
@@ -156,6 +156,7 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
         return  storageAccounts.define("sa" + TEST_ID)
                 .withRegion(REGION)
                 .withExistingResourceGroup(groupName)
+                .withGeneralPurposeAccountKindV2()
                 .create();
     }
 

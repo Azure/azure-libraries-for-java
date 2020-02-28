@@ -7,12 +7,12 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.batch.samples.ManageBatchAccount;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class BatchSampleTests extends SamplesTestBase {
     @Test
     public void testManageBatchAccount() {
-        Assertions.assertTrue(ManageBatchAccount.runSample(azure));
+        Assert.assertTrue(ManageBatchAccount.runSample(azure));
     }
 }

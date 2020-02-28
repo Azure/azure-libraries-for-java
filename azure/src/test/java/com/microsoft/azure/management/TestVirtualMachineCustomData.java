@@ -15,11 +15,11 @@ import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.PublicIPAddresses;
-import com.azure.management.resources.core.TestBase;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.core.TestBase;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.apache.commons.codec.binary.Base64;
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -66,7 +66,7 @@ public class TestVirtualMachineCustomData extends TestTemplate<VirtualMachine, V
                 .create();
 
         pip.refresh();
-        Assertions.assertTrue(pip.hasAssignedNetworkInterface());
+        Assert.assertTrue(pip.hasAssignedNetworkInterface());
 
         if (TestBase.isRecordMode()) {
             JSch jsch = new JSch();
@@ -89,10 +89,10 @@ public class TestVirtualMachineCustomData extends TestTemplate<VirtualMachine, V
 
                 String msg;
                 while ((msg = in.readLine()) != null) {
-                    Assertions.assertFalse(msg.startsWith("The program 'pwgen' is currently not installed"));
+                    Assert.assertFalse(msg.startsWith("The program 'pwgen' is currently not installed"));
                 }
             } catch (Exception e) {
-                Assertions.fail("SSH connection failed" + e.getMessage());
+                Assert.fail("SSH connection failed" + e.getMessage());
             } finally {
                 if (channel != null) {
                     channel.disconnect();

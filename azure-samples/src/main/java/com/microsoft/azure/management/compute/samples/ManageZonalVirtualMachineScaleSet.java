@@ -16,9 +16,9 @@ import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.PublicIPSkuType;
 import com.microsoft.azure.management.network.TransportProtocol;
-import com.azure.management.resources.ResourceGroup;
-import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.rest.LogLevel;
 

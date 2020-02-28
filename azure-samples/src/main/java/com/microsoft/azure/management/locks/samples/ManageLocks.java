@@ -16,11 +16,11 @@ import com.microsoft.azure.management.locks.LockLevel;
 import com.microsoft.azure.management.locks.ManagementLock;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.Subnet;
-import com.azure.management.resources.ResourceGroup;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.model.CreatedResources;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
 
@@ -108,8 +108,8 @@ public final class ManageLocks {
             // Create resources in parallel to save time
             System.out.println("Creating the needed resources...");
             Observable.merge(
-                    storageDefinition.createAsync().subscribeOn(SdkContext.getReactorScheduler()),
-                    vmDefinition.createAsync().subscribeOn(SdkContext.getReactorScheduler()))
+                    storageDefinition.createAsync().subscribeOn(SdkContext.getRxScheduler()),
+                    vmDefinition.createAsync().subscribeOn(SdkContext.getRxScheduler()))
             .toBlocking().subscribe();
             System.out.println("Resources created.");
     

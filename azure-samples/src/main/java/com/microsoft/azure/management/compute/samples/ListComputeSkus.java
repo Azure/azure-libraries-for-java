@@ -10,8 +10,8 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.compute.ComputeResourceType;
 import com.microsoft.azure.management.compute.ComputeSku;
-import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;

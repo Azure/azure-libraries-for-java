@@ -10,8 +10,8 @@ import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
 import com.microsoft.azure.management.compute.VirtualMachines;
-import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.jupiter.api.Assertions;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import org.junit.Assert;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class TestVirtualMachineSizes extends TestTemplate<VirtualMachine, Virtua
     @Override
     public VirtualMachine createResource(VirtualMachines virtualMachines) throws Exception {
         List<VirtualMachineSize> availableSizes = virtualMachines.sizes().listByRegion(Region.US_EAST);
-        Assertions.assertTrue(availableSizes.size() > 0);
+        Assert.assertTrue(availableSizes.size() > 0);
         System.out.println("VM Sizes: " + availableSizes);
         final String vmName = "vm" + this.testId;
         VirtualMachine vm = virtualMachines.define(vmName)
@@ -34,14 +34,14 @@ public class TestVirtualMachineSizes extends TestTemplate<VirtualMachine, Virtua
                 .withSize(availableSizes.get(0).name()) // Use the first size
                 .create();
 
-        Assertions.assertTrue(vm.size().toString().equalsIgnoreCase(availableSizes.get(0).name()));
+        Assert.assertTrue(vm.size().toString().equalsIgnoreCase(availableSizes.get(0).name()));
         return vm;
     }
 
     @Override
     public VirtualMachine updateResource(VirtualMachine virtualMachine) throws Exception {
         List<VirtualMachineSize> resizableSizes = virtualMachine.availableSizes();
-        Assertions.assertTrue(resizableSizes.size() > 1);
+        Assert.assertTrue(resizableSizes.size() > 1);
         VirtualMachineSize newSize = null;
         for (VirtualMachineSize resizableSize : resizableSizes) {
             if (!resizableSize.name().equalsIgnoreCase(virtualMachine.size().toString())) {
@@ -49,12 +49,12 @@ public class TestVirtualMachineSizes extends TestTemplate<VirtualMachine, Virtua
                 break;
             }
         }
-        Assertions.assertNotNull(newSize);
+        Assert.assertNotNull(newSize);
         virtualMachine = virtualMachine.update()
                 .withSize(newSize.name())
                 .apply();
 
-        Assertions.assertTrue(virtualMachine.size().toString().equalsIgnoreCase(newSize.name()));
+        Assert.assertTrue(virtualMachine.size().toString().equalsIgnoreCase(newSize.name()));
         return virtualMachine;
     }
 

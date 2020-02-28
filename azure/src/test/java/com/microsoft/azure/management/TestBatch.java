@@ -9,10 +9,10 @@ package com.microsoft.azure.management;
 import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.batch.BatchAccounts;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.Utils;
-import org.junit.jupiter.api.Assertions;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import org.junit.Assert;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -39,7 +39,7 @@ public class TestBatch extends TestTemplate<BatchAccount, BatchAccounts>  {
                 });
 
         batchAccounts[0] = future.get();
-        Assertions.assertNull(batchAccounts[0].autoStorage());
+        Assert.assertNull(batchAccounts[0].autoStorage());
 
         return batchAccounts[0];
     }
@@ -52,7 +52,7 @@ public class TestBatch extends TestTemplate<BatchAccount, BatchAccounts>  {
                 .withNewStorageAccount(storageAccountName)
                 .apply();
 
-        Assertions.assertNotNull(resource.autoStorage());
+        Assert.assertNotNull(resource.autoStorage());
 
         return resource;
     }

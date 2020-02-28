@@ -13,9 +13,9 @@ import com.microsoft.azure.management.batchai.StorageAccountType;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.Networks;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.jupiter.api.Assertions;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import org.junit.Assert;
 
 public class TestBatchAIFileServers extends TestTemplate<BatchAIWorkspace, BatchAIWorkspaces> {
     private Networks networks;
@@ -54,8 +54,8 @@ public class TestBatchAIFileServers extends TestTemplate<BatchAIWorkspace, Batch
                 .withSubnet(network.id(), subnetName)
                 .create();
 
-        Assertions.assertEquals(network.id() + "/subnets/" + subnetName, fileServer.subnet().id());
-        Assertions.assertEquals(CachingType.READWRITE, fileServer.dataDisks().cachingType());
+        Assert.assertEquals(network.id() + "/subnets/" + subnetName, fileServer.subnet().id());
+        Assert.assertEquals(CachingType.READWRITE, fileServer.dataDisks().cachingType());
         return workspace;
     }
 

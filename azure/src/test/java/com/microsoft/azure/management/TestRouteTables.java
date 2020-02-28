@@ -8,14 +8,14 @@ package com.microsoft.azure.management;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 
 import com.microsoft.azure.management.network.Route;
 import com.microsoft.azure.management.network.RouteNextHopType;
 import com.microsoft.azure.management.network.RouteTable;
 import com.microsoft.azure.management.network.RouteTables;
 import com.microsoft.azure.management.network.Subnet;
-import com.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 
 /**
  * Test of virtual network management.
@@ -56,19 +56,19 @@ public class TestRouteTables {
                     .withDisableBgpRoutePropagation()
                     .create();
 
-            Assertions.assertTrue(routeTable.routes().containsKey(ROUTE1_NAME));
+            Assert.assertTrue(routeTable.routes().containsKey(ROUTE1_NAME));
             Route route1 = routeTable.routes().get(ROUTE1_NAME);
-            Assertions.assertTrue(route1.destinationAddressPrefix().equalsIgnoreCase(route1AddressPrefix));
-            Assertions.assertTrue(route1.nextHopIPAddress().equalsIgnoreCase(VIRTUAL_APPLIANCE_IP));
-            Assertions.assertTrue(route1.nextHopType().equals(RouteNextHopType.VIRTUAL_APPLIANCE));
+            Assert.assertTrue(route1.destinationAddressPrefix().equalsIgnoreCase(route1AddressPrefix));
+            Assert.assertTrue(route1.nextHopIPAddress().equalsIgnoreCase(VIRTUAL_APPLIANCE_IP));
+            Assert.assertTrue(route1.nextHopType().equals(RouteNextHopType.VIRTUAL_APPLIANCE));
 
-            Assertions.assertTrue(routeTable.routes().containsKey(ROUTE2_NAME));
+            Assert.assertTrue(routeTable.routes().containsKey(ROUTE2_NAME));
             Route route2 = routeTable.routes().get(ROUTE2_NAME);
-            Assertions.assertTrue(route2.destinationAddressPrefix().equalsIgnoreCase(route2AddressPrefix));
-            Assertions.assertTrue(route2.nextHopIPAddress() == null);
-            Assertions.assertTrue(route2.nextHopType().equals(hopType));
+            Assert.assertTrue(route2.destinationAddressPrefix().equalsIgnoreCase(route2AddressPrefix));
+            Assert.assertTrue(route2.nextHopIPAddress() == null);
+            Assert.assertTrue(route2.nextHopType().equals(hopType));
 
-            Assertions.assertTrue(routeTable.isBgpRoutePropagationDisabled());
+            Assert.assertTrue(routeTable.isBgpRoutePropagationDisabled());
 
             // Create a subnet that references the route table
             routeTables.manager().networks().define("net" + this.testId)
@@ -82,8 +82,8 @@ public class TestRouteTables {
                 .create();
 
             List<Subnet> subnets = routeTable.refresh().listAssociatedSubnets();
-            Assertions.assertTrue(subnets.size() == 1);
-            Assertions.assertTrue(subnets.get(0).routeTableId().equalsIgnoreCase(routeTable.id()));
+            Assert.assertTrue(subnets.size() == 1);
+            Assert.assertTrue(subnets.get(0).routeTableId().equalsIgnoreCase(routeTable.id()));
             return routeTable;
         }
 
@@ -105,12 +105,12 @@ public class TestRouteTables {
                     .withEnableBgpRoutePropagation()
                     .apply();
 
-            Assertions.assertTrue(routeTable.tags().containsKey("tag1"));
-            Assertions.assertTrue(routeTable.tags().containsKey("tag2"));
-            Assertions.assertTrue(!routeTable.routes().containsKey(ROUTE1_NAME));
-            Assertions.assertTrue(routeTable.routes().containsKey(ROUTE2_NAME));
-            Assertions.assertTrue(routeTable.routes().containsKey(ROUTE_ADDED_NAME));
-            Assertions.assertFalse(routeTable.isBgpRoutePropagationDisabled());
+            Assert.assertTrue(routeTable.tags().containsKey("tag1"));
+            Assert.assertTrue(routeTable.tags().containsKey("tag2"));
+            Assert.assertTrue(!routeTable.routes().containsKey(ROUTE1_NAME));
+            Assert.assertTrue(routeTable.routes().containsKey(ROUTE2_NAME));
+            Assert.assertTrue(routeTable.routes().containsKey(ROUTE_ADDED_NAME));
+            Assert.assertFalse(routeTable.isBgpRoutePropagationDisabled());
 
             routeTable.manager().networks().getByResourceGroup(routeTable.resourceGroupName(), "net" + this.testId).update()
                 .updateSubnet("subnet1")
@@ -119,14 +119,14 @@ public class TestRouteTables {
                 .apply();
 
             List<Subnet> subnets = routeTable.refresh().listAssociatedSubnets();
-            Assertions.assertTrue(subnets.size() == 0);
+            Assert.assertTrue(subnets.size() == 0);
 
             routeTable.updateTags()
                     .withoutTag("tag1")
                     .withTag("tag3", "value3")
                     .applyTags();
-            Assertions.assertFalse(routeTable.tags().containsKey("tag1"));
-            Assertions.assertEquals("value3", routeTable.tags().get("tag3"));
+            Assert.assertFalse(routeTable.tags().containsKey("tag1"));
+            Assert.assertEquals("value3", routeTable.tags().get("tag3"));
             return routeTable;
         }
 

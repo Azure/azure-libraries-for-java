@@ -14,11 +14,11 @@ import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
-import com.azure.management.resources.ResourceGroup;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Assert;
 
 public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, VirtualMachines> {
     private final NetworkManager networkManager;
@@ -80,12 +80,12 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
                 .withNewSecondaryNetworkInterface(secondaryNetworkInterfaceCreatable2)
                 .create();
 
-        Assertions.assertTrue(virtualMachine.networkInterfaceIds().size() == 3);
+        Assert.assertTrue(virtualMachine.networkInterfaceIds().size() == 3);
         NetworkInterface primaryNetworkInterface = virtualMachine.getPrimaryNetworkInterface();
-        Assertions.assertEquals(primaryNetworkInterface.primaryPrivateIP(), "10.0.0.4");
+        Assert.assertEquals(primaryNetworkInterface.primaryPrivateIP(), "10.0.0.4");
 
         PublicIPAddress primaryPublicIPAddress = primaryNetworkInterface.primaryIPConfiguration().getPublicIPAddress();
-        Assertions.assertTrue(primaryPublicIPAddress.fqdn().startsWith(primaryPipName));
+        Assert.assertTrue(primaryPublicIPAddress.fqdn().startsWith(primaryPipName));
         return virtualMachine;
     }
 
@@ -98,7 +98,7 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
                 .withoutSecondaryNetworkInterface(secondaryNicName)
                 .apply();
 
-        Assertions.assertTrue(virtualMachine.networkInterfaceIds().size() == 2);
+        Assert.assertTrue(virtualMachine.networkInterfaceIds().size() == 2);
         return virtualMachine;
     }
 

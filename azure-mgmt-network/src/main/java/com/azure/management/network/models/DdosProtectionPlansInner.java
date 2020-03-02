@@ -59,7 +59,7 @@ public final class DdosProtectionPlansInner implements InnerSupportsGet<DdosProt
      * @param client the instance of the service client containing this operation class.
      */
     public DdosProtectionPlansInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(DdosProtectionPlansService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DdosProtectionPlansService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

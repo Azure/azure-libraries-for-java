@@ -46,7 +46,7 @@ public final class TransparentDataEncryptionActivitiesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public TransparentDataEncryptionActivitiesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(TransparentDataEncryptionActivitiesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(TransparentDataEncryptionActivitiesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

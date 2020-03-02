@@ -55,7 +55,7 @@ public final class SyncMembersInner {
      * @param client the instance of the service client containing this operation class.
      */
     public SyncMembersInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(SyncMembersService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(SyncMembersService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -58,7 +58,7 @@ public final class ManagedInstancesInner implements InnerSupportsGet<ManagedInst
      * @param client the instance of the service client containing this operation class.
      */
     public ManagedInstancesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ManagedInstancesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ManagedInstancesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

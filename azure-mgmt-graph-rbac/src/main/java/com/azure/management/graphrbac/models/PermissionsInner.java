@@ -46,7 +46,7 @@ public final class PermissionsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public PermissionsInner(AuthorizationManagementClientImpl client) {
-        this.service = RestProxy.create(PermissionsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(PermissionsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

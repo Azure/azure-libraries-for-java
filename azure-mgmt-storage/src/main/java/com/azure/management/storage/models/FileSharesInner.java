@@ -52,7 +52,7 @@ public final class FileSharesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public FileSharesInner(StorageManagementClientImpl client) {
-        this.service = RestProxy.create(FileSharesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(FileSharesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

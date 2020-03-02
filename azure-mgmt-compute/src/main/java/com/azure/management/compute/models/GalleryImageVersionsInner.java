@@ -53,7 +53,7 @@ public final class GalleryImageVersionsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public GalleryImageVersionsInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(GalleryImageVersionsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(GalleryImageVersionsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

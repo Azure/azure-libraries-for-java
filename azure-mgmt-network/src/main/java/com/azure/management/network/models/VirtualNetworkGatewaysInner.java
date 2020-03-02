@@ -61,7 +61,7 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualNetworkGatewaysInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualNetworkGatewaysService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualNetworkGatewaysService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -59,7 +59,7 @@ public final class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualHubsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualHubsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualHubsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

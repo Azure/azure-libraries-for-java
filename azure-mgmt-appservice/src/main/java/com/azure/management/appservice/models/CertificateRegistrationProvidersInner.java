@@ -46,7 +46,7 @@ public final class CertificateRegistrationProvidersInner {
      * @param client the instance of the service client containing this operation class.
      */
     public CertificateRegistrationProvidersInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(CertificateRegistrationProvidersService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(CertificateRegistrationProvidersService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

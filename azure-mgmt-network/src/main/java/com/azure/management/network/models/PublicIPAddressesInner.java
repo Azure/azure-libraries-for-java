@@ -59,7 +59,7 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
      * @param client the instance of the service client containing this operation class.
      */
     public PublicIPAddressesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(PublicIPAddressesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(PublicIPAddressesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

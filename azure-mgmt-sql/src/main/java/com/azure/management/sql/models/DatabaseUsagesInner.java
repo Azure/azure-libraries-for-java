@@ -46,7 +46,7 @@ public final class DatabaseUsagesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public DatabaseUsagesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(DatabaseUsagesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DatabaseUsagesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

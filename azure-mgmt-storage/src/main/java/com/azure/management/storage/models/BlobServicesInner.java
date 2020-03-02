@@ -48,7 +48,7 @@ public final class BlobServicesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public BlobServicesInner(StorageManagementClientImpl client) {
-        this.service = RestProxy.create(BlobServicesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(BlobServicesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

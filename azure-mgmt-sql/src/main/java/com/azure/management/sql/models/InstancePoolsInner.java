@@ -59,7 +59,7 @@ public final class InstancePoolsInner implements InnerSupportsGet<InstancePoolIn
      * @param client the instance of the service client containing this operation class.
      */
     public InstancePoolsInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(InstancePoolsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(InstancePoolsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

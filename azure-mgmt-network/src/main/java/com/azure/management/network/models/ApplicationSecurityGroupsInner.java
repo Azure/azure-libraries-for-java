@@ -59,7 +59,7 @@ public final class ApplicationSecurityGroupsInner implements InnerSupportsGet<Ap
      * @param client the instance of the service client containing this operation class.
      */
     public ApplicationSecurityGroupsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ApplicationSecurityGroupsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ApplicationSecurityGroupsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -53,7 +53,7 @@ public final class ExpressRouteCircuitAuthorizationsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ExpressRouteCircuitAuthorizationsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ExpressRouteCircuitAuthorizationsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ExpressRouteCircuitAuthorizationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

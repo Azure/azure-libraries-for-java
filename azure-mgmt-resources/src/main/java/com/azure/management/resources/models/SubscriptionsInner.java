@@ -46,7 +46,7 @@ public final class SubscriptionsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public SubscriptionsInner(SubscriptionClientImpl client) {
-        this.service = RestProxy.create(SubscriptionsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(SubscriptionsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

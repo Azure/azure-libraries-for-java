@@ -43,7 +43,7 @@ public final class CapabilitiesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public CapabilitiesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(CapabilitiesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(CapabilitiesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -46,7 +46,7 @@ public final class DefaultSecurityRulesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public DefaultSecurityRulesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(DefaultSecurityRulesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DefaultSecurityRulesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

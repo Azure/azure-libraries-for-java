@@ -69,7 +69,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
      * @param client the instance of the service client containing this operation class.
      */
     public StorageAccountsInner(StorageManagementClientImpl client) {
-        this.service = RestProxy.create(StorageAccountsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(StorageAccountsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -60,7 +60,7 @@ public final class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, In
      * @param client the instance of the service client containing this operation class.
      */
     public SnapshotsInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(SnapshotsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(SnapshotsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

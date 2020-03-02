@@ -59,7 +59,7 @@ public final class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPre
      * @param client the instance of the service client containing this operation class.
      */
     public PublicIPPrefixesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(PublicIPPrefixesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(PublicIPPrefixesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

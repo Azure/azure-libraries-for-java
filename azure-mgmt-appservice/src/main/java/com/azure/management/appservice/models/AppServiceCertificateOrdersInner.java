@@ -64,7 +64,7 @@ public final class AppServiceCertificateOrdersInner implements InnerSupportsGet<
      * @param client the instance of the service client containing this operation class.
      */
     public AppServiceCertificateOrdersInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(AppServiceCertificateOrdersService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(AppServiceCertificateOrdersService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

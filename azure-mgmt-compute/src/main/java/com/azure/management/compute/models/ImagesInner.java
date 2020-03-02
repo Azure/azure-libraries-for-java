@@ -58,7 +58,7 @@ public final class ImagesInner implements InnerSupportsGet<ImageInner>, InnerSup
      * @param client the instance of the service client containing this operation class.
      */
     public ImagesInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(ImagesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ImagesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

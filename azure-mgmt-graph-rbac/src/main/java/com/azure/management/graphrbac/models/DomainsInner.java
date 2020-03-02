@@ -46,7 +46,7 @@ public final class DomainsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public DomainsInner(GraphRbacManagementClientImpl client) {
-        this.service = RestProxy.create(DomainsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DomainsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -48,7 +48,7 @@ public final class DiagnosticsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public DiagnosticsInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(DiagnosticsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DiagnosticsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

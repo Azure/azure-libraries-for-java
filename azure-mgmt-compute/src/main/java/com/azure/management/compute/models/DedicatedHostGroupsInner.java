@@ -55,7 +55,7 @@ public final class DedicatedHostGroupsInner implements InnerSupportsGet<Dedicate
      * @param client the instance of the service client containing this operation class.
      */
     public DedicatedHostGroupsInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(DedicatedHostGroupsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DedicatedHostGroupsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

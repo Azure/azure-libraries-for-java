@@ -50,7 +50,7 @@ public final class RoleAssignmentsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public RoleAssignmentsInner(AuthorizationManagementClientImpl client) {
-        this.service = RestProxy.create(RoleAssignmentsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(RoleAssignmentsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

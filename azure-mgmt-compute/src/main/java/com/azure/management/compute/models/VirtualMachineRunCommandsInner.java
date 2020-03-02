@@ -46,7 +46,7 @@ public final class VirtualMachineRunCommandsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualMachineRunCommandsInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualMachineRunCommandsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualMachineRunCommandsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -45,7 +45,7 @@ public final class ServerConnectionPoliciesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ServerConnectionPoliciesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ServerConnectionPoliciesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ServerConnectionPoliciesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

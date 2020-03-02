@@ -55,7 +55,7 @@ public final class DedicatedHostsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public DedicatedHostsInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(DedicatedHostsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DedicatedHostsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

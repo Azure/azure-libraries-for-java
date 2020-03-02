@@ -42,7 +42,7 @@ public final class ServiceAssociationLinksInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ServiceAssociationLinksInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ServiceAssociationLinksService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ServiceAssociationLinksService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

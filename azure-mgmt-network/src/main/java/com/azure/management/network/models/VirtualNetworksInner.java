@@ -59,7 +59,7 @@ public final class VirtualNetworksInner implements InnerSupportsGet<VirtualNetwo
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualNetworksInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualNetworksService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualNetworksService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

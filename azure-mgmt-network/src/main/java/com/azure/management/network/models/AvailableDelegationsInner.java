@@ -46,7 +46,7 @@ public final class AvailableDelegationsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public AvailableDelegationsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(AvailableDelegationsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(AvailableDelegationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

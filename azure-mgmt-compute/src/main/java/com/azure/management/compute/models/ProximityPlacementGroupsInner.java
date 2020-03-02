@@ -56,7 +56,7 @@ public final class ProximityPlacementGroupsInner implements InnerSupportsGet<Pro
      * @param client the instance of the service client containing this operation class.
      */
     public ProximityPlacementGroupsInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(ProximityPlacementGroupsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ProximityPlacementGroupsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

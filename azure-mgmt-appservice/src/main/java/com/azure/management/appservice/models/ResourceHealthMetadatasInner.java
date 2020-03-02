@@ -47,7 +47,7 @@ public final class ResourceHealthMetadatasInner implements InnerSupportsListing<
      * @param client the instance of the service client containing this operation class.
      */
     public ResourceHealthMetadatasInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(ResourceHealthMetadatasService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ResourceHealthMetadatasService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

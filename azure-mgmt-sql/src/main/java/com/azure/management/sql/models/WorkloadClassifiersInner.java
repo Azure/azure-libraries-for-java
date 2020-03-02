@@ -53,7 +53,7 @@ public final class WorkloadClassifiersInner {
      * @param client the instance of the service client containing this operation class.
      */
     public WorkloadClassifiersInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(WorkloadClassifiersService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(WorkloadClassifiersService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

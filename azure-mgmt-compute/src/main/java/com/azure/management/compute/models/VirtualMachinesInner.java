@@ -61,7 +61,7 @@ public final class VirtualMachinesInner implements InnerSupportsGet<VirtualMachi
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualMachinesInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualMachinesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualMachinesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

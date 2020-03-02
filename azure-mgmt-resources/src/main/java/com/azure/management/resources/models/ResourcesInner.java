@@ -58,7 +58,7 @@ public final class ResourcesInner implements InnerSupportsListing<GenericResourc
      * @param client the instance of the service client containing this operation class.
      */
     public ResourcesInner(ResourceManagementClientImpl client) {
-        this.service = RestProxy.create(ResourcesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ResourcesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -57,7 +57,7 @@ public final class VirtualClustersInner implements InnerSupportsGet<VirtualClust
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualClustersInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualClustersService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualClustersService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

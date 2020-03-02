@@ -46,7 +46,7 @@ public final class AvailableResourceGroupDelegationsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public AvailableResourceGroupDelegationsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(AvailableResourceGroupDelegationsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(AvailableResourceGroupDelegationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -49,7 +49,7 @@ public final class RoleDefinitionsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public RoleDefinitionsInner(AuthorizationManagementClientImpl client) {
-        this.service = RestProxy.create(RoleDefinitionsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(RoleDefinitionsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -53,7 +53,7 @@ public final class NetworkInterfaceTapConfigurationsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public NetworkInterfaceTapConfigurationsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(NetworkInterfaceTapConfigurationsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(NetworkInterfaceTapConfigurationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

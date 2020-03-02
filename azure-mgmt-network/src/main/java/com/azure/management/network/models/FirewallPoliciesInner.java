@@ -60,7 +60,7 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
      * @param client the instance of the service client containing this operation class.
      */
     public FirewallPoliciesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(FirewallPoliciesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(FirewallPoliciesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

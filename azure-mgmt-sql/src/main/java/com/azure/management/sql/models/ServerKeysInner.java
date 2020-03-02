@@ -53,7 +53,7 @@ public final class ServerKeysInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ServerKeysInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ServerKeysService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ServerKeysService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

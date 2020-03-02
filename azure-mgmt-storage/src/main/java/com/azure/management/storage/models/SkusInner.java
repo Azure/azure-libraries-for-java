@@ -46,7 +46,7 @@ public final class SkusInner {
      * @param client the instance of the service client containing this operation class.
      */
     public SkusInner(StorageManagementClientImpl client) {
-        this.service = RestProxy.create(SkusService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(SkusService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -52,7 +52,7 @@ public final class BackupShortTermRetentionPoliciesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public BackupShortTermRetentionPoliciesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(BackupShortTermRetentionPoliciesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(BackupShortTermRetentionPoliciesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

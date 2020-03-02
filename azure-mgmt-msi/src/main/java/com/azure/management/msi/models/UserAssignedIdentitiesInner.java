@@ -55,7 +55,7 @@ public final class UserAssignedIdentitiesInner
      * @param client the instance of the service client containing this operation class.
      */
     public UserAssignedIdentitiesInner(ManagedServiceIdentityClientImpl client) {
-        this.service = RestProxy.create(UserAssignedIdentitiesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(UserAssignedIdentitiesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

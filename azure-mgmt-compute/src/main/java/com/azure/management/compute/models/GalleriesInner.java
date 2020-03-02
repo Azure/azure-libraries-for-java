@@ -56,7 +56,7 @@ public final class GalleriesInner implements InnerSupportsGet<GalleryInner>, Inn
      * @param client the instance of the service client containing this operation class.
      */
     public GalleriesInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(GalleriesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(GalleriesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -57,7 +57,7 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
      * @param client the instance of the service client containing this operation class.
      */
     public AzureFirewallsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(AzureFirewallsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(AzureFirewallsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

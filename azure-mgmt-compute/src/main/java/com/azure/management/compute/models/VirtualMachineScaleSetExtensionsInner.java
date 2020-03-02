@@ -53,7 +53,7 @@ public final class VirtualMachineScaleSetExtensionsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualMachineScaleSetExtensionsInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualMachineScaleSetExtensionsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualMachineScaleSetExtensionsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

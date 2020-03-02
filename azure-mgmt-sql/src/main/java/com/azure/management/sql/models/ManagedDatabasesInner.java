@@ -57,7 +57,7 @@ public final class ManagedDatabasesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ManagedDatabasesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ManagedDatabasesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ManagedDatabasesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -46,7 +46,7 @@ public final class VpnLinkConnectionsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public VpnLinkConnectionsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(VpnLinkConnectionsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VpnLinkConnectionsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

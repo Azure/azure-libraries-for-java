@@ -64,7 +64,7 @@ public final class VaultsInner implements InnerSupportsGet<VaultInner>, InnerSup
      * @param client the instance of the service client containing this operation class.
      */
     public VaultsInner(KeyVaultManagementClientImpl client) {
-        this.service = RestProxy.create(VaultsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VaultsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

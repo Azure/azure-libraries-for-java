@@ -46,7 +46,7 @@ public final class HubVirtualNetworkConnectionsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public HubVirtualNetworkConnectionsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(HubVirtualNetworkConnectionsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(HubVirtualNetworkConnectionsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

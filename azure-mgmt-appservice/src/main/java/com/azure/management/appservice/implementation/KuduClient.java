@@ -68,7 +68,7 @@ class KuduClient {
 //                .withReadTimeout(3, TimeUnit.MINUTES)
                 .buildClient();
 
-        service = RestProxy.create(KuduService.class, client.getHttpPipeline());
+        service = RestProxy.create(KuduService.class, client.getHttpPipeline(), client.getSerializerAdapter());
     }
 
     @Host("{$host}")

@@ -22,6 +22,9 @@ import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
+import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.models.FeatureClientBuilder;
 import com.azure.management.resources.models.FeatureClientImpl;
 import com.azure.management.resources.models.ResourceManagementClientBuilder;
@@ -60,8 +63,8 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
                 .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-//                .withPolicy(new ProviderRegistrationPolicy())
-//                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .withPolicy(new ProviderRegistrationPolicy(credential))
+                .withPolicy(new ResourceManagerThrottlingPolicy())
                 .buildClient());
     }
 
@@ -121,6 +124,14 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
         Subscriptions subscriptions();
 
         /**
+         * Specifies sdk context for resource manager.
+         * 
+         * @param sdkContext the sdk context
+         * @return the authenticated itself for chaining
+         */
+        Authenticated withSdkContext(SdkContext sdkContext);
+
+        /**
          * Specifies a subscription to expose resource management API entry points that work in a subscription.
          *
          * @param subscriptionId the subscription UUID
@@ -134,6 +145,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
      */
     private static final class AuthenticatedImpl implements Authenticated {
         private RestClient restClient;
+        private SdkContext sdkContext;
         private SubscriptionClientImpl subscriptionClient;
         // The subscription less collections
         private Subscriptions subscriptions;
@@ -141,6 +153,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
 
         AuthenticatedImpl(RestClient restClient) {
             this.restClient = restClient;
+            this.sdkContext = new SdkContext();
             this.subscriptionClient = (new SubscriptionClientBuilder())
                     .pipeline(restClient.getHttpPipeline())
                     .host(restClient.getBaseUrl().toString())
@@ -162,13 +175,19 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
         }
 
         @Override
+        public AuthenticatedImpl withSdkContext(SdkContext sdkContext) {
+            this.sdkContext = sdkContext;
+            return this;
+        }
+
+        @Override
         public ResourceManager withSubscription(String subscriptionId) {
-            return new ResourceManager(restClient, subscriptionId);
+            return new ResourceManager(restClient, subscriptionId, sdkContext);
         }
     }
 
-    private ResourceManager(RestClient restClient, String subscriptionId) {
-        super(null, subscriptionId);
+    private ResourceManager(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
+        super(null, subscriptionId, sdkContext);
         super.setResourceManager(this);
         this.resourceManagementClient = (new ResourceManagementClientBuilder())
                 .pipeline(restClient.getHttpPipeline())

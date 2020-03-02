@@ -25,12 +25,16 @@ import com.azure.management.graphrbac.models.GraphRbacManagementClientImpl;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
+import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 /**
  * Entry point to Azure Graph RBAC management.
  */
 public final class GraphRbacManager implements HasInner<GraphRbacManagementClientImpl> {
     private String tenantId;
+    private SdkContext sdkContext;
     // The sdk clients
     private final GraphRbacManagementClientImpl graphRbacManagementClient;
     private final AuthorizationManagementClientImpl authorizationManagementClient;
@@ -49,14 +53,14 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      * @return the GraphRbacManager instance
      */
     public static GraphRbacManager authenticate(AzureTokenCredential credential) {
-        return new GraphRbacManager(new RestClientBuilder()
+        return authenticate(new RestClientBuilder()
                 .withBaseUrl(credential.getEnvironment().getGraphEndpoint())
                 //.withInterceptor(new RequestIdHeaderInterceptor())
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
                 //.withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                //.withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                //.withInterceptor(new ResourceManagerThrottlingInterceptor())
+                .withPolicy(new ProviderRegistrationPolicy(credential))
+                .withPolicy(new ResourceManagerThrottlingPolicy())
                 .buildClient(), credential.getDomain());
     }
 
@@ -68,7 +72,19 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      * @return the interface exposing Graph RBAC management API entry points that work across subscriptions
      */
     public static GraphRbacManager authenticate(RestClient restClient, String tenantId) {
-        return new GraphRbacManager(restClient, tenantId);
+        return authenticate(restClient, tenantId, new SdkContext());
+    }
+
+    /**
+     * Creates an instance of GraphRbacManager that exposes Graph RBAC management API entry points.
+     *
+     * @param restClient the RestClient to be used for API calls
+     * @param tenantId the tenantId in Active Directory
+     * @param sdkContext the sdk context
+     * @return the interface exposing Graph RBAC management API entry points that work across subscriptions
+     */
+    public static GraphRbacManager authenticate(RestClient restClient, String tenantId, SdkContext sdkContext) {
+        return new GraphRbacManager(restClient, tenantId, sdkContext);
     }
 
     /**
@@ -109,7 +125,7 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
         }
     }
 
-    private GraphRbacManager(RestClient restClient, String tenantId) {
+    private GraphRbacManager(RestClient restClient, String tenantId, SdkContext sdkContext) {
         String graphEndpoint = AzureEnvironment.AZURE.getGraphEndpoint();
         String resourceManagerEndpoint = restClient.getBaseUrl().toString();
         if (restClient.getCredential() instanceof AzureTokenCredential) {
@@ -131,6 +147,7 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
                 .subscriptionId(Utils.getSubscriptionIdFromRestClient(restClient))
                 .build();
         this.tenantId = tenantId;
+        this.sdkContext = sdkContext;
     }
 
     /**
@@ -146,6 +163,13 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
      */
     public String tenantId() {
         return tenantId;
+    }
+
+    /**
+     * @return the sdk context in graph manager
+     */
+    public SdkContext sdkContext() {
+        return sdkContext;
     }
 
     /**

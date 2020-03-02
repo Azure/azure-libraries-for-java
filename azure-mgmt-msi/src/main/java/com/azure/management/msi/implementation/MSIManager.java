@@ -19,6 +19,9 @@ import com.azure.management.msi.models.ManagedServiceIdentityClientImpl;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
+import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
+import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 /**
  * Entry point to Azure Managed Service Identity (MSI) resource management.
@@ -50,9 +53,9 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
                 //.withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                //.withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                //.withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .buildClient(), subscriptionId);
+                .withPolicy(new ProviderRegistrationPolicy(credential))
+                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .buildClient(), subscriptionId, new SdkContext());
     }
 
     /**
@@ -63,7 +66,19 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      * @return the MSIManager
      */
     public static MSIManager authenticate(RestClient restClient, String subscriptionId) {
-        return new MSIManager(restClient, subscriptionId);
+        return  authenticate(restClient, subscriptionId, new SdkContext());
+    }
+
+    /**
+     * Creates an instance of MSIManager that exposes Managed Service Identity (MSI) resource management API entry points.
+     *
+     * @param restClient the RestClient to be used for API calls.
+     * @param subscriptionId the subscription UUID
+     * @param sdkContext the sdk context
+     * @return the MSIManager
+     */
+    public static MSIManager authenticate(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
+        return new MSIManager(restClient, subscriptionId, sdkContext);
     }
 
     /**
@@ -89,12 +104,14 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
         }
     }
 
-    private MSIManager(RestClient restClient, String subscriptionId) {
+    private MSIManager(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
         super(restClient, subscriptionId, new ManagedServiceIdentityClientBuilder()
                 .pipeline(restClient.getHttpPipeline())
+                .host(restClient.getBaseUrl().toString())
                 .subscriptionId(subscriptionId)
-                .build());
-        rbacManager = GraphRbacManager.authenticate(restClient, Utils.getTenantIdFromRestClient(restClient));
+                .build(),
+                sdkContext);
+        rbacManager = GraphRbacManager.authenticate(restClient, Utils.getTenantIdFromRestClient(restClient), sdkContext);
     }
 
     /**

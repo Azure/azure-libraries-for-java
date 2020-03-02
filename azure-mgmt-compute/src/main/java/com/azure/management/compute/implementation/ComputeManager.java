@@ -32,6 +32,7 @@ import com.azure.management.network.implementation.NetworkManager;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.implementation.StorageManager;
 
 /**
@@ -75,7 +76,7 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      * @return the ComputeManager
      */
     public static ComputeManager authenticate(AzureTokenCredential credential, String subscriptionId) {
-        return new ComputeManager(new RestClientBuilder()
+        return authenticate(new RestClientBuilder()
                 .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
@@ -90,7 +91,19 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
      * @return the ComputeManager
      */
     public static ComputeManager authenticate(RestClient restClient, String subscriptionId) {
-        return new ComputeManager(restClient, subscriptionId);
+        return authenticate(restClient, subscriptionId, new SdkContext());
+    }
+
+    /**
+     * Creates an instance of ComputeManager that exposes Compute resource management API entry points.
+     *
+     * @param restClient the RestClient to be used for API calls.
+     * @param subscriptionId the subscription
+     * @param sdkContext the sdk context
+     * @return the ComputeManager
+     */
+    public static ComputeManager authenticate(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
+        return new ComputeManager(restClient, subscriptionId, sdkContext);
     }
 
     /**
@@ -117,18 +130,19 @@ public final class ComputeManager extends Manager<ComputeManager, ComputeManagem
         }
     }
 
-    private ComputeManager(RestClient restClient, String subscriptionId) {
+    private ComputeManager(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
         super(
                 restClient,
                 subscriptionId,
                 new ComputeManagementClientBuilder()
                         .pipeline(restClient.getHttpPipeline())
                         .subscriptionId(subscriptionId)
-                        .build()
+                        .build(),
+                sdkContext
         );
-        storageManager = StorageManager.authenticate(restClient, subscriptionId);
-        networkManager = NetworkManager.authenticate(restClient, subscriptionId);
-        rbacManager = GraphRbacManager.authenticate(restClient, Utils.getTenantIdFromRestClient(restClient));
+        storageManager = StorageManager.authenticate(restClient, subscriptionId, sdkContext);
+        networkManager = NetworkManager.authenticate(restClient, subscriptionId, sdkContext);
+        rbacManager = GraphRbacManager.authenticate(restClient, Utils.getTenantIdFromRestClient(restClient), sdkContext);
     }
 
     /**

@@ -16,11 +16,11 @@ import com.azure.management.resources.implementation.ResourceManager;
  * The base for KeyVault manager tests.
  */
 public class KeyVaultManagementTest extends TestBase {
-    protected static ResourceManager resourceManager;
-    protected static KeyVaultManager keyVaultManager;
-    protected static GraphRbacManager graphRbacManager;
-    protected static String RG_NAME = "";
-    protected static String VAULT_NAME = "";
+    protected ResourceManager resourceManager;
+    protected KeyVaultManager keyVaultManager;
+    protected GraphRbacManager graphRbacManager;
+    protected String RG_NAME = "";
+    protected String VAULT_NAME = "";
 
     public KeyVaultManagementTest() {
         super();

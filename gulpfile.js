@@ -227,15 +227,15 @@ function deleteFolderRecursive(path) {
 };
 
 async function prepareBuild() {
-	return shell.task('mvn package javadoc:aggregate -DskipTests=true -q');
+    return shell.task('mvn package javadoc:aggregate -DskipTests=true -q');
 }
 
 async function prepareStage() {
-	return gulp.src('./target/site/apidocs/**/*').pipe(gulp.dest('./dist')); 
+    return gulp.src('./target/site/apidocs/**/*').pipe(gulp.dest('./dist')); 
 }
 
 async function preparePublish() {
-	var options = {};
+    var options = {};
     if(process.env.GH_TOKEN){
         options.remoteUrl = 'https://' + process.env.GH_TOKEN + '@github.com/azure/azure-libraries-for-java.git'  
     }

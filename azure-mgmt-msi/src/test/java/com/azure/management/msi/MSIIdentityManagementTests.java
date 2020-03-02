@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MSIIdentityManagementTests extends TestBase {
-    private static String RG_NAME = "";
-    private static Region region = Region.fromName("West Central US");
+    private String RG_NAME = "";
+    private Region region = Region.fromName("West Central US");
 
     private MSIManager msiManager;
     private ResourceManager resourceManager;

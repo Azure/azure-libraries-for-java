@@ -17,6 +17,7 @@ import com.azure.management.graphrbac.models.RoleAssignmentInner;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableImpl;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -93,7 +94,7 @@ class RoleAssignmentImpl
                     } else {
                         throw Exceptions.propagate(throwable);
                     }
-                }).flatMap(i -> Mono.delay(Duration.ofSeconds(i))))).map(innerToFluentMap(this));
+                }).flatMap(i -> Mono.delay(SdkContext.getDelayDuration(Duration.ofSeconds(i)))))).map(innerToFluentMap(this));
     }
 
     @Override

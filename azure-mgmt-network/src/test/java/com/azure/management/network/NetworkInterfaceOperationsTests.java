@@ -30,10 +30,10 @@ public class NetworkInterfaceOperationsTests extends NetworkManagementTest {
 
     @Test
     public void canUseMultipleIPConfigs() throws Exception {
-        String networkName = SdkContext.randomResourceName("net", 15);
+        String networkName = sdkContext.randomResourceName("net", 15);
         String[] nicNames = new String[3];
         for (int i = 0; i < nicNames.length; i++) {
-            nicNames[i] = SdkContext.randomResourceName("nic", 15);
+            nicNames[i] = sdkContext.randomResourceName("nic", 15);
         }
 
         Network network = networkManager.networks().define(networkName)

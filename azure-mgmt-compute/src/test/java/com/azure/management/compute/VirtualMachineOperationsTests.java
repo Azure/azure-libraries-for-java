@@ -542,7 +542,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
 
     @Test
     public void canSetStorageAccountForUnmanagedDisk() {
-        final String storageName = SdkContext.randomResourceName("st", 14);
+        final String storageName = sdkContext.randomResourceName("st", 14);
         // Create a premium storage account for virtual machine data disk
         //
         StorageAccount storageAccount = storageManager.storageAccounts().define(storageName)

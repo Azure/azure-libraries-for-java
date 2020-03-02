@@ -14,7 +14,6 @@ import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -89,7 +88,7 @@ public class RoleAssignmentHelper {
             if (principalId == null) {
                 return cxt.voidMono();
             }
-            final String roleAssignmentName = SdkContext.randomUuid();
+            final String roleAssignmentName = rbacManager.sdkContext().randomUuid();
             final String resourceScope;
             if (scope == CURRENT_RESOURCE_GROUP_SCOPE) {
                 resourceScope = resourceGroupId(idProvider.resourceId());
@@ -142,7 +141,7 @@ public class RoleAssignmentHelper {
             if (principalId == null) {
                 return cxt.voidMono();
             }
-            final String roleAssignmentName = SdkContext.randomUuid();
+            final String roleAssignmentName = rbacManager.sdkContext().randomUuid();
             final String resourceScope;
             if (scope == CURRENT_RESOURCE_GROUP_SCOPE) {
                 resourceScope = resourceGroupId(idProvider.resourceId());

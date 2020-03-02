@@ -43,15 +43,15 @@ import com.azure.management.appservice.SkuName;
 import com.azure.management.appservice.models.SiteConfigResourceInner;
 import com.azure.management.appservice.models.SiteInner;
 import com.azure.management.appservice.models.SiteLogsConfigInner;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountKey;
 import com.azure.management.storage.StorageAccountSkuType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -204,7 +204,7 @@ class FunctionAppImpl
                         if (OperatingSystem.WINDOWS.equals(operatingSystem()) && // as Portal logic, only Windows plan would have following appSettings
                                 (appServicePlan == null || isConsumptionOrPremiumAppServicePlan(appServicePlan.pricingTier()))) {
                             addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING, connectionString);
-                            addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTSHARE, SdkContext.randomResourceName(name(), 32));
+                            addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTSHARE, this.manager().getSdkContext().randomResourceName(name(), 32));
                         }
                         return FunctionAppImpl.super.submitAppSettings();
                     })).last()
@@ -578,7 +578,7 @@ class FunctionAppImpl
                 withNewConsumptionPlan();
             }
             if (currentStorageAccount == null && storageAccountToSet == null && storageAccountCreatable == null) {
-                withNewStorageAccount(SdkContext.randomResourceName(name(), 20), com.azure.management.storage.SkuName.STANDARD_GRS);
+                withNewStorageAccount(this.manager().getSdkContext().randomResourceName(name(), 20), com.azure.management.storage.SkuName.STANDARD_GRS);
             }
         }
         return super.createAsync();

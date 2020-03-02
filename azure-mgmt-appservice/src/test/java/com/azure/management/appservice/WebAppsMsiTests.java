@@ -31,7 +31,7 @@ public class WebAppsMsiTests extends AppServiceTest {
         WEBAPP_NAME_1 = generateRandomResourceName("java-webapp-", 20);
         RG_NAME_1 = generateRandomResourceName("javacsmrg", 20);
         VAULT_NAME = generateRandomResourceName("java-vault-", 20);
-        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
+        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription, sdkContext);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }

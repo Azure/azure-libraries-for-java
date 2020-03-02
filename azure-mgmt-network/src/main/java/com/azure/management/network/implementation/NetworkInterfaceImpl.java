@@ -22,7 +22,6 @@ import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.utils.ResourceNamer;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Mono;
 
@@ -75,7 +74,7 @@ class NetworkInterfaceImpl
                          final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
         this.nicName = name;
-        this.namer = SdkContext.getResourceNamerFactory().createResourceNamer(this.nicName);
+        this.namer = this.manager().getSdkContext().getResourceNamerFactory().createResourceNamer(this.nicName);
         initializeChildrenFromInner();
     }
 

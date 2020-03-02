@@ -69,13 +69,14 @@ public class AppServiceTest extends TestBase {
         RG_NAME = generateRandomResourceName("javacsmrg", 20);
         resourceManager = ResourceManager
                 .authenticate(restClient)
+                .withSdkContext(sdkContext)
                 .withSubscription(defaultSubscription);
 
         keyVaultManager = KeyVaultManager
-                .authenticate(restClient, domain, defaultSubscription);
+                .authenticate(restClient, domain, defaultSubscription, sdkContext);
 
         appServiceManager = AppServiceManager
-                .authenticate(restClient, domain, defaultSubscription);
+                .authenticate(restClient, domain, defaultSubscription, sdkContext);
 
         //useExistingDomainAndCertificate();
         //createNewDomainAndCertificate();

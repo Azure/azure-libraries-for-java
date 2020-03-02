@@ -21,7 +21,6 @@ import com.azure.management.graphrbac.models.ServicePrincipalInner;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -180,7 +179,7 @@ class ServicePrincipalImpl
             create = Mono.just(servicePrincipal);
         } else {
             create = Flux.fromIterable(rolesToCreate.entrySet())
-                    .flatMap(roleEntry -> manager().roleAssignments().define(SdkContext.randomUuid())
+                    .flatMap(roleEntry -> manager().roleAssignments().define(this.manager().sdkContext().randomUuid())
                             .forServicePrincipal(servicePrincipal)
                             .withBuiltInRole(roleEntry.getValue())
                             .withScope(roleEntry.getKey())

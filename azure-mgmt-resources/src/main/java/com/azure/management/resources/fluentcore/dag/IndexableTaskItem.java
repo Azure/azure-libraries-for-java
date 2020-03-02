@@ -11,10 +11,10 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Executable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * An index-able TaskItem with a TaskGroup.
@@ -50,7 +50,7 @@ public abstract class IndexableTaskItem
      * Creates a TaskItem which is index-able using a random UUID.
      */
     public IndexableTaskItem() {
-        this(SdkContext.randomUuid());
+        this(UUID.randomUUID().toString());
     }
 
     /**

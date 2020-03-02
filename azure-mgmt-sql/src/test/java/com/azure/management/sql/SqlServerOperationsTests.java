@@ -159,8 +159,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
     @Test
     public void canCopySqlDatabase() throws Exception {
         String rgName = RG_NAME;
-        final String sqlPrimaryServerName = SdkContext.randomResourceName("sqlpri", 22);
-        final String sqlSecondaryServerName = SdkContext.randomResourceName("sqlsec", 22);
+        final String sqlPrimaryServerName = sdkContext.randomResourceName("sqlpri", 22);
+        final String sqlSecondaryServerName = sdkContext.randomResourceName("sqlsec", 22);
         final String epName = "epSample";
         final String dbName = "dbSample";
         final String administratorLogin = "sqladmin";
@@ -204,11 +204,11 @@ public class SqlServerOperationsTests extends SqlServerTest {
     @Test
     public void canCRUDSqlFailoverGroup() throws Exception {
         String rgName = RG_NAME;
-        final String sqlPrimaryServerName = SdkContext.randomResourceName("sqlpri", 22);
-        final String sqlSecondaryServerName = SdkContext.randomResourceName("sqlsec", 22);
-        final String sqlOtherServerName = SdkContext.randomResourceName("sql000", 22);
-        final String failoverGroupName = SdkContext.randomResourceName("fg", 22);
-        final String failoverGroupName2 = SdkContext.randomResourceName("fg2", 22);
+        final String sqlPrimaryServerName = sdkContext.randomResourceName("sqlpri", 22);
+        final String sqlSecondaryServerName = sdkContext.randomResourceName("sqlsec", 22);
+        final String sqlOtherServerName = sdkContext.randomResourceName("sql000", 22);
+        final String failoverGroupName = sdkContext.randomResourceName("fg", 22);
+        final String failoverGroupName2 = sdkContext.randomResourceName("fg2", 22);
         final String dbName = "dbSample";
         final String administratorLogin = "sqladmin";
         final String administratorPassword = "N0t@P@ssw0rd!";
@@ -325,8 +325,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String sqlServerAdminName = "sqladmin";
         String sqlServerAdminPassword = "N0t@P@ssw0rd!";
         String databaseName = "db-from-sample";
-        String id = SdkContext.randomUuid();
-        String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
+        String id = sdkContext.randomUuid();
+        String storageName = sdkContext.randomResourceName(SQL_SERVER_NAME, 22);
 
         // Create
         SqlServer sqlServer = sqlServerManager
@@ -504,8 +504,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String sqlServerName = SQL_SERVER_NAME;
         String sqlServerAdminName = "sqladmin";
         String sqlServerAdminPassword = "N0t@P@ssw0rd!";
-        String id = SdkContext.randomUuid();
-        String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
+        String id = sdkContext.randomUuid();
+        String storageName = sdkContext.randomResourceName(SQL_SERVER_NAME, 22);
 
         SqlServer sqlServer = sqlServerManager
             .sqlServers()
@@ -572,7 +572,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
         String sqlServerAdminName = "sqladmin";
-        String id = SdkContext.randomUuid();
+        String id = sdkContext.randomUuid();
 
         SqlServer sqlServer = sqlServerManager
             .sqlServers()

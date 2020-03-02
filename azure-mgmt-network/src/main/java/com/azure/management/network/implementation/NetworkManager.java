@@ -5,7 +5,6 @@
  */
 package com.azure.management.network.implementation;
 
-import com.azure.core.implementation.annotation.Beta;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.SubResource;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
@@ -26,12 +25,12 @@ import com.azure.management.network.Network;
 import com.azure.management.network.NetworkInterfaces;
 import com.azure.management.network.NetworkSecurityGroups;
 import com.azure.management.network.NetworkUsages;
+import com.azure.management.network.NetworkWatchers;
 import com.azure.management.network.Networks;
 import com.azure.management.network.PublicIPAddresses;
 import com.azure.management.network.RouteFilters;
 import com.azure.management.network.RouteTables;
 import com.azure.management.network.Subnet;
-import com.azure.management.network.NetworkWatchers;
 import com.azure.management.network.VirtualNetworkGateways;
 import com.azure.management.network.models.NetworkManagementClientBuilder;
 import com.azure.management.network.models.NetworkManagementClientImpl;
@@ -40,6 +39,9 @@ import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
+import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
+import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -89,12 +91,12 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
      * @return the NetworkManager
      */
     public static NetworkManager authenticate(AzureTokenCredential credential, String subscriptionId) {
-        return new NetworkManager(new RestClientBuilder()
+        return authenticate(new RestClientBuilder()
                 .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-//                .withPolicy(new ProviderRegistrationPolicy())
-//                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .withPolicy(new ProviderRegistrationPolicy(credential))
+                .withPolicy(new ResourceManagerThrottlingPolicy())
                 .buildClient(), subscriptionId);
     }
 
@@ -107,7 +109,11 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
      * @return the NetworkManager
      */
     public static NetworkManager authenticate(RestClient restClient, String subscriptionId) {
-        return new NetworkManager(restClient, subscriptionId);
+        return authenticate(restClient, subscriptionId, new SdkContext());
+    }
+
+    public static NetworkManager authenticate(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
+        return new NetworkManager(restClient, subscriptionId, sdkContext);
     }
 
     /**
@@ -136,14 +142,15 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
         }
     }
 
-    private NetworkManager(RestClient restClient, String subscriptionId) {
+    private NetworkManager(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
         super(restClient,
                 subscriptionId,
                 new NetworkManagementClientBuilder()
                         .pipeline(restClient.getHttpPipeline())
                         .host(restClient.getBaseUrl().toString())
                         .subscriptionId(subscriptionId)
-                        .build());
+                        .build(),
+                sdkContext);
     }
 
     /**

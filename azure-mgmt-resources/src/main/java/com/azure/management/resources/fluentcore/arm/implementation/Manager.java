@@ -8,6 +8,7 @@ package com.azure.management.resources.fluentcore.arm.implementation;
 
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 /**
  * Generic base class for Azure resource managers.
@@ -19,8 +20,8 @@ public abstract class Manager<T, InnerT> extends ManagerBase implements HasInner
 
     protected final InnerT innerManagementClient;
 
-    protected Manager(RestClient restClient, String subscriptionId, InnerT innerManagementClient) {
-        super(restClient, subscriptionId);
+    protected Manager(RestClient restClient, String subscriptionId, InnerT innerManagementClient, SdkContext sdkContext) {
+        super(restClient, subscriptionId, sdkContext);
         this.innerManagementClient = innerManagementClient;
     }
 

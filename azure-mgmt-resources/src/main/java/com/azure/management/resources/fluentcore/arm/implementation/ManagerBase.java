@@ -7,6 +7,7 @@
 package com.azure.management.resources.fluentcore.arm.implementation;
 
 import com.azure.management.RestClient;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.implementation.ResourceManager;
 
 /**
@@ -17,13 +18,17 @@ public abstract class ManagerBase {
     private ResourceManager resourceManager;
     private final String subscriptionId;
     protected final RestClient restClient;
+    private SdkContext sdkContext;
 
-    protected ManagerBase(RestClient restClient, String subscriptionId) {
+    protected ManagerBase(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
         this.restClient = restClient;
         if (restClient != null) {
-            this.resourceManager = ResourceManager.authenticate(restClient).withSubscription(subscriptionId);
+            this.resourceManager = ResourceManager.authenticate(restClient)
+                    .withSdkContext(sdkContext)
+                    .withSubscription(subscriptionId);
         }
         this.subscriptionId = subscriptionId;
+        this.sdkContext = sdkContext;
     }
 
     /**
@@ -49,5 +54,12 @@ public abstract class ManagerBase {
      */
     public RestClient getRestClient() {
         return this.restClient;
+    }
+
+    /**
+     * @return the {@link SdkContext} associated with this manager
+     */
+    public SdkContext getSdkContext() {
+        return this.sdkContext;
     }
 }

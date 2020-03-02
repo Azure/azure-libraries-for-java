@@ -26,16 +26,17 @@ public class NetworkManagementTest extends TestBase {
 
         resourceManager = ResourceManager
                 .authenticate(restClient)
+                .withSdkContext(sdkContext)
                 .withSubscription(defaultSubscription);
 
         networkManager = NetworkManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
 
         keyVaultManager = KeyVaultManager
-                .authenticate(restClient, domain, defaultSubscription);
+                .authenticate(restClient, domain, defaultSubscription, sdkContext);
 
         msiManager = MSIManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
     }
 
     @Override

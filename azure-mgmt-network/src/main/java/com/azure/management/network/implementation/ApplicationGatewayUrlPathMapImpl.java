@@ -16,7 +16,6 @@ import com.azure.management.network.models.ApplicationGatewayPathRuleInner;
 import com.azure.management.network.models.ApplicationGatewayUrlPathMapInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,7 +94,7 @@ class ApplicationGatewayUrlPathMapImpl
 
     @Override
     public ApplicationGatewayUrlPathMapImpl toBackendHttpPort(int portNumber) {
-        String name = SdkContext.randomResourceName("backcfg", 12);
+        String name = this.parent().manager().getSdkContext().randomResourceName("backcfg", 12);
         this.parent().defineBackendHttpConfiguration(name)
                 .withPort(portNumber)
                 .attach();

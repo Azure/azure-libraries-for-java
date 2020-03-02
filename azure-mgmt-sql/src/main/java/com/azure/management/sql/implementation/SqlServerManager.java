@@ -16,6 +16,7 @@ import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigu
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
 import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
 import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.sql.SqlServers;
 import com.azure.management.sql.models.SqlManagementClientBuilder;
 import com.azure.management.sql.models.SqlManagementClientImpl;
@@ -28,7 +29,7 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
 
     private final String tenantId;
 
-    protected SqlServerManager(RestClient restClient, String tenantId, String subscriptionId) {
+    protected SqlServerManager(RestClient restClient, String tenantId, String subscriptionId, SdkContext sdkContext) {
         super(
                 restClient,
                 subscriptionId,
@@ -36,7 +37,8 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
                     .pipeline(restClient.getHttpPipeline())
                     .subscriptionId(subscriptionId)
                     .host(restClient.getBaseUrl().toString())
-                    .build());
+                    .build(),
+                sdkContext);
         this.tenantId = tenantId;
     }
 
@@ -57,7 +59,7 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
      * @return the SqlServer
      */
     public static SqlServerManager authenticate(AzureTokenCredential credential, String subscriptionId) {
-        return new SqlServerManager(new RestClientBuilder()
+        return authenticate(new RestClientBuilder()
                 .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
@@ -75,7 +77,20 @@ public class SqlServerManager extends Manager<SqlServerManager, SqlManagementCli
      * @return the SqlServer
      */
     public static SqlServerManager authenticate(RestClient restClient, String tenantId, String subscriptionId) {
-        return new SqlServerManager(restClient, tenantId, subscriptionId);
+        return authenticate(restClient, tenantId, subscriptionId, new SdkContext());
+    }
+
+    /**
+     * Creates an instance of SqlServer that exposes Compute resource management API entry points.
+     *
+     * @param restClient the RestClient to be used for API calls.
+     * @param tenantId the tenant UUID
+     * @param subscriptionId the subscription
+     * @param sdkContext the sdk context
+     * @return the SqlServer
+     */
+    public static SqlServerManager authenticate(RestClient restClient, String tenantId, String subscriptionId, SdkContext sdkContext) {
+        return new SqlServerManager(restClient, tenantId, subscriptionId, sdkContext);
     }
 
 

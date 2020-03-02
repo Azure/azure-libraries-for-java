@@ -6,17 +6,16 @@
 
 package com.azure.management.resources.fluentcore.model.implementation;
 
-import com.azure.management.resources.fluentcore.model.Executable;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import reactor.core.publisher.Flux;
+import com.azure.management.resources.fluentcore.model.Executable;
+import com.azure.management.resources.fluentcore.model.Indexable;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The base class for all executable model.
@@ -39,7 +38,7 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      * Creates ExecutableImpl.
      */
     protected ExecutableImpl() {
-        this(SdkContext.randomUuid());
+        this(UUID.randomUUID().toString());
     }
 
     /**

@@ -71,7 +71,7 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
             Collection<Creatable<? extends Resource>> relatedDefinitions = new ArrayList<>();
 
             // Define a network for each VM
-            String networkName = SdkContext.randomResourceName("net", 14);
+            String networkName = sdkContext.randomResourceName("net", 14);
             Creatable<Network> networkDefinition = networkManager.networks().define(networkName)
                     .withRegion(region)
                     .withExistingResourceGroup(resourceGroup)
@@ -79,14 +79,14 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
             relatedDefinitions.add(networkDefinition);
 
             // Define a PIP for each VM
-            String pipName = SdkContext.randomResourceName("pip", 14);
+            String pipName = sdkContext.randomResourceName("pip", 14);
             PublicIPAddress.DefinitionStages.WithCreate pipDefinition = this.networkManager.publicIPAddresses().define(pipName)
                     .withRegion(region)
                     .withExistingResourceGroup(resourceGroup);
             relatedDefinitions.add(pipDefinition);
 
             // Define a NIC for each VM
-            String nicName = SdkContext.randomResourceName("nic", 14);
+            String nicName = sdkContext.randomResourceName("nic", 14);
             Creatable<NetworkInterface> nicDefinition = networkManager.networkInterfaces().define(nicName)
                     .withRegion(region)
                     .withExistingResourceGroup(resourceGroup)
@@ -95,20 +95,20 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
                     .withNewPrimaryPublicIPAddress(pipDefinition);
 
             // Define a storage account for each VM
-            String storageAccountName = SdkContext.randomResourceName("st", 14);
+            String storageAccountName = sdkContext.randomResourceName("st", 14);
             Creatable<StorageAccount> storageAccountDefinition = storageManager.storageAccounts().define(storageAccountName)
                     .withRegion(region)
                     .withExistingResourceGroup(resourceGroup);
             relatedDefinitions.add(storageAccountDefinition);
 
             // Define an availability set for each VM
-            String availabilitySetName = SdkContext.randomResourceName("as", 14);
+            String availabilitySetName = sdkContext.randomResourceName("as", 14);
             Creatable<AvailabilitySet> availabilitySetDefinition = computeManager.availabilitySets().define(availabilitySetName)
                     .withRegion(region)
                     .withExistingResourceGroup(resourceGroup);
             relatedDefinitions.add(availabilitySetDefinition);
 
-            String vmName = SdkContext.randomResourceName("vm", 14);
+            String vmName = sdkContext.randomResourceName("vm", 14);
 
             // Define a VM
             String userName;

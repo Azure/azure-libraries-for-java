@@ -6,19 +6,19 @@
 
 package com.azure.management.resources.fluentcore.model.implementation;
 
-import com.azure.management.resources.fluentcore.model.Executable;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Executable;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Function;
 
 /**
@@ -54,7 +54,7 @@ public abstract class CreatableUpdatableImpl<
      * @param innerObject the inner model object
      */
     protected CreatableUpdatableImpl(String name, InnerModelT innerObject) {
-        this(name, SdkContext.randomUuid(), innerObject);
+        this(name, UUID.randomUUID().toString(), innerObject);
     }
 
     /**

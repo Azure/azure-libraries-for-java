@@ -52,7 +52,7 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
 
     @Test
     public void canEnableBootDiagnosticsWithCreatableStorageOnManagedVMCreation() {
-        final String storageName = SdkContext.randomResourceName("st", 14);
+        final String storageName = sdkContext.randomResourceName("st", 14);
         Creatable<StorageAccount> creatableStorageAccount = storageManager.storageAccounts()
                 .define(storageName)
                 .withRegion(REGION)
@@ -78,7 +78,7 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
 
     @Test
     public void canEnableBootDiagnosticsWithExplicitStorageOnManagedVMCreation() {
-        final String storageName = SdkContext.randomResourceName("st", 14);
+        final String storageName = sdkContext.randomResourceName("st", 14);
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(storageName)
                 .withRegion(REGION)
@@ -157,7 +157,7 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
 
     @Test
     public void bootDiagnosticsShouldUseUnManagedDisksExplicitStorage() {
-        final String storageName = SdkContext.randomResourceName("st", 14);
+        final String storageName = sdkContext.randomResourceName("st", 14);
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(storageName)
                 .withRegion(REGION)
@@ -224,7 +224,7 @@ public class VirtualMachineBootDiagnosticsTests extends ComputeManagementTest {
 
     @Test
     public void canEnableBootDiagnosticsWithCreatableStorageOnUnManagedVMCreation() {
-        final String storageName = SdkContext.randomResourceName("st", 14);
+        final String storageName = sdkContext.randomResourceName("st", 14);
         Creatable<StorageAccount> creatableStorageAccount = storageManager.storageAccounts()
                 .define(storageName)
                 .withRegion(REGION)

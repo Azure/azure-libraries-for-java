@@ -24,6 +24,9 @@ import com.azure.management.keyvault.implementation.KeyVaultManager;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
+import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
+import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.implementation.StorageManager;
 
 /**
@@ -60,12 +63,12 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
      * @return the StorageManager
      */
     public static AppServiceManager authenticate(AzureTokenCredential credential, String subscriptionId) {
-        return new AppServiceManager(new RestClientBuilder()
+        return authenticate(new RestClientBuilder()
                 .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-//                .withPolicy(new ProviderRegistrationPolicy())
-//                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .withPolicy(new ProviderRegistrationPolicy(credential))
+                .withPolicy(new ResourceManagerThrottlingPolicy())
                 .buildClient(), credential.getDomain(), subscriptionId);
     }
 
@@ -78,7 +81,20 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
      * @return the StorageManager
      */
     public static AppServiceManager authenticate(RestClient restClient, String tenantId, String subscriptionId) {
-        return new AppServiceManager(restClient, tenantId, subscriptionId);
+        return authenticate(restClient, tenantId, subscriptionId, new SdkContext());
+    }
+
+    /**
+     * Creates an instance of StorageManager that exposes storage resource management API entry points.
+     *
+     * @param restClient the RestClient to be used for API calls.
+     * @param tenantId the tenant UUID
+     * @param subscriptionId the subscription UUID
+     * @param sdkContext the sdk context
+     * @return the StorageManager
+     */
+    public static AppServiceManager authenticate(RestClient restClient, String tenantId, String subscriptionId, SdkContext sdkContext) {
+        return new AppServiceManager(restClient, tenantId, subscriptionId, sdkContext);
     }
 
     /**
@@ -104,17 +120,18 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
         }
     }
 
-    private AppServiceManager(RestClient restClient, String tenantId, String subscriptionId) {
+    private AppServiceManager(RestClient restClient, String tenantId, String subscriptionId, SdkContext sdkContext) {
         super(
                 restClient,
                 subscriptionId,
                 new WebSiteManagementClientBuilder()
                         .pipeline(restClient.getHttpPipeline())
                         .host(restClient.getBaseUrl().toString())
-                        .subscriptionId(subscriptionId).build());
-        keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId);
-        storageManager = StorageManager.authenticate(restClient, subscriptionId);
-        rbacManager = GraphRbacManager.authenticate(restClient, tenantId);
+                        .subscriptionId(subscriptionId).build(),
+                sdkContext);
+        keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId, sdkContext);
+        storageManager = StorageManager.authenticate(restClient, subscriptionId, sdkContext);
+        rbacManager = GraphRbacManager.authenticate(restClient, tenantId, sdkContext);
         this.restClient = restClient;
     }
 

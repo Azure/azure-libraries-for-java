@@ -177,7 +177,7 @@ class VirtualMachineImpl
         this.networkManager = networkManager;
         this.vmName = name;
         this.isMarketplaceLinuxImage = false;
-        this.namer = SdkContext.getResourceNamerFactory().createResourceNamer(this.vmName);
+        this.namer = this.manager().getSdkContext().getResourceNamerFactory().createResourceNamer(this.vmName);
         this.creatableSecondaryNetworkInterfaceKeys = new ArrayList<>();
         this.existingSecondaryNetworkInterfacesToAssociate = new ArrayList<>();
         this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(computeManager.inner().virtualMachineExtensions(), this);
@@ -1863,13 +1863,13 @@ class VirtualMachineImpl
                 // VM name cannot contain only numeric values and cannot exceed 15 chars
                 if (vmName.matches("[0-9]+")) {
                     this.inner().osProfile()
-                            .withComputerName(SdkContext.randomResourceName("vm", 15));
+                            .withComputerName(namer.randomName("vm", 15));
                 } else if (vmName.length() <= 15) {
                     this.inner().osProfile()
                             .withComputerName(vmName);
                 } else {
                     this.inner().osProfile()
-                            .withComputerName(SdkContext.randomResourceName("vm", 15));
+                            .withComputerName(namer.randomName("vm", 15));
                 }
             }
         } else {

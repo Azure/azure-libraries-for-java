@@ -14,7 +14,6 @@ import com.azure.management.resources.fluentcore.arm.models.implementation.Exter
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.sql.ElasticPoolEdition;
 import com.azure.management.sql.RecommendedElasticPool;
 import com.azure.management.sql.ResourceIdentity;
@@ -396,7 +395,7 @@ public class SqlServerImpl
 
     @Override
     public SqlServerImpl withNewFirewallRule(String startIPAddress, String endIPAddress) {
-        return this.withNewFirewallRule(startIPAddress, endIPAddress, SdkContext.randomResourceName("firewall_", 15));
+        return this.withNewFirewallRule(startIPAddress, endIPAddress, this.manager().getSdkContext().randomResourceName("firewall_", 15));
     }
 
     @Override

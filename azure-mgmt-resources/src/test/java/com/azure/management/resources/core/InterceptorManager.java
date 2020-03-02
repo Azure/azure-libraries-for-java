@@ -61,7 +61,6 @@ public class InterceptorManager {
     // factory method
     public static InterceptorManager create(String testName, TestBase.TestMode testMode) throws IOException {
         InterceptorManager interceptorManager = new InterceptorManager(testName, testMode);
-        SdkContext.setResourceNamerFactory(new TestResourceNamerFactory(interceptorManager));
         SdkContext.setDelayProvider(new TestDelayProvider(interceptorManager.isRecordMode() || interceptorManager.isNoneMode()));
         if (!interceptorManager.isNoneMode()) {
             SdkContext.setReactorScheduler(Schedulers.boundedElastic());

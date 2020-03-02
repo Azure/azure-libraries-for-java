@@ -14,7 +14,9 @@ import com.azure.management.RestClientBuilder;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.azure.management.resources.models.ResourceManagementClientBuilder;
+import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
+import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.storage.BlobContainers;
 import com.azure.management.storage.BlobServices;
 import com.azure.management.storage.ManagementPolicies;
@@ -53,12 +55,12 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
      * @return the StorageManager
      */
     public static StorageManager authenticate(AzureTokenCredential credential, String subscriptionId) {
-        return new StorageManager(new RestClientBuilder()
+        return authenticate(new RestClientBuilder()
                 .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-//                .withPolicy(new ProviderRegistrationPolicy())
-//                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .withPolicy(new ProviderRegistrationPolicy(credential))
+                .withPolicy(new ResourceManagerThrottlingPolicy())
                 .buildClient(), subscriptionId);
     }
 
@@ -70,7 +72,19 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
      * @return the StorageManager
      */
     public static StorageManager authenticate(RestClient restClient, String subscriptionId) {
-        return new StorageManager(restClient, subscriptionId);
+        return authenticate(restClient, subscriptionId, new SdkContext());
+    }
+
+    /**
+     * Creates an instance of StorageManager that exposes storage resource management API entry points.
+     *
+     * @param restClient     the RestClient to be used for API calls.
+     * @param subscriptionId the subscription UUID
+     * @param SdkContext     the sdk context
+     * @return the StorageManager
+     */
+    public static StorageManager authenticate(RestClient restClient, String subscriptionId, SdkContext SdkContext) {
+        return new StorageManager(restClient, subscriptionId, SdkContext);
     }
 
     /**
@@ -96,14 +110,15 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
         }
     }
 
-    private StorageManager(RestClient restClient, String subscriptionId) {
+    private StorageManager(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
         super(restClient,
                 subscriptionId,
                 new StorageManagementClientBuilder()
                         .pipeline(restClient.getHttpPipeline())
                         .host(restClient.getBaseUrl().toString())
                         .subscriptionId(subscriptionId)
-                        .build());
+                        .build(),
+                sdkContext);
     }
 
     /**

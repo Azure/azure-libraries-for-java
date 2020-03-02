@@ -26,15 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MSIIdentityManagementTests extends TestBase {
-    private static String RG_NAME = "";
-    private static Region region = Region.fromName("West Central US");
+    private String RG_NAME = "";
+    private Region region = Region.fromName("West Central US");
 
     private MSIManager msiManager;
     private ResourceManager resourceManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException {
-        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
+        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription, sdkContext);
         this.resourceManager = msiManager.getResourceManager();
     }
 

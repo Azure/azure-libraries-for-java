@@ -16,22 +16,22 @@ import java.time.OffsetDateTime;
  * The class to contain the common factory methods required for SDK framework.
  */
 public class SdkContext {
-    private static ThreadLocal<ResourceNamerFactory> resourceNamerFactory = new ThreadLocal<ResourceNamerFactory>() {
-        @Override
-        protected ResourceNamerFactory initialValue() {
-            return new ResourceNamerFactory();
-        }
-    };
+    private ResourceNamerFactory resourceNamerFactory = new ResourceNamerFactory();
     private static DelayProvider delayProvider = new DelayProvider();
     private static Scheduler reactorScheduler = Schedulers.boundedElastic();
+
+    /**
+     * Default constructor for SdkContext.
+     */
+    public SdkContext() {}
 
     /**
      * Function to override the ResourceNamerFactory.
      *
      * @param resourceNamerFactory factory to override.
      */
-    public static void setResourceNamerFactory(ResourceNamerFactory resourceNamerFactory) {
-        SdkContext.resourceNamerFactory.set(resourceNamerFactory);
+    public void setResourceNamerFactory(ResourceNamerFactory resourceNamerFactory) {
+        this.resourceNamerFactory = resourceNamerFactory;
     }
 
     /**
@@ -39,8 +39,8 @@ public class SdkContext {
      *
      * @return resourceNamer factory.
      */
-    public static ResourceNamerFactory getResourceNamerFactory() {
-        return SdkContext.resourceNamerFactory.get();
+    public ResourceNamerFactory getResourceNamerFactory() {
+        return this.resourceNamerFactory;
     }
 
     /**
@@ -50,8 +50,8 @@ public class SdkContext {
      * @param maxLen the maximum length for the random generated name
      * @return the random name
      */
-    public static String randomResourceName(String prefix, int maxLen) {
-        ResourceNamer resourceNamer = SdkContext.getResourceNamerFactory().createResourceNamer("");
+    public String randomResourceName(String prefix, int maxLen) {
+        ResourceNamer resourceNamer = getResourceNamerFactory().createResourceNamer("");
         return resourceNamer.randomName(prefix, maxLen);
     }
 
@@ -63,9 +63,9 @@ public class SdkContext {
      * @param count  the number of names to generate
      * @return random names
      */
-    public static String[] randomResourceNames(String prefix, int maxLen, int count) {
+    public String[] randomResourceNames(String prefix, int maxLen, int count) {
         String[] names = new String[count];
-        ResourceNamer resourceNamer = SdkContext.getResourceNamerFactory().createResourceNamer("");
+        ResourceNamer resourceNamer = getResourceNamerFactory().createResourceNamer("");
         for (int i = 0; i < count; i++) {
             names[i] = resourceNamer.randomName(prefix, maxLen);
         }
@@ -77,8 +77,8 @@ public class SdkContext {
      *
      * @return the random UUID.
      */
-    public static String randomUuid() {
-        ResourceNamer resourceNamer = SdkContext.getResourceNamerFactory().createResourceNamer("");
+    public String randomUuid() {
+        ResourceNamer resourceNamer = getResourceNamerFactory().createResourceNamer("");
         return resourceNamer.randomUuid();
     }
 
@@ -129,8 +129,8 @@ public class SdkContext {
     /**
      * @return the current date time.
      */
-    public static OffsetDateTime dateTimeNow() {
-        ResourceNamer resourceNamer = SdkContext.getResourceNamerFactory().createResourceNamer("");
+    public OffsetDateTime dateTimeNow() {
+        ResourceNamer resourceNamer = getResourceNamerFactory().createResourceNamer("");
         return resourceNamer.dateTimeNow();
     }
 

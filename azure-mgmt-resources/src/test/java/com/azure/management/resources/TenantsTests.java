@@ -21,7 +21,8 @@ public class TenantsTests extends TestBase {
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         resourceManager = ResourceManager
-                .authenticate(restClient);
+                .authenticate(restClient)
+                .withSdkContext(sdkContext);
     }
 
     @Override

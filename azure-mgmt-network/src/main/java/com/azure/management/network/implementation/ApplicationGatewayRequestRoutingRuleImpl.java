@@ -21,7 +21,6 @@ import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.models.ApplicationGatewayRequestRoutingRuleInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 import java.io.File;
 import java.io.IOException;
@@ -222,7 +221,7 @@ class ApplicationGatewayRequestRoutingRuleImpl
     private ApplicationGatewayBackendHttpConfigurationImpl ensureBackendHttpConfig() {
         ApplicationGatewayBackendHttpConfigurationImpl config = this.backendHttpConfiguration();
         if (config == null) {
-            final String name = SdkContext.randomResourceName("bckcfg", 11);
+            final String name = this.parent().manager().getSdkContext().randomResourceName("bckcfg", 11);
             config = this.parent().defineBackendHttpConfiguration(name);
             config.attach();
             this.toBackendHttpConfiguration(name);
@@ -232,7 +231,7 @@ class ApplicationGatewayRequestRoutingRuleImpl
 
     @Override
     public ApplicationGatewayRequestRoutingRuleImpl toBackendHttpPort(int portNumber) {
-        String name = SdkContext.randomResourceName("backcfg", 12);
+        String name = this.parent().manager().getSdkContext().randomResourceName("backcfg", 12);
         this.parent().defineBackendHttpConfiguration(name)
                 .withPort(portNumber)
                 .attach();
@@ -276,7 +275,7 @@ class ApplicationGatewayRequestRoutingRuleImpl
         if (Boolean.TRUE.equals(needToCreate)) {
             // If no listener exists for the requested port number yet and the name, create one
             if (name == null) {
-                name = SdkContext.randomResourceName("listener", 13);
+                name = this.parent().manager().getSdkContext().randomResourceName("listener", 13);
             }
 
             listenerByPort = this.parent().defineListener(name)
@@ -309,7 +308,7 @@ class ApplicationGatewayRequestRoutingRuleImpl
     private ApplicationGatewayListenerImpl ensureListener() {
         ApplicationGatewayListenerImpl listener = this.listener();
         if (listener == null) {
-            final String name = SdkContext.randomResourceName("listener", 13);
+            final String name = this.parent().manager().getSdkContext().randomResourceName("listener", 13);
             listener = this.parent().defineListener(name);
             listener.attach();
             this.fromListener(name);

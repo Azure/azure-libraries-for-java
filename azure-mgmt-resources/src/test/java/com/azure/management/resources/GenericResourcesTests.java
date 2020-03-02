@@ -8,14 +8,12 @@ package com.azure.management.resources;
 
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.RestClient;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-
-import java.util.Arrays;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 public class GenericResourcesTests extends ResourceManagerTestBase {
     private ResourceGroups resourceGroups;
@@ -27,7 +25,7 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        testId = SdkContext.randomResourceName("", 9);
+        testId = sdkContext.randomResourceName("", 9);
         rgName = "rg" + testId;
         newRgName = "rgB" + testId;
 

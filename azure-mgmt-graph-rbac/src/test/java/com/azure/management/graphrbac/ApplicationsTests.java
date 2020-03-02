@@ -15,7 +15,7 @@ import java.time.Duration;
 public class ApplicationsTests extends GraphRbacManagementTest {
     @Test
     public void canCRUDApplication() throws Exception {
-        String name = SdkContext.randomResourceName("javasdkapp", 20);
+        String name = sdkContext.randomResourceName("javasdkapp", 20);
 
         ActiveDirectoryApplication application = null;
         try {

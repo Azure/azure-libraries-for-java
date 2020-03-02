@@ -33,8 +33,8 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
 
     @Test
     public void canCRUDApplicationGatewayWithWAF() throws Exception {
-        String appGatewayName = SdkContext.randomResourceName("agwaf", 15);
-        String appPublicIp = SdkContext.randomResourceName("pip", 15);
+        String appGatewayName = sdkContext.randomResourceName("agwaf", 15);
+        String appPublicIp = sdkContext.randomResourceName("pip", 15);
         PublicIPAddress pip =
                 networkManager.publicIPAddresses()
                         .define(appPublicIp)
@@ -107,9 +107,9 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
     @Test
     @Disabled("Need client id for key vault usage")
     public void canCreateApplicationGatewayWithSecret() throws Exception {
-        String appGatewayName = SdkContext.randomResourceName("agwaf", 15);
-        String appPublicIp = SdkContext.randomResourceName("pip", 15);
-        String identityName = SdkContext.randomResourceName("id", 10);
+        String appGatewayName = sdkContext.randomResourceName("agwaf", 15);
+        String appPublicIp = sdkContext.randomResourceName("pip", 15);
+        String identityName = sdkContext.randomResourceName("id", 10);
 
         PublicIPAddress pip = networkManager.publicIPAddresses()
                 .define(appPublicIp)
@@ -172,8 +172,8 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
     }
 
     private Secret createKeyVaultSecret(String servicePrincipal, String identityPrincipal) throws Exception {
-        String vaultName = SdkContext.randomResourceName("vlt", 10);
-        String secretName = SdkContext.randomResourceName("srt", 10);
+        String vaultName = sdkContext.randomResourceName("vlt", 10);
+        String secretName = sdkContext.randomResourceName("srt", 10);
         String secretValue = Files.readFirstLine(new File(getClass().getClassLoader().getResource("test.certificate").getFile()), Charset.defaultCharset());
 
         Vault vault = keyVaultManager.vaults()

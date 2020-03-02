@@ -8,7 +8,6 @@ package com.azure.management.resources;
 
 import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +22,7 @@ public class ResourceGroupsTests extends ResourceManagerTestBase {
 
     @Test
     public void canCreateResourceGroup() throws Exception {
-        final String rgName = SdkContext.randomResourceName("rg", 9);
+        final String rgName = sdkContext.randomResourceName("rg", 9);
         Region region = Region.US_SOUTH_CENTRAL;
         // Create
         resourceGroups.define(rgName)

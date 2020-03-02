@@ -23,8 +23,8 @@ public class SecretTests extends KeyVaultManagementTest {
 
     @Test
     public void canCRUDSecret() throws Exception {
-        String vaultName = SdkContext.randomResourceName("vault", 20);
-        String secretName = SdkContext.randomResourceName("secret", 20);
+        String vaultName = sdkContext.randomResourceName("vault", 20);
+        String secretName = sdkContext.randomResourceName("secret", 20);
 
         ApplicationTokenCredential credentials = ApplicationTokenCredential.fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
 

@@ -10,7 +10,6 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -31,7 +30,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         super.initializeClients(restClient, defaultSubscription, domain);
-        testId = SdkContext.randomResourceName("", 9);
+        testId = sdkContext.randomResourceName("", 9);
         resourceGroups = resourceClient.resourceGroups();
         rgName = "rg" + testId;
         resourceGroup = resourceGroups.define(rgName)

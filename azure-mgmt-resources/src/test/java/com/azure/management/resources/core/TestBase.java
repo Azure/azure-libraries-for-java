@@ -43,9 +43,10 @@ import java.util.Properties;
 public abstract class TestBase {
     private PrintStream out;
     private String baseUri;
+    protected SdkContext sdkContext = new SdkContext();
 
-    public static String generateRandomResourceName(String prefix, int maxLen) {
-        return SdkContext.randomResourceName(prefix, maxLen);
+    public String generateRandomResourceName(String prefix, int maxLen) {
+        return sdkContext.randomResourceName(prefix, maxLen);
     }
 
     protected enum RunCondition {
@@ -162,6 +163,7 @@ public abstract class TestBase {
         Assumptions.assumeTrue(skipMessage == null, skipMessage);
 
         interceptorManager = InterceptorManager.create(testMothodName, testMode);
+        sdkContext.setResourceNamerFactory(new TestResourceNamerFactory(interceptorManager));
 
         ApplicationTokenCredential credentials;
         RestClient restClient;

@@ -40,7 +40,7 @@ public class KeyTests extends KeyVaultManagementTest {
     @Test
     public void canCRUDKey() throws Exception {
         Vault vault = createVault();
-        String keyName = SdkContext.randomResourceName("key", 20);
+        String keyName = sdkContext.randomResourceName("key", 20);
 
         // Create
         Key key = vault.keys().define(keyName)
@@ -80,7 +80,7 @@ public class KeyTests extends KeyVaultManagementTest {
     @Test
     public void canImportKey() throws Exception {
         Vault vault = createVault();
-        String keyName = SdkContext.randomResourceName("key", 20);
+        String keyName = sdkContext.randomResourceName("key", 20);
 
         Key key = vault.keys().define(keyName)
                 .withLocalKeyToImport(JsonWebKey.fromRsa(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
@@ -93,7 +93,7 @@ public class KeyTests extends KeyVaultManagementTest {
     @Test
     public void canBackupAndRestore() throws Exception {
         Vault vault = createVault();
-        String keyName = SdkContext.randomResourceName("key", 20);
+        String keyName = sdkContext.randomResourceName("key", 20);
 
         Key key = vault.keys().define(keyName)
                 .withLocalKeyToImport(JsonWebKey.fromRsa(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
@@ -116,7 +116,7 @@ public class KeyTests extends KeyVaultManagementTest {
     @Test
     public void canEncryptAndDecrypt() throws Exception {
         Vault vault = createVault();
-        String keyName = SdkContext.randomResourceName("key", 20);
+        String keyName = sdkContext.randomResourceName("key", 20);
 
         KeyPair keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
 
@@ -148,7 +148,7 @@ public class KeyTests extends KeyVaultManagementTest {
     @Test
     public void canSignAndVerify() throws Exception {
         Vault vault = createVault();
-        String keyName = SdkContext.randomResourceName("key", 20);
+        String keyName = sdkContext.randomResourceName("key", 20);
 
         KeyPair keyPair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
 
@@ -177,7 +177,7 @@ public class KeyTests extends KeyVaultManagementTest {
     @Test
     public void canWrapAndUnwrap() throws Exception {
         Vault vault = createVault();
-        String keyName = SdkContext.randomResourceName("key", 20);
+        String keyName = sdkContext.randomResourceName("key", 20);
 
         Key key = vault.keys().define(keyName)
                 .withLocalKeyToImport(JsonWebKey.fromRsa(KeyPairGenerator.getInstance("RSA").generateKeyPair()))
@@ -194,7 +194,7 @@ public class KeyTests extends KeyVaultManagementTest {
     }
 
     private Vault createVault() throws Exception {
-        String vaultName = SdkContext.randomResourceName("vault", 20);
+        String vaultName = sdkContext.randomResourceName("vault", 20);
 
         ApplicationTokenCredential credentials = ApplicationTokenCredential.fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
 

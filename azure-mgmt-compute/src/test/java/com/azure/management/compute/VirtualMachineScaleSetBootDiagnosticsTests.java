@@ -90,7 +90,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
     @Test
     public void canEnableBootDiagnosticsWithCreatableStorageOnManagedVMSSCreation() throws Exception {
         final String vmssName = generateRandomResourceName("vmss", 10);
-        final String storageName = SdkContext.randomResourceName("st", 14);
+        final String storageName = sdkContext.randomResourceName("st", 14);
 
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
                 .define(RG_NAME)
@@ -146,7 +146,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
     @Test
     public void canEnableBootDiagnosticsWithExplicitStorageOnManagedVMSSCreation() throws Exception {
         final String vmssName = generateRandomResourceName("vmss", 10);
-        final String storageName = SdkContext.randomResourceName("st", 14);
+        final String storageName = sdkContext.randomResourceName("st", 14);
 
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
                 .define(RG_NAME)
@@ -326,7 +326,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
 
     @Test
     public void bootDiagnosticsShouldUseVMSSUnManagedDisksExplicitStorage() throws Exception {
-        final String storageName = SdkContext.randomResourceName("st", 14);
+        final String storageName = sdkContext.randomResourceName("st", 14);
         final String vmssName = generateRandomResourceName("vmss", 10);
 
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
@@ -393,7 +393,7 @@ public class VirtualMachineScaleSetBootDiagnosticsTests extends ComputeManagemen
 
     @Test
     public void canEnableBootDiagnosticsWithCreatableStorageOnUnManagedVMSSCreation() throws Exception {
-        final String storageName = SdkContext.randomResourceName("st", 14);
+        final String storageName = sdkContext.randomResourceName("st", 14);
         final String vmssName = generateRandomResourceName("vmss", 10);
 
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()

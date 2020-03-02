@@ -36,7 +36,7 @@ public class UsersTests extends GraphRbacManagementTest {
 
     @Test
     public void canCreateUser() throws Exception {
-        String name = SdkContext.randomResourceName("user", 16);
+        String name = sdkContext.randomResourceName("user", 16);
         ActiveDirectoryUser user = graphRbacManager.users().define("Automatic " + name)
                 .withEmailAlias(name)
                 .withPassword("StrongPass!123")
@@ -49,7 +49,7 @@ public class UsersTests extends GraphRbacManagementTest {
 
     @Test
     public void canUpdateUser() throws Exception {
-        String name = SdkContext.randomResourceName("user", 16);
+        String name = sdkContext.randomResourceName("user", 16);
         ActiveDirectoryUser user = graphRbacManager.users().define("Test " + name)
                 .withEmailAlias(name)
                 .withPassword("StrongPass!123")

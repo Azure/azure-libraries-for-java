@@ -1,189 +1,197 @@
 {
   "networkCallRecords" : [ {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javacsmrg55772?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javacsmrg73640?api-version=2019-08-01",
     "Headers" : {
-      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_241; Windows 10 10.0)",
+      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_231; Windows 10 10.0)",
       "Content-Type" : "application/json"
     },
     "Response" : {
-      "date" : "Fri, 21 Feb 2020 11:09:46 GMT",
+      "date" : "Mon, 02 Mar 2020 05:30:37 GMT",
       "content-length" : "309",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1190",
       "retry-after" : "0",
       "StatusCode" : "201",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
       "pragma" : "no-cache",
-      "x-ms-correlation-request-id" : "3062456b-0050-4a52-b806-b94a26cb1344",
+      "x-ms-correlation-request-id" : "0b389e9a-557b-463c-8562-d5215296c424",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "JAPANEAST:20200221T110947Z:3062456b-0050-4a52-b806-b94a26cb1344",
+      "x-ms-routing-request-id" : "KOREASOUTH:20200302T053038Z:0b389e9a-557b-463c-8562-d5215296c424",
+      "connection" : "keep-alive",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "3062456b-0050-4a52-b806-b94a26cb1344",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg55772\",\"name\":\"javacsmrg55772\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"eastus\",\"tags\":{\"date\":\"2020-02-21T11:09:49.425Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "0b389e9a-557b-463c-8562-d5215296c424",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg73640\",\"name\":\"javacsmrg73640\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"eastus\",\"tags\":{\"date\":\"2020-03-02T05:30:33.745Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg55772/providers/Microsoft.Compute/virtualMachines?api-version=2019-03-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg73640/providers/Microsoft.Compute/virtualMachines?api-version=2019-03-01",
     "Headers" : {
-      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_241; Windows 10 10.0)"
+      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_231; Windows 10 10.0)"
     },
     "Response" : {
-      "date" : "Fri, 21 Feb 2020 11:09:48 GMT",
+      "date" : "Mon, 02 Mar 2020 05:30:37 GMT",
+      "content-length" : "12",
       "expires" : "-1",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
-      "StatusCode" : "200",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "pragma" : "no-cache",
-      "x-ms-correlation-request-id" : "dbdbaeac-c655-4c7b-a5e4-8656340344a8",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "JAPANEAST:20200221T110949Z:dbdbaeac-c655-4c7b-a5e4-8656340344a8",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "dbdbaeac-c655-4c7b-a5e4-8656340344a8",
-      "Body" : "{\"value\":[]}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg55772/providers/Microsoft.Network/networkInterfaces?api-version=2019-06-01",
-    "Headers" : {
-      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_241; Windows 10 10.0)"
-    },
-    "Response" : {
-      "date" : "Fri, 21 Feb 2020 11:09:51 GMT",
-      "expires" : "-1",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11987",
-      "StatusCode" : "200",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "pragma" : "no-cache",
-      "x-ms-correlation-request-id" : "fe7f7aef-d096-4146-a642-fdc53d6c08b8",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "JAPANEAST:20200221T110951Z:fe7f7aef-d096-4146-a642-fdc53d6c08b8",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "fe7f7aef-d096-4146-a642-fdc53d6c08b8",
-      "Body" : "{\"value\":[]}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg55772/providers/Microsoft.Network/virtualNetworks?api-version=2019-06-01",
-    "Headers" : {
-      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_241; Windows 10 10.0)"
-    },
-    "Response" : {
-      "date" : "Fri, 21 Feb 2020 11:09:52 GMT",
-      "expires" : "-1",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11904",
-      "StatusCode" : "200",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "pragma" : "no-cache",
-      "x-ms-correlation-request-id" : "593450d5-4879-41b2-b0fe-7d175de4f374",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "JAPANEAST:20200221T110952Z:593450d5-4879-41b2-b0fe-7d175de4f374",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "593450d5-4879-41b2-b0fe-7d175de4f374",
-      "Body" : "{\"value\":[]}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg55772/providers/Microsoft.Network/publicIPAddresses?api-version=2019-06-01",
-    "Headers" : {
-      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_241; Windows 10 10.0)"
-    },
-    "Response" : {
-      "date" : "Fri, 21 Feb 2020 11:09:53 GMT",
-      "expires" : "-1",
-      "vary" : "Accept-Encoding",
-      "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11989",
-      "StatusCode" : "200",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "pragma" : "no-cache",
-      "x-ms-correlation-request-id" : "64ee4e4a-dec0-4d80-a06a-d6848c219c90",
-      "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "JAPANEAST:20200221T110953Z:64ee4e4a-dec0-4d80-a06a-d6848c219c90",
-      "content-type" : "application/json; charset=utf-8",
-      "cache-control" : "no-cache",
-      "x-ms-request-id" : "64ee4e4a-dec0-4d80-a06a-d6848c219c90",
-      "Body" : "{\"value\":[]}"
-    }
-  }, {
-    "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg55772/providers/Microsoft.Compute/availabilitySets?api-version=2019-03-01",
-    "Headers" : {
-      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_241; Windows 10 10.0)"
-    },
-    "Response" : {
-      "date" : "Fri, 21 Feb 2020 11:09:55 GMT",
-      "expires" : "-1",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
       "x-ms-ratelimit-remaining-subscription-reads" : "11998",
       "StatusCode" : "200",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
       "pragma" : "no-cache",
-      "x-ms-correlation-request-id" : "6a02fca9-d81b-497a-bd72-7fc9a2a5c0d8",
+      "x-ms-correlation-request-id" : "40d28dfb-183f-439c-b76f-c024f9629b76",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "JAPANEAST:20200221T110955Z:6a02fca9-d81b-497a-bd72-7fc9a2a5c0d8",
+      "x-ms-routing-request-id" : "KOREASOUTH:20200302T053038Z:40d28dfb-183f-439c-b76f-c024f9629b76",
+      "connection" : "keep-alive",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "6a02fca9-d81b-497a-bd72-7fc9a2a5c0d8",
+      "x-ms-request-id" : "40d28dfb-183f-439c-b76f-c024f9629b76",
       "Body" : "{\"value\":[]}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg55772/providers/Microsoft.Storage/storageAccounts?api-version=2019-06-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg73640/providers/Microsoft.Network/networkInterfaces?api-version=2019-06-01",
     "Headers" : {
-      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_241; Windows 10 10.0)"
+      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_231; Windows 10 10.0)"
     },
     "Response" : {
-      "date" : "Fri, 21 Feb 2020 11:09:57 GMT",
+      "date" : "Mon, 02 Mar 2020 05:30:37 GMT",
+      "content-length" : "12",
       "expires" : "-1",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11997",
       "StatusCode" : "200",
-      "strict-transport-security" : "max-age=31536000; includeSubDomains",
       "pragma" : "no-cache",
-      "x-ms-correlation-request-id" : "59c8f772-0082-4362-976a-448bc6b33144",
+      "x-ms-correlation-request-id" : "2f5f8859-f142-4782-a408-afc2c57a4a78",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "JAPANEAST:20200221T110958Z:59c8f772-0082-4362-976a-448bc6b33144",
+      "x-ms-routing-request-id" : "KOREASOUTH:20200302T053038Z:2f5f8859-f142-4782-a408-afc2c57a4a78",
+      "connection" : "keep-alive",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "59c8f772-0082-4362-976a-448bc6b33144",
+      "x-ms-request-id" : "2f5f8859-f142-4782-a408-afc2c57a4a78",
+      "Body" : "{\"value\":[]}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg73640/providers/Microsoft.Network/virtualNetworks?api-version=2019-06-01",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_231; Windows 10 10.0)"
+    },
+    "Response" : {
+      "date" : "Mon, 02 Mar 2020 05:30:37 GMT",
+      "content-length" : "12",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11996",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "2e00513b-0948-4e86-a99b-17489d92b3ff",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "KOREASOUTH:20200302T053038Z:2e00513b-0948-4e86-a99b-17489d92b3ff",
+      "connection" : "keep-alive",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "2e00513b-0948-4e86-a99b-17489d92b3ff",
+      "Body" : "{\"value\":[]}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg73640/providers/Microsoft.Network/publicIPAddresses?api-version=2019-06-01",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_231; Windows 10 10.0)"
+    },
+    "Response" : {
+      "date" : "Mon, 02 Mar 2020 05:30:38 GMT",
+      "content-length" : "12",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11995",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "87a2a7ea-41f4-4c97-8944-0a49a5a49690",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "KOREASOUTH:20200302T053039Z:87a2a7ea-41f4-4c97-8944-0a49a5a49690",
+      "connection" : "keep-alive",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "87a2a7ea-41f4-4c97-8944-0a49a5a49690",
+      "Body" : "{\"value\":[]}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg73640/providers/Microsoft.Compute/availabilitySets?api-version=2019-03-01",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_231; Windows 10 10.0)"
+    },
+    "Response" : {
+      "date" : "Mon, 02 Mar 2020 05:30:38 GMT",
+      "content-length" : "12",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11994",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "266b1ffe-f7f2-4357-89ad-27dcba65508f",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "KOREASOUTH:20200302T053039Z:266b1ffe-f7f2-4357-89ad-27dcba65508f",
+      "connection" : "keep-alive",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "266b1ffe-f7f2-4357-89ad-27dcba65508f",
+      "Body" : "{\"value\":[]}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javacsmrg73640/providers/Microsoft.Storage/storageAccounts?api-version=2019-06-01",
+    "Headers" : {
+      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_231; Windows 10 10.0)"
+    },
+    "Response" : {
+      "date" : "Mon, 02 Mar 2020 05:30:38 GMT",
+      "content-length" : "12",
+      "expires" : "-1",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11993",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "03c0d25e-97e3-4def-a66e-842d41ddc3e1",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "KOREASOUTH:20200302T053039Z:03c0d25e-97e3-4def-a66e-842d41ddc3e1",
+      "connection" : "keep-alive",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "03c0d25e-97e3-4def-a66e-842d41ddc3e1",
       "Body" : "{\"value\":[]}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javacsmrg55772?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javacsmrg73640?api-version=2019-08-01",
     "Headers" : {
-      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_241; Windows 10 10.0)"
+      "User-Agent" : "azsdk-java-com.azure.management/null (1.8.0_231; Windows 10 10.0)"
     },
     "Response" : {
-      "date" : "Fri, 21 Feb 2020 11:10:02 GMT",
+      "date" : "Mon, 02 Mar 2020 05:30:42 GMT",
       "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14997",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
-      "x-ms-correlation-request-id" : "23741ed2-46e9-4af0-9ce4-2110b354fa11",
+      "x-ms-correlation-request-id" : "02eafdc9-76d5-43cc-b588-d4da5dec89c1",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "JAPANEAST:20200221T111002Z:23741ed2-46e9-4af0-9ce4-2110b354fa11",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KQVZBQ1NNUkc1NTc3Mi1FQVNUVVMiLCJqb2JMb2NhdGlvbiI6ImVhc3R1cyJ9?api-version=2019-08-01",
+      "x-ms-routing-request-id" : "KOREASOUTH:20200302T053043Z:02eafdc9-76d5-43cc-b588-d4da5dec89c1",
+      "connection" : "keep-alive",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KQVZBQ1NNUkc3MzY0MC1FQVNUVVMiLCJqb2JMb2NhdGlvbiI6ImVhc3R1cyJ9?api-version=2019-08-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "23741ed2-46e9-4af0-9ce4-2110b354fa11",
+      "x-ms-request-id" : "02eafdc9-76d5-43cc-b588-d4da5dec89c1",
       "Body" : ""
     }
   } ],
-  "variables" : [ "javacsmrg55772", "91d456a1-eed6-442c-b65e-03cb95d197e8", "net4f8774882", "d9cba122-9aa2-42df-b4f8-5cdf04162221", "pip8d863843e", "1e0ebd03-3319-4b3e-8613-2814ef2cde2c", "nic37e70455f", "c368692d-69d7-44dd-8cac-a0dbfe749173", "stc0f2763017", "591b7040-dbc3-4d05-8138-9a6c2dbc78d7", "as28428222f1", "3d3d577d-7952-4d42-8b99-57da7cb8da5b", "vma8a56900bb", "c08f62a1-815f-4b14-9dd2-a9cb20240770", "net139732397", "02c7a49b-767d-45ec-8c6f-b081af6ce798", "pip8d313824e", "5105588f-218d-4c5f-971f-fd9167ab49c4", "nic201620733", "b6a72767-8ce6-4481-9548-c0fbe522ca00", "st699191305e", "1160ffc0-284c-4d53-9f97-9b243168d128", "as36e12221d7", "8efa8953-acd3-490e-8c76-d2f82fde914b", "vm2805241326", "38bbc193-170a-4912-a25e-7dfb90c91ad8", "netdcb225290", "771897de-c25c-4569-b851-8182e156c0d8", "pipc0384186d", "752ec008-20d9-41fb-a504-ea22e54197ed", "nica5a550521", "5aef171f-8af1-4c99-9070-d107455a2660", "st2f996756e2", "7b5b3038-4010-42e9-bcd5-b0d59632dc5c", "as43614655d6", "7d3413c3-94c8-4e34-89f5-91e5009a0b19", "vmf1b89731f2", "3c4846a4-9012-47cb-8531-70111b5468d6", "net7d4310087", "e553efea-a9b2-48c5-bb93-021d2ea28657", "pipfd1118260", "4c83c1d7-5ade-4eba-8220-b8a81c7e77ab", "nic7d8028609", "926f12d6-5d66-4e25-a126-b3361f4e08a9", "st9e355893ad", "9ea668fa-bb85-43c0-9b37-bddc276bdfbd", "as43e22528ec", "78f665da-39c2-4b5b-bed1-d08db5637316", "vmd73917649b", "9e9240eb-9dde-445d-aabf-dc606a31547c", "neta8c570996", "aba92871-7d35-4ef7-bd69-df6c4704d102", "pip87879935a", "a42db099-6a00-4d89-842c-843dd9f70b6c", "nic9b8876891", "18ddc4b4-f265-44b5-a3cf-2d141de5a18d", "st75e0193914", "7b1aa94c-9d68-4194-92f9-8c43cd11a69b", "asb7601971f5", "5bee7512-20c6-4938-bdf2-a530f441cefe", "vme9552138d0", "ad768caf-fb1d-4429-bdf0-7cace53b0e9c", "net2c804647c", "343b0e61-545a-409b-8b85-1315f25408fc", "pip988908684", "4c20fb64-ef95-44c9-b331-6bf1a38c5475", "nic26299765f", "784ed99c-5f1c-4fe5-8e27-3709bdc8b9ea", "ste1c6185817", "7c3277bc-528d-4110-9987-7214c82a34a4", "asb622713496", "3e89cabc-0626-4aca-b837-ccc388a94948", "vmeae7725031", "bb6bd437-05b6-4f95-8f7c-0f9cc48ac617", "net4d6105640", "f37dfc33-a7d8-4c5f-9c7f-e859b9a811cd", "pip2a227255d", "4e45eafb-742c-4e44-8a76-258b30aac936", "nic38a33713d", "749c9982-8704-424a-99e4-54ece7e147d7", "stfa45003244", "ace59fd5-c030-4177-bc97-9270a5aa3150", "as55e6581860", "804108ef-81e3-4207-855e-d12deb398f81", "vm311934946c", "d221acf0-59dd-4875-ab8c-9c5b3fc04f07", "net5ed93733c", "1caac8dc-4f3d-4464-a586-bba4ce36bc06", "pip343159936", "b67ab8b9-703e-41e6-b2bd-c180725f02b2", "nic8f900929d", "3d5b28d6-aa87-4afa-9fbb-907c7827e53e", "st16a23024de", "058fdb05-d19a-4459-a644-39fccaaaed42", "ase93354358c", "36fe0473-18ae-4239-9e2e-4bb4d4732364", "vmba8221548f", "a3acbe46-ac7a-45b4-af27-174a9535dd15", "net7d8575814", "bb55d2e9-5f06-4c78-9a0c-a2897beec110", "pipbce059613", "9fd86c58-c9ee-44e4-ac02-99387d5ed5a5", "nic8d218286c", "0e292d8c-0d90-4404-a995-2dae44d7b9bb", "st82c00342dd", "ffa49c0b-fe35-4671-9d02-4ac4d5bacdea", "as996057841c", "99fb1824-ad42-4ba5-949e-3c75806a0ad0", "vm1ea9602628", "d5255c31-89c2-485e-90fc-2953f0a7ea62", "netec130949b", "ef6e6707-e18b-4740-91ce-f2040c569815", "pip008988250", "c877f1d5-c050-449c-9282-f3f169391188", "nic4d2004457", "106c4c08-410b-48b5-bb22-66d32f710409", "st6cb18301a6", "440c9ccd-9961-4c9e-84c0-549049b9d21a", "ase958793298", "9fe93d42-b7da-4019-8ee4-b140ce82e188", "vm4db0116917", "56960d62-0b19-4220-bca8-25e63c3c2059", "netc6f08777a", "8c56a7bb-6927-4800-8271-e1b0145bffac", "pipb0d792972", "8b40fd74-e7a9-4edb-a496-3b30b1aa3654", "nicae373762f", "7d13daec-144b-4f17-a13a-a62a70655d64", "st80a68781c3", "0e08fb88-482d-41db-a906-d9f975ca0940", "as04d56335df", "cbee7ffa-19b0-471b-9bc8-378a5807eda6", "vmaa48640868", "178390a7-23ea-4d54-aa10-332081d92447", "netf7f88017b", "62bb67af-e9b6-4133-8cbc-b85ceabf3198", "pip5e0287472", "bca72d94-5e12-4796-9f5a-65da8d442759", "nicba0067649", "f46678e7-ca2a-413e-9681-aaa6bf897f8e", "st3fd9758462", "19deaa48-4188-46f1-bbe8-e43bf662bee8", "as75031228fb", "d8287d6c-caca-44fd-a53e-b3a6d1dc069a", "vme5e5848677", "d208632b-68fa-4fca-ab1f-f75ad4e9fec4", "net5c2571861", "89e41639-8e0a-4e75-9bf3-9f981b8e3aca", "pip6e0018612", "28183c5f-c5a6-46c8-ac4b-d7b3334df57a", "nic2c4555671", "999d1825-675a-4a12-8fb7-08908de703fa", "st14d06503c6", "15eacf34-b2ab-42fa-988b-411fd5e38e1b", "asfc857864bc", "dca31da8-cd12-45e3-981a-333ad2c8b748", "vmdbd09565fa", "45647d2d-8f11-4483-bc16-f1fc738624da", "netaf829429c", "cafcd404-499d-4de5-826e-154e15c90373", "pip05e186538", "78dfa09c-8cad-463b-b8ee-649d6102e829", "nic17578246d", "11ab0195-5929-4d2c-bd87-0c77e64ffdbe", "st26b40777fe", "bc94bf7a-0483-4be8-99e3-8694d2dcf881", "as0483256098", "314b8dba-b974-4162-8c55-8258f7b50505", "vm7433896244", "469ce5fc-0d88-4358-b80b-46635deef91e", "netd9f65187e", "3a33df5f-b871-4a0c-b657-cd314ec67118", "pip59f332976", "8f16afb3-c200-4330-bec3-dcb7cd0740ad", "nicd16820291", "debe2eeb-33fb-4004-921e-a393b5e28ab2", "st0125163917", "def92137-44d8-4751-90df-c470f850137a", "as63b6266422", "666c476c-5bd9-469e-9752-8629456500e8", "vm73213962e9", "c08210f5-f770-47cc-b1fb-72a8ee4105c3", "net7c9221841", "897fb3a8-aeea-4e95-8505-2792120104fe", "pip86672405a", "8498060a-9d2f-41c0-b8ae-4a9176268202", "nic58824997a", "ab2e40e4-fec9-4bbb-be7e-fc413ba7793f", "st8af2366601", "b20116ee-591e-48bf-a277-8f28ba8cceef", "asa997742295", "93d69739-39ea-41e9-8b9e-64ab74ac3ab2", "vm241656565d", "fbd9832f-73b4-4cb9-88f8-a599e3a0a000", "neta41723446", "96ef4d1b-4c64-4f30-9e8e-11a250d98c35", "pipb08590536", "00feea35-7383-4022-b820-9b4006343a0e", "nic405701497", "d0f9303f-f67e-48af-aa76-f900b4fab6c2", "st1136667282", "9310073e-9374-499c-8392-9cd584e28539", "asaaa6476731", "9b2e288b-b96c-49fa-b67b-b85d57b2821f", "vm9b9094442c", "cf0f7a4b-09b2-46da-8a5b-8b011d9f5711", "net3aa461857", "5634aae9-fcd5-4483-bdf3-bee1c38db120", "pip680403414", "22e971c7-527c-4ba8-8467-3fab60d1153d", "nicdde228770", "db2b38ff-3313-42ec-a859-5a8f8e4ae8ba", "st00a13355a4", "c93572a5-8dab-4a67-9350-297c2b3afb25", "asb5b1544908", "e0e2a356-5c57-4341-a8d4-46ceb7437980", "vmd48698088b", "d59d8cef-5a1e-4fb9-8791-854c02c5bdd4", "net93593153a", "63da9706-3360-4845-94ec-a901b8292451", "pipc22929556", "e000dd36-ab8c-44dc-bd42-2a445a1a2c00", "nic2c6375718", "aa2ff201-b39c-4800-b484-4e26113556a4", "st9a964316c0", "11516c30-587e-4523-bdbe-d90f035ca027", "aseeb549647c", "c71a0aed-e0f4-4faa-b2bc-a9ca48e02a49", "vmeac144637e", "f7db06c4-be33-41b3-8144-4818099a0d10", "net334583391", "8a744891-de6e-4619-97ea-fd6c4be696c9", "pipea0936628", "f3ddc34a-6bd1-4f30-a1d9-9d2e98d07eb9", "nic71d65828f", "0292543c-83fd-4c67-b635-675c0cdd03d3", "st7ac08176eb", "2de80315-312a-4b12-b228-93cb1038d768", "as8b80657276", "d05053da-3905-47ec-b0b6-76c5d072946d", "vmb3306545e1", "c6c6bf6a-bcda-4552-ba8c-2d82643b2bf2", "netb1d93957b", "d3eeaf63-29c5-472c-a75e-770a848ead56", "pip233593108", "beb99958-f77d-48a4-8b0e-8093e51e3f28", "nic352536462", "70ffd04d-7658-4e0d-b5b4-abfbd7fcfc6e", "st89e49060f4", "b2f6a52c-0d9d-4cfb-a144-98cfa3bc58f2", "asa281627274", "88ca8917-902b-4d44-ab7f-304eabc07d99", "vm32106525dd", "9b39ca8a-8791-4455-9ad2-f01cb3f9eac2", "netcc8715493", "4d8b3218-0fa7-438e-a362-679333dc953e", "pip4e5392743", "3058469d-a96d-4b7b-bc4f-8c23bd9efcee", "nic3c7543754", "c2444394-fec8-4c79-b8ac-845e1e64a093", "st13c8855176", "06518587-42e4-4b2d-a62a-aee61229a621", "asb65892812b", "ef5249de-41e9-43a4-980e-c3ebd49f8b9a", "vm54791062d2", "42e0f3a2-c05f-4887-812d-b68fe7a6b452", "net6b6559794", "0937ba23-1714-4b6b-812d-cfb03b011ef2", "pip12763651f", "81fc51fe-f5c6-4808-9cd4-c6df667dd0ed", "nic79e89041d", "cea42879-20be-41a9-b5f9-75b178bebe25", "st4572371946", "21f20bf8-0937-4733-8205-48a725376a3e", "as98c618579e", "73ff49d4-f96b-4160-8479-9240e196f6ef", "vm06c7625649", "514da9a5-30a9-4c9a-a2fa-53826e31926d", "net06c483687", "9b6acab3-e2fe-4e48-b85f-53453245309e", "pipc7152293a", "8a4165af-1af9-49f0-af19-d0a567dd4908", "nicd25313796", "d3e7ea16-bb24-4212-8920-980ed73bab84", "st023125448d", "6f43deb0-d261-4dbf-8136-dfb772c3c94d", "as0a4994466d", "ca03fcb2-75bb-4b66-a18a-8ec02188cab9", "vm51729376d9", "69375d89-4639-4057-a126-b311c2bd3462", "net9fa96834f", "d615c2e4-88e5-460a-aa63-4ed0e4895479", "pip3a448838c", "798a05fb-48c5-4f09-b0b5-944b931491d3", "nic729715399", "4550184f-2d03-4eca-8ca2-e84a78e0dea8", "stbb088380b6", "4d139955-09fc-489d-8d8e-4a9dd9a99175", "as2750695615", "270f73c4-53bb-4405-8641-28c91dc4a2de", "vm9d429551e2", "6aa44f94-a307-4a9a-a209-0c90b4cbf115", "net2f572942e", "90f607c3-113f-4846-956c-989edf1dd7f0", "pipcde352842", "d9087b92-327c-41bc-8b04-4f8df4e8207d", "nicd76527792", "ff4b86f6-45ba-44b5-a022-c3d15a578209", "stb8a568132f", "675fdfa8-595f-4e7c-b482-75fb788319a5", "asba9049161f", "8c06ec2f-be6e-4e59-8496-ce5c3fc5d251", "vm6681036469", "1e25cb51-db06-487f-b325-cfef23abf912", "netaa356783f", "fcbdd8cf-7f1b-4f60-992f-4bb270e1e60c", "pipf1a44694f", "2f010987-6974-4e26-8ba8-07348787018a", "nicb51520528", "f900faa3-1d05-4baf-a074-46038935dc64", "st28730589bc", "e99503de-ffbb-4979-84d0-f0cb81179337", "asc481244207", "7e1605e4-f321-4fc2-ac83-c3d66f36c387", "vmc0b5905702", "22554692-ac18-4b53-a2ca-8cda4e24e7b4", "net3b2800782", "2a1224c1-9d7f-4c72-9fc0-7d6572a7cd3d", "pip713506926", "74651aa6-fa75-4cdf-9d24-84ecf4f50f47", "niceb6554516", "b76fd7d9-544c-4a81-8023-bacb6bcf2586", "st0d39710782", "e2344239-0848-44f0-9f55-f531d6b495b0", "as7c9725349c", "de08b877-b65c-46d8-88d6-d1f45e596872", "vmfd6080954b", "bad0d87c-1c64-43e3-86ad-553b6d19ee60", "net2e968490d", "f3ff5d9c-0ea5-48c1-a4b5-79f52e27eb62", "pip4da408167", "d85d69c8-8547-42e7-9efb-28fb0f9c9e5b", "niceb414228f", "6052a280-a696-4dc6-9544-3a2b2dae1e5a", "st7f4900638f", "36fa97a2-399c-4359-862e-31e7fcf48a56", "asa2b19290de", "193d2809-c803-458a-9828-b0b2d1d9e6e4", "vm48374394bd", "daed9658-ef77-4ef1-809c-e11ca70d7d97", "netfd7510455", "26f8fe22-2342-4b55-90ee-b752c4748528", "pip7fe27552c", "12a04c50-e812-486d-bfdb-befce346a3bb", "nicd2850196d", "3a1193a3-2ad2-4baf-8211-2cf64262b910", "st4d616606de", "ab8dabb6-f735-4b88-bff1-ee944bfacf1a", "as37402408d0", "298d111f-94dc-460f-933b-20acd39431f1", "vmd3a1100777", "c339a853-a27c-4dd2-8572-479bdfca9782", "net7c335467d", "5c13cb5a-4779-42e3-b092-8892393938e2", "pipb98980262", "07e19090-b1e6-4934-aace-d50f3f407528", "nic076747100", "a19199ec-4380-4b2f-beb2-c03a6ad34ad7", "st61a25310b3", "1c31b1df-e4a0-4d65-827d-7e6280f4e290", "aseb0942606b", "a7107ed1-81e3-4ae0-9876-d54d1dc5515a", "vmf9c55392cc", "a78fc5a4-1b87-4fcf-910d-323822445690", "net66a45572f", "701d485f-d16d-4f72-b73a-30d1f0152666", "pip28b960466", "89a59a37-5c5a-4c9c-829f-25bd8fca6f17", "nic362858299", "a2295b85-5b28-4011-8366-2e1772c227f6", "st7f86955852", "160c0eca-1059-4ddf-a18d-c88f96bb17d6", "as92961657f0", "34431797-0045-4e48-a214-83c186ad71a5", "vm4176351166", "43b7689d-489b-44e5-b195-3ed37ee743fa", "net0c3521941", "4cb85bcb-fd5f-42e8-a0ac-7eccb27099d0", "pipbe0047717", "0605e38c-81bb-4334-b901-be6179d38cd2", "nic5ed589232", "9721e7a8-4f2e-4887-8ba9-792516eda04a", "st6412412546", "dd705ec6-1fff-4f30-b749-385f7adfd0bb", "as5a292296b3", "76cef16a-1a9e-455d-b7e9-021ec3a50d28", "vmfc179682d6", "f93bbc37-7b52-4e2e-bdb8-23bd9afb147a", "net68f476622", "e181267e-122e-4300-a20c-c63a213e986d", "pipf1654705e", "7fa37158-bd7d-462d-b38d-81a0f0d5c293", "nic737497046", "51011a0c-c451-4a1e-b9d4-6083e3e3a8bb", "stc8f86475ac", "b5e51af6-d64d-4133-9329-a6c4ea69afdd", "as15531130ed", "a02870f5-8e68-4857-9fa5-fce9afcc4131", "vm9a09831197", "ec49a158-1d0e-459a-860c-1f8b25b35cb2", "nete55926878", "0adfde77-a99f-4b11-81d6-392c27696f55", "pip922523058", "960c2c58-fc72-41a9-ad05-86d017260e21", "nic683254618", "e01018ed-7cf8-4f6c-89cf-1f97a50a0840", "st50c51893a9", "64a00a08-5890-4501-824a-7a2fa96806bd", "asd0f065672f", "a953ceff-c096-4e28-a850-7e50a8cdfd35", "vm1e637380e0", "80f1b4b3-b9de-4326-8a30-21d5bb116e0e", "net6b135881e", "ee56c716-3d85-47f9-899a-7998052383a9", "pip77382780c", "60956df4-6308-49f5-aac4-10d73e926e84", "nic08a71393a", "1b27ab0b-17e7-46c6-8152-6b3c2d856c62", "stedc144204e", "66462275-ecde-4805-b3e3-a121d15dd939", "as1e595344b1", "04f08302-7b1b-4b6e-95e7-b6dd88354b9e", "vmf521026174", "1c1f7f2d-ceed-48b0-8e0b-c1aadac1ea03", "net3f4706464", "279d1054-314a-4533-b9c7-0fc10e5e1063", "pipd47756527", "eeee43cc-957f-4dbf-8b0e-d3f1c27bd2b8", "nic5d382411c", "6c4307d1-4b4f-4b2a-bd66-7bab569412f0", "sta9089975a5", "b7d1a31f-ac14-444e-b75f-05a844791925", "asfda370048e", "1204c847-5b32-42f6-95b6-86eb9f96c575", "vm0d187178b8", "5dc5abee-fb3f-4d38-bec9-672daacde5d5", "netfe0655584", "fbbe6ca8-3a8e-4167-b97d-d540fec7613a", "pipd4550277b", "9ef0fd1b-2211-4300-9fd7-52c6bcbe1388", "nicb2d725347", "208a35ad-57e4-4389-97ba-dd0614be0e8a", "stcfa146011c", "ccc5e55b-9bbc-49f6-8aa6-c87a77d661bd", "as3e2292844d", "7353bc15-9c75-46d8-888f-7dea76693ea5", "vm4908821939", "28596c19-c181-4a00-9ce9-cc818b646db0", "netb97531940", "c0087650-6cb9-4e03-b36b-c668cedf65d9", "pip446472536", "536ec9a4-fc34-4a1c-bb83-f3f56b65f0c2", "nic0bf925965", "6972ef63-faad-45fd-bb06-d52475c1902d", "st0b921232d1", "dd9087c5-c943-43cd-af91-6e438fe57e42", "ase0949792b8", "56c1a8ce-95e4-423c-a239-dafddfb95ca8", "vm70b9475788", "6ca2a7c8-ca5c-4a07-8bbf-7245020e4479", "net194109320", "1a86017c-ecf2-407e-adfe-bce6320971fd", "pip2f603900e", "c41fff07-3a9c-4808-a102-8597dc7349ca", "nice0b10190f", "3b3cfea3-38fb-4bd4-a5eb-13b4da66852a", "stc8e109260f", "b5f7658e-dbb3-45c1-8192-18e7eacb32c3", "as195129474b", "abe98f15-7a21-445b-9258-4fcbdff3e53c", "vmd35427944b", "7c1d1661-e854-46dc-b0d5-65063f0d2fea", "8beedd38-db3a-4345-8eaf-70076af7d39b" ]
+  "variables" : [ "javacsmrg73640", "net8ab514554", "pipc8157352f", "nica9b372942", "st70270445df", "as04405787ea", "vme8c37396e3", "netccd530559", "pip31a395326", "nicb89784561", "stcb29853927", "as1758377256", "vmfa442923ad", "net75d496946", "pipb1565398b", "nic61938281c", "st43b1823142", "as04d167620d", "vm1d332041c9", "net00d734154", "pip16351037d", "nic16824434c", "st22d8288005", "as3818210274", "vmd630799387", "net79c49520e", "pip64020844a", "nic88e289549", "st11720182bc", "as69f0784211", "vmca287264e4", "netb93802116", "pip14c950857", "nic2f9069745", "st09193975d6", "as82b661563d", "vm6a52104185", "netc0e447074", "pipf25003210", "nic61223163a", "sta1339248cd", "as4c30533745", "vmf29451910b", "net4a1954679", "pip17569613a", "nic7cc452203", "st74d33256b6", "as77424684a2", "vm1706359737", "net67f790436", "pip122996163", "nic330817942", "stfa37864667", "as78f908175a", "vm3225954483", "net35e14811c", "pipd92075442", "nic1a7966720", "st89026922d4", "ase5c7415204", "vm39d10307d8", "netb7017284e", "pip06f630917", "nice2308303f", "stc013213084", "as07510878c6", "vmdd70766135", "netd4b545940", "pip2cd490709", "nic2e2984628", "stebc21090f2", "as4d24630133", "vma744298558", "netaf117230f", "pip69885004a", "niccd6222777", "st78e255685a", "as661588132e", "vmc7412563c7", "net52675240a", "pipc0a323538", "nic2d6188523", "st0ef57857cd", "as0713120758", "vmaa244813ad", "netb30733138", "pip5ed389448", "nic9d0479368", "st64d386763c", "as6ed3815905", "vm77908646c7", "netcb583008f", "pip544143979", "nicd0664265f", "st63d00456b5", "asf984864511", "vma0a4224295", "netf95871131", "pip6d0034122", "nicb9a16616a", "st1a9695867a", "as8ff85753da", "vm172401766c", "netfaa96096f", "pip3e2011932", "nic96e923660", "st406476974e", "as8ce65036c8", "vmd628528432", "netd5622685f", "pipea016611e", "nic21a977423", "st6a541661b5", "as36c32893e8", "vmf48894071d", "net5ca398258", "pip33f65252f", "nic5bc62075d", "st5f8127535e", "as835940946e", "vme2e07543b3", "net18e282348", "pip171709798", "nicb4892469e", "st9ef6671851", "as9364511333", "vm5b63972288", "netf1b049252", "pip7a5909835", "nic292617676", "stbed0046195", "asc39281848e", "vmd081330953", "net87316448e", "pipb6468926b", "nicb58608397", "st2673012205", "asd910939041", "vm5e73703488", "net3ee448636", "pip554824245", "nic9ed342241", "st59e05041c2", "asb924388666", "vm6bf5322432", "net3f127959c", "pip12d103639", "nic583220146", "st1ab306947a", "asb2661435e7", "vm0a31699495", "net047926603", "pip4f2336252", "nic9ba920440", "stb6835721d4", "asf668366329", "vm91a01316c3", "netae685944a", "pipd54255461", "nic29c969278", "st04b03832ba", "as5f85964908", "vmebd87560d8", "net538693686", "pip53b880080", "nicfe438831b", "st76803504c3", "as0c659286d9", "vm1ca95610f7", "net7ef575522", "pip0b8074337", "nica9787715f", "sta6886894c2", "as6d06554117", "vm19f05691c3", "net297121764", "pip5f2962128", "nicf59158061", "st0d693433f7", "as21a058476e", "vm08a019224e", "net7f943834f", "pipd8987060c", "nic31d382104", "st02e1382684", "asd22274157b", "vm1a35043872", "net0ca759914", "pip141168913", "nic2bc26028b", "st520483213d", "ase8730036a7", "vmb6e96132d4", "net51f537553", "pip0ef08425a", "nic5c8471521", "stf653031514", "asafe72513b3", "vm2e28574161", "net5d2380812", "pipbb3549077", "nic8b893598b", "st7a117649c8", "as9a190280a7", "vmf88345725b", "net490431979", "pipabc304380", "nic980279253", "st29d1579294", "as174286306c", "vm2ae7737908", "net724637227", "pip22b200306", "nic747133383", "st92c2489008", "as4f4237378d", "vm096890103c", "net667757819", "pip8e321348d", "nic703510845", "sta3b42687bb", "as362582552d", "vm63b03610c6", "netde0130222", "pip23072573c", "nicf9611457c", "staaa9124966", "asd3b405029f", "vm70407341b2", "netfa2830797", "pip30688509d", "nic9ce196519", "st83d60163e6", "as716562895d", "vm40923446f5", "netdbf127772", "pip2e737092a", "nic941612687", "st6799657372", "as80298728e7", "vm6ea076212d" ]
 }

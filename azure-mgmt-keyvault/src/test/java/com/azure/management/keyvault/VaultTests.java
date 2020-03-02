@@ -247,7 +247,7 @@ public class VaultTests extends KeyVaultManagementTest {
         }
     }
 
-    private static void assertVaultDeleted(String name, String location) {
+    private void assertVaultDeleted(String name, String location) {
         boolean deleted = false;
         try {
             keyVaultManager.vaults().getDeleted(name, location);

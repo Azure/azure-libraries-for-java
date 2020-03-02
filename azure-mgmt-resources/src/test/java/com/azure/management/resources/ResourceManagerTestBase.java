@@ -20,6 +20,7 @@ class ResourceManagerTestBase extends TestBase {
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         resourceClient = ResourceManager
                 .authenticate(restClient)
+                .withSdkContext(sdkContext)
                 .withSubscription(defaultSubscription);
     }
 

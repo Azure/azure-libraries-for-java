@@ -50,21 +50,22 @@ public abstract class ComputeManagementTest extends TestBase {
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         resourceManager = ResourceManager
                 .authenticate(restClient)
+                .withSdkContext(sdkContext)
                 .withSubscription(defaultSubscription);
 
         computeManager = ComputeManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
 
         networkManager = NetworkManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
 
         storageManager = StorageManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
 
         keyVaultManager = KeyVaultManager
-                .authenticate(restClient, domain, defaultSubscription);
+                .authenticate(restClient, domain, defaultSubscription, sdkContext);
 
-        rbacManager = GraphRbacManager.authenticate(restClient, domain);
+        rbacManager = GraphRbacManager.authenticate(restClient, domain, sdkContext);
     }
 
     @Override

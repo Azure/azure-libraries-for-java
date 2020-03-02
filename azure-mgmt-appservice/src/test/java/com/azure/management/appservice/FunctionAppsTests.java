@@ -50,7 +50,7 @@ public class FunctionAppsTests extends AppServiceTest {
         RG_NAME_2 = generateRandomResourceName("javacsmrg", 20);
 
         storageManager = StorageManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }

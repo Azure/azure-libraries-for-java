@@ -42,10 +42,10 @@ public class VirtualMachineScaleSetEMSILMSIOperationsTests  extends TestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException {
-        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
+        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription, sdkContext);
         this.resourceManager = msiManager.getResourceManager();
-        this.computeManager = ComputeManager.authenticate(restClient, defaultSubscription);
-        this.networkManager = NetworkManager.authenticate(restClient, defaultSubscription);
+        this.computeManager = ComputeManager.authenticate(restClient, defaultSubscription, sdkContext);
+        this.networkManager = NetworkManager.authenticate(restClient, defaultSubscription, sdkContext);
     }
 
     @Override

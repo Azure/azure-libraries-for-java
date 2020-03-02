@@ -37,13 +37,14 @@ public class KeyVaultManagementTest extends TestBase {
 
         resourceManager = ResourceManager
                 .authenticate(restClient)
+                .withSdkContext(sdkContext)
                 .withSubscription(defaultSubscription);
 
         graphRbacManager = GraphRbacManager
-                .authenticate(restClient, domain);
+                .authenticate(restClient, domain, sdkContext);
 
         keyVaultManager = KeyVaultManager
-                .authenticate(restClient, domain, defaultSubscription);
+                .authenticate(restClient, domain, defaultSubscription, sdkContext);
     }
 
     @Override

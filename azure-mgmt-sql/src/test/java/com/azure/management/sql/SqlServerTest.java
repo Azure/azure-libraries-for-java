@@ -35,13 +35,14 @@ public abstract class SqlServerTest extends TestBase {
 
         resourceManager = ResourceManager
                 .authenticate(restClient)
+                .withSdkContext(sdkContext)
                 .withSubscription(defaultSubscription);
 
         sqlServerManager = SqlServerManager
-                .authenticate(restClient, domain, defaultSubscription);
+                .authenticate(restClient, domain, defaultSubscription, sdkContext);
 
         storageManager = StorageManager
-            .authenticate(restClient, defaultSubscription);
+            .authenticate(restClient, defaultSubscription, sdkContext);
     }
 
     @Override

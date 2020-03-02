@@ -15,7 +15,6 @@ import com.azure.management.network.ApplicationGatewaySslCertificate;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 import java.io.File;
 import java.io.IOException;
@@ -176,7 +175,7 @@ class ApplicationGatewayListenerImpl
         String portName = this.parent().frontendPortNameFromNumber(portNumber);
         if (portName == null) {
             // Existing frontend port with this number not found so create one
-            portName = SdkContext.randomResourceName("port", 9);
+            portName = this.parent().manager().getSdkContext().randomResourceName("port", 9);
             this.parent().withFrontendPort(portNumber, portName);
         }
 
@@ -198,7 +197,7 @@ class ApplicationGatewayListenerImpl
 
     private ApplicationGatewayListenerImpl withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId, String name) {
         if (name == null) {
-            name = SdkContext.randomResourceName("cert", 10);
+            name = this.parent().manager().getSdkContext().randomResourceName("cert", 10);
         }
         this.parent().defineSslCertificate(name)
                 .withKeyVaultSecretId(keyVaultSecretId)
@@ -213,7 +212,7 @@ class ApplicationGatewayListenerImpl
 
     private ApplicationGatewayListenerImpl withSslCertificateFromPfxFile(File pfxFile, String name) throws IOException {
         if (name == null) {
-            name = SdkContext.randomResourceName("cert", 10);
+            name = this.parent().manager().getSdkContext().randomResourceName("cert", 10);
         }
         this.parent().defineSslCertificate(name)
                 .withPfxFromFile(pfxFile)

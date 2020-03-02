@@ -24,7 +24,6 @@ import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -241,7 +240,7 @@ class LoadBalancerFrontendImpl
 
     @Override
     public LoadBalancerFrontendImpl withNewPublicIPAddress() {
-        String dnsLabel = SdkContext.randomResourceName("fe", 20);
+        String dnsLabel = this.parent().manager().getSdkContext().randomResourceName("fe", 20);
         return this.withNewPublicIPAddress(dnsLabel);
     }
 

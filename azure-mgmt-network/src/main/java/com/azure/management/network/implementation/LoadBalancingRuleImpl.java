@@ -5,27 +5,26 @@
  */
 package com.azure.management.network.implementation;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.azure.core.management.SubResource;
+import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.LoadBalancerBackend;
 import com.azure.management.network.LoadBalancerFrontend;
-import com.azure.management.network.LoadBalancer;
+import com.azure.management.network.LoadBalancerProbe;
 import com.azure.management.network.LoadBalancingRule;
 import com.azure.management.network.LoadDistribution;
 import com.azure.management.network.Network;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.Subnet;
-import com.azure.management.network.LoadBalancerProbe;
 import com.azure.management.network.TransportProtocol;
 import com.azure.management.network.models.HasNetworkInterfaces;
 import com.azure.management.network.models.LoadBalancingRuleInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Implementation for LoadBalancingRule.
@@ -132,21 +131,21 @@ class LoadBalancingRuleImpl
 
     @Override
     public LoadBalancingRuleImpl fromNewPublicIPAddress(String leafDnsLabel) {
-        String frontendName = SdkContext.randomResourceName("fe", 20);
+        String frontendName = this.parent().manager().getSdkContext().randomResourceName("fe", 20);
         this.parent().withNewPublicIPAddress(leafDnsLabel, frontendName);
         return fromFrontend(frontendName);
     }
 
     @Override
     public LoadBalancingRuleImpl fromNewPublicIPAddress(Creatable<PublicIPAddress> pipDefinition) {
-        String frontendName = SdkContext.randomResourceName("fe", 20);
+        String frontendName = this.parent().manager().getSdkContext().randomResourceName("fe", 20);
         this.parent().withNewPublicIPAddress(pipDefinition, frontendName);
         return fromFrontend(frontendName);
     }
 
     @Override
     public LoadBalancingRuleImpl fromNewPublicIPAddress() {
-        String dnsLabel = SdkContext.randomResourceName("fe", 20);
+        String dnsLabel = this.parent().manager().getSdkContext().randomResourceName("fe", 20);
         return this.fromNewPublicIPAddress(dnsLabel);
     }
 

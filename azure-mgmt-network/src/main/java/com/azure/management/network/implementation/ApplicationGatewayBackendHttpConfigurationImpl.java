@@ -16,7 +16,6 @@ import com.azure.management.network.ApplicationGatewayProbe;
 import com.azure.management.network.ApplicationGatewayProtocol;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
 
 import java.io.File;
@@ -284,7 +283,7 @@ class ApplicationGatewayBackendHttpConfigurationImpl
 
         // If matching cert reference not found, create a new one
         if (certName == null) {
-            certName = SdkContext.randomResourceName("cert", 20);
+            certName = this.parent().manager().getSdkContext().randomResourceName("cert", 20);
             this.parent().defineAuthenticationCertificate(certName)
                     .fromBase64(base64Data)
                     .attach();

@@ -27,7 +27,6 @@ import com.azure.management.network.models.VirtualNetworkGatewayInner;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -118,7 +117,7 @@ class VirtualNetworkGatewayImpl
 
     @Override
     public VirtualNetworkGatewayImpl withNewNetwork(String addressSpaceCidr, String subnetAddressSpaceCidr) {
-        withNewNetwork(SdkContext.randomResourceName("vnet", 8), addressSpaceCidr, subnetAddressSpaceCidr);
+        withNewNetwork(this.manager().getSdkContext().randomResourceName("vnet", 8), addressSpaceCidr, subnetAddressSpaceCidr);
         return this;
     }
 
@@ -148,7 +147,7 @@ class VirtualNetworkGatewayImpl
 
     @Override
     public VirtualNetworkGatewayImpl withNewPublicIPAddress() {
-        final String pipName = SdkContext.randomResourceName("pip", 9);
+        final String pipName = this.manager().getSdkContext().randomResourceName("pip", 9);
         this.creatablePip = this.manager().publicIPAddresses().define(pipName)
                 .withRegion(this.regionName())
                 .withExistingResourceGroup(this.resourceGroupName());
@@ -345,7 +344,7 @@ class VirtualNetworkGatewayImpl
     private VirtualNetworkGatewayIPConfigurationImpl ensureDefaultIPConfig() {
         VirtualNetworkGatewayIPConfigurationImpl ipConfig = (VirtualNetworkGatewayIPConfigurationImpl) defaultIPConfiguration();
         if (ipConfig == null) {
-            String name = SdkContext.randomResourceName("ipcfg", 11);
+            String name = this.manager().getSdkContext().randomResourceName("ipcfg", 11);
             ipConfig = this.defineIPConfiguration(name);
             ipConfig.attach();
         }
@@ -354,7 +353,7 @@ class VirtualNetworkGatewayImpl
 
     private Creatable<PublicIPAddress> ensureDefaultPipDefinition() {
         if (this.creatablePip == null) {
-            final String pipName = SdkContext.randomResourceName("pip", 9);
+            final String pipName = this.manager().getSdkContext().randomResourceName("pip", 9);
             this.creatablePip = this.manager().publicIPAddresses().define(pipName)
                     .withRegion(this.regionName())
                     .withExistingResourceGroup(this.resourceGroupName());

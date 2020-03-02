@@ -54,7 +54,6 @@ import com.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -416,7 +415,7 @@ class ApplicationGatewayImpl
     }
 
     protected ApplicationGatewayBackendImpl ensureUniqueBackend() {
-        String name = SdkContext.randomResourceName("backend", 20);
+        String name = this.manager().getSdkContext().randomResourceName("backend", 20);
         ApplicationGatewayBackendImpl backend = this.defineBackend(name);
         backend.attach();
         return backend;
@@ -425,7 +424,7 @@ class ApplicationGatewayImpl
     private ApplicationGatewayIPConfigurationImpl ensureDefaultIPConfig() {
         ApplicationGatewayIPConfigurationImpl ipConfig = (ApplicationGatewayIPConfigurationImpl) defaultIPConfiguration();
         if (ipConfig == null) {
-            String name = SdkContext.randomResourceName("ipcfg", 11);
+            String name = this.manager().getSdkContext().randomResourceName("ipcfg", 11);
             ipConfig = this.defineIPConfiguration(name);
             ipConfig.attach();
         }
@@ -437,7 +436,7 @@ class ApplicationGatewayImpl
         if (frontend != null) {
             return frontend;
         } else {
-            String name = SdkContext.randomResourceName("frontend", 14);
+            String name = this.manager().getSdkContext().randomResourceName("frontend", 14);
             frontend = this.defineFrontend(name);
             frontend.attach();
             this.defaultPrivateFrontend = frontend;
@@ -450,7 +449,7 @@ class ApplicationGatewayImpl
         if (frontend != null) {
             return frontend;
         } else {
-            String name = SdkContext.randomResourceName("frontend", 14);
+            String name = this.manager().getSdkContext().randomResourceName("frontend", 14);
             frontend = this.defineFrontend(name);
             frontend.attach();
             this.defaultPublicFrontend = frontend;
@@ -462,7 +461,7 @@ class ApplicationGatewayImpl
 
     private Creatable<Network> ensureDefaultNetworkDefinition() {
         if (this.creatableNetwork == null) {
-            final String vnetName = SdkContext.randomResourceName("vnet", 10);
+            final String vnetName = this.manager().getSdkContext().randomResourceName("vnet", 10);
             this.creatableNetwork = this.manager().networks().define(vnetName)
                     .withRegion(this.region())
                     .withExistingResourceGroup(this.resourceGroupName())
@@ -478,7 +477,7 @@ class ApplicationGatewayImpl
 
     private Creatable<PublicIPAddress> ensureDefaultPipDefinition() {
         if (this.creatablePip == null) {
-            final String pipName = SdkContext.randomResourceName("pip", 9);
+            final String pipName = this.manager().getSdkContext().randomResourceName("pip", 9);
             this.creatablePip = this.manager().publicIPAddresses().define(pipName)
                     .withRegion(this.regionName())
                     .withExistingResourceGroup(this.resourceGroupName());
@@ -973,7 +972,7 @@ class ApplicationGatewayImpl
             // If no conflict, create a new port
             if (name == null) {
                 // No name specified, so auto-name it
-                name = SdkContext.randomResourceName("port", 9);
+                name = this.manager().getSdkContext().randomResourceName("port", 9);
             }
 
             frontendPortByName = new ApplicationGatewayFrontendPort()

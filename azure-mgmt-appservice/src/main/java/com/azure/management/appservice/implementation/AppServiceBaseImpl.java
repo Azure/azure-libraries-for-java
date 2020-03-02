@@ -30,7 +30,6 @@ import com.azure.management.appservice.models.SlotConfigNamesResourceInner;
 import com.azure.management.appservice.models.StringDictionaryInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
@@ -297,7 +296,7 @@ abstract class AppServiceBaseImpl<
     }
 
     private AppServicePlanImpl newDefaultAppServicePlan() {
-        String planName = SdkContext.randomResourceName(name() + "plan", 32);
+        String planName = this.manager().getSdkContext().randomResourceName(name() + "plan", 32);
         return newDefaultAppServicePlan(planName);
     }
 

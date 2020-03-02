@@ -16,7 +16,6 @@ import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.IndependentChild;
 import com.azure.management.resources.fluentcore.arm.models.implementation.IndependentChildImpl;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Mono;
 
@@ -359,7 +358,7 @@ class NetworkPeeringImpl
 
                                 } else {
                                     // No matching remote peering, so create one on the remote network
-                                    String peeringName = SdkContext.randomResourceName("peer", 15);
+                                    String peeringName = this.manager().getSdkContext().randomResourceName("peer", 15);
 
                                     WithCreate remotePeeringDefinition = remoteNetwork.peerings().define(peeringName)
                                             .withRemoteNetwork(localPeering.parent.id());

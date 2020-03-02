@@ -7,18 +7,17 @@ package com.azure.management.network.implementation;
 
 import com.azure.core.management.CloudException;
 import com.azure.core.management.SubResource;
-import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
-import com.azure.management.network.models.IPAddressAvailabilityResultInner;
-import com.azure.management.network.models.SubnetInner;
-import com.azure.management.network.models.VirtualNetworkInner;
 import com.azure.management.network.AddressSpace;
 import com.azure.management.network.DdosProtectionPlan;
 import com.azure.management.network.DhcpOptions;
 import com.azure.management.network.Network;
 import com.azure.management.network.NetworkPeerings;
 import com.azure.management.network.Subnet;
+import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
+import com.azure.management.network.models.IPAddressAvailabilityResultInner;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.network.models.VirtualNetworkInner;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Mono;
 
@@ -296,7 +295,7 @@ class NetworkImpl
     public NetworkImpl withNewDdosProtectionPlan() {
         inner().withEnableDdosProtection(true);
         DdosProtectionPlan.DefinitionStages.WithGroup ddosProtectionPlanWithGroup = manager().ddosProtectionPlans()
-                .define(SdkContext.randomResourceName(name(), 20))
+                .define(this.manager().getSdkContext().randomResourceName(name(), 20))
                 .withRegion(region());
         if (super.creatableGroup != null && isInCreateMode()) {
             ddosProtectionPlanCreatable = ddosProtectionPlanWithGroup.withNewResourceGroup(super.creatableGroup);

@@ -6,9 +6,10 @@
 package com.azure.management.sql.implementation;
 
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.sql.SqlDatabaseImportExportResponse;
 import com.azure.management.sql.models.ImportExportResponseInner;
+
+import java.util.UUID;
 
 /**
  * Implementation for SqlDatabaseImportExportResponse.
@@ -20,7 +21,7 @@ public class SqlDatabaseImportExportResponseImpl extends WrapperImpl<ImportExpor
 
     protected SqlDatabaseImportExportResponseImpl(ImportExportResponseInner innerObject) {
         super(innerObject);
-        this.key = SdkContext.randomUuid();
+        this.key = UUID.randomUUID().toString();
     }
 
     @Override

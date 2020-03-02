@@ -33,7 +33,6 @@ import com.azure.management.network.models.LoadBalancingRuleInner;
 import com.azure.management.network.models.ProbeInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
@@ -112,7 +111,7 @@ class LoadBalancerImpl
     }
 
     protected LoadBalancerBackendImpl ensureUniqueBackend() {
-        String name = SdkContext.randomResourceName("backend", 20);
+        String name = this.manager().getSdkContext().randomResourceName("backend", 20);
         LoadBalancerBackendImpl backend = this.defineBackend(name);
         backend.attach();
         return backend;
@@ -134,7 +133,7 @@ class LoadBalancerImpl
     }
 
     protected LoadBalancerFrontendImpl ensureUniqueFrontend() {
-        String name = SdkContext.randomResourceName("frontend", 20);
+        String name = this.manager().getSdkContext().randomResourceName("frontend", 20);
         LoadBalancerFrontendImpl frontend = this.defineFrontend(name);
         frontend.attach();
         return frontend;

@@ -126,9 +126,9 @@ public class FunctionAppsTests extends AppServiceTest {
 
         // List
         PagedIterable<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functionApps));
+        Assertions.assertEquals(1, TestUtilities.getSize(functionApps));
         functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_2);
-        Assertions.assertEquals(2, TestUtilities.getPagedIterableSize(functionApps));
+        Assertions.assertEquals(2, TestUtilities.getSize(functionApps));
 
         // Update
         functionApp2.update()
@@ -145,11 +145,11 @@ public class FunctionAppsTests extends AppServiceTest {
 
         // Update, verify modify AppSetting does not create new storage account
         // https://github.com/Azure/azure-libraries-for-net/issues/457
-        int numStorageAccountBefore = TestUtilities.getPagedIterableSize(storageManager.storageAccounts().listByResourceGroup(RG_NAME_1));
+        int numStorageAccountBefore = TestUtilities.getSize(storageManager.storageAccounts().listByResourceGroup(RG_NAME_1));
         functionApp1.update()
                 .withAppSetting("newKey", "newValue")
                 .apply();
-        int numStorageAccountAfter = TestUtilities.getPagedIterableSize(storageManager.storageAccounts().listByResourceGroup(RG_NAME_1));
+        int numStorageAccountAfter = TestUtilities.getSize(storageManager.storageAccounts().listByResourceGroup(RG_NAME_1));
         Assertions.assertEquals(numStorageAccountBefore, numStorageAccountAfter);
         FunctionAppResource functionAppResource1Updated = getStorageAccount(storageManager, functionApp1);
         Assertions.assertTrue(functionAppResource1Updated.appSettings.containsKey("newKey"));
@@ -191,7 +191,7 @@ public class FunctionAppsTests extends AppServiceTest {
         Assertions.assertTrue(Arrays.asList(functionApp1.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
 
         PagedIterable<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functionApps));
+        Assertions.assertEquals(1, TestUtilities.getSize(functionApps));
 
         // function app with app service plan
         FunctionApp functionApp2 = appServiceManager.functionApps().define(WEBAPP_NAME_2)
@@ -227,17 +227,17 @@ public class FunctionAppsTests extends AppServiceTest {
         }
 
         functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
-        Assertions.assertEquals(3, TestUtilities.getPagedIterableSize(functionApps));
+        Assertions.assertEquals(3, TestUtilities.getSize(functionApps));
 
         // verify deploy
         PagedIterable<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
+        Assertions.assertEquals(1, TestUtilities.getSize(functions));
 
         functions = appServiceManager.functionApps().listFunctions(functionApp2.resourceGroupName(), functionApp2.name());
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
+        Assertions.assertEquals(1, TestUtilities.getSize(functions));
 
         functions = appServiceManager.functionApps().listFunctions(functionApp3.resourceGroupName(), functionApp3.name());
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
+        Assertions.assertEquals(1, TestUtilities.getSize(functions));
     }
 
     @Test
@@ -267,7 +267,7 @@ public class FunctionAppsTests extends AppServiceTest {
 
         // verify deploy
         PagedIterable<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(functions));
+        Assertions.assertEquals(1, TestUtilities.getSize(functions));
     }
 
     @Test

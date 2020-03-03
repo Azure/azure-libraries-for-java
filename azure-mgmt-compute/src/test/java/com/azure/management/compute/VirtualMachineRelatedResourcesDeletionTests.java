@@ -206,19 +206,19 @@ public class VirtualMachineRelatedResourcesDeletionTests extends ComputeManageme
 
         // Verifications
         final int successfulVMCount = desiredVMCount - vmNonNicResourceDefinitions.size();
-        final int actualVMCount = TestUtilities.getPagedIterableSize(computeManager.virtualMachines().listByResourceGroup(resourceGroupName));
+        final int actualVMCount = TestUtilities.getSize(computeManager.virtualMachines().listByResourceGroup(resourceGroupName));
         System.out.println("Number of actual successful VMs: " + actualVMCount);
 
         Assertions.assertEquals(successfulVMCount, actualVMCount);
-        final int actualNicCount = TestUtilities.getPagedIterableSize(networkManager.networkInterfaces().listByResourceGroup(resourceGroupName));
+        final int actualNicCount = TestUtilities.getSize(networkManager.networkInterfaces().listByResourceGroup(resourceGroupName));
         Assertions.assertEquals(successfulVMCount, actualNicCount);
-        final int actualNetworkCount = TestUtilities.getPagedIterableSize(networkManager.networks().listByResourceGroup(resourceGroupName));
+        final int actualNetworkCount = TestUtilities.getSize(networkManager.networks().listByResourceGroup(resourceGroupName));
         Assertions.assertEquals(successfulVMCount, actualNetworkCount);
-        final int actualPipCount = TestUtilities.getPagedIterableSize(networkManager.publicIPAddresses().listByResourceGroup(resourceGroupName));
+        final int actualPipCount = TestUtilities.getSize(networkManager.publicIPAddresses().listByResourceGroup(resourceGroupName));
         Assertions.assertEquals(successfulVMCount, actualPipCount);
-        final int actualAvailabilitySetCount = TestUtilities.getPagedIterableSize(computeManager.availabilitySets().listByResourceGroup(resourceGroupName));
+        final int actualAvailabilitySetCount = TestUtilities.getSize(computeManager.availabilitySets().listByResourceGroup(resourceGroupName));
         Assertions.assertEquals(successfulVMCount, actualAvailabilitySetCount);
-        final int actualStorageAccountCount = TestUtilities.getPagedIterableSize(storageManager.storageAccounts().listByResourceGroup(resourceGroupName));
+        final int actualStorageAccountCount = TestUtilities.getSize(storageManager.storageAccounts().listByResourceGroup(resourceGroupName));
         Assertions.assertEquals(successfulVMCount, actualStorageAccountCount);
 
         // Verify that at least one VM failed.

@@ -79,7 +79,7 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
 
         PagedIterable<Disk> myDisks = computeManager.disks().listByResourceGroup(disk.resourceGroupName());
         Assertions.assertNotNull(myDisks);
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(myDisks) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(myDisks) > 0);
 
         String sasUrl = disk.grantAccess(100);
         Assertions.assertTrue(sasUrl != null && sasUrl != "");

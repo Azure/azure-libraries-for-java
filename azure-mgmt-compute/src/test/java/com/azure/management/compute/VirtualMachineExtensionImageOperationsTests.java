@@ -59,7 +59,7 @@ public class VirtualMachineExtensionImageOperationsTests extends ComputeManageme
         // Lookup Azure docker extension type
         //
         VirtualMachineExtensionImageTypes extensionImageTypes = azureDockerExtensionPublisher.extensionTypes();
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(extensionImageTypes.list()) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(extensionImageTypes.list()) > 0);
 
         VirtualMachineExtensionImageType dockerExtensionImageType = null;
         for (VirtualMachineExtensionImageType extensionImageType : extensionImageTypes.list()) {
@@ -82,7 +82,7 @@ public class VirtualMachineExtensionImageOperationsTests extends ComputeManageme
         // Fetch Azure docker extension versions
         //
         VirtualMachineExtensionImageVersions extensionImageVersions = dockerExtensionImageType.versions();
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(extensionImageVersions.list()) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(extensionImageVersions.list()) > 0);
 
         VirtualMachineExtensionImageVersion extensionImageFirstVersion = null;
         for (VirtualMachineExtensionImageVersion extensionImageVersion : extensionImageVersions.list()) {

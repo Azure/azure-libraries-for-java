@@ -10,6 +10,7 @@ import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.implementation.polling.PollerFactory;
 import com.azure.core.management.polling.PollResult;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.core.util.Context;
 import com.azure.core.util.polling.PollerFlux;
 import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -59,10 +60,14 @@ public abstract class AzureServiceClient {
 
     private static final String MAC_ADDRESS_HASH;
     private static final String OS;
+    private static final String OS_NAME;
+    private static final String OS_VERSION;
     private static final String JAVA_VERSION;
 
     static {
-        OS = System.getProperty("os.name") + "/" + System.getProperty("os.version");
+        OS_NAME = System.getProperty("os.name");
+        OS_VERSION = System.getProperty("os.version");
+        OS = OS_NAME + "/" + OS_VERSION;
         String macAddress = "Unknown";
         try {
             Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
@@ -87,6 +92,12 @@ public abstract class AzureServiceClient {
 
     public SerializerAdapter getSerializerAdapter() {
         return this.serializerAdapter;
+    }
+
+    protected Context getContext() {
+        return new Context("java.version", JAVA_VERSION)
+                .addData("os.name", OS_NAME)
+                .addData("os.version", OS_VERSION);
     }
 
     public <T, U> PollerFlux<PollResult<T>, U> getLroResultAsync(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit,

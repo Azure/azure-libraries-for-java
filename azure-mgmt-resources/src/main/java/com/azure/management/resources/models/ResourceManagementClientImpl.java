@@ -12,6 +12,7 @@ import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.management.AzureEnvironment;
+import com.azure.core.util.Context;
 import com.azure.management.AzureServiceClient;
 
 /**
@@ -111,6 +112,12 @@ public final class ResourceManagementClientImpl extends AzureServiceClient {
      * The OperationsInner object to access its operations.
      */
     private OperationsInner operations;
+
+    @Override
+    public Context getContext() {
+        return super.getContext()
+                .addData("Sdk-Name", "ResourceManagementClient");
+    }
 
     /**
      * Gets the OperationsInner object to access its operations.

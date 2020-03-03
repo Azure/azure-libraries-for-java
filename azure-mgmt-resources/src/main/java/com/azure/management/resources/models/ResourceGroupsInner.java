@@ -30,6 +30,8 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.Context;
+import com.azure.core.util.FluxUtil;
 import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.ExportTemplateRequest;
 import com.azure.management.resources.ResourceGroupPatchable;
@@ -88,7 +90,7 @@ public final class ResourceGroupsInner {
         @Get("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ResourceGroupInner>> get(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ResourceGroupInner>> get(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, Context context);
 
         @Patch("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}")
         @ExpectedResponses({200})
@@ -268,7 +270,9 @@ public final class ResourceGroupsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ResourceGroupInner>> getWithResponseAsync(String resourceGroupName) {
-        return service.get(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), this.client.getApiVersion());
+        return FluxUtil
+                .withContext(context -> service.get(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), this.client.getApiVersion(), context))
+                .subscriberContext(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext().addData("Sdk-Version", this.client.getApiVersion()))));
     }
 
     /**

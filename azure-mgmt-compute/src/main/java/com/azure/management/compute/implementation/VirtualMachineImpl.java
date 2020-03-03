@@ -1773,10 +1773,7 @@ class VirtualMachineImpl
                 break;
             }
         }
-        if (environment != null) {
-            return environment;
-        }
-        throw new IllegalArgumentException("Unknown environment");
+        return environment == null ? AzureEnvironment.AZURE : environment;
     }
 
     private void setOSDiskDefaults() {

@@ -179,26 +179,25 @@ class AvailabilitySetImpl
         if (this.inner().platformUpdateDomainCount() == null) {
             this.inner().withPlatformUpdateDomainCount(5);
         }
-        this.createNewProximityPlacementGroup();
-        return manager().inner().availabilitySets()
-                .createOrUpdateAsync(resourceGroupName(), name(), inner())
-                .map(availabilitySetInner -> {
+        return this.createNewProximityPlacementGroup().flatMap(inner -> this.manager().inner().availabilitySets()
+                .createOrUpdateAsync(resourceGroupName(), name(), inner).map(availabilitySetInner -> {
                     self.setInner(availabilitySetInner);
                     idOfVMsInSet = null;
                     return self;
-                });
+                }));
     }
 
-    private void createNewProximityPlacementGroup() {
+    private Mono<AvailabilitySetInner> createNewProximityPlacementGroup() {
         if (isInCreateMode()) {
             if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
                 ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
                 plgInner.withProximityPlacementGroupType(this.newProximityPlacementGroupType);
                 plgInner.setLocation(this.inner().getLocation());
-                plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(),
-                        this.newProximityPlacementGroupName, plgInner);
-                this.inner().withProximityPlacementGroup((new SubResource().setId(plgInner.getId())));
+                return this.manager().inner().proximityPlacementGroups().createOrUpdateAsync(this.resourceGroupName(),
+                        this.newProximityPlacementGroupName, plgInner)
+                        .map(createdPlgInner -> this.inner().withProximityPlacementGroup(new SubResource().setId(createdPlgInner.getId())));
             }
         }
+        return Mono.just(this.inner());
     }
 }

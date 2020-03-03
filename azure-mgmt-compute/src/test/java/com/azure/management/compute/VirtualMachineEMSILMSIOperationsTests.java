@@ -14,6 +14,8 @@ import com.azure.management.graphrbac.RoleAssignment;
 import com.azure.management.msi.Identity;
 import com.azure.management.msi.implementation.MSIManager;
 import com.azure.management.network.Network;
+import com.azure.management.network.NetworkInterface;
+import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.implementation.NetworkManager;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.core.TestBase;
@@ -54,8 +56,9 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
     @Test
     public void canCreateUpdateVirtualMachineWithEMSI() {
         // this.resourceManager.resourceGroups().beginDeleteByName("41522c6e938c4f6");
-
         RG_NAME = generateRandomResourceName("java-emsi-c-rg", 15);
+        String nsgName = generateRandomResourceName("java-nsg", 15);
+        String nicName = generateRandomResourceName("java-nic", 15);
         String identityName1 = generateRandomResourceName("msi-id", 15);
         String identityName2 = generateRandomResourceName("msi-id", 15);
         String networkName = generateRandomResourceName("nw", 10);
@@ -92,16 +95,23 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
                 .withNewResourceGroup(creatableRG)
                 .withAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR);
 
+        Creatable<NetworkSecurityGroup> nsg = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(region)
+                .withNewResourceGroup(creatableRG);
 
+        Creatable<NetworkInterface> nic = networkManager.networkInterfaces().define(nicName)
+                .withRegion(region)
+                .withNewResourceGroup(creatableRG)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withNewNetworkSecurityGroup(nsg);
         // Create a virtual machine and associate it with existing and yet-t-be-created identities
         //
         VirtualMachine virtualMachine = computeManager.virtualMachines()
                 .define(VMNAME)
                 .withRegion(region)
                 .withNewResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIPAddressDynamic()
-                .withoutPrimaryPublicIPAddress()
+                .withNewPrimaryNetworkInterface(nic)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")
@@ -256,6 +266,8 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
     @Test
     public void canCreateVirtualMachineWithLMSIAndEMSI() {
         RG_NAME = generateRandomResourceName("java-emsi-c-rg", 15);
+        String nsgName = generateRandomResourceName("java-nsg", 15);
+        String nicName = generateRandomResourceName("java-nic", 15);
         String identityName1 = generateRandomResourceName("msi-id", 15);
         String networkName = generateRandomResourceName("nw", 10);
 
@@ -283,15 +295,23 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
                 .withExistingResourceGroup(resourceGroup)
                 .withAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR);
 
+        Creatable<NetworkSecurityGroup> nsg = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup);
+
+        Creatable<NetworkInterface> nic = networkManager.networkInterfaces().define(nicName)
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withNewNetworkSecurityGroup(nsg);
         // Create a virtual machine and associate it with existing and yet-to-be-created identities
         //
         VirtualMachine virtualMachine = computeManager.virtualMachines()
                 .define(VMNAME)
                 .withRegion(region)
                 .withNewResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIPAddressDynamic()
-                .withoutPrimaryPublicIPAddress()
+                .withNewPrimaryNetworkInterface(nic)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")
@@ -363,18 +383,35 @@ public class VirtualMachineEMSILMSIOperationsTests extends TestBase {
     @Test
     public void canUpdateVirtualMachineWithEMSIAndLMSI() throws Exception {
         RG_NAME = generateRandomResourceName("java-emsi-c-rg", 15);
+        String nsgName = generateRandomResourceName("java-nsg", 15);
+        String nicName = generateRandomResourceName("java-nic", 15);
         String identityName1 = generateRandomResourceName("msi-id-1", 15);
         String identityName2 = generateRandomResourceName("msi-id-2", 15);
+
+        ResourceGroup resourceGroup = resourceManager.resourceGroups().define(RG_NAME)
+                .withRegion(region)
+                .create();
+
+        NetworkSecurityGroup nsg = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .create();
+
+        NetworkInterface nic = networkManager.networkInterfaces().define(nicName)
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withExistingNetworkSecurityGroup(nsg)
+                .create();
 
         // Create a virtual machine with no EMSI & LMSI
         //
         VirtualMachine virtualMachine = computeManager.virtualMachines()
                 .define(VMNAME)
                 .withRegion(region)
-                .withNewResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIPAddressDynamic()
-                .withoutPrimaryPublicIPAddress()
+                .withExistingResourceGroup(resourceGroup)
+                .withExistingPrimaryNetworkInterface(nic)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")

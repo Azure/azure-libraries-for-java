@@ -13,6 +13,8 @@ import com.azure.management.network.LoadBalancerPublicFrontend;
 import com.azure.management.network.LoadBalancerSkuType;
 import com.azure.management.network.LoadBalancingRule;
 import com.azure.management.network.Network;
+import com.azure.management.network.NetworkInterface;
+import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.PublicIPSkuType;
 import com.azure.management.network.Subnet;
@@ -48,16 +50,41 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
     @Test
     public void canCreateZonedVirtualMachineWithImplicitZoneForRelatedResources() throws Exception {
         final String pipDnsLabel = generateRandomResourceName("pip", 10);
+        final String nsgName = generateRandomResourceName("nsg", 10);
+        final String nicName = generateRandomResourceName("nic", 10);
         final String proxyGroupName = "plg1Test";
+        //Create resource group
+        ResourceGroup resourceGroup = resourceManager.resourceGroups().define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+        //Create network security group
+        NetworkSecurityGroup nsg = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .create();
+        //Create public IP address
+        PublicIPAddress pip = networkManager.publicIPAddresses().define(pipDnsLabel)
+                .withRegion(REGION)
+                .withExistingResourceGroup(RG_NAME)
+                .withDynamicIP()
+                .withAvailabilityZone(AvailabilityZoneId.ZONE_1)
+                .create();
+        //Create network interface
+        NetworkInterface nic = networkManager.networkInterfaces().define(nicName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withExistingPrimaryPublicIPAddress(pip)
+                .withExistingNetworkSecurityGroup(nsg)
+                .create();
         // Create a zoned virtual machine
         //
         VirtualMachine virtualMachine = computeManager.virtualMachines()
                 .define(VMNAME)
                 .withRegion(REGION)
-                .withNewResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIPAddressDynamic()
-                .withNewPrimaryPublicIPAddress(pipDnsLabel)
+                .withExistingResourceGroup(RG_NAME)
+                .withExistingPrimaryNetworkInterface(nic)
                 .withNewProximityPlacementGroup(proxyGroupName, ProximityPlacementGroupType.STANDARD)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")

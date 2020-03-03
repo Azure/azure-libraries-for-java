@@ -250,6 +250,9 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
 
     @Test
     public void cannotUpdateProximityPlacementGroupForVirtualMachine() throws Exception {
+        String nsgName = generateRandomResourceName("javansg", 15);
+        String nicName = generateRandomResourceName("javanic", 15);
+
         AvailabilitySet setCreated = computeManager.availabilitySets()
                 .define(AVAILABILITYSETNAME)
                 .withRegion(REGIONPROXPLACEMENTGROUP)
@@ -281,14 +284,25 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assertions.assertTrue(setCreated2.id().equalsIgnoreCase(setCreated2.proximityPlacementGroup().availabilitySetIds().get(0)));
         Assertions.assertEquals(setCreated2.regionName(), setCreated2.proximityPlacementGroup().location());
 
+        NetworkSecurityGroup nsg = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(REGIONPROXPLACEMENTGROUP)
+                .withExistingResourceGroup(RG_NAME)
+                .create();
+
+        NetworkInterface nic = networkManager.networkInterfaces().define(nicName)
+                .withRegion(REGIONPROXPLACEMENTGROUP)
+                .withExistingResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withExistingNetworkSecurityGroup(nsg)
+                .create();
+
         // Create
         computeManager.virtualMachines()
                 .define(VMNAME)
                 .withRegion(REGIONPROXPLACEMENTGROUP)
                 .withExistingResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIPAddressDynamic()
-                .withoutPrimaryPublicIPAddress()
+                .withExistingPrimaryNetworkInterface(nic)
                 .withProximityPlacementGroup(setCreated.proximityPlacementGroup().id())
                 .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_DATACENTER)
                 .withAdminUsername("Foo12")
@@ -344,10 +358,15 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         // Delete VM
         computeManager.virtualMachines().deleteById(foundVM.id());
         computeManager.availabilitySets().deleteById(setCreated.id());
+        // Delete resource group
+        resourceManager.resourceGroups().deleteByName(RG_NAME2);
     }
 
     @Test
     public void canCreateVirtualMachinesAndAvailabilitySetInSameProximityPlacementGroup() throws Exception {
+        final String nsgName = generateRandomResourceName("nsg", 10);
+        final String nicName = generateRandomResourceName("nic", 10);
+
         AvailabilitySet setCreated = computeManager.availabilitySets()
                 .define(AVAILABILITYSETNAME)
                 .withRegion(REGIONPROXPLACEMENTGROUP)
@@ -363,14 +382,24 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assertions.assertTrue(setCreated.id().equalsIgnoreCase(setCreated.proximityPlacementGroup().availabilitySetIds().get(0)));
         Assertions.assertEquals(setCreated.regionName(), setCreated.proximityPlacementGroup().location());
 
+        NetworkSecurityGroup networkSecurityGroup = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(REGIONPROXPLACEMENTGROUP)
+                .withExistingResourceGroup(RG_NAME)
+                .create();
+
+        NetworkInterface networkInterface = networkManager.networkInterfaces().define(nicName)
+                .withRegion(REGIONPROXPLACEMENTGROUP)
+                .withExistingResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withExistingNetworkSecurityGroup(networkSecurityGroup)
+                .create();
         // Create
         computeManager.virtualMachines()
                 .define(VMNAME)
                 .withRegion(REGIONPROXPLACEMENTGROUP)
                 .withExistingResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIPAddressDynamic()
-                .withoutPrimaryPublicIPAddress()
+                .withExistingPrimaryNetworkInterface(networkInterface)
                 .withProximityPlacementGroup(setCreated.proximityPlacementGroup().id())
                 .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_DATACENTER)
                 .withAdminUsername("Foo12")
@@ -534,15 +563,18 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     return createdResource;
                 })
                 .collectList().block();
-        // 1 resource group, 1 storage, 5 network, 5 publicIp, 5 nic, 5 virtual machines
+        // 1 resource group, 1 storage, 5 network, 5 publicIp, 5 nsg, 5 nic, 5 virtual machines
         // Additional one for CreatableUpdatableResourceRoot.
         // TODO - ans - We should not emit CreatableUpdatableResourceRoot.
-        Assertions.assertEquals(resourceCount.get(), 23);
+        Assertions.assertEquals(resourceCount.get(), 28);
     }
 
     @Test
     public void canSetStorageAccountForUnmanagedDisk() {
         final String storageName = sdkContext.randomResourceName("st", 14);
+        final String nsgName = generateRandomResourceName("nsg", 10);
+        final String nicName = generateRandomResourceName("nic", 10);
+
         // Create a premium storage account for virtual machine data disk
         //
         StorageAccount storageAccount = storageManager.storageAccounts().define(storageName)
@@ -551,6 +583,18 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withSku(SkuName.PREMIUM_LRS)
                 .create();
 
+        NetworkSecurityGroup networkSecurityGroup = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(RG_NAME)
+                .create();
+
+        NetworkInterface networkInterface = networkManager.networkInterfaces().define(nicName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withExistingNetworkSecurityGroup(networkSecurityGroup)
+                .create();
         // Creates a virtual machine with an unmanaged data disk that gets stored in the above
         // premium storage account
         //
@@ -558,9 +602,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .define(VMNAME)
                 .withRegion(REGION)
                 .withExistingResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIPAddressDynamic()
-                .withoutPrimaryPublicIPAddress()
+                .withExistingPrimaryNetworkInterface(networkInterface)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")
@@ -602,9 +644,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .define(VMNAME)
                 .withRegion(REGION)
                 .withExistingResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIPAddressDynamic()
-                .withoutPrimaryPublicIPAddress()
+                .withExistingPrimaryNetworkInterface(networkInterface)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")
@@ -730,14 +770,25 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     .withNewResourceGroup(resourceGroupCreatable);
             publicIpCreatableKeys.add(publicIPAddressCreatable.key());
 
+            Creatable<NetworkSecurityGroup> networkSecurityGroupCreatable = networkManager.networkSecurityGroups()
+                    .define(String.format("%s-nsg-%d", networkNamePrefix, i))
+                    .withRegion(region)
+                    .withNewResourceGroup(resourceGroupCreatable);
 
-            Creatable<VirtualMachine> virtualMachineCreatable = computeManager.virtualMachines()
-                    .define(String.format("%s-%d", vmNamePrefix, i))
+            Creatable<NetworkInterface> networkInterfaceCreatable = networkManager.networkInterfaces()
+                    .define(String.format("%s-nic-%d", networkNamePrefix, i))
                     .withRegion(region)
                     .withNewResourceGroup(resourceGroupCreatable)
                     .withNewPrimaryNetwork(networkCreatable)
                     .withPrimaryPrivateIPAddressDynamic()
                     .withNewPrimaryPublicIPAddress(publicIPAddressCreatable)
+                    .withNewNetworkSecurityGroup(networkSecurityGroupCreatable);
+
+            Creatable<VirtualMachine> virtualMachineCreatable = computeManager.virtualMachines()
+                    .define(String.format("%s-%d", vmNamePrefix, i))
+                    .withRegion(region)
+                    .withNewResourceGroup(resourceGroupCreatable)
+                    .withNewPrimaryNetworkInterface(networkInterfaceCreatable)
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername("tirekicker")
                     .withRootPassword("BaR@12!#")

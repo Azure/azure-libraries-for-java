@@ -10,6 +10,8 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.RestClient;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.graphrbac.RoleAssignment;
+import com.azure.management.network.NetworkInterface;
+import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
@@ -188,6 +190,8 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
     @Test
     public void canSetMSIOnNewVMWithMultipleRoleAssignments() throws Exception {
         String storageAccountName = generateRandomResourceName("javacsrg", 15);
+        String nsgName = generateRandomResourceName("javansg", 15);
+        String nicName = generateRandomResourceName("javanic", 15);
 
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(storageAccountName)
@@ -197,13 +201,24 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
 
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups().getByName(storageAccount.resourceGroupName());
 
+        NetworkSecurityGroup nsg = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .create();
+
+        NetworkInterface nic = networkManager.networkInterfaces().define(nicName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withExistingNetworkSecurityGroup(nsg)
+                .create();
+
         VirtualMachine virtualMachine = computeManager.virtualMachines()
                 .define(VMNAME)
                 .withRegion(REGION)
                 .withExistingResourceGroup(RG_NAME)
-                .withNewPrimaryNetwork("10.0.0.0/28")
-                .withPrimaryPrivateIPAddressDynamic()
-                .withoutPrimaryPublicIPAddress()
+                .withExistingPrimaryNetworkInterface(nic)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")

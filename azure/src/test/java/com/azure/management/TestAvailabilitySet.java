@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Assertions;
 public class TestAvailabilitySet extends TestTemplate<AvailabilitySet, AvailabilitySets> {
     @Override
     public AvailabilitySet createResource(AvailabilitySets availabilitySets) throws Exception {
-        final String newName = "as" + this.testId;
+        final String newName = availabilitySets.manager().getSdkContext().randomResourceName("as", 10);
         AvailabilitySet aset = availabilitySets.define(newName)
                 .withRegion(Region.US_EAST)
                 .withNewResourceGroup()
@@ -35,7 +35,7 @@ public class TestAvailabilitySet extends TestTemplate<AvailabilitySet, Availabil
     @Override
     public AvailabilitySet updateResource(AvailabilitySet resource) throws Exception {
         // Modify existing availability set
-        resource =  resource.update()
+        resource = resource.update()
                 .withTag("tag2", "value2")
                 .withTag("tag3", "value3")
                 .withoutTag("tag1")

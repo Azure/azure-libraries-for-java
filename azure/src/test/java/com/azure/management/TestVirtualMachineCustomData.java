@@ -14,7 +14,6 @@ import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.PublicIPAddresses;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
@@ -35,8 +34,8 @@ public class TestVirtualMachineCustomData extends TestTemplate<VirtualMachine, V
 
     @Override
     public VirtualMachine createResource(VirtualMachines virtualMachines) throws Exception {
-        final String vmName = "vm" + this.testId;
-        final String publicIpDnsLabel = SdkContext.randomResourceName("abc", 16);
+        final String vmName = virtualMachines.manager().getSdkContext().randomResourceName("vm", 10);
+        final String publicIpDnsLabel = virtualMachines.manager().getSdkContext().randomResourceName("abc", 16);
 
         // Prepare the custom data
         //

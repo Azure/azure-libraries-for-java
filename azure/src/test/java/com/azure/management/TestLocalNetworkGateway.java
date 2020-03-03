@@ -21,7 +21,6 @@ public class TestLocalNetworkGateway extends TestTemplate<LocalNetworkGateway, L
     private String lngwName;
 
     private void initializeResourceNames() {
-        TEST_ID = SdkContext.randomResourceName("", 8);
         groupName = "rg" + TEST_ID;
         lngwName = "lngw" + TEST_ID;
     }

@@ -6,7 +6,6 @@
 
 package com.azure.management;
 
-
 import com.azure.management.compute.CachingTypes;
 import com.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.azure.management.compute.VirtualMachine;
@@ -19,7 +18,7 @@ import org.junit.jupiter.api.Assertions;
 public class TestVirtualMachineDataDisk extends TestTemplate<VirtualMachine, VirtualMachines> {
     @Override
     public VirtualMachine createResource(VirtualMachines virtualMachines) throws Exception {
-        final String vmName = "vm" + this.testId;
+        final String vmName = virtualMachines.manager().getSdkContext().randomResourceName("vm", 10);
         VirtualMachine virtualMachine = virtualMachines.define(vmName)
                 .withRegion(Region.US_EAST)
                 .withNewResourceGroup()

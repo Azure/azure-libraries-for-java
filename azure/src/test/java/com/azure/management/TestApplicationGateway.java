@@ -58,7 +58,6 @@ public class TestApplicationGateway {
     }
 
     static void initializeResourceNames() {
-        TEST_ID = SdkContext.randomResourceName("", 8);
         GROUP_NAME = "rg" + TEST_ID;
         APP_GATEWAY_NAME = "ag" + TEST_ID;
         PIP_NAMES = new String[]{"pipa" + TEST_ID, "pipb" + TEST_ID};

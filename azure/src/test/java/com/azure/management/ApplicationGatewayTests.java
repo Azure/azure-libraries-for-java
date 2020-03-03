@@ -46,30 +46,32 @@ public class ApplicationGatewayTests extends TestBase {
 
     /**
      * Tests a complex internal application gateway.
+     *
      * @throws Exception
      */
     @Test
     public void testAppGatewaysInternalComplex() throws Exception {
         new TestApplicationGateway.PrivateComplex()
-                .runTest(azure.applicationGateways(),  azure.resourceGroups());
+                .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 
     /**
      * Tests application gateway with path-based routing rule.
+     *
      * @throws Exception
      */
     @Test
     public void testAppGatewaysPublicUrlPathBased() throws Exception {
         new TestApplicationGateway.UrlPathBased()
-                .runTest(azure.applicationGateways(),  azure.resourceGroups());
+                .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 
     @Test
     public void testAppGatewayBackendHealthCheck() throws Exception {
-        String testId = SdkContext.randomResourceName("", 15);
+        String testId = azure.applicationGateways().manager().getSdkContext().randomResourceName("", 15);
         String name = "ag" + testId;
         Region region = Region.US_EAST;
-        String password = SdkContext.randomResourceName("Abc.123", 12);
+        String password = azure.applicationGateways().manager().getSdkContext().randomResourceName("Abc.123", 12);
         String vnetName = "net" + testId;
         String rgName = "rg" + testId;
 
@@ -167,7 +169,7 @@ public class ApplicationGatewayTests extends TestBase {
             System.out.println(info.toString());
 
             // Verify app gateway
-            Assertions.assertEquals(2,  appGateway.backends().size());
+            Assertions.assertEquals(2, appGateway.backends().size());
             ApplicationGatewayRequestRoutingRule rule1 = appGateway.requestRoutingRules().get("rule1");
             Assertions.assertNotNull(rule1);
             ApplicationGatewayBackend backend1 = rule1.backend();
@@ -192,7 +194,7 @@ public class ApplicationGatewayTests extends TestBase {
             Assertions.assertNotNull(backendHealth2);
             Assertions.assertNotNull(backendHealth2.backend());
             Assertions.assertEquals(backend2.name(), backendHealth2.name());
-            Assertions.assertEquals(1,  backendHealth2.httpConfigurationHealths().size());
+            Assertions.assertEquals(1, backendHealth2.httpConfigurationHealths().size());
             ApplicationGatewayBackendHttpConfigurationHealth httpConfigHealth2 = backendHealth2.httpConfigurationHealths().values().iterator().next();
             Assertions.assertNotNull(httpConfigHealth2.backendHttpConfiguration());
             Assertions.assertEquals(1, httpConfigHealth2.serverHealths().size());
@@ -210,19 +212,20 @@ public class ApplicationGatewayTests extends TestBase {
 
     /**
      * Tests a minimal internal application gateway
+     *
      * @throws Exception
      */
     @Test
     public void testAppGatewaysInternalMinimal() throws Exception {
         new TestApplicationGateway.PrivateMinimal()
-                .runTest(azure.applicationGateways(),  azure.resourceGroups());
+                .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 
     @Test
     public void testAppGatewaysStartStop() throws Exception {
-        String rgName = SdkContext.randomResourceName("rg", 13);
+        String rgName = azure.applicationGateways().manager().getSdkContext().randomResourceName("rg", 13);
         Region region = Region.US_EAST;
-        String name = SdkContext.randomResourceName("ag", 15);
+        String name = azure.applicationGateways().manager().getSdkContext().randomResourceName("ag", 15);
         ApplicationGateway appGateway = azure.applicationGateways().define(name)
                 .withRegion(region)
                 .withNewResourceGroup(rgName)
@@ -248,13 +251,13 @@ public class ApplicationGatewayTests extends TestBase {
 
     @Test
     public void testApplicationGatewaysInParallel() throws Exception {
-        String rgName = SdkContext.randomResourceName("rg", 13);
+        String rgName = azure.applicationGateways().manager().getSdkContext().randomResourceName("rg", 13);
         Region region = Region.US_EAST;
         Creatable<ResourceGroup> resourceGroup = azure.resourceGroups().define(rgName)
                 .withRegion(region);
         List<Creatable<ApplicationGateway>> agCreatables = new ArrayList<>();
 
-        agCreatables.add(azure.applicationGateways().define(SdkContext.randomResourceName("ag", 13))
+        agCreatables.add(azure.applicationGateways().define(azure.applicationGateways().manager().getSdkContext().randomResourceName("ag", 13))
                 .withRegion(Region.US_EAST)
                 .withNewResourceGroup(resourceGroup)
                 .defineRequestRoutingRule("rule1")
@@ -265,7 +268,7 @@ public class ApplicationGatewayTests extends TestBase {
                 .toBackendIPAddress("10.0.0.2")
                 .attach());
 
-        agCreatables.add(azure.applicationGateways().define(SdkContext.randomResourceName("ag", 13))
+        agCreatables.add(azure.applicationGateways().define(azure.applicationGateways().manager().getSdkContext().randomResourceName("ag", 13))
                 .withRegion(Region.US_EAST)
                 .withNewResourceGroup(resourceGroup)
                 .defineRequestRoutingRule("rule1")
@@ -308,21 +311,23 @@ public class ApplicationGatewayTests extends TestBase {
 
     /**
      * Tests a minimal Internet-facing application gateway.
+     *
      * @throws Exception
      */
     @Test
     public void testAppGatewaysInternetFacingMinimal() throws Exception {
         new TestApplicationGateway.PublicMinimal()
-                .runTest(azure.applicationGateways(),  azure.resourceGroups());
+                .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 
     /**
      * Tests a complex Internet-facing application gateway.
+     *
      * @throws Exception
      */
     @Test
     public void testAppGatewaysInternetFacingComplex() throws Exception {
         new TestApplicationGateway.PublicComplex()
-                .runTest(azure.applicationGateways(),  azure.resourceGroups());
+                .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 }

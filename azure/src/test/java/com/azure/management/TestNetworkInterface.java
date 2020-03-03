@@ -21,9 +21,11 @@ import java.util.List;
 public class TestNetworkInterface extends TestTemplate<NetworkInterface, NetworkInterfaces> {
     @Override
     public NetworkInterface createResource(NetworkInterfaces networkInterfaces) throws Exception {
-        final String nicName = "nic" + this.testId;
-        final String vnetName = "net" + this.testId;
-        final String pipName = "pip" + this.testId;
+
+        String postfix = networkInterfaces.manager().getSdkContext().randomResourceName("", 8);
+        final String nicName = "nic" + postfix;
+        final String vnetName = "net" + postfix;
+        final String pipName = "pip" + postfix;
         final Region region = Region.US_EAST;
 
         Network network = networkInterfaces.manager().networks().define(vnetName)
@@ -75,14 +77,14 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
 
     @Override
     public NetworkInterface updateResource(NetworkInterface resource) throws Exception {
-        resource =  resource.update()
+        resource = resource.update()
                 .withoutIPForwarding()
                 .withoutAcceleratedNetworking()
                 .withSubnet("subnet2")
                 .updateIPConfiguration("primary")  // Updating the primary IP configuration
-                    .withPrivateIPAddressDynamic() // Equivalent to ..update().withPrimaryPrivateIPAddressDynamic()
-                    .withoutPublicIPAddress()      // Equivalent to ..update().withoutPrimaryPublicIPAddress()
-                    .parent()
+                .withPrivateIPAddressDynamic() // Equivalent to ..update().withPrimaryPrivateIPAddressDynamic()
+                .withoutPublicIPAddress()      // Equivalent to ..update().withoutPrimaryPublicIPAddress()
+                .parent()
                 .withTag("tag1", "value1")
                 .withTag("tag2", "value2")
                 .apply();
@@ -97,7 +99,7 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
         Assertions.assertNull(primaryIpConfig.publicIPAddressId());
         Assertions.assertTrue(resource.tags().containsKey("tag1"));
 
-        Assertions.assertEquals(1,  resource.ipConfigurations().size());
+        Assertions.assertEquals(1, resource.ipConfigurations().size());
 
         resource.updateTags()
                 .withoutTag("tag1")
@@ -139,19 +141,19 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
         // Output IP configs
         for (NicIPConfiguration ipConfig : resource.ipConfigurations().values()) {
             info.append("\n\t\tName: ").append(ipConfig.name())
-                .append("\n\t\tPrivate IP: ").append(ipConfig.privateIPAddress())
-                .append("\n\t\tPrivate IP allocation method: ").append(ipConfig.privateIPAllocationMethod().toString())
-                .append("\n\t\tPrivate IP version: ").append(ipConfig.privateIPAddressVersion().toString())
-                .append("\n\t\tPIP id: ").append(ipConfig.publicIPAddressId())
-                .append("\n\t\tAssociated network ID: ").append(ipConfig.networkId())
-                .append("\n\t\tAssociated subnet name: ").append(ipConfig.subnetName());
+                    .append("\n\t\tPrivate IP: ").append(ipConfig.privateIPAddress())
+                    .append("\n\t\tPrivate IP allocation method: ").append(ipConfig.privateIPAllocationMethod().toString())
+                    .append("\n\t\tPrivate IP version: ").append(ipConfig.privateIPAddressVersion().toString())
+                    .append("\n\t\tPIP id: ").append(ipConfig.publicIPAddressId())
+                    .append("\n\t\tAssociated network ID: ").append(ipConfig.networkId())
+                    .append("\n\t\tAssociated subnet name: ").append(ipConfig.subnetName());
 
             // Show associated load balancer backends
             final List<LoadBalancerBackend> backends = ipConfig.listAssociatedLoadBalancerBackends();
             info.append("\n\t\tAssociated load balancer backends: ").append(backends.size());
             for (LoadBalancerBackend backend : backends) {
                 info.append("\n\t\t\tLoad balancer ID: ").append(backend.parent().id())
-                    .append("\n\t\t\t\tBackend name: ").append(backend.name());
+                        .append("\n\t\t\t\tBackend name: ").append(backend.name());
             }
 
             // Show associated load balancer inbound NAT rules
@@ -159,7 +161,7 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
             info.append("\n\t\tAssociated load balancer inbound NAT rules: ").append(natRules.size());
             for (LoadBalancerInboundNatRule natRule : natRules) {
                 info.append("\n\t\t\tLoad balancer ID: ").append(natRule.parent().id())
-                    .append("\n\t\t\tInbound NAT rule name: ").append(natRule.name());
+                        .append("\n\t\t\tInbound NAT rule name: ").append(natRule.name());
             }
         }
 

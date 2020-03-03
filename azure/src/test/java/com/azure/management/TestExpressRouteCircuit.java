@@ -23,7 +23,6 @@ public class TestExpressRouteCircuit {
     private static String CIRCUIT_NAME;
 
     private static void initializeResourceNames() {
-        TEST_ID = SdkContext.randomResourceName("", 8);
         CIRCUIT_NAME = "erc" + TEST_ID;
     }
 
@@ -112,11 +111,11 @@ public class TestExpressRouteCircuit {
             Assertions.assertTrue(resource.peeringsMap().containsKey(ExpressRoutePeeringType.MICROSOFT_PEERING.toString()));
             com.azure.management.network.ExpressRouteCircuitPeering peering =
                     resource.peeringsMap().get(ExpressRoutePeeringType.MICROSOFT_PEERING.toString())
-                    .update()
-                    .withVlanId(300)
-                    .withPeerAsn(101)
-                    .withSecondaryPeerAddressPrefix("123.0.0.8/30")
-                    .apply();
+                            .update()
+                            .withVlanId(300)
+                            .withPeerAsn(101)
+                            .withSecondaryPeerAddressPrefix("123.0.0.8/30")
+                            .apply();
             Assertions.assertEquals(300, peering.vlanId());
             Assertions.assertEquals(101, peering.peerAsn());
             Assertions.assertEquals("123.0.0.8/30", peering.secondaryPeerAddressPrefix());

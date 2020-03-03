@@ -39,7 +39,6 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
     private String nwName;
 
     private void initializeResourceNames() {
-        TEST_ID = SdkContext.randomResourceName("", 8);
         groupName = "rg" + TEST_ID;
         nwName = "nw" + TEST_ID;
     }
@@ -62,7 +61,7 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
                 .withNewResourceGroup()
                 .withTag("tag1", "value1")
                 .create();
-         return nw;
+        return nw;
     }
 
     @Override
@@ -98,9 +97,9 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
                 .withExistingResourceGroup(groupName)
                 .withAddressSpace("10.0.0.0/28")
                 .defineSubnet("subnet1")
-                    .withAddressPrefix("10.0.0.0/29")
-                    .withExistingNetworkSecurityGroup(nsg)
-                    .attach()
+                .withAddressPrefix("10.0.0.0/29")
+                .withExistingNetworkSecurityGroup(nsg)
+                .attach()
                 .withSubnet("subnet2", "10.0.0.8/29")
                 .create();
 
@@ -118,7 +117,7 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
         String userName = "testuser" + TEST_ID;
         List<Creatable<VirtualMachine>> vmDefinitions = new ArrayList<>();
 
-        Creatable<VirtualMachine> vm1 = vms.define(SdkContext.randomResourceName("vm", 15))
+        Creatable<VirtualMachine> vm1 = vms.define(networks.manager().getSdkContext().randomResourceName("vm", 15))
                 .withRegion(REGION)
                 .withExistingResourceGroup(groupName)
                 .withExistingPrimaryNetworkInterface(nic)
@@ -127,13 +126,13 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
                 .withRootPassword("Abcdef.123456")
                 .withSize(VirtualMachineSizeTypes.STANDARD_A1)
                 .defineNewExtension("packetCapture")
-                    .withPublisher("Microsoft.Azure.NetworkWatcher")
-                    .withType("NetworkWatcherAgentLinux")
-                    .withVersion("1.4")
-                    .withMinorVersionAutoUpgrade()
-                    .attach();
+                .withPublisher("Microsoft.Azure.NetworkWatcher")
+                .withType("NetworkWatcherAgentLinux")
+                .withVersion("1.4")
+                .withMinorVersionAutoUpgrade()
+                .attach();
 
-        String vmName = SdkContext.randomResourceName("vm", 15);
+        String vmName = networks.manager().getSdkContext().randomResourceName("vm", 15);
 
         Creatable<VirtualMachine> vm2 = vms.define(vmName)
                 .withRegion(REGION)
@@ -160,7 +159,7 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
 
     // create a storage account
     StorageAccount ensureStorageAccount(StorageAccounts storageAccounts) {
-        return  storageAccounts.define("sa" + TEST_ID)
+        return storageAccounts.define("sa" + TEST_ID)
                 .withRegion(REGION)
                 .withExistingResourceGroup(groupName)
                 .withGeneralPurposeAccountKindV2()

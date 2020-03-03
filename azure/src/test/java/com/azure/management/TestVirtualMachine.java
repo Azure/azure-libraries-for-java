@@ -21,7 +21,7 @@ import reactor.core.publisher.Flux;
 public class TestVirtualMachine extends TestTemplate<VirtualMachine, VirtualMachines> {
     @Override
     public VirtualMachine createResource(VirtualMachines virtualMachines) throws Exception {
-        final String vmName = "vm" + this.testId;
+        final String vmName = virtualMachines.manager().getSdkContext().randomResourceName("vm", 10);;
         final VirtualMachine[] vms = new VirtualMachine[1];
         final SettableFuture<VirtualMachine> future = SettableFuture.create();
 

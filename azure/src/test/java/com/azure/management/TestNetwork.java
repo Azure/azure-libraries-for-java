@@ -18,7 +18,6 @@ import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.CreatedResources;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.Arrays;
@@ -37,12 +36,14 @@ public class TestNetwork {
     public static class WithSubnets extends TestTemplate<Network, Networks> {
         @Override
         public Network createResource(Networks networks) throws Exception {
-            final String newName = "net" + this.testId;
+
+            String postFix = networks.manager().getSdkContext().randomResourceName("", 8);
+            final String newName = "net" + postFix;
             Region region = Region.US_WEST;
-            String groupName = "rg" + this.testId;
+            String groupName = "rg" + postFix;
 
             // Create an NSG
-            NetworkSecurityGroup nsg = networks.manager().networkSecurityGroups().define("nsg" + this.testId)
+            NetworkSecurityGroup nsg = networks.manager().networkSecurityGroups().define("nsg" + postFix)
                     .withRegion(region)
                     .withNewResourceGroup(groupName)
                     .create();
@@ -89,7 +90,7 @@ public class TestNetwork {
 
         @Override
         public Network updateResource(Network resource) throws Exception {
-            NetworkSecurityGroup nsg = resource.manager().networkSecurityGroups().define("nsgB" + this.testId)
+            NetworkSecurityGroup nsg = resource.manager().networkSecurityGroups().define(resource.manager().getSdkContext().randomResourceName("nsgB", 10))
                     .withRegion(resource.region())
                     .withExistingResourceGroup(resource.resourceGroupName())
                     .create();
@@ -151,9 +152,10 @@ public class TestNetwork {
 
         @Override
         public Network createResource(Networks networks) throws Exception {
-            final String newName = "net" + this.testId;
+            String postfix = networks.manager().getSdkContext().randomResourceName("", 8);
+            final String newName = "net" + postfix;
             Region region = Region.US_WEST;
-            String groupName = "rg" + this.testId;
+            String groupName = "rg" + postfix;
 
 
             // Create a network
@@ -246,10 +248,11 @@ public class TestNetwork {
         @Override
         public Network createResource(Networks networks) throws Exception {
             Region region = Region.US_EAST;
-            String groupName = "rg" + this.testId;
+            String groupName = networks.manager().getSdkContext().randomResourceName("rg", 10);
+            ;
 
-            String networkName = SdkContext.randomResourceName("net", 15);
-            String networkName2 = SdkContext.randomResourceName("net", 15);
+            String networkName = networks.manager().getSdkContext().randomResourceName("net", 15);
+            String networkName2 = networks.manager().getSdkContext().randomResourceName("net", 15);
 
             Creatable<Network> remoteNetworkDefinition = networks.define(networkName2)
                     .withRegion(region)
@@ -363,9 +366,9 @@ public class TestNetwork {
         @Override
         public Network createResource(Networks networks) throws Exception {
             Region region = Region.US_EAST2;
-            String groupName = "rg" + this.testId;
+            String groupName = networks.manager().getSdkContext().randomResourceName("rg", 10);
 
-            String networkName = SdkContext.randomResourceName("net", 15);
+            String networkName = networks.manager().getSdkContext().randomResourceName("net", 15);
 
             Network network = networks.define(networkName)
                     .withRegion(region)
@@ -405,9 +408,9 @@ public class TestNetwork {
         @Override
         public Network createResource(Networks networks) throws Exception {
             Region region = Region.US_SOUTH_CENTRAL;
-            String groupName = "rg" + this.testId;
+            String groupName = networks.manager().getSdkContext().randomResourceName("rg", 10);
 
-            String networkName = SdkContext.randomResourceName("net", 15);
+            String networkName = networks.manager().getSdkContext().randomResourceName("net", 15);
 
             Network network = networks.define(networkName)
                     .withRegion(region)

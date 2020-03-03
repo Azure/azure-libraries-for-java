@@ -3,6 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
+
 package com.azure.management;
 
 
@@ -34,11 +35,9 @@ public class VirtualNetworkGatewayTests extends TestBase {
 
     @Test
     @Disabled("Service has bug that cause 'InternalServerError' - record this once service is fixed")
-    //
-
     public void testNetworkWatcherTroubleshooting() throws Exception {
-        String gatewayName = SdkContext.randomResourceName("vngw", 8);
-        String connectionName = SdkContext.randomResourceName("vngwc", 8);
+        String gatewayName = sdkContext.randomResourceName("vngw", 8);
+        String connectionName = sdkContext.randomResourceName("vngwc", 8);
 
         TestNetworkWatcher tnw = new TestNetworkWatcher();
         NetworkWatcher nw = tnw.createResource(azure.networkWatchers());
@@ -68,7 +67,7 @@ public class VirtualNetworkGatewayTests extends TestBase {
                 .create();
 
         // Create storage account to store troubleshooting information
-        StorageAccount storageAccount = azure.storageAccounts().define("sa" + SdkContext.randomResourceName("", 8))
+        StorageAccount storageAccount = azure.storageAccounts().define("sa" + sdkContext.randomResourceName("", 8))
                 .withRegion(region)
                 .withExistingResourceGroup(resourceGroup)
                 .create();
@@ -141,5 +140,4 @@ public class VirtualNetworkGatewayTests extends TestBase {
         new TestVirtualNetworkGateway.PointToSite(azure.virtualNetworkGateways().manager())
                 .runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
     }
-
 }

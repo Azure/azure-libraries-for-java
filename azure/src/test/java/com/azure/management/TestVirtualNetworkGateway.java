@@ -16,7 +16,6 @@ import com.azure.management.network.VirtualNetworkGateways;
 import com.azure.management.network.implementation.NetworkManager;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.jupiter.api.Assertions;
 import reactor.core.publisher.Flux;
 
@@ -41,7 +40,6 @@ public class TestVirtualNetworkGateway {
     private static String CERTIFICATE_NAME = "myTest3.cer";
 
     private static void initializeResourceNames() {
-        TEST_ID = SdkContext.randomResourceName("", 8);
         GROUP_NAME = "rg" + TEST_ID;
         GATEWAY_NAME1 = "vngw" + TEST_ID;
         GATEWAY_NAME2 = "vngw2" + TEST_ID;

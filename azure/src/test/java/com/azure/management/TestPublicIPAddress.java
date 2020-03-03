@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Assertions;
 public class TestPublicIPAddress extends TestTemplate<PublicIPAddress, PublicIPAddresses> {
     @Override
     public PublicIPAddress createResource(PublicIPAddresses pips) throws Exception {
-        final String newPipName = "pip" + this.testId;
+        final String newPipName = pips.manager().getSdkContext().randomResourceName("pip", 10);;
         PublicIPAddress pip = pips.define(newPipName)
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup()
@@ -35,7 +35,7 @@ public class TestPublicIPAddress extends TestTemplate<PublicIPAddress, PublicIPA
     public PublicIPAddress updateResource(PublicIPAddress resource) throws Exception {
         final String updatedDnsName = resource.leafDomainLabel() + "xx";
         final int updatedIdleTimeout = 15;
-        resource =  resource.update()
+        resource = resource.update()
                 .withStaticIP()
                 .withLeafDomainLabel(updatedDnsName)
                 .withReverseFqdn(resource.leafDomainLabel() + "." + resource.region() + ".cloudapp.azure.com")
@@ -81,7 +81,7 @@ public class TestPublicIPAddress extends TestTemplate<PublicIPAddress, PublicIPA
             final LoadBalancerPublicFrontend frontend = resource.getAssignedLoadBalancerFrontend();
             final LoadBalancer lb = frontend.parent();
             info.append("\n\t\tLoad balancer ID: ").append(lb.id())
-                .append("\n\t\tFrontend name: ").append(frontend.name());
+                    .append("\n\t\tFrontend name: ").append(frontend.name());
         } else {
             info.append("(None)");
         }
@@ -92,7 +92,7 @@ public class TestPublicIPAddress extends TestTemplate<PublicIPAddress, PublicIPA
             final NicIPConfiguration nicIp = resource.getAssignedNetworkInterfaceIPConfiguration();
             final NetworkInterface nic = nicIp.parent();
             info.append("\n\t\tNetwork interface ID: ").append(nic.id())
-                .append("\n\t\tIP config name: ").append(nicIp.name());
+                    .append("\n\t\tIP config name: ").append(nicIp.name());
         } else {
             info.append("(None)");
         }

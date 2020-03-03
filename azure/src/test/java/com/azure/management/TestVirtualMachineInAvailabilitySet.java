@@ -6,21 +6,19 @@
 
 package com.azure.management;
 
-
 import com.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.azure.management.compute.VirtualMachine;
 import com.azure.management.compute.VirtualMachineSizeTypes;
 import com.azure.management.compute.VirtualMachines;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.jupiter.api.Assertions;
 
 public class TestVirtualMachineInAvailabilitySet extends TestTemplate<VirtualMachine, VirtualMachines> {
     @Override
     public VirtualMachine createResource(VirtualMachines virtualMachines) throws Exception {
-        final String vmName = "vm" + this.testId;
-        final String newRgName = SdkContext.randomResourceName("rgVmInAvail", 10);
-        final String newAvailSetName = SdkContext.randomResourceName("avai", 10);
+        final String vmName = virtualMachines.manager().getSdkContext().randomResourceName("vm", 10);
+        final String newRgName = virtualMachines.manager().getSdkContext().randomResourceName("rgVmInAvail", 10);
+        final String newAvailSetName = virtualMachines.manager().getSdkContext().randomResourceName("avai", 10);
 
         VirtualMachine vm = virtualMachines.define(vmName)
                 .withRegion(Region.US_EAST)

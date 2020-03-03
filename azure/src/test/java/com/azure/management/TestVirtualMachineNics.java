@@ -6,7 +6,6 @@
 
 package com.azure.management;
 
-
 import com.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.azure.management.compute.VirtualMachine;
 import com.azure.management.compute.VirtualMachineSizeTypes;
@@ -30,13 +29,13 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
     @Override
     public VirtualMachine createResource(VirtualMachines virtualMachines) throws Exception {
         // Prepare the resource group definition
-        final String rgName = "rg" + this.testId;
+        final String rgName = virtualMachines.manager().getSdkContext().randomResourceName("rg", 10);;
         Creatable<ResourceGroup> resourceGroupCreatable = virtualMachines.manager().getResourceManager().resourceGroups()
                 .define(rgName)
                 .withRegion(Region.US_EAST);
 
         // Prepare the virtual network definition [shared by primary and secondary network interfaces]
-        final String vnetName = "vnet" + this.testId;
+        final String vnetName = virtualMachines.manager().getSdkContext().randomResourceName("vnet", 10);;
         Creatable<Network> networkCreatable = this.networkManager.networks()
                 .define(vnetName)
                 .withRegion(Region.US_EAST)
@@ -44,7 +43,7 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
                 .withAddressSpace("10.0.0.0/28");
 
         // Prepare the secondary network interface definition
-        final String secondaryNicName = "nic" + this.testId;
+        final String secondaryNicName = virtualMachines.manager().getSdkContext().randomResourceName("nic", 10);;
         Creatable<NetworkInterface> secondaryNetworkInterfaceCreatable = this.networkManager.networkInterfaces()
                 .define(secondaryNicName)
                 .withRegion(Region.US_EAST)
@@ -55,7 +54,7 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
         // [Secondary NIC cannot have PublicIP - Only primary network interface can reference a public IP address]
 
         // Prepare the secondary network interface definition
-        final String secondaryNicName2 = "nic2" + this.testId;
+        final String secondaryNicName2 = virtualMachines.manager().getSdkContext().randomResourceName("nic2", 10);;
         Creatable<NetworkInterface> secondaryNetworkInterfaceCreatable2 = this.networkManager.networkInterfaces()
                 .define(secondaryNicName2)
                 .withRegion(Region.US_EAST)
@@ -64,7 +63,7 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
                 .withPrimaryPrivateIPAddressStatic("10.0.0.6");
 
         // Create Virtual Machine
-        final String vmName = "vm" + this.testId;
+        final String vmName = virtualMachines.manager().getSdkContext().randomResourceName("vm", 10);;
         final String primaryPipName = "pip" + vmName;
         VirtualMachine virtualMachine = virtualMachines.define(vmName)
                 .withRegion(Region.US_EAST)
@@ -91,7 +90,7 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
 
     @Override
     public VirtualMachine updateResource(VirtualMachine virtualMachine) throws Exception {
-        final String secondaryNicName = "nic" + this.testId;
+        final String secondaryNicName = virtualMachine.manager().getSdkContext().randomResourceName("nic", 10);;
         virtualMachine.powerOff();
         virtualMachine.deallocate();
         virtualMachine = virtualMachine.update()

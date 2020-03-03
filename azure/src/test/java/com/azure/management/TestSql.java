@@ -15,10 +15,10 @@ import com.google.common.util.concurrent.SettableFuture;
 import org.junit.jupiter.api.Assertions;
 import reactor.core.publisher.Flux;
 
-public class TestSql extends TestTemplate<SqlServer, SqlServers>  {
+public class TestSql extends TestTemplate<SqlServer, SqlServers> {
     @Override
     public SqlServer createResource(SqlServers resources) throws Exception {
-        final String sqlServerName = "sql" + this.testId;
+        final String sqlServerName = resources.manager().getSdkContext().randomResourceName("sql", 10);
         final SqlServer[] sqlServers = new SqlServer[1];
         final SettableFuture<SqlServer> future = SettableFuture.create();
         Flux<Indexable> resourceStream = resources.define(sqlServerName)

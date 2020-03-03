@@ -14,10 +14,8 @@ import com.azure.management.network.SecurityRuleProtocol;
 import com.azure.management.network.Subnet;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.google.common.util.concurrent.SettableFuture;
 import org.junit.jupiter.api.Assertions;
-import org.reactivestreams.Subscriber;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
@@ -28,10 +26,11 @@ import java.util.List;
 public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityGroups> {
     @Override
     public NetworkSecurityGroup createResource(NetworkSecurityGroups nsgs) throws Exception {
-        final String newName = "nsg" + this.testId;
-        final String resourceGroupName = "rg" + this.testId;
-        final String nicName = "nic" + this.testId;
-        final String asgName = SdkContext.randomResourceName("asg", 8);
+        String postFix = nsgs.manager().getSdkContext().randomResourceName("", 8);
+        final String newName = "nsg" + postFix;
+        final String resourceGroupName = "rg" + postFix;
+        final String nicName = "nic" + postFix;
+        final String asgName = nsgs.manager().getSdkContext().randomResourceName("asg", 8);
         final Region region = Region.US_WEST;
         final SettableFuture<NetworkSecurityGroup> nsgFuture = SettableFuture.create();
 
@@ -44,28 +43,28 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                 .withRegion(region)
                 .withExistingResourceGroup(resourceGroupName)
                 .defineRule("rule1")
-                    .allowOutbound()
-                    .fromAnyAddress()
-                    .fromPort(80)
-                    .toAnyAddress()
-                    .toPort(80)
-                    .withProtocol(SecurityRuleProtocol.TCP)
-                    .attach()
+                .allowOutbound()
+                .fromAnyAddress()
+                .fromPort(80)
+                .toAnyAddress()
+                .toPort(80)
+                .withProtocol(SecurityRuleProtocol.TCP)
+                .attach()
                 .defineRule("rule2")
-                    .allowInbound()
-                    .withSourceApplicationSecurityGroup(asg.id())
-                    .fromAnyPort()
-                    .toAnyAddress()
-                    .toPortRange(22, 25)
-                    .withAnyProtocol()
-                    .withPriority(200)
-                    .withDescription("foo!!")
-                    .attach()
+                .allowInbound()
+                .withSourceApplicationSecurityGroup(asg.id())
+                .fromAnyPort()
+                .toAnyAddress()
+                .toPortRange(22, 25)
+                .withAnyProtocol()
+                .withPriority(200)
+                .withDescription("foo!!")
+                .attach()
                 .createAsync();
 
         resourceStream.last()
-                .doOnNext(nsg -> nsgFuture.set((NetworkSecurityGroup)nsg))
-                .doOnSuccess( (_ignore) -> System.out.print("completed"))
+                .doOnNext(nsg -> nsgFuture.set((NetworkSecurityGroup) nsg))
+                .doOnSuccess((_ignore) -> System.out.print("completed"))
                 .doOnError(throwable -> nsgFuture.setException(throwable));
 
         NetworkSecurityGroup nsg = nsgFuture.get();
@@ -101,21 +100,21 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                 .withTag("tag1", "value1")
                 .withTag("tag2", "value2")
                 .defineRule("rule3")
-                    .allowInbound()
-                    .fromAnyAddress()
-                    .fromAnyPort()
-                    .toAnyAddress()
-                    .toAnyPort()
-                    .withProtocol(SecurityRuleProtocol.UDP)
-                    .attach()
+                .allowInbound()
+                .fromAnyAddress()
+                .fromAnyPort()
+                .toAnyAddress()
+                .toAnyPort()
+                .withProtocol(SecurityRuleProtocol.UDP)
+                .attach()
                 .withoutRule("rule1")
                 .updateRule("rule2")
-                    .denyInbound()
-                    .fromAddresses("100.0.0.0/29", "100.1.0.0/29")
-                    .fromPortRanges("88-90")
-                    .withPriority(300)
-                    .withDescription("bar!!!")
-                    .parent()
+                .denyInbound()
+                .fromAddresses("100.0.0.0/29", "100.1.0.0/29")
+                .fromPortRanges("88-90")
+                .withPriority(300)
+                .withDescription("bar!!!")
+                .parent()
                 .apply();
         Assertions.assertTrue(resource.tags().containsKey("tag1"));
         Assertions.assertTrue(resource.securityRules().get("rule2").sourceApplicationSecurityGroupIds().isEmpty());
@@ -136,15 +135,15 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
 
     private static StringBuilder printRule(NetworkSecurityRule rule, StringBuilder info) {
         info.append("\n\t\tRule: ").append(rule.name())
-            .append("\n\t\t\tAccess: ").append(rule.access())
-            .append("\n\t\t\tDirection: ").append(rule.direction())
-            .append("\n\t\t\tFrom address: ").append(rule.sourceAddressPrefix())
-            .append("\n\t\t\tFrom port range: ").append(rule.sourcePortRange())
-            .append("\n\t\t\tTo address: ").append(rule.destinationAddressPrefix())
-            .append("\n\t\t\tTo port: ").append(rule.destinationPortRange())
-            .append("\n\t\t\tProtocol: ").append(rule.protocol())
-            .append("\n\t\t\tPriority: ").append(rule.priority())
-            .append("\n\t\t\tDescription: ").append(rule.description());
+                .append("\n\t\t\tAccess: ").append(rule.access())
+                .append("\n\t\t\tDirection: ").append(rule.direction())
+                .append("\n\t\t\tFrom address: ").append(rule.sourceAddressPrefix())
+                .append("\n\t\t\tFrom port range: ").append(rule.sourcePortRange())
+                .append("\n\t\t\tTo address: ").append(rule.destinationAddressPrefix())
+                .append("\n\t\t\tTo port: ").append(rule.destinationPortRange())
+                .append("\n\t\t\tProtocol: ").append(rule.protocol())
+                .append("\n\t\t\tPriority: ").append(rule.priority())
+                .append("\n\t\t\tDescription: ").append(rule.description());
         return info;
     }
 
@@ -179,7 +178,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         } else {
             for (Subnet subnet : subnets) {
                 info.append("\n\t\tNetwork ID: ").append(subnet.parent().id())
-                    .append("\n\t\tSubnet name: ").append(subnet.name());
+                        .append("\n\t\tSubnet name: ").append(subnet.name());
             }
         }
 

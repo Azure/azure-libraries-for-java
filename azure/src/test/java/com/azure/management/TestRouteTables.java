@@ -32,9 +32,9 @@ public class TestRouteTables {
     public static class Minimal extends TestTemplate<RouteTable, RouteTables> {
         @Override
         public RouteTable createResource(RouteTables routeTables) throws Exception {
-            final String newName = "rt" + this.testId;
+            final String newName = routeTables.manager().getSdkContext().randomResourceName("rt", 10);;
             Region region = Region.US_WEST;
-            String groupName = "rg" + this.testId;
+            String groupName = routeTables.manager().getSdkContext().randomResourceName("rg", 10);;
 
             final String route1AddressPrefix = "10.0.1.0/29";
             final String route2AddressPrefix = "10.0.0.0/29";
@@ -46,13 +46,13 @@ public class TestRouteTables {
                     .withNewResourceGroup(groupName)
                     .withRoute("10.0.3.0/29", RouteNextHopType.VNET_LOCAL)
                     .defineRoute(ROUTE1_NAME)
-                        .withDestinationAddressPrefix(route1AddressPrefix)
-                        .withNextHopToVirtualAppliance(VIRTUAL_APPLIANCE_IP)
-                        .attach()
+                    .withDestinationAddressPrefix(route1AddressPrefix)
+                    .withNextHopToVirtualAppliance(VIRTUAL_APPLIANCE_IP)
+                    .attach()
                     .defineRoute(ROUTE2_NAME)
-                        .withDestinationAddressPrefix(route2AddressPrefix)
-                        .withNextHop(hopType)
-                        .attach()
+                    .withDestinationAddressPrefix(route2AddressPrefix)
+                    .withNextHop(hopType)
+                    .attach()
                     .withDisableBgpRoutePropagation()
                     .create();
 
@@ -71,15 +71,15 @@ public class TestRouteTables {
             Assertions.assertTrue(routeTable.isBgpRoutePropagationDisabled());
 
             // Create a subnet that references the route table
-            routeTables.manager().networks().define("net" + this.testId)
-                .withRegion(region)
-                .withExistingResourceGroup(groupName)
-                .withAddressSpace("10.0.0.0/22")
-                .defineSubnet("subnet1")
+            routeTables.manager().networks().define(routeTables.manager().getSdkContext().randomResourceName("net", 10))
+                    .withRegion(region)
+                    .withExistingResourceGroup(groupName)
+                    .withAddressSpace("10.0.0.0/22")
+                    .defineSubnet("subnet1")
                     .withAddressPrefix("10.0.0.0/22")
                     .withExistingRouteTable(routeTable)
                     .attach()
-                .create();
+                    .create();
 
             List<Subnet> subnets = routeTable.refresh().listAssociatedSubnets();
             Assertions.assertTrue(subnets.size() == 1);
@@ -89,18 +89,18 @@ public class TestRouteTables {
 
         @Override
         public RouteTable updateResource(RouteTable routeTable) throws Exception {
-            routeTable =  routeTable.update()
+            routeTable = routeTable.update()
                     .withTag("tag1", "value1")
                     .withTag("tag2", "value2")
                     .withoutRoute(ROUTE1_NAME)
                     .defineRoute(ROUTE_ADDED_NAME)
-                        .withDestinationAddressPrefix("10.0.2.0/29")
-                        .withNextHop(RouteNextHopType.NONE)
-                        .attach()
+                    .withDestinationAddressPrefix("10.0.2.0/29")
+                    .withNextHop(RouteNextHopType.NONE)
+                    .attach()
                     .updateRoute(ROUTE2_NAME)
-                        .withDestinationAddressPrefix("50.46.112.0/29")
-                        .withNextHop(RouteNextHopType.INTERNET)
-                        .parent()
+                    .withDestinationAddressPrefix("50.46.112.0/29")
+                    .withNextHop(RouteNextHopType.INTERNET)
+                    .parent()
                     .withRouteViaVirtualAppliance("10.0.5.0/29", VIRTUAL_APPLIANCE_IP)
                     .withEnableBgpRoutePropagation()
                     .apply();
@@ -112,11 +112,11 @@ public class TestRouteTables {
             Assertions.assertTrue(routeTable.routes().containsKey(ROUTE_ADDED_NAME));
             Assertions.assertFalse(routeTable.isBgpRoutePropagationDisabled());
 
-            routeTable.manager().networks().getByResourceGroup(routeTable.resourceGroupName(), "net" + this.testId).update()
-                .updateSubnet("subnet1")
+            routeTable.manager().networks().getByResourceGroup(routeTable.resourceGroupName(), routeTable.manager().getSdkContext().randomResourceName("net", 10)).update()
+                    .updateSubnet("subnet1")
                     .withoutRouteTable()
-                        .parent()
-                .apply();
+                    .parent()
+                    .apply();
 
             List<Subnet> subnets = routeTable.refresh().listAssociatedSubnets();
             Assertions.assertTrue(subnets.size() == 0);
@@ -138,6 +138,7 @@ public class TestRouteTables {
 
     /**
      * Outputs info about a route table
+     *
      * @param resource a route table
      */
     public static void printRouteTable(RouteTable resource) {
@@ -153,9 +154,9 @@ public class TestRouteTables {
         info.append("\n\tRoutes: ").append(routes.values().size());
         for (Route route : routes.values()) {
             info.append("\n\t\tName: ").append(route.name())
-                .append("\n\t\t\tDestination address prefix: ").append(route.destinationAddressPrefix())
-                .append("\n\t\t\tNext hop type: ").append(route.nextHopType().toString())
-                .append("\n\t\t\tNext hop IP address: ").append(route.nextHopIPAddress());
+                    .append("\n\t\t\tDestination address prefix: ").append(route.destinationAddressPrefix())
+                    .append("\n\t\t\tNext hop type: ").append(route.nextHopType().toString())
+                    .append("\n\t\t\tNext hop IP address: ").append(route.nextHopIPAddress());
         }
 
         // Output associated subnets
@@ -163,9 +164,9 @@ public class TestRouteTables {
         info.append("\n\tAssociated subnets: ").append(subnets.size());
         for (Subnet subnet : subnets) {
             info.append("\n\t\tResource group: ").append(subnet.parent().resourceGroupName())
-                .append("\n\t\tNetwork name: ").append(subnet.parent().name())
-                .append("\n\t\tSubnet name: ").append(subnet.name())
-                .append("\n\tSubnet's route table ID: ").append(subnet.routeTableId());
+                    .append("\n\t\tNetwork name: ").append(subnet.parent().name())
+                    .append("\n\t\tSubnet name: ").append(subnet.name())
+                    .append("\n\tSubnet's route table ID: ").append(subnet.routeTableId());
         }
         info.append("\n\tDisable BGP route propagation: ").append(resource.isBgpRoutePropagationDisabled());
         System.out.println(info.toString());

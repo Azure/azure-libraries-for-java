@@ -38,13 +38,11 @@ public abstract class TestTemplate<
                 & HasInner<?>
                 & HasManager<? extends ManagerBase>> {
 
-    protected final String testId;
     private ResourceT resource;
     private CollectionT collection;
     private ResourceGroups resourceGroups;
 
     protected TestTemplate() {
-        this.testId = SdkContext.randomResourceName("", 8);
     }
 
     /**

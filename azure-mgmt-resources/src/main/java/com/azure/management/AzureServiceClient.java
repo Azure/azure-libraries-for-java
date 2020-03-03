@@ -98,10 +98,10 @@ public abstract class AzureServiceClient {
     protected Context getContext() {
         Context context = new Context("java.version", JAVA_VERSION);
         if (!CoreUtils.isNullOrEmpty(OS_NAME)) {
-            context.addData("os.name", OS_NAME);
+            context = context.addData("os.name", OS_NAME);
         }
         if (!CoreUtils.isNullOrEmpty(OS_VERSION)) {
-            context.addData("os.version", OS_VERSION);
+            context = context.addData("os.version", OS_VERSION);
         }
         return context;
     }

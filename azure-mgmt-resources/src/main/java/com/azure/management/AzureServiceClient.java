@@ -11,6 +11,7 @@ import com.azure.core.management.implementation.polling.PollerFactory;
 import com.azure.core.management.polling.PollResult;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.azure.core.util.Context;
+import com.azure.core.util.CoreUtils;
 import com.azure.core.util.polling.PollerFlux;
 import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -95,9 +96,14 @@ public abstract class AzureServiceClient {
     }
 
     protected Context getContext() {
-        return new Context("java.version", JAVA_VERSION)
-                .addData("os.name", OS_NAME)
-                .addData("os.version", OS_VERSION);
+        Context context = new Context("java.version", JAVA_VERSION);
+        if (!CoreUtils.isNullOrEmpty(OS_NAME)) {
+            context.addData("os.name", OS_NAME);
+        }
+        if (!CoreUtils.isNullOrEmpty(OS_VERSION)) {
+            context.addData("os.version", OS_VERSION);
+        }
+        return context;
     }
 
     public <T, U> PollerFlux<PollResult<T>, U> getLroResultAsync(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit,

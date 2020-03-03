@@ -46,7 +46,7 @@ public final class VirtualMachineSizesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualMachineSizesInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualMachineSizesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualMachineSizesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

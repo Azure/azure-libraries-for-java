@@ -61,7 +61,7 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
      * @param client the instance of the service client containing this operation class.
      */
     public VpnGatewaysInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(VpnGatewaysService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VpnGatewaysService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

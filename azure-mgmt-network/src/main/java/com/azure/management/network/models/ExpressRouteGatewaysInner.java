@@ -51,7 +51,7 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
      * @param client the instance of the service client containing this operation class.
      */
     public ExpressRouteGatewaysInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ExpressRouteGatewaysService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ExpressRouteGatewaysService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

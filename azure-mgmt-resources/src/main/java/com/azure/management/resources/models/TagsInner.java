@@ -49,7 +49,7 @@ public final class TagsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public TagsInner(ResourceManagementClientImpl client) {
-        this.service = RestProxy.create(TagsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(TagsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -46,7 +46,7 @@ public final class DeletedWebAppsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public DeletedWebAppsInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(DeletedWebAppsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DeletedWebAppsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

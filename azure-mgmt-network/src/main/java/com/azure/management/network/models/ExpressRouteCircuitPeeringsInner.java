@@ -53,7 +53,7 @@ public final class ExpressRouteCircuitPeeringsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ExpressRouteCircuitPeeringsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ExpressRouteCircuitPeeringsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ExpressRouteCircuitPeeringsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

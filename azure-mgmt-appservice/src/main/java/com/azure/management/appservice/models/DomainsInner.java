@@ -60,7 +60,7 @@ public final class DomainsInner implements InnerSupportsGet<DomainInner>, InnerS
      * @param client the instance of the service client containing this operation class.
      */
     public DomainsInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(DomainsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DomainsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

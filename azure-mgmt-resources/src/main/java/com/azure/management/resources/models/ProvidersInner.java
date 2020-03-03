@@ -47,7 +47,7 @@ public final class ProvidersInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ProvidersInner(ResourceManagementClientImpl client) {
-        this.service = RestProxy.create(ProvidersService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ProvidersService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

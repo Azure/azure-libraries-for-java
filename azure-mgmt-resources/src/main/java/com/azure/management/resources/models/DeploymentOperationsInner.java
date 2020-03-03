@@ -46,7 +46,7 @@ public final class DeploymentOperationsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public DeploymentOperationsInner(ResourceManagementClientImpl client) {
-        this.service = RestProxy.create(DeploymentOperationsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DeploymentOperationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -54,7 +54,7 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
      * @param client the instance of the service client containing this operation class.
      */
     public DdosCustomPoliciesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(DdosCustomPoliciesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DdosCustomPoliciesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -58,7 +58,7 @@ public final class RouteFiltersInner implements InnerSupportsGet<RouteFilterInne
      * @param client the instance of the service client containing this operation class.
      */
     public RouteFiltersInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(RouteFiltersService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(RouteFiltersService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

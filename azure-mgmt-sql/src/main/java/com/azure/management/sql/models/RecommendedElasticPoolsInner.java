@@ -46,7 +46,7 @@ public final class RecommendedElasticPoolsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public RecommendedElasticPoolsInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(RecommendedElasticPoolsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(RecommendedElasticPoolsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

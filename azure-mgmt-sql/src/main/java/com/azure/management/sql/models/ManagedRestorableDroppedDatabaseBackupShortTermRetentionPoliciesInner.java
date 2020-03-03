@@ -52,7 +52,7 @@ public final class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolic
      * @param client the instance of the service client containing this operation class.
      */
     public ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

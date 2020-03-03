@@ -49,7 +49,7 @@ public final class DeletedApplicationsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public DeletedApplicationsInner(GraphRbacManagementClientImpl client) {
-        this.service = RestProxy.create(DeletedApplicationsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DeletedApplicationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

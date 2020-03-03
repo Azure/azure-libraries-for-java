@@ -49,7 +49,7 @@ public final class TopLevelDomainsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public TopLevelDomainsInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(TopLevelDomainsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(TopLevelDomainsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

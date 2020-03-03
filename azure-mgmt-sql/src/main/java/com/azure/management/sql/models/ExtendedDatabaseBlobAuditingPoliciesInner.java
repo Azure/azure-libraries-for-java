@@ -44,7 +44,7 @@ public final class ExtendedDatabaseBlobAuditingPoliciesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ExtendedDatabaseBlobAuditingPoliciesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ExtendedDatabaseBlobAuditingPoliciesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ExtendedDatabaseBlobAuditingPoliciesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

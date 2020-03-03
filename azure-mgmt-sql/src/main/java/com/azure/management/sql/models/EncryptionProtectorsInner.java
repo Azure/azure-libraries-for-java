@@ -53,7 +53,7 @@ public final class EncryptionProtectorsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public EncryptionProtectorsInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(EncryptionProtectorsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(EncryptionProtectorsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

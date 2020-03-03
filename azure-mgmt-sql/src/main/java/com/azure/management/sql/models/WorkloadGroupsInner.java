@@ -53,7 +53,7 @@ public final class WorkloadGroupsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public WorkloadGroupsInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(WorkloadGroupsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(WorkloadGroupsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

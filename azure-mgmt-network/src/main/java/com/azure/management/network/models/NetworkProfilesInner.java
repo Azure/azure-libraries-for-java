@@ -59,7 +59,7 @@ public final class NetworkProfilesInner implements InnerSupportsGet<NetworkProfi
      * @param client the instance of the service client containing this operation class.
      */
     public NetworkProfilesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(NetworkProfilesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(NetworkProfilesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

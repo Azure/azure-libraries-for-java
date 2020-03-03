@@ -47,7 +47,7 @@ public final class FeaturesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public FeaturesInner(FeatureClientImpl client) {
-        this.service = RestProxy.create(FeaturesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(FeaturesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

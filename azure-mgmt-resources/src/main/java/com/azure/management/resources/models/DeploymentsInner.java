@@ -60,7 +60,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
      * @param client the instance of the service client containing this operation class.
      */
     public DeploymentsInner(ResourceManagementClientImpl client) {
-        this.service = RestProxy.create(DeploymentsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DeploymentsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

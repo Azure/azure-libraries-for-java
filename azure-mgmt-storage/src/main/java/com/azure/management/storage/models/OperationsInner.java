@@ -45,7 +45,7 @@ public final class OperationsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public OperationsInner(StorageManagementClientImpl client) {
-        this.service = RestProxy.create(OperationsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(OperationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

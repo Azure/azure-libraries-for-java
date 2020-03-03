@@ -63,7 +63,7 @@ public final class P2SVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
      * @param client the instance of the service client containing this operation class.
      */
     public P2SVpnGatewaysInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(P2SVpnGatewaysService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(P2SVpnGatewaysService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -47,7 +47,7 @@ public final class ServiceObjectivesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ServiceObjectivesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ServiceObjectivesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ServiceObjectivesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

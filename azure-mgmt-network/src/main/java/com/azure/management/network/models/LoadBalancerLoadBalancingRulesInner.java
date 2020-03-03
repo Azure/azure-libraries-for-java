@@ -46,7 +46,7 @@ public final class LoadBalancerLoadBalancingRulesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public LoadBalancerLoadBalancingRulesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(LoadBalancerLoadBalancingRulesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(LoadBalancerLoadBalancingRulesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

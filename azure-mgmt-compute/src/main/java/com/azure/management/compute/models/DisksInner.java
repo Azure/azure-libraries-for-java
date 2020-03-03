@@ -60,7 +60,7 @@ public final class DisksInner implements InnerSupportsGet<DiskInner>, InnerSuppo
      * @param client the instance of the service client containing this operation class.
      */
     public DisksInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(DisksService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DisksService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

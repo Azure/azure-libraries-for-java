@@ -60,7 +60,7 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
      * @param client the instance of the service client containing this operation class.
      */
     public BastionHostsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(BastionHostsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(BastionHostsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

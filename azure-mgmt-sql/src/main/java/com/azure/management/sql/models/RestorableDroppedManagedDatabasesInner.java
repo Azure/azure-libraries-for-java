@@ -46,7 +46,7 @@ public final class RestorableDroppedManagedDatabasesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public RestorableDroppedManagedDatabasesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(RestorableDroppedManagedDatabasesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(RestorableDroppedManagedDatabasesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

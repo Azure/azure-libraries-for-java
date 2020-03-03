@@ -59,7 +59,7 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
      * @param client the instance of the service client containing this operation class.
      */
     public NatGatewaysInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(NatGatewaysService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(NatGatewaysService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

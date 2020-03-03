@@ -56,7 +56,7 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
      * @param client the instance of the service client containing this operation class.
      */
     public PrivateEndpointsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(PrivateEndpointsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(PrivateEndpointsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

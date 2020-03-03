@@ -59,7 +59,7 @@ public final class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, Inne
      * @param client the instance of the service client containing this operation class.
      */
     public VpnSitesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(VpnSitesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VpnSitesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

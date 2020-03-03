@@ -54,7 +54,7 @@ public final class ServerAzureADAdministratorsInner implements InnerSupportsDele
      * @param client the instance of the service client containing this operation class.
      */
     public ServerAzureADAdministratorsInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ServerAzureADAdministratorsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ServerAzureADAdministratorsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

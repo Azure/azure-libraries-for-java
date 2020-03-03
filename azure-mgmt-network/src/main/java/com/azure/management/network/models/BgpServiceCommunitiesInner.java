@@ -46,7 +46,7 @@ public final class BgpServiceCommunitiesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public BgpServiceCommunitiesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(BgpServiceCommunitiesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(BgpServiceCommunitiesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

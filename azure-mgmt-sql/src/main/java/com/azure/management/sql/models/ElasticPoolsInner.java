@@ -56,7 +56,7 @@ public final class ElasticPoolsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ElasticPoolsInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ElasticPoolsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ElasticPoolsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

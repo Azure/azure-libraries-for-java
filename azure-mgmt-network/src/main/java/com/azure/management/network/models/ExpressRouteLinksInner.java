@@ -46,7 +46,7 @@ public final class ExpressRouteLinksInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ExpressRouteLinksInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ExpressRouteLinksService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ExpressRouteLinksService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

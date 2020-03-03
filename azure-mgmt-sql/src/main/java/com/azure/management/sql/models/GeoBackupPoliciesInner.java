@@ -49,7 +49,7 @@ public final class GeoBackupPoliciesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public GeoBackupPoliciesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(GeoBackupPoliciesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(GeoBackupPoliciesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

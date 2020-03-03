@@ -59,7 +59,7 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
      * @param client the instance of the service client containing this operation class.
      */
     public ServiceEndpointPoliciesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ServiceEndpointPoliciesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ServiceEndpointPoliciesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

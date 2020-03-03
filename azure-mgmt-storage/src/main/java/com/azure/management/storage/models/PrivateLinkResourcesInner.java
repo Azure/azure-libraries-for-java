@@ -42,7 +42,7 @@ public final class PrivateLinkResourcesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public PrivateLinkResourcesInner(StorageManagementClientImpl client) {
-        this.service = RestProxy.create(PrivateLinkResourcesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(PrivateLinkResourcesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

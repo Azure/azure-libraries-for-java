@@ -48,7 +48,7 @@ public final class RecommendationsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public RecommendationsInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(RecommendationsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(RecommendationsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

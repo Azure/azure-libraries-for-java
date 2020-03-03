@@ -46,7 +46,7 @@ public final class AvailableEndpointServicesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public AvailableEndpointServicesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(AvailableEndpointServicesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(AvailableEndpointServicesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -57,7 +57,7 @@ public final class ConnectionMonitorsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ConnectionMonitorsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ConnectionMonitorsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ConnectionMonitorsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

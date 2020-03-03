@@ -51,7 +51,7 @@ public final class OAuth2PermissionGrantsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public OAuth2PermissionGrantsInner(GraphRbacManagementClientImpl client) {
-        this.service = RestProxy.create(OAuth2PermissionGrantsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(OAuth2PermissionGrantsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

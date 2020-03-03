@@ -46,7 +46,7 @@ public final class SignedInUsersInner {
      * @param client the instance of the service client containing this operation class.
      */
     public SignedInUsersInner(GraphRbacManagementClientImpl client) {
-        this.service = RestProxy.create(SignedInUsersService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(SignedInUsersService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

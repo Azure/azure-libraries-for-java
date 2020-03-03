@@ -57,7 +57,7 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
      * @param client the instance of the service client containing this operation class.
      */
     public ExpressRouteCrossConnectionsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ExpressRouteCrossConnectionsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ExpressRouteCrossConnectionsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

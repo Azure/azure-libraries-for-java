@@ -46,7 +46,7 @@ public final class ProviderOperationsMetadatasInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ProviderOperationsMetadatasInner(AuthorizationManagementClientImpl client) {
-        this.service = RestProxy.create(ProviderOperationsMetadatasService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ProviderOperationsMetadatasService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

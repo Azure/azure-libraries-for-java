@@ -43,7 +43,7 @@ public final class VirtualMachineImagesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualMachineImagesInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualMachineImagesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualMachineImagesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

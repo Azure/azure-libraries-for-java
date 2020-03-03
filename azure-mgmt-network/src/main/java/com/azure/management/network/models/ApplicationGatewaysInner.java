@@ -63,7 +63,7 @@ public final class ApplicationGatewaysInner implements InnerSupportsGet<Applicat
      * @param client the instance of the service client containing this operation class.
      */
     public ApplicationGatewaysInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ApplicationGatewaysService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ApplicationGatewaysService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

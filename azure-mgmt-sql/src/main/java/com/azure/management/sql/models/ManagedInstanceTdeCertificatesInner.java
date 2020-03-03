@@ -48,7 +48,7 @@ public final class ManagedInstanceTdeCertificatesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ManagedInstanceTdeCertificatesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ManagedInstanceTdeCertificatesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ManagedInstanceTdeCertificatesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

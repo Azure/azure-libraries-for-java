@@ -55,7 +55,7 @@ public final class RouteFilterRulesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public RouteFilterRulesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(RouteFilterRulesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(RouteFilterRulesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

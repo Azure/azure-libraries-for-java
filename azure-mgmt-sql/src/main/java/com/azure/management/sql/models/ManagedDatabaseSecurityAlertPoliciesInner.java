@@ -48,7 +48,7 @@ public final class ManagedDatabaseSecurityAlertPoliciesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ManagedDatabaseSecurityAlertPoliciesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ManagedDatabaseSecurityAlertPoliciesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ManagedDatabaseSecurityAlertPoliciesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

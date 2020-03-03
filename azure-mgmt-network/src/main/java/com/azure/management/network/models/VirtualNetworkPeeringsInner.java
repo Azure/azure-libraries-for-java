@@ -53,7 +53,7 @@ public final class VirtualNetworkPeeringsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualNetworkPeeringsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualNetworkPeeringsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualNetworkPeeringsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

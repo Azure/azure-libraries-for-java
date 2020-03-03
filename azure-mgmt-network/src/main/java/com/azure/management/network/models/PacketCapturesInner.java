@@ -54,7 +54,7 @@ public final class PacketCapturesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public PacketCapturesInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(PacketCapturesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(PacketCapturesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

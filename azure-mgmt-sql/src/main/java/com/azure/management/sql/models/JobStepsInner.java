@@ -50,7 +50,7 @@ public final class JobStepsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public JobStepsInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(JobStepsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(JobStepsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

@@ -51,7 +51,7 @@ public final class FirewallRulesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public FirewallRulesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(FirewallRulesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(FirewallRulesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

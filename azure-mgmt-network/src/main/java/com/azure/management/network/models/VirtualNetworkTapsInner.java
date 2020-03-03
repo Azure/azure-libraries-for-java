@@ -59,7 +59,7 @@ public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNe
      * @param client the instance of the service client containing this operation class.
      */
     public VirtualNetworkTapsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(VirtualNetworkTapsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(VirtualNetworkTapsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

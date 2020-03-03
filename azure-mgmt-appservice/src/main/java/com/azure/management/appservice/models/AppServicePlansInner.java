@@ -60,7 +60,7 @@ public final class AppServicePlansInner implements InnerSupportsGet<AppServicePl
      * @param client the instance of the service client containing this operation class.
      */
     public AppServicePlansInner(WebSiteManagementClientImpl client) {
-        this.service = RestProxy.create(AppServicePlansService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(AppServicePlansService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

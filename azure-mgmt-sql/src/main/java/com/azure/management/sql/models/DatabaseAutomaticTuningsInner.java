@@ -44,7 +44,7 @@ public final class DatabaseAutomaticTuningsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public DatabaseAutomaticTuningsInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(DatabaseAutomaticTuningsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(DatabaseAutomaticTuningsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

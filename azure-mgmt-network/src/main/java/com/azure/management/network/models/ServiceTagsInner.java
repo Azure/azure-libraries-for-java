@@ -42,7 +42,7 @@ public final class ServiceTagsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ServiceTagsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(ServiceTagsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ServiceTagsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

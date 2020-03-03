@@ -59,7 +59,7 @@ public final class NetworkSecurityGroupsInner implements InnerSupportsGet<Networ
      * @param client the instance of the service client containing this operation class.
      */
     public NetworkSecurityGroupsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(NetworkSecurityGroupsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(NetworkSecurityGroupsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

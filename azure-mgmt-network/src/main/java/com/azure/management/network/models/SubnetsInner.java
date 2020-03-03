@@ -56,7 +56,7 @@ public final class SubnetsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public SubnetsInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(SubnetsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(SubnetsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

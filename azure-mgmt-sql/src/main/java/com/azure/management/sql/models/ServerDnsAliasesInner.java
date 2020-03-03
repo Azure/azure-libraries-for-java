@@ -55,7 +55,7 @@ public final class ServerDnsAliasesInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ServerDnsAliasesInner(SqlManagementClientImpl client) {
-        this.service = RestProxy.create(ServerDnsAliasesService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ServerDnsAliasesService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

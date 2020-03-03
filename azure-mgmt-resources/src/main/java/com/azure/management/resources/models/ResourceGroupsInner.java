@@ -58,7 +58,7 @@ public final class ResourceGroupsInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ResourceGroupsInner(ResourceManagementClientImpl client) {
-        this.service = RestProxy.create(ResourceGroupsService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ResourceGroupsService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

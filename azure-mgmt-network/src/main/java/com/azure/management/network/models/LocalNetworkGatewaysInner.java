@@ -58,7 +58,7 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
      * @param client the instance of the service client containing this operation class.
      */
     public LocalNetworkGatewaysInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(LocalNetworkGatewaysService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(LocalNetworkGatewaysService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

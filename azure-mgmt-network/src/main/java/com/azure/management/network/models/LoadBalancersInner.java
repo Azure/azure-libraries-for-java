@@ -59,7 +59,7 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
      * @param client the instance of the service client containing this operation class.
      */
     public LoadBalancersInner(NetworkManagementClientImpl client) {
-        this.service = RestProxy.create(LoadBalancersService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(LoadBalancersService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

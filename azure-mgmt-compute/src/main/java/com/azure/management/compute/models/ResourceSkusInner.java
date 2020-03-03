@@ -46,7 +46,7 @@ public final class ResourceSkusInner {
      * @param client the instance of the service client containing this operation class.
      */
     public ResourceSkusInner(ComputeManagementClientImpl client) {
-        this.service = RestProxy.create(ResourceSkusService.class, client.getHttpPipeline());
+        this.service = RestProxy.create(ResourceSkusService.class, client.getHttpPipeline(), client.getSerializerAdapter());
         this.client = client;
     }
 

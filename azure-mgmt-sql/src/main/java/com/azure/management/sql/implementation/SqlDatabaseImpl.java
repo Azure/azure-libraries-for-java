@@ -19,7 +19,6 @@ import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.sql.AuthenticationType;
 import com.azure.management.sql.CreateMode;
 import com.azure.management.sql.DatabaseEdition;
-import com.azure.management.sql.DatabaseMetric;
 import com.azure.management.sql.DatabaseStatus;
 import com.azure.management.sql.DatabaseUpdate;
 import com.azure.management.sql.ImportRequest;
@@ -394,12 +393,6 @@ class SqlDatabaseImpl
             .renameAsync(this.resourceGroupName, this.sqlServerName, self.name(), newId)
             .flatMap(aVoid -> self.sqlServerManager.sqlServers().databases()
                 .getBySqlServerAsync(self.resourceGroupName, self.sqlServerName, newDatabaseName));
-    }
-
-    @Override
-    public List<DatabaseMetric> listUsages() {
-        // This method was deprecated in favor of the other database metric related methods
-        return Collections.unmodifiableList(new ArrayList<DatabaseMetric>());
     }
 
     @Override
@@ -865,6 +858,7 @@ class SqlDatabaseImpl
 
         this.inner().withSku(sku);
         this.inner().withMaxSizeBytes(maxStorageCapacity.capacity());
+        this.inner().withElasticPoolId(null);
         return this;
     }
 
@@ -880,6 +874,7 @@ class SqlDatabaseImpl
 
         this.inner().withSku(sku);
         this.inner().withMaxSizeBytes(maxStorageCapacity.capacity());
+        this.inner().withElasticPoolId(null);
         return this;
     }
 
@@ -895,7 +890,24 @@ class SqlDatabaseImpl
 
         this.inner().withSku(sku);
         this.inner().withMaxSizeBytes(maxStorageCapacity.capacity());
+        this.inner().withElasticPoolId(null);
         return this;
+    }
+
+    @Override
+    public SqlDatabaseImpl withCustomEdition(Sku sku) {
+        this.inner().withSku(sku);
+        this.inner().withElasticPoolId(null);
+        return this;
+    }
+
+    @Override
+    public SqlDatabaseImpl withCustomEdition(DatabaseEdition edition, ServiceObjectiveName serviceObjective, int capacity) {
+        Sku sku = new Sku().withName(serviceObjective.toString())
+                .withTier(edition.toString())
+                .withCapacity(capacity <= 0 ? null : Integer.valueOf(capacity));
+
+        return this.withCustomEdition(sku);
     }
 
     @Override

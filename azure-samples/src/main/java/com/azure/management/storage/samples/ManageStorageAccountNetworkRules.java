@@ -14,7 +14,7 @@ import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.ServiceEndpointType;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.samples.Utils;
+import com.azure.management.samples.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.LogLevel;
 

@@ -8,7 +8,7 @@ package com.azure.management.storage.samples;
 
 import com.microsoft.azure.management.Azure;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.samples.Utils;
+import com.azure.management.samples.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
 import com.microsoft.azure.management.storage.StorageAccountKey;

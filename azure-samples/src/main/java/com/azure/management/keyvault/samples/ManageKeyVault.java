@@ -13,7 +13,7 @@ import com.microsoft.azure.management.keyvault.SecretPermissions;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
+import com.azure.management.samples.Utils;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;

@@ -28,6 +28,26 @@ public final class SqlDatabaseGetPropertiesResource extends SqlDatabaseResource 
     @JsonProperty(value = "_users")
     private String users;
 
+    /*
+     * A system generated property. A unique identifier.
+     */
+    @JsonProperty(value = "_rid", access = JsonProperty.Access.WRITE_ONLY)
+    private String rid;
+
+    /*
+     * A system generated property that denotes the last updated timestamp of
+     * the resource.
+     */
+    @JsonProperty(value = "_ts", access = JsonProperty.Access.WRITE_ONLY)
+    private Object ts;
+
+    /*
+     * A system generated property representing the resource etag required for
+     * optimistic concurrency control.
+     */
+    @JsonProperty(value = "_etag", access = JsonProperty.Access.WRITE_ONLY)
+    private String etag;
+
     /**
      * Get the colls property: A system generated property that specified the
      * addressable path of the collections resource.
@@ -70,5 +90,34 @@ public final class SqlDatabaseGetPropertiesResource extends SqlDatabaseResource 
     public SqlDatabaseGetPropertiesResource withUsers(String users) {
         this.users = users;
         return this;
+    }
+
+    /**
+     * Get the rid property: A system generated property. A unique identifier.
+     * 
+     * @return the rid value.
+     */
+    public String rid() {
+        return this.rid;
+    }
+
+    /**
+     * Get the ts property: A system generated property that denotes the last
+     * updated timestamp of the resource.
+     * 
+     * @return the ts value.
+     */
+    public Object ts() {
+        return this.ts;
+    }
+
+    /**
+     * Get the etag property: A system generated property representing the
+     * resource etag required for optimistic concurrency control.
+     * 
+     * @return the etag value.
+     */
+    public String etag() {
+        return this.etag;
     }
 }

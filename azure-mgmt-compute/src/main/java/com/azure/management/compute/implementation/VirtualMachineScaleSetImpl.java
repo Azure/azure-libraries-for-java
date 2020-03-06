@@ -334,7 +334,7 @@ public class VirtualMachineScaleSetImpl
     @Override
     public LoadBalancer getPrimaryInternetFacingLoadBalancer() throws IOException {
         if (this.primaryInternetFacingLoadBalancer == null) {
-            loadCurrentPrimaryLoadBalancersIfAvailable();
+            loadCurrentPrimaryLoadBalancersIfAvailable().block();
         }
         return this.primaryInternetFacingLoadBalancer;
     }
@@ -360,7 +360,7 @@ public class VirtualMachineScaleSetImpl
     @Override
     public LoadBalancer getPrimaryInternalLoadBalancer() throws IOException {
         if (this.primaryInternalLoadBalancer == null) {
-            loadCurrentPrimaryLoadBalancersIfAvailable();
+            loadCurrentPrimaryLoadBalancersIfAvailable().block();
         }
         return this.primaryInternalLoadBalancer;
     }
@@ -1485,23 +1485,24 @@ public class VirtualMachineScaleSetImpl
             this.setOSDiskDefault();
         }
         this.setPrimaryIpConfigurationSubnet();
-        this.setPrimaryIpConfigurationBackendsAndInboundNatPools();
-        if (isManagedDiskEnabled()) {
-            this.managedDataDisks.setDataDisksDefaults();
-        } else {
-            List<VirtualMachineScaleSetDataDisk> dataDisks = this.inner()
-                    .virtualMachineProfile()
-                    .storageProfile()
-                    .dataDisks();
-            VirtualMachineScaleSetUnmanagedDataDiskImpl.setDataDisksDefaults(dataDisks, this.name());
-        }
-        this.handleUnManagedOSDiskContainers();
-        this.bootDiagnosticsHandler.handleDiagnosticsSettings();
-        this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
-        this.virtualMachineScaleSetMsiHandler.handleExternalIdentities();
-        this.createNewProximityPlacementGroup();
-        return this.manager().inner().virtualMachineScaleSets()
-                .createOrUpdateAsync(resourceGroupName(), name(), inner());
+        return this.setPrimaryIpConfigurationBackendsAndInboundNatPools().flatMap(virtualMachineScaleSet -> {
+            if (isManagedDiskEnabled()) {
+                this.managedDataDisks.setDataDisksDefaults();
+            } else {
+                List<VirtualMachineScaleSetDataDisk> dataDisks = this.inner()
+                        .virtualMachineProfile()
+                        .storageProfile()
+                        .dataDisks();
+                VirtualMachineScaleSetUnmanagedDataDiskImpl.setDataDisksDefaults(dataDisks, this.name());
+            }
+            this.handleUnManagedOSDiskContainers();
+            this.bootDiagnosticsHandler.handleDiagnosticsSettings();
+            this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
+            this.virtualMachineScaleSetMsiHandler.handleExternalIdentities();
+            this.createNewProximityPlacementGroup();
+            return this.manager().inner().virtualMachineScaleSets()
+                    .createOrUpdateAsync(resourceGroupName(), name(), inner());
+        });
     }
 
     @Override
@@ -1521,34 +1522,35 @@ public class VirtualMachineScaleSetImpl
                     .withExtensions(innersFromWrappers(this.extensions.values()));
         }
         this.setPrimaryIpConfigurationSubnet();
-        this.setPrimaryIpConfigurationBackendsAndInboundNatPools();
-        if (isManagedDiskEnabled()) {
-            this.managedDataDisks.setDataDisksDefaults();
-        } else {
-            List<VirtualMachineScaleSetDataDisk> dataDisks = this.inner()
-                    .virtualMachineProfile()
-                    .storageProfile()
-                    .dataDisks();
-            VirtualMachineScaleSetUnmanagedDataDiskImpl.setDataDisksDefaults(dataDisks, this.name());
-        }
-        this.handleUnManagedOSDiskContainers();
-        this.bootDiagnosticsHandler.handleDiagnosticsSettings();
-        this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
-        //
-        VirtualMachineScaleSetUpdate updateParameter = VMSSPatchPayload.preparePatchPayload(this);
-        //
-        this.virtualMachineScaleSetMsiHandler.handleExternalIdentities(updateParameter);
-        //
         final VirtualMachineScaleSetImpl self = this;
-        return this.manager().inner().virtualMachineScaleSets()
-                .updateAsync(resourceGroupName(), name(), updateParameter)
-                .map(vmssInner -> {
-                    setInner(vmssInner);
-                    self.clearCachedProperties();
-                    self.initializeChildrenFromInner();
-                    self.virtualMachineScaleSetMsiHandler.clear();
-                    return self;
-                });
+        return this.setPrimaryIpConfigurationBackendsAndInboundNatPools()
+                .map(virtualMachineScaleSet -> {
+                    if (isManagedDiskEnabled()) {
+                        this.managedDataDisks.setDataDisksDefaults();
+                    } else {
+                        List<VirtualMachineScaleSetDataDisk> dataDisks = this.inner()
+                                .virtualMachineProfile()
+                                .storageProfile()
+                                .dataDisks();
+                        VirtualMachineScaleSetUnmanagedDataDiskImpl.setDataDisksDefaults(dataDisks, this.name());
+                    }
+                    this.handleUnManagedOSDiskContainers();
+                    this.bootDiagnosticsHandler.handleDiagnosticsSettings();
+                    this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
+                    //
+                    VirtualMachineScaleSetUpdate updateParameter = VMSSPatchPayload.preparePatchPayload(this);
+                    //
+                    this.virtualMachineScaleSetMsiHandler.handleExternalIdentities(updateParameter);
+                    return updateParameter;
+                }).flatMap(updateParameter -> this.manager().inner().virtualMachineScaleSets()
+                        .updateAsync(resourceGroupName(), name(), updateParameter)
+                        .map(vmssInner -> {
+                            setInner(vmssInner);
+                            self.clearCachedProperties();
+                            self.initializeChildrenFromInner();
+                            self.virtualMachineScaleSetMsiHandler.clear();
+                            return self;
+                        }));
     }
 
     @Override
@@ -1766,117 +1768,118 @@ public class VirtualMachineScaleSetImpl
         this.existingPrimaryNetworkSubnetNameToAssociate = null;
     }
 
-    private void setPrimaryIpConfigurationBackendsAndInboundNatPools() {
+    private Mono<VirtualMachineScaleSetImpl> setPrimaryIpConfigurationBackendsAndInboundNatPools() {
         if (isInCreateMode()) {
-            return;
+            return Mono.just(this);
         }
 
         try {
-            this.loadCurrentPrimaryLoadBalancersIfAvailable();
+            return this.loadCurrentPrimaryLoadBalancersIfAvailable().map(virtualMachineScaleSet -> {
+                VirtualMachineScaleSetIPConfiguration primaryIpConfig = primaryNicDefaultIPConfiguration();
+                if (this.primaryInternetFacingLoadBalancer != null) {
+                    removeBackendsFromIpConfiguration(this.primaryInternetFacingLoadBalancer.id(),
+                            primaryIpConfig,
+                            this.primaryInternetFacingLBBackendsToRemoveOnUpdate.toArray(new String[0]));
+
+                    associateBackEndsToIpConfiguration(primaryInternetFacingLoadBalancer.id(),
+                            primaryIpConfig,
+                            this.primaryInternetFacingLBBackendsToAddOnUpdate.toArray(new String[0]));
+
+                    removeInboundNatPoolsFromIpConfiguration(this.primaryInternetFacingLoadBalancer.id(),
+                            primaryIpConfig,
+                            this.primaryInternetFacingLBInboundNatPoolsToRemoveOnUpdate.toArray(new String[0]));
+
+                    associateInboundNATPoolsToIpConfiguration(primaryInternetFacingLoadBalancer.id(),
+                            primaryIpConfig,
+                            this.primaryInternetFacingLBInboundNatPoolsToAddOnUpdate.toArray(new String[0]));
+                }
+
+                if (this.primaryInternalLoadBalancer != null) {
+                    removeBackendsFromIpConfiguration(this.primaryInternalLoadBalancer.id(),
+                            primaryIpConfig,
+                            this.primaryInternalLBBackendsToRemoveOnUpdate.toArray(new String[0]));
+
+                    associateBackEndsToIpConfiguration(primaryInternalLoadBalancer.id(),
+                            primaryIpConfig,
+                            this.primaryInternalLBBackendsToAddOnUpdate.toArray(new String[0]));
+
+                    removeInboundNatPoolsFromIpConfiguration(this.primaryInternalLoadBalancer.id(),
+                            primaryIpConfig,
+                            this.primaryInternalLBInboundNatPoolsToRemoveOnUpdate.toArray(new String[0]));
+
+                    associateInboundNATPoolsToIpConfiguration(primaryInternalLoadBalancer.id(),
+                            primaryIpConfig,
+                            this.primaryInternalLBInboundNatPoolsToAddOnUpdate.toArray(new String[0]));
+                }
+
+                if (this.removePrimaryInternetFacingLoadBalancerOnUpdate) {
+                    if (this.primaryInternetFacingLoadBalancer != null) {
+                        removeLoadBalancerAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancer, primaryIpConfig);
+                    }
+                }
+
+                if (this.removePrimaryInternalLoadBalancerOnUpdate) {
+                    if (this.primaryInternalLoadBalancer != null) {
+                        removeLoadBalancerAssociationFromIpConfiguration(this.primaryInternalLoadBalancer, primaryIpConfig);
+                    }
+                }
+
+                if (this.primaryInternetFacingLoadBalancerToAttachOnUpdate != null) {
+                    if (this.primaryInternetFacingLoadBalancer != null) {
+                        removeLoadBalancerAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancer, primaryIpConfig);
+                    }
+                    associateLoadBalancerToIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate, primaryIpConfig);
+                    if (!this.primaryInternetFacingLBBackendsToAddOnUpdate.isEmpty()) {
+                        removeAllBackendAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate, primaryIpConfig);
+                        associateBackEndsToIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate.id(),
+                                primaryIpConfig,
+                                this.primaryInternetFacingLBBackendsToAddOnUpdate.toArray(new String[0]));
+                    }
+                    if (!this.primaryInternetFacingLBInboundNatPoolsToAddOnUpdate.isEmpty()) {
+                        removeAllInboundNatPoolAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate, primaryIpConfig);
+                        associateInboundNATPoolsToIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate.id(),
+                                primaryIpConfig,
+                                this.primaryInternetFacingLBInboundNatPoolsToAddOnUpdate.toArray(new String[0]));
+                    }
+                }
+
+                if (this.primaryInternalLoadBalancerToAttachOnUpdate != null) {
+                    if (this.primaryInternalLoadBalancer != null) {
+                        removeLoadBalancerAssociationFromIpConfiguration(this.primaryInternalLoadBalancer, primaryIpConfig);
+                    }
+                    associateLoadBalancerToIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate, primaryIpConfig);
+                    if (!this.primaryInternalLBBackendsToAddOnUpdate.isEmpty()) {
+                        removeAllBackendAssociationFromIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate, primaryIpConfig);
+                        associateBackEndsToIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate.id(),
+                                primaryIpConfig,
+                                this.primaryInternalLBBackendsToAddOnUpdate.toArray(new String[0]));
+                    }
+
+                    if (!this.primaryInternalLBInboundNatPoolsToAddOnUpdate.isEmpty()) {
+                        removeAllInboundNatPoolAssociationFromIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate, primaryIpConfig);
+                        associateInboundNATPoolsToIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate.id(),
+                                primaryIpConfig,
+                                this.primaryInternalLBInboundNatPoolsToAddOnUpdate.toArray(new String[0]));
+                    }
+                }
+
+                this.removePrimaryInternetFacingLoadBalancerOnUpdate = false;
+                this.removePrimaryInternalLoadBalancerOnUpdate = false;
+                this.primaryInternetFacingLoadBalancerToAttachOnUpdate = null;
+                this.primaryInternalLoadBalancerToAttachOnUpdate = null;
+                this.primaryInternetFacingLBBackendsToRemoveOnUpdate.clear();
+                this.primaryInternetFacingLBInboundNatPoolsToRemoveOnUpdate.clear();
+                this.primaryInternalLBBackendsToRemoveOnUpdate.clear();
+                this.primaryInternalLBInboundNatPoolsToRemoveOnUpdate.clear();
+                this.primaryInternetFacingLBBackendsToAddOnUpdate.clear();
+                this.primaryInternetFacingLBInboundNatPoolsToAddOnUpdate.clear();
+                this.primaryInternalLBBackendsToAddOnUpdate.clear();
+                this.primaryInternalLBInboundNatPoolsToAddOnUpdate.clear();
+                return this;
+            });
         } catch (IOException ioException) {
             throw new RuntimeException(ioException);
         }
-
-        VirtualMachineScaleSetIPConfiguration primaryIpConfig = primaryNicDefaultIPConfiguration();
-        if (this.primaryInternetFacingLoadBalancer != null) {
-            removeBackendsFromIpConfiguration(this.primaryInternetFacingLoadBalancer.id(),
-                    primaryIpConfig,
-                    this.primaryInternetFacingLBBackendsToRemoveOnUpdate.toArray(new String[0]));
-
-            associateBackEndsToIpConfiguration(primaryInternetFacingLoadBalancer.id(),
-                    primaryIpConfig,
-                    this.primaryInternetFacingLBBackendsToAddOnUpdate.toArray(new String[0]));
-
-            removeInboundNatPoolsFromIpConfiguration(this.primaryInternetFacingLoadBalancer.id(),
-                    primaryIpConfig,
-                    this.primaryInternetFacingLBInboundNatPoolsToRemoveOnUpdate.toArray(new String[0]));
-
-            associateInboundNATPoolsToIpConfiguration(primaryInternetFacingLoadBalancer.id(),
-                    primaryIpConfig,
-                    this.primaryInternetFacingLBInboundNatPoolsToAddOnUpdate.toArray(new String[0]));
-        }
-
-        if (this.primaryInternalLoadBalancer != null) {
-            removeBackendsFromIpConfiguration(this.primaryInternalLoadBalancer.id(),
-                    primaryIpConfig,
-                    this.primaryInternalLBBackendsToRemoveOnUpdate.toArray(new String[0]));
-
-            associateBackEndsToIpConfiguration(primaryInternalLoadBalancer.id(),
-                    primaryIpConfig,
-                    this.primaryInternalLBBackendsToAddOnUpdate.toArray(new String[0]));
-
-            removeInboundNatPoolsFromIpConfiguration(this.primaryInternalLoadBalancer.id(),
-                    primaryIpConfig,
-                    this.primaryInternalLBInboundNatPoolsToRemoveOnUpdate.toArray(new String[0]));
-
-            associateInboundNATPoolsToIpConfiguration(primaryInternalLoadBalancer.id(),
-                    primaryIpConfig,
-                    this.primaryInternalLBInboundNatPoolsToAddOnUpdate.toArray(new String[0]));
-        }
-
-        if (this.removePrimaryInternetFacingLoadBalancerOnUpdate) {
-            if (this.primaryInternetFacingLoadBalancer != null) {
-                removeLoadBalancerAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancer, primaryIpConfig);
-            }
-        }
-
-        if (this.removePrimaryInternalLoadBalancerOnUpdate) {
-            if (this.primaryInternalLoadBalancer != null) {
-                removeLoadBalancerAssociationFromIpConfiguration(this.primaryInternalLoadBalancer, primaryIpConfig);
-            }
-        }
-
-        if (this.primaryInternetFacingLoadBalancerToAttachOnUpdate != null) {
-            if (this.primaryInternetFacingLoadBalancer != null) {
-                removeLoadBalancerAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancer, primaryIpConfig);
-            }
-            associateLoadBalancerToIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate, primaryIpConfig);
-            if (!this.primaryInternetFacingLBBackendsToAddOnUpdate.isEmpty()) {
-                removeAllBackendAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate, primaryIpConfig);
-                associateBackEndsToIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate.id(),
-                        primaryIpConfig,
-                        this.primaryInternetFacingLBBackendsToAddOnUpdate.toArray(new String[0]));
-            }
-            if (!this.primaryInternetFacingLBInboundNatPoolsToAddOnUpdate.isEmpty()) {
-                removeAllInboundNatPoolAssociationFromIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate, primaryIpConfig);
-                associateInboundNATPoolsToIpConfiguration(this.primaryInternetFacingLoadBalancerToAttachOnUpdate.id(),
-                        primaryIpConfig,
-                        this.primaryInternetFacingLBInboundNatPoolsToAddOnUpdate.toArray(new String[0]));
-            }
-        }
-
-        if (this.primaryInternalLoadBalancerToAttachOnUpdate != null) {
-            if (this.primaryInternalLoadBalancer != null) {
-                removeLoadBalancerAssociationFromIpConfiguration(this.primaryInternalLoadBalancer, primaryIpConfig);
-            }
-            associateLoadBalancerToIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate, primaryIpConfig);
-            if (!this.primaryInternalLBBackendsToAddOnUpdate.isEmpty()) {
-                removeAllBackendAssociationFromIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate, primaryIpConfig);
-                associateBackEndsToIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate.id(),
-                        primaryIpConfig,
-                        this.primaryInternalLBBackendsToAddOnUpdate.toArray(new String[0]));
-            }
-
-            if (!this.primaryInternalLBInboundNatPoolsToAddOnUpdate.isEmpty()) {
-                removeAllInboundNatPoolAssociationFromIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate, primaryIpConfig);
-                associateInboundNATPoolsToIpConfiguration(this.primaryInternalLoadBalancerToAttachOnUpdate.id(),
-                        primaryIpConfig,
-                        this.primaryInternalLBInboundNatPoolsToAddOnUpdate.toArray(new String[0]));
-            }
-        }
-
-        this.removePrimaryInternetFacingLoadBalancerOnUpdate = false;
-        this.removePrimaryInternalLoadBalancerOnUpdate = false;
-        this.primaryInternetFacingLoadBalancerToAttachOnUpdate = null;
-        this.primaryInternalLoadBalancerToAttachOnUpdate = null;
-        this.primaryInternetFacingLBBackendsToRemoveOnUpdate.clear();
-        this.primaryInternetFacingLBInboundNatPoolsToRemoveOnUpdate.clear();
-        this.primaryInternalLBBackendsToRemoveOnUpdate.clear();
-        this.primaryInternalLBInboundNatPoolsToRemoveOnUpdate.clear();
-        this.primaryInternetFacingLBBackendsToAddOnUpdate.clear();
-        this.primaryInternetFacingLBInboundNatPoolsToAddOnUpdate.clear();
-        this.primaryInternalLBBackendsToAddOnUpdate.clear();
-        this.primaryInternalLBInboundNatPoolsToAddOnUpdate.clear();
     }
 
     private void clearCachedProperties() {
@@ -1884,9 +1887,10 @@ public class VirtualMachineScaleSetImpl
         this.primaryInternalLoadBalancer = null;
     }
 
-    private void loadCurrentPrimaryLoadBalancersIfAvailable() throws IOException {
+    private Mono<VirtualMachineScaleSetImpl> loadCurrentPrimaryLoadBalancersIfAvailable() throws IOException {
+        Mono<VirtualMachineScaleSetImpl> self = Mono.just(this);
         if (this.primaryInternetFacingLoadBalancer != null && this.primaryInternalLoadBalancer != null) {
-            return;
+            return self;
         }
 
         String firstLoadBalancerId = null;
@@ -1902,17 +1906,18 @@ public class VirtualMachineScaleSetImpl
         }
 
         if (firstLoadBalancerId == null) {
-            return;
+            return self;
         }
 
-        LoadBalancer loadBalancer1 = this.networkManager
-                .loadBalancers()
-                .getById(firstLoadBalancerId);
-        if (loadBalancer1.publicIPAddressIds() != null && loadBalancer1.publicIPAddressIds().size() > 0) {
-            this.primaryInternetFacingLoadBalancer = loadBalancer1;
-        } else {
-            this.primaryInternalLoadBalancer = loadBalancer1;
-        }
+        self = self.concatWith(Mono.just(firstLoadBalancerId).flatMap(id -> this.networkManager.loadBalancers().getByIdAsync(id)
+                .map(loadBalancer1 -> {
+                    if (loadBalancer1.publicIPAddressIds() != null && loadBalancer1.publicIPAddressIds().size() > 0) {
+                        this.primaryInternetFacingLoadBalancer = loadBalancer1;
+                    } else {
+                        this.primaryInternalLoadBalancer = loadBalancer1;
+                    }
+                    return this;
+                }))).last();
 
         String secondLoadBalancerId = null;
         for (SubResource subResource: ipConfig.loadBalancerBackendAddressPools()) {
@@ -1934,17 +1939,18 @@ public class VirtualMachineScaleSetImpl
         }
 
         if (secondLoadBalancerId == null) {
-            return;
+            return self;
         }
 
-        LoadBalancer loadBalancer2 = this.networkManager
-                .loadBalancers()
-                .getById(secondLoadBalancerId);
-        if (loadBalancer2.publicIPAddressIds() != null && loadBalancer2.publicIPAddressIds().size() > 0) {
-            this.primaryInternetFacingLoadBalancer = loadBalancer2;
-        } else {
-            this.primaryInternalLoadBalancer = loadBalancer2;
-        }
+        return self.concatWith(Mono.just(secondLoadBalancerId).flatMap(id -> networkManager.loadBalancers().getByIdAsync(id)
+                .map(loadBalancer2 -> {
+                    if (loadBalancer2.publicIPAddressIds() != null && loadBalancer2.publicIPAddressIds().size() > 0) {
+                        this.primaryInternetFacingLoadBalancer = loadBalancer2;
+                    } else {
+                        this.primaryInternalLoadBalancer = loadBalancer2;
+                    }
+                    return this;
+                }))).last();
     }
 
     private VirtualMachineScaleSetIPConfiguration primaryNicDefaultIPConfiguration() {

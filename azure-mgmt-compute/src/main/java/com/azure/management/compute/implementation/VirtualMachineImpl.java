@@ -1654,17 +1654,18 @@ class VirtualMachineImpl
         this.handleUnManagedOSAndDataDisksStorageSettings();
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
         this.handleNetworkSettings();
-        this.createNewProximityPlacementGroup();
-        this.handleAvailabilitySettings();
-        this.virtualMachineMsiHandler.processCreatedExternalIdentities();
-        this.virtualMachineMsiHandler.handleExternalIdentities();
         final VirtualMachineImpl self = this;
-        return this.manager().inner().virtualMachines()
-                .createOrUpdateAsync(resourceGroupName(), vmName, inner())
-                .map(virtualMachineInner -> {
-                    reset(virtualMachineInner);
-                    return self;
-                });
+        return this.createNewProximityPlacementGroup().flatMap(virtualMachine -> {
+            this.handleAvailabilitySettings();
+            this.virtualMachineMsiHandler.processCreatedExternalIdentities();
+            this.virtualMachineMsiHandler.handleExternalIdentities();
+            return this.manager().inner().virtualMachines()
+                    .createOrUpdateAsync(resourceGroupName(), vmName, inner())
+                    .map(virtualMachineInner -> {
+                        reset(virtualMachineInner);
+                        return self;
+                    });
+        });
     }
 
     @Override
@@ -1776,7 +1777,7 @@ class VirtualMachineImpl
         if (environment != null) {
             return environment;
         }
-        throw new IllegalArgumentException("Unknown environment");
+        return environment == null ? AzureEnvironment.AZURE : environment;
     }
 
     private void setOSDiskDefaults() {
@@ -1925,18 +1926,21 @@ class VirtualMachineImpl
         }
     }
 
-    private void createNewProximityPlacementGroup() {
+    private Mono<VirtualMachineImpl> createNewProximityPlacementGroup() {
         if (isInCreateMode()) {
             if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
                 ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
                 plgInner.withProximityPlacementGroupType(this.newProximityPlacementGroupType);
                 plgInner.setLocation(this.inner().getLocation());
-                plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(),
-                        this.newProximityPlacementGroupName, plgInner);
-
-                this.inner().withProximityPlacementGroup((new SubResource().setId(plgInner.getId())));
+                return this.manager().inner().proximityPlacementGroups()
+                        .createOrUpdateAsync(this.resourceGroupName(), this.newProximityPlacementGroupName, plgInner)
+                        .map(createdPlgInner -> {
+                            this.inner().withProximityPlacementGroup(new SubResource().setId(createdPlgInner.getId()));
+                            return this;
+                        });
             }
         }
+        return Mono.just(this);
     }
 
     private void handleNetworkSettings() {

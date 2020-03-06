@@ -17,7 +17,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Settable;
  * A private endpoint connection.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_28_0)
 public interface PrivateEndpointConnection extends
         HasInner<PrivateEndpointConnectionInner>,
         ExternalChildResource<PrivateEndpointConnection, CosmosDBAccount> {

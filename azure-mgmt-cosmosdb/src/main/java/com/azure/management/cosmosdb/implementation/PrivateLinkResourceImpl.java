@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * A private link resource.
  */
-@LangDefinition
 public class PrivateLinkResourceImpl
         extends WrapperImpl<PrivateLinkResourceInner>
         implements PrivateLinkResource {

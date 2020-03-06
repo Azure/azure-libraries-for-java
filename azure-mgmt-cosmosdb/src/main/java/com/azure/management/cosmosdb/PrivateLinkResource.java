@@ -16,7 +16,6 @@ import java.util.List;
  * A private link resource.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_28_0)
 public interface PrivateLinkResource
         extends HasInner<PrivateLinkResourceInner> {
 

@@ -15,7 +15,6 @@ import java.util.List;
 /**
  * The implementation for DatabaseAccountListConnectionStringsResult.
  */
-@LangDefinition
 public class DatabaseAccountListConnectionStringsResultImpl extends WrapperImpl<DatabaseAccountListConnectionStringsResultInner>
     implements DatabaseAccountListConnectionStringsResult {
     DatabaseAccountListConnectionStringsResultImpl(DatabaseAccountListConnectionStringsResultInner innerObject) {

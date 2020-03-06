@@ -12,7 +12,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 /**
  * An Azure Cosmos DB SQL database.
  */
-@LangDefinition
 public class SqlDatabaseImpl
         extends WrapperImpl<SqlDatabaseGetResultsInner>
         implements SqlDatabase {

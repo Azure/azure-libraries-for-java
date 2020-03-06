@@ -18,7 +18,6 @@ import rx.functions.Func1;
 /**
  * A private endpoint connection.
  */
-@LangDefinition
 public class PrivateEndpointConnectionImpl
         extends ExternalChildResourceImpl<PrivateEndpointConnection,
             PrivateEndpointConnectionInner,

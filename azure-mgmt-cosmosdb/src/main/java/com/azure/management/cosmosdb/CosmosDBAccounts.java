@@ -27,8 +27,7 @@ import java.util.List;
 /**
  *  Entry point to Cosmos DB management API.
  */
-@Fluent()
-@Beta(Beta.SinceVersion.V1_2_0)
+@Fluent
 public interface CosmosDBAccounts extends
         SupportsCreating<CosmosDBAccount.DefinitionStages.Blank>,
         HasManager<CosmosDBManager>,

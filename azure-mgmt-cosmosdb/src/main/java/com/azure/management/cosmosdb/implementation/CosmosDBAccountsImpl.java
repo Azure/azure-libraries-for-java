@@ -29,7 +29,6 @@ import java.util.List;
 /**
  * Implementation for Registries.
  */
-@LangDefinition
 class CosmosDBAccountsImpl
         extends
         GroupableResourcesImpl<

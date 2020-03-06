@@ -12,7 +12,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 /**
  * The implementation for DatabaseAccountListReadOnlyKeysResult.
  */
-@LangDefinition
 public class DatabaseAccountListReadOnlyKeysResultImpl extends WrapperImpl<DatabaseAccountListReadOnlyKeysResultInner>
     implements DatabaseAccountListReadOnlyKeysResult {
     DatabaseAccountListReadOnlyKeysResultImpl(DatabaseAccountListReadOnlyKeysResultInner innerObject) {

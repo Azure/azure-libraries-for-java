@@ -16,7 +16,6 @@ import java.util.List;
  * An immutable client-side representation of an Azure Cosmos DB DatabaseAccountListConnectionStringsResult.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_8_0)
 public interface DatabaseAccountListConnectionStringsResult extends HasInner<DatabaseAccountListConnectionStringsResultInner> {
     /**
      * @return a list that contains the connection strings for the CosmosDB account.

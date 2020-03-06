@@ -22,7 +22,6 @@ import java.util.Map;
 /**
  * Represents a private endpoint connection collection.
  */
-@LangDefinition
 class PrivateEndpointConnectionsImpl extends
         ExternalChildResourcesCachedImpl<PrivateEndpointConnectionImpl,
                 PrivateEndpointConnection,

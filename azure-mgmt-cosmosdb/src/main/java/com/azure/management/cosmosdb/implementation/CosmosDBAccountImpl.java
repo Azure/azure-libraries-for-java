@@ -5,7 +5,6 @@
  */
 package com.azure.management.cosmosdb.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.cosmosdb.Capability;
 import com.azure.management.cosmosdb.ConnectorOffer;
 import com.azure.management.cosmosdb.ConsistencyPolicy;
@@ -25,6 +24,12 @@ import com.azure.management.cosmosdb.PrivateEndpointConnection;
 import com.azure.management.cosmosdb.PrivateLinkResource;
 import com.azure.management.cosmosdb.SqlDatabase;
 import com.azure.management.cosmosdb.VirtualNetworkRule;
+import com.azure.management.cosmosdb.models.DatabaseAccountGetResultsInner;
+import com.azure.management.cosmosdb.models.DatabaseAccountListConnectionStringsResultInner;
+import com.azure.management.cosmosdb.models.DatabaseAccountListKeysResultInner;
+import com.azure.management.cosmosdb.models.DatabaseAccountListReadOnlyKeysResultInner;
+import com.azure.management.cosmosdb.models.PrivateLinkResourceInner;
+import com.azure.management.cosmosdb.models.SqlDatabaseGetResultsInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Completable;
@@ -43,7 +48,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * The implementation for CosmosDBAccount.
  */
-@LangDefinition
 class CosmosDBAccountImpl
         extends
         GroupableResourceImpl<

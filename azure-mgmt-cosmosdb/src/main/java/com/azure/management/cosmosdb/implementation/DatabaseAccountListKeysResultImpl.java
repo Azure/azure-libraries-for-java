@@ -12,7 +12,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 /**
  * The implementation for DatabaseAccountListKeysResult.
  */
-@LangDefinition
 public class DatabaseAccountListKeysResultImpl extends WrapperImpl<DatabaseAccountListKeysResultInner>
     implements DatabaseAccountListKeysResult {
     DatabaseAccountListKeysResultImpl(DatabaseAccountListKeysResultInner innerObject) {

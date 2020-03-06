@@ -63,7 +63,7 @@ public final class OperationsInner {
         @Get("/providers/Microsoft.DocumentDB/operations")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<OperationListResultInner>> list(@HostParam("$host") String host, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<OperationListResultInner>> list(@HostParam("$host") String host, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("{nextLink}")
@@ -81,8 +81,7 @@ public final class OperationsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<OperationInner>> listSinglePageAsync() {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.list(this.client.getHost(), apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.list(this.client.getHost(), apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),

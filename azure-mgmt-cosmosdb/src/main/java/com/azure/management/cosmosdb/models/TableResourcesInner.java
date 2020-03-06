@@ -72,55 +72,55 @@ public final class TableResourcesInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<TableListResultInner>> listTables(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<TableListResultInner>> listTables(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<TableGetResultsInner>> getTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<TableGetResultsInner>> getTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") TableCreateUpdateParameters createUpdateTableParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @BodyParam("application/json") TableCreateUpdateParameters createUpdateTableParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<TableGetResultsInner>> beginCreateUpdateTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") TableCreateUpdateParameters createUpdateTableParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<TableGetResultsInner>> beginCreateUpdateTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @BodyParam("application/json") TableCreateUpdateParameters createUpdateTableParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("tableName") String tableName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -135,8 +135,7 @@ public final class TableResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<TableGetResultsInner>> listTablesSinglePageAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listTables(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listTables(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -187,8 +186,7 @@ public final class TableResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<TableGetResultsInner>> getTableWithResponseAsync(String resourceGroupName, String accountName, String tableName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion, apiVersion);
+        return service.getTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion);
     }
 
     /**
@@ -242,8 +240,7 @@ public final class TableResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateTableWithResponseAsync(String resourceGroupName, String accountName, String tableName, TableCreateUpdateParameters createUpdateTableParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion, createUpdateTableParameters, apiVersion);
+        return service.createUpdateTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, createUpdateTableParameters, apiVersion);
     }
 
     /**
@@ -294,8 +291,7 @@ public final class TableResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteTableWithResponseAsync(String resourceGroupName, String accountName, String tableName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion, apiVersion);
+        return service.deleteTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion);
     }
 
     /**
@@ -344,8 +340,7 @@ public final class TableResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getTableThroughputWithResponseAsync(String resourceGroupName, String accountName, String tableName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion, apiVersion);
+        return service.getTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion);
     }
 
     /**
@@ -399,8 +394,7 @@ public final class TableResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateTableThroughputWithResponseAsync(String resourceGroupName, String accountName, String tableName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.updateTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.updateTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -452,8 +446,7 @@ public final class TableResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<TableGetResultsInner>> beginCreateUpdateTableWithResponseAsync(String resourceGroupName, String accountName, String tableName, TableCreateUpdateParameters createUpdateTableParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion, createUpdateTableParameters, apiVersion);
+        return service.beginCreateUpdateTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, createUpdateTableParameters, apiVersion);
     }
 
     /**
@@ -508,8 +501,7 @@ public final class TableResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteTableWithResponseAsync(String resourceGroupName, String accountName, String tableName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion, apiVersion);
+        return service.beginDeleteTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion);
     }
 
     /**
@@ -557,8 +549,7 @@ public final class TableResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateTableThroughputWithResponseAsync(String resourceGroupName, String accountName, String tableName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdateTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.beginUpdateTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, tableName, updateThroughputParameters, apiVersion);
     }
 
     /**

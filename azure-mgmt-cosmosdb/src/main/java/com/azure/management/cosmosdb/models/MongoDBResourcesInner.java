@@ -73,109 +73,109 @@ public final class MongoDBResourcesInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<MongoDBDatabaseListResultInner>> listMongoDBDatabases(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<MongoDBDatabaseListResultInner>> listMongoDBDatabases(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<MongoDBDatabaseGetResultsInner>> getMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<MongoDBDatabaseGetResultsInner>> getMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") MongoDBDatabaseCreateUpdateParameters createUpdateMongoDBDatabaseParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") MongoDBDatabaseCreateUpdateParameters createUpdateMongoDBDatabaseParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getMongoDBDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getMongoDBDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> updateMongoDBDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateMongoDBDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<MongoDBCollectionListResultInner>> listMongoDBCollections(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<MongoDBCollectionListResultInner>> listMongoDBCollections(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<MongoDBCollectionGetResultsInner>> getMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<MongoDBCollectionGetResultsInner>> getMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") MongoDBCollectionCreateUpdateParameters createUpdateMongoDBCollectionParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @BodyParam("application/json") MongoDBCollectionCreateUpdateParameters createUpdateMongoDBCollectionParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getMongoDBCollectionThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getMongoDBCollectionThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> updateMongoDBCollectionThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateMongoDBCollectionThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<MongoDBDatabaseGetResultsInner>> beginCreateUpdateMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") MongoDBDatabaseCreateUpdateParameters createUpdateMongoDBDatabaseParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<MongoDBDatabaseGetResultsInner>> beginCreateUpdateMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") MongoDBDatabaseCreateUpdateParameters createUpdateMongoDBDatabaseParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteMongoDBDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateMongoDBDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateMongoDBDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<MongoDBCollectionGetResultsInner>> beginCreateUpdateMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") MongoDBCollectionCreateUpdateParameters createUpdateMongoDBCollectionParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<MongoDBCollectionGetResultsInner>> beginCreateUpdateMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @BodyParam("application/json") MongoDBCollectionCreateUpdateParameters createUpdateMongoDBCollectionParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteMongoDBCollection(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateMongoDBCollectionThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateMongoDBCollectionThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("collectionName") String collectionName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -190,8 +190,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<MongoDBDatabaseGetResultsInner>> listMongoDBDatabasesSinglePageAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listMongoDBDatabases(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listMongoDBDatabases(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -242,8 +241,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<MongoDBDatabaseGetResultsInner>> getMongoDBDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.getMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -297,8 +295,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateMongoDBDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName, MongoDBDatabaseCreateUpdateParameters createUpdateMongoDBDatabaseParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, createUpdateMongoDBDatabaseParameters, apiVersion);
+        return service.createUpdateMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, createUpdateMongoDBDatabaseParameters, apiVersion);
     }
 
     /**
@@ -349,8 +346,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteMongoDBDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.deleteMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -399,8 +395,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getMongoDBDatabaseThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getMongoDBDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.getMongoDBDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -454,8 +449,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateMongoDBDatabaseThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.updateMongoDBDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.updateMongoDBDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -506,8 +500,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<MongoDBCollectionGetResultsInner>> listMongoDBCollectionsSinglePageAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listMongoDBCollections(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listMongoDBCollections(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -561,8 +554,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<MongoDBCollectionGetResultsInner>> getMongoDBCollectionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String collectionName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion, apiVersion);
+        return service.getMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion);
     }
 
     /**
@@ -619,8 +611,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateMongoDBCollectionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String collectionName, MongoDBCollectionCreateUpdateParameters createUpdateMongoDBCollectionParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion, createUpdateMongoDBCollectionParameters, apiVersion);
+        return service.createUpdateMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, createUpdateMongoDBCollectionParameters, apiVersion);
     }
 
     /**
@@ -674,8 +665,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteMongoDBCollectionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String collectionName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion, apiVersion);
+        return service.deleteMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion);
     }
 
     /**
@@ -727,8 +717,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getMongoDBCollectionThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String collectionName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getMongoDBCollectionThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion, apiVersion);
+        return service.getMongoDBCollectionThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion);
     }
 
     /**
@@ -785,8 +774,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateMongoDBCollectionThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String collectionName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.updateMongoDBCollectionThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.updateMongoDBCollectionThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -840,8 +828,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<MongoDBDatabaseGetResultsInner>> beginCreateUpdateMongoDBDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName, MongoDBDatabaseCreateUpdateParameters createUpdateMongoDBDatabaseParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, createUpdateMongoDBDatabaseParameters, apiVersion);
+        return service.beginCreateUpdateMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, createUpdateMongoDBDatabaseParameters, apiVersion);
     }
 
     /**
@@ -896,8 +883,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteMongoDBDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.beginDeleteMongoDBDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -945,8 +931,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateMongoDBDatabaseThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdateMongoDBDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.beginUpdateMongoDBDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -1003,8 +988,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<MongoDBCollectionGetResultsInner>> beginCreateUpdateMongoDBCollectionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String collectionName, MongoDBCollectionCreateUpdateParameters createUpdateMongoDBCollectionParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion, createUpdateMongoDBCollectionParameters, apiVersion);
+        return service.beginCreateUpdateMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, createUpdateMongoDBCollectionParameters, apiVersion);
     }
 
     /**
@@ -1062,8 +1046,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteMongoDBCollectionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String collectionName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion, apiVersion);
+        return service.beginDeleteMongoDBCollection(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion);
     }
 
     /**
@@ -1114,8 +1097,7 @@ public final class MongoDBResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateMongoDBCollectionThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String collectionName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdateMongoDBCollectionThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.beginUpdateMongoDBCollectionThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, collectionName, updateThroughputParameters, apiVersion);
     }
 
     /**

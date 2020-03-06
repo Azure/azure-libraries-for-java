@@ -85,151 +85,151 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DatabaseAccountGetResultsInner>> getByResourceGroup(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DatabaseAccountGetResultsInner>> getByResourceGroup(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> update(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") DatabaseAccountUpdateParameters updateParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> update(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") DatabaseAccountUpdateParameters updateParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") DatabaseAccountCreateUpdateParameters createUpdateParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") DatabaseAccountCreateUpdateParameters createUpdateParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/failoverPriorityChange")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> failoverPriorityChange(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") FailoverPolicies failoverParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> failoverPriorityChange(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") FailoverPolicies failoverParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/databaseAccounts")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DatabaseAccountsListResultInner>> list(@HostParam("$host") String host, @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DatabaseAccountsListResultInner>> list(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DatabaseAccountsListResultInner>> listByResourceGroup(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DatabaseAccountsListResultInner>> listByResourceGroup(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listKeys")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DatabaseAccountListKeysResultInner>> listKeys(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DatabaseAccountListKeysResultInner>> listKeys(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listConnectionStrings")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DatabaseAccountListConnectionStringsResultInner>> listConnectionStrings(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DatabaseAccountListConnectionStringsResultInner>> listConnectionStrings(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/offlineRegion")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> offlineRegion(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") RegionForOnlineOffline regionParameterForOffline, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> offlineRegion(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") RegionForOnlineOffline regionParameterForOffline, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/onlineRegion")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> onlineRegion(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") RegionForOnlineOffline regionParameterForOnline, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> onlineRegion(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") RegionForOnlineOffline regionParameterForOnline, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DatabaseAccountListReadOnlyKeysResultInner>> getReadOnlyKeys(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DatabaseAccountListReadOnlyKeysResultInner>> getReadOnlyKeys(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DatabaseAccountListReadOnlyKeysResultInner>> listReadOnlyKeys(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DatabaseAccountListReadOnlyKeysResultInner>> listReadOnlyKeys(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/regenerateKey")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> regenerateKey(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") DatabaseAccountRegenerateKeyParameters keyToRegenerate, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> regenerateKey(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") DatabaseAccountRegenerateKeyParameters keyToRegenerate, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Head("/providers/Microsoft.DocumentDB/databaseAccountNames/{accountName}")
         @ExpectedResponses({200, 404})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Boolean>> checkNameExists(@HostParam("$host") String host, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Boolean>> checkNameExists(@HostParam("$host") String host, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metrics")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<MetricListResultInner>> listMetrics(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<MetricListResultInner>> listMetrics(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/usages")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<UsagesResultInner>> listUsages(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<UsagesResultInner>> listUsages(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metricDefinitions")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<MetricDefinitionsListResultInner>> listMetricDefinitions(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<MetricDefinitionsListResultInner>> listMetricDefinitions(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DatabaseAccountGetResultsInner>> beginUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") DatabaseAccountUpdateParameters updateParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DatabaseAccountGetResultsInner>> beginUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") DatabaseAccountUpdateParameters updateParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DatabaseAccountGetResultsInner>> beginCreateOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") DatabaseAccountCreateUpdateParameters createUpdateParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DatabaseAccountGetResultsInner>> beginCreateOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") DatabaseAccountCreateUpdateParameters createUpdateParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDelete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDelete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/failoverPriorityChange")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginFailoverPriorityChange(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") FailoverPolicies failoverParameters, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginFailoverPriorityChange(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") FailoverPolicies failoverParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/offlineRegion")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<Response<Void>> beginOfflineRegion(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") RegionForOnlineOffline regionParameterForOffline, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginOfflineRegion(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") RegionForOnlineOffline regionParameterForOffline, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/onlineRegion")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<Response<Void>> beginOnlineRegion(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") RegionForOnlineOffline regionParameterForOnline, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginOnlineRegion(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") RegionForOnlineOffline regionParameterForOnline, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/regenerateKey")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginRegenerateKey(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") DatabaseAccountRegenerateKeyParameters keyToRegenerate, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginRegenerateKey(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @BodyParam("application/json") DatabaseAccountRegenerateKeyParameters keyToRegenerate, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -244,8 +244,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DatabaseAccountGetResultsInner>> getByResourceGroupWithResponseAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getByResourceGroup(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion);
+        return service.getByResourceGroup(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion);
     }
 
     /**
@@ -296,8 +295,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.update(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, updateParameters, apiVersion);
+        return service.update(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, updateParameters, apiVersion);
     }
 
     /**
@@ -346,8 +344,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, createUpdateParameters, apiVersion);
+        return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, createUpdateParameters, apiVersion);
     }
 
     /**
@@ -395,8 +392,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.delete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion);
+        return service.delete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion);
     }
 
     /**
@@ -443,10 +439,9 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> failoverPriorityChangeWithResponseAsync(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
         FailoverPolicies failoverParameters = new FailoverPolicies();
         failoverParameters.withFailoverPolicies(failoverPolicies);
-        return service.failoverPriorityChange(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, failoverParameters, apiVersion);
+        return service.failoverPriorityChange(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, failoverParameters, apiVersion);
     }
 
     /**
@@ -491,8 +486,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DatabaseAccountGetResultsInner>> listSinglePageAsync() {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.list(this.client.getHost(), apiVersion, this.client.getSubscriptionId(), apiVersion).map(res -> new PagedResponseBase<>(
+        return service.list(this.client.getHost(), this.client.getSubscriptionId(), apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -535,8 +529,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DatabaseAccountGetResultsInner>> listByResourceGroupSinglePageAsync(String resourceGroupName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listByResourceGroup(this.client.getHost(), resourceGroupName, apiVersion, this.client.getSubscriptionId(), apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listByResourceGroup(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -584,8 +577,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DatabaseAccountListKeysResultInner>> listKeysWithResponseAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listKeys(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion);
+        return service.listKeys(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion);
     }
 
     /**
@@ -635,8 +627,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DatabaseAccountListConnectionStringsResultInner>> listConnectionStringsWithResponseAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listConnectionStrings(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion);
+        return service.listConnectionStrings(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion);
     }
 
     /**
@@ -687,10 +678,9 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> offlineRegionWithResponseAsync(String resourceGroupName, String accountName, String region) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
         RegionForOnlineOffline regionParameterForOffline = new RegionForOnlineOffline();
         regionParameterForOffline.withRegion(region);
-        return service.offlineRegion(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, regionParameterForOffline, apiVersion);
+        return service.offlineRegion(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, regionParameterForOffline, apiVersion);
     }
 
     /**
@@ -739,10 +729,9 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> onlineRegionWithResponseAsync(String resourceGroupName, String accountName, String region) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
         RegionForOnlineOffline regionParameterForOnline = new RegionForOnlineOffline();
         regionParameterForOnline.withRegion(region);
-        return service.onlineRegion(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, regionParameterForOnline, apiVersion);
+        return service.onlineRegion(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, regionParameterForOnline, apiVersion);
     }
 
     /**
@@ -790,8 +779,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DatabaseAccountListReadOnlyKeysResultInner>> getReadOnlyKeysWithResponseAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getReadOnlyKeys(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion);
+        return service.getReadOnlyKeys(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion);
     }
 
     /**
@@ -841,8 +829,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DatabaseAccountListReadOnlyKeysResultInner>> listReadOnlyKeysWithResponseAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listReadOnlyKeys(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion);
+        return service.listReadOnlyKeys(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion);
     }
 
     /**
@@ -893,10 +880,9 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> regenerateKeyWithResponseAsync(String resourceGroupName, String accountName, KeyKind keyKind) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
         DatabaseAccountRegenerateKeyParameters keyToRegenerate = new DatabaseAccountRegenerateKeyParameters();
         keyToRegenerate.withKeyKind(keyKind);
-        return service.regenerateKey(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, keyToRegenerate, apiVersion);
+        return service.regenerateKey(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyToRegenerate, apiVersion);
     }
 
     /**
@@ -943,8 +929,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Boolean>> checkNameExistsWithResponseAsync(String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.checkNameExists(this.client.getHost(), accountName, apiVersion, apiVersion);
+        return service.checkNameExists(this.client.getHost(), accountName, apiVersion);
     }
 
     /**
@@ -993,8 +978,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<MetricInner>> listMetricsSinglePageAsync(String resourceGroupName, String accountName, String filter) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listMetrics(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, filter, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listMetrics(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, filter, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -1047,8 +1031,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<UsageInner>> listUsagesSinglePageAsync(String resourceGroupName, String accountName, String filter) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listUsages(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, filter, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listUsages(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, filter, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -1133,8 +1116,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<MetricDefinitionInner>> listMetricDefinitionsSinglePageAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listMetricDefinitions(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listMetricDefinitions(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -1185,8 +1167,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DatabaseAccountGetResultsInner>> beginUpdateWithResponseAsync(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, updateParameters, apiVersion);
+        return service.beginUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, updateParameters, apiVersion);
     }
 
     /**
@@ -1239,8 +1220,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DatabaseAccountGetResultsInner>> beginCreateOrUpdateWithResponseAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, createUpdateParameters, apiVersion);
+        return service.beginCreateOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, createUpdateParameters, apiVersion);
     }
 
     /**
@@ -1292,8 +1272,7 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteWithResponseAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDelete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion);
+        return service.beginDelete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion);
     }
 
     /**
@@ -1338,10 +1317,9 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginFailoverPriorityChangeWithResponseAsync(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
         FailoverPolicies failoverParameters = new FailoverPolicies();
         failoverParameters.withFailoverPolicies(failoverPolicies);
-        return service.beginFailoverPriorityChange(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, failoverParameters, apiVersion);
+        return service.beginFailoverPriorityChange(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, failoverParameters, apiVersion);
     }
 
     /**
@@ -1388,10 +1366,9 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginOfflineRegionWithResponseAsync(String resourceGroupName, String accountName, String region) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
         RegionForOnlineOffline regionParameterForOffline = new RegionForOnlineOffline();
         regionParameterForOffline.withRegion(region);
-        return service.beginOfflineRegion(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, regionParameterForOffline, apiVersion);
+        return service.beginOfflineRegion(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, regionParameterForOffline, apiVersion);
     }
 
     /**
@@ -1438,10 +1415,9 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginOnlineRegionWithResponseAsync(String resourceGroupName, String accountName, String region) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
         RegionForOnlineOffline regionParameterForOnline = new RegionForOnlineOffline();
         regionParameterForOnline.withRegion(region);
-        return service.beginOnlineRegion(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, regionParameterForOnline, apiVersion);
+        return service.beginOnlineRegion(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, regionParameterForOnline, apiVersion);
     }
 
     /**
@@ -1488,10 +1464,9 @@ public final class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAcc
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginRegenerateKeyWithResponseAsync(String resourceGroupName, String accountName, KeyKind keyKind) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
         DatabaseAccountRegenerateKeyParameters keyToRegenerate = new DatabaseAccountRegenerateKeyParameters();
         keyToRegenerate.withKeyKind(keyKind);
-        return service.beginRegenerateKey(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, keyToRegenerate, apiVersion);
+        return service.beginRegenerateKey(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyToRegenerate, apiVersion);
     }
 
     /**

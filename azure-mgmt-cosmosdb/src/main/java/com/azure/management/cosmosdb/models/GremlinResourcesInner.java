@@ -73,109 +73,109 @@ public final class GremlinResourcesInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GremlinDatabaseListResultInner>> listGremlinDatabases(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<GremlinDatabaseListResultInner>> listGremlinDatabases(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GremlinDatabaseGetResultsInner>> getGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<GremlinDatabaseGetResultsInner>> getGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getGremlinDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getGremlinDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> updateGremlinDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateGremlinDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GremlinGraphListResultInner>> listGremlinGraphs(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<GremlinGraphListResultInner>> listGremlinGraphs(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GremlinGraphGetResultsInner>> getGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<GremlinGraphGetResultsInner>> getGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @BodyParam("application/json") GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getGremlinGraphThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getGremlinGraphThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> updateGremlinGraphThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateGremlinGraphThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GremlinDatabaseGetResultsInner>> beginCreateUpdateGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<GremlinDatabaseGetResultsInner>> beginCreateUpdateGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteGremlinDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateGremlinDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateGremlinDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GremlinGraphGetResultsInner>> beginCreateUpdateGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<GremlinGraphGetResultsInner>> beginCreateUpdateGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @BodyParam("application/json") GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteGremlinGraph(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateGremlinGraphThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateGremlinGraphThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("graphName") String graphName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -190,8 +190,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<GremlinDatabaseGetResultsInner>> listGremlinDatabasesSinglePageAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listGremlinDatabases(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listGremlinDatabases(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -242,8 +241,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<GremlinDatabaseGetResultsInner>> getGremlinDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.getGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -297,8 +295,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateGremlinDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName, GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, createUpdateGremlinDatabaseParameters, apiVersion);
+        return service.createUpdateGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters, apiVersion);
     }
 
     /**
@@ -349,8 +346,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteGremlinDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.deleteGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -399,8 +395,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getGremlinDatabaseThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getGremlinDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.getGremlinDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -454,8 +449,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateGremlinDatabaseThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.updateGremlinDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.updateGremlinDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -506,8 +500,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<GremlinGraphGetResultsInner>> listGremlinGraphsSinglePageAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listGremlinGraphs(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listGremlinGraphs(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -561,8 +554,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<GremlinGraphGetResultsInner>> getGremlinGraphWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String graphName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion, apiVersion);
+        return service.getGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion);
     }
 
     /**
@@ -619,8 +611,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateGremlinGraphWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String graphName, GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion, createUpdateGremlinGraphParameters, apiVersion);
+        return service.createUpdateGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters, apiVersion);
     }
 
     /**
@@ -674,8 +665,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteGremlinGraphWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String graphName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion, apiVersion);
+        return service.deleteGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion);
     }
 
     /**
@@ -727,8 +717,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getGremlinGraphThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String graphName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getGremlinGraphThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion, apiVersion);
+        return service.getGremlinGraphThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion);
     }
 
     /**
@@ -785,8 +774,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateGremlinGraphThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String graphName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.updateGremlinGraphThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.updateGremlinGraphThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -840,8 +828,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<GremlinDatabaseGetResultsInner>> beginCreateUpdateGremlinDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName, GremlinDatabaseCreateUpdateParameters createUpdateGremlinDatabaseParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, createUpdateGremlinDatabaseParameters, apiVersion);
+        return service.beginCreateUpdateGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, createUpdateGremlinDatabaseParameters, apiVersion);
     }
 
     /**
@@ -896,8 +883,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteGremlinDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.beginDeleteGremlinDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -945,8 +931,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateGremlinDatabaseThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdateGremlinDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.beginUpdateGremlinDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -1003,8 +988,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<GremlinGraphGetResultsInner>> beginCreateUpdateGremlinGraphWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String graphName, GremlinGraphCreateUpdateParameters createUpdateGremlinGraphParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion, createUpdateGremlinGraphParameters, apiVersion);
+        return service.beginCreateUpdateGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, createUpdateGremlinGraphParameters, apiVersion);
     }
 
     /**
@@ -1062,8 +1046,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteGremlinGraphWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String graphName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion, apiVersion);
+        return service.beginDeleteGremlinGraph(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion);
     }
 
     /**
@@ -1114,8 +1097,7 @@ public final class GremlinResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateGremlinGraphThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String graphName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdateGremlinGraphThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.beginUpdateGremlinGraphThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, graphName, updateThroughputParameters, apiVersion);
     }
 
     /**

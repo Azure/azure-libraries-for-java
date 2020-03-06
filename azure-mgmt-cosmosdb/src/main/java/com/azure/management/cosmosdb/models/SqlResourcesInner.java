@@ -76,217 +76,217 @@ public final class SqlResourcesInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlDatabaseListResultInner>> listSqlDatabases(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlDatabaseListResultInner>> listSqlDatabases(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlDatabaseGetResultsInner>> getSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlDatabaseGetResultsInner>> getSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlDatabaseCreateUpdateParameters createUpdateSqlDatabaseParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") SqlDatabaseCreateUpdateParameters createUpdateSqlDatabaseParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getSqlDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getSqlDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> updateSqlDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateSqlDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlContainerListResultInner>> listSqlContainers(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlContainerListResultInner>> listSqlContainers(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlContainerGetResultsInner>> getSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlContainerGetResultsInner>> getSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlContainerCreateUpdateParameters createUpdateSqlContainerParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @BodyParam("application/json") SqlContainerCreateUpdateParameters createUpdateSqlContainerParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getSqlContainerThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getSqlContainerThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> updateSqlContainerThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateSqlContainerThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlStoredProcedureListResultInner>> listSqlStoredProcedures(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlStoredProcedureListResultInner>> listSqlStoredProcedures(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlStoredProcedureGetResultsInner>> getSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlStoredProcedureGetResultsInner>> getSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlStoredProcedureCreateUpdateParameters createUpdateSqlStoredProcedureParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @BodyParam("application/json") SqlStoredProcedureCreateUpdateParameters createUpdateSqlStoredProcedureParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlUserDefinedFunctionListResultInner>> listSqlUserDefinedFunctions(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlUserDefinedFunctionListResultInner>> listSqlUserDefinedFunctions(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlUserDefinedFunctionGetResultsInner>> getSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlUserDefinedFunctionGetResultsInner>> getSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlUserDefinedFunctionCreateUpdateParameters createUpdateSqlUserDefinedFunctionParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @BodyParam("application/json") SqlUserDefinedFunctionCreateUpdateParameters createUpdateSqlUserDefinedFunctionParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlTriggerListResultInner>> listSqlTriggers(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlTriggerListResultInner>> listSqlTriggers(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlTriggerGetResultsInner>> getSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlTriggerGetResultsInner>> getSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlTriggerCreateUpdateParameters createUpdateSqlTriggerParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @BodyParam("application/json") SqlTriggerCreateUpdateParameters createUpdateSqlTriggerParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlDatabaseGetResultsInner>> beginCreateUpdateSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlDatabaseCreateUpdateParameters createUpdateSqlDatabaseParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlDatabaseGetResultsInner>> beginCreateUpdateSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") SqlDatabaseCreateUpdateParameters createUpdateSqlDatabaseParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteSqlDatabase(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateSqlDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateSqlDatabaseThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlContainerGetResultsInner>> beginCreateUpdateSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlContainerCreateUpdateParameters createUpdateSqlContainerParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlContainerGetResultsInner>> beginCreateUpdateSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @BodyParam("application/json") SqlContainerCreateUpdateParameters createUpdateSqlContainerParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteSqlContainer(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateSqlContainerThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateSqlContainerThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlStoredProcedureGetResultsInner>> beginCreateUpdateSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlStoredProcedureCreateUpdateParameters createUpdateSqlStoredProcedureParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlStoredProcedureGetResultsInner>> beginCreateUpdateSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @BodyParam("application/json") SqlStoredProcedureCreateUpdateParameters createUpdateSqlStoredProcedureParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteSqlStoredProcedure(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("storedProcedureName") String storedProcedureName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlUserDefinedFunctionGetResultsInner>> beginCreateUpdateSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlUserDefinedFunctionCreateUpdateParameters createUpdateSqlUserDefinedFunctionParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlUserDefinedFunctionGetResultsInner>> beginCreateUpdateSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @BodyParam("application/json") SqlUserDefinedFunctionCreateUpdateParameters createUpdateSqlUserDefinedFunctionParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteSqlUserDefinedFunction(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("userDefinedFunctionName") String userDefinedFunctionName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<SqlTriggerGetResultsInner>> beginCreateUpdateSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") SqlTriggerCreateUpdateParameters createUpdateSqlTriggerParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<SqlTriggerGetResultsInner>> beginCreateUpdateSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @BodyParam("application/json") SqlTriggerCreateUpdateParameters createUpdateSqlTriggerParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteSqlTrigger(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseName") String databaseName, @PathParam("containerName") String containerName, @PathParam("triggerName") String triggerName, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -301,8 +301,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<SqlDatabaseGetResultsInner>> listSqlDatabasesSinglePageAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listSqlDatabases(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listSqlDatabases(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -353,8 +352,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlDatabaseGetResultsInner>> getSqlDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.getSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -408,8 +406,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName, SqlDatabaseCreateUpdateParameters createUpdateSqlDatabaseParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, createUpdateSqlDatabaseParameters, apiVersion);
+        return service.createUpdateSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, createUpdateSqlDatabaseParameters, apiVersion);
     }
 
     /**
@@ -460,8 +457,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.deleteSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -510,8 +506,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getSqlDatabaseThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getSqlDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.getSqlDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -565,8 +560,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateSqlDatabaseThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.updateSqlDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.updateSqlDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -617,8 +611,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<SqlContainerGetResultsInner>> listSqlContainersSinglePageAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listSqlContainers(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listSqlContainers(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -672,8 +665,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlContainerGetResultsInner>> getSqlContainerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, apiVersion);
+        return service.getSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion);
     }
 
     /**
@@ -730,8 +722,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlContainerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, SqlContainerCreateUpdateParameters createUpdateSqlContainerParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, createUpdateSqlContainerParameters, apiVersion);
+        return service.createUpdateSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, createUpdateSqlContainerParameters, apiVersion);
     }
 
     /**
@@ -785,8 +776,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlContainerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, apiVersion);
+        return service.deleteSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion);
     }
 
     /**
@@ -838,8 +828,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getSqlContainerThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getSqlContainerThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, apiVersion);
+        return service.getSqlContainerThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion);
     }
 
     /**
@@ -896,8 +885,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateSqlContainerThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.updateSqlContainerThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.updateSqlContainerThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -951,8 +939,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<SqlStoredProcedureGetResultsInner>> listSqlStoredProceduresSinglePageAsync(String resourceGroupName, String accountName, String databaseName, String containerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listSqlStoredProcedures(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listSqlStoredProcedures(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -1009,8 +996,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlStoredProcedureGetResultsInner>> getSqlStoredProcedureWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String storedProcedureName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, apiVersion, apiVersion);
+        return service.getSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, apiVersion);
     }
 
     /**
@@ -1070,8 +1056,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlStoredProcedureWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String storedProcedureName, SqlStoredProcedureCreateUpdateParameters createUpdateSqlStoredProcedureParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, apiVersion, createUpdateSqlStoredProcedureParameters, apiVersion);
+        return service.createUpdateSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, createUpdateSqlStoredProcedureParameters, apiVersion);
     }
 
     /**
@@ -1128,8 +1113,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlStoredProcedureWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String storedProcedureName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, apiVersion, apiVersion);
+        return service.deleteSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, apiVersion);
     }
 
     /**
@@ -1183,8 +1167,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<SqlUserDefinedFunctionGetResultsInner>> listSqlUserDefinedFunctionsSinglePageAsync(String resourceGroupName, String accountName, String databaseName, String containerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listSqlUserDefinedFunctions(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listSqlUserDefinedFunctions(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -1241,8 +1224,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlUserDefinedFunctionGetResultsInner>> getSqlUserDefinedFunctionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String userDefinedFunctionName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, apiVersion, apiVersion);
+        return service.getSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, apiVersion);
     }
 
     /**
@@ -1302,8 +1284,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlUserDefinedFunctionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String userDefinedFunctionName, SqlUserDefinedFunctionCreateUpdateParameters createUpdateSqlUserDefinedFunctionParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, apiVersion, createUpdateSqlUserDefinedFunctionParameters, apiVersion);
+        return service.createUpdateSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, createUpdateSqlUserDefinedFunctionParameters, apiVersion);
     }
 
     /**
@@ -1360,8 +1341,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlUserDefinedFunctionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String userDefinedFunctionName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, apiVersion, apiVersion);
+        return service.deleteSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, apiVersion);
     }
 
     /**
@@ -1415,8 +1395,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<SqlTriggerGetResultsInner>> listSqlTriggersSinglePageAsync(String resourceGroupName, String accountName, String databaseName, String containerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listSqlTriggers(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listSqlTriggers(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -1473,8 +1452,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlTriggerGetResultsInner>> getSqlTriggerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String triggerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, apiVersion, apiVersion);
+        return service.getSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, apiVersion);
     }
 
     /**
@@ -1534,8 +1512,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateSqlTriggerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String triggerName, SqlTriggerCreateUpdateParameters createUpdateSqlTriggerParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, apiVersion, createUpdateSqlTriggerParameters, apiVersion);
+        return service.createUpdateSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, createUpdateSqlTriggerParameters, apiVersion);
     }
 
     /**
@@ -1592,8 +1569,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteSqlTriggerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String triggerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, apiVersion, apiVersion);
+        return service.deleteSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, apiVersion);
     }
 
     /**
@@ -1647,8 +1623,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlDatabaseGetResultsInner>> beginCreateUpdateSqlDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName, SqlDatabaseCreateUpdateParameters createUpdateSqlDatabaseParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, createUpdateSqlDatabaseParameters, apiVersion);
+        return service.beginCreateUpdateSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, createUpdateSqlDatabaseParameters, apiVersion);
     }
 
     /**
@@ -1703,8 +1678,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteSqlDatabaseWithResponseAsync(String resourceGroupName, String accountName, String databaseName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, apiVersion);
+        return service.beginDeleteSqlDatabase(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion);
     }
 
     /**
@@ -1752,8 +1726,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateSqlDatabaseThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdateSqlDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.beginUpdateSqlDatabaseThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -1810,8 +1783,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlContainerGetResultsInner>> beginCreateUpdateSqlContainerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, SqlContainerCreateUpdateParameters createUpdateSqlContainerParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, createUpdateSqlContainerParameters, apiVersion);
+        return service.beginCreateUpdateSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, createUpdateSqlContainerParameters, apiVersion);
     }
 
     /**
@@ -1869,8 +1841,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteSqlContainerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, apiVersion);
+        return service.beginDeleteSqlContainer(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion);
     }
 
     /**
@@ -1921,8 +1892,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateSqlContainerThroughputWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdateSqlContainerThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.beginUpdateSqlContainerThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -1982,8 +1952,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlStoredProcedureGetResultsInner>> beginCreateUpdateSqlStoredProcedureWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String storedProcedureName, SqlStoredProcedureCreateUpdateParameters createUpdateSqlStoredProcedureParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, apiVersion, createUpdateSqlStoredProcedureParameters, apiVersion);
+        return service.beginCreateUpdateSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, createUpdateSqlStoredProcedureParameters, apiVersion);
     }
 
     /**
@@ -2044,8 +2013,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteSqlStoredProcedureWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String storedProcedureName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, apiVersion, apiVersion);
+        return service.beginDeleteSqlStoredProcedure(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, storedProcedureName, apiVersion);
     }
 
     /**
@@ -2099,8 +2067,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlUserDefinedFunctionGetResultsInner>> beginCreateUpdateSqlUserDefinedFunctionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String userDefinedFunctionName, SqlUserDefinedFunctionCreateUpdateParameters createUpdateSqlUserDefinedFunctionParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, apiVersion, createUpdateSqlUserDefinedFunctionParameters, apiVersion);
+        return service.beginCreateUpdateSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, createUpdateSqlUserDefinedFunctionParameters, apiVersion);
     }
 
     /**
@@ -2161,8 +2128,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteSqlUserDefinedFunctionWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String userDefinedFunctionName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, apiVersion, apiVersion);
+        return service.beginDeleteSqlUserDefinedFunction(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, userDefinedFunctionName, apiVersion);
     }
 
     /**
@@ -2216,8 +2182,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<SqlTriggerGetResultsInner>> beginCreateUpdateSqlTriggerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String triggerName, SqlTriggerCreateUpdateParameters createUpdateSqlTriggerParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, apiVersion, createUpdateSqlTriggerParameters, apiVersion);
+        return service.beginCreateUpdateSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, createUpdateSqlTriggerParameters, apiVersion);
     }
 
     /**
@@ -2278,8 +2243,7 @@ public final class SqlResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteSqlTriggerWithResponseAsync(String resourceGroupName, String accountName, String databaseName, String containerName, String triggerName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, apiVersion, apiVersion);
+        return service.beginDeleteSqlTrigger(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseName, containerName, triggerName, apiVersion);
     }
 
     /**

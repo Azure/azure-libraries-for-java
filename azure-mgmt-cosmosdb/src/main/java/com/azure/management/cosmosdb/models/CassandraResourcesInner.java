@@ -73,109 +73,109 @@ public final class CassandraResourcesInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<CassandraKeyspaceListResultInner>> listCassandraKeyspaces(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<CassandraKeyspaceListResultInner>> listCassandraKeyspaces(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<CassandraKeyspaceGetResultsInner>> getCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<CassandraKeyspaceGetResultsInner>> getCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") CassandraKeyspaceCreateUpdateParameters createUpdateCassandraKeyspaceParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @BodyParam("application/json") CassandraKeyspaceCreateUpdateParameters createUpdateCassandraKeyspaceParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getCassandraKeyspaceThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getCassandraKeyspaceThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> updateCassandraKeyspaceThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateCassandraKeyspaceThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<CassandraTableListResultInner>> listCassandraTables(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<CassandraTableListResultInner>> listCassandraTables(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<CassandraTableGetResultsInner>> getCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<CassandraTableGetResultsInner>> getCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") CassandraTableCreateUpdateParameters createUpdateCassandraTableParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @BodyParam("application/json") CassandraTableCreateUpdateParameters createUpdateCassandraTableParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getCassandraTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getCassandraTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> updateCassandraTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateCassandraTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<CassandraKeyspaceGetResultsInner>> beginCreateUpdateCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") CassandraKeyspaceCreateUpdateParameters createUpdateCassandraKeyspaceParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<CassandraKeyspaceGetResultsInner>> beginCreateUpdateCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @BodyParam("application/json") CassandraKeyspaceCreateUpdateParameters createUpdateCassandraKeyspaceParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteCassandraKeyspace(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateCassandraKeyspaceThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateCassandraKeyspaceThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<CassandraTableGetResultsInner>> beginCreateUpdateCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") CassandraTableCreateUpdateParameters createUpdateCassandraTableParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<CassandraTableGetResultsInner>> beginCreateUpdateCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @BodyParam("application/json") CassandraTableCreateUpdateParameters createUpdateCassandraTableParameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> beginDeleteCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDeleteCassandraTable(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateCassandraTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @QueryParam("api-version") String apiVersion, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateCassandraTableThroughput(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("keyspaceName") String keyspaceName, @PathParam("tableName") String tableName, @BodyParam("application/json") ThroughputSettingsUpdateParameters updateThroughputParameters, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -190,8 +190,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<CassandraKeyspaceGetResultsInner>> listCassandraKeyspacesSinglePageAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listCassandraKeyspaces(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listCassandraKeyspaces(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -242,8 +241,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<CassandraKeyspaceGetResultsInner>> getCassandraKeyspaceWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion, apiVersion);
+        return service.getCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion);
     }
 
     /**
@@ -297,8 +295,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateCassandraKeyspaceWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, CassandraKeyspaceCreateUpdateParameters createUpdateCassandraKeyspaceParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion, createUpdateCassandraKeyspaceParameters, apiVersion);
+        return service.createUpdateCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, createUpdateCassandraKeyspaceParameters, apiVersion);
     }
 
     /**
@@ -349,8 +346,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteCassandraKeyspaceWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion, apiVersion);
+        return service.deleteCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion);
     }
 
     /**
@@ -399,8 +395,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getCassandraKeyspaceThroughputWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getCassandraKeyspaceThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion, apiVersion);
+        return service.getCassandraKeyspaceThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion);
     }
 
     /**
@@ -454,8 +449,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateCassandraKeyspaceThroughputWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.updateCassandraKeyspaceThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.updateCassandraKeyspaceThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -506,8 +500,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<CassandraTableGetResultsInner>> listCassandraTablesSinglePageAsync(String resourceGroupName, String accountName, String keyspaceName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listCassandraTables(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listCassandraTables(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -561,8 +554,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<CassandraTableGetResultsInner>> getCassandraTableWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, String tableName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion, apiVersion);
+        return service.getCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion);
     }
 
     /**
@@ -619,8 +611,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createUpdateCassandraTableWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, String tableName, CassandraTableCreateUpdateParameters createUpdateCassandraTableParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.createUpdateCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion, createUpdateCassandraTableParameters, apiVersion);
+        return service.createUpdateCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, createUpdateCassandraTableParameters, apiVersion);
     }
 
     /**
@@ -674,8 +665,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteCassandraTableWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, String tableName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.deleteCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion, apiVersion);
+        return service.deleteCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion);
     }
 
     /**
@@ -727,8 +717,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> getCassandraTableThroughputWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, String tableName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.getCassandraTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion, apiVersion);
+        return service.getCassandraTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion);
     }
 
     /**
@@ -785,8 +774,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> updateCassandraTableThroughputWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, String tableName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.updateCassandraTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.updateCassandraTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -840,8 +828,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<CassandraKeyspaceGetResultsInner>> beginCreateUpdateCassandraKeyspaceWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, CassandraKeyspaceCreateUpdateParameters createUpdateCassandraKeyspaceParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion, createUpdateCassandraKeyspaceParameters, apiVersion);
+        return service.beginCreateUpdateCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, createUpdateCassandraKeyspaceParameters, apiVersion);
     }
 
     /**
@@ -896,8 +883,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteCassandraKeyspaceWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion, apiVersion);
+        return service.beginDeleteCassandraKeyspace(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion);
     }
 
     /**
@@ -945,8 +931,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateCassandraKeyspaceThroughputWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdateCassandraKeyspaceThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.beginUpdateCassandraKeyspaceThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, updateThroughputParameters, apiVersion);
     }
 
     /**
@@ -1003,8 +988,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<CassandraTableGetResultsInner>> beginCreateUpdateCassandraTableWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, String tableName, CassandraTableCreateUpdateParameters createUpdateCassandraTableParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginCreateUpdateCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion, createUpdateCassandraTableParameters, apiVersion);
+        return service.beginCreateUpdateCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, createUpdateCassandraTableParameters, apiVersion);
     }
 
     /**
@@ -1062,8 +1046,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteCassandraTableWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, String tableName) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginDeleteCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion, apiVersion);
+        return service.beginDeleteCassandraTable(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion);
     }
 
     /**
@@ -1114,8 +1097,7 @@ public final class CassandraResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ThroughputSettingsGetResultsInner>> beginUpdateCassandraTableThroughputWithResponseAsync(String resourceGroupName, String accountName, String keyspaceName, String tableName, ThroughputSettingsUpdateParameters updateThroughputParameters) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.beginUpdateCassandraTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, apiVersion, updateThroughputParameters, apiVersion);
+        return service.beginUpdateCassandraTableThroughput(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, keyspaceName, tableName, updateThroughputParameters, apiVersion);
     }
 
     /**

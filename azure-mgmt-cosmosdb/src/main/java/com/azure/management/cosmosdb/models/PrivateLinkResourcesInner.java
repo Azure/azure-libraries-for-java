@@ -63,13 +63,13 @@ public final class PrivateLinkResourcesInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<PrivateLinkResourceListResultInner>> listByDatabaseAccount(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PrivateLinkResourceListResultInner>> listByDatabaseAccount(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources/{groupName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<PrivateLinkResourceInner>> get(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @PathParam("accountName") String accountName, @PathParam("groupName") String groupName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PrivateLinkResourceInner>> get(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("groupName") String groupName, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -84,8 +84,7 @@ public final class PrivateLinkResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<PrivateLinkResourceInner>> listByDatabaseAccountSinglePageAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01-preview";
-        final String apiVersion = "2019-08-01-preview";
-        return service.listByDatabaseAccount(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, apiVersion, accountName, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listByDatabaseAccount(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -136,8 +135,7 @@ public final class PrivateLinkResourcesInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<PrivateLinkResourceInner>> getWithResponseAsync(String resourceGroupName, String accountName, String groupName) {
         final String apiVersion = "2019-08-01-preview";
-        final String apiVersion = "2019-08-01-preview";
-        return service.get(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, apiVersion, accountName, groupName, apiVersion);
+        return service.get(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, groupName, apiVersion);
     }
 
     /**

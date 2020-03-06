@@ -63,7 +63,7 @@ public final class PercentileSourceTargetsInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sourceRegion/{sourceRegion}/targetRegion/{targetRegion}/percentile/metrics")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<PercentileMetricListResultInner>> listMetrics(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("sourceRegion") String sourceRegion, @PathParam("targetRegion") String targetRegion, @QueryParam("api-version") String apiVersion, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PercentileMetricListResultInner>> listMetrics(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("sourceRegion") String sourceRegion, @PathParam("targetRegion") String targetRegion, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -81,8 +81,7 @@ public final class PercentileSourceTargetsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<PercentileMetricInner>> listMetricsSinglePageAsync(String resourceGroupName, String accountName, String sourceRegion, String targetRegion, String filter) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listMetrics(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, sourceRegion, targetRegion, apiVersion, filter, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listMetrics(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, sourceRegion, targetRegion, filter, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),

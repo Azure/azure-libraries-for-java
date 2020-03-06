@@ -63,13 +63,13 @@ public final class CollectionPartitionsInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<PartitionMetricListResultInner>> listMetrics(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseRid") String databaseRid, @PathParam("collectionRid") String collectionRid, @QueryParam("api-version") String apiVersion, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PartitionMetricListResultInner>> listMetrics(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseRid") String databaseRid, @PathParam("collectionRid") String collectionRid, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<PartitionUsagesResultInner>> listUsages(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseRid") String databaseRid, @PathParam("collectionRid") String collectionRid, @QueryParam("api-version") String apiVersion, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PartitionUsagesResultInner>> listUsages(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("databaseRid") String databaseRid, @PathParam("collectionRid") String collectionRid, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -87,8 +87,7 @@ public final class CollectionPartitionsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<PartitionMetricInner>> listMetricsSinglePageAsync(String resourceGroupName, String accountName, String databaseRid, String collectionRid, String filter) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listMetrics(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, apiVersion, filter, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listMetrics(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, filter, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -147,8 +146,7 @@ public final class CollectionPartitionsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<PartitionUsageInner>> listUsagesSinglePageAsync(String resourceGroupName, String accountName, String databaseRid, String collectionRid, String filter) {
         final String apiVersion = "2019-08-01";
-        final String apiVersion = "2019-08-01";
-        return service.listUsages(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, apiVersion, filter, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listUsages(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, filter, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),

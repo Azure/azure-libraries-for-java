@@ -71,37 +71,37 @@ public final class PrivateEndpointConnectionsInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<PrivateEndpointConnectionListResultInner>> listByDatabaseAccount(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PrivateEndpointConnectionListResultInner>> listByDatabaseAccount(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<PrivateEndpointConnectionInner>> get(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PrivateEndpointConnectionInner>> get(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @BodyParam("application/json") PrivateEndpointConnectionInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @BodyParam("application/json") PrivateEndpointConnectionInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json", "Content-Type: application/json" })
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<PrivateEndpointConnectionInner>> beginCreateOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @BodyParam("application/json") PrivateEndpointConnectionInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PrivateEndpointConnectionInner>> beginCreateOrUpdate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @BodyParam("application/json") PrivateEndpointConnectionInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Headers({ "Accept: application/json;q=0.9", "Content-Type: application/json" })
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<Response<Void>> beginDelete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @QueryParam("api-version") String apiVersion, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @QueryParam("api-version") String apiVersion);
+        Mono<Response<Void>> beginDelete(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("privateEndpointConnectionName") String privateEndpointConnectionName, @QueryParam("api-version") String apiVersion);
     }
 
     /**
@@ -116,8 +116,7 @@ public final class PrivateEndpointConnectionsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<PrivateEndpointConnectionInner>> listByDatabaseAccountSinglePageAsync(String resourceGroupName, String accountName) {
         final String apiVersion = "2019-08-01-preview";
-        final String apiVersion = "2019-08-01-preview";
-        return service.listByDatabaseAccount(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, apiVersion, accountName, apiVersion).map(res -> new PagedResponseBase<>(
+        return service.listByDatabaseAccount(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, apiVersion).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -168,8 +167,7 @@ public final class PrivateEndpointConnectionsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<PrivateEndpointConnectionInner>> getWithResponseAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName) {
         final String apiVersion = "2019-08-01-preview";
-        final String apiVersion = "2019-08-01-preview";
-        return service.get(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, apiVersion, accountName, privateEndpointConnectionName, apiVersion);
+        return service.get(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, privateEndpointConnectionName, apiVersion);
     }
 
     /**
@@ -223,8 +221,7 @@ public final class PrivateEndpointConnectionsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName, PrivateEndpointConnectionInner parameters) {
         final String apiVersion = "2019-08-01-preview";
-        final String apiVersion = "2019-08-01-preview";
-        return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, apiVersion, accountName, privateEndpointConnectionName, parameters, apiVersion);
+        return service.createOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, privateEndpointConnectionName, parameters, apiVersion);
     }
 
     /**
@@ -275,8 +272,7 @@ public final class PrivateEndpointConnectionsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName) {
         final String apiVersion = "2019-08-01-preview";
-        final String apiVersion = "2019-08-01-preview";
-        return service.delete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, apiVersion, accountName, privateEndpointConnectionName, apiVersion);
+        return service.delete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, privateEndpointConnectionName, apiVersion);
     }
 
     /**
@@ -326,8 +322,7 @@ public final class PrivateEndpointConnectionsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<PrivateEndpointConnectionInner>> beginCreateOrUpdateWithResponseAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName, PrivateEndpointConnectionInner parameters) {
         final String apiVersion = "2019-08-01-preview";
-        final String apiVersion = "2019-08-01-preview";
-        return service.beginCreateOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, apiVersion, accountName, privateEndpointConnectionName, parameters, apiVersion);
+        return service.beginCreateOrUpdate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, privateEndpointConnectionName, parameters, apiVersion);
     }
 
     /**
@@ -382,8 +377,7 @@ public final class PrivateEndpointConnectionsInner {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginDeleteWithResponseAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName) {
         final String apiVersion = "2019-08-01-preview";
-        final String apiVersion = "2019-08-01-preview";
-        return service.beginDelete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, apiVersion, accountName, privateEndpointConnectionName, apiVersion);
+        return service.beginDelete(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, accountName, privateEndpointConnectionName, apiVersion);
     }
 
     /**

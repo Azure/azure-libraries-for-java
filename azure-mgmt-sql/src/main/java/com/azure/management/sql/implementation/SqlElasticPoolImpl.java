@@ -427,6 +427,11 @@ public class SqlElasticPoolImpl
         return this;
     }
 
+    public SqlElasticPoolImpl withCustomEdition(Sku sku) {
+        this.inner().withSku(sku);
+        return this;
+    }
+
     @Override
     public SqlElasticPoolImpl withBasicPool() {
         this.withEdition(ElasticPoolEdition.BASIC);

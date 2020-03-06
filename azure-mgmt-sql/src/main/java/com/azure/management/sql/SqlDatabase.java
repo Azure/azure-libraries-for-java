@@ -143,12 +143,6 @@ public interface SqlDatabase
     PagedFlux<RestorePoint> listRestorePointsAsync();
 
     /**
-     * @return the list of usages (DatabaseMetrics) of this database
-     */
-    @Deprecated
-    List<DatabaseMetric> listUsages();
-
-    /**
      * @param filter an OData filter expression that describes a subset of metrics to return.
      * @return the list of metrics for this database
      */
@@ -813,19 +807,23 @@ public interface SqlDatabase
             SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective, SqlDatabasePremiumStorage maxStorageCapacity);
 
             /**
-             * The SQL Database definition to set the collation for database.
+             * Sets a custom sku for the SQL Database.
              *
-             * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+             * @param edition edition to be set for database
+             * @param serviceObjective edition to be set for database
+             * @param capacity capacity of the particular SKU
+             * @return The next stage of the definition
              */
-            interface WithCollation<ParentT> {
-                /**
-                 * Sets the collation for the SQL Database.
-                 *
-                 * @param collation collation to be set for database
-                 * @return The next stage of the definition
-                 */
-                SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withCollation(String collation);
-            }
+            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withCustomEdition(DatabaseEdition edition, ServiceObjectiveName serviceObjective, int capacity);
+
+            /**
+             * Sets a custom sku for the SQL Database.
+             *
+             * @param sku sku/edition to be set for database, all possible capabilities could be found by
+             *            Sqlservers.getCapabilitiesByRegion(Region)
+             * @return The next stage of the definition
+             */
+            SqlDatabase.DefinitionStages.WithEditionDefaults<ParentT> withCustomEdition(Sku sku);
         }
 
         /**
@@ -981,6 +979,25 @@ public interface SqlDatabase
              * @return The next stage of the definition
              */
             Update withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective, SqlDatabasePremiumStorage maxStorageCapacity);
+
+            /**
+             * Sets a custom sku for the SQL Database.
+             *
+             * @param edition edition to be set for database
+             * @param serviceObjective edition to be set for database
+             * @param capacity capacity of the particular SKU
+             * @return The next stage of the definition
+             */
+            Update withCustomEdition(DatabaseEdition edition, ServiceObjectiveName serviceObjective, int capacity);
+
+            /**
+             * Sets a custom sku for the SQL Database.
+             *
+             * @param sku sku/edition to be set for database, all possible capabilities could be found by
+             *            Sqlservers.getCapabilitiesByRegion(Region)
+             * @return The next stage of the update
+             */
+            Update withCustomEdition(Sku sku);
         }
 
         /**

@@ -93,7 +93,7 @@ function handleInput(projects, cb) {
                 return codegen(proj, cb);
             }
         });
-        pAll(actions, { maxParallelism });
+        pAll(actions, { concurrency: maxParallelism });
     }
 }
 

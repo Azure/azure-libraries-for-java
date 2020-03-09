@@ -6,22 +6,20 @@
 
 package com.azure.management.cosmosdb.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.cosmosdb.CosmosDBAccount;
 import com.azure.management.cosmosdb.CosmosDBAccounts;
 import com.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
 import com.azure.management.cosmosdb.DatabaseAccountListKeysResult;
 import com.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
-import com.azure.management.cosmosdb.Location;
 import com.azure.management.cosmosdb.FailoverPolicy;
 import com.azure.management.cosmosdb.KeyKind;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.cosmosdb.Location;
+import com.azure.management.cosmosdb.models.DatabaseAccountGetResultsInner;
+import com.azure.management.cosmosdb.models.DatabaseAccountsInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +30,11 @@ import java.util.List;
 class CosmosDBAccountsImpl
         extends
         GroupableResourcesImpl<
-                CosmosDBAccount,
-                CosmosDBAccountImpl,
-                DatabaseAccountGetResultsInner,
-                DatabaseAccountsInner,
-                CosmosDBManager>
+                        CosmosDBAccount,
+                        CosmosDBAccountImpl,
+                        DatabaseAccountGetResultsInner,
+                        DatabaseAccountsInner,
+                        CosmosDBManager>
         implements CosmosDBAccounts {
 
     CosmosDBAccountsImpl(final CosmosDBManager manager) {
@@ -44,41 +42,29 @@ class CosmosDBAccountsImpl
     }
 
     @Override
-    public PagedList<CosmosDBAccount> list() {
-        final CosmosDBAccountsImpl self = this;
-        return new GroupPagedList<CosmosDBAccount>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<CosmosDBAccount> listNextGroup(String resourceGroupName) {
-                return wrapList(self.inner().listByResourceGroup(resourceGroupName));
-
-            }
-        };
+    public PagedIterable<CosmosDBAccount> list() {
+        return new PagedIterable<>(this.listAsync());
     }
 
     @Override
-    public Observable<CosmosDBAccount> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<CosmosDBAccount>>() {
-                    @Override
-                    public Observable<CosmosDBAccount> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+    public PagedFlux<CosmosDBAccount> listAsync() {
+        return this.inner().listAsync()
+                .mapPage(inner -> new CosmosDBAccountImpl(inner.getName(), inner, this.manager()));
     }
 
     @Override
-    public Observable<CosmosDBAccount> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<CosmosDBAccount> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
     }
 
 
     @Override
-    public PagedList<CosmosDBAccount> listByResourceGroup(String groupName) {
+    public PagedIterable<CosmosDBAccount> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
     }
 
     @Override
-    protected Observable<DatabaseAccountGetResultsInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Mono<DatabaseAccountGetResultsInner> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
@@ -88,8 +74,8 @@ class CosmosDBAccountsImpl
     }
 
     @Override
-    protected Completable deleteInnerAsync(String groupName, String name) {
-        return this.inner().deleteAsync(groupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String groupName, String name) {
+        return this.inner().deleteAsync(groupName, name);
     }
 
     /**************************************************************
@@ -109,18 +95,18 @@ class CosmosDBAccountsImpl
             return null;
         }
 
-        return new CosmosDBAccountImpl(containerServiceInner.name(),
+        return new CosmosDBAccountImpl(containerServiceInner.getName(),
                 containerServiceInner,
                 this.manager());
     }
 
     @Override
     public void failoverPriorityChange(String groupName, String accountName, List<Location> failoverLocations) {
-        this.failoverPriorityChangeAsync(groupName, accountName, failoverLocations).toBlocking().last();
+        this.failoverPriorityChangeAsync(groupName, accountName, failoverLocations).block();
     }
 
     @Override
-    public Observable<Void> failoverPriorityChangeAsync(String groupName, String accountName, List<Location> failoverLocations) {
+    public Mono<Void> failoverPriorityChangeAsync(String groupName, String accountName, List<Location> failoverLocations) {
         List<FailoverPolicy> policyInners = new ArrayList<FailoverPolicy>();
         for (int i = 0; i < failoverLocations.size(); i++) {
             Location location  = failoverLocations.get(i);
@@ -135,62 +121,47 @@ class CosmosDBAccountsImpl
 
     @Override
     public DatabaseAccountListKeysResult listKeys(String groupName, String accountName) {
-        return this.listKeysAsync(groupName, accountName).toBlocking().last();
+        return this.listKeysAsync(groupName, accountName).block();
     }
 
     @Override
     public DatabaseAccountListReadOnlyKeysResult listReadOnlyKeys(String groupName, String accountName) {
-        return this.listReadOnlyKeysAsync(groupName, accountName).toBlocking().last();
+        return this.listReadOnlyKeysAsync(groupName, accountName).block();
     }
 
     @Override
-    public Observable<DatabaseAccountListKeysResult> listKeysAsync(String groupName, String accountName) {
+    public Mono<DatabaseAccountListKeysResult> listKeysAsync(String groupName, String accountName) {
         return this.manager().inner().databaseAccounts()
             .listKeysAsync(groupName, accountName)
-            .map(new Func1<DatabaseAccountListKeysResultInner, DatabaseAccountListKeysResult>() {
-                @Override
-                public DatabaseAccountListKeysResult call(DatabaseAccountListKeysResultInner databaseAccountListKeysResultInner) {
-                    return new DatabaseAccountListKeysResultImpl(databaseAccountListKeysResultInner);
-                }
-            });
+            .map(databaseAccountListKeysResultInner -> new DatabaseAccountListKeysResultImpl(databaseAccountListKeysResultInner));
     }
 
     @Override
-    public Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync(String groupName, String accountName) {
+    public Mono<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync(String groupName, String accountName) {
         return this.manager().inner().databaseAccounts()
             .listReadOnlyKeysAsync(groupName, accountName)
-            .map(new Func1<DatabaseAccountListReadOnlyKeysResultInner, DatabaseAccountListReadOnlyKeysResult>() {
-                @Override
-                public DatabaseAccountListReadOnlyKeysResult call(DatabaseAccountListReadOnlyKeysResultInner databaseAccountListReadOnlyKeysResultInner) {
-                    return new DatabaseAccountListReadOnlyKeysResultImpl(databaseAccountListReadOnlyKeysResultInner);
-                }
-            });
+            .map(databaseAccountListReadOnlyKeysResultInner -> new DatabaseAccountListReadOnlyKeysResultImpl(databaseAccountListReadOnlyKeysResultInner));
     }
 
     @Override
     public DatabaseAccountListConnectionStringsResult listConnectionStrings(String groupName, String accountName) {
-        return this.listConnectionStringsAsync(groupName, accountName).toBlocking().last();
+        return this.listConnectionStringsAsync(groupName, accountName).block();
     }
 
     @Override
-    public Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync(String groupName, String accountName) {
+    public Mono<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync(String groupName, String accountName) {
         return this.manager().inner().databaseAccounts()
             .listConnectionStringsAsync(groupName, accountName)
-            .map(new Func1<DatabaseAccountListConnectionStringsResultInner, DatabaseAccountListConnectionStringsResult>() {
-                @Override
-                public DatabaseAccountListConnectionStringsResult call(DatabaseAccountListConnectionStringsResultInner databaseAccountListConnectionStringsResultInner) {
-                    return new DatabaseAccountListConnectionStringsResultImpl(databaseAccountListConnectionStringsResultInner);
-                }
-            });
+            .map(databaseAccountListConnectionStringsResultInner -> new DatabaseAccountListConnectionStringsResultImpl(databaseAccountListConnectionStringsResultInner));
     }
 
     @Override
     public void regenerateKey(String groupName, String accountName, KeyKind keyKind) {
-        this.regenerateKeyAsync(groupName, accountName, keyKind).toBlocking().last();
+        this.regenerateKeyAsync(groupName, accountName, keyKind).block();
     }
 
     @Override
-    public Observable<Void> regenerateKeyAsync(String groupName, String accountName, KeyKind keyKind) {
+    public Mono<Void> regenerateKeyAsync(String groupName, String accountName, KeyKind keyKind) {
         return this.manager().inner().databaseAccounts().regenerateKeyAsync(groupName, accountName, keyKind);
     }
 }

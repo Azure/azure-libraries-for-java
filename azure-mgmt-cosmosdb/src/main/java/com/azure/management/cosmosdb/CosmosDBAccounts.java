@@ -5,21 +5,20 @@
  */
 package com.azure.management.cosmosdb;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.cosmosdb.implementation.CosmosDBManager;
-import com.azure.management.cosmosdb.implementation.DatabaseAccountsInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import rx.Observable;
+import com.azure.management.cosmosdb.models.DatabaseAccountsInner;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -91,7 +90,7 @@ public interface CosmosDBAccounts extends
      * @param failoverPolicies the list of failover policies
      * @return the ServiceResponse object if successful.
      */
-    Observable<Void> failoverPriorityChangeAsync(String groupName, String accountName, List<Location> failoverPolicies);
+    Mono<Void> failoverPriorityChangeAsync(String groupName, String accountName, List<Location> failoverPolicies);
 
     /**
      * Lists the access keys for the specified Azure CosmosDB database account.
@@ -99,7 +98,7 @@ public interface CosmosDBAccounts extends
      * @param accountName the account name
      * @return a list of keys
      */
-    Observable<DatabaseAccountListKeysResult> listKeysAsync(String groupName, String accountName);
+    Mono<DatabaseAccountListKeysResult> listKeysAsync(String groupName, String accountName);
 
     /**
      * Lists the read-only access keys for the specified Azure CosmosDB database account.
@@ -107,7 +106,7 @@ public interface CosmosDBAccounts extends
      * @param accountName the account name
      * @return a list of keys
      */
-    Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync(String groupName, String accountName);
+    Mono<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync(String groupName, String accountName);
 
     /**
      * Lists the connection strings for the specified Azure CosmosDB database account.
@@ -115,7 +114,7 @@ public interface CosmosDBAccounts extends
      * @param accountName the account name
      * @return a list of connection strings
      */
-    Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync(String groupName, String accountName);
+    Mono<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync(String groupName, String accountName);
 
     /**
      * Regenerates an access key for the specified Azure CosmosDB database account.
@@ -124,6 +123,6 @@ public interface CosmosDBAccounts extends
      * @param keyKind the key kind
      * @return the ServiceResponse object if successful.
      */
-    Observable<Void> regenerateKeyAsync(String groupName, String accountName, KeyKind keyKind);
+    Mono<Void> regenerateKeyAsync(String groupName, String accountName, KeyKind keyKind);
 
 }

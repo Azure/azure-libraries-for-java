@@ -5,21 +5,18 @@
  */
 package com.azure.management.cosmosdb;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.cosmosdb.implementation.CosmosDBManager;
-import com.azure.management.cosmosdb.implementation.DatabaseAccountGetResultsInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.cosmosdb.models.DatabaseAccountGetResultsInner;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -30,8 +27,8 @@ import java.util.Map;
 @Fluent
 public interface CosmosDBAccount extends
     GroupableResource<CosmosDBManager, DatabaseAccountGetResultsInner>,
-    Refreshable<CosmosDBAccount>,
-    Updatable<CosmosDBAccount.Update> {
+        Refreshable<CosmosDBAccount>,
+        Updatable<CosmosDBAccount.Update> {
 
     /**
      * @return indicates the type of database account
@@ -46,7 +43,7 @@ public interface CosmosDBAccount extends
     /**
      * @return the offer type for the CosmosDB database account
      */
-    DatabaseAccountOfferType databaseAccountOfferType();
+    String databaseAccountOfferType();
 
     /**
      * @return specifies the set of IP addresses or IP address ranges in CIDR form.
@@ -81,7 +78,7 @@ public interface CosmosDBAccount extends
     /**
      * @return the access keys for the specified Azure CosmosDB database account
      */
-    Observable<DatabaseAccountListKeysResult> listKeysAsync();
+    Mono<DatabaseAccountListKeysResult> listKeysAsync();
 
     /**
      * @return the read-only access keys for the specified Azure CosmosDB database account
@@ -91,7 +88,7 @@ public interface CosmosDBAccount extends
     /**
      * @return the read-only access keys for the specified Azure CosmosDB database account
      */
-    Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync();
+    Mono<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync();
 
     /**
      * @return the connection strings for the specified Azure CosmosDB database account
@@ -101,7 +98,7 @@ public interface CosmosDBAccount extends
     /**
      * @return the connection strings for the specified Azure CosmosDB database account
      */
-    Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync();
+    Mono<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync();
 
     /**
      * @return the list of Azure Cosmos DB SQL databases
@@ -111,7 +108,7 @@ public interface CosmosDBAccount extends
     /**
      * @return the list of Azure Cosmos DB SQL databases
      */
-    Observable<List<SqlDatabase>> listSqlDatabasesAsync();
+    PagedFlux<SqlDatabase> listSqlDatabasesAsync();
 
     /**
      * @return whether write is enabled for multiple locations or not
@@ -126,7 +123,7 @@ public interface CosmosDBAccount extends
     /**
      * @return the current cassandra connector offer.
      */
-    ConnectorOffer cassandraConnectorOffer();
+    String cassandraConnectorOffer();
 
     /**
      * @return whether metadata write access is disabled or not.
@@ -136,7 +133,7 @@ public interface CosmosDBAccount extends
     /**
      * @return all private link resources in the account.
      */
-    Observable<List<PrivateLinkResource>> listPrivateLinkResourcesAsync();
+    PagedFlux<PrivateLinkResource> listPrivateLinkResourcesAsync();
 
     /**
      * @return all private link resources in the account.
@@ -147,7 +144,7 @@ public interface CosmosDBAccount extends
      * @param groupName group name of private link resource
      * @return the specific private link resource group
      */
-    Observable<PrivateLinkResource> getPrivateLinkResourceAsync(String groupName);
+    Mono<PrivateLinkResource> getPrivateLinkResourceAsync(String groupName);
 
     /**
      * @param groupName group name of private link resource
@@ -158,7 +155,7 @@ public interface CosmosDBAccount extends
     /**
      * @return all private endpoint connection in the account.
      */
-    Observable<Map<String, PrivateEndpointConnection>> listPrivateEndpointConnectionAsync();
+    Mono<Map<String, PrivateEndpointConnection>> listPrivateEndpointConnectionAsync();
 
     /**
      * @return all private endpoint connection in the account.
@@ -169,7 +166,7 @@ public interface CosmosDBAccount extends
      * @param name name of private endpoint connection
      * @return the specific private endpoint connection
      */
-    Observable<PrivateEndpointConnection> getPrivateEndpointConnectionAsync(String name);
+    Mono<PrivateEndpointConnection> getPrivateEndpointConnectionAsync(String name);
 
     /**
      * @param name name of private endpoint connection
@@ -200,7 +197,7 @@ public interface CosmosDBAccount extends
      * @param region Cosmos DB region
      * @return a representation of the deferred computation of this call
      */
-    Completable offlineRegionAsync(Region region);
+    Mono<Void> offlineRegionAsync(Region region);
 
     /**
      * It brings online the specified region for the current Azure Cosmos DB database account.
@@ -215,7 +212,7 @@ public interface CosmosDBAccount extends
      * @param region Cosmos DB region
      * @return a representation of the deferred computation of this call
      */
-    Completable onlineRegionAsync(Region region);
+    Mono<Void> onlineRegionAsync(Region region);
 
     /**
      * @param keyKind the key kind
@@ -226,7 +223,7 @@ public interface CosmosDBAccount extends
      * @param keyKind the key kind
      * @return a representation of the deferred computation of this call
      */
-    Completable regenerateKeyAsync(KeyKind keyKind);
+    Mono<Void> regenerateKeyAsync(KeyKind keyKind);
 
     /**
      * Grouping of cosmos db definition stages.
@@ -285,7 +282,6 @@ public interface CosmosDBAccount extends
              *
              * @return the next stage of the definition
              */
-            @Method
             WithConsistencyPolicy withDataModelSql();
 
             /**
@@ -293,7 +289,6 @@ public interface CosmosDBAccount extends
              *
              * @return the next stage of the definition
              */
-            @Method
             WithConsistencyPolicy withDataModelMongoDB();
 
             /**
@@ -301,7 +296,6 @@ public interface CosmosDBAccount extends
              *
              * @return the next stage of the definition
              */
-            @Method
             WithConsistencyPolicy withDataModelCassandra();
 
             /**
@@ -309,7 +303,6 @@ public interface CosmosDBAccount extends
              *
              * @return the next stage of the definition
              */
-            @Method
             WithConsistencyPolicy withDataModelAzureTable();
 
             /**
@@ -317,7 +310,6 @@ public interface CosmosDBAccount extends
              *
              * @return the next stage of the definition
              */
-            @Method
             WithConsistencyPolicy withDataModelGremlin();
         }
 
@@ -436,7 +428,7 @@ public interface CosmosDBAccount extends
              * @param connectorOffer connector offer to specify.
              * @return the next stage
              */
-            WithCreate withCassandraConnector(ConnectorOffer connectorOffer);
+            WithCreate withCassandraConnector(String connectorOffer);
         }
 
         /**
@@ -633,7 +625,7 @@ public interface CosmosDBAccount extends
              * @param connectorOffer connector offer to specify.
              * @return the next stage
              */
-            WithOptionals withCassandraConnector(ConnectorOffer connectorOffer);
+            WithOptionals withCassandraConnector(String connectorOffer);
 
             /**
              * Remove the connector offer.

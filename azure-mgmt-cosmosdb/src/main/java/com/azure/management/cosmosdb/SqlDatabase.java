@@ -5,9 +5,9 @@
  */
 package com.azure.management.cosmosdb;
 
-import com.azure.management.cosmosdb.implementation.SqlDatabaseGetResultsInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+
+import com.azure.management.cosmosdb.models.SqlDatabaseGetResultsInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * An Azure Cosmos DB SQL database.

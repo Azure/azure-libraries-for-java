@@ -5,8 +5,8 @@
  */
 package com.azure.management.cosmosdb.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.cosmosdb.Capability;
-import com.azure.management.cosmosdb.ConnectorOffer;
 import com.azure.management.cosmosdb.ConsistencyPolicy;
 import com.azure.management.cosmosdb.CosmosDBAccount;
 import com.azure.management.cosmosdb.DatabaseAccountCreateUpdateParameters;
@@ -14,7 +14,6 @@ import com.azure.management.cosmosdb.DatabaseAccountKind;
 import com.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
 import com.azure.management.cosmosdb.DatabaseAccountListKeysResult;
 import com.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
-import com.azure.management.cosmosdb.DatabaseAccountOfferType;
 import com.azure.management.cosmosdb.DatabaseAccountUpdateParameters;
 import com.azure.management.cosmosdb.DefaultConsistencyLevel;
 import com.azure.management.cosmosdb.FailoverPolicy;
@@ -25,16 +24,9 @@ import com.azure.management.cosmosdb.PrivateLinkResource;
 import com.azure.management.cosmosdb.SqlDatabase;
 import com.azure.management.cosmosdb.VirtualNetworkRule;
 import com.azure.management.cosmosdb.models.DatabaseAccountGetResultsInner;
-import com.azure.management.cosmosdb.models.DatabaseAccountListConnectionStringsResultInner;
-import com.azure.management.cosmosdb.models.DatabaseAccountListKeysResultInner;
-import com.azure.management.cosmosdb.models.DatabaseAccountListReadOnlyKeysResultInner;
-import com.azure.management.cosmosdb.models.PrivateLinkResourceInner;
-import com.azure.management.cosmosdb.models.SqlDatabaseGetResultsInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * The implementation for CosmosDBAccount.
@@ -51,10 +44,10 @@ import java.util.concurrent.TimeUnit;
 class CosmosDBAccountImpl
         extends
         GroupableResourceImpl<
-                CosmosDBAccount,
-                DatabaseAccountGetResultsInner,
-                CosmosDBAccountImpl,
-                CosmosDBManager>
+                        CosmosDBAccount,
+                        DatabaseAccountGetResultsInner,
+                        CosmosDBAccountImpl,
+                        CosmosDBManager>
         implements CosmosDBAccount,
         CosmosDBAccount.Definition,
         CosmosDBAccount.Update {
@@ -81,7 +74,7 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    public DatabaseAccountOfferType databaseAccountOfferType() {
+    public String databaseAccountOfferType() {
         return this.inner().databaseAccountOfferType();
     }
 
@@ -116,141 +109,95 @@ class CosmosDBAccountImpl
 
     @Override
     public DatabaseAccountListKeysResult listKeys() {
-        return this.listKeysAsync().toBlocking().last();
+        return this.listKeysAsync().block();
     }
 
     @Override
-    public Observable<DatabaseAccountListKeysResult> listKeysAsync() {
+    public Mono<DatabaseAccountListKeysResult> listKeysAsync() {
         return this.manager().inner().databaseAccounts()
             .listKeysAsync(this.resourceGroupName(), this.name())
-            .map(new Func1<DatabaseAccountListKeysResultInner, DatabaseAccountListKeysResult>() {
-                @Override
-                public DatabaseAccountListKeysResult call(DatabaseAccountListKeysResultInner databaseAccountListKeysResultInner) {
-                    return new DatabaseAccountListKeysResultImpl(databaseAccountListKeysResultInner);
-                }
-            });
+            .map(databaseAccountListKeysResultInner -> new DatabaseAccountListKeysResultImpl(databaseAccountListKeysResultInner));
     }
 
     @Override
     public DatabaseAccountListReadOnlyKeysResult listReadOnlyKeys() {
-        return this.listReadOnlyKeysAsync().toBlocking().last();
+        return this.listReadOnlyKeysAsync().block();
     }
 
     @Override
-    public Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync() {
+    public Mono<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync() {
         return this.manager().inner().databaseAccounts()
             .listReadOnlyKeysAsync(this.resourceGroupName(), this.name())
-            .map(new Func1<DatabaseAccountListReadOnlyKeysResultInner, DatabaseAccountListReadOnlyKeysResult>() {
-                @Override
-                public DatabaseAccountListReadOnlyKeysResult call(DatabaseAccountListReadOnlyKeysResultInner databaseAccountListReadOnlyKeysResultInner) {
-                    return new DatabaseAccountListReadOnlyKeysResultImpl(databaseAccountListReadOnlyKeysResultInner);
-                }
-            });
+            .map(databaseAccountListReadOnlyKeysResultInner -> new DatabaseAccountListReadOnlyKeysResultImpl(databaseAccountListReadOnlyKeysResultInner));
     }
 
     @Override
     public DatabaseAccountListConnectionStringsResult listConnectionStrings() {
-        return this.listConnectionStringsAsync().toBlocking().last();
+        return this.listConnectionStringsAsync().block();
     }
 
     @Override
-    public Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync() {
+    public Mono<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync() {
         return this.manager().inner().databaseAccounts()
             .listConnectionStringsAsync(this.resourceGroupName(), this.name())
-            .map(new Func1<DatabaseAccountListConnectionStringsResultInner, DatabaseAccountListConnectionStringsResult>() {
-                @Override
-                public DatabaseAccountListConnectionStringsResult call(DatabaseAccountListConnectionStringsResultInner databaseAccountListConnectionStringsResultInner) {
-                    return new DatabaseAccountListConnectionStringsResultImpl(databaseAccountListConnectionStringsResultInner);
-                }
-            });
+            .map(databaseAccountListConnectionStringsResultInner -> new DatabaseAccountListConnectionStringsResultImpl(databaseAccountListConnectionStringsResultInner));
     }
 
     @Override
     public List<SqlDatabase> listSqlDatabases() {
-        return this.listSqlDatabasesAsync().toBlocking().last();
+        return this.listSqlDatabasesAsync().collectList().block();
     }
 
     @Override
-    public Observable<List<SqlDatabase>> listSqlDatabasesAsync() {
+    public PagedFlux<SqlDatabase> listSqlDatabasesAsync() {
         return this.manager().inner().sqlResources()
                 .listSqlDatabasesAsync(this.resourceGroupName(), this.name())
-                .map(new Func1<List<SqlDatabaseGetResultsInner>, List<SqlDatabase>>() {
-                    @Override
-                    public List<SqlDatabase> call(List<SqlDatabaseGetResultsInner> sqlDatabaseInners) {
-                        List<SqlDatabase> sqlDatabases = new ArrayList<>();
-                        for (SqlDatabaseGetResultsInner inner : sqlDatabaseInners) {
-                            sqlDatabases.add(new SqlDatabaseImpl(inner));
-                        }
-                        return Collections.unmodifiableList(sqlDatabases);
-                    }
-                });
+                .mapPage(inner -> new SqlDatabaseImpl(inner));
     }
 
     @Override
     public List<PrivateLinkResource> listPrivateLinkResources() {
-        return this.listPrivateLinkResourcesAsync().toBlocking().last();
+        return this.listPrivateLinkResourcesAsync().collectList().block();
     }
 
     @Override
-    public Observable<List<PrivateLinkResource>> listPrivateLinkResourcesAsync() {
+    public PagedFlux<PrivateLinkResource> listPrivateLinkResourcesAsync() {
         return this.manager().inner().privateLinkResources()
                 .listByDatabaseAccountAsync(this.resourceGroupName(), this.name())
-                .map(new Func1<List<PrivateLinkResourceInner>, List<PrivateLinkResource>>() {
-                    @Override
-                    public List<PrivateLinkResource> call(List<PrivateLinkResourceInner> privateLinkResourceInners) {
-                        List<PrivateLinkResource> privateLinkResources = new ArrayList<>();
-                        for (PrivateLinkResourceInner inner : privateLinkResourceInners) {
-                            privateLinkResources.add(new PrivateLinkResourceImpl(inner));
-                        }
-                        return Collections.unmodifiableList(privateLinkResources);
-                    }
-                });
+                .mapPage(inner -> new PrivateLinkResourceImpl(inner));
     }
 
     @Override
     public PrivateLinkResource getPrivateLinkResource(String groupName) {
-        return this.getPrivateLinkResourceAsync(groupName).toBlocking().last();
+        return this.getPrivateLinkResourceAsync(groupName).block();
     }
 
     @Override
-    public Observable<PrivateLinkResource> getPrivateLinkResourceAsync(String groupName) {
+    public Mono<PrivateLinkResource> getPrivateLinkResourceAsync(String groupName) {
         return this.manager().inner().privateLinkResources()
                 .getAsync(this.resourceGroupName(), this.name(), groupName)
-                .map(new Func1<PrivateLinkResourceInner, PrivateLinkResource>() {
-                    @Override
-                    public PrivateLinkResource call(PrivateLinkResourceInner privateLinkResourceInner) {
-                        if (privateLinkResourceInner == null) {
-                            return null;
-                        }
-                        return new PrivateLinkResourceImpl(privateLinkResourceInner);
-                    }
-                });
+                .map(privateLinkResourceInner -> new PrivateLinkResourceImpl(privateLinkResourceInner));
     }
 
     @Override
     public Map<String, PrivateEndpointConnection> listPrivateEndpointConnection() {
-        return this.listPrivateEndpointConnectionAsync().toBlocking().last();
+        return this.listPrivateEndpointConnectionAsync().block();
     }
 
     @Override
-    public Observable<Map<String, PrivateEndpointConnection>> listPrivateEndpointConnectionAsync() {
+    public Mono<Map<String, PrivateEndpointConnection>> listPrivateEndpointConnectionAsync() {
         return this.privateEndpointConnections.asMapAsync();
     }
 
     @Override
     public PrivateEndpointConnection getPrivateEndpointConnection(String name) {
-        return this.getPrivateEndpointConnectionAsync(name).toBlocking().last();
+        return this.getPrivateEndpointConnectionAsync(name).block();
     }
 
     @Override
-    public Observable<PrivateEndpointConnection> getPrivateEndpointConnectionAsync(String name) {
+    public Mono<PrivateEndpointConnection> getPrivateEndpointConnectionAsync(String name) {
         return this.privateEndpointConnections.getImplAsync(name)
-                .map(new Func1<PrivateEndpointConnectionImpl, PrivateEndpointConnection>() {
-                    @Override
-                    public PrivateEndpointConnection call(PrivateEndpointConnectionImpl privateEndpointConnection) {
-                        return privateEndpointConnection;
-                    }
-                });
+                .map(privateEndpointConnection -> privateEndpointConnection);
     }
 
     @Override
@@ -264,7 +211,7 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    public ConnectorOffer cassandraConnectorOffer() {
+    public String cassandraConnectorOffer() {
         return this.inner().connectorOffer();
     }
 
@@ -294,8 +241,8 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    public Completable offlineRegionAsync(Region region) {
-        return this.manager().inner().databaseAccounts().offlineRegionAsync(this.resourceGroupName(), this.name(), region.label()).toCompletable();
+    public Mono<Void> offlineRegionAsync(Region region) {
+        return this.manager().inner().databaseAccounts().offlineRegionAsync(this.resourceGroupName(), this.name(), region.label());
     }
 
     @Override
@@ -304,8 +251,8 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    public Completable onlineRegionAsync(Region region) {
-        return this.manager().inner().databaseAccounts().onlineRegionAsync(this.resourceGroupName(), this.name(), region.label()).toCompletable();
+    public Mono<Void> onlineRegionAsync(Region region) {
+        return this.manager().inner().databaseAccounts().onlineRegionAsync(this.resourceGroupName(), this.name(), region.label());
     }
 
     @Override
@@ -314,9 +261,9 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    public Completable regenerateKeyAsync(KeyKind keyKind) {
+    public Mono<Void> regenerateKeyAsync(KeyKind keyKind) {
         return this.manager().inner().databaseAccounts().regenerateKeyAsync(this.resourceGroupName(),
-                this.name(), keyKind).toCompletable();
+                this.name(), keyKind);
     }
 
     @Override
@@ -382,7 +329,7 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    protected Observable<DatabaseAccountGetResultsInner> getInnerAsync() {
+    protected Mono<DatabaseAccountGetResultsInner> getInnerAsync() {
         return this.manager().inner().databaseAccounts().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -469,7 +416,7 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    public Observable<CosmosDBAccount> createResourceAsync() {
+    public Mono<CosmosDBAccount> createResourceAsync() {
         return this.doDatabaseUpdateCreate();
     }
 
@@ -477,14 +424,14 @@ class CosmosDBAccountImpl
         this.ensureFailoverIsInitialized();
         DatabaseAccountCreateUpdateParameters createUpdateParametersInner =
                 new DatabaseAccountCreateUpdateParameters();
-        createUpdateParametersInner.withLocation(this.regionName().toLowerCase());
+        createUpdateParametersInner.setLocation(this.regionName().toLowerCase());
         createUpdateParametersInner.withConsistencyPolicy(inner.consistencyPolicy());
-        createUpdateParametersInner.withDatabaseAccountOfferType(
-                DatabaseAccountOfferType.STANDARD.toString());
+//        createUpdateParametersInner.withDatabaseAccountOfferType(
+//                DatabaseAccountOfferType.STANDARD.toString()); // Enum to Constant
         createUpdateParametersInner.withIpRangeFilter(inner.ipRangeFilter());
         createUpdateParametersInner.withKind(inner.kind());
         createUpdateParametersInner.withCapabilities(inner.capabilities());
-        createUpdateParametersInner.withTags(inner.getTags());
+        createUpdateParametersInner.setTags(inner.getTags());
         createUpdateParametersInner.withEnableMultipleWriteLocations(inner.enableMultipleWriteLocations());
         this.addLocationsForParameters(new CreateUpdateLocationParameters(createUpdateParametersInner), this.failoverPolicies);
         createUpdateParametersInner.withIsVirtualNetworkFilterEnabled(inner.isVirtualNetworkFilterEnabled());
@@ -562,29 +509,26 @@ class CosmosDBAccountImpl
         locationParameters.withLocations(locations);
     }
 
-    private Observable<CosmosDBAccount> updateFailoverPriorityAsync() {
+    private Mono<CosmosDBAccount> updateFailoverPriorityAsync() {
         final CosmosDBAccountImpl self = this;
         return this.manager().inner().databaseAccounts().failoverPriorityChangeAsync(this.resourceGroupName(),
-                this.name(), this.failoverPolicies).map(new Func1<Void, CosmosDBAccount>() {
-            @Override
-            public CosmosDBAccount call(Void voidInner) {
-                if (self.inner().failoverPolicies() != null) {
-                    self.inner().failoverPolicies().clear();
-                    self.inner().failoverPolicies().addAll(self.failoverPolicies);
-                }
+                this.name(), this.failoverPolicies).map(voidInner -> {
+                    if (self.inner().failoverPolicies() != null) {
+                        self.inner().failoverPolicies().clear();
+                        self.inner().failoverPolicies().addAll(self.failoverPolicies);
+                    }
 
-                self.failoverPolicies.clear();
-                return self;
-            }
-        });
+                    self.failoverPolicies.clear();
+                    return self;
+                });
     }
 
-    private Observable<CosmosDBAccount> doDatabaseUpdateCreate() {
+    private Mono<CosmosDBAccount> doDatabaseUpdateCreate() {
         final CosmosDBAccountImpl self = this;
         final List<Integer> data = new ArrayList<Integer>();
         data.add(0);
 
-        Observable<DatabaseAccountGetResultsInner> request = null;
+        Mono<DatabaseAccountGetResultsInner> request = null;
         HasLocations locationParameters = null;
 
         if (isInCreateMode()) {
@@ -609,24 +553,24 @@ class CosmosDBAccountImpl
 
         final HasLocations finalLocationParameters = locationParameters;
         return request
-                .flatMap(new Func1<DatabaseAccountGetResultsInner, Observable<? extends CosmosDBAccount>>() {
+                .flatMap(new Function<DatabaseAccountGetResultsInner, Mono<? extends CosmosDBAccount>>() {
                     @Override
-                    public Observable<? extends CosmosDBAccount> call(DatabaseAccountGetResultsInner databaseAccountInner) {
+                    public Mono<? extends CosmosDBAccount> apply(DatabaseAccountGetResultsInner databaseAccountInner) {
                         self.failoverPolicies.clear();
                         self.hasFailoverPolicyChanges = false;
                         return manager().databaseAccounts().getByResourceGroupAsync(
                                 resourceGroupName(),
                                 name()
-                        ).repeatWhen(new Func1<Observable<? extends java.lang.Void>, Observable<?>>() {
+                        ).repeatWhen(new Function<Mono<? extends java.lang.Void>, Mono<?>>() {
                             @Override
-                            public Observable<?> call(Observable<? extends Void> observable) {
+                            public Mono<?> apply(Mono<? extends Void> mono) {
                                 data.set(0, data.get(0) + 5);
-                                return observable.delay(5, TimeUnit.SECONDS);
+                                return mono.delay(manager().getSdkContext().getLroRetryDuration());
                             }
                         })
-                        .filter(new Func1<CosmosDBAccount, Boolean>() {
+                        .filter(new Function<CosmosDBAccount, Boolean>() {
                             @Override
-                            public Boolean call(CosmosDBAccount databaseAccount) {
+                            public Boolean apply(CosmosDBAccount databaseAccount) {
                                 if (maxDelayDueToMissingFailovers > data.get(0)
                                         && (databaseAccount.id() == null
                                         || databaseAccount.id().length() == 0
@@ -641,7 +585,6 @@ class CosmosDBAccountImpl
                                         if (!isAFinalProvisioningState(location.provisioningState())) {
                                             return false;
                                         }
-
                                     }
                                 } else {
                                     return false;
@@ -651,7 +594,7 @@ class CosmosDBAccountImpl
                                 return true;
                             }
                         })
-                        .first();
+                        .last();
 
                     }
                 });
@@ -697,7 +640,7 @@ class CosmosDBAccountImpl
             this.virtualNetworkRulesMap = new HashMap<>();
             if (this.inner() != null && this.inner().virtualNetworkRules() != null) {
                 for (VirtualNetworkRule virtualNetworkRule : this.inner().virtualNetworkRules()) {
-                    this.virtualNetworkRulesMap.put(virtualNetworkRule.id(), virtualNetworkRule);
+                    this.virtualNetworkRulesMap.put(virtualNetworkRule.getId(), virtualNetworkRule);
                 }
             }
         }
@@ -733,7 +676,7 @@ class CosmosDBAccountImpl
         }
         this.inner().withIsVirtualNetworkFilterEnabled(true);
         for (VirtualNetworkRule vnetRule : virtualNetworkRules) {
-            this.virtualNetworkRulesMap.put(vnetRule.id(), vnetRule);
+            this.virtualNetworkRulesMap.put(vnetRule.getId(), vnetRule);
         }
 
         return this;
@@ -746,16 +689,16 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    public CosmosDBAccountImpl withCassandraConnector(ConnectorOffer connectorOffer) {
+    public CosmosDBAccountImpl withCassandraConnector(String connectorOffer) {
         this.inner().withEnableCassandraConnector(true);
-        this.inner().withConnectorOffer(connectorOffer);
+        // this.inner().withConnectorOffer(connectorOffer); // TODO: Constant currently, may change after the generator changed.
         return this;
     }
 
     @Override
     public CosmosDBAccountImpl withoutCassandraConnector() {
         this.inner().withEnableCassandraConnector(false);
-        this.inner().withConnectorOffer(null);
+        // this.inner().withConnectorOffer(null);
         return this;
     }
 
@@ -780,7 +723,7 @@ class CosmosDBAccountImpl
 
         @Override
         public String location() {
-            return parameters.location();
+            return parameters.getLocation();
         }
 
         @Override

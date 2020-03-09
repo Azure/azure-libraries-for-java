@@ -5,9 +5,10 @@
  */
 package com.azure.management.cosmosdb.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+
 import com.azure.management.cosmosdb.PrivateLinkResource;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.cosmosdb.models.PrivateLinkResourceInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.List;
 
@@ -24,17 +25,17 @@ public class PrivateLinkResourceImpl
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override
     public String name() {
-        return inner().name();
+        return inner().getName();
     }
 
     @Override
     public String type() {
-        return inner().type();
+        return inner().getType();
     }
 
     @Override

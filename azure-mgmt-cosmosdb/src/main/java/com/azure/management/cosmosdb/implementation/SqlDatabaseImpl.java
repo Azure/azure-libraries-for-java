@@ -5,9 +5,9 @@
  */
 package com.azure.management.cosmosdb.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.cosmosdb.SqlDatabase;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.cosmosdb.models.SqlDatabaseGetResultsInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * An Azure Cosmos DB SQL database.
@@ -22,31 +22,31 @@ public class SqlDatabaseImpl
 
     @Override
     public String sqlDatabaseId() {
-        return this.inner().sqlDatabaseGetResultsId();
+        return this.inner().resource().getId();
     }
 
     @Override
     public String _rid() {
-        return this.inner()._rid();
+        return this.inner().resource().rid();
     }
 
     @Override
     public Object _ts() {
-        return this.inner()._ts();
+        return this.inner().resource().ts();
     }
 
     @Override
     public String _etag() {
-        return this.inner()._etag();
+        return this.inner().resource().etag();
     }
 
     @Override
     public String _colls() {
-        return this.inner()._colls();
+        return this.inner().resource().colls();
     }
 
     @Override
     public String _users() {
-        return this.inner()._users();
+        return this.inner().resource().users();
     }
 }

@@ -5,13 +5,13 @@
  */
 package com.azure.management.cosmosdb;
 
-import com.azure.management.cosmosdb.implementation.PrivateEndpointConnectionInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.cosmosdb.models.PrivateEndpointConnectionInner;
+import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 /**
  * A private endpoint connection.

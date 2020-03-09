@@ -5,10 +5,10 @@
  */
 package com.azure.management.cosmosdb;
 
-import com.azure.management.cosmosdb.implementation.DatabaseAccountListConnectionStringsResultInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.cosmosdb.models.DatabaseAccountListConnectionStringsResultInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.List;
 

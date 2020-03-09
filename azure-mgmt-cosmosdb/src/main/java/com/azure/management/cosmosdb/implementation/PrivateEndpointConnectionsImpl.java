@@ -5,15 +5,15 @@
  */
 package com.azure.management.cosmosdb.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.cosmosdb.CosmosDBAccount;
 import com.azure.management.cosmosdb.PrivateEndpointConnection;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.cosmosdb.models.PrivateEndpointConnectionInner;
+import com.azure.management.cosmosdb.models.PrivateEndpointConnectionsInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
+import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +24,10 @@ import java.util.Map;
  */
 class PrivateEndpointConnectionsImpl extends
         ExternalChildResourcesCachedImpl<PrivateEndpointConnectionImpl,
-                PrivateEndpointConnection,
-                PrivateEndpointConnectionInner,
-                CosmosDBAccountImpl,
-                CosmosDBAccount> {
+                        PrivateEndpointConnection,
+                        PrivateEndpointConnectionInner,
+                        CosmosDBAccountImpl,
+                        CosmosDBAccount> {
     private final PrivateEndpointConnectionsInner client;
 
     PrivateEndpointConnectionsImpl(PrivateEndpointConnectionsInner client, CosmosDBAccountImpl parent) {
@@ -54,63 +54,51 @@ class PrivateEndpointConnectionsImpl extends
     }
 
     public Map<String, PrivateEndpointConnection> asMap() {
-        return asMapAsync().toBlocking().last();
+        return asMapAsync().block();
     }
 
-    public Observable<Map<String, PrivateEndpointConnection>> asMapAsync() {
-        return listAsync().map(new Func1<List<PrivateEndpointConnectionImpl>, Map<String, PrivateEndpointConnection>>() {
-            @Override
-            public Map<String, PrivateEndpointConnection> call(List<PrivateEndpointConnectionImpl> privateEndpointConnections) {
+    public Mono<Map<String, PrivateEndpointConnection>> asMapAsync() {
+        return listAsync().collectList()
+            .map(privateEndpointConnections -> {
                 Map<String, PrivateEndpointConnection> privateEndpointConnectionMap = new HashMap<>();
                 for (PrivateEndpointConnectionImpl privateEndpointConnection : privateEndpointConnections) {
                     privateEndpointConnectionMap.put(privateEndpointConnection.name(), privateEndpointConnection);
                 }
                 return privateEndpointConnectionMap;
-            }
-        });
+            });
     }
     
-    public Observable<List<PrivateEndpointConnectionImpl>> listAsync() {
+    public PagedFlux<PrivateEndpointConnectionImpl> listAsync() {
         final PrivateEndpointConnectionsImpl self = this;
-        return this.client.listByDatabaseAccountAsync(parent().resourceGroupName(), parent().name())
-                .map(new Func1<List<PrivateEndpointConnectionInner>, List<PrivateEndpointConnectionImpl>>() {
-                    @Override
-                    public List<PrivateEndpointConnectionImpl> call(List<PrivateEndpointConnectionInner> privateEndpointConnectionInners) {
-                        List<PrivateEndpointConnectionImpl> privateEndpointConnections = new ArrayList<>();
-                        for (PrivateEndpointConnectionInner inner : privateEndpointConnectionInners) {
-                            PrivateEndpointConnectionImpl childResource = new PrivateEndpointConnectionImpl(inner.name(), parent(), inner, client);
-                            self.addPrivateEndpointConnection(childResource);
-                            privateEndpointConnections.add(childResource);
-                        }
-                        return Collections.unmodifiableList(privateEndpointConnections);
-                    }
+        return this.client.listByDatabaseAccountAsync(this.getParent().resourceGroupName(), this.getParent().name())
+                .mapPage(inner -> {
+                        PrivateEndpointConnectionImpl childResource = new PrivateEndpointConnectionImpl(inner.getName(), self.getParent(), inner, client);
+                        self.addPrivateEndpointConnection(childResource);
+                        return childResource;
                 });
     }
 
-    public Observable<PrivateEndpointConnectionImpl> getImplAsync(String name) {
+    public Mono<PrivateEndpointConnectionImpl> getImplAsync(String name) {
         final PrivateEndpointConnectionsImpl self = this;
-        return this.client.getAsync(parent().resourceGroupName(), parent().name(), name)
-                .map(new Func1<PrivateEndpointConnectionInner, PrivateEndpointConnectionImpl>() {
-                    @Override
-                    public PrivateEndpointConnectionImpl call(PrivateEndpointConnectionInner privateEndpointConnectionInner) {
-                        PrivateEndpointConnectionImpl childResource = new PrivateEndpointConnectionImpl(privateEndpointConnectionInner.name(),
-                                parent(),
-                                privateEndpointConnectionInner,
-                                client);
-                        self.addPrivateEndpointConnection(childResource);
-                        return childResource;
-                    }
+        return this.client.getAsync(getParent().resourceGroupName(), getParent().name(), name)
+                .map(inner -> {
+                    PrivateEndpointConnectionImpl childResource = new PrivateEndpointConnectionImpl(inner.getName(),
+                            getParent(),
+                            inner,
+                            client);
+                    self.addPrivateEndpointConnection(childResource);
+                    return childResource;
                 });
     }
 
     @Override
     protected List<PrivateEndpointConnectionImpl> listChildResources() {
-        return listAsync().toBlocking().last();
+        return listAsync().collectList().block();
     }
 
     @Override
     protected PrivateEndpointConnectionImpl newChildResource(String name) {
-        return new PrivateEndpointConnectionImpl(name, parent(), new PrivateEndpointConnectionInner(), this.client);
+        return new PrivateEndpointConnectionImpl(name, getParent(), new PrivateEndpointConnectionInner(), this.client);
     }
 
     public void addPrivateEndpointConnection(PrivateEndpointConnectionImpl privateEndpointConnection) {

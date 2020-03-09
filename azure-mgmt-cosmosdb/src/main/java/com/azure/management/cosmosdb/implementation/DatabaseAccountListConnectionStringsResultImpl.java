@@ -5,10 +5,11 @@
  */
 package com.azure.management.cosmosdb.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+
 import com.azure.management.cosmosdb.DatabaseAccountConnectionString;
 import com.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.cosmosdb.models.DatabaseAccountListConnectionStringsResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.List;
 

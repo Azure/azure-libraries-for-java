@@ -5,24 +5,23 @@
  */
 package com.azure.management.cosmosdb.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.cosmosdb.CosmosDBAccount;
 import com.azure.management.cosmosdb.PrivateEndpointConnection;
 import com.azure.management.cosmosdb.PrivateEndpointProperty;
 import com.azure.management.cosmosdb.PrivateLinkServiceConnectionStateProperty;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.cosmosdb.models.PrivateEndpointConnectionInner;
+import com.azure.management.cosmosdb.models.PrivateEndpointConnectionsInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import reactor.core.publisher.Mono;
 
 /**
  * A private endpoint connection.
  */
 public class PrivateEndpointConnectionImpl
         extends ExternalChildResourceImpl<PrivateEndpointConnection,
-            PrivateEndpointConnectionInner,
-            CosmosDBAccountImpl,
-            CosmosDBAccount>
+                PrivateEndpointConnectionInner,
+                    CosmosDBAccountImpl,
+                CosmosDBAccount>
         implements PrivateEndpointConnection,
         PrivateEndpointConnection.Definition<CosmosDBAccount.DefinitionStages.WithCreate>,
         PrivateEndpointConnection.UpdateDefinition<CosmosDBAccount.UpdateStages.WithOptionals>,
@@ -39,7 +38,7 @@ public class PrivateEndpointConnectionImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -77,37 +76,34 @@ public class PrivateEndpointConnectionImpl
     }
 
     @Override
-    public Observable<PrivateEndpointConnection> createResourceAsync() {
+    public Mono<PrivateEndpointConnection> createResourceAsync() {
         final PrivateEndpointConnectionImpl self = this;
         return this.client.createOrUpdateAsync(this.parent().resourceGroupName(),
                 this.parent().name(),
                 this.name(),
                 this.inner())
-                .map(new Func1<PrivateEndpointConnectionInner, PrivateEndpointConnection>() {
-                    @Override
-                    public PrivateEndpointConnection call(PrivateEndpointConnectionInner privateEndpointConnectionInner) {
-                        self.setInner(inner());
-                        return self;
-                    }
+                .map(privateEndpointConnectionInner -> {
+                    self.setInner(privateEndpointConnectionInner);
+                    return self;
                 });
     }
 
     @Override
-    public Observable<PrivateEndpointConnection> updateResourceAsync() {
+    public Mono<PrivateEndpointConnection> updateResourceAsync() {
         return this.createResourceAsync();
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
-        return RXMapper.mapToVoid(this.client.deleteAsync(
+    public Mono<Void> deleteResourceAsync() {
+        return this.client.deleteAsync(
                 this.parent().resourceGroupName(),
                 this.parent().name(),
                 this.name()
-        ));
+        );
     }
 
     @Override
-    protected Observable<PrivateEndpointConnectionInner> getInnerAsync() {
+    protected Mono<PrivateEndpointConnectionInner> getInnerAsync() {
         return this.client.getAsync(
                 this.parent().resourceGroupName(),
                 this.parent().name(),

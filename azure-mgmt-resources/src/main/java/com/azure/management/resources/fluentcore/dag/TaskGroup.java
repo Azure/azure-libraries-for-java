@@ -7,6 +7,7 @@
 package com.azure.management.resources.fluentcore.dag;
 
 import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -201,6 +202,12 @@ public class TaskGroup
      */
     public String addPostRunDependent(FunctionalTaskItem dependentTaskItem) {
         IndexableTaskItem taskItem = IndexableTaskItem.create(dependentTaskItem);
+        this.addPostRunDependent(taskItem);
+        return taskItem.key();
+    }
+
+    public String addPostRunDependent(FunctionalTaskItem dependentTaskItem, SdkContext sdkContext) {
+        IndexableTaskItem taskItem = IndexableTaskItem.create(dependentTaskItem, sdkContext);
         this.addPostRunDependent(taskItem);
         return taskItem.key();
     }

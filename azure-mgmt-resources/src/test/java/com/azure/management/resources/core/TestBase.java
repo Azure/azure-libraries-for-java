@@ -290,7 +290,7 @@ public abstract class TestBase {
         }
     }
 
-    protected RestClient buildRestClient(RestClientBuilder builder, boolean isMocked) {
+    protected synchronized RestClient buildRestClient(RestClientBuilder builder, boolean isMocked) {
         return builder.buildClient();
     }
 

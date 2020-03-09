@@ -179,7 +179,7 @@ class AvailabilitySetImpl
         if (this.inner().platformUpdateDomainCount() == null) {
             this.inner().withPlatformUpdateDomainCount(5);
         }
-        return this.createNewProximityPlacementGroup()
+        return this.createNewProximityPlacementGroupAsync()
                 .flatMap(availabilitySet -> manager().inner().availabilitySets()
                     .createOrUpdateAsync(resourceGroupName(), name(), inner())
                     .map(availabilitySetInner -> {
@@ -189,7 +189,7 @@ class AvailabilitySetImpl
                     }));
     }
 
-    private Mono<AvailabilitySetImpl> createNewProximityPlacementGroup() {
+    private Mono<AvailabilitySetImpl> createNewProximityPlacementGroupAsync() {
         if (isInCreateMode()) {
             if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
                 ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();

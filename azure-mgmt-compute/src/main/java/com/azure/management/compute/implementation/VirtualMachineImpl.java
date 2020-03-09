@@ -1655,7 +1655,7 @@ class VirtualMachineImpl
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
         this.handleNetworkSettings();
         final VirtualMachineImpl self = this;
-        return this.createNewProximityPlacementGroup().flatMap(virtualMachine -> {
+        return this.createNewProximityPlacementGroupAsync().flatMap(virtualMachine -> {
             this.handleAvailabilitySettings();
             this.virtualMachineMsiHandler.processCreatedExternalIdentities();
             this.virtualMachineMsiHandler.handleExternalIdentities();
@@ -1926,7 +1926,7 @@ class VirtualMachineImpl
         }
     }
 
-    private Mono<VirtualMachineImpl> createNewProximityPlacementGroup() {
+    private Mono<VirtualMachineImpl> createNewProximityPlacementGroupAsync() {
         if (isInCreateMode()) {
             if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
                 ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();

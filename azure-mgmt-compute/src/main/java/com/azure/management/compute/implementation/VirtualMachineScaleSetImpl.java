@@ -334,7 +334,7 @@ public class VirtualMachineScaleSetImpl
     @Override
     public LoadBalancer getPrimaryInternetFacingLoadBalancer() throws IOException {
         if (this.primaryInternetFacingLoadBalancer == null) {
-            loadCurrentPrimaryLoadBalancersIfAvailable().block();
+            loadCurrentPrimaryLoadBalancersIfAvailableAsync().block();
         }
         return this.primaryInternetFacingLoadBalancer;
     }
@@ -360,7 +360,7 @@ public class VirtualMachineScaleSetImpl
     @Override
     public LoadBalancer getPrimaryInternalLoadBalancer() throws IOException {
         if (this.primaryInternalLoadBalancer == null) {
-            loadCurrentPrimaryLoadBalancersIfAvailable().block();
+            loadCurrentPrimaryLoadBalancersIfAvailableAsync().block();
         }
         return this.primaryInternalLoadBalancer;
     }
@@ -1485,7 +1485,7 @@ public class VirtualMachineScaleSetImpl
             this.setOSDiskDefault();
         }
         this.setPrimaryIpConfigurationSubnet();
-        return this.setPrimaryIpConfigurationBackendsAndInboundNatPools().flatMap(virtualMachineScaleSet -> {
+        return this.setPrimaryIpConfigurationBackendsAndInboundNatPoolsAsync().flatMap(virtualMachineScaleSet -> {
             if (isManagedDiskEnabled()) {
                 this.managedDataDisks.setDataDisksDefaults();
             } else {
@@ -1523,7 +1523,7 @@ public class VirtualMachineScaleSetImpl
         }
         this.setPrimaryIpConfigurationSubnet();
         final VirtualMachineScaleSetImpl self = this;
-        return this.setPrimaryIpConfigurationBackendsAndInboundNatPools()
+        return this.setPrimaryIpConfigurationBackendsAndInboundNatPoolsAsync()
                 .map(virtualMachineScaleSet -> {
                     if (isManagedDiskEnabled()) {
                         this.managedDataDisks.setDataDisksDefaults();
@@ -1768,13 +1768,13 @@ public class VirtualMachineScaleSetImpl
         this.existingPrimaryNetworkSubnetNameToAssociate = null;
     }
 
-    private Mono<VirtualMachineScaleSetImpl> setPrimaryIpConfigurationBackendsAndInboundNatPools() {
+    private Mono<VirtualMachineScaleSetImpl> setPrimaryIpConfigurationBackendsAndInboundNatPoolsAsync() {
         if (isInCreateMode()) {
             return Mono.just(this);
         }
 
         try {
-            return this.loadCurrentPrimaryLoadBalancersIfAvailable().map(virtualMachineScaleSet -> {
+            return this.loadCurrentPrimaryLoadBalancersIfAvailableAsync().map(virtualMachineScaleSet -> {
                 VirtualMachineScaleSetIPConfiguration primaryIpConfig = primaryNicDefaultIPConfiguration();
                 if (this.primaryInternetFacingLoadBalancer != null) {
                     removeBackendsFromIpConfiguration(this.primaryInternetFacingLoadBalancer.id(),
@@ -1887,7 +1887,7 @@ public class VirtualMachineScaleSetImpl
         this.primaryInternalLoadBalancer = null;
     }
 
-    private Mono<VirtualMachineScaleSetImpl> loadCurrentPrimaryLoadBalancersIfAvailable() throws IOException {
+    private Mono<VirtualMachineScaleSetImpl> loadCurrentPrimaryLoadBalancersIfAvailableAsync() throws IOException {
         Mono<VirtualMachineScaleSetImpl> self = Mono.just(this);
         if (this.primaryInternetFacingLoadBalancer != null && this.primaryInternalLoadBalancer != null) {
             return self;

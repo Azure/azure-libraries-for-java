@@ -35,7 +35,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /**
@@ -561,40 +560,33 @@ class CosmosDBAccountImpl
                         return manager().databaseAccounts().getByResourceGroupAsync(
                                 resourceGroupName(),
                                 name()
-                        ).repeatWhen(new Function<Mono<? extends java.lang.Void>, Mono<?>>() {
-                            @Override
-                            public Mono<?> apply(Mono<? extends Void> mono) {
-                                data.set(0, data.get(0) + 5);
-                                return mono.delay(manager().getSdkContext().getLroRetryDuration());
-                            }
-                        })
-                        .filter(new Function<CosmosDBAccount, Boolean>() {
-                            @Override
-                            public Boolean apply(CosmosDBAccount databaseAccount) {
+                        )
+                        .flatMap(databaseAccount -> {
                                 if (maxDelayDueToMissingFailovers > data.get(0)
                                         && (databaseAccount.id() == null
                                         || databaseAccount.id().length() == 0
                                         || finalLocationParameters.locations().size()
                                         > databaseAccount.inner().failoverPolicies().size())) {
-                                    data.set(0, data.get(0) + 5);
-                                    return false;
+                                    return Mono.empty();
                                 }
 
                                 if (isAFinalProvisioningState(databaseAccount.inner().provisioningState())) {
                                     for (Location location : databaseAccount.readableReplications()) {
                                         if (!isAFinalProvisioningState(location.provisioningState())) {
-                                            return false;
+                                            return Mono.empty();
                                         }
                                     }
                                 } else {
-                                    return false;
+                                    return Mono.empty();
                                 }
 
                                 self.setInner(databaseAccount.inner());
-                                return true;
-                            }
+                                return Mono.just(databaseAccount);
                         })
-                        .last();
+                        .repeatWhenEmpty(longFlux -> longFlux.flatMap(index -> {
+                            data.set(0, data.get(0) + 30);
+                            return Mono.delay(manager().getSdkContext().getLroRetryDuration());
+                        }));
 
                     }
                 });

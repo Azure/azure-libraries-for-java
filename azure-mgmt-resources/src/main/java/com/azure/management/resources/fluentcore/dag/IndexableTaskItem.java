@@ -53,6 +53,10 @@ public abstract class IndexableTaskItem
         this(UUID.randomUUID().toString());
     }
 
+    public IndexableTaskItem(SdkContext sdkContext) {
+        this(sdkContext.randomUuid());
+    }
+
     /**
      * Creates an IndexableTaskItem from provided FunctionalTaskItem.
      *
@@ -61,6 +65,17 @@ public abstract class IndexableTaskItem
      */
     public static IndexableTaskItem create(final FunctionalTaskItem taskItem) {
         return new IndexableTaskItem() {
+            @Override
+            protected Mono<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+                FunctionalTaskItem.Context fContext = new FunctionalTaskItem.Context(this);
+                fContext.setInnerContext(context);
+                return taskItem.apply(fContext);
+            }
+        };
+    }
+
+    public static IndexableTaskItem create(final FunctionalTaskItem taskItem, SdkContext sdkContext) {
+        return new IndexableTaskItem(sdkContext) {
             @Override
             protected Mono<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
                 FunctionalTaskItem.Context fContext = new FunctionalTaskItem.Context(this);

@@ -257,6 +257,15 @@ public interface SqlElasticPool
             SqlElasticPool.DefinitionStages.WithAttach<ParentT> withEdition(ElasticPoolEdition edition);
 
             /**
+             * Sets a custom sku for the SQL Elastic Pool.
+             *
+             * @param sku sku/edition to be set for elastic pool, all possible capabilities could be found by
+             *            Sqlservers.getCapabilitiesByRegion(Region)
+             * @return The next stage of the definition
+             */
+            SqlElasticPool.DefinitionStages.WithAttach<ParentT> withCustomEdition(Sku sku);
+
+            /**
              * Sets the basic edition for the SQL Elastic Pool.
              *
              * @return The next stage of the definition.

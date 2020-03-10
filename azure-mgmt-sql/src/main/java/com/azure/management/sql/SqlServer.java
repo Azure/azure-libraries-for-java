@@ -80,12 +80,6 @@ public interface SqlServer extends
     // Actions
 
     /**
-     * @return returns the list of usages (ServerMetric) of Azure SQL Server
-     */
-    @Deprecated
-    List<ServerMetric> listUsages();
-
-    /**
      * @return returns the list of usage metrics for an Azure SQL Server
      */
     List<ServerMetric> listUsageMetrics();

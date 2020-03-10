@@ -6,9 +6,9 @@
 
 package com.azure.management.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.rest.RestClient;
+import com.azure.management.Azure;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestBase;
 
 public class SamplesTestBase extends TestBase {
     protected Azure azure;

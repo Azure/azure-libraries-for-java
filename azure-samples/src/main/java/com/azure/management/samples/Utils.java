@@ -100,11 +100,9 @@ import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountEncryptionStatus;
 import com.azure.management.storage.StorageAccountKey;
 import com.azure.management.storage.StorageService;
-import com.sun.deploy.util.StringUtils;
 import jersey.repackaged.com.google.common.base.Joiner;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.bouncycastle.util.Strings;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -118,7 +116,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Common utils for Azure management samples.

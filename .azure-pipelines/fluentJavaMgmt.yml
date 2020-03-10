@@ -27,8 +27,9 @@ jobs:
     steps:
       - bash: |
           git clone https://github.com/azure/azure-sdk-for-java
+          cd azure-sdk-for-java
           git reset fb965b8465 --hard
-          cd azure-sdk-for-java/eng/code-quality-reports
+          cd eng/code-quality-reports
           mvn install
           cd ../../sdk/core
           mvn -DskipTests -Dgpg.skip -Dcheckstyle.skip -Dspotbugs.skip -Drevapi.skip -Dmaven.javadoc.skip -f pom.service.xml -pl azure-core,azure-core-management -am install

@@ -22,7 +22,6 @@ import java.util.List;
 /**
  * The implementation for ContainerServiceAgentPool and its create and update interfaces.
  */
-@LangDefinition
 class ContainerServiceAgentPoolImpl extends
         ChildResourceImpl<ContainerServiceAgentPoolProfile,
             ContainerServiceImpl,

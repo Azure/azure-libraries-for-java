@@ -21,7 +21,6 @@ import java.util.List;
 /**
  * The implementation for ContainerServices.
  */
-@LangDefinition
 public class ContainerServicesImpl extends
         GroupableResourcesImpl<
                 ContainerService,

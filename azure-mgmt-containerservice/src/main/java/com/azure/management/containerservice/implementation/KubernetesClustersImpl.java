@@ -29,7 +29,6 @@ import java.util.TreeSet;
 /**
  * The implementation for KubernetesClusters.
  */
-@LangDefinition
 public class KubernetesClustersImpl extends
     GroupableResourcesImpl<
         KubernetesCluster,

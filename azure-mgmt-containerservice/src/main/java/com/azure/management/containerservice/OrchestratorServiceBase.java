@@ -12,6 +12,5 @@ import com.microsoft.azure.management.apigeneration.Fluent;
  * A common representation for Azure container services orchestrators.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
 public interface OrchestratorServiceBase {
 }

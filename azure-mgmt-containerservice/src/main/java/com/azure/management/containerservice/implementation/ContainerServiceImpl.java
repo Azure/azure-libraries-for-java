@@ -34,7 +34,6 @@ import java.util.Map;
 /**
  * The implementation for ContainerService and its create and update interfaces.
  */
-@LangDefinition
 public class ContainerServiceImpl extends
         GroupableResourceImpl<
                 ContainerService,

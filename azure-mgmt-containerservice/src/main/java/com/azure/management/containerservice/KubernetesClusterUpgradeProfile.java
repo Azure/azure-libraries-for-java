@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * The result of checking for the Kubernetes cluster's upgrade profile.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_4_0)
 public interface KubernetesClusterUpgradeProfile extends HasInner<ManagedClusterUpgradeProfileInner> {
     /**
      * @return the ID of the Kubernetes cluster upgrade profile

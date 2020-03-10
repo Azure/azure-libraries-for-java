@@ -16,7 +16,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * A client-side representation for a container service agent pool.
  */
 @Fluent
-@Beta(SinceVersion.V1_4_0)
 public interface ContainerServiceAgentPool extends
     ChildResource<OrchestratorServiceBase>,
     HasInner<ContainerServiceAgentPoolProfile> {
@@ -200,7 +199,6 @@ public interface ContainerServiceAgentPool extends
          *
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
-        @Beta(SinceVersion.V1_15_0)
         interface WithVirtualNetwork<ParentT> {
             /**
              * Specifies the virtual network to be used for the agents.
@@ -210,7 +208,6 @@ public interface ContainerServiceAgentPool extends
              *                   endpoints enabled for 'Microsoft.ContainerService'.
              * @return the next stage
              */
-            @Beta(SinceVersion.V1_15_0)
             WithAttach<ParentT> withVirtualNetwork(String virtualNetworkId, String subnetName);
         }
 

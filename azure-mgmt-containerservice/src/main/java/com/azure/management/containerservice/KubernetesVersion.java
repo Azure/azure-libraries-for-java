@@ -16,7 +16,6 @@ import com.microsoft.rest.ExpandableStringEnum;
  * Defines values for Kubernetes versions.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_4_0)
 public final class KubernetesVersion extends ExpandableStringEnum<KubernetesVersion> {
     /** Static value Kubernetes version 1.5.8. */
     public static final KubernetesVersion KUBERNETES_1_5_8 = fromString("1.5.8");

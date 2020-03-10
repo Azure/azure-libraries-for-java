@@ -19,7 +19,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 /**
  * The implementation for KubernetesClusterAgentPool and its create and update interfaces.
  */
-@LangDefinition
 public class KubernetesClusterAgentPoolImpl
     extends
         ChildResourceImpl<ManagedClusterAgentPoolProfile,

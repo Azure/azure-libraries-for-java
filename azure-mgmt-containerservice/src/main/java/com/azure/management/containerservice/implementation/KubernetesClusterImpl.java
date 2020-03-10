@@ -28,7 +28,6 @@ import java.util.Map;
 /**
  * The implementation for KubernetesCluster and its create and update interfaces.
  */
-@LangDefinition
 public class KubernetesClusterImpl extends
     GroupableResourceImpl<
         KubernetesCluster,

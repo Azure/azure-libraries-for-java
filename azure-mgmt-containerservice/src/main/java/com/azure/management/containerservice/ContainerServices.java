@@ -25,7 +25,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  *  Entry point to container service management API.
  */
 @Fluent()
-@Beta(SinceVersion.V1_4_0)
 public interface ContainerServices extends
     SupportsCreating<ContainerService.DefinitionStages.Blank>,
     HasManager<ContainerServiceManager>,

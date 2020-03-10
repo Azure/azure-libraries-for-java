@@ -12,7 +12,6 @@ import com.microsoft.azure.management.apigeneration.Fluent;
  * The minimum valid number of master nodes.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
 public enum ContainerServiceMasterProfileCount {
     /** Enum value Min. */
     MIN(1),

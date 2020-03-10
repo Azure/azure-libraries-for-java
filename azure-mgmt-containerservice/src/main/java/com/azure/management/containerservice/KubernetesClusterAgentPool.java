@@ -16,7 +16,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * A client-side representation for a Kubernetes cluster agent pool.
  */
 @Fluent
-@Beta(SinceVersion.V1_4_0)
 public interface KubernetesClusterAgentPool
     extends
     ChildResource<OrchestratorServiceBase>,
@@ -50,13 +49,11 @@ public interface KubernetesClusterAgentPool
     /**
      * @return the name of the subnet used by each virtual machine in the agent pool
      */
-    @Beta(SinceVersion.V1_15_0)
     String subnetName();
 
     /**
      * @return the ID of the virtual network used by each virtual machine in the agent pool
      */
-    @Beta(SinceVersion.V1_15_0)
     String networkId();
 
 
@@ -66,7 +63,6 @@ public interface KubernetesClusterAgentPool
      * The entirety of a container service agent pool definition as a part of a parent definition.
      * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
      */
-    @Beta(SinceVersion.V1_15_0)
     interface Definition<ParentT> extends
         DefinitionStages.Blank<ParentT>,
         DefinitionStages.WithOSType<ParentT>,
@@ -88,7 +84,6 @@ public interface KubernetesClusterAgentPool
          *
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
-        @Beta(SinceVersion.V1_15_0)
         interface Blank<ParentT> {
             /**
              * Specifies the size of the virtual machines to be used as agents.
@@ -161,7 +156,6 @@ public interface KubernetesClusterAgentPool
          *
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
-        @Beta(SinceVersion.V1_15_0)
         interface WithAgentPoolVirtualMachineCount<ParentT> {
             /**
              * Specifies the number of agents (Virtual Machines) to host docker containers.
@@ -170,7 +164,6 @@ public interface KubernetesClusterAgentPool
              *              of 1 to 100 (inclusive); the default value is 1.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_15_0)
             WithAttach<ParentT> withAgentPoolVirtualMachineCount(int count);
         }
 
@@ -179,7 +172,6 @@ public interface KubernetesClusterAgentPool
          *
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
-        @Beta(SinceVersion.V1_15_0)
         interface WithMaxPodsCount<ParentT> {
             /**
              * Specifies the maximum number of pods that can run on a node.
@@ -187,7 +179,6 @@ public interface KubernetesClusterAgentPool
              * @param podsCount the maximum number of pods that can run on a node
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_15_0)
             WithAttach<ParentT> withMaxPodsCount(int podsCount);
         }
 
@@ -196,7 +187,6 @@ public interface KubernetesClusterAgentPool
          *
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
-        @Beta(SinceVersion.V1_15_0)
         interface WithVirtualNetwork<ParentT> {
             /**
              * Specifies the virtual network to be used for the agents.
@@ -206,7 +196,6 @@ public interface KubernetesClusterAgentPool
              *                   endpoints enabled for 'Microsoft.ContainerService'.
              * @return the next stage
              */
-            @Beta(SinceVersion.V1_15_0)
             WithAttach<ParentT> withVirtualNetwork(String virtualNetworkId, String subnetName);
         }
 

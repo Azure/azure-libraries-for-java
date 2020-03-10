@@ -24,7 +24,6 @@ import com.microsoft.rest.RestClient;
 /**
  * Entry point to Azure Container Service management.
  */
-@Beta(SinceVersion.V1_4_0)
 public final class ContainerServiceManager extends Manager<ContainerServiceManager, ContainerServiceManagementClientImpl> {
     // The service managers
     private ContainerServicesImpl containerServices;

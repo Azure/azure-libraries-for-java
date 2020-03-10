@@ -24,7 +24,6 @@ import java.util.Map;
  * A client-side representation for a container service.
  */
 @Fluent
-@Beta(SinceVersion.V1_4_0)
 public interface ContainerService extends
         GroupableResource<ContainerServiceManager, ContainerServiceInner>,
         Refreshable<ContainerService>,

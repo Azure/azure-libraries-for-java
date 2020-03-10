@@ -25,7 +25,6 @@ import java.util.Map;
  * A client-side representation for a managed Kubernetes cluster.
  */
 @Fluent
-@Beta(SinceVersion.V1_15_0)
 public interface KubernetesCluster extends
         GroupableResource<ContainerServiceManager, ManagedClusterInner>,
         Refreshable<KubernetesCluster>,
@@ -90,25 +89,21 @@ public interface KubernetesCluster extends
     /**
      * @return the network profile settings for the cluster
      */
-    @Beta(SinceVersion.V1_15_0)
     ContainerServiceNetworkProfile networkProfile();
 
     /**
      * @return the cluster's add-on's profiles
      */
-    @Beta(SinceVersion.V1_15_0)
     Map<String, ManagedClusterAddonProfile> addonProfiles();
 
     /**
      * @return the name of the resource group containing agent pool nodes
      */
-    @Beta(SinceVersion.V1_15_0)
     String nodeResourceGroup();
 
     /**
      * @return true if Kubernetes Role-Based Access Control is enabled
      */
-    @Beta(SinceVersion.V1_15_0)
     boolean enableRBAC();
 
 
@@ -249,14 +244,12 @@ public interface KubernetesCluster extends
         /**
          * The stage of the Kubernetes cluster definition allowing to specify a network profile.
          */
-        @Beta(SinceVersion.V1_15_0)
         interface WithNetworkProfile {
             /**
              * Begins the definition of a network profile to be attached to the Kubernetes cluster.
              *
              * @return the stage representing configuration for the network profile
              */
-            @Beta(SinceVersion.V1_15_0)
             NetworkProfileDefinitionStages.Blank<KubernetesCluster.DefinitionStages.WithCreate> defineNetworkProfile();
         }
 
@@ -269,7 +262,6 @@ public interface KubernetesCluster extends
              *
              * @param <ParentT>  the stage of the Kubernetes cluster network profile definition to return to after attaching this definition
              */
-            @Beta(SinceVersion.V1_15_0)
             interface Blank<ParentT>  extends WithAttach<ParentT> {
                 /**
                  * Specifies the network plugin type to be used for building the Kubernetes network.
@@ -417,7 +409,6 @@ public interface KubernetesCluster extends
              * @param addOnProfileMap the cluster's add-on's profiles
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_15_0)
             KubernetesCluster.Update withAddOnProfiles(Map<String, ManagedClusterAddonProfile> addOnProfileMap);
         }
 
@@ -462,7 +453,6 @@ public interface KubernetesCluster extends
              * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_15_0)
             KubernetesCluster.Update withAgentPoolVirtualMachineCount(String agentPoolName, int agentCount);
 
             /**
@@ -471,7 +461,6 @@ public interface KubernetesCluster extends
              * @param agentCount the number of agents (virtual machines) to host docker containers.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_15_0)
             KubernetesCluster.Update withAgentPoolVirtualMachineCount(int agentCount);
         }
 
@@ -485,7 +474,6 @@ public interface KubernetesCluster extends
              * @param addOnProfileMap the cluster's add-on's profiles
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_15_0)
             KubernetesCluster.Update withAddOnProfiles(Map<String, ManagedClusterAddonProfile> addOnProfileMap);
         }
 
@@ -499,7 +487,6 @@ public interface KubernetesCluster extends
              * @param networkProfile the cluster's networkProfile
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_15_0)
             KubernetesCluster.Update withNetworkProfile(ContainerServiceNetworkProfile networkProfile);
         }
 
@@ -512,7 +499,6 @@ public interface KubernetesCluster extends
              *
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_15_0)
             KubernetesCluster.Update withRBACEnabled();
 
             /**
@@ -520,7 +506,6 @@ public interface KubernetesCluster extends
              *
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_15_0)
             KubernetesCluster.Update withRBACDisabled();
         }
     }

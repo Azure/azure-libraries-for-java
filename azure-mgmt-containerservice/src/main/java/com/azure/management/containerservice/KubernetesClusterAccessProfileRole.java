@@ -16,7 +16,6 @@ import com.microsoft.rest.ExpandableStringEnum;
  * Defines values for Kubernetes cluster access profile roles.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_6_0)
 public final class KubernetesClusterAccessProfileRole extends ExpandableStringEnum<KubernetesClusterAccessProfileRole> {
     /** Static value Kubernetes access profile user role. */
     public static final KubernetesClusterAccessProfileRole USER = fromString("clusterUser");

@@ -14,7 +14,6 @@ import com.azure.management.containerservice.NetworkPolicy;
 /**
  * The implementation for KubernetesClusterAgentPool and its create and update interfaces.
  */
-@LangDefinition
 public class KubernetesClusterNetworkProfileImpl
     implements KubernetesCluster.DefinitionStages.NetworkProfileDefinition<KubernetesCluster.DefinitionStages.WithCreate> {
 

@@ -5,29 +5,26 @@
  */
 package com.azure.management.containerservice.implementation;
 
+
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.containerservice.ContainerService;
 import com.azure.management.containerservice.ContainerServices;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
-
-import java.util.List;
+import com.azure.management.containerservice.models.ContainerServiceInner;
+import com.azure.management.containerservice.models.ContainerServicesInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for ContainerServices.
  */
 public class ContainerServicesImpl extends
         GroupableResourcesImpl<
-                ContainerService,
-                ContainerServiceImpl,
-                ContainerServiceInner,
-                ContainerServicesInner,
-                ContainerServiceManager>
+                        ContainerService,
+                        ContainerServiceImpl,
+                        ContainerServiceInner,
+                        ContainerServicesInner,
+                        ContainerServiceManager>
         implements ContainerServices {
 
     ContainerServicesImpl(final ContainerServiceManager containerServiceManager) {
@@ -35,40 +32,29 @@ public class ContainerServicesImpl extends
     }
 
     @Override
-    public PagedList<ContainerService> list() {
-        final ContainerServicesImpl self = this;
-        return new GroupPagedList<ContainerService>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<ContainerService> listNextGroup(String resourceGroupName) {
-                return wrapList(self.inner().listByResourceGroup(resourceGroupName));
-            }
-        };
+    public PagedIterable<ContainerService> list() {
+        return new PagedIterable<>(this.listAsync());
     }
 
     @Override
-    public Observable<ContainerService> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<ContainerService>>() {
-                    @Override
-                    public Observable<ContainerService> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+    public PagedFlux<ContainerService> listAsync() {
+        return this.inner().listAsync()
+                .mapPage(inner -> new ContainerServiceImpl(inner.getName(), inner, manager()));
     }
 
     @Override
-    public Observable<ContainerService> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<ContainerService> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
     }
 
 
     @Override
-    public PagedList<ContainerService> listByResourceGroup(String groupName) {
+    public PagedIterable<ContainerService> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
     }
 
     @Override
-    protected Observable<ContainerServiceInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Mono<ContainerServiceInner> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
@@ -78,8 +64,8 @@ public class ContainerServicesImpl extends
     }
 
     @Override
-    protected Completable deleteInnerAsync(String groupName, String name) {
-        return this.inner().deleteAsync(groupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String groupName, String name) {
+        return this.inner().deleteAsync(groupName, name);
     }
 
     /**************************************************************
@@ -99,7 +85,7 @@ public class ContainerServicesImpl extends
             return null;
         }
 
-        return new ContainerServiceImpl(containerServiceInner.name(),
+        return new ContainerServiceImpl(containerServiceInner.getName(),
                 containerServiceInner,
                 this.manager());
     }

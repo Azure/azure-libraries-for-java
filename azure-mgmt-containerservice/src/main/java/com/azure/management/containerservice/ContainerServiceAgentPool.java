@@ -5,20 +5,19 @@
  */
 package com.azure.management.containerservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * A client-side representation for a container service agent pool.
  */
 @Fluent
 public interface ContainerServiceAgentPool extends
-    ChildResource<OrchestratorServiceBase>,
-    HasInner<ContainerServiceAgentPoolProfile> {
+        ChildResource<OrchestratorServiceBase>,
+        HasInner<ContainerServiceAgentPoolProfile> {
 
     /**
      * @return the number of agents (virtual machines) to host docker containers

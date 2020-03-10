@@ -10,11 +10,10 @@ import com.azure.management.containerservice.ContainerServiceAgentPool;
 import com.azure.management.containerservice.ContainerServiceAgentPoolProfile;
 import com.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.azure.management.containerservice.ContainerServiceVMSizeTypes;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerservice.OSType;
 import com.azure.management.containerservice.OrchestratorServiceBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +23,8 @@ import java.util.List;
  */
 class ContainerServiceAgentPoolImpl extends
         ChildResourceImpl<ContainerServiceAgentPoolProfile,
-            ContainerServiceImpl,
-            OrchestratorServiceBase>
+                    ContainerServiceImpl,
+                OrchestratorServiceBase>
     implements
         ContainerServiceAgentPool,
         ContainerServiceAgentPool.Definition {

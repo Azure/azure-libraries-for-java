@@ -6,19 +6,18 @@
 
 package com.azure.management.containerservice;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.Properties;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.serializer.JacksonAdapter;
-
+import com.azure.core.util.serializer.JacksonAdapter;
+import com.azure.core.util.serializer.SerializerEncoding;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Properties;
 
 
 public class KubernetesClustersTests extends ContainerServiceManagementTest {
@@ -26,9 +25,9 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
 
     @Test
     public void canCRUDKubernetesCluster() throws Exception {
-        String aksName = SdkContext.randomResourceName("aks", 15);
-        String dnsPrefix = SdkContext.randomResourceName("dns", 10);
-        String agentPoolName = SdkContext.randomResourceName("ap0", 10);
+        String aksName = sdkContext.randomResourceName("aks", 15);
+        String dnsPrefix = sdkContext.randomResourceName("dns", 10);
+        String agentPoolName = sdkContext.randomResourceName("ap0", 10);
         String servicePrincipalClientId = "spId";
         String servicePrincipalSecret = "spSecret";
 
@@ -96,10 +95,10 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
      * @throws Exception exception
      */
     private static HashMap<String, String> ParseAuthFile(String authFilename) throws Exception {
-        String content = Files.toString(new File(authFilename), Charsets.UTF_8).trim();
+        String content = new String(Files.readAllBytes(new File(authFilename).toPath()), StandardCharsets.UTF_8).trim();
         HashMap<String, String> auth = new HashMap<>();
         if (isJsonBased(content)) {
-            auth = new JacksonAdapter().deserialize(content, auth.getClass());
+            auth = new JacksonAdapter().deserialize(content, auth.getClass(), SerializerEncoding.JSON);
         } else {
             Properties authSettings = new Properties();
             FileInputStream credentialsFileStream = new FileInputStream(new File(authFilename));

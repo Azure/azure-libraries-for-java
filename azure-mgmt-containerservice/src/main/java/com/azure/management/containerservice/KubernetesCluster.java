@@ -5,19 +5,17 @@
  */
 package com.azure.management.containerservice;
 
+
+import com.azure.core.annotation.Fluent;
 import com.azure.management.containerservice.implementation.ContainerServiceManager;
-import com.azure.management.containerservice.implementation.ManagedClusterInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.containerservice.models.ManagedClusterInner;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 import java.util.Map;
 
@@ -172,7 +170,6 @@ public interface KubernetesCluster extends
              *
              * @return the next stage of the definition
              */
-            @Method
             WithLinuxRootUsername withLatestVersion();
         }
 
@@ -418,7 +415,7 @@ public interface KubernetesCluster extends
          * be specified.
          */
         interface WithCreate extends
-            Creatable<KubernetesCluster>,
+                Creatable<KubernetesCluster>,
             WithNetworkProfile,
             WithDnsPrefix,
             WithAddOnProfiles,
@@ -435,7 +432,7 @@ public interface KubernetesCluster extends
         KubernetesCluster.UpdateStages.WithNetworkProfile,
         KubernetesCluster.UpdateStages.WithRBAC,
         Resource.UpdateWithTags<KubernetesCluster.Update>,
-        Appliable<KubernetesCluster> {
+            Appliable<KubernetesCluster> {
     }
 
     /**

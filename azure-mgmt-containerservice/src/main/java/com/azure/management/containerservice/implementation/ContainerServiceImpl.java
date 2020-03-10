@@ -14,17 +14,17 @@ import com.azure.management.containerservice.ContainerServiceMasterProfile;
 import com.azure.management.containerservice.ContainerServiceMasterProfileCount;
 import com.azure.management.containerservice.ContainerServiceOrchestratorProfile;
 import com.azure.management.containerservice.ContainerServiceOrchestratorTypes;
-import com.azure.management.containerservice.ContainerServiceServicePrincipalProfile;
+import com.azure.management.containerservice.ContainerServicePrincipalProfile;
 import com.azure.management.containerservice.ContainerServiceSshConfiguration;
 import com.azure.management.containerservice.ContainerServiceSshPublicKey;
 import com.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.azure.management.containerservice.ContainerServiceVMDiagnostics;
 import com.azure.management.containerservice.ContainerServiceVMSizeTypes;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.containerservice.Count;
+import com.azure.management.containerservice.models.ContainerServiceInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,10 +36,10 @@ import java.util.Map;
  */
 public class ContainerServiceImpl extends
         GroupableResourceImpl<
-                ContainerService,
-            ContainerServiceInner,
-            ContainerServiceImpl,
-            ContainerServiceManager>
+                        ContainerService,
+                        ContainerServiceInner,
+                    ContainerServiceImpl,
+                    ContainerServiceManager>
         implements
             ContainerService,
             ContainerService.Definition,
@@ -70,7 +70,7 @@ public class ContainerServiceImpl extends
             return 0;
         }
 
-        return this.inner().masterProfile().count();
+        return Integer.parseInt(this.inner().masterProfile().count().toString());
     }
 
     @Override
@@ -192,7 +192,7 @@ public class ContainerServiceImpl extends
     @Override
     public ContainerServiceImpl withMasterNodeCount(ContainerServiceMasterProfileCount profileCount) {
         ContainerServiceMasterProfile masterProfile = new ContainerServiceMasterProfile().withVmSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2);
-        masterProfile.withCount(profileCount.count());
+        masterProfile.withCount(Count.fromString(String.valueOf(profileCount.count())));
         this.inner().withMasterProfile(masterProfile);
         return this;
     }
@@ -268,8 +268,8 @@ public class ContainerServiceImpl extends
 
     @Override
     public ContainerServiceImpl withServicePrincipal(String clientId, String secret) {
-        ContainerServiceServicePrincipalProfile serviceProfile =
-                new ContainerServiceServicePrincipalProfile();
+        ContainerServicePrincipalProfile serviceProfile =
+                new ContainerServicePrincipalProfile();
         serviceProfile.withClientId(clientId);
         serviceProfile.withSecret(secret);
         this.inner().withServicePrincipalProfile(serviceProfile);
@@ -339,24 +339,21 @@ public class ContainerServiceImpl extends
     }
 
     @Override
-    protected Observable<ContainerServiceInner> getInnerAsync() {
+    protected Mono<ContainerServiceInner> getInnerAsync() {
         return this.manager().inner().containerServices().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<ContainerService> createResourceAsync() {
+    public Mono<ContainerService> createResourceAsync() {
         final ContainerServiceImpl self = this;
         if (!this.isInCreateMode()) {
             this.inner().withServicePrincipalProfile(null);
         }
 
         return this.manager().inner().containerServices().createOrUpdateAsync(resourceGroupName(), name(), inner())
-                .map(new Func1<ContainerServiceInner, ContainerService>() {
-                    @Override
-                    public ContainerService call(ContainerServiceInner containerServiceInner) {
-                        self.setInner(containerServiceInner);
-                        return self;
-                    }
+                .map(containerServiceInner -> {
+                    self.setInner(containerServiceInner);
+                    return self;
                 });
     }
 

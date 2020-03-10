@@ -5,8 +5,8 @@
  */
 package com.azure.management.containerservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
+
+import com.azure.core.annotation.Fluent;
 
 /**
  * A common representation for Azure container services orchestrators.

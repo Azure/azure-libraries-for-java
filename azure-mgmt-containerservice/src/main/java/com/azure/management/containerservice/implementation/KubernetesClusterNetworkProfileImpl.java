@@ -6,7 +6,6 @@
 package com.azure.management.containerservice.implementation;
 
 import com.azure.management.containerservice.ContainerServiceNetworkProfile;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerservice.KubernetesCluster;
 import com.azure.management.containerservice.NetworkPlugin;
 import com.azure.management.containerservice.NetworkPolicy;

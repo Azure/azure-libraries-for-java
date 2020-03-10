@@ -5,8 +5,7 @@
  */
 package com.azure.management.containerservice;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 /**
  * The minimum valid number of master nodes.

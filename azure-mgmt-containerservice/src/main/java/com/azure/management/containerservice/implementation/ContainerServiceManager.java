@@ -6,20 +6,22 @@
 
 package com.azure.management.containerservice.implementation;
 
+
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.AzureTokenCredential;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
 import com.azure.management.containerservice.ContainerServices;
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.azure.management.containerservice.KubernetesClusters;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
+import com.azure.management.containerservice.models.ContainerServiceManagementClientBuilder;
+import com.azure.management.containerservice.models.ContainerServiceManagementClientImpl;
+import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
+import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.azure.management.resources.fluentcore.arm.implementation.Manager;
+import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
+import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 
 /**
  * Entry point to Azure Container Service management.
@@ -45,15 +47,15 @@ public final class ContainerServiceManager extends Manager<ContainerServiceManag
      * @param subscriptionId the subscription
      * @return the ContainerServiceManager
      */
-    public static ContainerServiceManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new ContainerServiceManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
+    public static ContainerServiceManager authenticate(AzureTokenCredential credentials, String subscriptionId) {
+        return authenticate(new RestClientBuilder()
+                .withBaseUrl(credentials.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                .withCredential(credentials)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), subscriptionId);
+//                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
+                .withPolicy(new ProviderRegistrationPolicy(credentials))
+                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .buildClient(), subscriptionId);
     }
 
     /**
@@ -64,7 +66,19 @@ public final class ContainerServiceManager extends Manager<ContainerServiceManag
      * @return the ContainerServiceManager
      */
     public static ContainerServiceManager authenticate(RestClient restClient, String subscriptionId) {
-        return new ContainerServiceManager(restClient, subscriptionId);
+        return authenticate(restClient, subscriptionId, new SdkContext());
+    }
+
+    /**
+     * Creates an instance of ContainerServiceManager that exposes Service resource management API entry points.
+     *
+     * @param restClient the RestClient to be used for API calls.
+     * @param subscriptionId the subscription
+     * @param sdkContext the sdk context
+     * @return the ContainerServiceManager
+     */
+    public static ContainerServiceManager authenticate(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
+        return new ContainerServiceManager(restClient, subscriptionId, sdkContext);
     }
 
     /**
@@ -78,7 +92,7 @@ public final class ContainerServiceManager extends Manager<ContainerServiceManag
          * @param subscriptionId the subscription
          * @return the ContainerServiceManager
          */
-        ContainerServiceManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
+        ContainerServiceManager authenticate(AzureTokenCredential credentials, String subscriptionId);
     }
 
     /**
@@ -86,16 +100,22 @@ public final class ContainerServiceManager extends Manager<ContainerServiceManag
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements  Configurable {
         @Override
-        public ContainerServiceManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
+        public ContainerServiceManager authenticate(AzureTokenCredential credentials, String subscriptionId) {
             return ContainerServiceManager.authenticate(buildRestClient(credentials), subscriptionId);
         }
     }
 
-    private ContainerServiceManager(RestClient restClient, String subscriptionId) {
+    private ContainerServiceManager(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
         super(
                 restClient,
                 subscriptionId,
-                new ContainerServiceManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+                new ContainerServiceManagementClientBuilder()
+                    .host(restClient.getBaseUrl().toString())
+                    .pipeline(restClient.getHttpPipeline())
+                    .subscriptionId(subscriptionId)
+                    .build(),
+                sdkContext
+        );
     }
 
     /**

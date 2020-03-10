@@ -7,14 +7,13 @@ package com.azure.management.containerservice.implementation;
 
 import com.azure.management.containerservice.AgentPoolType;
 import com.azure.management.containerservice.ContainerServiceVMSizeTypes;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerservice.KubernetesCluster;
 import com.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.azure.management.containerservice.ManagedClusterAgentPoolProfile;
 import com.azure.management.containerservice.OSType;
 import com.azure.management.containerservice.OrchestratorServiceBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 /**
  * The implementation for KubernetesClusterAgentPool and its create and update interfaces.
@@ -22,8 +21,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 public class KubernetesClusterAgentPoolImpl
     extends
         ChildResourceImpl<ManagedClusterAgentPoolProfile,
-            KubernetesClusterImpl,
-            OrchestratorServiceBase>
+                    KubernetesClusterImpl,
+                OrchestratorServiceBase>
     implements
         KubernetesClusterAgentPool,
         KubernetesClusterAgentPool.Definition {

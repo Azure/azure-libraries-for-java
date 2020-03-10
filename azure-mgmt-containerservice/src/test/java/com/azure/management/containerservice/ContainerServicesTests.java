@@ -6,9 +6,7 @@
 
 package com.azure.management.containerservice;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,9 +15,9 @@ public class ContainerServicesTests extends ContainerServiceManagementTest {
 
     @Test
     public void canCRUDContainerServices() throws Exception {
-        String containerServiceName = SdkContext.randomResourceName("acs", 15);
-        String agentPoolName = SdkContext.randomResourceName("ap0", 15);
-        String dnsPrefix = SdkContext.randomResourceName("dns", 15);
+        String containerServiceName = sdkContext.randomResourceName("acs", 15);
+        String agentPoolName = sdkContext.randomResourceName("ap0", 15);
+        String dnsPrefix = sdkContext.randomResourceName("dns", 15);
 
         // create
         ContainerService containerService = containerServiceManager

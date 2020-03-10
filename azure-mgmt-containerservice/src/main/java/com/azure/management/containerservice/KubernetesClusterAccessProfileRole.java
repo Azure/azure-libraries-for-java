@@ -5,11 +5,11 @@
  */
 package com.azure.management.containerservice;
 
-import java.util.Collection;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.rest.ExpandableStringEnum;
+
+import java.util.Collection;
 
 
 /**

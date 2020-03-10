@@ -64,6 +64,14 @@ public final class CosmosDBManager extends Manager<CosmosDBManager, CosmosDBMana
         return authenticate(restClient, subscriptionId, new SdkContext());
     }
 
+    /**
+     * Creates an instance of ComputeManager that exposes Compute resource management API entry points.
+     *
+     * @param restClient the RestClient to be used for API calls.
+     * @param subscriptionId the subscription
+     * @param sdkContext the sdk context
+     * @return the ComputeManager
+     */
     public static CosmosDBManager authenticate(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
         return new CosmosDBManager(restClient, subscriptionId, sdkContext);
     }

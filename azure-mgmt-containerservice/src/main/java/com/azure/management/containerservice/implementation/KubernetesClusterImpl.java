@@ -9,16 +9,16 @@ import com.azure.management.containerservice.ContainerServiceLinuxProfile;
 import com.azure.management.containerservice.ContainerServiceNetworkProfile;
 import com.azure.management.containerservice.ContainerServiceSshConfiguration;
 import com.azure.management.containerservice.ContainerServiceSshPublicKey;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerservice.KubernetesCluster;
 import com.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.azure.management.containerservice.KubernetesVersion;
 import com.azure.management.containerservice.ManagedClusterAddonProfile;
 import com.azure.management.containerservice.ManagedClusterAgentPoolProfile;
 import com.azure.management.containerservice.ManagedClusterServicePrincipalProfile;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.containerservice.models.ManagedClusterInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,11 +29,11 @@ import java.util.Map;
  * The implementation for KubernetesCluster and its create and update interfaces.
  */
 public class KubernetesClusterImpl extends
-    GroupableResourceImpl<
-        KubernetesCluster,
-        ManagedClusterInner,
-        KubernetesClusterImpl,
-        ContainerServiceManager>
+        GroupableResourceImpl<
+                    KubernetesCluster,
+                    ManagedClusterInner,
+                KubernetesClusterImpl,
+                ContainerServiceManager>
     implements
     KubernetesCluster,
     KubernetesCluster.Definition,
@@ -158,83 +158,53 @@ public class KubernetesClusterImpl extends
 
     @Override
     public boolean enableRBAC() {
-        return this.inner().enableRBAC();
+        return this.inner().enableRbac();
     }
 
-    private Observable<byte[]> getAdminConfig(final KubernetesClusterImpl self) {
+    private Mono<byte[]> getAdminConfig(final KubernetesClusterImpl self) {
         return this.manager().kubernetesClusters()
             .getAdminKubeConfigContentAsync(self.resourceGroupName(), self.name())
-            .map(new Func1<byte[], byte[]>() {
-                @Override
-                public byte[] call(byte[] kubeConfigContent) {
-                    self.adminKubeConfigContent = kubeConfigContent;
-                    return self.adminKubeConfigContent;
-                }
+            .map(kubeConfigContent -> {
+                self.adminKubeConfigContent = kubeConfigContent;
+                return self.adminKubeConfigContent;
             });
     }
 
-    private Observable<byte[]> getUserConfig(final KubernetesClusterImpl self) {
+    private Mono<byte[]> getUserConfig(final KubernetesClusterImpl self) {
         return this.manager().kubernetesClusters()
             .getUserKubeConfigContentAsync(self.resourceGroupName(), self.name())
-            .map(new Func1<byte[], byte[]>() {
-                @Override
-                public byte[] call(byte[] kubeConfigContent) {
-                    self.userKubeConfigContent = kubeConfigContent;
-                    return self.userKubeConfigContent;
-                }
+            .map(kubeConfigContent -> {
+                self.userKubeConfigContent = kubeConfigContent;
+                return self.userKubeConfigContent;
             });
     }
 
 
     @Override
-    protected Observable<ManagedClusterInner> getInnerAsync() {
+    protected Mono<ManagedClusterInner> getInnerAsync() {
         final KubernetesClusterImpl self = this;
-        final Observable<byte[]> adminConfig = getAdminConfig(self);
-        final Observable<byte[]> userConfig = getUserConfig(self);
+        final Mono<byte[]> adminConfig = getAdminConfig(self);
+        final Mono<byte[]> userConfig = getUserConfig(self);
         return this.manager().inner().managedClusters().getByResourceGroupAsync(this.resourceGroupName(), this.name())
-            .flatMap(new Func1<ManagedClusterInner, Observable<ManagedClusterInner>>() {
-                @Override
-                public Observable<ManagedClusterInner> call(final ManagedClusterInner managedClusterInner) {
-                    return Observable.merge(adminConfig, userConfig).last()
-                        .map(new Func1<byte[], ManagedClusterInner>() {
-                            @Override
-                            public ManagedClusterInner call(byte[] bytes) {
-                                return managedClusterInner;
-                            }
-                        });
-                }
-            });
+            .flatMap(managedClusterInner -> Flux.merge(adminConfig, userConfig).last()
+                .map(bytes -> managedClusterInner));
     }
 
     @Override
-    public Observable<KubernetesCluster> createResourceAsync() {
+    public Mono<KubernetesCluster> createResourceAsync() {
         final KubernetesClusterImpl self = this;
         if (!this.isInCreateMode()) {
             this.inner().withServicePrincipalProfile(null);
         }
-        final Observable<byte[]> adminConfig = getAdminConfig(self);
-        final Observable<byte[]> userConfig = getUserConfig(self);
-        final Observable<KubernetesCluster> mergedConfigs = Observable.merge(adminConfig, userConfig).last()
-            .map(new Func1<byte[], KubernetesCluster>() {
-                @Override
-                public KubernetesCluster call(byte[] bytes) {
-                    return self;
-                }
-            });
+        final Mono<byte[]> adminConfig = getAdminConfig(self);
+        final Mono<byte[]> userConfig = getUserConfig(self);
 
-            return this.manager().inner().managedClusters().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner())
-                .map(new Func1<ManagedClusterInner, KubernetesCluster>() {
-                    @Override
-                    public KubernetesCluster call(ManagedClusterInner inner) {
+        return this.manager().inner().managedClusters().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner())
+            .flatMap(inner -> Flux.merge(adminConfig, userConfig).last()
+                    .map(bytes -> {
                         self.setInner(inner);
                         return self;
-                    }
-                }).flatMap(new Func1<KubernetesCluster, Observable<KubernetesCluster>>() {
-                    @Override
-                    public Observable<KubernetesCluster> call(KubernetesCluster kubernetesCluster) {
-                        return mergedConfigs;
-                    }
-                });
+                    }));
     }
 
     @Override
@@ -344,13 +314,13 @@ public class KubernetesClusterImpl extends
 
     @Override
     public KubernetesClusterImpl withRBACEnabled() {
-        this.inner().withEnableRBAC(true);
+        this.inner().withEnableRbac(true);
         return this;
     }
 
     @Override
     public KubernetesClusterImpl withRBACDisabled() {
-        this.inner().withEnableRBAC(false);
+        this.inner().withEnableRbac(false);
         return this;
     }
 }

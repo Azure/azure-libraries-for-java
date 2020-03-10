@@ -6,11 +6,12 @@
 
 package com.azure.management.containerservice;
 
+
+import com.azure.management.RestClient;
 import com.azure.management.containerservice.implementation.ContainerServiceManager;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
+import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.implementation.ResourceManager;
 
 public class ContainerServiceManagementTest extends TestBase {
     protected static ResourceManager resourceManager;

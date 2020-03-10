@@ -5,24 +5,21 @@
  */
 package com.azure.management.containerservice.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.containerservice.KubernetesCluster;
 import com.azure.management.containerservice.KubernetesClusterAccessProfileRole;
 import com.azure.management.containerservice.KubernetesClusters;
 import com.azure.management.containerservice.OrchestratorVersionProfile;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Action2;
-import rx.functions.Func0;
-import rx.functions.Func1;
+import com.azure.management.containerservice.models.ManagedClusterAccessProfileInner;
+import com.azure.management.containerservice.models.ManagedClusterInner;
+import com.azure.management.containerservice.models.ManagedClustersInner;
+import com.azure.management.containerservice.models.OrchestratorVersionProfileListResultInner;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -30,12 +27,12 @@ import java.util.TreeSet;
  * The implementation for KubernetesClusters.
  */
 public class KubernetesClustersImpl extends
-    GroupableResourcesImpl<
-        KubernetesCluster,
-        KubernetesClusterImpl,
-        ManagedClusterInner,
-        ManagedClustersInner,
-        ContainerServiceManager>
+        GroupableResourcesImpl<
+                            KubernetesCluster,
+                        KubernetesClusterImpl,
+                            ManagedClusterInner,
+                            ManagedClustersInner,
+                        ContainerServiceManager>
     implements KubernetesClusters {
 
     KubernetesClustersImpl(final ContainerServiceManager containerServiceManager) {
@@ -43,45 +40,33 @@ public class KubernetesClustersImpl extends
     }
 
     @Override
-    public PagedList<KubernetesCluster> list() {
-        final KubernetesClustersImpl self = this;
-        return new GroupPagedList<KubernetesCluster>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<KubernetesCluster> listNextGroup(String resourceGroupName) {
-                return wrapList(self.inner().listByResourceGroup(resourceGroupName));
-            }
-        };
+    public PagedIterable<KubernetesCluster> list() {
+        return new PagedIterable<>(this.listAsync());
     }
 
     @Override
-    public Observable<KubernetesCluster> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-            .flatMap(new Func1<ResourceGroup, Observable<KubernetesCluster>>() {
-                @Override
-                public Observable<KubernetesCluster> call(ResourceGroup resourceGroup) {
-                    return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                }
-            });
+    public PagedFlux<KubernetesCluster> listAsync() {
+        return this.inner().listAsync().mapPage(inner -> new KubernetesClusterImpl(inner.getName(), inner, manager()));
     }
 
     @Override
-    public PagedList<KubernetesCluster> listByResourceGroup(String resourceGroupName) {
+    public PagedIterable<KubernetesCluster> listByResourceGroup(String resourceGroupName) {
         return wrapList(this.inner().listByResourceGroup(resourceGroupName));
     }
 
     @Override
-    public Observable<KubernetesCluster> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<KubernetesCluster> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
     }
 
     @Override
-    protected Observable<ManagedClusterInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Mono<ManagedClusterInner> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
-    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-        return this.inner().deleteAsync(resourceGroupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String resourceGroupName, String name) {
+        return this.inner().deleteAsync(resourceGroupName, name);
     }
 
     /**************************************************************
@@ -101,7 +86,7 @@ public class KubernetesClustersImpl extends
             return null;
         }
 
-        return new KubernetesClusterImpl(inner.name(),
+        return new KubernetesClusterImpl(inner.getName(),
             inner,
             this.manager());
     }
@@ -128,16 +113,10 @@ public class KubernetesClustersImpl extends
     }
 
     @Override
-    public Observable<Set<String>> listKubernetesVersionsAsync(Region region) {
+    public Mono<Set<String>> listKubernetesVersionsAsync(Region region) {
         return this.manager().inner().containerServices().listOrchestratorsAsync(region.name())
-            .collect(new Func0<TreeSet<String>>() {
-                @Override
-                public TreeSet<String> call() {
-                    return new TreeSet<String>();
-                }
-            }, new Action2<TreeSet<String>, OrchestratorVersionProfileListResultInner>() {
-                @Override
-                public void call(TreeSet<String> kubernetesVersions, OrchestratorVersionProfileListResultInner inner) {
+                .map(inner -> {
+                    Set<String> kubernetesVersions = new TreeSet<>();
                     if (inner != null && inner.orchestrators() != null && inner.orchestrators().size() > 0) {
                         for (OrchestratorVersionProfile orchestrator : inner.orchestrators()) {
                             if (orchestrator.orchestratorType().equals("Kubernetes")) {
@@ -145,13 +124,8 @@ public class KubernetesClustersImpl extends
                             }
                         }
                     }
-                }
-            }).map(new Func1<TreeSet<String>, Set<String>>() {
-                @Override
-                public Set<String> call(TreeSet<String> kubernetesVersions) {
                     return Collections.unmodifiableSet(kubernetesVersions);
-                }
-            });
+                });
     }
 
     @Override
@@ -165,17 +139,14 @@ public class KubernetesClustersImpl extends
     }
 
     @Override
-    public Observable<byte[]> getAdminKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName) {
+    public Mono<byte[]> getAdminKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName) {
         return this.manager().inner().managedClusters()
             .getAccessProfileAsync(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.ADMIN.toString())
-            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
-                @Override
-                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
-                    if (profileInner == null) {
-                        return new byte[0];
-                    } else {
-                        return profileInner.kubeConfig();
-                    }
+            .map(profileInner -> {
+                if (profileInner == null) {
+                    return new byte[0];
+                } else {
+                    return profileInner.kubeConfig();
                 }
             });
     }
@@ -191,17 +162,14 @@ public class KubernetesClustersImpl extends
     }
 
     @Override
-    public Observable<byte[]> getUserKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName) {
+    public Mono<byte[]> getUserKubeConfigContentAsync(String resourceGroupName, String kubernetesClusterName) {
         return this.manager().inner().managedClusters()
             .getAccessProfileAsync(resourceGroupName, kubernetesClusterName, KubernetesClusterAccessProfileRole.USER.toString())
-            .map(new Func1<ManagedClusterAccessProfileInner, byte[]>() {
-                @Override
-                public byte[] call(ManagedClusterAccessProfileInner profileInner) {
-                    if (profileInner == null) {
-                        return new byte[0];
-                    } else {
-                        return profileInner.kubeConfig();
-                    }
+            .map(profileInner -> {
+                if (profileInner == null) {
+                    return new byte[0];
+                } else {
+                    return profileInner.kubeConfig();
                 }
             });
     }

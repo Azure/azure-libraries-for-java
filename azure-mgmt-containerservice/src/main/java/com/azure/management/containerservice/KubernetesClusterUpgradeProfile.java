@@ -5,10 +5,10 @@
  */
 package com.azure.management.containerservice;
 
-import com.azure.management.containerservice.implementation.ManagedClusterUpgradeProfileInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.containerservice.models.ManagedClusterUpgradeProfileInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * The result of checking for the Kubernetes cluster's upgrade profile.

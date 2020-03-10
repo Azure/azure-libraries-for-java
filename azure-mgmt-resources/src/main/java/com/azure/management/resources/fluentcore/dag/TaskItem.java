@@ -38,7 +38,7 @@ public interface TaskItem {
      *
      * @param context the context shared across the the all task items in the group
      *                this task item belongs to.
-     * @return a {@lin Mono} upon subscription does the unit of work and produces
+     * @return a {@link Mono} upon subscription does the unit of work and produces
      * result of type {@link Indexable}
      */
     Mono<Indexable> invokeAsync(TaskGroup.InvocationContext context);

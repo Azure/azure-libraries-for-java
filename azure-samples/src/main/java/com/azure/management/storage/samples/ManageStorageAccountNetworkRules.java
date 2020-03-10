@@ -6,17 +6,18 @@
 
 package com.azure.management.storage.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.network.ServiceEndpointType;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.network.Network;
+import com.azure.management.network.PublicIPAddress;
+import com.azure.management.network.ServiceEndpointType;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.storage.StorageAccount;
 
 import java.io.File;
 
@@ -32,16 +33,17 @@ import java.io.File;
 public final class ManageStorageAccountNetworkRules {
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String rgName = Utils.createRandomName("rgSTMS");
-        final String networkName = Utils.createRandomName("nw");
+        final String rgName = azure.sdkContext().randomResourceName("rgSTMS", 8);
+        final String networkName = azure.sdkContext().randomResourceName("nw", 8);
         final String subnetName = "subnetA";
-        final String storageAccountName = Utils.createRandomName("sa");
-        final String publicIpName = Utils.createRandomName("pip");
-        final String vmName = Utils.createRandomName("vm");
+        final String storageAccountName = azure.sdkContext().randomResourceName("sa", 8);
+        final String publicIpName = azure.sdkContext().randomResourceName("pip", 8);
+        final String vmName = azure.sdkContext().randomResourceName("vm", 8);
 
         try {
             // ============================================================
@@ -54,9 +56,9 @@ public final class ManageStorageAccountNetworkRules {
                     .withNewResourceGroup(rgName)
                     .withAddressSpace("10.0.0.0/28")
                     .defineSubnet(subnetName)
-                        .withAddressPrefix("10.0.0.8/29")
-                        .withAccessFromService(ServiceEndpointType.MICROSOFT_STORAGE)
-                        .attach()
+                    .withAddressPrefix("10.0.0.8/29")
+                    .withAccessFromService(ServiceEndpointType.MICROSOFT_STORAGE)
+                    .attach()
                     .create();
 
             System.out.println("Created a Virtual network with subnet:");
@@ -150,8 +152,7 @@ public final class ManageStorageAccountNetworkRules {
                 System.out.println("Deleting Resource Group: " + rgName);
                 azure.resourceGroups().deleteByName(rgName);
                 System.out.println("Deleted Resource Group: " + rgName);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");
             }
         }
@@ -160,6 +161,7 @@ public final class ManageStorageAccountNetworkRules {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -167,7 +169,7 @@ public final class ManageStorageAccountNetworkRules {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

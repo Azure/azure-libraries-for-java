@@ -6,9 +6,7 @@
 
 package com.azure.management;
 
-
 import com.azure.core.http.rest.PagedIterable;
-import com.azure.core.implementation.annotation.Beta;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.CloudException;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
@@ -66,6 +64,7 @@ import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
 import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.implementation.ResourceManager;
 import com.azure.management.sql.SqlServers;
 import com.azure.management.sql.implementation.SqlServerManager;
@@ -90,7 +89,6 @@ public final class Azure {
     private final NetworkManager networkManager;
     private final KeyVaultManager keyVaultManager;
     //    private final BatchManager batchManager;
-//    private final BatchAIManager batchAIManager;
 //    private final TrafficManager trafficManager;
 //    private final RedisManager redisManager;
 //    private final CdnManager cdnManager;
@@ -109,6 +107,7 @@ public final class Azure {
 //    private final EventHubManager eventHubManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
+    private final SdkContext sdkContext;
 
     /**
      * Authenticate to Azure using an Azure credentials object.
@@ -372,7 +371,6 @@ public final class Azure {
         this.networkManager = NetworkManager.authenticate(restClient, subscriptionId);
         this.keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId);
 //        this.batchManager = BatchManager.authenticate(restClient, subscriptionId);
-//        this.batchAIManager = BatchAIManager.authenticate(restClient, subscriptionId);
 //        this.trafficManager = TrafficManager.authenticate(restClient, subscriptionId);
 //        this.redisManager = RedisManager.authenticate(restClient, subscriptionId);
 //        this.cdnManager = CdnManager.authenticate(restClient, subscriptionId);
@@ -391,6 +389,15 @@ public final class Azure {
 //        this.eventHubManager = EventHubManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
+        this.sdkContext = new SdkContext();
+    }
+
+
+    /**
+     * @return the currently selected subscription ID this client is authenticated to work with
+     */
+    public SdkContext sdkContext() {
+        return this.sdkContext;
     }
 
     /**

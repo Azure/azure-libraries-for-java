@@ -6,38 +6,39 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.VirtualNetworkGateway;
-import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.network.Network;
+import com.azure.management.network.VirtualNetworkGateway;
+import com.azure.management.network.VirtualNetworkGatewaySkuName;
+import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 
 /**
  * Azure Network sample for managing virtual network gateway.
- *  - Create a virtual network with subnets
- *  - Create virtual network gateway
- *  - Update virtual network gateway with Point-to-Site connection configuration
- *  - Generate and download VPN client configuration package. Now it can be used to create VPN connection to Azure.
- *  - Revoke a client certificate
- *
- *  Please note: in order to run this sample, you need to have:
- *   - pre-generated root certificate and public key exported to $CERT_PATH file
- *      For more details please see https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-certificates-point-to-site for PowerShell instructions
- *      and https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-certificates-point-to-site-makecert for Makecert instructions.
- *   - client certificate generated for this root certificate installed on your machine.
- *      Please see: https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-how-to-vpn-client-install-azure-cert
- *   - thumbprint for client certificate saved to $CLIENT_CERT_THUMBPRINT
+ * - Create a virtual network with subnets
+ * - Create virtual network gateway
+ * - Update virtual network gateway with Point-to-Site connection configuration
+ * - Generate and download VPN client configuration package. Now it can be used to create VPN connection to Azure.
+ * - Revoke a client certificate
+ * <p>
+ * Please note: in order to run this sample, you need to have:
+ * - pre-generated root certificate and public key exported to $CERT_PATH file
+ * For more details please see https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-certificates-point-to-site for PowerShell instructions
+ * and https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-certificates-point-to-site-makecert for Makecert instructions.
+ * - client certificate generated for this root certificate installed on your machine.
+ * Please see: https://docs.microsoft.com/en-us/azure/vpn-gateway/point-to-site-how-to-vpn-client-install-azure-cert
+ * - thumbprint for client certificate saved to $CLIENT_CERT_THUMBPRINT
  */
 
 public final class ManageVpnGatewayPoint2SiteConnection {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
@@ -45,9 +46,9 @@ public final class ManageVpnGatewayPoint2SiteConnection {
         final String certPath = System.getenv("CERT_PATH");
         final String clientCertThumbprint = System.getenv("CLIENT_CERT_THUMBPRINT");
         final Region region = Region.US_WEST2;
-        final String rgName = SdkContext.randomResourceName("rg", 20);
-        final String vnetName = SdkContext.randomResourceName("vnet", 20);
-        final String vpnGatewayName = SdkContext.randomResourceName("vngw", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rg", 20);
+        final String vnetName = azure.sdkContext().randomResourceName("vnet", 20);
+        final String vpnGatewayName = azure.sdkContext().randomResourceName("vngw", 20);
 
         try {
             //============================================================
@@ -127,6 +128,7 @@ public final class ManageVpnGatewayPoint2SiteConnection {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -137,7 +139,7 @@ public final class ManageVpnGatewayPoint2SiteConnection {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

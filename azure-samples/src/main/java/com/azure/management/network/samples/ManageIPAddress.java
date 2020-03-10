@@ -6,42 +6,43 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownWindowsVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.network.NetworkInterface;
+import com.azure.management.network.PublicIPAddress;
+import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 import java.util.Date;
 
 /**
  * Azure Network sample for managing IP address -
- *  - Assign a public IP address for a virtual machine during its creation
- *  - Assign a public IP address for a virtual machine through an virtual machine update action
- *  - Get the associated public IP address for a virtual machine
- *  - Get the assigned public IP address for a virtual machine
- *  - Remove a public IP address from a virtual machine.
+ * - Assign a public IP address for a virtual machine during its creation
+ * - Assign a public IP address for a virtual machine through an virtual machine update action
+ * - Get the associated public IP address for a virtual machine
+ * - Get the assigned public IP address for a virtual machine
+ * - Remove a public IP address from a virtual machine.
  */
 public final class ManageIPAddress {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String publicIPAddressName1 = SdkContext.randomResourceName("pip1", 20);
-        final String publicIPAddressName2 = SdkContext.randomResourceName("pip2", 20);
-        final String publicIPAddressLeafDNS1 = SdkContext.randomResourceName("pip1", 20);
-        final String publicIPAddressLeafDNS2 = SdkContext.randomResourceName("pip2", 20);
-        final String vmName = SdkContext.randomResourceName("vm", 8);
-        final String rgName = SdkContext.randomResourceName("rgNEMP", 24);
+        final String publicIPAddressName1 = azure.sdkContext().randomResourceName("pip1", 20);
+        final String publicIPAddressName2 = azure.sdkContext().randomResourceName("pip2", 20);
+        final String publicIPAddressLeafDNS1 = azure.sdkContext().randomResourceName("pip1", 20);
+        final String publicIPAddressLeafDNS2 = azure.sdkContext().randomResourceName("pip2", 20);
+        final String vmName = azure.sdkContext().randomResourceName("vm", 8);
+        final String rgName = azure.sdkContext().randomResourceName("rgNEMP", 24);
         final String userName = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
@@ -116,8 +117,8 @@ public final class ManageIPAddress {
 
             NetworkInterface primaryNetworkInterface = vm.getPrimaryNetworkInterface();
             primaryNetworkInterface.update()
-                .withExistingPrimaryPublicIPAddress(publicIPAddress2)
-                .apply();
+                    .withExistingPrimaryPublicIPAddress(publicIPAddress2)
+                    .apply();
 
 
             //============================================================
@@ -137,8 +138,8 @@ public final class ManageIPAddress {
             primaryNetworkInterface = vm.getPrimaryNetworkInterface();
             publicIPAddress = primaryNetworkInterface.primaryIPConfiguration().getPublicIPAddress();
             primaryNetworkInterface.update()
-                .withoutPrimaryPublicIPAddress()
-                .apply();
+                    .withoutPrimaryPublicIPAddress()
+                    .apply();
 
             System.out.println("Removed public IP address associated with the VM");
 
@@ -164,8 +165,10 @@ public final class ManageIPAddress {
         }
         return false;
     }
+
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -179,7 +182,7 @@ public final class ManageIPAddress {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

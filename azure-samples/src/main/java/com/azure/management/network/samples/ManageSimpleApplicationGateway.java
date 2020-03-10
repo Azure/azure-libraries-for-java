@@ -6,61 +6,62 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.network.ApplicationGateway;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.network.ApplicationGateway;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 
 /**
  * Azure network sample for managing application gateways.
- *
- *  - CREATE an application gateway for load balancing
- *    HTTP/HTTPS requests to backend server pools of virtual machines
- *
- *    This application gateway serves traffic for multiple
- *    domain names
- *
- *    Routing Rule 1
- *    Hostname 1 = None
- *    Backend server pool 1 = 4 virtual machines with IP addresses
- *    Backend server pool 1 settings = HTTP:8080
- *    Front end port 1 = HTTP:80
- *    Listener 1 = HTTP
- *    Routing rule 1 = HTTP listener 1 =&gt; backend server pool 1
- *    (round-robin load distribution)
- *
- *  - MODIFY the application gateway - re-configure the Routing Rule 1 for SSL offload and
- *    add a host name, www.contoso.com
- *
- *    Change listener 1 from HTTP to HTTPS
- *    Add SSL certificate to the listener
- *    Update front end port 1 to HTTPS:1443
- *    Add a host name, www.contoso.com
- *    Enable cookie-based affinity
- *
- *    Modified Routing Rule 1
- *    Hostname 1 = www.contoso.com
- *    Backend server pool 1 = 4 virtual machines with IP addresses
- *    Backend server pool 1 settings = HTTP:8080
- *    Front end port 1 = HTTPS:1443
- *    Listener 1 = HTTPS
- *    Routing rule 1 = HTTPS listener 1 =&gt; backend server pool 1
- *    (round-robin load distribution)
- *
+ * <p>
+ * - CREATE an application gateway for load balancing
+ * HTTP/HTTPS requests to backend server pools of virtual machines
+ * <p>
+ * This application gateway serves traffic for multiple
+ * domain names
+ * <p>
+ * Routing Rule 1
+ * Hostname 1 = None
+ * Backend server pool 1 = 4 virtual machines with IP addresses
+ * Backend server pool 1 settings = HTTP:8080
+ * Front end port 1 = HTTP:80
+ * Listener 1 = HTTP
+ * Routing rule 1 = HTTP listener 1 =&gt; backend server pool 1
+ * (round-robin load distribution)
+ * <p>
+ * - MODIFY the application gateway - re-configure the Routing Rule 1 for SSL offload and
+ * add a host name, www.contoso.com
+ * <p>
+ * Change listener 1 from HTTP to HTTPS
+ * Add SSL certificate to the listener
+ * Update front end port 1 to HTTPS:1443
+ * Add a host name, www.contoso.com
+ * Enable cookie-based affinity
+ * <p>
+ * Modified Routing Rule 1
+ * Hostname 1 = www.contoso.com
+ * Backend server pool 1 = 4 virtual machines with IP addresses
+ * Backend server pool 1 settings = HTTP:8080
+ * Front end port 1 = HTTPS:1443
+ * Listener 1 = HTTPS
+ * Routing rule 1 = HTTPS listener 1 =&gt; backend server pool 1
+ * (round-robin load distribution)
  */
 public final class ManageSimpleApplicationGateway {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String rgName = SdkContext.randomResourceName("rgNEAGS", 15);
+        final String rgName = azure.sdkContext().randomResourceName("rgNEAGS", 15);
         try {
             //=======================================================================
             // Create an application gateway
@@ -75,14 +76,14 @@ public final class ManageSimpleApplicationGateway {
 
                     // Request routing rule for HTTP from public 80 to public 8080
                     .defineRequestRoutingRule("HTTP-80-to-8080")
-                        .fromPublicFrontend()
-                        .fromFrontendHttpPort(80)
-                        .toBackendHttpPort(8080)
-                        .toBackendIPAddress("11.1.1.1")
-                        .toBackendIPAddress("11.1.1.2")
-                        .toBackendIPAddress("11.1.1.3")
-                        .toBackendIPAddress("11.1.1.4")
-                        .attach()
+                    .fromPublicFrontend()
+                    .fromFrontendHttpPort(80)
+                    .toBackendHttpPort(8080)
+                    .toBackendIPAddress("11.1.1.1")
+                    .toBackendIPAddress("11.1.1.2")
+                    .toBackendIPAddress("11.1.1.3")
+                    .toBackendIPAddress("11.1.1.4")
+                    .attach()
                     .withNewPublicIPAddress()
                     .create();
 
@@ -104,18 +105,18 @@ public final class ManageSimpleApplicationGateway {
             applicationGateway.update()
                     .withoutRequestRoutingRule("HTTP-80-to-8080")
                     .defineRequestRoutingRule("HTTPs-1443-to-8080")
-                        .fromPublicFrontend()
-                        .fromFrontendHttpsPort(1443)
-                        .withSslCertificateFromPfxFile(new File(ManageSimpleApplicationGateway.class.getClassLoader().getResource("myTest.pfx").getPath()))
-                        .withSslCertificatePassword("Abc123")
-                        .toBackendHttpPort(8080)
-                        .toBackendIPAddress("11.1.1.1")
-                        .toBackendIPAddress("11.1.1.2")
-                        .toBackendIPAddress("11.1.1.3")
-                        .toBackendIPAddress("11.1.1.4")
-                        .withHostName("www.contoso.com")
-                        .withCookieBasedAffinity()
-                        .attach()
+                    .fromPublicFrontend()
+                    .fromFrontendHttpsPort(1443)
+                    .withSslCertificateFromPfxFile(new File(ManageSimpleApplicationGateway.class.getClassLoader().getResource("myTest.pfx").getPath()))
+                    .withSslCertificatePassword("Abc123")
+                    .toBackendHttpPort(8080)
+                    .toBackendIPAddress("11.1.1.1")
+                    .toBackendIPAddress("11.1.1.2")
+                    .toBackendIPAddress("11.1.1.3")
+                    .toBackendIPAddress("11.1.1.4")
+                    .withHostName("www.contoso.com")
+                    .withCookieBasedAffinity()
+                    .attach()
                     .apply();
 
             t2 = System.currentTimeMillis();
@@ -144,11 +145,12 @@ public final class ManageSimpleApplicationGateway {
 
     /**
      * Main entry point.
+     *
      * @param args parameters
      */
 
     public static void main(String[] args) {
-         try {
+        try {
 
             //=============================================================
             // Authenticate
@@ -156,7 +158,7 @@ public final class ManageSimpleApplicationGateway {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.NONE)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.NONE))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

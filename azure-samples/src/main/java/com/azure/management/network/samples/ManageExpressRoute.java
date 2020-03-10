@@ -5,41 +5,42 @@
  */
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.network.ExpressRouteCircuit;
-import com.microsoft.azure.management.network.ExpressRouteCircuitSkuType;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.VirtualNetworkGateway;
-import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.LogLevel;
+
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.network.ExpressRouteCircuit;
+import com.azure.management.network.ExpressRouteCircuitSkuType;
+import com.azure.management.network.Network;
+import com.azure.management.network.VirtualNetworkGateway;
+import com.azure.management.network.VirtualNetworkGatewaySkuName;
+import com.azure.management.resources.fluentcore.arm.Region;
 
 import java.io.File;
 
 /**
  * Azure Network sample for managing express route circuits.
- *  - Create Express Route circuit
- *  - Create Express Route circuit peering. Please note: express route circuit should be provisioned by connectivity provider before this step.
- *  - Adding authorization to express route circuit
- *  - Create virtual network to be associated with virtual network gateway
- *  - Create virtual network gateway
- *  - Create virtual network gateway connection
+ * - Create Express Route circuit
+ * - Create Express Route circuit peering. Please note: express route circuit should be provisioned by connectivity provider before this step.
+ * - Adding authorization to express route circuit
+ * - Create virtual network to be associated with virtual network gateway
+ * - Create virtual network gateway
+ * - Create virtual network gateway connection
  */
 public final class ManageExpressRoute {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
         final Region region = Region.US_NORTH_CENTRAL;
-        final String rgName = SdkContext.randomResourceName("rg", 20);
-        final String ercName = SdkContext.randomResourceName("erc", 20);
-        final String gatewayName = SdkContext.randomResourceName("gtw", 20);
-        final String connectionName = SdkContext.randomResourceName("con", 20);
-        final String vnetName = SdkContext.randomResourceName("vnet", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rg", 20);
+        final String ercName = azure.sdkContext().randomResourceName("erc", 20);
+        final String gatewayName = azure.sdkContext().randomResourceName("gtw", 20);
+        final String connectionName = azure.sdkContext().randomResourceName("con", 20);
+        final String vnetName = azure.sdkContext().randomResourceName("vnet", 20);
 
         try {
             //============================================================
@@ -124,6 +125,7 @@ public final class ManageExpressRoute {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -133,7 +135,7 @@ public final class ManageExpressRoute {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions())
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

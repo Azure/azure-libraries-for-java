@@ -6,49 +6,49 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.AvailabilitySet;
-import com.microsoft.azure.management.compute.AvailabilitySetSkuTypes;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.network.LoadBalancer;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.TransportProtocol;
-import com.microsoft.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.compute.AvailabilitySet;
+import com.azure.management.compute.AvailabilitySetSkuTypes;
+import com.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.network.LoadBalancer;
+import com.azure.management.network.Network;
+import com.azure.management.network.TransportProtocol;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
+import org.apache.commons.lang.time.StopWatch;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang3.time.StopWatch;
-
 /**
  * Azure Network sample for creating a simple Internet facing load balancer -
- *
+ * <p>
  * Summary ...
- *
+ * <p>
  * - This sample creates a simple Internet facing load balancer that receives network traffic on
- *   port 80 and sends load-balanced traffic to two virtual machines
- *
+ * port 80 and sends load-balanced traffic to two virtual machines
+ * <p>
  * Details ...
- *
+ * <p>
  * 1. Create two virtual machines for the backend...
  * - in the same availability set
  * - in the same virtual network
- *
+ * <p>
  * Create an Internet facing load balancer with ...
  * - A public IP address assigned to an implicitly created frontend
  * - One backend address pool with the two virtual machines to receive HTTP network traffic from the load balancer
  * - One load balancing rule for HTTP to map public ports on the load
- *   balancer to ports in the backend address pool
-
+ * balancer to ports in the backend address pool
+ * <p>
  * Delete the load balancer
  */
 
@@ -56,18 +56,19 @@ public final class CreateSimpleInternetFacingLoadBalancer {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
         final Region region = Region.US_EAST;
-        final String resourceGroupName = SdkContext.randomResourceName("rg", 15);
-        final String vnetName = SdkContext.randomResourceName("vnet", 24);
-        final String loadBalancerName = SdkContext.randomResourceName("lb" + "-", 18);
-        final String publicIpName = SdkContext.randomResourceName("pip", 18);
+        final String resourceGroupName = azure.sdkContext().randomResourceName("rg", 15);
+        final String vnetName = azure.sdkContext().randomResourceName("vnet", 24);
+        final String loadBalancerName = azure.sdkContext().randomResourceName("lb" + "-", 18);
+        final String publicIpName = azure.sdkContext().randomResourceName("pip", 18);
         final String httpLoadBalancingRule = "httpRule";
 
-        final String availabilitySetName = SdkContext.randomResourceName("av", 24);
+        final String availabilitySetName = azure.sdkContext().randomResourceName("av", 24);
         final String userName = "tirekicker";
         final String sshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCfSPC2K7LZcFKEO+/t3dzmQYtrJFZNxOsbVgOVKietqHyvmYGHEC0J2wPdAqQ/63g/hhAEFRoyehM+rbeDri4txB3YFfnOK58jqdkyXzupWqXzOrlKY4Wz9SKjjN765+dqUITjKRIaAip1Ri137szRg71WnrmdP3SphTRlCx1Bk2nXqWPsclbRDCiZeF8QOTi4JqbmJyK5+0UqhqYRduun8ylAwKKQJ1NJt85sYIHn9f1Rfr6Tq2zS0wZ7DHbZL+zB5rSlAr8QyUdg/GQD+cmSs6LvPJKL78d6hMGk84ARtFo4A79ovwX/Fj01znDQkU6nJildfkaolH2rWFG/qttD azjava@javalib.com";
         try {
@@ -98,17 +99,17 @@ public final class CreateSimpleInternetFacingLoadBalancer {
 
             for (int i = 0; i < 2; i++) {
                 virtualMachineDefinitions.add(
-                        azure.virtualMachines().define(SdkContext.randomResourceName("vm", 24))
-                            .withRegion(region)
-                            .withExistingResourceGroup(resourceGroupName)
-                            .withNewPrimaryNetwork(networkDefinition)
-                            .withPrimaryPrivateIPAddressDynamic()
-                            .withoutPrimaryPublicIPAddress()
-                            .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
-                            .withRootUsername(userName)
-                            .withSsh(sshKey)
-                            .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
-                            .withNewAvailabilitySet(availabilitySetDefinition));
+                        azure.virtualMachines().define(azure.sdkContext().randomResourceName("vm", 24))
+                                .withRegion(region)
+                                .withExistingResourceGroup(resourceGroupName)
+                                .withNewPrimaryNetwork(networkDefinition)
+                                .withPrimaryPrivateIPAddressDynamic()
+                                .withoutPrimaryPublicIPAddress()
+                                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                                .withRootUsername(userName)
+                                .withSsh(sshKey)
+                                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                                .withNewAvailabilitySet(availabilitySetDefinition));
             }
 
             StopWatch stopwatch = new StopWatch();
@@ -134,10 +135,10 @@ public final class CreateSimpleInternetFacingLoadBalancer {
 
             System.out.println(
                     "Creating a Internet facing load balancer with ...\n"
-                    + "- A frontend public IP address\n"
-                    + "- One backend address pool with the two virtual machines\n"
-                    + "- One load balancing rule for HTTP, mapping public ports on the load\n"
-                    + "  balancer to ports in the backend address pool");
+                            + "- A frontend public IP address\n"
+                            + "- One backend address pool with the two virtual machines\n"
+                            + "- One load balancing rule for HTTP, mapping public ports on the load\n"
+                            + "  balancer to ports in the backend address pool");
 
             LoadBalancer loadBalancer = azure.loadBalancers().define(loadBalancerName)
                     .withRegion(region)
@@ -146,11 +147,11 @@ public final class CreateSimpleInternetFacingLoadBalancer {
                     // Add a load balancing rule sending traffic from an implicitly created frontend with the public IP address
                     // to an implicitly created backend with the two virtual machines
                     .defineLoadBalancingRule(httpLoadBalancingRule)
-                        .withProtocol(TransportProtocol.TCP)
-                        .fromNewPublicIPAddress(publicIpName)
-                        .fromFrontendPort(80)
-                        .toExistingVirtualMachines(new ArrayList<HasNetworkInterfaces>(virtualMachines))    // Convert VMs to the expected interface
-                        .attach()
+                    .withProtocol(TransportProtocol.TCP)
+                    .fromNewPublicIPAddress(publicIpName)
+                    .fromFrontendPort(80)
+                    .toExistingVirtualMachines(new ArrayList<HasNetworkInterfaces>(virtualMachines))    // Convert VMs to the expected interface
+                    .attach()
 
                     .create();
 
@@ -165,8 +166,8 @@ public final class CreateSimpleInternetFacingLoadBalancer {
 
             loadBalancer.update()
                     .updateLoadBalancingRule(httpLoadBalancingRule)
-                        .withIdleTimeoutInMinutes(15)
-                        .parent()
+                    .withIdleTimeoutInMinutes(15)
+                    .parent()
                     .apply();
 
             System.out.println("Update the load balancer with a TCP idle timeout to 15 minutes");
@@ -208,6 +209,7 @@ public final class CreateSimpleInternetFacingLoadBalancer {
 
     /**
      * Main entry point.
+     *
      * @param args parameters
      */
 
@@ -221,7 +223,7 @@ public final class CreateSimpleInternetFacingLoadBalancer {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BODY.withPrettyJson(true))
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -234,6 +236,7 @@ public final class CreateSimpleInternetFacingLoadBalancer {
             e.printStackTrace();
         }
     }
+
     private CreateSimpleInternetFacingLoadBalancer() {
 
     }

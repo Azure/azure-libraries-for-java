@@ -5,17 +5,18 @@
  */
 
 package com.azure.management.network.samples;
-
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.network.LocalNetworkGateway;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.VirtualNetworkGateway;
-import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
-import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.Azure;
+import com.azure.management.network.LocalNetworkGateway;
+import com.azure.management.network.Network;
+import com.azure.management.network.VirtualNetworkGateway;
+import com.azure.management.network.VirtualNetworkGatewayConnection;
+import com.azure.management.network.VirtualNetworkGatewaySkuName;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 import java.util.List;
@@ -39,11 +40,11 @@ public final class ManageVpnGatewaySite2SiteConnection {
      */
     public static boolean runSample(Azure azure) {
         final Region region = Region.US_WEST2;
-        final String rgName = SdkContext.randomResourceName("rg", 20);
-        final String vnetName = SdkContext.randomResourceName("vnet", 20);
-        final String vpnGatewayName = SdkContext.randomResourceName("vngw", 20);
-        final String localGatewayName = SdkContext.randomResourceName("lngw", 20);
-        final String connectionName = SdkContext.randomResourceName("con", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rg", 20);
+        final String vnetName = azure.sdkContext().randomResourceName("vnet", 20);
+        final String vpnGatewayName = azure.sdkContext().randomResourceName("vngw", 20);
+        final String localGatewayName = azure.sdkContext().randomResourceName("lngw", 20);
+        final String connectionName = azure.sdkContext().randomResourceName("con", 20);
 
 
         try {
@@ -96,7 +97,7 @@ public final class ManageVpnGatewaySite2SiteConnection {
 
             //============================================================
             // List VPN Gateway connections for particular gateway
-            List<VirtualNetworkGatewayConnection> connections = vngw.listConnections();
+            PagedIterable<VirtualNetworkGatewayConnection> connections = vngw.listConnections();
 
             //============================================================
             // Reset virtual network gateway
@@ -131,7 +132,7 @@ public final class ManageVpnGatewaySite2SiteConnection {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

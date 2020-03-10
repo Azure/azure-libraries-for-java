@@ -6,26 +6,29 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.network.ConnectivityCheck;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkWatcher;
-import com.microsoft.azure.management.network.Troubleshooting;
-import com.microsoft.azure.management.network.VirtualNetworkGateway;
-import com.microsoft.azure.management.network.VirtualNetworkGatewayConnection;
-import com.microsoft.azure.management.network.VirtualNetworkGatewaySkuName;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.network.ConnectivityCheck;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkWatcher;
+import com.azure.management.network.Troubleshooting;
+import com.azure.management.network.VirtualNetworkGateway;
+import com.azure.management.network.VirtualNetworkGatewayConnection;
+import com.azure.management.network.VirtualNetworkGatewaySkuName;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.CreatedResources;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.storage.CloudStorageAccount;
-import com.microsoft.azure.storage.blob.CloudBlobClient;
-import com.microsoft.azure.storage.blob.CloudBlobContainer;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.storage.BlobContainer;
+import com.azure.management.storage.StorageAccount;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,38 +36,39 @@ import java.util.List;
 
 /**
  * Azure Network sample for managing virtual network gateway.
- *  - Create 2 virtual networks with subnets and 2 virtual network gateways corresponding to each network
- *  - Create VPN VNet-to-VNet connection
- *  - Troubleshoot the connection
- *    - Create network watcher in the same region as virtual network gateway
- *    - Create storage account to store troubleshooting information
- *    - Run troubleshooting for the connection - result will be 'UnHealthy' as need to create symmetrical connection from second gateway to the first
- *  - Create virtual network connection from second gateway to the first and run troubleshooting. Result will be 'Healthy'.
- *  - List VPN Gateway connections for the first gateway
- *  - Create 2 virtual machines, each one in its network and verify connectivity between them
+ * - Create 2 virtual networks with subnets and 2 virtual network gateways corresponding to each network
+ * - Create VPN VNet-to-VNet connection
+ * - Troubleshoot the connection
+ * - Create network watcher in the same region as virtual network gateway
+ * - Create storage account to store troubleshooting information
+ * - Run troubleshooting for the connection - result will be 'UnHealthy' as need to create symmetrical connection from second gateway to the first
+ * - Create virtual network connection from second gateway to the first and run troubleshooting. Result will be 'Healthy'.
+ * - List VPN Gateway connections for the first gateway
+ * - Create 2 virtual machines, each one in its network and verify connectivity between them
  */
 
 public final class ManageVpnGatewayVNet2VNetConnection {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
         final Region region = Region.US_WEST2;
-        final String rgName = SdkContext.randomResourceName("rg", 20);
-        final String vnetName = SdkContext.randomResourceName("vnet", 20);
-        final String vnet2Name = SdkContext.randomResourceName("vnet", 20);
-        final String vpnGatewayName = SdkContext.randomResourceName("vngw", 20);
-        final String vpnGateway2Name = SdkContext.randomResourceName("vngw2", 20);
-        final String connectionName = SdkContext.randomResourceName("con", 20);
-        final String connection2Name = SdkContext.randomResourceName("con2", 20);
-        final String nwName = SdkContext.randomResourceName("nw", 20);
-        final String vm1Name = SdkContext.randomResourceName("vm1", 20);
-        final String vm2Name = SdkContext.randomResourceName("vm2", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rg", 20);
+        final String vnetName = azure.sdkContext().randomResourceName("vnet", 20);
+        final String vnet2Name = azure.sdkContext().randomResourceName("vnet", 20);
+        final String vpnGatewayName = azure.sdkContext().randomResourceName("vngw", 20);
+        final String vpnGateway2Name = azure.sdkContext().randomResourceName("vngw2", 20);
+        final String connectionName = azure.sdkContext().randomResourceName("con", 20);
+        final String connection2Name = azure.sdkContext().randomResourceName("con2", 20);
+        final String nwName = azure.sdkContext().randomResourceName("nw", 20);
+        final String vm1Name = azure.sdkContext().randomResourceName("vm1", 20);
+        final String vm2Name = azure.sdkContext().randomResourceName("vm2", 20);
         final String rootname = "tirekicker";
-        final String password = SdkContext.randomResourceName("pWd!", 15);
+        final String password = azure.sdkContext().randomResourceName("pWd!", 15);
         final String storageContainerName = "results";
 
         try {
@@ -130,24 +134,23 @@ public final class ManageVpnGatewayVNet2VNetConnection {
                     .withExistingResourceGroup(rgName)
                     .create();
             // Create storage account to store troubleshooting information
-            StorageAccount storageAccount = azure.storageAccounts().define("sa" + SdkContext.randomResourceName("", 8))
+            StorageAccount storageAccount = azure.storageAccounts().define("sa" + azure.sdkContext().randomResourceName("", 8))
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .create();
 
             // Create storage container to store troubleshooting results
-            String accountKey = storageAccount.getKeys().get(0).value();
+            String accountKey = storageAccount.getKeys().get(0).getValue();
             String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s", storageAccount.name(), accountKey);
-            CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
-            CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
-            CloudBlobContainer container = cloudBlobClient.getContainerReference(storageContainerName);
-            container.create();
+            BlobServiceClient blobServiceClient = new BlobServiceClientBuilder().connectionString(connectionString).buildClient();
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(storageContainerName);
+            containerClient.create();
 
             // Run troubleshooting for the connection - result will be 'UnHealthy' as need to create symmetrical connection from second gateway to the first
             Troubleshooting troubleshooting = nw.troubleshoot()
                     .withTargetResourceId(connection.id())
                     .withStorageAccount(storageAccount.id())
-                    .withStoragePath(storageAccount.endPoints().primary().blob() + storageContainerName)
+                    .withStoragePath(storageAccount.endPoints().primary().getBlob() + storageContainerName)
                     .execute();
             System.out.println("Troubleshooting status is: " + troubleshooting.code());
 
@@ -163,13 +166,13 @@ public final class ManageVpnGatewayVNet2VNetConnection {
             troubleshooting = nw.troubleshoot()
                     .withTargetResourceId(connection.id())
                     .withStorageAccount(storageAccount.id())
-                    .withStoragePath(storageAccount.endPoints().primary().blob() + storageContainerName)
+                    .withStoragePath(storageAccount.endPoints().primary().getBlob() + storageContainerName)
                     .execute();
             System.out.println("Troubleshooting status is: " + troubleshooting.code());
 
             //============================================================
             // List VPN Gateway connections for particular gateway
-            List<VirtualNetworkGatewayConnection> connections = vngw1.listConnections();
+            PagedIterable<VirtualNetworkGatewayConnection> connections = vngw1.listConnections();
 
             //============================================================
             // Create 2 virtual machines, each one in its network and verify connectivity between them
@@ -187,10 +190,10 @@ public final class ManageVpnGatewayVNet2VNetConnection {
                     .withRootPassword(password)
                     // Extension currently needed for network watcher support
                     .defineNewExtension("networkWatcher")
-                        .withPublisher("Microsoft.Azure.NetworkWatcher")
-                        .withType("NetworkWatcherAgentLinux")
-                        .withVersion("1.4")
-                        .attach());
+                    .withPublisher("Microsoft.Azure.NetworkWatcher")
+                    .withType("NetworkWatcherAgentLinux")
+                    .withVersion("1.4")
+                    .attach());
             vmDefinitions.add(azure.virtualMachines().define(vm2Name)
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
@@ -203,10 +206,10 @@ public final class ManageVpnGatewayVNet2VNetConnection {
                     .withRootPassword(password)
                     // Extension currently needed for network watcher support
                     .defineNewExtension("networkWatcher")
-                        .withPublisher("Microsoft.Azure.NetworkWatcher")
-                        .withType("NetworkWatcherAgentLinux")
-                        .withVersion("1.4")
-                        .attach());
+                    .withPublisher("Microsoft.Azure.NetworkWatcher")
+                    .withType("NetworkWatcherAgentLinux")
+                    .withVersion("1.4")
+                    .attach());
             CreatedResources<VirtualMachine> createdVMs = azure.virtualMachines().create(vmDefinitions);
             VirtualMachine vm1 = createdVMs.get(vmDefinitions.get(0).key());
             VirtualMachine vm2 = createdVMs.get(vmDefinitions.get(1).key());
@@ -237,6 +240,7 @@ public final class ManageVpnGatewayVNet2VNetConnection {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -247,7 +251,7 @@ public final class ManageVpnGatewayVNet2VNetConnection {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

@@ -6,27 +6,27 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.SecurityRuleProtocol;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkSecurityGroup;
+import com.azure.management.network.SecurityRuleProtocol;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.storage.StorageAccount;
+import org.apache.commons.lang.time.StopWatch;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.commons.lang3.time.StopWatch;
 
 /**
  * Azure Network sample for managing virtual machines with virtual network -
@@ -46,11 +46,11 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
     public static boolean runSample(Azure azure) {
         final int frontendVMCount = 4;
         final int backendVMCount = 4;
-        final String rgName = SdkContext.randomResourceName("rgNEPP", 24);
-        final String frontEndNsgName = SdkContext.randomResourceName("fensg", 24);
-        final String backEndNsgName = SdkContext.randomResourceName("bensg", 24);
-        final String networkName = SdkContext.randomResourceName("vnetCOMV", 24);
-        final String storageAccountName = SdkContext.randomResourceName("stgCOMV", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rgNEPP", 24);
+        final String frontEndNsgName = azure.sdkContext().randomResourceName("fensg", 24);
+        final String backEndNsgName = azure.sdkContext().randomResourceName("bensg", 24);
+        final String networkName = azure.sdkContext().randomResourceName("vnetCOMV", 24);
+        final String storageAccountName = azure.sdkContext().randomResourceName("stgCOMV", 20);
         final String userName = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
@@ -255,7 +255,7 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.NONE))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

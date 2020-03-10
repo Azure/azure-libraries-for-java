@@ -6,17 +6,18 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.SecurityRuleProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkSecurityGroup;
+import com.azure.management.network.SecurityRuleProtocol;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 import java.util.Date;
@@ -39,18 +40,18 @@ public final class ManageVirtualNetwork {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String vnetName1 = SdkContext.randomResourceName("vnet1", 20);
-        final String vnetName2 = SdkContext.randomResourceName("vnet2", 20);
+        final String vnetName1 = azure.sdkContext().randomResourceName("vnet1", 20);
+        final String vnetName2 = azure.sdkContext().randomResourceName("vnet2", 20);
         final String vnet1FrontEndSubnetName = "frontend";
         final String vnet1BackEndSubnetName = "backend";
         final String vnet1FrontEndSubnetNsgName = "frontendnsg";
         final String vnet1BackEndSubnetNsgName = "backendnsg";
-        final String frontEndVMName = SdkContext.randomResourceName("fevm", 24);
-        final String backEndVMName = SdkContext.randomResourceName("bevm", 24);
-        final String publicIPAddressLeafDnsForFrontEndVM = SdkContext.randomResourceName("pip1", 24);
+        final String frontEndVMName = azure.sdkContext().randomResourceName("fevm", 24);
+        final String backEndVMName = azure.sdkContext().randomResourceName("bevm", 24);
+        final String publicIPAddressLeafDnsForFrontEndVM = azure.sdkContext().randomResourceName("pip1", 24);
         final String userName = "tirekicker";
         final String sshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCfSPC2K7LZcFKEO+/t3dzmQYtrJFZNxOsbVgOVKietqHyvmYGHEC0J2wPdAqQ/63g/hhAEFRoyehM+rbeDri4txB3YFfnOK58jqdkyXzupWqXzOrlKY4Wz9SKjjN765+dqUITjKRIaAip1Ri137szRg71WnrmdP3SphTRlCx1Bk2nXqWPsclbRDCiZeF8QOTi4JqbmJyK5+0UqhqYRduun8ylAwKKQJ1NJt85sYIHn9f1Rfr6Tq2zS0wZ7DHbZL+zB5rSlAr8QyUdg/GQD+cmSs6LvPJKL78d6hMGk84ARtFo4A79ovwX/Fj01znDQkU6nJildfkaolH2rWFG/qttD azjava@javalib.com";
-        final String rgName = SdkContext.randomResourceName("rgNEMV", 24);
+        final String rgName = azure.sdkContext().randomResourceName("rgNEMV", 24);
 
         try {
             //============================================================
@@ -266,7 +267,7 @@ public final class ManageVirtualNetwork {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

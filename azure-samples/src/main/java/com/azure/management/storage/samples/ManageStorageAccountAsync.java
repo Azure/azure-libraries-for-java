@@ -6,37 +6,36 @@
 
 package com.azure.management.storage.samples;
 
-import com.microsoft.azure.management.Azure;
+
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccountKey;
-import com.microsoft.azure.management.storage.StorageAccounts;
-import com.microsoft.rest.LogLevel;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.storage.StorageAccount;
+import com.azure.management.storage.StorageAccounts;
+import reactor.core.publisher.Flux;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Azure Storage sample for managing storage accounts -
- *  - Create two storage account
- *  - List storage accounts and regenerate storage account access keys
- *  - Delete both storage account.
+ * - Create two storage account
+ * - List storage accounts and regenerate storage account access keys
+ * - Delete both storage account.
  */
 
 public final class ManageStorageAccountAsync {
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(final Azure azure) {
-        final String storageAccountName = Utils.createRandomName("sa");
-        final String storageAccountName2 = Utils.createRandomName("sa2");
-        final String rgName = Utils.createRandomName("rgSTMS");
+        final String storageAccountName = azure.sdkContext().randomResourceName("sa", 8);
+        final String storageAccountName2 = azure.sdkContext().randomResourceName("sa2", 8);
+        final String rgName = azure.sdkContext().randomResourceName("rgSTMS", 8);
         try {
 
             // ============================================================
@@ -44,7 +43,7 @@ public final class ManageStorageAccountAsync {
 
             System.out.println("Creating a Storage Accounts");
 
-            Observable.merge(
+            Flux.merge(
                     azure.storageAccounts().define(storageAccountName)
                             .withRegion(Region.US_EAST)
                             .withNewResourceGroup(rgName)
@@ -53,18 +52,15 @@ public final class ManageStorageAccountAsync {
                             .withRegion(Region.US_EAST)
                             .withNewResourceGroup(rgName)
                             .createAsync())
-                    .map(new Func1<Indexable, Indexable>() {
-                        @Override
-                        public Indexable call(Indexable indexable) {
-                            if (indexable instanceof StorageAccount) {
-                                StorageAccount storageAccount = (StorageAccount) indexable;
+                    .map(indexable -> {
+                        if (indexable instanceof StorageAccount) {
+                            StorageAccount storageAccount = (StorageAccount) indexable;
 
-                                System.out.println("Created a Storage Account:");
-                                Utils.print(storageAccount);
-                            }
-                            return indexable;
+                            System.out.println("Created a Storage Account:");
+                            Utils.print(storageAccount);
                         }
-                    }).toBlocking().last();
+                        return indexable;
+                    }).blockLast();
 
             // ============================================================
             // List storage accounts and regenerate storage account access keys
@@ -74,42 +70,30 @@ public final class ManageStorageAccountAsync {
             StorageAccounts storageAccounts = azure.storageAccounts();
 
             storageAccounts.listByResourceGroupAsync(rgName)
-                    .flatMap(new Func1<StorageAccount, Observable<List<StorageAccountKey>>>() {
-                        @Override
-                        public Observable<List<StorageAccountKey>> call(final StorageAccount storageAccount) {
-                            System.out.println("Getting storage account access keys for Storage Account "
-                                    + storageAccount.name() + " created @ " + storageAccount.creationTime());
+                    .flatMap(storageAccount -> {
+                        System.out.println("Getting storage account access keys for Storage Account "
+                                + storageAccount.name() + " created @ " + storageAccount.creationTime());
 
-                            return storageAccount.getKeysAsync()
-                                    .flatMap(new Func1<List<StorageAccountKey>, Observable<List<StorageAccountKey>>>() {
-                                    @Override
-                                    public Observable<List<StorageAccountKey>> call(List<StorageAccountKey> storageAccountKeys) {
-                                        System.out.println("Regenerating first storage account access key");
-                                        return storageAccount.regenerateKeyAsync(storageAccountKeys.get(0).keyName());
-                                    }
+                        return storageAccount.getKeysAsync()
+                                .flatMap(storageAccountKeys -> {
+                                    System.out.println("Regenerating first storage account access key");
+                                    return storageAccount.regenerateKeyAsync(storageAccountKeys.get(0).getKeyName());
                                 });
-                        }
                     })
-                    .map(new Func1<List<StorageAccountKey>, List<StorageAccountKey>>() {
-                        @Override
-                        public List<StorageAccountKey> call(List<StorageAccountKey> storageAccountKeys) {
-                            Utils.print(storageAccountKeys);
-                            return storageAccountKeys;
-                        }
-                    }).toBlocking().last();
+                    .map(storageAccountKeys -> {
+                        Utils.print(storageAccountKeys);
+                        return storageAccountKeys;
+                    }).blockLast();
 
             // ============================================================
             // Delete storage accounts
 
             storageAccounts.listByResourceGroupAsync(rgName)
-                    .flatMap(new Func1<StorageAccount, Observable<Void>>() {
-                        @Override
-                        public Observable<Void> call(StorageAccount storageAccount) {
-                            System.out.println("Deleting a storage account - " + storageAccount.name()
-                                    + " created @ " + storageAccount.creationTime());
-                            return azure.storageAccounts().deleteByIdAsync(storageAccount.id()).toObservable();
-                        }
-                    }).toCompletable().await();
+                    .flatMap(storageAccount -> {
+                        System.out.println("Deleting a storage account - " + storageAccount.name()
+                                + " created @ " + storageAccount.creationTime());
+                        return azure.storageAccounts().deleteByIdAsync(storageAccount.id());
+                    }).blockLast();
 
             return true;
         } catch (Exception f) {
@@ -118,11 +102,9 @@ public final class ManageStorageAccountAsync {
         } finally {
             try {
                 System.out.println("Deleting Resource Group: " + rgName);
-                azure.resourceGroups().deleteByNameAsync(rgName)
-                        .await();
+                azure.resourceGroups().deleteByNameAsync(rgName).block();
                 System.out.println("Deleted Resource Group: " + rgName);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");
             }
         }
@@ -131,6 +113,7 @@ public final class ManageStorageAccountAsync {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -138,7 +121,7 @@ public final class ManageStorageAccountAsync {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

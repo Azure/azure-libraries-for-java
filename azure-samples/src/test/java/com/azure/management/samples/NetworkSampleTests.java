@@ -6,6 +6,7 @@
 
 package com.azure.management.samples;
 
+
 import com.azure.management.network.samples.CreateSimpleInternetFacingLoadBalancer;
 import com.azure.management.network.samples.ManageApplicationGateway;
 import com.azure.management.network.samples.ManageIPAddress;
@@ -21,10 +22,7 @@ import com.azure.management.network.samples.ManageVirtualNetworkAsync;
 import com.azure.management.network.samples.ManageVpnGatewayPoint2SiteConnection;
 import com.azure.management.network.samples.ManageVpnGatewaySite2SiteConnection;
 import com.azure.management.network.samples.VerifyNetworkPeeringWithNetworkWatcher;
-import com.microsoft.azure.management.network.samples.*;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 public class NetworkSampleTests extends SamplesTestBase {
 

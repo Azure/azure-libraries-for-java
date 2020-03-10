@@ -6,82 +6,83 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.network.Direction;
-import com.microsoft.azure.management.network.FlowLogSettings;
-import com.microsoft.azure.management.network.IpFlowProtocol;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkWatcher;
-import com.microsoft.azure.management.network.NextHop;
-import com.microsoft.azure.management.network.PacketCapture;
-import com.microsoft.azure.management.network.PcProtocol;
-import com.microsoft.azure.management.network.SecurityGroupView;
-import com.microsoft.azure.management.network.Topology;
-import com.microsoft.azure.management.network.VerificationIPFlow;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.network.Direction;
+import com.azure.management.network.FlowLogSettings;
+import com.azure.management.network.IpFlowProtocol;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkSecurityGroup;
+import com.azure.management.network.NetworkWatcher;
+import com.azure.management.network.NextHop;
+import com.azure.management.network.PacketCapture;
+import com.azure.management.network.PcProtocol;
+import com.azure.management.network.SecurityGroupView;
+import com.azure.management.network.Topology;
+import com.azure.management.network.VerificationIPFlow;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.storage.CloudStorageAccount;
-import com.microsoft.azure.storage.blob.CloudBlob;
-import com.microsoft.azure.storage.blob.CloudBlobClient;
-import com.microsoft.azure.storage.blob.CloudBlobContainer;
-import com.microsoft.azure.storage.blob.CloudBlobDirectory;
-import com.microsoft.azure.storage.blob.ListBlobItem;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.storage.StorageAccount;
+import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.models.BlobItem;
 
 import java.io.File;
 
 /**
  * Azure Network sample for managing network watcher.
- *  - Create Network Watcher
- *  - Manage packet capture – track traffic to and from a virtual machine
- *      Create a VM
- *      Start a packet capture
- *      Stop a packet capture
- *      Get a packet capture
- *      Delete a packet capture
- *  - Verify IP flow – verify if traffic is allowed to or from a virtual machine
- *      Get the IP address of a NIC on a virtual machine
- *      Test IP flow on the NIC
- *  - Analyze next hop – get the next hop type and IP address for a virtual machine
- *  - Retrieve network topology for a resource group
- *  - Analyze Virtual Machine Security by examining effective network security rules applied to a VM
- *      Get security group view for the VM
- *  - Configure Network Security Group Flow Logs
- *      Get flow log settings
- *      Enable NSG flow log
- *      Disable NSG flow log
- *  - Download a packet capture
- *  - Download a flow log
- *  - Delete network watcher
+ * - Create Network Watcher
+ * - Manage packet capture – track traffic to and from a virtual machine
+ * Create a VM
+ * Start a packet capture
+ * Stop a packet capture
+ * Get a packet capture
+ * Delete a packet capture
+ * - Verify IP flow – verify if traffic is allowed to or from a virtual machine
+ * Get the IP address of a NIC on a virtual machine
+ * Test IP flow on the NIC
+ * - Analyze next hop – get the next hop type and IP address for a virtual machine
+ * - Retrieve network topology for a resource group
+ * - Analyze Virtual Machine Security by examining effective network security rules applied to a VM
+ * Get security group view for the VM
+ * - Configure Network Security Group Flow Logs
+ * Get flow log settings
+ * Enable NSG flow log
+ * Disable NSG flow log
+ * - Download a packet capture
+ * - Download a flow log
+ * - Delete network watcher
  */
 
 public final class ManageNetworkWatcher {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
         final Region region = Region.US_NORTH_CENTRAL;
-        final String nwName = SdkContext.randomResourceName("nw", 8);
+        final String nwName = azure.sdkContext().randomResourceName("nw", 8);
 
         final String userName = "tirekicker";
-        final String vnetName = SdkContext.randomResourceName("vnet", 20);
-        final String dnsLabel = SdkContext.randomResourceName("pipdns", 20);
+        final String vnetName = azure.sdkContext().randomResourceName("vnet", 20);
+        final String dnsLabel = azure.sdkContext().randomResourceName("pipdns", 20);
         final String subnetName = "subnet1";
-        final String nsgName = SdkContext.randomResourceName("nsg", 20);
-        final String rgName = SdkContext.randomResourceName("rg", 24);
-        final String saName = SdkContext.randomResourceName("sa", 24);
-        final String vmName = SdkContext.randomResourceName("vm", 24);
-        final String packetCaptureName = SdkContext.randomResourceName("pc", 8);
+        final String nsgName = azure.sdkContext().randomResourceName("nsg", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rg", 24);
+        final String saName = azure.sdkContext().randomResourceName("sa", 24);
+        final String vmName = azure.sdkContext().randomResourceName("vm", 24);
+        final String packetCaptureName = azure.sdkContext().randomResourceName("pc", 8);
         final String packetCaptureStorageContainer = "packetcapture";
         // file name to save packet capture log locally
         final String packetCaptureFile = "packetcapture.cap";
@@ -110,13 +111,13 @@ public final class ManageNetworkWatcher {
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
                     .defineRule("DenyInternetInComing")
-                        .denyInbound()
-                        .fromAddress("INTERNET")
-                        .fromAnyPort()
-                        .toAnyAddress()
-                        .toPort(443)
-                        .withAnyProtocol()
-                        .attach()
+                    .denyInbound()
+                    .fromAddress("INTERNET")
+                    .fromAnyPort()
+                    .toAnyAddress()
+                    .toPort(443)
+                    .withAnyProtocol()
+                    .attach()
                     .create();
 
             System.out.println("Defining a virtual network...");
@@ -125,9 +126,9 @@ public final class ManageNetworkWatcher {
                     .withExistingResourceGroup(rgName)
                     .withAddressSpace("192.168.0.0/16")
                     .defineSubnet(subnetName)
-                        .withAddressPrefix("192.168.2.0/24")
-                        .withExistingNetworkSecurityGroup(nsg)
-                        .attach();
+                    .withAddressPrefix("192.168.2.0/24")
+                    .withExistingNetworkSecurityGroup(nsg)
+                    .attach();
 
             System.out.println("Creating a virtual machine...");
             VirtualMachine vm = azure.virtualMachines().define(vmName)
@@ -142,11 +143,11 @@ public final class ManageNetworkWatcher {
                     .withSize(VirtualMachineSizeTypes.STANDARD_A1)
                     // This extension is needed to enable packet capture
                     .defineNewExtension("packetCapture")
-                        .withPublisher("Microsoft.Azure.NetworkWatcher")
-                        .withType("NetworkWatcherAgentLinux")
-                        .withVersion("1.4")
-                        .withMinorVersionAutoUpgrade()
-                        .attach()
+                    .withPublisher("Microsoft.Azure.NetworkWatcher")
+                    .withType("NetworkWatcherAgentLinux")
+                    .withVersion("1.4")
+                    .withMinorVersionAutoUpgrade()
+                    .attach()
                     .create();
 
             // Create storage account
@@ -162,11 +163,11 @@ public final class ManageNetworkWatcher {
                     .define(packetCaptureName)
                     .withTarget(vm.id())
                     .withStorageAccountId(storageAccount.id())
-                    .withStoragePath(storageAccount.endPoints().primary().blob() + packetCaptureStorageContainer)
+                    .withStoragePath(storageAccount.endPoints().primary().getBlob() + packetCaptureStorageContainer)
                     .withTimeLimitInSeconds(1500)
                     .definePacketCaptureFilter()
-                        .withProtocol(PcProtocol.TCP)
-                        .attach()
+                    .withProtocol(PcProtocol.TCP)
+                    .attach()
                     .create();
             System.out.println("Created packet capture");
             Utils.print(packetCapture);
@@ -251,36 +252,38 @@ public final class ManageNetworkWatcher {
                     .apply();
             Utils.print(flowLogSettings);
 
+            // TODO: Verify the below azure storage code based on Azure core.
             //============================================================
             // Download a packet capture
-            String accountKey = storageAccount.getKeys().get(0).value();
+            String accountKey = storageAccount.getKeys().get(0).getValue();
             String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
                     storageAccount.name(), accountKey);
-            CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
-            CloudBlobClient cloudBlobClient = account.createCloudBlobClient();
-            CloudBlobContainer container = cloudBlobClient.getContainerReference(packetCaptureStorageContainer);
+
+            BlobServiceClient blobServiceClient = new BlobServiceClientBuilder().connectionString(connectionString).buildClient();
+            BlobContainerClient blobContainerClient = blobServiceClient.getBlobContainerClient(packetCaptureStorageContainer);
             // iterate over subfolders structure to get the file
-            ListBlobItem item = container.listBlobs().iterator().next();
-            while (item instanceof CloudBlobDirectory) {
-                item = ((CloudBlobDirectory) item).listBlobs().iterator().next();
-            }
+            BlobItem item = blobContainerClient.listBlobs().iterator().next();
+//            while (item instanceof Blob) {
+//                item = ((CloudBlobDirectory) item).listBlobs().iterator().next();
+//            }
             // download packet capture file
-            ((CloudBlob) item).downloadToFile(packetCaptureFile);
+            BlobClient blobClient = blobContainerClient.getBlobClient(item.getName());
+            blobClient.downloadToFile(packetCaptureFile);
             System.out.println("Packet capture log saved to ./" + packetCaptureFile);
 
             //============================================================
             // Download a flow log
-            container = cloudBlobClient.getContainerReference("insights-logs-networksecuritygroupflowevent");
+            blobContainerClient = blobServiceClient.getBlobContainerClient("insights-logs-networksecuritygroupflowevent");
             // iterate over subfolders structure to get the file
-            item = container.listBlobs().iterator().next();
-            while (item instanceof CloudBlobDirectory) {
-                item = ((CloudBlobDirectory) item).listBlobs().iterator().next();
-            }
-
+            item = blobContainerClient.listBlobs().iterator().next();
+//            while (item instanceof CloudBlobDirectory) {
+//                item = ((CloudBlobDirectory) item).listBlobs().iterator().next();
+//            }
+            blobClient = blobContainerClient.getBlobClient(item.getName());
             System.out.println("Flow log:");
-            ((CloudBlob) item).download(System.out);
+            blobClient.download(System.out);
             // download flow file; note: this will download only one of the files
-            ((CloudBlob) item).downloadToFile(flowLogFile);
+            blobClient.downloadToFile(flowLogFile);
             System.out.println("Flow log saved to ./" + flowLogFile);
 
             //============================================================
@@ -313,6 +316,7 @@ public final class ManageNetworkWatcher {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -323,7 +327,7 @@ public final class ManageNetworkWatcher {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

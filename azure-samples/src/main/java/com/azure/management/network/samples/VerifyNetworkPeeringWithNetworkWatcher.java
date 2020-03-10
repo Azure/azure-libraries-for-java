@@ -6,20 +6,22 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.network.ConnectivityCheck;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkPeering;
-import com.microsoft.azure.management.network.NetworkWatcher;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.network.ConnectivityCheck;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkPeering;
+import com.azure.management.network.NetworkWatcher;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.CreatedResources;
+import com.azure.management.resources.fluentcore.model.Executable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
+import sun.rmi.runtime.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,54 +29,54 @@ import java.util.List;
 
 /**
  * Azure Network sample for verifying connectivity between two peered virtual networks using Azure Network Watcher.
- *
+ * <p>
  * Summary ...
- *
+ * <p>
  * - This sample uses Azure Network Watcher's connectivity check to verify connectivity between
- *   two peered virtual networks.
- *
+ * two peered virtual networks.
+ * <p>
  * Details ...
- *
+ * <p>
  * 1. Define two virtual networks network "A" and network "B" with one subnet each
- *
+ * <p>
  * 2. Create two virtual machines, each within a separate network
- *   - The virtual machines currently must use a special extension to support Network Watcher
-
+ * - The virtual machines currently must use a special extension to support Network Watcher
+ * <p>
  * 3. Peer the networks...
- *   - the peering will initially have default settings:
- *   - each network's IP address spaces will be accessible from the other network
- *   - no traffic forwarding will be enabled between the networks
- *   - no gateway transit between one network and the other will be enabled
- *
+ * - the peering will initially have default settings:
+ * - each network's IP address spaces will be accessible from the other network
+ * - no traffic forwarding will be enabled between the networks
+ * - no gateway transit between one network and the other will be enabled
+ * <p>
  * 4. Use Network Watcher to check connectivity between the virtual machines in different peering scenarios:
- *   - both virtual machines accessible to each other (bi-directional)
- *   - virtual machine A accessible to virtual machine B, but not the other way
- *
+ * - both virtual machines accessible to each other (bi-directional)
+ * - virtual machine A accessible to virtual machine B, but not the other way
  */
 
 public final class VerifyNetworkPeeringWithNetworkWatcher {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
         final Region region = Region.US_SOUTH_CENTRAL;
-        final String resourceGroupName = SdkContext.randomResourceName("rg", 15);
-        final String vnetAName = SdkContext.randomResourceName("net", 15);
-        final String vnetBName = SdkContext.randomResourceName("net", 15);
+        final String resourceGroupName = azure.sdkContext().randomResourceName("rg", 15);
+        final String vnetAName = azure.sdkContext().randomResourceName("net", 15);
+        final String vnetBName = azure.sdkContext().randomResourceName("net", 15);
 
-        final String[] vmNames = SdkContext.randomResourceNames("vm", 15, 2);
-        final String[] vmIPAddresses = new String[] {
+        final String[] vmNames = azure.sdkContext().randomResourceNames("vm", 15, 2);
+        final String[] vmIPAddresses = new String[]{
                 /* within subnetA */ "10.0.0.8",
                 /* within subnetB */ "10.1.0.8"
         };
 
-        final String peeringABName = SdkContext.randomResourceName("peer", 15);
+        final String peeringABName = azure.sdkContext().randomResourceName("peer", 15);
         final String rootname = "tirekicker";
-        final String password = SdkContext.randomResourceName("pWd!", 15);
-        final String networkWatcherName = SdkContext.randomResourceName("netwch", 20);
+        final String password = azure.sdkContext().randomResourceName("pWd!", 15);
+        final String networkWatcherName = azure.sdkContext().randomResourceName("netwch", 20);
 
         try {
 
@@ -112,10 +114,10 @@ public final class VerifyNetworkPeeringWithNetworkWatcher {
 
                         // Extension currently needed for network watcher support
                         .defineNewExtension("packetCapture")
-                            .withPublisher("Microsoft.Azure.NetworkWatcher")
-                            .withType("NetworkWatcherAgentLinux")
-                            .withVersion("1.4")
-                            .attach());
+                        .withPublisher("Microsoft.Azure.NetworkWatcher")
+                        .withType("NetworkWatcherAgentLinux")
+                        .withVersion("1.4")
+                        .attach());
             }
 
             // Create the VMs in parallel for better performance
@@ -136,9 +138,9 @@ public final class VerifyNetworkPeeringWithNetworkWatcher {
 
             System.out.println(
                     "Peering the networks using default settings...\n"
-                    + "- Network access enabled\n"
-                    + "- Traffic forwarding disabled\n"
-                    + "- Gateway use (transit) by the remote network disabled");
+                            + "- Network access enabled\n"
+                            + "- Traffic forwarding disabled\n"
+                            + "- Gateway use (transit) by the remote network disabled");
 
             NetworkPeering peeringAB = networkA.peerings().define(peeringABName)
                     .withRemoteNetwork(networkB)
@@ -156,22 +158,22 @@ public final class VerifyNetworkPeeringWithNetworkWatcher {
 
             // Verify bi-directional connectivity between the VMs on port 22 (SSH enabled by default on Linux VMs)
             Executable<ConnectivityCheck> connectivityAtoB = networkWatcher.checkConnectivity()
-                .toDestinationAddress(vmIPAddresses[1])
-                .toDestinationPort(22)
-                .fromSourceVirtualMachine(vmA);
+                    .toDestinationAddress(vmIPAddresses[1])
+                    .toDestinationPort(22)
+                    .fromSourceVirtualMachine(vmA);
             System.out.println("Connectivity from A to B: " + connectivityAtoB.execute().connectionStatus());
 
             Executable<ConnectivityCheck> connectivityBtoA = networkWatcher.checkConnectivity()
-                .toDestinationAddress(vmIPAddresses[0])
-                .toDestinationPort(22)
-                .fromSourceVirtualMachine(vmB);
+                    .toDestinationAddress(vmIPAddresses[0])
+                    .toDestinationPort(22)
+                    .fromSourceVirtualMachine(vmB);
             System.out.println("Connectivity from B to A: " + connectivityBtoA.execute().connectionStatus());
 
             // Change the peering to allow access between A and B
             System.out.println("Changing the peering to disable access between A and B...");
             peeringAB.update()
-                .withoutAccessFromEitherNetwork()
-                .apply();
+                    .withoutAccessFromEitherNetwork()
+                    .apply();
 
             Utils.print(networkA);
             Utils.print(networkB);
@@ -202,6 +204,7 @@ public final class VerifyNetworkPeeringWithNetworkWatcher {
 
     /**
      * Main entry point.
+     *
      * @param args parameters
      */
 
@@ -215,7 +218,7 @@ public final class VerifyNetworkPeeringWithNetworkWatcher {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BODY.withPrettyJson(true))
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -228,6 +231,7 @@ public final class VerifyNetworkPeeringWithNetworkWatcher {
             e.printStackTrace();
         }
     }
+
     private VerifyNetworkPeeringWithNetworkWatcher() {
 
     }

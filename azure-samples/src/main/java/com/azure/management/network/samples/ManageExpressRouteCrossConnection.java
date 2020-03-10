@@ -5,26 +5,28 @@
  */
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.network.ExpressRouteCrossConnection;
-import com.microsoft.rest.LogLevel;
+
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.Azure;
+import com.azure.management.network.ExpressRouteCrossConnection;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Azure Network sample for managing express route cross connections.
- *  - List Express Route Cross Connections
- *  - Get Express Route Cross Connection by id
- *  - Create private peering
- *  - Create Microsoft peering
- *  - Update Microsoft peering
- *  - Delete peerings
+ * - List Express Route Cross Connections
+ * - Get Express Route Cross Connection by id
+ * - Create private peering
+ * - Create Microsoft peering
+ * - Update Microsoft peering
+ * - Delete peerings
  */
 public final class ManageExpressRouteCrossConnection {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
@@ -33,7 +35,7 @@ public final class ManageExpressRouteCrossConnection {
         try {
             //============================================================
             // list Express Route Cross Connections
-            List<ExpressRouteCrossConnection> connections = azure.expressRouteCrossConnections().list();
+            PagedIterable<ExpressRouteCrossConnection> connections = azure.expressRouteCrossConnections().list();
 
             //============================================================
             // get Express Route Cross Connection by id
@@ -63,12 +65,12 @@ public final class ManageExpressRouteCrossConnection {
                     .withPeerAsn(500)
                     .withSharedKey("A1B2C3D4")
                     .defineIpv6Config()
-                        .withAdvertisedPublicPrefix("3FFE:FFFF:0:CD31::/120")
-                        .withCustomerASN(23)
-                        .withRoutingRegistryName("ARIN")
-                        .withPrimaryPeerAddressPrefix("3FFE:FFFF:0:CD30::/126")
-                        .withSecondaryPeerAddressPrefix("3FFE:FFFF:0:CD30::4/126")
-                        .attach()
+                    .withAdvertisedPublicPrefix("3FFE:FFFF:0:CD31::/120")
+                    .withCustomerASN(23)
+                    .withRoutingRegistryName("ARIN")
+                    .withPrimaryPeerAddressPrefix("3FFE:FFFF:0:CD30::/126")
+                    .withSecondaryPeerAddressPrefix("3FFE:FFFF:0:CD30::4/126")
+                    .attach()
                     .create();
 
             //============================================================
@@ -102,6 +104,7 @@ public final class ManageExpressRouteCrossConnection {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -111,7 +114,7 @@ public final class ManageExpressRouteCrossConnection {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions())
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

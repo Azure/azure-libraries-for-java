@@ -6,51 +6,53 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkInterface;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownWindowsVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkInterface;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 import java.util.Date;
 
 /**
  * Azure Network sample for managing network interfaces -
- *  - Create a virtual machine with multiple network interfaces
- *  - Configure a network interface
- *  - List network interfaces
- *  - Delete a network interface.
+ * - Create a virtual machine with multiple network interfaces
+ * - Configure a network interface
+ * - List network interfaces
+ * - Delete a network interface.
  */
 
 public final class ManageNetworkInterface {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
         final Region region = Region.US_NORTH_CENTRAL;
-        final String vnetName = SdkContext.randomResourceName("vnet", 24);
-        final String networkInterfaceName1 = SdkContext.randomResourceName("nic1", 24);
-        final String networkInterfaceName2 = SdkContext.randomResourceName("nic2", 24);
-        final String networkInterfaceName3 = SdkContext.randomResourceName("nic3", 24);
-        final String publicIPAddressLeafDNS1 = SdkContext.randomResourceName("pip1", 24);
-        final String publicIPAddressLeafDNS2 = SdkContext.randomResourceName("pip2", 24);
+        final String vnetName = azure.sdkContext().randomResourceName("vnet", 24);
+        final String networkInterfaceName1 = azure.sdkContext().randomResourceName("nic1", 24);
+        final String networkInterfaceName2 = azure.sdkContext().randomResourceName("nic2", 24);
+        final String networkInterfaceName3 = azure.sdkContext().randomResourceName("nic3", 24);
+        final String publicIPAddressLeafDNS1 = azure.sdkContext().randomResourceName("pip1", 24);
+        final String publicIPAddressLeafDNS2 = azure.sdkContext().randomResourceName("pip2", 24);
 
         // TODO adjust the length of vm name from 8 to 24
-        final String vmName = SdkContext.randomResourceName("vm", 8);
-        final String rgName = SdkContext.randomResourceName("rgNEMI", 24);
+        final String vmName = azure.sdkContext().randomResourceName("vm", 8);
+        final String rgName = azure.sdkContext().randomResourceName("rgNEMI", 24);
         final String userName = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
-        final String password = SdkContext.randomResourceName("Pa5$", 24);
+        final String password = azure.sdkContext().randomResourceName("Pa5$", 24);
         try {
 
             //============================================================
@@ -65,14 +67,14 @@ public final class ManageNetworkInterface {
                     .withNewResourceGroup(rgName)
                     .withAddressSpace("172.16.0.0/16")
                     .defineSubnet("Front-end")
-                        .withAddressPrefix("172.16.1.0/24")
-                        .attach()
+                    .withAddressPrefix("172.16.1.0/24")
+                    .attach()
                     .defineSubnet("Mid-tier")
-                        .withAddressPrefix("172.16.2.0/24")
-                        .attach()
+                    .withAddressPrefix("172.16.2.0/24")
+                    .attach()
                     .defineSubnet("Back-end")
-                        .withAddressPrefix("172.16.3.0/24")
-                        .attach()
+                    .withAddressPrefix("172.16.3.0/24")
+                    .attach()
                     .create();
 
             System.out.println("Created a virtual network: " + network.id());
@@ -162,7 +164,7 @@ public final class ManageNetworkInterface {
             // List network interfaces
 
             System.out.println("Walking through network inter4faces in resource group: " + rgName);
-            PagedList<NetworkInterface> networkInterfaces = azure.networkInterfaces().listByResourceGroup(rgName);
+            PagedIterable<NetworkInterface> networkInterfaces = azure.networkInterfaces().listByResourceGroup(rgName);
             for (NetworkInterface networkinterface : networkInterfaces) {
                 Utils.print(networkinterface);
             }
@@ -208,6 +210,7 @@ public final class ManageNetworkInterface {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -219,7 +222,7 @@ public final class ManageNetworkInterface {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

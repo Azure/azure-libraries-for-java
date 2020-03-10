@@ -6,20 +6,19 @@
 
 package com.azure.management.network.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.network.Network;
-import com.microsoft.azure.management.network.NetworkSecurityGroup;
-import com.microsoft.azure.management.network.SecurityRuleProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkSecurityGroup;
+import com.azure.management.network.SecurityRuleProtocol;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
 
 import java.io.File;
 import java.util.Date;
@@ -28,33 +27,34 @@ import java.util.TreeMap;
 
 /**
  * Azure Network sample for managing virtual networks.
- *  - Create a virtual network with Subnets
- *  - Update a virtual network
- *  - Create virtual machines in the virtual network subnets
- *  - Create another virtual network
- *  - List virtual networks
+ * - Create a virtual network with Subnets
+ * - Update a virtual network
+ * - Create virtual machines in the virtual network subnets
+ * - Create another virtual network
+ * - List virtual networks
  */
 
 public final class ManageVirtualNetworkAsync {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(final Azure azure) {
-        final String vnetName1 = SdkContext.randomResourceName("vnet1", 20);
-        final String vnetName2 = SdkContext.randomResourceName("vnet2", 20);
+        final String vnetName1 = azure.sdkContext().randomResourceName("vnet1", 20);
+        final String vnetName2 = azure.sdkContext().randomResourceName("vnet2", 20);
         final String vnet1FrontEndSubnetName = "frontend";
         final String vnet1BackEndSubnetName = "backend";
         final String vnet1FrontEndSubnetNsgName = "frontendnsg";
         final String vnet1BackEndSubnetNsgName = "backendnsg";
-        final String frontEndVMName = SdkContext.randomResourceName("fevm", 24);
-        final String backEndVMName = SdkContext.randomResourceName("bevm", 24);
-        final String publicIPAddressLeafDnsForFrontEndVM = SdkContext.randomResourceName("pip1", 24);
+        final String frontEndVMName = azure.sdkContext().randomResourceName("fevm", 24);
+        final String backEndVMName = azure.sdkContext().randomResourceName("bevm", 24);
+        final String publicIPAddressLeafDnsForFrontEndVM = azure.sdkContext().randomResourceName("pip1", 24);
         final String userName = "tirekicker";
         final String sshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCfSPC2K7LZcFKEO+/t3dzmQYtrJFZNxOsbVgOVKietqHyvmYGHEC0J2wPdAqQ/63g/hhAEFRoyehM+rbeDri4txB3YFfnOK58jqdkyXzupWqXzOrlKY4Wz9SKjjN765+dqUITjKRIaAip1Ri137szRg71WnrmdP3SphTRlCx1Bk2nXqWPsclbRDCiZeF8QOTi4JqbmJyK5+0UqhqYRduun8ylAwKKQJ1NJt85sYIHn9f1Rfr6Tq2zS0wZ7DHbZL+zB5rSlAr8QyUdg/GQD+cmSs6LvPJKL78d6hMGk84ARtFo4A79ovwX/Fj01znDQkU6nJildfkaolH2rWFG/qttD azjava@javalib.com";
-        final String rgName = SdkContext.randomResourceName("rgNEMV", 24);
+        final String rgName = azure.sdkContext().randomResourceName("rgNEMV", 24);
 
         try {
             //============================================================
@@ -68,11 +68,11 @@ public final class ManageVirtualNetworkAsync {
 
             final Map<String, Indexable> createdResources = new TreeMap<>();
 
-            Observable.merge(
+            Flux.merge(
                     azure.networkSecurityGroups().define(vnet1BackEndSubnetNsgName)
-                        .withRegion(Region.US_EAST)
-                        .withNewResourceGroup(rgName)
-                        .defineRule("DenyInternetInComing")
+                            .withRegion(Region.US_EAST)
+                            .withNewResourceGroup(rgName)
+                            .defineRule("DenyInternetInComing")
                             .denyInbound()
                             .fromAddress("INTERNET")
                             .fromAnyPort()
@@ -80,7 +80,7 @@ public final class ManageVirtualNetworkAsync {
                             .toAnyPort()
                             .withAnyProtocol()
                             .attach()
-                        .defineRule("DenyInternetOutGoing")
+                            .defineRule("DenyInternetOutGoing")
                             .denyOutbound()
                             .fromAnyAddress()
                             .fromAnyPort()
@@ -88,68 +88,62 @@ public final class ManageVirtualNetworkAsync {
                             .toAnyPort()
                             .withAnyProtocol()
                             .attach()
-                        .createAsync()
-                    .flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(Indexable indexable) {
-                            if (indexable instanceof NetworkSecurityGroup) {
-                                NetworkSecurityGroup backEndNsg = (NetworkSecurityGroup) indexable;
-                                System.out.println("Creating virtual network #1...");
-                                return Observable.merge(
-                                        Observable.just(indexable),
-                                        azure.networks().define(vnetName1)
-                                            .withRegion(Region.US_EAST)
-                                            .withExistingResourceGroup(rgName)
-                                            .withAddressSpace("192.168.0.0/16")
-                                            .withSubnet(vnet1FrontEndSubnetName, "192.168.1.0/24")
-                                            .defineSubnet(vnet1BackEndSubnetName)
-                                                .withAddressPrefix("192.168.2.0/24")
-                                                .withExistingNetworkSecurityGroup(backEndNsg)
-                                                .attach()
-                                            .createAsync());
-                            }
-                            return Observable.just(indexable);
-                        }
-                    }),
+                            .createAsync()
+                            .flatMap(indexable -> {
+                                if (indexable instanceof NetworkSecurityGroup) {
+                                    NetworkSecurityGroup backEndNsg = (NetworkSecurityGroup) indexable;
+                                    System.out.println("Creating virtual network #1...");
+                                    return Flux.merge(
+                                            Flux.just(indexable),
+                                            azure.networks().define(vnetName1)
+                                                    .withRegion(Region.US_EAST)
+                                                    .withExistingResourceGroup(rgName)
+                                                    .withAddressSpace("192.168.0.0/16")
+                                                    .withSubnet(vnet1FrontEndSubnetName, "192.168.1.0/24")
+                                                    .defineSubnet(vnet1BackEndSubnetName)
+                                                    .withAddressPrefix("192.168.2.0/24")
+                                                    .withExistingNetworkSecurityGroup(backEndNsg)
+                                                    .attach()
+                                                    .createAsync());
+                                }
+                                return Flux.just(indexable);
+                            }),
                     azure.networkSecurityGroups().define(vnet1FrontEndSubnetNsgName)
                             .withRegion(Region.US_EAST)
                             .withExistingResourceGroup(rgName)
                             .defineRule("AllowHttpInComing")
-                                .allowInbound()
-                                .fromAddress("INTERNET")
-                                .fromAnyPort()
-                                .toAnyAddress()
-                                .toPort(80)
-                                .withProtocol(SecurityRuleProtocol.TCP)
-                                .attach()
+                            .allowInbound()
+                            .fromAddress("INTERNET")
+                            .fromAnyPort()
+                            .toAnyAddress()
+                            .toPort(80)
+                            .withProtocol(SecurityRuleProtocol.TCP)
+                            .attach()
                             .defineRule("DenyInternetOutGoing")
-                                .denyOutbound()
-                                .fromAnyAddress()
-                                .fromAnyPort()
-                                .toAddress("INTERNET")
-                                .toAnyPort()
-                                .withAnyProtocol()
-                                .attach()
+                            .denyOutbound()
+                            .fromAnyAddress()
+                            .fromAnyPort()
+                            .toAddress("INTERNET")
+                            .toAnyPort()
+                            .withAnyProtocol()
+                            .attach()
                             .createAsync()
-                ).map(new Func1<Indexable, Indexable>() {
-                @Override
-                public Indexable call(Indexable indexable) {
-                    if (indexable instanceof NetworkSecurityGroup) {
-                        NetworkSecurityGroup nsg = (NetworkSecurityGroup) indexable;
-                        System.out.println("Created network security group");
-                        // Print the network security group
-                        Utils.print(nsg);
-                        createdResources.put(nsg.name(), nsg);
-                    } else if (indexable instanceof Network) {
-                        Network vn = (Network) indexable;
-                        System.out.println("Created a virtual network");
-                        // Print the virtual network details
-                        Utils.print(vn);
-                        createdResources.put(vn.name(), vn);
-                    }
-                    return indexable;
+            ).map(indexable -> {
+                if (indexable instanceof NetworkSecurityGroup) {
+                    NetworkSecurityGroup nsg = (NetworkSecurityGroup) indexable;
+                    System.out.println("Created network security group");
+                    // Print the network security group
+                    Utils.print(nsg);
+                    createdResources.put(nsg.name(), nsg);
+                } else if (indexable instanceof Network) {
+                    Network vn = (Network) indexable;
+                    System.out.println("Created a virtual network");
+                    // Print the virtual network details
+                    Utils.print(vn);
+                    createdResources.put(vn.name(), vn);
                 }
-            }).toBlocking().subscribe();
+                return indexable;
+            }).blockLast();
 
             NetworkSecurityGroup frontEndSubnetNsg = (NetworkSecurityGroup) createdResources.get(vnet1FrontEndSubnetNsgName);
             Network virtualNetwork1 = (Network) createdResources.get(vnetName1);
@@ -164,10 +158,10 @@ public final class ManageVirtualNetworkAsync {
 
             virtualNetwork1.update()
                     .updateSubnet(vnet1FrontEndSubnetName)
-                        .withExistingNetworkSecurityGroup(frontEndSubnetNsg)
-                        .parent()
+                    .withExistingNetworkSecurityGroup(frontEndSubnetNsg)
+                    .parent()
                     .applyAsync()
-            .toCompletable().await();
+                    .block();
 
             System.out.println("Network security group rule associated with the frontend subnet");
             // Print the virtual network details
@@ -185,7 +179,7 @@ public final class ManageVirtualNetworkAsync {
 
             final Date t1 = new Date();
 
-            Observable.merge(
+            Flux.merge(
                     azure.virtualMachines().define(frontEndVMName)
                             .withRegion(Region.US_EAST)
                             .withExistingResourceGroup(rgName)
@@ -214,39 +208,33 @@ public final class ManageVirtualNetworkAsync {
                             .withRegion(Region.US_EAST)
                             .withNewResourceGroup(rgName)
                             .createAsync())
-            .map(new Func1<Indexable, Indexable>() {
-                @Override
-                public Indexable call(Indexable indexable) {
-                    Date t2 = new Date();
-                    long duration = ((t2.getTime() - t1.getTime()) / 1000);
+                    .map(indexable -> {
+                        Date t2 = new Date();
+                        long duration = ((t2.getTime() - t1.getTime()) / 1000);
 
-                    if (indexable instanceof VirtualMachine) {
-                        VirtualMachine vm = (VirtualMachine) indexable;
-                        System.out.println("Created Linux VM: (took "
-                                + duration + " seconds) " + vm.id());
-                        // Print virtual machine details
-                        Utils.print(vm);
-                    } else if (indexable instanceof Network) {
-                        Network vn = (Network) indexable;
-                        System.out.println("Created a virtual network: took "
-                                + duration + " seconds) " + vn.id());
-                        // Print the virtual network details
-                        Utils.print(vn);
-                    }
-                    return indexable;
-                }
-            });
+                        if (indexable instanceof VirtualMachine) {
+                            VirtualMachine vm = (VirtualMachine) indexable;
+                            System.out.println("Created Linux VM: (took "
+                                    + duration + " seconds) " + vm.id());
+                            // Print virtual machine details
+                            Utils.print(vm);
+                        } else if (indexable instanceof Network) {
+                            Network vn = (Network) indexable;
+                            System.out.println("Created a virtual network: took "
+                                    + duration + " seconds) " + vn.id());
+                            // Print the virtual network details
+                            Utils.print(vn);
+                        }
+                        return indexable;
+                    });
 
             //============================================================
             // List virtual networks and print details
             azure.networks().listByResourceGroupAsync(rgName)
-                    .map(new Func1<Network, Network>() {
-                        @Override
-                        public Network call(Network network) {
-                            Utils.print(network);
-                            return network;
-                        }
-                    }).toBlocking().subscribe();
+                    .map(network -> {
+                        Utils.print(network);
+                        return network;
+                    }).blockLast();
 
             return true;
         } catch (Exception e) {
@@ -254,8 +242,7 @@ public final class ManageVirtualNetworkAsync {
         } finally {
             try {
                 System.out.println("Deleting Resource Group: " + rgName);
-                azure.resourceGroups().deleteByNameAsync(rgName)
-                        .await();
+                azure.resourceGroups().deleteByNameAsync(rgName).block();
                 System.out.println("Deleted Resource Group: " + rgName);
             } catch (NullPointerException npe) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");
@@ -269,6 +256,7 @@ public final class ManageVirtualNetworkAsync {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -279,7 +267,7 @@ public final class ManageVirtualNetworkAsync {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

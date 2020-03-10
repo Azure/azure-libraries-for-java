@@ -4,9 +4,16 @@
  * license information.
  */
 
-package com.microsoft.azure.management.samples;
+package com.azure.management.samples;
 
-import com.azure.management.samples.SSHShell;
+import com.azure.management.Azure;
+import com.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.compute.VirtualMachineSizeTypes;
+import com.azure.management.network.NicIPConfiguration;
+import com.azure.management.network.PublicIPAddress;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.exception.DockerClientException;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
@@ -15,14 +22,6 @@ import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.SSLConfig;
 import com.github.dockerjava.core.util.CertificateUtils;
 import com.jcraft.jsch.JSchException;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.network.NicIPConfiguration;
-import com.microsoft.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.glassfish.jersey.SslConfigurator;
 
@@ -48,13 +47,14 @@ public class DockerUtils {
     /**
      * Creates "in memory" SSL configuration to be used by the Java Docker Client.
      */
-    public static class DockerSSLConfig    implements SSLConfig, Serializable {
+    public static class DockerSSLConfig implements SSLConfig, Serializable {
         private SslConfigurator sslConfig;
 
         /**
          * Constructor for the class.
-         * @param caPem - content of the ca.pem certificate file
-         * @param keyPem - content of the key.pem certificate file
+         *
+         * @param caPem   - content of the ca.pem certificate file
+         * @param keyPem  - content of the key.pem certificate file
          * @param certPem - content of the cert.pem certificate file
          */
         public DockerSSLConfig(String caPem, String keyPem, String certPem) {
@@ -83,12 +83,13 @@ public class DockerUtils {
 
     /**
      * Instantiate a Docker client that will be used for Docker client related operations.
-     * @param azure - instance of Azure
-     * @param rgName - name of the Azure resource group to be used when creating a virtual machine
-     * @param region - region to be used when creating a virtual machine
+     *
+     * @param azure             - instance of Azure
+     * @param rgName            - name of the Azure resource group to be used when creating a virtual machine
+     * @param region            - region to be used when creating a virtual machine
      * @param registryServerUrl - address of the private container registry
-     * @param username - user name to connect with to the private container registry
-     * @param password - password to connect with to the private container registry
+     * @param username          - user name to connect with to the private container registry
+     * @param password          - password to connect with to the private container registry
      * @return an instance of DockerClient
      * @throws Exception exception thrown
      */
@@ -135,13 +136,14 @@ public class DockerUtils {
 
     /**
      * Creates a DockerClientConfig object to be used when creating the Java Docker client using a secured connection.
-     * @param host - Docker host address (IP) to connect to
+     *
+     * @param host              - Docker host address (IP) to connect to
      * @param registryServerUrl - address of the private container registry
-     * @param username - user name to connect with to the private container registry
-     * @param password - password to connect with to the private container registry
-     * @param caPemContent - content of the ca.pem certificate file
-     * @param keyPemContent - content of the key.pem certificate file
-     * @param certPemContent - content of the cert.pem certificate file
+     * @param username          - user name to connect with to the private container registry
+     * @param password          - password to connect with to the private container registry
+     * @param caPemContent      - content of the ca.pem certificate file
+     * @param keyPemContent     - content of the key.pem certificate file
+     * @param certPemContent    - content of the cert.pem certificate file
      * @return an instance of DockerClient configuration
      */
     public static DockerClientConfig createDockerClientConfig(String host, String registryServerUrl, String username, String password,
@@ -158,10 +160,11 @@ public class DockerUtils {
 
     /**
      * Creates a DockerClientConfig object to be used when creating the Java Docker client using an unsecured connection.
-     * @param host - Docker host address (IP) to connect to
+     *
+     * @param host              - Docker host address (IP) to connect to
      * @param registryServerUrl - address of the private container registry
-     * @param username - user name to connect with to the private container registry
-     * @param password - password to connect with to the private container registry
+     * @param username          - user name to connect with to the private container registry
+     * @param password          - password to connect with to the private container registry
      * @return an instance of DockerClient configuration
      */
     public static DockerClientConfig createDockerClientConfig(String host, String registryServerUrl, String username, String password) {
@@ -176,19 +179,20 @@ public class DockerUtils {
 
     /**
      * It creates a new Azure virtual machine and it instantiate a Java Docker client.
-     * @param azure - instance of Azure
-     * @param rgName - name of the Azure resource group to be used when creating a virtual machine
-     * @param region - region to be used when creating a virtual machine
+     *
+     * @param azure             - instance of Azure
+     * @param rgName            - name of the Azure resource group to be used when creating a virtual machine
+     * @param region            - region to be used when creating a virtual machine
      * @param registryServerUrl - address of the private container registry
-     * @param username - user name to connect with to the private container registry
-     * @param password - password to connect with to the private container registry
+     * @param username          - user name to connect with to the private container registry
+     * @param password          - password to connect with to the private container registry
      * @return an instance of DockerClient
      * @throws Exception exception thrown
      */
     public static DockerClient fromNewDockerVM(Azure azure, String rgName, Region region,
                                                String registryServerUrl, String username, String password) throws Exception {
-        final String dockerVMName = SdkContext.randomResourceName("dockervm", 15);
-        final String publicIPDnsLabel = SdkContext.randomResourceName("pip", 10);
+        final String dockerVMName = azure.sdkContext().randomResourceName("dockervm", 15);
+        final String publicIPDnsLabel = azure.sdkContext().randomResourceName("pip", 10);
         final String vmUserName = "dockerUser";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String vmPassword = "12NewPA!!w0rd!";
@@ -231,12 +235,13 @@ public class DockerUtils {
 
     /**
      * Install Docker on a given virtual machine and return a DockerClient.
-     * @param dockerHostIP - address (IP) of the Docker host machine
-     * @param vmUserName - user name to connect with to the Docker host machine
-     * @param vmPassword - password to connect with to the Docker host machine
+     *
+     * @param dockerHostIP      - address (IP) of the Docker host machine
+     * @param vmUserName        - user name to connect with to the Docker host machine
+     * @param vmPassword        - password to connect with to the Docker host machine
      * @param registryServerUrl - address of the private container registry
-     * @param username - user name to connect with to the private container registry
-     * @param password - password to connect with to the private container registry
+     * @param username          - user name to connect with to the private container registry
+     * @param password          - password to connect with to the private container registry
      * @return an instance of DockerClient
      */
     public static DockerClient installDocker(String dockerHostIP, String vmUserName, String vmPassword,

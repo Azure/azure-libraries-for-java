@@ -6,19 +6,17 @@
 
 package com.azure.management.resources.samples;
 
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
 import com.azure.management.resources.Deployment;
 import com.azure.management.resources.DeploymentMode;
+import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.microsoft.azure.management.Azure;
-import com.azure.management.resources.Deployment;
-import com.azure.management.resources.DeploymentMode;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,14 +31,15 @@ public final class DeployUsingARMTemplateWithProgress {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String rgName = SdkContext.randomResourceName("rgRSAP", 24);
-        final String deploymentName = SdkContext.randomResourceName("dpRSAP", 24);
+        final String rgName = azure.sdkContext().randomResourceName("rgRSAP", 24);
+        final String deploymentName = azure.sdkContext().randomResourceName("dpRSAP", 24);
         try {
-            String templateJson = DeployUsingARMTemplateWithProgress.getTemplate();
+            String templateJson = DeployUsingARMTemplateWithProgress.getTemplate(azure);
 
             //=============================================================
             // Create resource group.
@@ -102,6 +101,7 @@ public final class DeployUsingARMTemplateWithProgress {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -112,22 +112,21 @@ public final class DeployUsingARMTemplateWithProgress {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
             runSample(azure);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
 
     }
 
-    private static String getTemplate() throws IllegalAccessException, JsonProcessingException, IOException {
-        final String hostingPlanName = SdkContext.randomResourceName("hpRSAT", 24);
-        final String webappName = SdkContext.randomResourceName("wnRSAT", 24);
+    private static String getTemplate(Azure azure) throws IllegalAccessException, JsonProcessingException, IOException {
+        final String hostingPlanName = azure.sdkContext().randomResourceName("hpRSAT", 24);
+        final String webappName = azure.sdkContext().randomResourceName("wnRSAT", 24);
         final InputStream embeddedTemplate;
         embeddedTemplate = DeployUsingARMTemplateWithProgress.class.getResourceAsStream("/templateValue.json");
 

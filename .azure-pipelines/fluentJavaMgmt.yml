@@ -3,6 +3,7 @@
 
 trigger:
   - master
+  - vnext
 
 variables:
   DefaultOptions: '--settings settings.xml -Dmaven.wagon.http.pool=false'
@@ -19,16 +20,21 @@ jobs:
           OSVmImage: 'vs2017-win2016'
           JavaVersion: '1.8'
           ProfileFlag: ''
-#        Windows - Java 7:
-#          OSName: 'Windows'
-#          OSVmImage: 'vs2017-win2016'
-#          JavaVersion: '1.7'
-#          ProfileFlag: ''
-    
+
     pool:
       vmImage: $(OSVmImage)
-      
-    steps:      
+
+    steps:
+      - bash: |
+          git clone https://github.com/azure/azure-sdk-for-java
+          git reset fb965b8465 --hard
+          cd azure-sdk-for-java/eng/code-quality-reports
+          mvn install
+          cd ../../sdk/core
+          mvn -DskipTests -Dgpg.skip -Dcheckstyle.skip -Dspotbugs.skip -Drevapi.skip -Dmaven.javadoc.skip -f pom.service.xml -pl azure-core,azure-core-management -am install
+          cd ../../..
+        displayName: 'install azure-core'
+
       - task: Maven@3
         displayName: 'install'
         inputs:
@@ -40,17 +46,7 @@ jobs:
           jdkArchitectureOption: 'x64'
           publishJUnitResults: false
           goals: 'install'
-          
-      - task: JavaToolInstaller@0
-        displayName: 'Install Azul JDK 1.7'
-        inputs:
-          versionSpec: '7'
-          jdkArchitectureOption: 'x64'
-          jdkSourceOption: LocalDirectory
-          jdkFile: "ci/zulu-7-azure-jdk_7.29.0.5-7.0.222-win_x64.zip"
-          jdkDestinationDirectory: '$(Agent.ToolsDirectory)/jdk7'
-          cleanDestinationDirectory: true
-          
+
       - task: Maven@3
         displayName: 'Run StyleCheck'
         inputs:
@@ -64,47 +60,19 @@ jobs:
           goals: 'checkstyle:check'
 
       - task: Maven@3
-        displayName: 'Start Jetty'
-        inputs:
-          mavenPomFile: pom.xml
-          options: '$(ProfileFlag)'
-          mavenOptions: '$(LoggingOptions)'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: $(JavaVersion)
-          jdkArchitectureOption: 'x64'
-          publishJUnitResults: false
-          goals: 'jetty:run-forked'
-          
-      - task: Maven@3
         displayName: 'Run Tests on Java 8'
         inputs:
           mavenPomFile: pom.xml
-          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
+          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3'
           mavenOptions: '$(LoggingOptions)'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: $(JavaVersion)
           jdkArchitectureOption: 'x64'
           publishJUnitResults: false
           goals: 'test'
-          
-      - task: Maven@3
-        displayName: 'Run Tests on Java 7'
-        inputs:
-          mavenPomFile: pom.xml
-          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
-          mavenOptions: '$(LoggingOptions)'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.7'
-          jdkArchitectureOption: 'x64'
-          publishJUnitResults: false
-          goals: 'test'
-          
 
       - task: PublishTestResults@2
         condition: succeededOrFailed()
         inputs:
           mergeTestResults: true
           testRunTitle: 'On Java $(JavaVersion)'
-          
-
-        

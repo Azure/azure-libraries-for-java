@@ -19,9 +19,7 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.CreatedResources;
 import com.azure.management.resources.fluentcore.model.Executable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.samples.Utils;
-import sun.rmi.runtime.Log;
 
 import java.io.File;
 import java.util.ArrayList;

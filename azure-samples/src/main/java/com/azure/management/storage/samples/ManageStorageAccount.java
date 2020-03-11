@@ -6,15 +6,18 @@
 
 package com.azure.management.storage.samples;
 
-import com.microsoft.azure.management.Azure;
+
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.Azure;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
-import com.microsoft.azure.management.storage.StorageAccountKey;
-import com.microsoft.azure.management.storage.StorageAccounts;
-import com.microsoft.azure.management.storage.StorageService;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.samples.Utils;
+import com.azure.management.storage.StorageAccount;
+import com.azure.management.storage.StorageAccountEncryptionStatus;
+import com.azure.management.storage.StorageAccountKey;
+import com.azure.management.storage.StorageAccounts;
+import com.azure.management.storage.StorageService;
 
 import java.io.File;
 import java.util.List;
@@ -22,25 +25,26 @@ import java.util.Map;
 
 /**
  * Azure Storage sample for managing storage accounts -
- *  - Create a storage account
- *  - Get | regenerate storage account access keys
- *  - Create another storage account
- *  - Create another storage account of V2 kind
- *  - List storage accounts
- *  - Delete a storage account.
+ * - Create a storage account
+ * - Get | regenerate storage account access keys
+ * - Create another storage account
+ * - Create another storage account of V2 kind
+ * - List storage accounts
+ * - Delete a storage account.
  */
 
 public final class ManageStorageAccount {
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String storageAccountName = Utils.createRandomName("sa");
-        final String storageAccountName2 = Utils.createRandomName("sa2");
-        final String storageAccountName3 = Utils.createRandomName("sa3");
-        final String rgName = Utils.createRandomName("rgSTMS");
+        final String storageAccountName = azure.sdkContext().randomResourceName("sa", 8);
+        final String storageAccountName2 = azure.sdkContext().randomResourceName("sa2", 8);
+        final String storageAccountName3 = azure.sdkContext().randomResourceName("sa3", 8);
+        final String rgName = azure.sdkContext().randomResourceName("rgSTMS", 8);
         try {
 
             // ============================================================
@@ -68,7 +72,7 @@ public final class ManageStorageAccount {
 
             System.out.println("Regenerating first storage account access key");
 
-            storageAccountKeys = storageAccount.regenerateKey(storageAccountKeys.get(0).keyName());
+            storageAccountKeys = storageAccount.regenerateKey(storageAccountKeys.get(0).getKeyName());
 
             Utils.print(storageAccountKeys);
 
@@ -120,11 +124,9 @@ public final class ManageStorageAccount {
 
             StorageAccounts storageAccounts = azure.storageAccounts();
 
-            List<StorageAccount> accounts = storageAccounts.listByResourceGroup(rgName);
-            StorageAccount sa;
-            for (int i = 0; i < accounts.size(); i++) {
-                sa = (StorageAccount) accounts.get(i);
-                System.out.println("Storage Account (" + i + ") " + sa.name()
+            PagedIterable<StorageAccount> accounts = storageAccounts.listByResourceGroup(rgName);
+            for (StorageAccount sa : accounts) {
+                System.out.println("Storage Account " + sa.name()
                         + " created @ " + sa.creationTime());
             }
 
@@ -146,8 +148,7 @@ public final class ManageStorageAccount {
                 System.out.println("Deleting Resource Group: " + rgName);
                 azure.resourceGroups().deleteByName(rgName);
                 System.out.println("Deleted Resource Group: " + rgName);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");
             }
         }
@@ -156,6 +157,7 @@ public final class ManageStorageAccount {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -163,7 +165,7 @@ public final class ManageStorageAccount {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

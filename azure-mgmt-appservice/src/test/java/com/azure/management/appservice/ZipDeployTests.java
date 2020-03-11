@@ -46,7 +46,7 @@ public class ZipDeployTests extends AppServiceTest {
 
         PagedIterable<FunctionEnvelope> envelopes = appServiceManager.functionApps().listFunctions(RG_NAME, functionApp.name());
         Assertions.assertNotNull(envelopes);
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(envelopes));
+        Assertions.assertEquals(1, TestUtilities.getSize(envelopes));
         Assertions.assertEquals(envelopes.iterator().next().href(), "https://" + WEBAPP_NAME_4 +".scm.azurewebsites.net/api/functions/square");
     }
 }

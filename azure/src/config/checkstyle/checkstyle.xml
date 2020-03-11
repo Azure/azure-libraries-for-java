@@ -31,11 +31,6 @@
 -->
 
 <module name="Checker">
-    <module name="SuppressWithNearbyCommentFilter">
-        <property name="commentFormat" value="CHECKSTYLE IGNORE (\w+) FOR NEXT (\d+) LINE"/>
-        <property name="checkFormat" value="$1"/>
-        <property name="influenceFormat" value="$2"/>
-    </module>
     <module name="SuppressionFilter">
         <property name="file" value="${samedir}/suppressions.xml"/>
     </module>
@@ -95,11 +90,17 @@
     </module>
 
     <module name="TreeWalker">
+        <module name="SuppressWithNearbyCommentFilter">
+            <property name="commentFormat" value="CHECKSTYLE IGNORE (\w+) FOR NEXT (\d+) LINE"/>
+            <property name="checkFormat" value="$1"/>
+            <property name="influenceFormat" value="$2"/>
+        </module>
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
 
         <module name="JavadocMethod">
             <property name="scope" value="public"/>
+            <property name="allowMissingParamTags" value="true"/>
         </module>
         <module name="JavadocType"/>
         <module name="JavadocVariable"/>
@@ -178,8 +179,6 @@
         <!-- See http://checkstyle.sf.net/config_modifiers.html -->
         <module name="ModifierOrder"/>
         <module name="RedundantModifier"/>
-        <module name="FileContentsHolder"/>
-
 
         <!-- Checks for blocks. You know, those {}'s         -->
         <!-- See http://checkstyle.sf.net/config_blocks.html -->

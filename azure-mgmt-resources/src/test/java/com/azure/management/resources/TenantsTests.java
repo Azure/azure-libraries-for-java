@@ -33,6 +33,6 @@ public class TenantsTests extends TestBase {
     @Test
     public void canListTenants() throws Exception {
         PagedIterable<TenantIdDescriptionInner> tenants = resourceManager.tenants().list();
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(tenants) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(tenants) > 0);
     }
 }

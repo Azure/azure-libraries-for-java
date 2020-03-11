@@ -98,7 +98,7 @@ public class ComputeSkuTests extends ComputeManagementTest {
         }
 
         skus = this.computeManager.computeSkus().listByRegion(Region.fromName("Unknown"));
-        Assertions.assertEquals(0, TestUtilities.getPagedIterableSize(skus));
+        Assertions.assertEquals(0, TestUtilities.getSize(skus));
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ComputeSkuTests extends ComputeManagementTest {
         }
 
         skus = this.computeManager.computeSkus().listByResourceType(ComputeResourceType.fromString("Unknown"));
-        Assertions.assertEquals(0, TestUtilities.getPagedIterableSize(skus));
+        Assertions.assertEquals(0, TestUtilities.getSize(skus));
     }
 
     @Test
@@ -122,6 +122,6 @@ public class ComputeSkuTests extends ComputeManagementTest {
 
         skus = this.computeManager.computeSkus().listByRegionAndResourceType(Region.US_EAST2, ComputeResourceType.fromString("Unknown"));
         Assertions.assertNotNull(skus);
-        Assertions.assertEquals(0, TestUtilities.getPagedIterableSize(skus));
+        Assertions.assertEquals(0, TestUtilities.getSize(skus));
     }
 }

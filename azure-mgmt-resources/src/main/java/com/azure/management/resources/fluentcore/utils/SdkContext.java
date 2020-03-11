@@ -9,6 +9,8 @@ package com.azure.management.resources.fluentcore.utils;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 
@@ -18,6 +20,7 @@ import java.time.OffsetDateTime;
 public class SdkContext {
     private ResourceNamerFactory resourceNamerFactory = new ResourceNamerFactory();
     private static DelayProvider delayProvider = new DelayProvider();
+    private static FileProvider fileProvider = new FileProvider();
     private static Scheduler reactorScheduler = Schedulers.boundedElastic();
 
     /**
@@ -151,5 +154,22 @@ public class SdkContext {
      */
     public static void setReactorScheduler(Scheduler reactorScheduler) {
         SdkContext.reactorScheduler = reactorScheduler;
+    }
+
+    /**
+     * Sets the FileProvider for SDK framework, by default it does nothing.
+     * @param fileProvider the FileProvider to override.
+     */
+    public static void setFileProvider(FileProvider fileProvider) {
+        SdkContext.fileProvider = fileProvider;
+    }
+
+    /**
+     * Prepares the location for file to be created.
+     * @param files the files to be created.
+     * @throws IOException thrown when failed on IO.
+     */
+    public static void prepareFileLocation(File... files) throws IOException {
+        fileProvider.prepareFileLocation(files);
     }
 }

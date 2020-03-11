@@ -29,12 +29,12 @@ public class SubscriptionsTests extends TestBase {
     @Test
     public void canListSubscriptions() throws Exception {
         PagedIterable<Subscription> subscriptions = resourceManager.subscriptions().list();
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(subscriptions) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(subscriptions) > 0);
     }
 
     @Test
     public void canListLocations() throws Exception {
         PagedIterable<Location> locations = resourceManager.subscriptions().list().iterator().next().listLocations();
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(locations) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(locations) > 0);
     }
 }

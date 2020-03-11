@@ -29,7 +29,7 @@ public class TestUtilities {
         }
     }
 
-    public static <T> int getPagedIterableSize(Iterable<T> iterable) {
+    public static <T> int getSize(Iterable<T> iterable) {
         int res = 0;
 
         for (T t : iterable) {

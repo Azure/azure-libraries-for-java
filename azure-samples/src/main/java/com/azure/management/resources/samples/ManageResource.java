@@ -6,13 +6,11 @@
 
 package com.azure.management.resources.samples;
 
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.Azure;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.SkuName;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.storage.SkuName;
+import com.azure.management.storage.StorageAccount;
 
 import java.io.File;
 
@@ -29,13 +27,14 @@ public final class ManageResource {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String rgName = SdkContext.randomResourceName("rgRSMR", 24);
-        final String resourceName1 = SdkContext.randomResourceName("rn1", 24);
-        final String resourceName2 = SdkContext.randomResourceName("rn2", 24);
+        final String rgName = azure.sdkContext().randomResourceName("rgRSMR", 24);
+        final String resourceName1 = azure.sdkContext().randomResourceName("rn1", 24);
+        final String resourceName2 = azure.sdkContext().randomResourceName("rn2", 24);
         try {
 
 
@@ -139,7 +138,7 @@ public final class ManageResource {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.NONE)
+                    .withLogOptions(new HttpLogOptions())
                     .authenticate(credFile)
                     .withDefaultSubscription();
             runSample(azure);

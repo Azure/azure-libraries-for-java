@@ -62,9 +62,9 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         // List galleries
         //
         PagedIterable<Gallery> galleries = this.computeManager.galleries().listByResourceGroup(RG_NAME);
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(galleries));
+        Assertions.assertEquals(1, TestUtilities.getSize(galleries));
         galleries = this.computeManager.galleries().list();
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(galleries) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(galleries) > 0);
         //
         this.computeManager.galleries().deleteByResourceGroup(javaGallery.resourceGroupName(), javaGallery.name());
     }
@@ -140,7 +140,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         //
         PagedIterable<GalleryImage> images = this.computeManager.galleryImages().listByGallery(RG_NAME, galleryName);
 
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(images));
+        Assertions.assertEquals(1, TestUtilities.getSize(images));
         //
         // Get image from gallery
         //
@@ -239,7 +239,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         PagedIterable<GalleryImageVersion> versions = galleryImage.listVersions();
 
         Assertions.assertNotNull(versions);
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(versions) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(versions) > 0);
 
         //
         // Delete the image version

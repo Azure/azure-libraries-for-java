@@ -403,8 +403,7 @@ class VirtualNetworkGatewayImpl
         }
 
         return Flux.merge(networkObservable, pipObservable)
-                .defaultIfEmpty(null)
-                .last()
+                .last(Resource.DUMMY)
                 .flatMap(resource -> VirtualNetworkGatewayImpl.this.manager().inner().virtualNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner()));
     }
 

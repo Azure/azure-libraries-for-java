@@ -9,8 +9,8 @@ package com.azure.management.containerservice;
 import com.azure.core.util.serializer.JacksonAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.management.resources.fluentcore.arm.Region;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,15 +64,15 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
             .withTag("tag1", "value1")
             .create();
 
-        Assert.assertNotNull(kubernetesCluster.id());
-        Assert.assertEquals(Region.US_CENTRAL, kubernetesCluster.region());
-        Assert.assertEquals("testaks", kubernetesCluster.linuxRootUsername());
-        Assert.assertEquals(1, kubernetesCluster.agentPools().size());
-        Assert.assertNotNull(kubernetesCluster.agentPools().get(agentPoolName));
-        Assert.assertEquals(1, kubernetesCluster.agentPools().get(agentPoolName).count());
-        Assert.assertEquals(ContainerServiceVMSizeTypes.STANDARD_D1, kubernetesCluster.agentPools().get(agentPoolName).vmSize());
-        Assert.assertEquals(AgentPoolType.VIRTUAL_MACHINE_SCALE_SETS, kubernetesCluster.agentPools().get(agentPoolName).type());
-        Assert.assertNotNull(kubernetesCluster.tags().get("tag1"));;
+        Assertions.assertNotNull(kubernetesCluster.id());
+        Assertions.assertEquals(Region.US_CENTRAL, kubernetesCluster.region());
+        Assertions.assertEquals("testaks", kubernetesCluster.linuxRootUsername());
+        Assertions.assertEquals(1, kubernetesCluster.agentPools().size());
+        Assertions.assertNotNull(kubernetesCluster.agentPools().get(agentPoolName));
+        Assertions.assertEquals(1, kubernetesCluster.agentPools().get(agentPoolName).count());
+        Assertions.assertEquals(ContainerServiceVMSizeTypes.STANDARD_D1, kubernetesCluster.agentPools().get(agentPoolName).vmSize());
+        Assertions.assertEquals(AgentPoolType.VIRTUAL_MACHINE_SCALE_SETS, kubernetesCluster.agentPools().get(agentPoolName).type());
+        Assertions.assertNotNull(kubernetesCluster.tags().get("tag1"));;
 
         // update
         kubernetesCluster = kubernetesCluster.update()
@@ -82,10 +82,10 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
             .withoutTag("tag1")
             .apply();
 
-        Assert.assertEquals(1, kubernetesCluster.agentPools().size());
-        Assert.assertEquals(5, kubernetesCluster.agentPools().get(agentPoolName).count());
-        Assert.assertNotNull(kubernetesCluster.tags().get("tag2"));
-        Assert.assertTrue(!kubernetesCluster.tags().containsKey("tag1"));
+        Assertions.assertEquals(1, kubernetesCluster.agentPools().size());
+        Assertions.assertEquals(5, kubernetesCluster.agentPools().get(agentPoolName).count());
+        Assertions.assertNotNull(kubernetesCluster.tags().get("tag2"));
+        Assertions.assertTrue(!kubernetesCluster.tags().containsKey("tag1"));
     }
 
     /**

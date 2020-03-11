@@ -14,9 +14,9 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.implementation.ResourceManager;
 
 public class ContainerServiceManagementTest extends TestBase {
-    protected static ResourceManager resourceManager;
-    protected static ContainerServiceManager containerServiceManager;
-    protected static String RG_NAME = "";
+    protected ResourceManager resourceManager;
+    protected ContainerServiceManager containerServiceManager;
+    protected String RG_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {

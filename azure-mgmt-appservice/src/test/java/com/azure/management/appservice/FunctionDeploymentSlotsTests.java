@@ -114,7 +114,7 @@ public class FunctionDeploymentSlotsTests extends AppServiceTest {
 
         // List
         PagedIterable<FunctionDeploymentSlot> deploymentSlots = functionApp1.deploymentSlots().list();
-        Assertions.assertEquals(3, TestUtilities.getPagedIterableSize(deploymentSlots));
+        Assertions.assertEquals(3, TestUtilities.getSize(deploymentSlots));
 
         // Swap
         slot3.swap(slot1.name());

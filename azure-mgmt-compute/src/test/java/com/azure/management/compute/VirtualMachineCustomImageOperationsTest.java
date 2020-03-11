@@ -89,7 +89,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
         PagedIterable<VirtualMachineCustomImage> images = computeManager
                 .virtualMachineCustomImages()
                 .listByResourceGroup(RG_NAME);
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(images) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(images) > 0);
 
         // Create virtual machine from custom image
         //

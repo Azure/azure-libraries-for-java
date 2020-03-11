@@ -6,32 +6,24 @@
 
 package com.azure.management.resources.samples;
 
-import com.azure.management.resources.Deployment;
-import com.azure.management.resources.DeploymentMode;
-import com.azure.management.resources.DeploymentOperation;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.base.Joiner;
-import com.google.common.io.ByteStreams;
-import com.microsoft.azure.management.Azure;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
 import com.azure.management.resources.Deployment;
 import com.azure.management.resources.DeploymentMode;
 import com.azure.management.resources.DeploymentOperation;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.LogLevel;
-import rx.Observable;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.io.ByteStreams;
+import reactor.core.publisher.Flux;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Azure Resource sample for deploying resources using an ARM template and
@@ -42,16 +34,17 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
 
     /**
      * Main function which runs the actual sample.
-     * @param azure instance of the azure client
+     *
+     * @param azure                  instance of the azure client
      * @param defaultPollingInterval polling interval in seconds
      * @return true if sample runs successfully
      */
     public static boolean runSample(final Azure azure, int defaultPollingInterval) {
-        final String rgPrefix         = SdkContext.randomResourceName("rgJavaTest", 16);
-        final String deploymentPrefix = SdkContext.randomResourceName("javaTest", 16);
-        final String sshKey           = getSSHPublicKey();
-        final int    numDeployments   = 3;
-        final int    pollingInterval  = defaultPollingInterval < 0 ? 15 : defaultPollingInterval; // in seconds
+        final String rgPrefix = azure.sdkContext().randomResourceName("rgJavaTest", 16);
+        final String deploymentPrefix = azure.sdkContext().randomResourceName("javaTest", 16);
+        final String sshKey = getSSHPublicKey();
+        final int numDeployments = 3;
+        final int pollingInterval = defaultPollingInterval < 0 ? 15 : defaultPollingInterval; // in seconds
 
         try {
             // Use the Simple VM Template with SSH Key auth from GH quickstarts
@@ -73,43 +66,32 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
             final List<Deployment> deploymentList = new ArrayList<>();
             final CountDownLatch latch = new CountDownLatch(1);
 
-            Observable.range(1, numDeployments)
-                    .flatMap(new Func1<Integer, Observable<Deployment>>() {
-                        @Override
-                        public Observable<Deployment> call(Integer integer) {
-                            try {
-                                String params;
-                                if (integer == numDeployments) {
-                                    rootNode.set("adminPublicKey", mapper.createObjectNode().put("value", "bad content"));
-                                    params = rootNode.toString(); // Invalid parameters as a negative path
-                                } else {
-                                    params = parameters;
-                                }
-                                return azure.deployments()
-                                        .define(deploymentPrefix + "-" + integer)
-                                        .withNewResourceGroup(rgPrefix + "-" + integer, Region.US_SOUTH_CENTRAL)
-                                        .withTemplateLink(templateUri, templateContentVersion)
-                                        .withParameters(params)
-                                        .withMode(DeploymentMode.COMPLETE)
-                                        .beginCreateAsync();
-                            } catch (IOException e) {
-                                return Observable.error(e);
+            Flux.range(1, numDeployments)
+                    .flatMap(integer -> {
+                        try {
+                            String params;
+                            if (integer == numDeployments) {
+                                rootNode.set("adminPublicKey", mapper.createObjectNode().put("value", "bad content"));
+                                params = rootNode.toString(); // Invalid parameters as a negative path
+                            } else {
+                                params = parameters;
                             }
+                            return azure.deployments()
+                                    .define(deploymentPrefix + "-" + integer)
+                                    .withNewResourceGroup(rgPrefix + "-" + integer, Region.US_SOUTH_CENTRAL)
+                                    .withTemplateLink(templateUri, templateContentVersion)
+                                    .withParameters(params)
+                                    .withMode(DeploymentMode.COMPLETE)
+                                    .beginCreateAsync();
+                        } catch (IOException e) {
+                            return Flux.error(e);
                         }
                     })
-                    .doOnNext(new Action1<Deployment>() {
-                        @Override
-                        public void call(Deployment deployment) {
-                            System.out.println("Deployment created: " + deployment.name());
-                            deploymentList.add(deployment);
-                        }
+                    .doOnNext(deployment -> {
+                        System.out.println("Deployment created: " + deployment.name());
+                        deploymentList.add(deployment);
                     })
-                    .doOnCompleted(new Action0() {
-                        @Override
-                        public void call() {
-                            latch.countDown();
-                        }
-                    }).subscribe();
+                    .doOnComplete(() -> latch.countDown());
 
             latch.await();
 
@@ -117,56 +99,33 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
 
             System.out.println("Checking deployment operations...");
             final CountDownLatch operationLatch = new CountDownLatch(1);
-            Observable.from(deploymentList)
-                    .flatMap(new Func1<Deployment, Observable<List<DeploymentOperation>>>() {
-                        @Override
-                        public Observable<List<DeploymentOperation>> call(final Deployment deployment) {
-                            return deployment.refreshAsync()
-                                    .flatMap(new Func1<Deployment, Observable<List<DeploymentOperation>>>() {
-                                        @Override
-                                        public Observable<List<DeploymentOperation>> call(Deployment deployment) {
-                                            return deployment.deploymentOperations().listAsync().toList();
+            Flux.fromIterable(deploymentList)
+                    .flatMap(deployment -> deployment.refreshAsync()
+                            .flatMapMany(dp -> dp.deploymentOperations().listAsync())
+                            .collectList()
+                            .map(deploymentOperations -> {
+                                synchronized (deploymentList) {
+                                    System.out.println("--------------------" + deployment.name() + "--------------------");
+                                    for (DeploymentOperation operation : deploymentOperations) {
+                                        if (operation.targetResource() != null) {
+                                            System.out.println(String.format("%s - %s: %s %s",
+                                                    operation.targetResource().getResourceName(),
+                                                    operation.targetResource().getResourceName(),
+                                                    operation.provisioningState(),
+                                                    operation.statusMessage() != null ? operation.statusMessage() : ""));
                                         }
-                                    })
-                                    .map(new Func1<List<DeploymentOperation>, List<DeploymentOperation>>() {
-                                        @Override
-                                        public List<DeploymentOperation> call(List<DeploymentOperation> deploymentOperations) {
-                                            synchronized (deploymentList) {
-                                                System.out.println("--------------------" + deployment.name() + "--------------------");
-                                                for (DeploymentOperation operation : deploymentOperations) {
-                                                    if (operation.targetResource() != null) {
-                                                        System.out.println(String.format("%s - %s: %s %s",
-                                                                operation.targetResource().resourceType(),
-                                                                operation.targetResource().resourceName(),
-                                                                operation.provisioningState(),
-                                                                operation.statusMessage() != null ? operation.statusMessage() : ""));
-                                                    }
-                                                }
-                                            }
-                                            return deploymentOperations;
-                                        }
-                                    })
-                                    .repeatWhen(new Func1<Observable<? extends Void>, Observable<?>>() {
-                                        @Override
-                                        public Observable<?> call(Observable<? extends Void> observable) {
-                                            return observable.delay(pollingInterval, TimeUnit.SECONDS);                                     }
-                                    })
-                                    .takeUntil(new Func1<List<DeploymentOperation>, Boolean>() {
-                                        @Override
-                                        public Boolean call(List<DeploymentOperation> deploymentOperations) {
-                                            return "Succeeded".equalsIgnoreCase(deployment.provisioningState())
-                                                    || "Canceled".equalsIgnoreCase(deployment.provisioningState())
-                                                    || "Failed".equalsIgnoreCase(deployment.provisioningState());
+                                    }
+                                }
+                                return deploymentOperations;
+                            })
+                            .repeatWhen(observable -> observable.delaySubscription(Duration.ofSeconds(pollingInterval)))
+                            .takeUntil(deploymentOperations -> {
+                                return "Succeeded".equalsIgnoreCase(deployment.provisioningState())
+                                        || "Canceled".equalsIgnoreCase(deployment.provisioningState())
+                                        || "Failed".equalsIgnoreCase(deployment.provisioningState());
 
-                                        }
-                                    });
-                        }
-                    }).doOnCompleted(new Action0() {
-                        @Override
-                        public void call() {
-                            operationLatch.countDown();
-                        }
-                    }).subscribe();
+                            })
+                    ).doOnComplete(() -> operationLatch.countDown());
             operationLatch.await();
 
             // Summary
@@ -181,7 +140,7 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
                 }
             }
             System.out.println(String.format("Deployments %s succeeded. %s failed.",
-                    Joiner.on(", ").join(succeeded), Joiner.on(", ").join(failed)));
+                    String.join(", ", succeeded), String.join(", ", failed)));
 
             return true;
         } catch (Exception f) {
@@ -209,6 +168,7 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
 
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -219,13 +179,12 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.NONE)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.NONE))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
             runSample(azure, -1);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }

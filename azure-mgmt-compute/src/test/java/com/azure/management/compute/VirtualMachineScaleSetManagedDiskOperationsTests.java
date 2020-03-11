@@ -72,7 +72,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
         Assertions.assertTrue(vmScaleSet.managedOSDiskStorageAccountType().equals(StorageAccountTypes.PREMIUM_LRS));
         VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();
         PagedIterable<VirtualMachineScaleSetVM> virtualMachines = virtualMachineScaleSetVMs.list();
-        Assertions.assertEquals(TestUtilities.getPagedIterableSize(virtualMachines), vmScaleSet.capacity());
+        Assertions.assertEquals(TestUtilities.getSize(virtualMachines), vmScaleSet.capacity());
         for (VirtualMachineScaleSetVM vm : virtualMachines) {
             Assertions.assertTrue(vm.isOSBasedOnPlatformImage());
             Assertions.assertFalse(vm.isOSBasedOnCustomImage());
@@ -90,7 +90,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
 
         virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();
         virtualMachines = virtualMachineScaleSetVMs.list();
-        Assertions.assertEquals(TestUtilities.getPagedIterableSize(virtualMachines), vmScaleSet.capacity());
+        Assertions.assertEquals(TestUtilities.getSize(virtualMachines), vmScaleSet.capacity());
         for (VirtualMachineScaleSetVM vm : virtualMachines) {
             Assertions.assertNotNull(vm.dataDisks());
             Assertions.assertEquals(vm.dataDisks().size(), 3);
@@ -253,7 +253,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
 
         VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();
         PagedIterable<VirtualMachineScaleSetVM> virtualMachines = virtualMachineScaleSetVMs.list();
-        Assertions.assertEquals(TestUtilities.getPagedIterableSize(virtualMachines), vmScaleSet.capacity());
+        Assertions.assertEquals(TestUtilities.getSize(virtualMachines), vmScaleSet.capacity());
         for (VirtualMachineScaleSetVM vm1 : virtualMachines) {
             Assertions.assertTrue(vm1.isOSBasedOnCustomImage());
             Assertions.assertFalse(vm1.isOSBasedOnPlatformImage());

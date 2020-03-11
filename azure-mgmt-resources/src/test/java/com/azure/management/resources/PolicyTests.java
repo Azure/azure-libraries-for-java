@@ -118,7 +118,7 @@ public class PolicyTests extends TestBase {
             Assertions.assertEquals("My Assignment 2", assignment2.displayName());
 
             PagedIterable<PolicyAssignment> assignments = resourceManager.policyAssignments().listByResourceGroup(rgName);
-            Assertions.assertTrue(TestUtilities.getPagedIterableSize(assignments) >= 2);
+            Assertions.assertTrue(TestUtilities.getSize(assignments) >= 2);
 
             boolean foundAssignment1 = false;
             boolean foundAssignment2 = false;

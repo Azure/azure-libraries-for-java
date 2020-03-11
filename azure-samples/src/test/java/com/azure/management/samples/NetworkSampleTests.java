@@ -21,7 +21,6 @@ import com.azure.management.network.samples.ManageVirtualNetworkAsync;
 import com.azure.management.network.samples.ManageVpnGatewayPoint2SiteConnection;
 import com.azure.management.network.samples.ManageVpnGatewaySite2SiteConnection;
 import com.azure.management.network.samples.VerifyNetworkPeeringWithNetworkWatcher;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

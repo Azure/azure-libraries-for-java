@@ -23,11 +23,10 @@ import com.azure.management.sql.SqlDatabase;
 import com.azure.management.sql.SqlDatabaseStandardServiceObjective;
 import com.azure.management.sql.SqlRestorableDroppedDatabase;
 import com.azure.management.sql.SqlServer;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
 import java.io.File;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Azure SQL sample for managing point in time restore and recover a deleted SQL Database -
@@ -97,9 +96,9 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
 
             RestorePoint restorePointInTime = dbToRestore.listRestorePoints().get(0);
             // Restore point might not be ready right away and we will have to wait for it.
-            DateTime currentTime = new DateTime(DateTimeZone.UTC);
-            long waitForRestoreToBeReady = restorePointInTime.earliestRestoreDate().toEpochSecond()
-                    + restorePointInTime.earliestRestoreDate().getNano() / 1000000 - currentTime.getMillis() + 5 * 60 * 1000;
+            OffsetDateTime currentTime = OffsetDateTime.now();
+            long waitForRestoreToBeReady = ChronoUnit.MILLIS.between(currentTime, restorePointInTime.earliestRestoreDate())
+                    + 5 * 60 * 1000;
             if (waitForRestoreToBeReady > 0) {
                 SdkContext.sleep((int) waitForRestoreToBeReady);
             }

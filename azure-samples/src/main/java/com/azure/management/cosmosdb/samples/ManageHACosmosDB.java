@@ -10,6 +10,13 @@ package com.azure.management.cosmosdb.samples;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.management.CloudException;
+import com.azure.cosmos.ConnectionPolicy;
+import com.azure.cosmos.ConsistencyLevel;
+import com.azure.cosmos.CosmosClient;
+import com.azure.cosmos.CosmosClientBuilder;
+import com.azure.cosmos.CosmosClientException;
+import com.azure.cosmos.CosmosContainer;
+import com.azure.cosmos.CosmosDatabase;
 import com.azure.management.ApplicationTokenCredential;
 import com.azure.management.Azure;
 import com.azure.management.cosmosdb.CosmosDBAccount;
@@ -17,13 +24,6 @@ import com.azure.management.cosmosdb.DatabaseAccountKind;
 import com.azure.management.cosmosdb.DatabaseAccountListKeysResult;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.samples.Utils;
-import com.microsoft.azure.documentdb.ConnectionPolicy;
-import com.microsoft.azure.documentdb.ConsistencyLevel;
-import com.microsoft.azure.documentdb.Database;
-import com.microsoft.azure.documentdb.DocumentClient;
-import com.microsoft.azure.documentdb.DocumentClientException;
-import com.microsoft.azure.documentdb.DocumentCollection;
-import com.microsoft.azure.documentdb.RequestOptions;
 
 import java.io.File;
 
@@ -121,34 +121,23 @@ public final class ManageHACosmosDB {
         return false;
     }
 
-    private static void createDBAndAddCollection(String masterKey, String endPoint) throws DocumentClientException {
+    private static void createDBAndAddCollection(String masterKey, String endPoint) throws CosmosClientException {
         try {
-            DocumentClient documentClient = new DocumentClient(endPoint,
-                    masterKey, ConnectionPolicy.GetDefault(),
-                    ConsistencyLevel.Session);
+            CosmosClient cosmosClient = new CosmosClientBuilder()
+                    .setEndpoint(endPoint)
+                    .setKey(masterKey)
+                    .setConnectionPolicy(ConnectionPolicy.getDefaultPolicy())
+                    .setConsistencyLevel(ConsistencyLevel.SESSION)
+                    .buildClient();
 
             // Define a new database using the id above.
-            Database myDatabase = new Database();
-            myDatabase.setId(DATABASE_ID);
-
-            myDatabase = documentClient.createDatabase(myDatabase, null)
-                    .getResource();
+            CosmosDatabase myDatabase = cosmosClient.createDatabase(DATABASE_ID, 400).getDatabase();
 
             System.out.println("Created a new database:");
             System.out.println(myDatabase.toString());
 
-            // Define a new collection using the id above.
-            DocumentCollection myCollection = new DocumentCollection();
-            myCollection.setId(COLLECTION_ID);
-
-            // Set the provisioned throughput for this collection to be 1000 RUs.
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions.setOfferThroughput(4000);
-
             // Create a new collection.
-            myCollection = documentClient.createCollection(
-                    "dbs/" + DATABASE_ID, myCollection, requestOptions)
-                    .getResource();
+            CosmosContainer myCollection = myDatabase.createContainer(COLLECTION_ID, "/keyPath/", 1000).getContainer();
         } catch (Exception ex) {
             throw ex;
         }

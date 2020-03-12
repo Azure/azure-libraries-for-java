@@ -23,8 +23,6 @@ import com.azure.management.sql.SqlDatabaseMetric;
 import com.azure.management.sql.SqlDatabaseUsageMetric;
 import com.azure.management.sql.SqlServer;
 import com.azure.management.sql.SqlSubscriptionUsageMetric;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
 import java.io.File;
 import java.sql.Connection;
@@ -32,6 +30,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -57,7 +56,7 @@ public class GettingSqlServerMetrics {
         final String administratorLogin = "sqladmin3423";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3curePwd";
-        DateTime startTime = DateTime.now().toDateTime(DateTimeZone.UTC).minusDays(1);
+        OffsetDateTime startTime = OffsetDateTime.now().minusDays(1);
 
         try {
             // Check if the expected SQL driver is available
@@ -187,7 +186,7 @@ public class GettingSqlServerMetrics {
             // List the SQL database CPU metrics for the sample database.
             System.out.println("Listing the SQL database CPU metrics for the sample database");
 
-            DateTime endTime = DateTime.now().toDateTime(DateTimeZone.UTC);
+            OffsetDateTime endTime = OffsetDateTime.now();
             String filter = String.format("name/value eq 'cpu_percent' and startTime eq '%s' and endTime eq '%s'", startTime, endTime);
 
 
@@ -200,7 +199,7 @@ public class GettingSqlServerMetrics {
             // List the SQL database metrics for the sample database.
             System.out.println("Listing the SQL database metrics for the sample database");
 
-            endTime = DateTime.now().toDateTime(DateTimeZone.UTC);
+            endTime = OffsetDateTime.now();
             filter = String.format("startTime eq '%s' and endTime eq '%s'", startTime, endTime);
 
 

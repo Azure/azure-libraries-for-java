@@ -36,7 +36,7 @@ public class ApplicationGatewayTests extends TestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain);
+        Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain).withSdkContext(sdkContext);
         azure = azureAuthed.withSubscription(defaultSubscription);
     }
 
@@ -223,9 +223,9 @@ public class ApplicationGatewayTests extends TestBase {
 
     @Test
     public void testAppGatewaysStartStop() throws Exception {
-        String rgName = azure.applicationGateways().manager().getSdkContext().randomResourceName("rg", 13);
+        String rgName = azure.sdkContext().randomResourceName("rg", 13);
         Region region = Region.US_EAST;
-        String name = azure.applicationGateways().manager().getSdkContext().randomResourceName("ag", 15);
+        String name = azure.sdkContext().randomResourceName("ag", 15);
         ApplicationGateway appGateway = azure.applicationGateways().define(name)
                 .withRegion(region)
                 .withNewResourceGroup(rgName)

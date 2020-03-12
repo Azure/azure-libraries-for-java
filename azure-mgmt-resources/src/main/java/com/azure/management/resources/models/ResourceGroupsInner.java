@@ -272,7 +272,7 @@ public final class ResourceGroupsInner {
     public Mono<SimpleResponse<ResourceGroupInner>> getWithResponseAsync(String resourceGroupName) {
         return FluxUtil
                 .withContext(context -> service.get(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), this.client.getApiVersion(), context))
-                .subscriberContext(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext().addData("Sdk-Version", this.client.getApiVersion()))));
+                .subscriberContext(context -> context.putAll(FluxUtil.toReactorContext(this.client.getContext())));
     }
 
     /**

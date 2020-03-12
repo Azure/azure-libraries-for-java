@@ -64,6 +64,7 @@ public abstract class AzureServiceClient {
     private static final String OS_NAME;
     private static final String OS_VERSION;
     private static final String JAVA_VERSION;
+    private static final String SDK_VERSION = "2.0.0";
 
     static {
         OS_NAME = System.getProperty("os.name");
@@ -91,11 +92,13 @@ public abstract class AzureServiceClient {
 
     private SerializerAdapter serializerAdapter = new AzureJacksonAdapter();
 
+    private String sdkName;
+
     public SerializerAdapter getSerializerAdapter() {
         return this.serializerAdapter;
     }
 
-    protected Context getContext() {
+    public Context getContext() {
         Context context = new Context("java.version", JAVA_VERSION);
         if (!CoreUtils.isNullOrEmpty(OS_NAME)) {
             context = context.addData("os.name", OS_NAME);
@@ -103,6 +106,14 @@ public abstract class AzureServiceClient {
         if (!CoreUtils.isNullOrEmpty(OS_VERSION)) {
             context = context.addData("os.version", OS_VERSION);
         }
+        if (sdkName == null) {
+            String packageName = this.getClass().getPackage().getName();
+            if (packageName.endsWith(".models")) {
+                sdkName = packageName.substring(0, packageName.length() - ".models".length());
+            }
+        }
+        context = context.addData("Sdk-Name", sdkName);
+        context = context.addData("Sdk-Version", SDK_VERSION);
         return context;
     }
 

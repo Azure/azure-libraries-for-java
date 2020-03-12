@@ -112,13 +112,7 @@ public final class ResourceManagementClientImpl extends AzureServiceClient {
      * The OperationsInner object to access its operations.
      */
     private OperationsInner operations;
-
-    @Override
-    public Context getContext() {
-        return super.getContext()
-                .addData("Sdk-Name", "ResourceManagementClient");
-    }
-
+    
     /**
      * Gets the OperationsInner object to access its operations.
      * 

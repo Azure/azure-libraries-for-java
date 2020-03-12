@@ -5,24 +5,24 @@
  */
 package com.azure.management.sql.samples;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.sql.SampleName;
-import com.microsoft.azure.management.sql.SecurityAlertPolicyState;
-import com.microsoft.azure.management.sql.SqlDatabaseStandardServiceObjective;
-import com.microsoft.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.sql.SqlServerSecurityAlertPolicy;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.LogLevel;
-import com.microsoft.rest.RestClient;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.Azure;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.samples.Utils;
+import com.azure.management.sql.SampleName;
+import com.azure.management.sql.SecurityAlertPolicyState;
+import com.azure.management.sql.SqlDatabaseStandardServiceObjective;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.SqlServerSecurityAlertPolicy;
+import com.azure.management.storage.StorageAccount;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Azure SQL sample for managing SQL Server Security Alert Policy
@@ -40,9 +40,9 @@ public class ManageSqlServerSecurityAlertPolicy {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String sqlServerName = Utils.createRandomName("sql");
-        final String storageAccountName = Utils.createRandomName("sqlsa");
-        final String rgName = Utils.createRandomName("rgsql");
+        final String sqlServerName = azure.sdkContext().randomResourceName("sql", 20);
+        final String storageAccountName = azure.sdkContext().randomResourceName("sqlsa", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rgsql", 20);
         final Region region = Region.US_EAST;
         final String dbName = "dbSample";
         final String administratorLogin = "sqladmin3423";
@@ -75,8 +75,8 @@ public class ManageSqlServerSecurityAlertPolicy {
                 .withRegion(region)
                 .withExistingResourceGroup(rgName)
                 .create();
-            String accountKey = storageAccount.getKeys().get(0).value();
-            String blobEntrypoint = storageAccount.endPoints().primary().blob();
+            String accountKey = storageAccount.getKeys().get(0).getValue();
+            String blobEntrypoint = storageAccount.endPoints().primary().getBlob();
 
             // ============================================================
             // Create a Server Security Alert Policy.
@@ -134,16 +134,14 @@ public class ManageSqlServerSecurityAlertPolicy {
         try {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
-
-            ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credFile);
-            RestClient restClient = new RestClient.Builder()
-                .withBaseUrl(AzureEnvironment.AZURE, AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withReadTimeout(150, TimeUnit.SECONDS)
-                .withLogLevel(LogLevel.BODY)
-                .withCredentials(credentials).build();
-            Azure azure = Azure.authenticate(restClient, credentials.domain(), credentials.defaultSubscriptionId()).withDefaultSubscription();
+            ApplicationTokenCredential credentials = ApplicationTokenCredential.fromFile(credFile);
+            RestClient restClient = new RestClientBuilder()
+                    .withBaseUrl(AzureEnvironment.AZURE, AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                    .withSerializerAdapter(new AzureJacksonAdapter())
+//                .withReadTimeout(150, TimeUnit.SECONDS)
+                    .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
+                    .withCredential(credentials).buildClient();
+            Azure azure = Azure.authenticate(restClient, credentials.getDomain(), credentials.getDefaultSubscriptionId()).withDefaultSubscription();
 
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());

@@ -6,25 +6,25 @@
 
 package com.azure.management.sql.samples;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.sql.SampleName;
-import com.microsoft.azure.management.sql.SqlDatabase;
-import com.microsoft.azure.management.sql.SqlDatabaseImportExportResponse;
-import com.microsoft.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.LogLevel;
-import com.microsoft.rest.RestClient;
+
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.Azure;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.samples.Utils;
+import com.azure.management.sql.SampleName;
+import com.azure.management.sql.SqlDatabase;
+import com.azure.management.sql.SqlDatabaseImportExportResponse;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.storage.StorageAccount;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Azure SQL sample for managing import/export SQL Database -
@@ -41,9 +41,9 @@ public final class ManageSqlImportExportDatabase {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String sqlServerName = Utils.createRandomName("sqlserver");
-        final String rgName = Utils.createRandomName("rgsql");
-        String storageName = SdkContext.randomResourceName(sqlServerName, 23);
+        final String sqlServerName = azure.sdkContext().randomResourceName("sqlserver", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rgsql", 20);
+        String storageName = azure.sdkContext().randomResourceName(sqlServerName, 23);
         final String administratorLogin = "sqladmin3423";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
@@ -168,15 +168,14 @@ public final class ManageSqlImportExportDatabase {
 
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
-            ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credFile);
-            RestClient restClient = new RestClient.Builder()
-                .withBaseUrl(AzureEnvironment.AZURE, AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withReadTimeout(150, TimeUnit.SECONDS)
-                .withLogLevel(LogLevel.BODY)
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withCredentials(credentials).build();
-            Azure azure = Azure.authenticate(restClient, credentials.domain(), credentials.defaultSubscriptionId()).withDefaultSubscription();
+            ApplicationTokenCredential credentials = ApplicationTokenCredential.fromFile(credFile);
+            RestClient restClient = new RestClientBuilder()
+                    .withBaseUrl(AzureEnvironment.AZURE, AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                    .withSerializerAdapter(new AzureJacksonAdapter())
+//                .withReadTimeout(150, TimeUnit.SECONDS)
+                    .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
+                    .withCredential(credentials).buildClient();
+            Azure azure = Azure.authenticate(restClient, credentials.getDomain(), credentials.getDefaultSubscriptionId()).withDefaultSubscription();
 
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());

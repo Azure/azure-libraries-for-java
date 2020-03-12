@@ -5,27 +5,29 @@
  */
 package com.azure.management.sql.samples;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.sql.RestorePoint;
-import com.microsoft.azure.management.sql.SampleName;
-import com.microsoft.azure.management.sql.SqlDatabase;
-import com.microsoft.azure.management.sql.SqlDatabaseStandardServiceObjective;
-import com.microsoft.azure.management.sql.SqlRestorableDroppedDatabase;
-import com.microsoft.azure.management.sql.SqlServer;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.LogLevel;
-import com.microsoft.rest.RestClient;
+
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.Azure;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.Utils;
+import com.azure.management.sql.RestorePoint;
+import com.azure.management.sql.SampleName;
+import com.azure.management.sql.SqlDatabase;
+import com.azure.management.sql.SqlDatabaseStandardServiceObjective;
+import com.azure.management.sql.SqlRestorableDroppedDatabase;
+import com.azure.management.sql.SqlServer;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
+import java.time.OffsetDateTime;
 
 /**
  * Azure SQL sample for managing point in time restore and recover a deleted SQL Database -
@@ -41,8 +43,8 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String sqlServerName = Utils.createRandomName("sqlserver");
-        final String rgName = Utils.createRandomName("rgsql");
+        final String sqlServerName = azure.sdkContext().randomResourceName("sqlserver", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rgsql", 20);
         final String administratorLogin = "sqladmin3423";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
@@ -96,7 +98,8 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
             RestorePoint restorePointInTime = dbToRestore.listRestorePoints().get(0);
             // Restore point might not be ready right away and we will have to wait for it.
             DateTime currentTime = new DateTime(DateTimeZone.UTC);
-            long waitForRestoreToBeReady = restorePointInTime.earliestRestoreDate().getMillis() - currentTime.getMillis() + 5 * 60 * 1000;
+            long waitForRestoreToBeReady = restorePointInTime.earliestRestoreDate().toEpochSecond()
+                    + restorePointInTime.earliestRestoreDate().getNano() / 1000000 - currentTime.getMillis() + 5 * 60 * 1000;
             if (waitForRestoreToBeReady > 0) {
                 SdkContext.sleep((int) waitForRestoreToBeReady);
             }
@@ -112,7 +115,7 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
             // Restore the database form a point in time restore which is 5 minutes ago.
             dbRestorePointInTime = sqlServer.databases()
                 .define("db-restore-pit")
-                .fromRestorePoint(restorePointInTime, new DateTime(DateTimeZone.UTC).minusMinutes(5))
+                .fromRestorePoint(restorePointInTime, OffsetDateTime.now().minusMinutes(5))
                 .create();
             Utils.print(dbRestorePointInTime);
             dbRestorePointInTime.delete();
@@ -168,15 +171,14 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
 
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
-            ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credFile);
-            RestClient restClient = new RestClient.Builder()
-                .withBaseUrl(AzureEnvironment.AZURE, AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .withReadTimeout(150, TimeUnit.SECONDS)
-                .withLogLevel(LogLevel.BODY)
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withCredentials(credentials).build();
-            Azure azure = Azure.authenticate(restClient, credentials.domain(), credentials.defaultSubscriptionId()).withDefaultSubscription();
+            ApplicationTokenCredential credentials = ApplicationTokenCredential.fromFile(credFile);
+            RestClient restClient = new RestClientBuilder()
+                    .withBaseUrl(AzureEnvironment.AZURE, AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                    .withSerializerAdapter(new AzureJacksonAdapter())
+//                .withReadTimeout(150, TimeUnit.SECONDS)
+                    .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
+                    .withCredential(credentials).buildClient();
+            Azure azure = Azure.authenticate(restClient, credentials.getDomain(), credentials.getDefaultSubscriptionId()).withDefaultSubscription();
 
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());

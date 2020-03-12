@@ -6,15 +6,16 @@
 
 package com.azure.management.containerservice.samples;
 
+
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
 import com.azure.management.containerservice.ContainerService;
 import com.azure.management.containerservice.ContainerServiceMasterProfileCount;
 import com.azure.management.containerservice.ContainerServiceVMSizeTypes;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.SSHShell;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.samples.SSHShell;
+import com.azure.management.samples.Utils;
 
 import java.io.File;
 import java.util.Date;
@@ -34,8 +35,8 @@ public class ManageContainerServiceWithDockerSwarmOrchestrator {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String rgName = SdkContext.randomResourceName("rgACS", 15);
-        final String acsName = SdkContext.randomResourceName("acssample", 30);
+        final String rgName = azure.sdkContext().randomResourceName("rgACS", 15);
+        final String acsName = azure.sdkContext().randomResourceName("acssample", 30);
         final Region region = Region.US_EAST;
         final String rootUserName = "acsuser";
 
@@ -124,7 +125,7 @@ public class ManageContainerServiceWithDockerSwarmOrchestrator {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

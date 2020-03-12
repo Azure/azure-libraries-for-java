@@ -5,32 +5,26 @@
  */
 package com.azure.management.sql.samples;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.monitor.MetadataValue;
-import com.microsoft.azure.management.monitor.Metric;
-import com.microsoft.azure.management.monitor.MetricCollection;
-import com.microsoft.azure.management.monitor.MetricDefinition;
-import com.microsoft.azure.management.monitor.MetricValue;
-import com.microsoft.azure.management.monitor.TimeSeriesElement;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.sql.SampleName;
-import com.microsoft.azure.management.sql.SqlDatabase;
-import com.microsoft.azure.management.sql.SqlDatabaseMetric;
-import com.microsoft.azure.management.sql.SqlDatabaseUsageMetric;
-import com.microsoft.azure.management.sql.SqlElasticPool;
-import com.microsoft.azure.management.sql.SqlServer;
-import com.microsoft.azure.management.sql.SqlSubscriptionUsageMetric;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.LogLevel;
-import com.microsoft.rest.RestClient;
+
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.Azure;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.Utils;
+import com.azure.management.sql.SampleName;
+import com.azure.management.sql.SqlDatabase;
+import com.azure.management.sql.SqlDatabaseMetric;
+import com.azure.management.sql.SqlDatabaseUsageMetric;
+import com.azure.management.sql.SqlServer;
+import com.azure.management.sql.SqlSubscriptionUsageMetric;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Period;
 
 import java.io.File;
 import java.sql.Connection;
@@ -39,7 +33,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Azure SQL sample for getting SQL Server and Databases metrics
@@ -57,10 +50,10 @@ public class GettingSqlServerMetrics {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String sqlServerName = Utils.createRandomName("sqltest");
+        final String sqlServerName = azure.sdkContext().randomResourceName("sqltest", 20);
         final String dbName = "dbSample";
         final String epName = "epSample";
-        final String rgName = Utils.createRandomName("rgsql");
+        final String rgName = azure.sdkContext().randomResourceName("rgsql", 20);
         final String administratorLogin = "sqladmin3423";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3curePwd";
@@ -218,101 +211,103 @@ public class GettingSqlServerMetrics {
 
             // ============================================================
             // Use Monitor Service to list the SQL server metrics.
-            System.out.println("Using Monitor Service to list the SQL server metrics");
-            List<MetricDefinition> metricDefinitions = azure.metricDefinitions().listByResource(sqlServer.id());
 
-            SqlElasticPool ep = sqlServer.elasticPools().get(epName);
-
-            for (MetricDefinition metricDefinition : metricDefinitions) {
-                // find metric definition for "DTU used" and "Storage used"
-                if (metricDefinition.name().localizedValue().equalsIgnoreCase("dtu used")
-                    || metricDefinition.name().localizedValue().equalsIgnoreCase("storage used")) {
-                    // get metric records
-                    MetricCollection metricCollection = metricDefinition.defineQuery()
-                        .startingFrom(startTime)
-                        .endsBefore(endTime)
-                        .withAggregation("Average")
-                        .withInterval(Period.minutes(5))
-                        .withOdataFilter(String.format("ElasticPoolResourceId eq '%s'", ep.id()))
-                        .execute();
-
-                    System.out.format("SQL server \"%s\" %s metrics\n", sqlServer.name(), metricDefinition.name().localizedValue());
-                    System.out.println("\tNamespace: " + metricCollection.namespace());
-                    System.out.println("\tQuery time: " + metricCollection.timespan());
-                    System.out.println("\tTime Grain: " + metricCollection.interval());
-                    System.out.println("\tCost: " + metricCollection.cost());
-
-                    for (Metric metric : metricCollection.metrics()) {
-                        System.out.println("\tMetric: " + metric.name().localizedValue());
-                        System.out.println("\tType: " + metric.type());
-                        System.out.println("\tUnit: " + metric.unit());
-                        System.out.println("\tTime Series: ");
-                        for (TimeSeriesElement timeElement : metric.timeseries()) {
-                            System.out.println("\t\tMetadata: ");
-                            for (MetadataValue metadata : timeElement.metadatavalues()) {
-                                System.out.println("\t\t\t" + metadata.name().localizedValue() + ": " + metadata.value());
-                            }
-                            System.out.println("\t\tData: ");
-                            for (MetricValue data : timeElement.data()) {
-                                System.out.println("\t\t\t" + data.timeStamp()
-                                    + " : (Min) " + data.minimum()
-                                    + " : (Max) " + data.maximum()
-                                    + " : (Avg) " + data.average()
-                                    + " : (Total) " + data.total()
-                                    + " : (Count) " + data.count());
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-
-            // ============================================================
-            // Use Monitor Service to list the SQL Database metrics.
-            System.out.println("Using Monitor Service to list the SQL Database metrics");
-            metricDefinitions = azure.metricDefinitions().listByResource(db.id());
-
-            for (MetricDefinition metricDefinition : metricDefinitions) {
-                // find metric definition for Transactions
-                if (metricDefinition.name().localizedValue().equalsIgnoreCase("dtu used")
-                    || metricDefinition.name().localizedValue().equalsIgnoreCase("cpu used")
-                    || metricDefinition.name().localizedValue().equalsIgnoreCase("storage used")) {
-                    // get metric records
-                    MetricCollection metricCollection = metricDefinition.defineQuery()
-                        .startingFrom(startTime)
-                        .endsBefore(endTime)
-                        .execute();
-
-                    System.out.println("Metrics for '" + db.id() + "':");
-                    System.out.println("Namespace: " + metricCollection.namespace());
-                    System.out.println("Query time: " + metricCollection.timespan());
-                    System.out.println("Time Grain: " + metricCollection.interval());
-                    System.out.println("Cost: " + metricCollection.cost());
-
-                    for (Metric metric : metricCollection.metrics()) {
-                        System.out.println("\tMetric: " + metric.name().localizedValue());
-                        System.out.println("\tType: " + metric.type());
-                        System.out.println("\tUnit: " + metric.unit());
-                        System.out.println("\tTime Series: ");
-                        for (TimeSeriesElement timeElement : metric.timeseries()) {
-                            System.out.println("\t\tMetadata: ");
-                            for (MetadataValue metadata : timeElement.metadatavalues()) {
-                                System.out.println("\t\t\t" + metadata.name().localizedValue() + ": " + metadata.value());
-                            }
-                            System.out.println("\t\tData: ");
-                            for (MetricValue data : timeElement.data()) {
-                                System.out.println("\t\t\t" + data.timeStamp()
-                                    + " : (Min) " + data.minimum()
-                                    + " : (Max) " + data.maximum()
-                                    + " : (Avg) " + data.average()
-                                    + " : (Total) " + data.total()
-                                    + " : (Count) " + data.count());
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
+            // TODO: fix after add monitor
+//            System.out.println("Using Monitor Service to list the SQL server metrics");
+//            List<MetricDefinition> metricDefinitions = azure.metricDefinitions().listByResource(sqlServer.id());
+//
+//            SqlElasticPool ep = sqlServer.elasticPools().get(epName);
+//
+//            for (MetricDefinition metricDefinition : metricDefinitions) {
+//                // find metric definition for "DTU used" and "Storage used"
+//                if (metricDefinition.name().localizedValue().equalsIgnoreCase("dtu used")
+//                    || metricDefinition.name().localizedValue().equalsIgnoreCase("storage used")) {
+//                    // get metric records
+//                    MetricCollection metricCollection = metricDefinition.defineQuery()
+//                        .startingFrom(startTime)
+//                        .endsBefore(endTime)
+//                        .withAggregation("Average")
+//                        .withInterval(Period.minutes(5))
+//                        .withOdataFilter(String.format("ElasticPoolResourceId eq '%s'", ep.id()))
+//                        .execute();
+//
+//                    System.out.format("SQL server \"%s\" %s metrics\n", sqlServer.name(), metricDefinition.name().localizedValue());
+//                    System.out.println("\tNamespace: " + metricCollection.namespace());
+//                    System.out.println("\tQuery time: " + metricCollection.timespan());
+//                    System.out.println("\tTime Grain: " + metricCollection.interval());
+//                    System.out.println("\tCost: " + metricCollection.cost());
+//
+//                    for (Metric metric : metricCollection.metrics()) {
+//                        System.out.println("\tMetric: " + metric.name().localizedValue());
+//                        System.out.println("\tType: " + metric.type());
+//                        System.out.println("\tUnit: " + metric.unit());
+//                        System.out.println("\tTime Series: ");
+//                        for (TimeSeriesElement timeElement : metric.timeseries()) {
+//                            System.out.println("\t\tMetadata: ");
+//                            for (MetadataValue metadata : timeElement.metadatavalues()) {
+//                                System.out.println("\t\t\t" + metadata.name().localizedValue() + ": " + metadata.value());
+//                            }
+//                            System.out.println("\t\tData: ");
+//                            for (MetricValue data : timeElement.data()) {
+//                                System.out.println("\t\t\t" + data.timeStamp()
+//                                    + " : (Min) " + data.minimum()
+//                                    + " : (Max) " + data.maximum()
+//                                    + " : (Avg) " + data.average()
+//                                    + " : (Total) " + data.total()
+//                                    + " : (Count) " + data.count());
+//                            }
+//                        }
+//                    }
+//                    break;
+//                }
+//            }
+//
+//            // ============================================================
+//            // Use Monitor Service to list the SQL Database metrics.
+//            System.out.println("Using Monitor Service to list the SQL Database metrics");
+//            metricDefinitions = azure.metricDefinitions().listByResource(db.id());
+//
+//            for (MetricDefinition metricDefinition : metricDefinitions) {
+//                // find metric definition for Transactions
+//                if (metricDefinition.name().localizedValue().equalsIgnoreCase("dtu used")
+//                    || metricDefinition.name().localizedValue().equalsIgnoreCase("cpu used")
+//                    || metricDefinition.name().localizedValue().equalsIgnoreCase("storage used")) {
+//                    // get metric records
+//                    MetricCollection metricCollection = metricDefinition.defineQuery()
+//                        .startingFrom(startTime)
+//                        .endsBefore(endTime)
+//                        .execute();
+//
+//                    System.out.println("Metrics for '" + db.id() + "':");
+//                    System.out.println("Namespace: " + metricCollection.namespace());
+//                    System.out.println("Query time: " + metricCollection.timespan());
+//                    System.out.println("Time Grain: " + metricCollection.interval());
+//                    System.out.println("Cost: " + metricCollection.cost());
+//
+//                    for (Metric metric : metricCollection.metrics()) {
+//                        System.out.println("\tMetric: " + metric.name().localizedValue());
+//                        System.out.println("\tType: " + metric.type());
+//                        System.out.println("\tUnit: " + metric.unit());
+//                        System.out.println("\tTime Series: ");
+//                        for (TimeSeriesElement timeElement : metric.timeseries()) {
+//                            System.out.println("\t\tMetadata: ");
+//                            for (MetadataValue metadata : timeElement.metadatavalues()) {
+//                                System.out.println("\t\t\t" + metadata.name().localizedValue() + ": " + metadata.value());
+//                            }
+//                            System.out.println("\t\tData: ");
+//                            for (MetricValue data : timeElement.data()) {
+//                                System.out.println("\t\t\t" + data.timeStamp()
+//                                    + " : (Min) " + data.minimum()
+//                                    + " : (Max) " + data.maximum()
+//                                    + " : (Avg) " + data.average()
+//                                    + " : (Total) " + data.total()
+//                                    + " : (Count) " + data.count());
+//                            }
+//                        }
+//                    }
+//                    break;
+//                }
+//            }
 
 
             // Delete the SQL Servers.
@@ -343,15 +338,14 @@ public class GettingSqlServerMetrics {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
 
-            ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credFile);
-            RestClient restClient = new RestClient.Builder()
+            ApplicationTokenCredential credentials = ApplicationTokenCredential.fromFile(credFile);
+            RestClient restClient = new RestClientBuilder()
                 .withBaseUrl(AzureEnvironment.AZURE, AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withReadTimeout(150, TimeUnit.SECONDS)
-                .withLogLevel(LogLevel.BODY)
-                .withCredentials(credentials).build();
-            Azure azure = Azure.authenticate(restClient, credentials.domain(), credentials.defaultSubscriptionId()).withDefaultSubscription();
+//                .withReadTimeout(150, TimeUnit.SECONDS)
+                .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
+                .withCredential(credentials).buildClient();
+            Azure azure = Azure.authenticate(restClient, credentials.getDomain(), credentials.getDefaultSubscriptionId()).withDefaultSubscription();
 
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());

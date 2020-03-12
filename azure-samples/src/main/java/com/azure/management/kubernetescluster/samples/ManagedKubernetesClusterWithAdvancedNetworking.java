@@ -3,16 +3,16 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-
-package com.azure.management.containerservice.samples;
+package com.azure.management.kubernetescluster.samples;
 
 
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.management.Azure;
-import com.azure.management.containerservice.ContainerService;
-import com.azure.management.containerservice.ContainerServiceMasterProfileCount;
 import com.azure.management.containerservice.ContainerServiceVMSizeTypes;
+import com.azure.management.containerservice.KubernetesCluster;
+import com.azure.management.containerservice.NetworkPlugin;
+import com.azure.management.network.Network;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.samples.SSHShell;
 import com.azure.management.samples.Utils;
@@ -23,12 +23,13 @@ import java.nio.file.Paths;
 import java.util.Date;
 
 /**
- * Azure Container Service sample for managing container service with Kubernetes orchestration.
- *   - Create an Azure Container Service with Kubernetes orchestration
+ * Azure Container Service (AKS) sample for managing a Kubernetes cluster.
+ *   - Create a Virtual Network with two subnets.
  *   - Create a SSH private/public key
- *   - Update the number of agent virtual machines in an Azure Container Service
+ *   - Create an Azure Container Service (AKS) with managed Kubernetes cluster and advanced networking
+ *   - Update the number of agent virtual machines in the Kubernetes cluster
  */
-public class ManageContainerServiceWithKubernetesOrchestrator {
+public class ManagedKubernetesClusterWithAdvancedNetworking {
 
     /**
      * Main function which runs the actual sample.
@@ -39,14 +40,35 @@ public class ManageContainerServiceWithKubernetesOrchestrator {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure, String clientId, String secret) {
-        final String rgName = azure.sdkContext().randomResourceName("rgACS", 15);
-        final String acsName = azure.sdkContext().randomResourceName("acssample", 30);
-        final Region region = Region.US_EAST;
-        String servicePrincipalClientId = clientId; // replace with a real service principal client id
-        String servicePrincipalSecret = secret; // and corresponding secret
-        final String rootUserName = "acsuser";
+        final String rgName = azure.sdkContext().randomResourceName("rgaks", 15);
+        final String vnetName = azure.sdkContext().randomResourceName("vnetaks", 20);
+        final String aksName = azure.sdkContext().randomResourceName("akssample", 30);
+        final Region region = Region.US_CENTRAL;
+        String servicePrincipalClientId = clientId; // replace it with a real service principal client id
+        String servicePrincipalSecret = secret; // and the corresponding secret
+        final String rootUserName = "aksuser";
 
         try {
+
+            // ============================================================
+            // Create a virtual network with two subnets.
+            System.out.println("Create a virtual network with two subnets: subnet1 and subnet2");
+
+            Network virtualNetwork = azure.networks().define(vnetName)
+                .withRegion(region)
+                .withNewResourceGroup(rgName)
+                .withAddressSpace("192.168.0.0/16")
+                .defineSubnet("subnet1")
+                    .withAddressPrefix("192.168.1.0/24")
+                    .attach()
+                .defineSubnet("subnet2")
+                    .withAddressPrefix("192.168.2.0/24")
+                    .attach()
+                .create();
+
+            System.out.println("Created a virtual network");
+            // Print the virtual network details
+            Utils.print(virtualNetwork);
 
             //=============================================================
             // If service principal client id and secret are not set via the local variables, attempt to read the service
@@ -54,10 +76,10 @@ public class ManageContainerServiceWithKubernetesOrchestrator {
             //
             //     If the environment variable was not set then reuse the main service principal set for running this sample.
 
-            if (servicePrincipalClientId.isEmpty() || servicePrincipalSecret.isEmpty()) {
+            if (servicePrincipalClientId == null || servicePrincipalClientId.isEmpty() || servicePrincipalSecret == null || servicePrincipalSecret.isEmpty()) {
                 servicePrincipalClientId = System.getenv("AZURE_CLIENT_ID");
                 servicePrincipalSecret = System.getenv("AZURE_CLIENT_SECRET");
-                if (servicePrincipalClientId.isEmpty() || servicePrincipalSecret.isEmpty()) {
+                if (servicePrincipalClientId == null || servicePrincipalClientId.isEmpty() || servicePrincipalSecret == null || servicePrincipalSecret.isEmpty()) {
                     String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
 
                     if (envSecondaryServicePrincipal == null || !envSecondaryServicePrincipal.isEmpty() || !Files.exists(Paths.get(envSecondaryServicePrincipal))) {
@@ -81,47 +103,52 @@ public class ManageContainerServiceWithKubernetesOrchestrator {
 
 
             //=============================================================
-            // Create an Azure Container Service with Kubernetes orchestration
+            // Create a Kubernetes cluster with one agent pool of size one
 
-            System.out.println("Creating an Azure Container Service with Kubernetes ochestration and one agent (virtual machine)");
+            System.out.println("Creating a Kubernetes cluster");
 
             Date t1 = new Date();
 
-            ContainerService azureContainerService = azure.containerServices().define(acsName)
-                    .withRegion(region)
-                    .withNewResourceGroup(rgName)
-                    .withKubernetesOrchestration()
-                    .withServicePrincipal(servicePrincipalClientId, servicePrincipalSecret)
-                    .withLinux()
-                    .withRootUsername(rootUserName)
-                    .withSshKey(sshKeys.getSshPublicKey())
-                    .withMasterNodeCount(ContainerServiceMasterProfileCount.MIN)
-                    .defineAgentPool("agentpool")
-                            .withVirtualMachineCount(1)
-                            .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
-                            .withDnsPrefix("dns-ap-" + acsName)
-                            .attach()
-                    .withMasterDnsPrefix("dns-" + acsName)
-                    .create();
+            KubernetesCluster kubernetesCluster = azure.kubernetesClusters().define(aksName)
+                .withRegion(region)
+                .withExistingResourceGroup(rgName)
+                .withLatestVersion()
+                .withRootUsername(rootUserName)
+                .withSshKey(sshKeys.getSshPublicKey())
+                .withServicePrincipalClientId(servicePrincipalClientId)
+                .withServicePrincipalSecret(servicePrincipalSecret)
+                .defineAgentPool("agentpool")
+                    .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1_V2)
+                    .withAgentPoolVirtualMachineCount(1)
+                    .withVirtualNetwork(virtualNetwork.id(), "subnet1")
+                    .attach()
+                .withDnsPrefix("dns-" + aksName)
+                .defineNetworkProfile()
+                    .withNetworkPlugin(NetworkPlugin.AZURE)
+                    .withServiceCidr("10.0.0.0/16")
+                    .withDnsServiceIP("10.0.0.10")
+                    .withDockerBridgeCidr("172.17.0.1/16")
+                    .attach()
+                .create();
 
             Date t2 = new Date();
-            System.out.println("Created Azure Container Service: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + azureContainerService.id());
-            Utils.print(azureContainerService);
+            System.out.println("Created Azure Container Service (AKS) resource: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + kubernetesCluster.id());
+            Utils.print(kubernetesCluster);
 
             //=============================================================
-            // Update a Kubernetes Azure Container Service with two agents (virtual machines)
+            // Update a Kubernetes cluster agent pool to two machines
 
-            System.out.println("Updating a Kubernetes Azure Container Service with two agents (virtual machines)");
+            System.out.println("Updating a Kubernetes cluster agent pool to two virtual machines");
 
             t1 = new Date();
 
-            azureContainerService.update()
-                    .withAgentVirtualMachineCount(2)
-                    .apply();
+            kubernetesCluster.update()
+                .withAgentPoolVirtualMachineCount(2)
+                .apply();
 
             t2 = new Date();
-            System.out.println("Updated Azure Container Service: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + azureContainerService.id());
-            Utils.print(azureContainerService);
+            System.out.println("Updated Azure Container Service (AKS) resource: (took " + ((t2.getTime() - t1.getTime()) / 1000) + " seconds) " + kubernetesCluster.id());
+            Utils.print(kubernetesCluster);
 
             return true;
         } catch (Exception f) {
@@ -154,9 +181,9 @@ public class ManageContainerServiceWithKubernetesOrchestrator {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
-                    .authenticate(credFile)
-                    .withDefaultSubscription();
+                .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
+                .authenticate(credFile)
+                .withDefaultSubscription();
 
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());

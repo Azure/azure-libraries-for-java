@@ -6,15 +6,15 @@
 
 package com.azure.management.cosmosdb.samples;
 
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
-import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.management.CloudException;
+import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.Azure;
+import com.azure.management.cosmosdb.CosmosDBAccount;
+import com.azure.management.cosmosdb.DatabaseAccountKind;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.samples.Utils;
 
 import java.io.File;
 
@@ -31,8 +31,8 @@ public final class CreateCosmosDBWithIPRange {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure, String clientId) {
-        final String docDBName = SdkContext.randomResourceName("docDb", 10);
-        final String rgName = SdkContext.randomResourceName("rgNEMV", 24);
+        final String docDBName = azure.sdkContext().randomResourceName("docDb", 10);
+        final String rgName = azure.sdkContext().randomResourceName("rgNEMV", 24);
 
         try {
             //============================================================
@@ -93,14 +93,14 @@ public final class CreateCosmosDBWithIPRange {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());
 
-            runSample(azure, ApplicationTokenCredentials.fromFile(credFile).clientId());
+            runSample(azure, ApplicationTokenCredential.fromFile(credFile).getClientId());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

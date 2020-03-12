@@ -59,7 +59,7 @@
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-core</artifactId>
-                <version>1.3.0-beta.2</version>
+                <version>1.3.0</version>
             </dependency>
             <dependency>
                 <groupId>com.azure</groupId>
@@ -118,7 +118,7 @@
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-core-http-netty</artifactId>
-                <version>1.2.0</version>
+                <version>1.4.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -385,6 +385,7 @@
         </profile>
     </profiles>
     <modules>
+        <module>./azure</module>
         <module>./azure-mgmt-appservice</module>
         <module>./azure-mgmt-compute</module>
         <module>./azure-mgmt-graph-rbac</module>
@@ -394,5 +395,8 @@
         <module>./azure-mgmt-resources</module>
         <module>./azure-mgmt-storage</module>
         <module>./azure-mgmt-sql</module>
+        <module>./azure-mgmt-cosmosdb</module>
+        <module>./azure-mgmt-containerservice</module>
+        <module>./azure-samples</module>
     </modules>
 </project>

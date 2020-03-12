@@ -6,13 +6,10 @@
 
 package com.azure.management.resources.samples;
 
-import com.azure.management.resources.ResourceGroup;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.Azure;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 
@@ -28,14 +25,15 @@ import java.io.File;
 public final class ManageResourceGroup {
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String rgName = SdkContext.randomResourceName("rgRSMA", 24);
-        final String rgName2 = SdkContext.randomResourceName("rgRSMA", 24);
-        final String resourceTagName = SdkContext.randomResourceName("rgRSTN", 24);
-        final String resourceTagValue = SdkContext.randomResourceName("rgRSTV", 24);
+        final String rgName = azure.sdkContext().randomResourceName("rgRSMA", 24);
+        final String rgName2 = azure.sdkContext().randomResourceName("rgRSMA", 24);
+        final String resourceTagName = azure.sdkContext().randomResourceName("rgRSTN", 24);
+        final String resourceTagValue = azure.sdkContext().randomResourceName("rgRSTV", 24);
         try {
 
 
@@ -124,7 +122,7 @@ public final class ManageResourceGroup {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.NONE)
+                    .withLogOptions(new HttpLogOptions())
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

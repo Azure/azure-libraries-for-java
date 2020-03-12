@@ -195,11 +195,6 @@ public class SqlServerImpl
     }
 
     @Override
-    public List<ServerMetric> listUsages() {
-        return listUsageMetrics();
-    }
-
-    @Override
     public List<ServerMetric> listUsageMetrics() {
         List<ServerMetric> serverMetrics = new ArrayList<>();
         PagedIterable<ServerUsageInner> serverUsageInners = this.manager().inner().serverUsages()

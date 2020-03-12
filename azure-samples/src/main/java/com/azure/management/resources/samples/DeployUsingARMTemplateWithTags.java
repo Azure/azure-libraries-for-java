@@ -6,23 +6,18 @@
 
 package com.azure.management.resources.samples;
 
-import com.azure.management.resources.Deployment;
-import com.azure.management.resources.DeploymentMode;
-import com.azure.management.resources.DeploymentOperation;
-import com.azure.management.resources.GenericResource;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.microsoft.azure.management.Azure;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.Azure;
 import com.azure.management.resources.Deployment;
 import com.azure.management.resources.DeploymentMode;
 import com.azure.management.resources.DeploymentOperation;
 import com.azure.management.resources.GenericResource;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.LogLevel;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,14 +34,15 @@ public final class DeployUsingARMTemplateWithTags {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String rgName = SdkContext.randomResourceName("rgRSAT", 24);
-        final String deploymentName = SdkContext.randomResourceName("dpRSAT", 24);
+        final String rgName = azure.sdkContext().randomResourceName("rgRSAT", 24);
+        final String deploymentName = azure.sdkContext().randomResourceName("dpRSAT", 24);
         try {
-            String templateJson = getTemplate();
+            String templateJson = getTemplate(azure);
 
             //=============================================================
             // Create resource group.
@@ -75,13 +71,13 @@ public final class DeployUsingARMTemplateWithTags {
 
             System.out.println("Finished a deployment for an Azure App Service: " + deploymentName);
 
-            List<DeploymentOperation> operations  = deployment.deploymentOperations().list();
+            PagedIterable<DeploymentOperation> operations = deployment.deploymentOperations().list();
             List<GenericResource> genericResources = new ArrayList<>();
 
             // Getting created resources
             for (DeploymentOperation operation : operations) {
                 if (operation.targetResource() != null) {
-                    genericResources.add(azure.genericResources().getById(operation.targetResource().id()));
+                    genericResources.add(azure.genericResources().getById(operation.targetResource().getId()));
                 }
             }
 
@@ -94,9 +90,9 @@ public final class DeployUsingARMTemplateWithTags {
                         .apply();
             }
 
-            genericResources = azure.genericResources().listByTag(rgName, "label", "deploy1");
+            PagedIterable<GenericResource> listResources = azure.genericResources().listByTag(rgName, "label", "deploy1");
             System.out.println("Tagged resources for deployment: " + deploymentName);
-            for (GenericResource genericResource : genericResources) {
+            for (GenericResource genericResource : listResources) {
                 System.out.println(genericResource.resourceProviderNamespace() + "/" + genericResource.resourceType() + ": " + genericResource.name());
             }
             return true;
@@ -120,6 +116,7 @@ public final class DeployUsingARMTemplateWithTags {
         }
         return false;
     }
+
     /**
      * Main entry point.
      *
@@ -133,7 +130,7 @@ public final class DeployUsingARMTemplateWithTags {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.NONE)
+                    .withLogOptions(new HttpLogOptions())
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -144,9 +141,9 @@ public final class DeployUsingARMTemplateWithTags {
         }
     }
 
-    private static String getTemplate() throws IllegalAccessException, JsonProcessingException, IOException {
-        final String hostingPlanName = SdkContext.randomResourceName("hpRSAT", 24);
-        final String webappName = SdkContext.randomResourceName("wnRSAT", 24);
+    private static String getTemplate(Azure azure) throws IllegalAccessException, JsonProcessingException, IOException {
+        final String hostingPlanName = azure.sdkContext().randomResourceName("hpRSAT", 24);
+        final String webappName = azure.sdkContext().randomResourceName("wnRSAT", 24);
         final InputStream embeddedTemplate;
         embeddedTemplate = DeployUsingARMTemplate.class.getResourceAsStream("/templateValue.json");
 

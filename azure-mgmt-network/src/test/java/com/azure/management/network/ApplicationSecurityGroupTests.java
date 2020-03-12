@@ -27,10 +27,10 @@ public class ApplicationSecurityGroupTests extends NetworkManagementTest {
         Assertions.assertEquals("value1", applicationSecurityGroup.tags().get("tag1"));
 
         PagedIterable<ApplicationSecurityGroup> asgList = networkManager.applicationSecurityGroups().list();
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(asgList) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(asgList) > 0);
 
         asgList = networkManager.applicationSecurityGroups().listByResourceGroup(rgName);
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(asgList) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(asgList) > 0);
 
         networkManager.applicationSecurityGroups().deleteById(applicationSecurityGroup.id());
         asgList = networkManager.applicationSecurityGroups().listByResourceGroup(rgName);

@@ -26,10 +26,10 @@ public class DdosProtectionPlanTests extends NetworkManagementTest {
         Assertions.assertEquals("value1", pPlan.tags().get("tag1"));
 
         PagedIterable<DdosProtectionPlan> ppList = networkManager.ddosProtectionPlans().list();
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(ppList) > 0);
 
         ppList = networkManager.ddosProtectionPlans().listByResourceGroup(rgName);
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(ppList) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(ppList) > 0);
 
         networkManager.ddosProtectionPlans().deleteById(pPlan.id());
         ppList = networkManager.ddosProtectionPlans().listByResourceGroup(rgName);

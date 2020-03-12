@@ -11,7 +11,6 @@ import com.azure.core.http.HttpMethod;
 import com.azure.core.http.HttpRequest;
 import com.azure.core.http.HttpResponse;
 import com.azure.core.http.netty.NettyAsyncHttpClientBuilder;
-import com.azure.core.http.netty.implementation.ReactorNettyClientProvider;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.management.SubResource;
 import com.azure.management.ApplicationTokenCredential;
@@ -272,7 +271,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         //
         for (VirtualMachineScaleSetVM vm : virtualMachineScaleSet.virtualMachines().list()) {
             PagedIterable<VirtualMachineScaleSetNetworkInterface> networkInterfaces = vm.listNetworkInterfaces();
-            Assertions.assertEquals(TestUtilities.getPagedIterableSize(networkInterfaces), 1);
+            Assertions.assertEquals(TestUtilities.getSize(networkInterfaces), 1);
             VirtualMachineScaleSetNetworkInterface networkInterface = networkInterfaces.iterator().next();
             VirtualMachineScaleSetNicIPConfiguration primaryIpConfig = null;
             primaryIpConfig = networkInterface.primaryIPConfiguration();
@@ -1184,8 +1183,8 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();
         PagedIterable<VirtualMachineScaleSetVM> virtualMachines = virtualMachineScaleSetVMs.list();
 
-        Assertions.assertEquals(TestUtilities.getPagedIterableSize(virtualMachines), vmScaleSet.capacity());
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(virtualMachines) > 0);
+        Assertions.assertEquals(TestUtilities.getSize(virtualMachines), vmScaleSet.capacity());
+        Assertions.assertTrue(TestUtilities.getSize(virtualMachines) > 0);
         virtualMachineScaleSetVMs.updateInstances(virtualMachines.iterator().next().instanceId());
 
         for (VirtualMachineScaleSetVM vm : virtualMachines) {
@@ -1222,7 +1221,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
             PagedIterable<VirtualMachineScaleSetNetworkInterface> nics
                     = vmScaleSet.listNetworkInterfacesByInstanceId(vm.instanceId());
             Assertions.assertNotNull(nics);
-            Assertions.assertEquals(TestUtilities.getPagedIterableSize(nics), 1);
+            Assertions.assertEquals(TestUtilities.getSize(nics), 1);
             VirtualMachineScaleSetNetworkInterface nic = nics.iterator().next();
             Assertions.assertNotNull(nic.virtualMachineId());
             Assertions.assertTrue(nic.virtualMachineId().toLowerCase().equalsIgnoreCase(vm.id()));

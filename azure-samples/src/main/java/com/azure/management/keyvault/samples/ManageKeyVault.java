@@ -6,15 +6,15 @@
 
 package com.azure.management.keyvault.samples;
 
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.keyvault.KeyPermissions;
-import com.microsoft.azure.management.keyvault.SecretPermissions;
-import com.microsoft.azure.management.keyvault.Vault;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.Azure;
+import com.azure.management.keyvault.KeyPermissions;
+import com.azure.management.keyvault.SecretPermissions;
+import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.samples.Utils;
 
 import java.io.File;
 
@@ -38,9 +38,9 @@ public final class ManageKeyVault {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure, String clientId) {
-        final String vaultName1 = SdkContext.randomResourceName("vault1", 20);
-        final String vaultName2 = SdkContext.randomResourceName("vault2", 20);
-        final String rgName = SdkContext.randomResourceName("rgNEMV", 24);
+        final String vaultName1 = azure.sdkContext().randomResourceName("vault1", 20);
+        final String vaultName2 = azure.sdkContext().randomResourceName("vault2", 20);
+        final String rgName = azure.sdkContext().randomResourceName("rgNEMV", 24);
 
         try {
             //============================================================
@@ -83,6 +83,7 @@ public final class ManageKeyVault {
                     .withDeploymentEnabled()
                     .withTemplateDeploymentEnabled()
                     .updateAccessPolicy(vault1.accessPolicies().get(0).objectId())
+                    .allowCertificatePermissions()
                         .allowSecretAllPermissions()
                         .parent()
                     .apply();
@@ -158,14 +159,14 @@ public final class ManageKeyVault {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
             // Print selected subscription
             System.out.println("Selected subscription: " + azure.subscriptionId());
 
-            runSample(azure, ApplicationTokenCredentials.fromFile(credFile).clientId());
+            runSample(azure, ApplicationTokenCredential.fromFile(credFile).getClientId());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

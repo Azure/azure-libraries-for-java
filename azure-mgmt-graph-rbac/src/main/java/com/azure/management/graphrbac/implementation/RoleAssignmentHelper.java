@@ -110,7 +110,7 @@ public class RoleAssignmentHelper {
                         return Mono.error(throwable);
                     });
         };
-        this.preRunTaskGroup.addPostRunDependent(creator);
+        this.preRunTaskGroup.addPostRunDependent(creator, rbacManager.sdkContext());
         return this;
     }
 
@@ -163,7 +163,7 @@ public class RoleAssignmentHelper {
                         return Mono.error(throwable);
                     });
         };
-        this.preRunTaskGroup.addPostRunDependent(creator);
+        this.preRunTaskGroup.addPostRunDependent(creator, rbacManager.sdkContext());
         return this;
     }
 

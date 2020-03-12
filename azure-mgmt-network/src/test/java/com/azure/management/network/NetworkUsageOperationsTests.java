@@ -18,7 +18,7 @@ public class NetworkUsageOperationsTests extends NetworkManagementTest {
     @Test
     public void canListNetworkUsages() throws Exception {
         PagedIterable<NetworkUsage> usages = networkManager.usages().listByRegion(Region.US_EAST);
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(usages) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(usages) > 0);
     }
 
     @Override

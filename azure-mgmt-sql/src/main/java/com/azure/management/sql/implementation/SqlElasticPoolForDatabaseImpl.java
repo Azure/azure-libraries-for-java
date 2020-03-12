@@ -6,9 +6,10 @@
 
 package com.azure.management.sql.implementation;
 
+import com.azure.management.sql.ElasticPoolEdition;
+import com.azure.management.sql.Sku;
 import com.azure.management.sql.SqlDatabaseOperations;
 import com.azure.management.sql.SqlElasticPool;
-import com.azure.management.sql.ElasticPoolEdition;
 import com.azure.management.sql.SqlElasticPoolBasicEDTUs;
 import com.azure.management.sql.SqlElasticPoolBasicMaxEDTUs;
 import com.azure.management.sql.SqlElasticPoolBasicMinEDTUs;
@@ -44,6 +45,11 @@ public class SqlElasticPoolForDatabaseImpl
 
     public SqlElasticPoolForDatabaseImpl withEdition(ElasticPoolEdition edition) {
         this.sqlElasticPool.withEdition(edition);
+        return this;
+    }
+
+    public SqlElasticPoolForDatabaseImpl withCustomEdition(Sku sku) {
+        this.sqlElasticPool.withCustomEdition(sku);
         return this;
     }
 

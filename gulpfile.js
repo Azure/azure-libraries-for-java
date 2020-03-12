@@ -93,7 +93,7 @@ function handleInput(projects, cb) {
                 return codegen(proj, cb);
             }
         });
-        pAll(actions, { maxParallelism });
+        pAll(actions, { concurrency: maxParallelism });
     }
 }
 
@@ -133,7 +133,7 @@ function codegen(project, cb) {
                         generator +
                         ` --namespace=${mappings[project].package} ` +
                         ` --java.output-folder=${outDir} ` +
-                        ` --license-header=MICROSOFT_MIT_NO_CODEGEN ` +
+                        ` --license-header=MICROSOFT_MIT_SMALL ` +
                         generatorPath +
                         regenManager +
                         autoRestArgs;

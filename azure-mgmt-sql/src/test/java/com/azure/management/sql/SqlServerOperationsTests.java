@@ -947,7 +947,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         validateSqlServer(sqlServer);
 
         // List usages for the server.
-        Assertions.assertNotNull(sqlServer.listUsages());
+        Assertions.assertNotNull(sqlServer.listUsageMetrics());
 
         Flux<Indexable> resourceStream = sqlServer.databases()
                 .define(SQL_DATABASE_NAME)
@@ -974,7 +974,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         // List Restore points.
         Assertions.assertNotNull(dataWarehouse.listRestorePoints());
         // Get usages.
-        Assertions.assertNotNull(dataWarehouse.listUsages());
+        Assertions.assertNotNull(dataWarehouse.listUsageMetrics());
 
         // Pause warehouse
         dataWarehouse.pauseDataWarehouse();

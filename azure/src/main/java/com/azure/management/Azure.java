@@ -25,6 +25,11 @@ import com.azure.management.compute.VirtualMachineImages;
 import com.azure.management.compute.VirtualMachineScaleSets;
 import com.azure.management.compute.VirtualMachines;
 import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.containerservice.ContainerServices;
+import com.azure.management.containerservice.KubernetesClusters;
+import com.azure.management.containerservice.implementation.ContainerServiceManager;
+import com.azure.management.cosmosdb.CosmosDBAccounts;
+import com.azure.management.cosmosdb.implementation.CosmosDBManager;
 import com.azure.management.graphrbac.ActiveDirectoryApplications;
 import com.azure.management.graphrbac.ActiveDirectoryGroups;
 import com.azure.management.graphrbac.ActiveDirectoryUsers;
@@ -98,9 +103,9 @@ public final class Azure {
     //    private final ServiceBusManager serviceBusManager;
 //    private final ContainerInstanceManager containerInstanceManager;
 //    private final ContainerRegistryManager containerRegistryManager;
-//    private final ContainerServiceManager containerServiceManager;
+    private final ContainerServiceManager containerServiceManager;
 //    private final SearchServiceManager searchServiceManager;
-//    private final CosmosDBManager cosmosDBManager;
+    private final CosmosDBManager cosmosDBManager;
 //    private final AuthorizationManager authorizationManager;
     private final MSIManager msiManager;
     //    private final MonitorManager monitorManager;
@@ -380,8 +385,8 @@ public final class Azure {
 //        this.serviceBusManager = ServiceBusManager.authenticate(restClient, subscriptionId);
 //        this.containerInstanceManager = ContainerInstanceManager.authenticate(restClient, subscriptionId);
 //        this.containerRegistryManager = ContainerRegistryManager.authenticate(restClient, subscriptionId);
-//        this.containerServiceManager = ContainerServiceManager.authenticate(restClient, subscriptionId);
-//        this.cosmosDBManager = CosmosDBManager.authenticate(restClient, subscriptionId);
+        this.containerServiceManager = ContainerServiceManager.authenticate(restClient, subscriptionId);
+        this.cosmosDBManager = CosmosDBManager.authenticate(restClient, subscriptionId);
 //        this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId);
 //        this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId);
         this.msiManager = MSIManager.authenticate(restClient, subscriptionId);
@@ -759,21 +764,19 @@ public final class Azure {
     //    return serviceBusManager.operations();
     //}
 //
-//    /**
-//     * @return entry point to managing Container Services.
-//     */
-//    @Beta(SinceVersion.V1_4_0)
-//    public ContainerServices containerServices() {
-//        return containerServiceManager.containerServices();
-//    }
-//
-//    /**
-//     * @return entry point to managing Kubernetes clusters.
-//     */
-//    @Beta(SinceVersion.V1_4_0)
-//    public KubernetesClusters kubernetesClusters() {
-//        return containerServiceManager.kubernetesClusters();
-//    }
+    /**
+     * @return entry point to managing Container Services.
+     */
+    public ContainerServices containerServices() {
+        return containerServiceManager.containerServices();
+    }
+
+    /**
+     * @return entry point to managing Kubernetes clusters.
+     */
+    public KubernetesClusters kubernetesClusters() {
+        return containerServiceManager.kubernetesClusters();
+    }
 //
 //    /**
 //     * @return entry point to managing Azure Container Instances.
@@ -806,14 +809,13 @@ public final class Azure {
 //    public RegistryTaskRuns containerRegistryTaskRuns() {
 //        return containerRegistryManager.registryTaskRuns();
 //    }
-//
-//    /**
-//     * @return entry point to managing Container Regsitries.
-//     */
-//    @Beta(SinceVersion.V1_2_0)
-//    public CosmosDBAccounts cosmosDBAccounts() {
-//        return cosmosDBManager.databaseAccounts();
-//    }
+
+    /**
+     * @return entry point to managing Container Regsitries.
+     */
+    public CosmosDBAccounts cosmosDBAccounts() {
+        return cosmosDBManager.databaseAccounts();
+    }
 
 //    /**
 //     * @return entry point to managing Search services.

@@ -12,7 +12,6 @@ import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.management.AzureEnvironment;
-import com.azure.core.util.Context;
 import com.azure.management.AzureServiceClient;
 
 /**

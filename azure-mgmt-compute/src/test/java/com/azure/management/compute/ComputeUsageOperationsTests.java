@@ -16,6 +16,6 @@ public class ComputeUsageOperationsTests extends ComputeManagementTest {
     @Test
     public void canListComputeUsages() throws Exception {
         PagedIterable<ComputeUsage> usages = computeManager.usages().listByRegion(Region.US_EAST);
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(usages) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(usages) > 0);
     }
 }

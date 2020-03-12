@@ -133,7 +133,7 @@ function codegen(project, cb) {
                         generator +
                         ` --namespace=${mappings[project].package} ` +
                         ` --java.output-folder=${outDir} ` +
-                        ` --license-header=MICROSOFT_MIT_NO_CODEGEN ` +
+                        ` --license-header=MICROSOFT_MIT_SMALL ` +
                         generatorPath +
                         regenManager +
                         autoRestArgs;

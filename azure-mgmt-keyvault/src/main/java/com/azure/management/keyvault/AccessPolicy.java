@@ -491,6 +491,7 @@ public interface AccessPolicy extends
              * Allow all permissions for the AD identity to access secrets.
              *
              * @return the next stage of access policy definition
+             */
             Update allowSecretAllPermissions();
 
             /**

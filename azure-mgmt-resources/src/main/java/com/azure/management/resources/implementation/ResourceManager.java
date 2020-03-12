@@ -14,6 +14,8 @@ import com.azure.management.RestClientBuilder;
 import com.azure.management.resources.Deployments;
 import com.azure.management.resources.Features;
 import com.azure.management.resources.GenericResources;
+import com.azure.management.resources.PolicyAssignments;
+import com.azure.management.resources.PolicyDefinitions;
 import com.azure.management.resources.Providers;
 import com.azure.management.resources.ResourceGroups;
 import com.azure.management.resources.Subscriptions;
@@ -27,6 +29,8 @@ import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlin
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.models.FeatureClientBuilder;
 import com.azure.management.resources.models.FeatureClientImpl;
+import com.azure.management.resources.models.PolicyClientBuilder;
+import com.azure.management.resources.models.PolicyClientImpl;
 import com.azure.management.resources.models.ResourceManagementClientBuilder;
 import com.azure.management.resources.models.ResourceManagementClientImpl;
 import com.azure.management.resources.models.SubscriptionClientBuilder;
@@ -40,17 +44,15 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     private final ResourceManagementClientImpl resourceManagementClient;
     private final FeatureClientImpl featureClient;
     private final SubscriptionClientImpl subscriptionClientClient;
-
-    // private final PolicyClientImpl policyClient;
-
+    private final PolicyClientImpl policyClient;
     // The collections
     private ResourceGroups resourceGroups;
     private GenericResources genericResources;
     private Deployments deployments;
     private Features features;
     private Providers providers;
-    //    private PolicyDefinitions policyDefinitions;
-    //    private PolicyAssignments policyAssignments;
+    private PolicyDefinitions policyDefinitions;
+    private PolicyAssignments policyAssignments;
 
     /**
      * Creates an instance of ResourceManager that exposes resource management API entry points.
@@ -189,29 +191,28 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     private ResourceManager(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
         super(null, subscriptionId, sdkContext);
         super.setResourceManager(this);
-        this.resourceManagementClient = (new ResourceManagementClientBuilder())
+        this.resourceManagementClient = new ResourceManagementClientBuilder()
                 .pipeline(restClient.getHttpPipeline())
                 .host(restClient.getBaseUrl().toString())
                 .subscriptionId(subscriptionId)
                 .build();
 
-        this.featureClient = (new FeatureClientBuilder())
+        this.featureClient = new FeatureClientBuilder()
                 .pipeline(restClient.getHttpPipeline())
                 .host(restClient.getBaseUrl().toString())
                 .subscriptionId(subscriptionId)
                 .build();
 
-        this.subscriptionClientClient = (new SubscriptionClientBuilder())
+        this.subscriptionClientClient = new SubscriptionClientBuilder()
                 .pipeline(restClient.getHttpPipeline())
                 .host(restClient.getBaseUrl().toString())
                 .build();
-//                new ResourceManagementClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
-        // this.resourceManagementClient.withSubscriptionId(subscriptionId);
-        // this.featureClient = new FeatureClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
-        // this.featureClient.withSubscriptionId(subscriptionId);
-        // this.subscriptionClientClient = new SubscriptionClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
-//        this.policyClient = new PolicyClientImpl(restClient);
-//        this.policyClient.withSubscriptionId(subscriptionId);
+
+        this.policyClient = new PolicyClientBuilder()
+                .pipeline(restClient.getHttpPipeline())
+                .host(restClient.getBaseUrl().toString())
+                .subscriptionId(subscriptionId)
+                .build();
     }
 
     /**
@@ -264,25 +265,25 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
         return providers;
     }
 
-//    /**
-//     * @return the policy definition management API entry point
-//     */
-//    public PolicyDefinitions policyDefinitions() {
-//        if (policyDefinitions == null) {
-//            policyDefinitions = new PolicyDefinitionsImpl(policyClient.policyDefinitions());
-//        }
-//        return policyDefinitions;
-//    }
-//
-//    /**
-//     * @return the policy assignment management API entry point
-//     */
-//    public PolicyAssignments policyAssignments() {
-//        if (policyAssignments == null) {
-//            policyAssignments = new PolicyAssignmentsImpl(policyClient.policyAssignments());
-//        }
-//        return policyAssignments;
-//    }
+    /**
+     * @return the policy definition management API entry point
+     */
+    public PolicyDefinitions policyDefinitions() {
+        if (policyDefinitions == null) {
+            policyDefinitions = new PolicyDefinitionsImpl(policyClient.policyDefinitions());
+        }
+        return policyDefinitions;
+    }
+
+    /**
+     * @return the policy assignment management API entry point
+     */
+    public PolicyAssignments policyAssignments() {
+        if (policyAssignments == null) {
+            policyAssignments = new PolicyAssignmentsImpl(policyClient.policyAssignments());
+        }
+        return policyAssignments;
+    }
 
     @Override
     public ResourceManagementClientImpl inner() {

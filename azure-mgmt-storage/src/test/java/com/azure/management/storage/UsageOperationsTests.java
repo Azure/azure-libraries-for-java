@@ -12,14 +12,12 @@ import com.azure.management.storage.models.UsageInner;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 public class UsageOperationsTests extends StorageManagementTest {
     @Test
     @Disabled("Service is no longer supporting listing")
     public void canGetUsages() throws Exception {
         PagedIterable<UsageInner> usages = storageManager.usages().list();
-        System.out.println(TestUtilities.getPagedIterableSize(usages));
+        System.out.println(TestUtilities.getSize(usages));
     }
 
 

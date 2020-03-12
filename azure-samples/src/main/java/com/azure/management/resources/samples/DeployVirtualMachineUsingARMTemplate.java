@@ -5,19 +5,17 @@
  */
 package com.azure.management.resources.samples;
 
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
 import com.azure.management.resources.Deployment;
 import com.azure.management.resources.DeploymentMode;
+import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.microsoft.azure.management.Azure;
-import com.azure.management.resources.Deployment;
-import com.azure.management.resources.DeploymentMode;
-import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.LogLevel;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,14 +28,15 @@ public class DeployVirtualMachineUsingARMTemplate {
 
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final String rgName = SdkContext.randomResourceName("rgRSAT", 24);
-        final String deploymentName = SdkContext.randomResourceName("dpRSAT", 24);
+        final String rgName = azure.sdkContext().randomResourceName("rgRSAT", 24);
+        final String deploymentName = azure.sdkContext().randomResourceName("dpRSAT", 24);
         try {
-            String templateJson = DeployVirtualMachineUsingARMTemplate.getTemplate();
+            String templateJson = DeployVirtualMachineUsingARMTemplate.getTemplate(azure);
 
             System.out.println(templateJson);
 
@@ -112,7 +111,7 @@ public class DeployVirtualMachineUsingARMTemplate {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -123,11 +122,11 @@ public class DeployVirtualMachineUsingARMTemplate {
         }
     }
 
-    private static String getTemplate() throws IllegalAccessException, JsonProcessingException, IOException {
+    private static String getTemplate(Azure azure) throws IllegalAccessException, JsonProcessingException, IOException {
         final String adminUsername = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String adminPassword = "12NewPA$$w0rd!";
-        final String osDiskName = SdkContext.randomResourceName("osdisk-", 24);
+        final String osDiskName = azure.sdkContext().randomResourceName("osdisk-", 24);
 
         final InputStream embeddedTemplate;
         embeddedTemplate = DeployVirtualMachineUsingARMTemplate.class.getResourceAsStream("/virtualMachineWithManagedDisksTemplate.json");

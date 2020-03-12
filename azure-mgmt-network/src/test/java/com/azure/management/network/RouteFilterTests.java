@@ -27,10 +27,10 @@ public class RouteFilterTests extends NetworkManagementTest {
         Assertions.assertEquals("value1", routeFilter.tags().get("tag1"));
 
         PagedIterable<RouteFilter> rfList = networkManager.routeFilters().list();
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(rfList) > 0);
 
         rfList = networkManager.routeFilters().listByResourceGroup(rgName);
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(rfList) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(rfList) > 0);
 
         networkManager.routeFilters().deleteById(routeFilter.id());
         rfList = networkManager.routeFilters().listByResourceGroup(rgName);

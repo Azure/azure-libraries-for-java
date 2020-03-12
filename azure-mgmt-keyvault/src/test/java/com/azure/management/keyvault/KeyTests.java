@@ -74,7 +74,7 @@ public class KeyTests extends KeyVaultManagementTest {
 
         // List versions
         Iterable<Key> keys = key.listVersions();
-        Assertions.assertEquals(2, TestUtilities.getPagedIterableSize(keys));
+        Assertions.assertEquals(2, TestUtilities.getSize(keys));
     }
 
     @Test
@@ -104,11 +104,11 @@ public class KeyTests extends KeyVaultManagementTest {
         byte[] backup = key.backup();
 
         vault.keys().deleteById(key.id());
-        Assertions.assertEquals(0, TestUtilities.getPagedIterableSize(vault.keys().list()));
+        Assertions.assertEquals(0, TestUtilities.getSize(vault.keys().list()));
 
         vault.keys().restore(backup);
         PagedIterable<Key> keys = vault.keys().list();
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(keys));
+        Assertions.assertEquals(1, TestUtilities.getSize(keys));
 
         Assertions.assertEquals(key.getJsonWebKey(), keys.iterator().next().getJsonWebKey());
     }

@@ -17,7 +17,7 @@ public class VirtualMachineImageOperationsTests extends ComputeManagementTest {
     public void canListVirtualMachineImages() throws Exception {
         PagedIterable<VirtualMachineImage> images = computeManager.virtualMachineImages()
                 .listByRegion(Region.US_EAST);
-        Assertions.assertTrue(TestUtilities.getPagedIterableSize(images) > 0);
+        Assertions.assertTrue(TestUtilities.getSize(images) > 0);
 
         PagedIterable<VirtualMachinePublisher> publishers =
                 computeManager.virtualMachineImages().publishers().listByRegion(Region.US_EAST);

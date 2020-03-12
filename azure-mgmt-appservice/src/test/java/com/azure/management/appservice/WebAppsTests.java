@@ -72,9 +72,9 @@ public class WebAppsTests extends AppServiceTest {
 
         // List
         PagedIterable<WebApp> webApps = appServiceManager.webApps().listByResourceGroup(RG_NAME_1);
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(webApps));
+        Assertions.assertEquals(1, TestUtilities.getSize(webApps));
         webApps = appServiceManager.webApps().listByResourceGroup(RG_NAME_2);
-        Assertions.assertEquals(1, TestUtilities.getPagedIterableSize(webApps));
+        Assertions.assertEquals(1, TestUtilities.getSize(webApps));
 
         // Update
         webApp1.update()

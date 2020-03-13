@@ -30,23 +30,24 @@ public class MonitorManagementTest extends TestBase {
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
 
         appServiceManager = AppServiceManager
-                .authenticate(restClient, domain, defaultSubscription);
+                .authenticate(restClient, domain, defaultSubscription, sdkContext);
 
         resourceManager = ResourceManager
                 .authenticate(restClient)
+                .withSdkContext(sdkContext)
                 .withSubscription(defaultSubscription);
 
         monitorManager = MonitorManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
 
         computeManager = ComputeManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
 
         storageManager = StorageManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
 
 //        eventHubManager = EventHubManager
-//                .authenticate(restClient, defaultSubscription);
+//                .authenticate(restClient, defaultSubscription, sdkContext);
     }
 
     @Override

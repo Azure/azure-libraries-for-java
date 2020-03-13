@@ -37,7 +37,7 @@ public interface Secret extends
         HasName,
         Updatable<Secret.Update> {
     /**
-     * @return the secret value
+     * @return the secret value when the secret is enabled
      */
     String value();
 

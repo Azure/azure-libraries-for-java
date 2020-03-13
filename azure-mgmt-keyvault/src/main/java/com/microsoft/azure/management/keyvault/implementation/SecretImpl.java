@@ -106,6 +106,11 @@ class SecretImpl
                     }
                 }.toObservable();
             }
+
+            @Override
+            protected boolean filter(SecretItem secretItem) {
+                return secretItem.attributes().enabled();
+            }
         }.convert(vault.client().listSecretVersions(vault.vaultUri(), name()));
     }
 
@@ -121,6 +126,11 @@ class SecretImpl
             @Override
             protected Observable<SecretIdentifier> typeConvertAsync(SecretItem o) {
                 return Observable.just(o.identifier());
+            }
+
+            @Override
+            protected boolean filter(SecretItem secretItem) {
+                return secretItem.attributes().enabled();
             }
         }.toObservable()
                 .flatMap(new Func1<SecretIdentifier, Observable<Secret>>() {

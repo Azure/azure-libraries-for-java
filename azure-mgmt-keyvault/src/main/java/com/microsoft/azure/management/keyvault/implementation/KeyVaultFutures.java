@@ -69,6 +69,10 @@ final class KeyVaultFutures {
 
         abstract Observable<T> typeConvertAsync(TInner inner);
 
+        protected boolean filter(TInner tInner) {
+            return true;
+        }
+
         Observable<T> toObservable() {
             return Observable
                     .create(new Action1<Emitter<List<TInner>>>() {
@@ -97,6 +101,11 @@ final class KeyVaultFutures {
                         @Override
                         public Observable<TInner> call(List<TInner> secretItems) {
                             return Observable.from(secretItems);
+                        }
+                    }).filter(new Func1<TInner, Boolean>() {
+                        @Override
+                        public Boolean call(TInner tInner) {
+                            return filter(tInner);
                         }
                     }).flatMap(new Func1<TInner, Observable<T>>() {
                         @Override

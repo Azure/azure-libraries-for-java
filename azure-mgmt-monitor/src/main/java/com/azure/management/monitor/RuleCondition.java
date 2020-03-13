@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * The RuleCondition model.
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     @JsonSubTypes.Type(name = "Microsoft.Azure.Management.Insights.Models.ManagementEventRuleCondition", value = ManagementEventRuleCondition.class)
 })
 @Fluent
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class RuleCondition {
     /*
      * the resource from which the rule collects its data. For this type

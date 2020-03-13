@@ -8,6 +8,8 @@ import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
+
 import java.util.Map;
 
 /**
@@ -16,6 +18,7 @@ import java.util.Map;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("Microsoft.Azure.Management.Insights.Models.RuleWebhookAction")
 @Fluent
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public final class RuleWebhookAction extends RuleAction {
     /*
      * the service uri to Post the notification when the alert activates or

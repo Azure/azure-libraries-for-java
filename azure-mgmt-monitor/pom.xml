@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.microsoft.azure</groupId>
+        <groupId>com.azure</groupId>
         <artifactId>azure-parent</artifactId>
-        <version>1.31.1-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>azure-mgmt-monitor</artifactId>
-  <version>1.31.1-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Microsoft Azure SDK for Monitor Management</name>
@@ -44,54 +44,51 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-client-runtime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.azure</groupId>
             <artifactId>azure-mgmt-resources</artifactId>
-            <version>1.31.1-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-client-authentication</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.azure</groupId>
             <artifactId>azure-mgmt-compute</artifactId>
-            <version>1.31.1-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
             <scope>test</scope>     
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.azure</groupId>
             <artifactId>azure-mgmt-appservice</artifactId>
-            <version>1.31.1-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
+            <groupId>com.azure</groupId>
             <artifactId>azure-mgmt-resources</artifactId>
-            <version>1.31.1-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+            <version>2.4</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-mgmt-eventhub</artifactId>
-            <version>1.31.1-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.azure</groupId>-->
+<!--            <artifactId>azure-mgmt-eventhub</artifactId>-->
+<!--            <version>2.0.0-SNAPSHOT</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -120,14 +117,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.8.1</version>
                 <configuration>
-                  <source>1.7</source>
-                  <target>1.7</target>
-                  <annotationProcessors>
-                    <annotationProcessor>
-                      com.microsoft.azure.management.apigeneration.LangDefinitionProcessor</annotationProcessor>
-                  </annotationProcessors>
+                  <source>1.8</source>
+                  <target>1.8</target>
                   <debug>true</debug>
                   <optimize>true</optimize>
                   <compilerArguments>
@@ -140,7 +133,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.1</version>
                 <configuration>
                     <excludePackageNames>*.implementation.*;*.utils.*;com.microsoft.schemas._2003._10.serialization;*.blob.core.storage</excludePackageNames>
                     <bottom><![CDATA[<code>/**

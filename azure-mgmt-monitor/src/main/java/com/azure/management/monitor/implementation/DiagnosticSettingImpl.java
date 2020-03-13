@@ -12,10 +12,11 @@ import com.azure.management.monitor.CategoryType;
 import com.azure.management.monitor.DiagnosticSetting;
 import com.azure.management.monitor.DiagnosticSettingsCategory;
 import com.azure.management.monitor.RetentionPolicy;
+import com.azure.management.monitor.models.DiagnosticSettingsResourceInner;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import org.joda.time.Period;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -96,7 +97,7 @@ class DiagnosticSettingImpl
     }
 
     @Override
-    public DiagnosticSettingImpl withMetric(String category, Period timeGrain, int retentionDays) {
+    public DiagnosticSettingImpl withMetric(String category, Duration timeGrain, int retentionDays) {
         MetricSettings nm = new MetricSettings();
         nm.withCategory(category);
         nm.withEnabled(true);
@@ -125,7 +126,7 @@ class DiagnosticSettingImpl
     }
 
     @Override
-    public DiagnosticSettingImpl withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Period timeGrain, int retentionDays) {
+    public DiagnosticSettingImpl withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Duration timeGrain, int retentionDays) {
         for (DiagnosticSettingsCategory dsc : categories) {
             if (dsc.type() == CategoryType.METRICS) {
                 this.withMetric(dsc.name(), timeGrain, retentionDays);
@@ -164,7 +165,7 @@ class DiagnosticSettingImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -215,11 +216,11 @@ class DiagnosticSettingImpl
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
-    public Observable<DiagnosticSetting> createResourceAsync() {
+    public Mono<DiagnosticSetting> createResourceAsync() {
         this.inner().withLogs(new ArrayList<>(logSet.values()));
         this.inner().withMetrics(new ArrayList<>(metricSet.values()));
         return this.manager().inner().diagnosticSettings().createOrUpdateAsync(this.resourceId, this.name(), this.inner())
@@ -227,7 +228,7 @@ class DiagnosticSettingImpl
     }
 
     @Override
-    protected Observable<DiagnosticSettingsResourceInner> getInnerAsync() {
+    protected Mono<DiagnosticSettingsResourceInner> getInnerAsync() {
         return this.manager().inner().diagnosticSettings().getAsync(this.resourceId, this.name());
     }
 
@@ -238,8 +239,8 @@ class DiagnosticSettingImpl
         this.metricSet.clear();
         this.logSet.clear();
         if (!isInCreateMode()) {
-            this.resourceId = inner.id().substring(0,
-                    this.inner().id().length() - (DiagnosticSettingImpl.DIAGNOSTIC_SETTINGS_URI + this.inner().name()).length());
+            this.resourceId = inner.getId().substring(0,
+                    this.inner().getId().length() - (DiagnosticSettingImpl.DIAGNOSTIC_SETTINGS_URI + this.inner().getName()).length());
             for (MetricSettings ms : this.inner().metrics()) {
                 this.metricSet.put(ms.category(), ms);
             }

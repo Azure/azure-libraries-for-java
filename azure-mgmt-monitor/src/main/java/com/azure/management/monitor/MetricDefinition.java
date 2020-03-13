@@ -10,9 +10,10 @@ import com.azure.management.monitor.models.MetricDefinitionInner;
 import com.azure.management.monitor.implementation.MonitorManager;
 import com.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.azure.management.resources.fluentcore.model.HasInner;
+import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 import java.time.OffsetDateTime;
-import org.joda.time.Period;
-import rx.Observable;
 
 import java.util.List;
 
@@ -159,7 +160,7 @@ public interface MetricDefinition extends
              * @param interval The interval of the query.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithMetricsQueryExecute withInterval(Period interval);
+            WithMetricsQueryExecute withInterval(Duration interval);
 
             /**
              * Sets the **$filter** that is used to reduce the set of metric data returned.
@@ -231,7 +232,7 @@ public interface MetricDefinition extends
              *
              * @return a representation of the deferred computation of Metric collection query call
              */
-            Observable<MetricCollection> executeAsync();
+            Mono<MetricCollection> executeAsync();
         }
     }
 }

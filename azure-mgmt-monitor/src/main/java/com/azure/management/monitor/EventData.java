@@ -163,14 +163,14 @@ public interface EventData
      *
      * @return the eventTimestamp value
      */
-    DateTime eventTimestamp();
+    OffsetDateTime eventTimestamp();
 
     /**
      * Get the submissionTimestamp value.
      *
      * @return the submissionTimestamp value
      */
-    DateTime submissionTimestamp();
+    OffsetDateTime submissionTimestamp();
 
     /**
      * Get the subscriptionId value.

@@ -15,12 +15,14 @@ import com.azure.management.monitor.MetricCriteria;
 import com.azure.management.monitor.MetricDynamicAlertCondition;
 import com.azure.management.monitor.MetricAlertMultipleResourceMultipleMetricCriteria;
 import com.azure.management.monitor.MultiMetricCriteria;
+import com.azure.management.monitor.models.MetricAlertResourceInner;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 import java.time.OffsetDateTime;
-import org.joda.time.Period;
-import rx.Observable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -87,25 +89,25 @@ class MetricAlertImpl
     }
 
     @Override
-    public Observable<MetricAlert> createResourceAsync() {
+    public Mono<MetricAlert> createResourceAsync() {
         if (this.conditions.isEmpty() && this.dynamicConditions.isEmpty()) {
             throw new IllegalArgumentException("Condition cannot be empty");
         } else if (!this.conditions.isEmpty() && !this.dynamicConditions.isEmpty()) {
             throw new IllegalArgumentException("Static condition and dynamic condition cannot co-exist");
         }
 
-        this.inner().withLocation("global");
+        this.inner().setLocation("global");
         if (!this.conditions.isEmpty()) {
             if (!multipleResource) {
                 MetricAlertSingleResourceMultipleMetricCriteria crit = new MetricAlertSingleResourceMultipleMetricCriteria();
-                crit.withAllOf(new ArrayList<MetricCriteria>());
+                crit.withAllOf(new ArrayList<>());
                 for (MetricAlertCondition mc : conditions.values()) {
                     crit.allOf().add(mc.inner());
                 }
                 this.inner().withCriteria(crit);
             } else {
                 MetricAlertMultipleResourceMultipleMetricCriteria crit = new MetricAlertMultipleResourceMultipleMetricCriteria();
-                crit.withAllOf(new ArrayList<MultiMetricCriteria>());
+                crit.withAllOf(new ArrayList<>());
                 for (MetricAlertCondition mc : conditions.values()) {
                     crit.allOf().add(mc.inner());
                 }
@@ -113,7 +115,7 @@ class MetricAlertImpl
             }
         } else if (!this.dynamicConditions.isEmpty()) {
             MetricAlertMultipleResourceMultipleMetricCriteria crit = new MetricAlertMultipleResourceMultipleMetricCriteria();
-            crit.withAllOf(new ArrayList<MultiMetricCriteria>());
+            crit.withAllOf(new ArrayList<>());
             for (MetricDynamicAlertCondition mc : dynamicConditions.values()) {
                 crit.allOf().add(mc.inner());
             }
@@ -124,7 +126,7 @@ class MetricAlertImpl
     }
 
     @Override
-    protected Observable<MetricAlertResourceInner> getInnerAsync() {
+    protected Mono<MetricAlertResourceInner> getInnerAsync() {
         return this.manager().inner().metricAlerts().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -132,7 +134,7 @@ class MetricAlertImpl
     public MetricAlertImpl withTargetResource(String resourceId) {
         multipleResource = false;
 
-        this.inner().withScopes(new ArrayList<String>());
+        this.inner().withScopes(new ArrayList<>());
         this.inner().scopes().add(resourceId);
         return this;
     }
@@ -145,13 +147,13 @@ class MetricAlertImpl
     }
 
     @Override
-    public MetricAlertImpl withPeriod(Period size) {
+    public MetricAlertImpl withPeriod(Duration size) {
         this.inner().withWindowSize(size);
         return this;
     }
 
     @Override
-    public MetricAlertImpl withFrequency(Period frequency) {
+    public MetricAlertImpl withFrequency(Duration frequency) {
         this.inner().withEvaluationFrequency(frequency);
         return this;
     }
@@ -320,12 +322,12 @@ class MetricAlertImpl
     }
 
     @Override
-    public Period evaluationFrequency() {
+    public Duration evaluationFrequency() {
         return this.inner().evaluationFrequency();
     }
 
     @Override
-    public Period windowSize() {
+    public Duration windowSize() {
         return this.inner().windowSize();
     }
 
@@ -335,7 +337,7 @@ class MetricAlertImpl
     }
 
     @Override
-    public DateTime lastUpdatedTime() {
+    public OffsetDateTime lastUpdatedTime() {
         return this.inner().lastUpdatedTime();
     }
 

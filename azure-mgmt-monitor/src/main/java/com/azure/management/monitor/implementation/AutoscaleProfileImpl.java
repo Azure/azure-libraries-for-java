@@ -14,7 +14,8 @@ import com.azure.management.monitor.RecurrentSchedule;
 import com.azure.management.monitor.ScaleCapacity;
 import com.azure.management.monitor.ScaleRule;
 import com.azure.management.monitor.TimeWindow;
-import com.google.common.base.Strings;
+import com.azure.management.monitor.models.AutoscaleProfileInner;
+import com.azure.management.monitor.models.ScaleRuleInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import java.time.OffsetDateTime;
 
@@ -41,7 +42,7 @@ class AutoscaleProfileImpl
             this.inner().withCapacity(new ScaleCapacity());
         }
         if (this.inner().rules() == null) {
-            this.inner().withRules(new ArrayList<ScaleRuleInner>());
+            this.inner().withRules(new ArrayList<>());
         }
     }
 
@@ -128,7 +129,7 @@ class AutoscaleProfileImpl
     }
 
     @Override
-    public AutoscaleProfileImpl withFixedDateSchedule(String timeZone, DateTime start, DateTime end) {
+    public AutoscaleProfileImpl withFixedDateSchedule(String timeZone, OffsetDateTime start, OffsetDateTime end) {
         this.inner().withFixedDate(new TimeWindow()
                                         .withTimeZone(timeZone)
                                         .withStart(start)
@@ -141,7 +142,7 @@ class AutoscaleProfileImpl
 
     @Override
     public AutoscaleProfileImpl withRecurrentSchedule(String scheduleTimeZone, String startTime, DayOfWeek... weekday) {
-        if (Strings.isNullOrEmpty(startTime)
+        if (startTime == null || startTime.isEmpty()
                 || startTime.length() != 5
                 || startTime.charAt(2) != ':'
                 || !Character.isDigit(startTime.charAt(0))

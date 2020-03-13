@@ -19,9 +19,7 @@ import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
+import reactor.core.publisher.Mono;
 
 /**
  * Entry point for Action Group management API.
@@ -56,16 +54,5 @@ public interface ActionGroups extends
      * @param receiverName The name of the receiver to resubscribe.
      * @return a representation of the deferred computation of this call.
      */
-    Completable enableReceiverAsync(String resourceGroupName, String actionGroupName, String receiverName);
-
-    /**
-     * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled. This operation is only supported for Email or SMS receivers.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param actionGroupName The name of the action group.
-     * @param receiverName The name of the receiver to resubscribe.
-     * @param callback the async ServiceCallback to handle successful and failed responses.
-     * @return the {@link ServiceFuture} object
-     */
-    ServiceFuture<Void> enableReceiverAsync(String resourceGroupName, String actionGroupName, String receiverName, ServiceCallback<Void> callback);
+    Mono<Void> enableReceiverAsync(String resourceGroupName, String actionGroupName, String receiverName);
 }

@@ -14,8 +14,10 @@ import com.azure.management.monitor.ScaleDirection;
 import com.azure.management.monitor.ScaleRule;
 import com.azure.management.monitor.ScaleType;
 import com.azure.management.monitor.TimeAggregationType;
+import com.azure.management.monitor.models.ScaleRuleInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import org.joda.time.Period;
+
+import java.time.Duration;
 
 /**
  * Implementation for ScaleRule.
@@ -59,7 +61,7 @@ class ScaleRuleImpl
     }
 
     @Override
-    public Period duration() {
+    public Duration duration() {
         if (this.inner().metricTrigger() != null) {
             return this.inner().metricTrigger().timeWindow();
         }
@@ -67,7 +69,7 @@ class ScaleRuleImpl
     }
 
     @Override
-    public Period frequency() {
+    public Duration frequency() {
         if (this.inner().metricTrigger() != null) {
             return this.inner().metricTrigger().timeGrain();
         }
@@ -131,7 +133,7 @@ class ScaleRuleImpl
     }
 
     @Override
-    public Period coolDown() {
+    public Duration coolDown() {
         if (this.inner().scaleAction() != null) {
             return this.inner().scaleAction().cooldown();
         }
@@ -162,7 +164,7 @@ class ScaleRuleImpl
     }
 
     @Override
-    public ScaleRuleImpl withStatistic(Period duration, Period frequency, MetricStatisticType statisticType) {
+    public ScaleRuleImpl withStatistic(Duration duration, Duration frequency, MetricStatisticType statisticType) {
         this.inner().metricTrigger().withStatistic(statisticType);
         this.inner().metricTrigger().withTimeWindow(duration);
         this.inner().metricTrigger().withTimeGrain(frequency);
@@ -171,17 +173,17 @@ class ScaleRuleImpl
 
     @Override
     public ScaleRuleImpl withStatistic() {
-        return withStatistic(Period.minutes(10), Period.minutes(1), MetricStatisticType.AVERAGE);
+        return withStatistic(Duration.ofMinutes(10), Duration.ofMinutes(1), MetricStatisticType.AVERAGE);
     }
 
     @Override
-    public ScaleRuleImpl withStatistic(Period duration) {
-        return withStatistic(duration, Period.minutes(1), MetricStatisticType.AVERAGE);
+    public ScaleRuleImpl withStatistic(Duration duration) {
+        return withStatistic(duration, Duration.ofMinutes(1), MetricStatisticType.AVERAGE);
     }
 
     @Override
-    public ScaleRuleImpl withStatistic(Period duration, MetricStatisticType statisticType) {
-        return withStatistic(duration, Period.minutes(1), statisticType);
+    public ScaleRuleImpl withStatistic(Duration duration, MetricStatisticType statisticType) {
+        return withStatistic(duration, Duration.ofMinutes(1), statisticType);
     }
 
     @Override
@@ -193,7 +195,7 @@ class ScaleRuleImpl
     }
 
     @Override
-    public ScaleRuleImpl withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Period cooldown) {
+    public ScaleRuleImpl withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Duration cooldown) {
         this.inner().scaleAction().withDirection(direction);
         this.inner().scaleAction().withType(type);
         this.inner().scaleAction().withValue(Integer.toString(instanceCountChange));

@@ -8,6 +8,8 @@ package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.ActivityLogAlert;
 import com.azure.management.monitor.ActivityLogAlerts;
+import com.azure.management.monitor.models.ActivityLogAlertResourceInner;
+import com.azure.management.monitor.models.ActivityLogAlertsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
@@ -16,10 +18,10 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.T
 class ActivityLogAlertsImpl
         extends TopLevelModifiableResourcesImpl<
         ActivityLogAlert,
-                        ActivityLogAlertImpl,
-                        ActivityLogAlertResourceInner,
-                        ActivityLogAlertsInner,
-                        MonitorManager>
+        ActivityLogAlertImpl,
+        ActivityLogAlertResourceInner,
+        ActivityLogAlertsInner,
+        MonitorManager>
         implements ActivityLogAlerts {
 
     ActivityLogAlertsImpl(final MonitorManager monitorManager) {
@@ -36,7 +38,7 @@ class ActivityLogAlertsImpl
         if (inner ==  null) {
             return null;
         }
-        return new ActivityLogAlertImpl(inner.name(), inner, this.manager());
+        return new ActivityLogAlertImpl(inner.getName(), inner, this.manager());
     }
 
     @Override

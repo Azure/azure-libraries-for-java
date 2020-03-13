@@ -8,6 +8,7 @@ package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.CategoryType;
 import com.azure.management.monitor.DiagnosticSettingsCategory;
+import com.azure.management.monitor.models.DiagnosticSettingsCategoryResourceInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
@@ -22,7 +23,7 @@ class DiagnosticSettingsCategoryImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override

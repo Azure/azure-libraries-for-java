@@ -5,17 +5,22 @@
  */
 package com.azure.management.monitor.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.monitor.DiagnosticSetting;
 import com.azure.management.monitor.DiagnosticSettings;
 import com.azure.management.monitor.DiagnosticSettingsCategory;
-import com.microsoft.azure.PagedList;
+import com.azure.management.monitor.models.DiagnosticSettingsCategoryResourceCollectionInner;
+import com.azure.management.monitor.models.DiagnosticSettingsCategoryResourceInner;
+import com.azure.management.monitor.models.DiagnosticSettingsInner;
+import com.azure.management.monitor.models.DiagnosticSettingsResourceCollectionInner;
+import com.azure.management.monitor.models.DiagnosticSettingsResourceInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
-import com.azure.management.resources.fluentcore.utils.RXMapper;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
+import com.azure.management.resources.fluentcore.utils.ReactorMapper;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +59,7 @@ class DiagnosticSettingsImpl
         if (inner == null) {
             return null;
         }
-        return new DiagnosticSettingImpl(inner.name(), inner, this.manager());
+        return new DiagnosticSettingImpl(inner.getName(), inner, this.manager());
     }
 
     @Override
@@ -80,19 +85,10 @@ class DiagnosticSettingsImpl
     }
 
     @Override
-    public Observable<DiagnosticSettingsCategory> listCategoriesByResourceAsync(String resourceId) {
-        return this.manager().inner().diagnosticSettingsCategorys().listAsync(resourceId)
-                .flatMap(new Func1<DiagnosticSettingsCategoryResourceCollectionInner, Observable<DiagnosticSettingsCategoryResourceInner>>() {
-                    @Override
-                    public Observable<DiagnosticSettingsCategoryResourceInner> call(DiagnosticSettingsCategoryResourceCollectionInner diagnosticSettingsCategoryResourceCollectionInner) {
-                        return Observable.from(diagnosticSettingsCategoryResourceCollectionInner.value());
-                    }
-                }).map(new Func1<DiagnosticSettingsCategoryResourceInner, DiagnosticSettingsCategory>() {
-                    @Override
-                    public DiagnosticSettingsCategory call(DiagnosticSettingsCategoryResourceInner diagnosticSettingsCategoryInner) {
-                        return new DiagnosticSettingsCategoryImpl(diagnosticSettingsCategoryInner);
-                    }
-                });
+    public PagedFlux<DiagnosticSettingsCategory> listCategoriesByResourceAsync(String resourceId) {
+        return PagedConverter.convertListToPagedFlux(this.manager.inner().diagnosticSettingsCategorys().listAsync(resourceId)
+                .map(DiagnosticSettingsCategoryResourceCollectionInner::value))
+                .mapPage(DiagnosticSettingsCategoryImpl::new);
     }
 
     @Override
@@ -101,40 +97,21 @@ class DiagnosticSettingsImpl
     }
 
     @Override
-    public Observable<DiagnosticSettingsCategory> getCategoryAsync(String resourceId, String name) {
+    public Mono<DiagnosticSettingsCategory> getCategoryAsync(String resourceId, String name) {
         return this.manager().inner().diagnosticSettingsCategorys().getAsync(resourceId, name)
-                .map(new Func1<DiagnosticSettingsCategoryResourceInner, DiagnosticSettingsCategory>() {
-                    @Override
-                    public DiagnosticSettingsCategory call(DiagnosticSettingsCategoryResourceInner diagnosticSettingsCategoryResourceInner) {
-                        return new DiagnosticSettingsCategoryImpl(diagnosticSettingsCategoryResourceInner);
-                    }
-                });
+                .map(DiagnosticSettingsCategoryImpl::new);
     }
 
     @Override
-    public PagedList<DiagnosticSetting> listByResource(String resourceId) {
-        DiagnosticSettingsResourceCollectionInner result = this.manager().inner().diagnosticSettings().list(resourceId);
-        if (result == null) {
-            return null;
-        }
-        return wrapList(result.value());
+    public PagedIterable<DiagnosticSetting> listByResource(String resourceId) {
+        return new PagedIterable<>(this.listByResourceAsync(resourceId));
     }
 
     @Override
-    public Observable<DiagnosticSetting> listByResourceAsync(String resourceId) {
-        final DiagnosticSettingsImpl self = this;
-        return this.manager().inner().diagnosticSettings().listAsync(resourceId)
-                .flatMap(new Func1<DiagnosticSettingsResourceCollectionInner, Observable<DiagnosticSettingsResourceInner>>() {
-                    @Override
-                    public Observable<DiagnosticSettingsResourceInner> call(DiagnosticSettingsResourceCollectionInner diagnosticSettingsResourceCollectionInner) {
-                        return Observable.from(diagnosticSettingsResourceCollectionInner.value());
-                    }
-                }).map(new Func1<DiagnosticSettingsResourceInner, DiagnosticSetting>() {
-                    @Override
-                    public DiagnosticSetting call(DiagnosticSettingsResourceInner diagnosticSettingInner) {
-                        return new DiagnosticSettingImpl(diagnosticSettingInner.name(), diagnosticSettingInner, self.manager());
-                    }
-                });
+    public PagedFlux<DiagnosticSetting> listByResourceAsync(String resourceId) {
+        return PagedConverter.convertListToPagedFlux(this.manager().inner().diagnosticSettings().listAsync(resourceId)
+                .map(DiagnosticSettingsResourceCollectionInner::value))
+                .mapPage(inner -> new DiagnosticSettingImpl(inner.getName(), inner, this.manager()));
     }
 
     @Override
@@ -143,13 +120,8 @@ class DiagnosticSettingsImpl
     }
 
     @Override
-    public ServiceFuture<Void> deleteAsync(String resourceId, String name, ServiceCallback<Void> callback) {
-        return this.manager().inner().diagnosticSettings().deleteAsync(resourceId, name, callback);
-    }
-
-    @Override
-    public Completable deleteAsync(String resourceId, String name) {
-        return this.manager().inner().diagnosticSettings().deleteAsync(resourceId, name).toCompletable();
+    public Mono<Void> deleteAsync(String resourceId, String name) {
+        return this.manager().inner().diagnosticSettings().deleteAsync(resourceId, name);
     }
 
     @Override
@@ -158,53 +130,48 @@ class DiagnosticSettingsImpl
     }
 
     @Override
-    public Observable<DiagnosticSetting> getAsync(String resourceId, String name) {
+    public Mono<DiagnosticSetting> getAsync(String resourceId, String name) {
         return this.manager().inner().diagnosticSettings().getAsync(resourceId, name)
-                .map(new Func1<DiagnosticSettingsResourceInner, DiagnosticSetting>() {
-                    @Override
-                    public DiagnosticSetting call(DiagnosticSettingsResourceInner diagnosticSettingsResourceInner) {
-                        return wrapModel(diagnosticSettingsResourceInner);
-                    }
-                });
+                .map(this::wrapModel);
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
-        return this.manager().inner().diagnosticSettings().deleteAsync(getResourceIdFromSettingsId(id), getNameFromSettingsId(id)).toCompletable();
+    public Mono<Void> deleteByIdAsync(String id) {
+        return this.manager().inner().diagnosticSettings().deleteAsync(getResourceIdFromSettingsId(id), getNameFromSettingsId(id));
     }
 
     @Override
-    public Observable<String> deleteByIdsAsync(Collection<String> ids) {
+    public Flux<String> deleteByIdsAsync(Collection<String> ids) {
         if (ids == null || ids.isEmpty()) {
-            return Observable.empty();
+            return Flux.empty();
         }
 
-        Collection<Observable<String>> observables = new ArrayList<>();
+        Collection<Mono<String>> observables = new ArrayList<>();
         for (String id : ids) {
-            final String resourceGroupName = getResourceIdFromSettingsId(id);
-            final String name = getNameFromSettingsId(id);
-            Observable<String> o = RXMapper.map(this.inner().deleteAsync(resourceGroupName, name), id);
+            final String resourceGroupName = ResourceUtils.groupFromResourceId(id);
+            final String name = ResourceUtils.nameFromResourceId(id);
+            Mono<String> o = ReactorMapper.map(this.inner().deleteAsync(resourceGroupName, name), id);
             observables.add(o);
         }
 
-        return Observable.mergeDelayError(observables);
+        return Flux.mergeDelayError(32, observables.toArray(new Mono[observables.size()]));
     }
 
     @Override
-    public Observable<String> deleteByIdsAsync(String... ids) {
-        return this.deleteByIdsAsync(new ArrayList<String>(Arrays.asList(ids)));
+    public Flux<String> deleteByIdsAsync(String... ids) {
+        return this.deleteByIdsAsync(new ArrayList<>(Arrays.asList(ids)));
     }
 
     @Override
     public void deleteByIds(Collection<String> ids) {
         if (ids != null && !ids.isEmpty()) {
-            this.deleteByIdsAsync(ids).toBlocking().last();
+            this.deleteByIdsAsync(ids).blockLast();
         }
     }
 
     @Override
     public void deleteByIds(String... ids) {
-        this.deleteByIds(new ArrayList<String>(Arrays.asList(ids)));
+        this.deleteByIds(new ArrayList<>(Arrays.asList(ids)));
     }
 
     @Override
@@ -213,19 +180,9 @@ class DiagnosticSettingsImpl
     }
 
     @Override
-    public Observable<DiagnosticSetting> getByIdAsync(String id) {
+    public Mono<DiagnosticSetting> getByIdAsync(String id) {
         return this.inner().getAsync(getResourceIdFromSettingsId(id), getNameFromSettingsId(id))
-                .map(new Func1<DiagnosticSettingsResourceInner, DiagnosticSetting>() {
-                    @Override
-                    public DiagnosticSetting call(DiagnosticSettingsResourceInner diagnosticSettingsResourceInner) {
-                        return wrapModel(diagnosticSettingsResourceInner);
-                    }
-                });
-    }
-
-    @Override
-    public ServiceFuture<DiagnosticSetting> getByIdAsync(String id, ServiceCallback<DiagnosticSetting> callback) {
-        return ServiceFuture.fromBody(getByIdAsync(id), callback);
+                .map(this::wrapModel);
     }
 
     private String getResourceIdFromSettingsId(String diagnosticSettingId) {

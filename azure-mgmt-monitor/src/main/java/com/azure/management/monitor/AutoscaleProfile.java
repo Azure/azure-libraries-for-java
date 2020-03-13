@@ -152,7 +152,7 @@ public interface AutoscaleProfile extends
              * @param end end time.
              * @return the next stage of the definition.
              */
-            WithScaleRuleOptional withFixedDateSchedule(String timeZone, DateTime start, DateTime end);
+            WithScaleRuleOptional withFixedDateSchedule(String timeZone, OffsetDateTime start, OffsetDateTime end);
 
             /**
              * Specifies recurrent schedule for autoscale profile.
@@ -177,7 +177,7 @@ public interface AutoscaleProfile extends
              * @param end end time.
              * @return the next stage of the definition.
              */
-            WithAttach withFixedDateSchedule(String timeZone, DateTime start, DateTime end);
+            WithAttach withFixedDateSchedule(String timeZone, OffsetDateTime start, OffsetDateTime end);
 
             /**
              * Specifies recurrent schedule for autoscale profile.
@@ -268,7 +268,7 @@ public interface AutoscaleProfile extends
              * @param end end time.
              * @return the next stage of the definition.
              */
-            WithScaleRuleOptional withFixedDateSchedule(String timeZone, DateTime start, DateTime end);
+            WithScaleRuleOptional withFixedDateSchedule(String timeZone, OffsetDateTime start, OffsetDateTime end);
 
             /**
              * Specifies recurrent schedule for autoscale profile.
@@ -293,7 +293,7 @@ public interface AutoscaleProfile extends
              * @param end end time.
              * @return the next stage of the definition.
              */
-            WithAttach withFixedDateSchedule(String timeZone, DateTime start, DateTime end);
+            WithAttach withFixedDateSchedule(String timeZone, OffsetDateTime start, OffsetDateTime end);
 
             /**
              * Specifies recurrent schedule for autoscale profile.
@@ -338,7 +338,7 @@ public interface AutoscaleProfile extends
          * @param end end time.
          * @return the next stage of the autoscale profile update.
          */
-        Update withFixedDateSchedule(String timeZone, DateTime start, DateTime end);
+        Update withFixedDateSchedule(String timeZone, OffsetDateTime start, OffsetDateTime end);
 
         /**
          * Updates recurrent schedule for autoscale profile.

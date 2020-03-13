@@ -18,8 +18,8 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import org.joda.time.Period;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -165,7 +165,7 @@ public interface DiagnosticSetting extends
              * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
              * @return the stage of creating Diagnostic Settings.
              */
-            WithCreate withMetric(String category, Period timeGrain, int retentionDays);
+            WithCreate withMetric(String category, Duration timeGrain, int retentionDays);
 
             /**
              * Adds a Log Setting to the list of Log Settings for the current Diagnostic Settings.
@@ -184,7 +184,7 @@ public interface DiagnosticSetting extends
              * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
              * @return the stage of creating Diagnostic Settings.
              */
-            WithCreate withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Period timeGrain, int retentionDays);
+            WithCreate withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Duration timeGrain, int retentionDays);
         }
     }
 
@@ -272,7 +272,7 @@ public interface DiagnosticSetting extends
              * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
              * @return the next stage of the Diagnostic Settings update.
              */
-            Update withMetric(String category, Period timeGrain, int retentionDays);
+            Update withMetric(String category, Duration timeGrain, int retentionDays);
 
             /**
              * Adds a Log Setting to the list of Log Settings for the current Diagnostic Settings.
@@ -291,7 +291,7 @@ public interface DiagnosticSetting extends
              * @param retentionDays the number of days for the retention in days. A value of 0 will retain the events indefinitely.
              * @return the next stage of the Diagnostic Settings update.
              */
-            Update withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Period timeGrain, int retentionDays);
+            Update withLogsAndMetrics(List<DiagnosticSettingsCategory> categories, Duration timeGrain, int retentionDays);
 
             /**
              * Removes the Metric Setting from the Diagnostic Setting.

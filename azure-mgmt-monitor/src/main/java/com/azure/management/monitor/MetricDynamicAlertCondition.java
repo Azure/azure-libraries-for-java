@@ -82,7 +82,7 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the ignoreDataBefore value
      */
-    DateTime ignoreDataBefore();
+    OffsetDateTime ignoreDataBefore();
 
     /**
      * Grouping of metric alerts condition definition stages.

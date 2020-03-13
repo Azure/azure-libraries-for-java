@@ -11,9 +11,10 @@ import com.azure.management.monitor.ActivityLogAlertActionGroup;
 import com.azure.management.monitor.ActivityLogAlertActionList;
 import com.azure.management.monitor.ActivityLogAlertAllOfCondition;
 import com.azure.management.monitor.ActivityLogAlertLeafCondition;
+import com.azure.management.monitor.models.ActivityLogAlertResourceInner;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +28,7 @@ import java.util.TreeMap;
  */
 class ActivityLogAlertImpl
         extends GroupableResourceImpl<
-        ActivityLogAlert,
+            ActivityLogAlert,
             ActivityLogAlertResourceInner,
             ActivityLogAlertImpl,
             MonitorManager>
@@ -83,8 +84,8 @@ class ActivityLogAlertImpl
     }
 
     @Override
-    public Observable<ActivityLogAlert> createResourceAsync() {
-        this.inner().withLocation("global");
+    public Mono<ActivityLogAlert> createResourceAsync() {
+        this.inner().setLocation("global");
         ActivityLogAlertAllOfCondition condition = new ActivityLogAlertAllOfCondition();
         condition.withAllOf(new ArrayList<ActivityLogAlertLeafCondition>());
         for (Map.Entry<String, String> cds : conditions.entrySet()) {
@@ -99,7 +100,7 @@ class ActivityLogAlertImpl
     }
 
     @Override
-    protected Observable<ActivityLogAlertResourceInner> getInnerAsync() {
+    protected Mono<ActivityLogAlertResourceInner> getInnerAsync() {
         return this.manager().inner().activityLogAlerts().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 

@@ -6,6 +6,7 @@
 
 package com.azure.management.monitor.implementation;
 
+import com.azure.management.monitor.AggregationType;
 import com.azure.management.monitor.DynamicMetricCriteria;
 import com.azure.management.monitor.DynamicThresholdFailingPeriods;
 import com.azure.management.monitor.DynamicThresholdOperator;
@@ -56,7 +57,7 @@ class MetricDynamicAlertConditionImpl
     }
 
     @Override
-    public DateTime ignoreDataBefore() {
+    public OffsetDateTime ignoreDataBefore() {
         return this.inner().ignoreDataBefore();
     }
 
@@ -69,7 +70,7 @@ class MetricDynamicAlertConditionImpl
     @Override
     public MetricDynamicAlertConditionImpl withCondition(MetricAlertRuleTimeAggregation timeAggregation, DynamicThresholdOperator condition, DynamicThresholdSensitivity alertSensitivity) {
         this.inner().withOperator(condition);
-        this.inner().withTimeAggregation(timeAggregation);
+        this.inner().withTimeAggregation(AggregationType.fromString(timeAggregation.toString()));
         this.inner().withAlertSensitivity(alertSensitivity);
         return this;
     }

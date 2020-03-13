@@ -7,13 +7,14 @@
 package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.Metric;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
+import com.azure.management.monitor.models.MetricInner;
+import com.azure.management.monitor.models.ResponseInner;
 import com.azure.management.monitor.MetricCollection;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import org.joda.time.Period;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The Azure {@link MetricCollection} wrapper class implementation.
@@ -37,7 +38,7 @@ class MetricCollectionImpl
 
     @Override
     public Double cost() {
-        return this.inner().cost();
+        return this.inner().cost().doubleValue();
     }
 
     @Override
@@ -46,17 +47,12 @@ class MetricCollectionImpl
     }
 
     @Override
-    public Period interval() {
+    public Duration interval() {
         return this.inner().interval();
     }
 
     @Override
     public List<Metric> metrics() {
-        return Lists.transform(this.inner().value(), new Function<MetricInner, Metric>() {
-            @Override
-            public Metric apply(MetricInner metricInner) {
-                return  new MetricImpl(metricInner);
-            }
-        });
+        return this.inner().value().stream().map(MetricImpl::new).collect(Collectors.toList());
     }
 }

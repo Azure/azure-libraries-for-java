@@ -16,9 +16,10 @@ import com.azure.management.monitor.WebhookReceiver;
 import com.azure.management.monitor.AutomationRunbookReceiver;
 import com.azure.management.monitor.AzureFunctionReceiver;
 import com.azure.management.monitor.VoiceReceiver;
+import com.azure.management.monitor.models.ActionGroupResourceInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.TreeMap;
  */
 class ActionGroupImpl
         extends GroupableResourceImpl<
-        ActionGroup,
+            ActionGroup,
             ActionGroupResourceInner,
             ActionGroupImpl,
             MonitorManager>
@@ -227,14 +228,14 @@ class ActionGroupImpl
     }
 
     @Override
-    public Observable<ActionGroup> createResourceAsync() {
-        this.inner().withLocation("global");
+    public Mono<ActionGroup> createResourceAsync() {
+        this.inner().setLocation("global");
         return this.manager().inner().actionGroups().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<ActionGroupResourceInner> getInnerAsync() {
+    protected Mono<ActionGroupResourceInner> getInnerAsync() {
         return this.manager().inner().actionGroups().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 

@@ -6,25 +6,24 @@
 
 package com.azure.management.monitor.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.monitor.EventDataPropertyName;
 import com.azure.management.monitor.LocalizableString;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
 import com.azure.management.monitor.ActivityLogs;
 import com.azure.management.monitor.EventData;
-import com.azure.management.resources.fluentcore.utils.PagedListConverter;
-import org.apache.commons.lang3.StringUtils;
-import java.time.OffsetDateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.ISODateTimeFormat;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.monitor.models.ActivityLogsInner;
+import com.azure.management.monitor.models.EventDataInner;
+import com.azure.management.monitor.models.LocalizableStringInner;
 
+import java.time.OffsetDateTime;
+
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * Implementation for {@link ActivityLogs}.
@@ -34,8 +33,8 @@ class ActivityLogsImpl
         ActivityLogs.ActivityLogsQueryDefinition {
 
     private final MonitorManager myManager;
-    private DateTime queryStartTime;
-    private DateTime queryEndTime;
+    private OffsetDateTime queryStartTime;
+    private OffsetDateTime queryEndTime;
     private TreeSet<String> responsePropertySelector;
     private String filterString;
     private boolean filterForTenant;
@@ -58,30 +57,13 @@ class ActivityLogsImpl
     }
 
     @Override
-    public List<LocalizableString> listEventCategories() {
-        return Lists.transform(this.manager().inner().eventCategories().list(), new Function<LocalizableStringInner, LocalizableString>() {
-            @Override
-            public LocalizableString apply(LocalizableStringInner input) {
-                return new LocalizableStringImpl(input);
-            }
-        });
+    public PagedIterable<LocalizableString> listEventCategories() {
+        return this.manager().inner().eventCategories().list().mapPage(LocalizableStringImpl::new);
     }
 
     @Override
-    public Observable<LocalizableString> listEventCategoriesAsync() {
-        return this.manager().inner().eventCategories().listAsync()
-                .flatMap(new Func1<List<LocalizableStringInner>, Observable<LocalizableString>>() {
-                    @Override
-                    public Observable<LocalizableString> call(List<LocalizableStringInner> localizableStringInners) {
-                        return Observable.from(localizableStringInners)
-                                .map(new Func1<LocalizableStringInner, LocalizableString>() {
-                                    @Override
-                                    public LocalizableString call(LocalizableStringInner localizableStringInner) {
-                                        return new LocalizableStringImpl(localizableStringInner);
-                                    }
-                                });
-                    }
-                });
+    public PagedFlux<LocalizableString> listEventCategoriesAsync() {
+        return this.manager().inner().eventCategories().listAsync().mapPage(LocalizableStringImpl::new);
     }
 
     @Override
@@ -114,12 +96,9 @@ class ActivityLogsImpl
     public ActivityLogsImpl withResponseProperties(EventDataPropertyName... responseProperties) {
         this.responsePropertySelector.clear();
 
-        this.responsePropertySelector.addAll(Lists.transform(Arrays.asList(responseProperties), new Function<EventDataPropertyName, String>() {
-            @Override
-            public String apply(EventDataPropertyName eventDataPropertyName) {
-                return eventDataPropertyName.toString();
-            }
-        }));
+        this.responsePropertySelector.addAll(Arrays.stream(responseProperties)
+                .map(EventDataPropertyName::toString)
+                .collect(Collectors.toList()));
         return this;
     }
 
@@ -154,7 +133,7 @@ class ActivityLogsImpl
     }
 
     @Override
-    public PagedList<EventData> execute() {
+    public PagedIterable<EventData> execute() {
         if (this.filterForTenant) {
             return listEventDataForTenant(getOdataFilterString() + this.filterString + " eventChannels eq 'Admin, Operation'");
         }
@@ -162,70 +141,37 @@ class ActivityLogsImpl
     }
 
     @Override
-    public Observable<EventData> executeAsync() {
+    public PagedFlux<EventData> executeAsync() {
         if (this.filterForTenant) {
             return listEventDataForTenantAsync(getOdataFilterString() + this.filterString + " eventChannels eq 'Admin, Operation'");
         }
         return listEventDataAsync(getOdataFilterString() + this.filterString);
     }
+
     private String getOdataFilterString() {
         return String.format("eventTimestamp ge '%s' and eventTimestamp le '%s'",
-                this.queryStartTime.withZone(OffsetDateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()),
-                this.queryEndTime.withZone(OffsetDateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()));
+                DateTimeFormatter.ISO_INSTANT.format(this.queryStartTime.atZoneSameInstant(ZoneOffset.UTC)),
+                DateTimeFormatter.ISO_INSTANT.format(this.queryEndTime.atZoneSameInstant(ZoneOffset.UTC)));
     }
 
-    private PagedList<EventData> listEventData(String filter) {
-        return (new PagedListConverter<EventDataInner, EventData>() {
-            @Override
-            public Observable<EventData> typeConvertAsync(EventDataInner inner) {
-                return Observable.just((EventData) new EventDataImpl(inner));
-            }
-        }).convert(this.inner().list(filter, createPropertyFilter()));
+    private PagedIterable<EventData> listEventData(String filter) {
+        return this.inner().list(filter, createPropertyFilter()).mapPage(EventDataImpl::new);
     }
 
-    private PagedList<EventData> listEventDataForTenant(String filter) {
-        return (new PagedListConverter<EventDataInner, EventData>() {
-            @Override
-            public Observable<EventData> typeConvertAsync(EventDataInner inner) {
-                return Observable.just((EventData) new EventDataImpl(inner));
-            }
-        }).convert(this.manager().inner().tenantActivityLogs().list(filter, createPropertyFilter()));
+    private PagedIterable<EventData> listEventDataForTenant(String filter) {
+        return this.manager().inner().tenantActivityLogs().list(filter, createPropertyFilter()).mapPage(EventDataImpl::new);
     }
 
-    private Observable<EventData> listEventDataAsync(String filter) {
-        return this.inner().listAsync(filter, createPropertyFilter())
-                .flatMap(new Func1<Page<EventDataInner>, Observable<EventData>>() {
-                    @Override
-                    public Observable<EventData> call(Page<EventDataInner> eventDataInnerPage) {
-                        return Observable.from(eventDataInnerPage.items())
-                                .map(new Func1<EventDataInner, EventData>() {
-                                    @Override
-                                    public EventData call(EventDataInner eventDataInner) {
-                                        return new EventDataImpl(eventDataInner);
-                                    }
-                                });
-                    }
-                });
+    private PagedFlux<EventData> listEventDataAsync(String filter) {
+        return this.inner().listAsync(filter, createPropertyFilter()).mapPage(EventDataImpl::new);
     }
 
-    private Observable<EventData> listEventDataForTenantAsync(String filter) {
-        return this.manager().inner().tenantActivityLogs().listAsync(filter, createPropertyFilter())
-                .flatMap(new Func1<Page<EventDataInner>, Observable<EventData>>() {
-                    @Override
-                    public Observable<EventData> call(Page<EventDataInner> eventDataInnerPage) {
-                        return Observable.from(eventDataInnerPage.items())
-                                .map(new Func1<EventDataInner, EventData>() {
-                                    @Override
-                                    public EventData call(EventDataInner eventDataInner) {
-                                        return new EventDataImpl(eventDataInner);
-                                    }
-                                });
-                    }
-                });
+    private PagedFlux<EventData> listEventDataForTenantAsync(String filter) {
+        return this.manager().inner().tenantActivityLogs().listAsync(filter, createPropertyFilter()).mapPage(EventDataImpl::new);
     }
 
     private String createPropertyFilter() {
-        String propertyFilter = StringUtils.join(this.responsePropertySelector, ',');
+        String propertyFilter = this.responsePropertySelector == null ? null : String.join(",", this.responsePropertySelector);
         if (propertyFilter != null && propertyFilter.trim().isEmpty()) {
             propertyFilter = null;
         }

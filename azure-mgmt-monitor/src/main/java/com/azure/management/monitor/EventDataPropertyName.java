@@ -7,8 +7,8 @@
 package com.azure.management.monitor;
 
 
+import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
 
 import java.util.Collection;
 

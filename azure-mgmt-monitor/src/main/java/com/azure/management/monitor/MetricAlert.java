@@ -16,8 +16,9 @@ import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
+
+import java.time.Duration;
 import java.time.OffsetDateTime;
-import org.joda.time.Period;
 
 import java.util.Collection;
 import java.util.Map;
@@ -64,14 +65,14 @@ public interface MetricAlert extends
      *
      * @return the evaluationFrequency value
      */
-    Period evaluationFrequency();
+    Duration evaluationFrequency();
 
     /**
-     * Get the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.
+     * Get the Duration of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.
      *
      * @return the windowSize value
      */
-    Period windowSize();
+    Duration windowSize();
 
     /**
      * @return metric alert criterias, indexed by name
@@ -102,7 +103,7 @@ public interface MetricAlert extends
      *
      * @return the lastUpdatedTime value
      */
-    DateTime lastUpdatedTime();
+    OffsetDateTime lastUpdatedTime();
 
     /**
      * The entirety of a Metric Alert definition.
@@ -191,7 +192,7 @@ public interface MetricAlert extends
              * @param size the windowSize value to set
              * @return the next stage of metric alert definition.
              */
-            WithEvaluationFrequency withPeriod(Period size);
+            WithEvaluationFrequency withPeriod(Duration size);
         }
 
         /**
@@ -204,7 +205,7 @@ public interface MetricAlert extends
              * @param frequency the evaluationFrequency value to set.
              * @return the next stage of metric alert definition.
              */
-            WithSeverity withFrequency(Period frequency);
+            WithSeverity withFrequency(Duration frequency);
         }
 
         /**
@@ -257,7 +258,7 @@ public interface MetricAlert extends
              * @param size the windowSize value to set
              * @return the next stage of metric alert definition.
              */
-            WithEvaluationFrequencyMultipleResource withPeriod(Period size);
+            WithEvaluationFrequencyMultipleResource withPeriod(Duration size);
         }
 
         /**
@@ -270,7 +271,7 @@ public interface MetricAlert extends
              * @param frequency the evaluationFrequency value to set.
              * @return the next stage of metric alert definition.
              */
-            WithSeverityMultipleResource withFrequency(Period frequency);
+            WithSeverityMultipleResource withFrequency(Duration frequency);
         }
 
         /**
@@ -381,7 +382,7 @@ public interface MetricAlert extends
              * @param size the windowSize value to set
              * @return the next stage of the metric alert update.
              */
-            Update withPeriod(Period size);
+            Update withPeriod(Duration size);
 
             /**
              * Sets how often the metric alert is evaluated represented in ISO 8601 duration format.
@@ -389,7 +390,7 @@ public interface MetricAlert extends
              * @param frequency the evaluationFrequency value to set.
              * @return the next stage of the metric alert update.
              */
-            Update withFrequency(Period frequency);
+            Update withFrequency(Duration frequency);
 
             /**
              * Sets alert severity {0, 1, 2, 3, 4}.

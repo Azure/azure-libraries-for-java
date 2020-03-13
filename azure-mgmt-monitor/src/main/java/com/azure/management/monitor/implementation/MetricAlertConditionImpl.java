@@ -6,11 +6,14 @@
 
 package com.azure.management.monitor.implementation;
 
+import com.azure.management.monitor.AggregationType;
 import com.azure.management.monitor.MetricAlert;
 import com.azure.management.monitor.MetricAlertCondition;
 import com.azure.management.monitor.MetricAlertRuleCondition;
 import com.azure.management.monitor.MetricAlertRuleTimeAggregation;
 import com.azure.management.monitor.MetricCriteria;
+import com.azure.management.monitor.Operator;
+
 import java.util.ArrayList;
 
 /**
@@ -39,8 +42,8 @@ class MetricAlertConditionImpl
 
     @Override
     public MetricAlertConditionImpl withCondition(MetricAlertRuleTimeAggregation timeAggregation, MetricAlertRuleCondition condition, double threshold) {
-        this.inner().withOperator(condition);
-        this.inner().withTimeAggregation(timeAggregation);
+        this.inner().withOperator(Operator.fromString(condition.toString()));
+        this.inner().withTimeAggregation(AggregationType.fromString(timeAggregation.toString()));
         this.inner().withThreshold(threshold);
         return this;
     }

@@ -6,13 +6,13 @@
 
 package com.azure.management.monitor;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.monitor.models.ActivityLogsInner;
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.PagedList;
 import com.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import java.time.OffsetDateTime;
-import rx.Observable;
 
 import java.util.List;
 
@@ -29,14 +29,14 @@ public interface ActivityLogs extends
      *
      * @return list of available event categories supported in the Activity Logs Service.
      */
-    List<LocalizableString> listEventCategories();
+    PagedIterable<LocalizableString> listEventCategories();
 
     /**
      * Lists available event categories supported in the Activity Logs Service.
      *
      * @return list of available event categories supported in the Activity Logs Service.
      */
-    Observable<LocalizableString> listEventCategoriesAsync();
+    PagedFlux<LocalizableString> listEventCategoriesAsync();
 
     /**
      * Begins a definition for a new Activity log query.
@@ -155,14 +155,14 @@ public interface ActivityLogs extends
              *
              * @return Activity Log events received after query execution.
              */
-            PagedList<EventData> execute();
+            PagedIterable<EventData> execute();
 
             /**
              * Executes the query.
              *
              * @return a representation of the deferred computation of Activity Log query call.
              */
-            Observable<EventData> executeAsync();
+            PagedFlux<EventData> executeAsync();
 
             /**
              * Filters events that were generated at the Tenant level.

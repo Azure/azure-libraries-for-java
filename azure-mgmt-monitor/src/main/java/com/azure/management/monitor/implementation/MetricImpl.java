@@ -10,6 +10,7 @@ import com.azure.management.monitor.LocalizableString;
 import com.azure.management.monitor.Metric;
 import com.azure.management.monitor.TimeSeriesElement;
 import com.azure.management.monitor.Unit;
+import com.azure.management.monitor.models.MetricInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.List;
@@ -28,7 +29,7 @@ class MetricImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override

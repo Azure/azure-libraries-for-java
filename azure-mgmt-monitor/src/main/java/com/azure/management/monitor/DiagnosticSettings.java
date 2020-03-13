@@ -6,8 +6,9 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.PagedList;
 import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.monitor.models.DiagnosticSettingsInner;
 import com.azure.management.monitor.implementation.MonitorManager;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
@@ -17,10 +18,7 @@ import com.azure.management.resources.fluentcore.collection.SupportsBatchCreatio
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -51,7 +49,7 @@ public interface DiagnosticSettings extends
      * @param resourceId of the requested resource.
      * @return list of Diagnostic Settings category available for the resource.
      */
-    Observable<DiagnosticSettingsCategory> listCategoriesByResourceAsync(String resourceId);
+    PagedFlux<DiagnosticSettingsCategory> listCategoriesByResourceAsync(String resourceId);
 
     /**
      * Gets the information about Diagnostic Setting category for Log or Metric Setting for a specific resource.
@@ -69,7 +67,7 @@ public interface DiagnosticSettings extends
      * @param name of the Log or Metric category.
      * @return Diagnostic Setting category available for the resource.
      */
-    Observable<DiagnosticSettingsCategory> getCategoryAsync(String resourceId, String name);
+    Mono<DiagnosticSettingsCategory> getCategoryAsync(String resourceId, String name);
 
     /**
      * Lists all the diagnostic settings in the currently selected subscription for a specific resource.
@@ -77,7 +75,7 @@ public interface DiagnosticSettings extends
      * @param resourceId that Diagnostic Setting is associated with.
      * @return list of resources
      */
-    PagedList<DiagnosticSetting> listByResource(String resourceId);
+    PagedIterable<DiagnosticSetting> listByResource(String resourceId);
 
     /**
      * Lists all the diagnostic settings in the currently selected subscription for a specific resource.
@@ -85,7 +83,7 @@ public interface DiagnosticSettings extends
      * @param resourceId that Diagnostic Setting is associated with.
      * @return list of resources
      */
-    Observable<DiagnosticSetting> listByResourceAsync(String resourceId);
+    PagedFlux<DiagnosticSetting> listByResourceAsync(String resourceId);
 
     /**
      * Deletes a Diagnostic Setting from Azure, identifying it by its resourceId and name.
@@ -100,19 +98,9 @@ public interface DiagnosticSettings extends
      *
      * @param resourceId that Diagnostic Setting is associated with.
      * @param name the name of Diagnostic Setting.
-     * @param callback the callback on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> deleteAsync(String resourceId, String name, ServiceCallback<Void> callback);
-
-    /**
-     * Asynchronously delete a Diagnostic Setting from Azure, identifying it by its resourceId and name.
-     *
-     * @param resourceId that Diagnostic Setting is associated with.
-     * @param name the name of Diagnostic Setting.
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteAsync(String resourceId, String name);
+    Mono<Void> deleteAsync(String resourceId, String name);
 
     /**
      * Gets the information about Diagnostic Setting from Azure based on the resource id and setting name.
@@ -130,5 +118,5 @@ public interface DiagnosticSettings extends
      * @param name the name of Diagnostic Setting.
      * @return an immutable representation of the resource
      */
-    Observable<DiagnosticSetting> getAsync(String resourceId, String name);
+    Mono<DiagnosticSetting> getAsync(String resourceId, String name);
 }

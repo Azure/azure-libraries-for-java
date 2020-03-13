@@ -11,8 +11,10 @@ import com.azure.management.monitor.AutoscaleNotification;
 import com.azure.management.monitor.AutoscaleProfile;
 import com.azure.management.monitor.AutoscaleSetting;
 import com.azure.management.monitor.WebhookNotification;
+import com.azure.management.monitor.models.AutoscaleProfileInner;
+import com.azure.management.monitor.models.AutoscaleSettingResourceInner;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -219,13 +221,13 @@ class AutoscaleSettingImpl
     }
 
     @Override
-    public Observable<AutoscaleSetting> createResourceAsync() {
+    public Mono<AutoscaleSetting> createResourceAsync() {
         return this.manager().inner().autoscaleSettings().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<AutoscaleSettingResourceInner> getInnerAsync() {
+    protected Mono<AutoscaleSettingResourceInner> getInnerAsync() {
         return this.manager().inner().autoscaleSettings().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 

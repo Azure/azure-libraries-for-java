@@ -8,8 +8,8 @@ package com.azure.management.monitor;
 
 import com.azure.management.monitor.models.ResponseInner;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.Period;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -50,7 +50,7 @@ public interface MetricCollection
      *
      * @return the interval value
      */
-    Period interval();
+    Duration interval();
 
     /**
      * Get the metric collection value.

@@ -11,6 +11,7 @@ import com.azure.management.monitor.LocalizableString;
 import com.azure.management.monitor.SenderAuthorization;
 import com.azure.management.monitor.EventData;
 import com.azure.management.monitor.EventLevel;
+import com.azure.management.monitor.models.EventDataInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import java.time.OffsetDateTime;
 
@@ -62,7 +63,7 @@ class EventDataImpl
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
@@ -141,12 +142,12 @@ class EventDataImpl
     }
 
     @Override
-    public DateTime eventTimestamp() {
+    public OffsetDateTime eventTimestamp() {
         return this.inner().eventTimestamp();
     }
 
     @Override
-    public DateTime submissionTimestamp() {
+    public OffsetDateTime submissionTimestamp() {
         return this.inner().submissionTimestamp();
     }
 

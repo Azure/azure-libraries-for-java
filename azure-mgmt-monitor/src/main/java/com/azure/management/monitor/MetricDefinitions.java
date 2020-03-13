@@ -6,11 +6,12 @@
 
 package com.azure.management.monitor;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.monitor.models.MetricDefinitionsInner;
 import com.azure.management.monitor.implementation.MonitorManager;
 import com.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import rx.Observable;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface MetricDefinitions extends
      * @param resourceId The resource Id.
      * @return list of metric definitions.
      */
-    List<MetricDefinition> listByResource(String resourceId);
+    PagedIterable<MetricDefinition> listByResource(String resourceId);
 
     /**
      * Lists Metric Definitions for a given resource.
@@ -36,5 +37,5 @@ public interface MetricDefinitions extends
      * @param resourceId The resource Id.
      * @return a representation of the deferred computation of Metric Definitions list call.
      */
-    Observable<MetricDefinition> listByResourceAsync(String resourceId);
+    PagedFlux<MetricDefinition> listByResourceAsync(String resourceId);
 }

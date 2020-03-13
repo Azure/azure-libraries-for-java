@@ -8,10 +8,10 @@ package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.ActionGroup;
 import com.azure.management.monitor.ActionGroups;
+import com.azure.management.monitor.models.ActionGroupResourceInner;
+import com.azure.management.monitor.models.ActionGroupsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation for {@link ActionGroups}.
@@ -19,10 +19,10 @@ import rx.Completable;
 class ActionGroupsImpl
         extends TopLevelModifiableResourcesImpl<
         ActionGroup,
-                        ActionGroupImpl,
-                        ActionGroupResourceInner,
-                        ActionGroupsInner,
-                        MonitorManager>
+        ActionGroupImpl,
+        ActionGroupResourceInner,
+        ActionGroupsInner,
+        MonitorManager>
         implements ActionGroups {
 
     ActionGroupsImpl(final MonitorManager monitorManager) {
@@ -39,7 +39,7 @@ class ActionGroupsImpl
         if (inner ==  null) {
             return null;
         }
-        return new ActionGroupImpl(inner.name(), inner, this.manager());
+        return new ActionGroupImpl(inner.getName(), inner, this.manager());
     }
 
     @Override
@@ -53,12 +53,7 @@ class ActionGroupsImpl
     }
 
     @Override
-    public Completable enableReceiverAsync(String resourceGroupName, String actionGroupName, String receiverName) {
-        return this.inner().enableReceiverAsync(resourceGroupName, actionGroupName, receiverName).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> enableReceiverAsync(String resourceGroupName, String actionGroupName, String receiverName, ServiceCallback<Void> callback) {
-        return this.inner().enableReceiverAsync(resourceGroupName, actionGroupName, receiverName, callback);
+    public Mono<Void> enableReceiverAsync(String resourceGroupName, String actionGroupName, String receiverName) {
+        return this.inner().enableReceiverAsync(resourceGroupName, actionGroupName, receiverName);
     }
 }

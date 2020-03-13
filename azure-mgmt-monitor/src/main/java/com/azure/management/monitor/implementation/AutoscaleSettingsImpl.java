@@ -8,6 +8,8 @@ package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.AutoscaleSettings;
 import com.azure.management.monitor.AutoscaleSetting;
+import com.azure.management.monitor.models.AutoscaleSettingResourceInner;
+import com.azure.management.monitor.models.AutoscaleSettingsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
@@ -36,7 +38,7 @@ class AutoscaleSettingsImpl
         if (inner ==  null) {
             return null;
         }
-        return new AutoscaleSettingImpl(inner.name(), inner, this.manager());
+        return new AutoscaleSettingImpl(inner.getName(), inner, this.manager());
     }
 
     @Override

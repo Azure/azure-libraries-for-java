@@ -8,6 +8,8 @@ package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.MetricAlert;
 import com.azure.management.monitor.MetricAlerts;
+import com.azure.management.monitor.models.MetricAlertResourceInner;
+import com.azure.management.monitor.models.MetricAlertsInner;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
@@ -16,10 +18,10 @@ import com.azure.management.resources.fluentcore.arm.collection.implementation.T
 class MetricAlertsImpl
         extends TopLevelModifiableResourcesImpl<
         MetricAlert,
-                        MetricAlertImpl,
-                        MetricAlertResourceInner,
-                        MetricAlertsInner,
-                        MonitorManager>
+        MetricAlertImpl,
+        MetricAlertResourceInner,
+        MetricAlertsInner,
+        MonitorManager>
         implements MetricAlerts {
 
     MetricAlertsImpl(final MonitorManager monitorManager) {
@@ -39,7 +41,7 @@ class MetricAlertsImpl
         if (inner ==  null) {
             return null;
         }
-        return new MetricAlertImpl(inner.name(), inner, this.manager());
+        return new MetricAlertImpl(inner.getName(), inner, this.manager());
     }
 
     @Override

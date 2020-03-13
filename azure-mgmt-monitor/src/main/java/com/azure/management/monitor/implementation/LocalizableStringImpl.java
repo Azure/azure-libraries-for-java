@@ -7,6 +7,7 @@
 package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.LocalizableString;
+import com.azure.management.monitor.models.LocalizableStringInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**

@@ -12,14 +12,16 @@ import com.azure.management.monitor.ResultType;
 import com.azure.management.monitor.Unit;
 import com.azure.management.monitor.AggregationType;
 import com.azure.management.monitor.MetricCollection;
+import com.azure.management.monitor.models.LocalizableStringInner;
+import com.azure.management.monitor.models.MetricDefinitionInner;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import java.time.OffsetDateTime;
-import org.joda.time.Period;
-import rx.Observable;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.ISODateTimeFormat;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.time.OffsetDateTime;
+
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +38,10 @@ class MetricDefinitionImpl
     private MetricDefinitionInner inner;
     private LocalizableString name;
     private List<LocalizableString> dimensions;
-    private DateTime queryStartTime;
-    private DateTime queryEndTime;
+    private OffsetDateTime queryStartTime;
+    private OffsetDateTime queryEndTime;
     private String aggreagation;
-    private Period interval;
+    private Duration interval;
     private String odataFilter;
     private ResultType resultType;
     private Integer top;
@@ -107,7 +109,7 @@ class MetricDefinitionImpl
     }
 
     public String id() {
-        return this.inner.id();
+        return this.inner.getId();
     }
 
     @Override
@@ -140,7 +142,7 @@ class MetricDefinitionImpl
     }
 
     @Override
-    public MetricDefinitionImpl withInterval(Period interval) {
+    public MetricDefinitionImpl withInterval(Duration interval) {
         this.interval = interval;
         return this;
     }
@@ -177,15 +179,15 @@ class MetricDefinitionImpl
 
     @Override
     public MetricCollection execute() {
-        return this.executeAsync().toBlocking().last();
+        return this.executeAsync().block();
     }
 
     @Override
-    public Observable<MetricCollection> executeAsync() {
+    public Mono<MetricCollection> executeAsync() {
         return this.manager().inner().metrics().listAsync(this.inner.resourceId(),
                 String.format("%s/%s",
-                        this.queryStartTime.withZone(OffsetDateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()),
-                        this.queryEndTime.withZone(OffsetDateTimeZone.UTC).toString(ISODateTimeFormat.dateTime())),
+                        DateTimeFormatter.ISO_INSTANT.format(this.queryStartTime.atZoneSameInstant(ZoneOffset.UTC)),
+                        DateTimeFormatter.ISO_INSTANT.format(this.queryEndTime.atZoneSameInstant(ZoneOffset.UTC))),
                 this.interval,
                 this.inner.name().value(),
                 this.aggreagation,
@@ -193,11 +195,6 @@ class MetricDefinitionImpl
                 this.orderBy,
                 this.odataFilter,
                 this.resultType,
-                this.namespaceFilter).map(new Func1<ResponseInner, MetricCollection>() {
-                    @Override
-                    public MetricCollection call(ResponseInner responseInner) {
-                        return new MetricCollectionImpl(responseInner);
-                    }
-                });
+                this.namespaceFilter).map(MetricCollectionImpl::new);
     }
 }

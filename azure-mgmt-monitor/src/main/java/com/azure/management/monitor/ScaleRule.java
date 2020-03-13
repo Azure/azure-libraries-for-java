@@ -12,7 +12,8 @@ import com.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.azure.management.resources.fluentcore.model.Attachable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Settable;
-import org.joda.time.Period;
+
+import java.time.Duration;
 
 /**
  * An immutable client-side representation of an Azure autoscale profile scale rule.
@@ -40,14 +41,14 @@ public interface ScaleRule extends
      *
      * @return the timeWindow value
      */
-    Period duration();
+    Duration duration();
 
     /**
      * Get the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric definitions for the metric. Must be between 12 hours and 1 minute.
      *
      * @return the timeGrain value
      */
-    Period frequency();
+    Duration frequency();
 
     /**
      * Get the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
@@ -103,7 +104,7 @@ public interface ScaleRule extends
      *
      * @return the cooldown value
      */
-    Period coolDown();
+    Duration coolDown();
 
     /**
      * The entirety of an autoscale profile scale rule definition.
@@ -159,7 +160,7 @@ public interface ScaleRule extends
              * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
              * @return the next stage of the definition.
              */
-            WithCondition withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);
+            WithCondition withStatistic(Duration duration, Duration frequency, MetricStatisticType statisticType);
 
             /**
              * Sets statistics for autoscale trigger action with default values of 10 minutes for duration, 1 minute for frequency(time grain) and 'Average' for statistic type.
@@ -174,7 +175,7 @@ public interface ScaleRule extends
              * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
              * @return the next stage of the definition.
              */
-            WithCondition withStatistic(Period duration);
+            WithCondition withStatistic(Duration duration);
 
             /**
              * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain).
@@ -183,7 +184,7 @@ public interface ScaleRule extends
              * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
              * @return the next stage of the definition.
              */
-            WithCondition withStatistic(Period duration, MetricStatisticType statisticType);
+            WithCondition withStatistic(Duration duration, MetricStatisticType statisticType);
         }
 
         /**
@@ -214,7 +215,7 @@ public interface ScaleRule extends
              * @param cooldown the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.
              * @return the next stage of the definition.
              */
-            WithAttach withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Period cooldown);
+            WithAttach withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Duration cooldown);
         }
 
         /**
@@ -279,7 +280,7 @@ public interface ScaleRule extends
              * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
              * @return the next stage of the definition.
              */
-            WithCondition withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);
+            WithCondition withStatistic(Duration duration, Duration frequency, MetricStatisticType statisticType);
 
             /**
              * Sets statistics for autoscale trigger action with default values of 10 minutes for duration, 1 minute for frequency(time grain) and 'Average' for statistic type.
@@ -294,7 +295,7 @@ public interface ScaleRule extends
              * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
              * @return the next stage of the definition.
              */
-            WithCondition withStatistic(Period duration);
+            WithCondition withStatistic(Duration duration);
 
             /**
              * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain).
@@ -303,7 +304,7 @@ public interface ScaleRule extends
              * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
              * @return the next stage of the definition.
              */
-            WithCondition withStatistic(Period duration, MetricStatisticType statisticType);
+            WithCondition withStatistic(Duration duration, MetricStatisticType statisticType);
         }
 
         /**
@@ -334,7 +335,7 @@ public interface ScaleRule extends
              * @param cooldown the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.
              * @return the next stage of the definition.
              */
-            WithAttach withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Period cooldown);
+            WithAttach withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Duration cooldown);
         }
 
         /**
@@ -404,7 +405,7 @@ public interface ScaleRule extends
              * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
              * @return the next stage of the definition.
              */
-            WithCondition withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);
+            WithCondition withStatistic(Duration duration, Duration frequency, MetricStatisticType statisticType);
 
             /**
              * Sets statistics for autoscale trigger action with default values of 10 minutes for duration, 1 minute for frequency(time grain) and 'Average' for statistic type.
@@ -419,7 +420,7 @@ public interface ScaleRule extends
              * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
              * @return the next stage of the definition.
              */
-            WithCondition withStatistic(Period duration);
+            WithCondition withStatistic(Duration duration);
 
             /**
              * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain).
@@ -428,7 +429,7 @@ public interface ScaleRule extends
              * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
              * @return the next stage of the definition.
              */
-            WithCondition withStatistic(Period duration, MetricStatisticType statisticType);
+            WithCondition withStatistic(Duration duration, MetricStatisticType statisticType);
         }
 
         /**
@@ -458,7 +459,7 @@ public interface ScaleRule extends
              * @param cooldown the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.
              * @return the next stage of the definition.
              */
-            WithAttach withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Period cooldown);
+            WithAttach withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Duration cooldown);
         }
 
         /**
@@ -503,7 +504,7 @@ public interface ScaleRule extends
          * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
          * @return the next stage of the scale rule update.
          */
-        Update withStatistic(Period duration, Period frequency, MetricStatisticType statisticType);
+        Update withStatistic(Duration duration, Duration frequency, MetricStatisticType statisticType);
 
         /**
          * Sets statistics for autoscale trigger action with default values of 10 minutes for duration, 1 minute for frequency(time grain) and 'Average' for statistic type.
@@ -518,7 +519,7 @@ public interface ScaleRule extends
          * @param duration the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes.
          * @return the next stage of the definition.
          */
-        Update withStatistic(Period duration);
+        Update withStatistic(Duration duration);
 
         /**
          * Sets statistics for autoscale trigger action with default values of 1 minute for frequency(time grain).
@@ -527,7 +528,7 @@ public interface ScaleRule extends
          * @param statisticType the metric statistic type. How the metrics from multiple instances are combined. Possible values include: 'Average', 'Min', 'Max', 'Sum'.
          * @return the next stage of the definition.
          */
-        Update withStatistic(Period duration, MetricStatisticType statisticType);
+        Update withStatistic(Duration duration, MetricStatisticType statisticType);
 
         /**
          * Updates the condition to monitor for the current metric alert.
@@ -548,6 +549,6 @@ public interface ScaleRule extends
          * @param cooldown the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format.
          * @return the next stage of the scale rule update.
          */
-        Update withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Period cooldown);
+        Update withScaleAction(ScaleDirection direction, ScaleType type, int instanceCountChange, Duration cooldown);
     }
 }

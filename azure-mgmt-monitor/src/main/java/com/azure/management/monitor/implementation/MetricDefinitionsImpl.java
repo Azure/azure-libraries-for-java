@@ -6,12 +6,13 @@
 
 package com.azure.management.monitor.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.monitor.MetricDefinition;
 import com.azure.management.monitor.MetricDefinitions;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.monitor.models.MetricDefinitionInner;
+import com.azure.management.monitor.models.MetricDefinitionsInner;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 
 import java.util.List;
 
@@ -38,28 +39,12 @@ class MetricDefinitionsImpl
     }
 
     @Override
-    public List<MetricDefinition> listByResource(String resourceId) {
-        return Lists.transform(this.inner().list(resourceId), new Function<MetricDefinitionInner, MetricDefinition>() {
-                    @Override
-                    public MetricDefinition apply(MetricDefinitionInner metricDefinitionInner) {
-                        return  new MetricDefinitionImpl(metricDefinitionInner, myManager);
-                    }
-                });
+    public PagedIterable<MetricDefinition> listByResource(String resourceId) {
+        return this.inner().list(resourceId).mapPage(inner -> new MetricDefinitionImpl(inner, myManager));
     }
 
     @Override
-    public Observable<MetricDefinition> listByResourceAsync(String resourceId) {
-        return this.inner().listAsync(resourceId)
-                .flatMapIterable(new Func1<List<MetricDefinitionInner>, Iterable<MetricDefinitionInner>>() {
-                    @Override
-                    public Iterable<MetricDefinitionInner> call(List<MetricDefinitionInner> items) {
-                        return items;
-                    }
-                }).map(new Func1<MetricDefinitionInner, MetricDefinition>() {
-                    @Override
-                    public MetricDefinition call(MetricDefinitionInner metricDefinitionInner) {
-                        return new MetricDefinitionImpl(metricDefinitionInner, myManager);
-                    }
-                });
+    public PagedFlux<MetricDefinition> listByResourceAsync(String resourceId) {
+        return this.inner().listAsync(resourceId).mapPage(inner -> new MetricDefinitionImpl(inner, myManager));
     }
 }

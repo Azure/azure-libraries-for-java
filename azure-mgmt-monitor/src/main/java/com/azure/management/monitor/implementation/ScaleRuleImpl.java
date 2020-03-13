@@ -14,14 +14,12 @@ import com.azure.management.monitor.ScaleDirection;
 import com.azure.management.monitor.ScaleRule;
 import com.azure.management.monitor.ScaleType;
 import com.azure.management.monitor.TimeAggregationType;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import org.joda.time.Period;
 
 /**
  * Implementation for ScaleRule.
  */
-@LangDefinition
 class ScaleRuleImpl
         extends WrapperImpl<ScaleRuleInner>
         implements

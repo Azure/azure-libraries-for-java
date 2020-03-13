@@ -6,20 +6,17 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.monitor.implementation.MetricAlertResourceInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.monitor.models.MetricAlertResourceInner;
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import org.joda.time.DateTime;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.HasId;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import java.time.OffsetDateTime;
 import org.joda.time.Period;
 
 import java.util.Collection;
@@ -39,7 +36,6 @@ public interface MetricAlert extends
      *
      * @return the description value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String description();
 
     /**
@@ -47,7 +43,6 @@ public interface MetricAlert extends
      *
      * @return the severity value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     int severity();
 
     /**
@@ -55,7 +50,6 @@ public interface MetricAlert extends
      *
      * @return the enabled value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     boolean enabled();
 
     /**
@@ -63,7 +57,6 @@ public interface MetricAlert extends
      *
      * @return the scopes value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Collection<String> scopes();
 
     /**
@@ -71,7 +64,6 @@ public interface MetricAlert extends
      *
      * @return the evaluationFrequency value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Period evaluationFrequency();
 
     /**
@@ -79,19 +71,16 @@ public interface MetricAlert extends
      *
      * @return the windowSize value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Period windowSize();
 
     /**
      * @return metric alert criterias, indexed by name
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Map<String, MetricAlertCondition> alertCriterias();
 
     /**
      * @return metric dynamic alert criterias, indexed by name
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Map<String, MetricDynamicAlertCondition> dynamicAlertCriterias();
 
     /**
@@ -99,7 +88,6 @@ public interface MetricAlert extends
      *
      * @return the autoMitigate value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     boolean autoMitigate();
 
     /**
@@ -107,7 +95,6 @@ public interface MetricAlert extends
      *
      * @return the actions value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Collection<String> actionGroupIds();
 
     /**
@@ -115,7 +102,6 @@ public interface MetricAlert extends
      *
      * @return the lastUpdatedTime value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     DateTime lastUpdatedTime();
 
     /**
@@ -184,7 +170,6 @@ public interface MetricAlert extends
              * @param regionName resource region.
              * @return the next stage of metric alert definition.
              */
-            @Beta(Beta.SinceVersion.V1_27_0)
             WithWindowSizeMultipleResource withMultipleTargetResources(Collection<String> resourceIds, String type, String regionName);
 
             /**
@@ -193,7 +178,6 @@ public interface MetricAlert extends
              * @param resources collection of resources to alert on metric, which must be of the same type and in the same region.
              * @return the next stage of metric alert definition.
              */
-            @Beta(Beta.SinceVersion.V1_27_0)
             WithWindowSizeMultipleResource withMultipleTargetResources(Collection<? extends Resource> resources);
         }
 
@@ -334,7 +318,6 @@ public interface MetricAlert extends
              * @param name sets the name of the dynamic condition.
              * @return the next stage of metric alert condition definition.
              */
-            @Beta(Beta.SinceVersion.V1_27_0)
             MetricDynamicAlertCondition.DefinitionStages.Blank.MetricName<WithCreate> defineDynamicAlertCriteria(String name);
         }
 
@@ -351,7 +334,6 @@ public interface MetricAlert extends
              *
              * @return the next stage of metric alert condition definition.
              */
-            @Method
             WithCreate withoutAutoMitigation();
 
             /**
@@ -359,7 +341,6 @@ public interface MetricAlert extends
              *
              * @return the next stage of metric alert definition.
              */
-            @Method
             WithActionGroup withRuleDisabled();
         }
 
@@ -375,7 +356,6 @@ public interface MetricAlert extends
              *
              * @return the next stage of metric alert condition definition.
              */
-            @Method
             WithCreate withoutAutoMitigation();
 
             /**
@@ -383,7 +363,6 @@ public interface MetricAlert extends
              *
              * @return the next stage of metric alert definition.
              */
-            @Method
             WithActionGroup withRuleDisabled();
         }
     }
@@ -433,7 +412,6 @@ public interface MetricAlert extends
              *
              * @return the next stage of the metric alert update.
              */
-            @Method
             Update withRuleEnabled();
 
             /**
@@ -441,7 +419,6 @@ public interface MetricAlert extends
              *
              * @return the next stage of the metric alert update.
              */
-            @Method
             Update withRuleDisabled();
 
             /**
@@ -505,7 +482,6 @@ public interface MetricAlert extends
              *
              * @return the next stage of the metric alert update.
              */
-            @Method
             Update withAutoMitigation();
 
             /**
@@ -513,7 +489,6 @@ public interface MetricAlert extends
              *
              * @return the next stage of the metric alert update.
              */
-            @Method
             Update withoutAutoMitigation();
         }
     }

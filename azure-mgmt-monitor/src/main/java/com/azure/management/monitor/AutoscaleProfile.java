@@ -6,16 +6,14 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.monitor.implementation.AutoscaleProfileInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import org.joda.time.DateTime;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.monitor.models.AutoscaleProfileInner;
+import com.azure.management.resources.fluentcore.arm.models.HasName;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
+import java.time.OffsetDateTime;
 
 import java.util.List;
 
@@ -32,7 +30,6 @@ public interface AutoscaleProfile extends
      *
      * @return the minimum value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     int minInstanceCount();
 
     /**
@@ -40,7 +37,6 @@ public interface AutoscaleProfile extends
      *
      * @return the maximum value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     int maxInstanceCount();
 
     /**
@@ -48,7 +44,6 @@ public interface AutoscaleProfile extends
      *
      * @return the defaultProperty value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     int defaultInstanceCount();
 
     /**
@@ -56,7 +51,6 @@ public interface AutoscaleProfile extends
      *
      * @return the fixedDate value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     TimeWindow fixedDateSchedule();
 
     /**
@@ -64,7 +58,6 @@ public interface AutoscaleProfile extends
      *
      * @return the recurrence value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Recurrence recurrentSchedule();
 
     /**
@@ -72,7 +65,6 @@ public interface AutoscaleProfile extends
      *
      * @return the rules value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<ScaleRule> rules();
 
     /**
@@ -137,7 +129,6 @@ public interface AutoscaleProfile extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             ScaleRule.DefinitionStages.Blank defineScaleRule();
         }
 
@@ -151,7 +142,6 @@ public interface AutoscaleProfile extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             ScaleRule.DefinitionStages.Blank defineScaleRule();
 
             /**
@@ -255,7 +245,6 @@ public interface AutoscaleProfile extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             ScaleRule.ParentUpdateDefinitionStages.Blank defineScaleRule();
         }
 
@@ -269,7 +258,6 @@ public interface AutoscaleProfile extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             ScaleRule.ParentUpdateDefinitionStages.Blank defineScaleRule();
 
             /**
@@ -367,7 +355,6 @@ public interface AutoscaleProfile extends
          *
          * @return the next stage of the autoscale profile update.
          */
-        @Method
         ScaleRule.UpdateDefinitionStages.Blank defineScaleRule();
 
         /**

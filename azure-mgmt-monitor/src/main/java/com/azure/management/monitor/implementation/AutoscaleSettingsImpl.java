@@ -7,14 +7,12 @@
 package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.AutoscaleSettings;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.AutoscaleSetting;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  * Implementation for {@link AutoscaleSettings}.
  */
-@LangDefinition
 class AutoscaleSettingsImpl
         extends TopLevelModifiableResourcesImpl<
             AutoscaleSetting,

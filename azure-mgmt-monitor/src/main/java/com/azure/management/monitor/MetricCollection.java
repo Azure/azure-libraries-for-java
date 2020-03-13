@@ -6,10 +6,8 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.azure.management.monitor.implementation.ResponseInner;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.monitor.models.ResponseInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 import org.joda.time.Period;
 
 import java.util.List;
@@ -17,7 +15,6 @@ import java.util.List;
 /**
  * The MetricCollection representing wrapper over ResponseInner type.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 public interface MetricCollection
         extends HasInner<ResponseInner> {
     /**
@@ -25,7 +22,6 @@ public interface MetricCollection
      *
      * @return the namespace value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String namespace();
 
     /**
@@ -33,7 +29,6 @@ public interface MetricCollection
      *
      * @return the resource region value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String resourceRegion();
 
     /**
@@ -41,7 +36,6 @@ public interface MetricCollection
      *
      * @return the cost value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Double cost();
 
     /**
@@ -49,7 +43,6 @@ public interface MetricCollection
      *
      * @return the timespan value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String timespan();
 
     /**
@@ -57,7 +50,6 @@ public interface MetricCollection
      *
      * @return the interval value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Period interval();
 
     /**
@@ -65,6 +57,5 @@ public interface MetricCollection
      *
      * @return the metric collection value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<Metric> metrics();
 }

@@ -6,15 +6,12 @@
 
 package com.azure.management.monitor;
 
-import com.azure.management.monitor.implementation.DiagnosticSettingsCategoryResourceInner;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.monitor.models.DiagnosticSettingsCategoryResourceInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * The Azure event log entries are of type DiagnosticSettingsCategory.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 public interface DiagnosticSettingsCategory
         extends HasInner<DiagnosticSettingsCategoryResourceInner> {
     /**
@@ -22,7 +19,6 @@ public interface DiagnosticSettingsCategory
      *
      * @return the diagnostic settings category name
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String name();
 
     /**
@@ -30,6 +26,5 @@ public interface DiagnosticSettingsCategory
      *
      * @return the categoryType value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     CategoryType type();
 }

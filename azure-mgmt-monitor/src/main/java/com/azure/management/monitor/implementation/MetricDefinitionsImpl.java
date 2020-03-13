@@ -10,7 +10,6 @@ import com.azure.management.monitor.MetricDefinition;
 import com.azure.management.monitor.MetricDefinitions;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -19,7 +18,6 @@ import java.util.List;
 /**
  * Implementation for {@link MetricDefinitions}.
  */
-@LangDefinition
 class MetricDefinitionsImpl
     implements MetricDefinitions {
 

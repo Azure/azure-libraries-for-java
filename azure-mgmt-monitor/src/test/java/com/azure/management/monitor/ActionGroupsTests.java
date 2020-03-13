@@ -7,7 +7,7 @@
 package com.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;

@@ -7,12 +7,11 @@
 package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.EmailNotification;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.AutoscaleNotification;
 import com.azure.management.monitor.AutoscaleProfile;
 import com.azure.management.monitor.AutoscaleSetting;
 import com.azure.management.monitor.WebhookNotification;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import java.util.Map;
 /**
  * Implementation for AutoscaleSetting.
  */
-@LangDefinition
 class AutoscaleSettingImpl
         extends GroupableResourceImpl<
         AutoscaleSetting,

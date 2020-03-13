@@ -10,12 +10,10 @@ import com.azure.management.monitor.MetricAvailability;
 import com.azure.management.monitor.MetricDefinition;
 import com.azure.management.monitor.ResultType;
 import com.azure.management.monitor.Unit;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.azure.management.monitor.AggregationType;
 import com.azure.management.monitor.MetricCollection;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import org.joda.time.DateTime;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import java.time.OffsetDateTime;
 import org.joda.time.Period;
 import rx.Observable;
 import org.joda.time.DateTimeZone;
@@ -28,7 +26,6 @@ import java.util.List;
 /**
  * The Azure metric definition entries are of type MetricDefinition.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class MetricDefinitionImpl
         extends WrapperImpl<MetricDefinitionInner>
             implements
@@ -69,12 +66,10 @@ class MetricDefinitionImpl
         return this.myManager;
     }
 
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     public String resourceId() {
         return this.inner.resourceId();
     }
 
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     public LocalizableString name() {
         return this.name;
     }
@@ -99,22 +94,18 @@ class MetricDefinitionImpl
         return this.inner.supportedAggregationTypes();
     }
 
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     public Unit unit() {
         return this.inner.unit();
     }
 
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     public AggregationType primaryAggregationType() {
         return this.inner.primaryAggregationType();
     }
 
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     public List<MetricAvailability> metricAvailabilities() {
         return this.inner.metricAvailabilities();
     }
 
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     public String id() {
         return this.inner.id();
     }
@@ -131,13 +122,13 @@ class MetricDefinitionImpl
     }
 
     @Override
-    public MetricDefinitionImpl startingFrom(DateTime startTime) {
+    public MetricDefinitionImpl startingFrom(OffsetDateTime startTime) {
         this.queryStartTime = startTime;
         return this;
     }
 
     @Override
-    public MetricDefinitionImpl endsBefore(DateTime endTime) {
+    public MetricDefinitionImpl endsBefore(OffsetDateTime endTime) {
         this.queryEndTime = endTime;
         return this;
     }
@@ -193,8 +184,8 @@ class MetricDefinitionImpl
     public Observable<MetricCollection> executeAsync() {
         return this.manager().inner().metrics().listAsync(this.inner.resourceId(),
                 String.format("%s/%s",
-                        this.queryStartTime.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()),
-                        this.queryEndTime.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTime())),
+                        this.queryStartTime.withZone(OffsetDateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()),
+                        this.queryEndTime.withZone(OffsetDateTimeZone.UTC).toString(ISODateTimeFormat.dateTime())),
                 this.interval,
                 this.inner.name().value(),
                 this.aggreagation,

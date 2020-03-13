@@ -13,12 +13,11 @@ import com.azure.management.monitor.ItsmReceiver;
 import com.azure.management.monitor.LogicAppReceiver;
 import com.azure.management.monitor.SmsReceiver;
 import com.azure.management.monitor.WebhookReceiver;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.AutomationRunbookReceiver;
 import com.azure.management.monitor.AzureFunctionReceiver;
 import com.azure.management.monitor.VoiceReceiver;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ import java.util.TreeMap;
 /**
  * Implementation for ActionGroup.
  */
-@LangDefinition
 class ActionGroupImpl
         extends GroupableResourceImpl<
         ActionGroup,

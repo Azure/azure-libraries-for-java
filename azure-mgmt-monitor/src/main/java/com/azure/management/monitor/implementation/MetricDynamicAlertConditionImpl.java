@@ -13,12 +13,10 @@ import com.azure.management.monitor.DynamicThresholdSensitivity;
 import com.azure.management.monitor.MetricAlert;
 import com.azure.management.monitor.MetricAlertRuleTimeAggregation;
 import com.azure.management.monitor.MetricDynamicAlertCondition;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 
 import java.util.ArrayList;
 
-@LangDefinition
 class MetricDynamicAlertConditionImpl
         extends MetricAlertConditionBaseImpl<DynamicMetricCriteria, MetricDynamicAlertConditionImpl>
         implements
@@ -87,7 +85,7 @@ class MetricDynamicAlertConditionImpl
     }
 
     @Override
-    public MetricDynamicAlertConditionImpl withIgnoreDataBefore(DateTime date) {
+    public MetricDynamicAlertConditionImpl withIgnoreDataBefore(OffsetDateTime date) {
         this.inner().withIgnoreDataBefore(date);
         return this;
     }

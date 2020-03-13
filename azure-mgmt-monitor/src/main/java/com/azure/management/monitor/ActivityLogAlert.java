@@ -6,18 +6,16 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.monitor.implementation.ActivityLogAlertResourceInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.monitor.models.ActivityLogAlertResourceInner;
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.HasId;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 import java.util.Collection;
 import java.util.Map;
@@ -36,7 +34,6 @@ public interface ActivityLogAlert extends
      *
      * @return the scopes value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Collection<String> scopes();
 
     /**
@@ -44,7 +41,6 @@ public interface ActivityLogAlert extends
      *
      * @return the enabled value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Boolean enabled();
 
     /**
@@ -52,7 +48,6 @@ public interface ActivityLogAlert extends
      *
      * @return the condition value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Map<String, String> equalsConditions();
 
     /**
@@ -60,7 +55,6 @@ public interface ActivityLogAlert extends
      *
      * @return the actions value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Collection<String> actionGroupIds();
 
     /**
@@ -68,7 +62,6 @@ public interface ActivityLogAlert extends
      *
      * @return the description value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String description();
 
     /**
@@ -145,7 +138,6 @@ public interface ActivityLogAlert extends
              *
              * @return the next stage of activity log alert definition.
              */
-            @Method
             WithActionGroup withRuleEnabled();
 
             /**
@@ -153,7 +145,6 @@ public interface ActivityLogAlert extends
              *
              * @return the next stage of activity log alert definition.
              */
-            @Method
             WithActionGroup withRuleDisabled();
         }
 
@@ -224,7 +215,6 @@ public interface ActivityLogAlert extends
              *
              * @return the next stage of the activity log alert update.
              */
-            @Method
             Update withRuleEnabled();
 
             /**
@@ -232,7 +222,6 @@ public interface ActivityLogAlert extends
              *
              * @return the next stage of the activity log alert update.
              */
-            @Method
             Update withRuleDisabled();
 
             /**

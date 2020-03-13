@@ -9,9 +9,8 @@ package com.azure.management.monitor.implementation;
 import com.azure.management.monitor.Metric;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.MetricCollection;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import org.joda.time.Period;
 
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.List;
 /**
  * The Azure {@link MetricCollection} wrapper class implementation.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class MetricCollectionImpl
         extends WrapperImpl<ResponseInner> implements MetricCollection {
 

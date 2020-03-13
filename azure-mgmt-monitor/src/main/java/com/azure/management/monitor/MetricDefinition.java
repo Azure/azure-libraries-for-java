@@ -6,14 +6,11 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.monitor.implementation.MetricDefinitionInner;
+import com.azure.management.monitor.models.MetricDefinitionInner;
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import java.time.OffsetDateTime;
 import org.joda.time.Period;
 import rx.Observable;
 
@@ -22,7 +19,6 @@ import java.util.List;
 /**
  * The Azure metric definition entries are of type MetricDefinition.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent")
 public interface MetricDefinition extends
         HasManager<MonitorManager>,
         HasInner<MetricDefinitionInner> {
@@ -32,7 +28,6 @@ public interface MetricDefinition extends
      *
      * @return the resourceId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String resourceId();
 
     /**
@@ -40,7 +35,6 @@ public interface MetricDefinition extends
      *
      * @return the name value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     LocalizableString name();
 
     /**
@@ -48,7 +42,6 @@ public interface MetricDefinition extends
      *
      * @return the namespace value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String namespace();
 
     /**
@@ -56,7 +49,6 @@ public interface MetricDefinition extends
      *
      * @return the isDimensionRequired value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     boolean isDimensionRequired();
 
     /**
@@ -65,7 +57,6 @@ public interface MetricDefinition extends
      *
      * @return the list of dimension values.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<LocalizableString> dimensions();
 
     /**
@@ -73,7 +64,6 @@ public interface MetricDefinition extends
      *
      * @return the list of supported aggregation type values.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<AggregationType> supportedAggregationTypes();
 
     /**
@@ -81,7 +71,6 @@ public interface MetricDefinition extends
      *
      * @return the unit value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Unit unit();
 
     /**
@@ -89,7 +78,6 @@ public interface MetricDefinition extends
      *
      * @return the primaryAggregationType value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     AggregationType primaryAggregationType();
 
     /**
@@ -97,7 +85,6 @@ public interface MetricDefinition extends
      *
      * @return the metricAvailabilities value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<MetricAvailability> metricAvailabilities();
 
     /**
@@ -105,7 +92,6 @@ public interface MetricDefinition extends
      *
      * @return the id value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String id();
 
     /**
@@ -113,7 +99,6 @@ public interface MetricDefinition extends
      *
      * @return the stage of start time filter definition.
      */
-    @Method
     MetricsQueryDefinitionStages.WithMetricStartTimeFilter defineQuery();
 
     /**
@@ -140,7 +125,7 @@ public interface MetricDefinition extends
              * @param startTime specifies start time of cut off filter.
              * @return the stage of end time filter definition.
              */
-            WithMetricEndFilter startingFrom(DateTime startTime);
+            WithMetricEndFilter startingFrom(OffsetDateTime startTime);
         }
 
         /**
@@ -153,7 +138,7 @@ public interface MetricDefinition extends
              * @param endTime specifies end time of cut off filter.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithMetricsQueryExecute endsBefore(DateTime endTime);
+            WithMetricsQueryExecute endsBefore(OffsetDateTime endTime);
         }
 
         /**
@@ -239,7 +224,6 @@ public interface MetricDefinition extends
              *
              * @return Metric collection received after query execution.
              */
-            @Method
             MetricCollection execute();
 
             /**
@@ -247,7 +231,6 @@ public interface MetricDefinition extends
              *
              * @return a representation of the deferred computation of Metric collection query call
              */
-            @Method
             Observable<MetricCollection> executeAsync();
         }
     }

@@ -6,7 +6,6 @@
 
 package com.azure.management.monitor.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.ActivityLogAlerts;
 import com.azure.management.monitor.AlertRules;
 import com.azure.management.monitor.MetricAlerts;
@@ -14,7 +13,6 @@ import com.azure.management.monitor.MetricAlerts;
 /**
  * Implementation for {@link MetricAlerts}.
  */
-@LangDefinition
 class AlertRulesImpl
         implements AlertRules {
 

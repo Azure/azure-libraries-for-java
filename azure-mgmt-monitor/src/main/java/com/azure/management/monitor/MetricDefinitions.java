@@ -6,11 +6,10 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.monitor.implementation.MetricDefinitionsInner;
+import com.azure.management.monitor.models.MetricDefinitionsInner;
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.model.HasInner;
 import rx.Observable;
 
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.List;
 /**
  * Entry point for Monitor Metric Definitions API.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent")
 public interface MetricDefinitions extends
         HasManager<MonitorManager>,
         HasInner<MetricDefinitionsInner> {

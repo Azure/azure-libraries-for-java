@@ -7,14 +7,12 @@
 package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.ActivityLogAlert;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.ActivityLogAlerts;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  * Implementation for {@link ActivityLogAlerts}.
  */
-@LangDefinition
 class ActivityLogAlertsImpl
         extends TopLevelModifiableResourcesImpl<
         ActivityLogAlert,

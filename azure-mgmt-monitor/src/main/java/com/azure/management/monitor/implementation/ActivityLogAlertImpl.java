@@ -7,13 +7,12 @@
 package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.ActivityLogAlert;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.ActivityLogAlertActionGroup;
 import com.azure.management.monitor.ActivityLogAlertActionList;
 import com.azure.management.monitor.ActivityLogAlertAllOfCondition;
 import com.azure.management.monitor.ActivityLogAlertLeafCondition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.arm.models.HasId;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ import java.util.TreeMap;
 /**
  * Implementation for ActivityLogAlert.
  */
-@LangDefinition
 class ActivityLogAlertImpl
         extends GroupableResourceImpl<
         ActivityLogAlert,

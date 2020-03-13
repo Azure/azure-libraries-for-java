@@ -9,18 +9,16 @@ package com.azure.management.monitor.implementation;
 import com.azure.management.monitor.HttpRequestInfo;
 import com.azure.management.monitor.LocalizableString;
 import com.azure.management.monitor.SenderAuthorization;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.EventData;
 import com.azure.management.monitor.EventLevel;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import org.joda.time.DateTime;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import java.time.OffsetDateTime;
 
 import java.util.Map;
 
 /**
  * The Azure {@link EventData} wrapper class implementation.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class EventDataImpl
         extends WrapperImpl<EventDataInner> implements EventData {
     private LocalizableString eventName;

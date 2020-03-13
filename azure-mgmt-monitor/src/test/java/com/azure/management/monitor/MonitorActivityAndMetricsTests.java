@@ -8,8 +8,8 @@ package com.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import org.joda.time.DateTime;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import java.time.OffsetDateTime;
 import org.junit.Assert;
 import org.junit.Test;
 

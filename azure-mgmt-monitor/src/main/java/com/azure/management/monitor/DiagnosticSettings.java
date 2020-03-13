@@ -7,17 +7,16 @@
 package com.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.monitor.implementation.DiagnosticSettingsInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.monitor.models.DiagnosticSettingsInner;
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
@@ -28,7 +27,6 @@ import java.util.List;
 /**
  * Entry point for diagnostic settings management API.
  */
-@Beta(Beta.SinceVersion.V1_8_0)
 @Fluent
 public interface DiagnosticSettings extends
         SupportsCreating<DiagnosticSetting.DefinitionStages.Blank>,

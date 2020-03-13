@@ -6,14 +6,12 @@
 
 package com.azure.management.monitor;
 
-import com.azure.management.monitor.implementation.ActivityLogsInner;
+import com.azure.management.monitor.models.ActivityLogsInner;
 import com.azure.management.monitor.implementation.MonitorManager;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import java.time.OffsetDateTime;
 import rx.Observable;
 
 import java.util.List;
@@ -21,7 +19,6 @@ import java.util.List;
 /**
  * Entry point for Monitor Activity logs API.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent")
 public interface ActivityLogs extends
         HasManager<MonitorManager>,
         HasInner<ActivityLogsInner> {
@@ -32,7 +29,6 @@ public interface ActivityLogs extends
      *
      * @return list of available event categories supported in the Activity Logs Service.
      */
-    @Method
     List<LocalizableString> listEventCategories();
 
     /**
@@ -40,7 +36,6 @@ public interface ActivityLogs extends
      *
      * @return list of available event categories supported in the Activity Logs Service.
      */
-    @Method
     Observable<LocalizableString> listEventCategoriesAsync();
 
     /**
@@ -48,7 +43,6 @@ public interface ActivityLogs extends
      *
      * @return the stage of start time filter definition.
      */
-    @Method
     ActivityLogsQueryDefinitionStages.WithEventDataStartTimeFilter defineQuery();
 
     /**
@@ -77,7 +71,7 @@ public interface ActivityLogs extends
              * @param startTime specifies start time of cut off filter.
              * @return the stage of end time filter definition.
              */
-            WithEventDataEndFilter startingFrom(DateTime startTime);
+            WithEventDataEndFilter startingFrom(OffsetDateTime startTime);
         }
 
         /**
@@ -90,7 +84,7 @@ public interface ActivityLogs extends
              * @param endTime specifies end time of cut off filter.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithEventDataFieldFilter endsBefore(DateTime endTime);
+            WithEventDataFieldFilter endsBefore(OffsetDateTime endTime);
         }
 
         /**
@@ -110,7 +104,6 @@ public interface ActivityLogs extends
              *
              * @return the stage of Activity log filtering by type and query execution.
              */
-            @Method
             WithActivityLogsSelectFilter withAllPropertiesInResponse();
         }
 
@@ -162,7 +155,6 @@ public interface ActivityLogs extends
              *
              * @return Activity Log events received after query execution.
              */
-            @Method
             PagedList<EventData> execute();
 
             /**
@@ -170,7 +162,6 @@ public interface ActivityLogs extends
              *
              * @return a representation of the deferred computation of Activity Log query call.
              */
-            @Method
             Observable<EventData> executeAsync();
 
             /**
@@ -178,7 +169,6 @@ public interface ActivityLogs extends
              *
              * @return the stage of Activity log filtering by Tenant level and query execution.
              */
-            @Method
             WithActivityLogsQueryExecute filterAtTenantLevel();
         }
     }

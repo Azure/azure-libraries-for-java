@@ -11,14 +11,11 @@ import com.azure.management.monitor.MetricAlertCondition;
 import com.azure.management.monitor.MetricAlertRuleCondition;
 import com.azure.management.monitor.MetricAlertRuleTimeAggregation;
 import com.azure.management.monitor.MetricCriteria;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-
 import java.util.ArrayList;
 
 /**
  * Implementation for MetricAlertCondition.
  */
-@LangDefinition
 class MetricAlertConditionImpl
         extends MetricAlertConditionBaseImpl<MetricCriteria, MetricAlertConditionImpl>
         implements

@@ -10,9 +10,9 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.appservice.AppServicePlan;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.RestClient;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 import org.joda.time.Period;
 import org.junit.Assert;
 import org.junit.Test;
@@ -134,8 +134,8 @@ public class AutoscaleTests extends MonitorManagementTest {
             Assert.assertEquals(1, tempProfile.minInstanceCount());
             Assert.assertNotNull(tempProfile.fixedDateSchedule());
             Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(DateTime.parse("2050-10-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(DateTime.parse("2051-09-11T16:08:04Z"), tempProfile.fixedDateSchedule().end());
+            Assert.assertEquals(OffsetDateTime.parse("2050-10-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
+            Assert.assertEquals(OffsetDateTime.parse("2051-09-11T16:08:04Z"), tempProfile.fixedDateSchedule().end());
             Assert.assertNull(tempProfile.recurrentSchedule());
             Assert.assertNotNull(tempProfile.rules());
             Assert.assertEquals(1, tempProfile.rules().size());
@@ -230,8 +230,8 @@ public class AutoscaleTests extends MonitorManagementTest {
             Assert.assertEquals(1, tempProfile.minInstanceCount());
             Assert.assertNotNull(tempProfile.fixedDateSchedule());
             Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(DateTime.parse("2050-10-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(DateTime.parse("2051-09-11T16:08:04Z"), tempProfile.fixedDateSchedule().end());
+            Assert.assertEquals(OffsetDateTime.parse("2050-10-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
+            Assert.assertEquals(OffsetDateTime.parse("2051-09-11T16:08:04Z"), tempProfile.fixedDateSchedule().end());
             Assert.assertNull(tempProfile.recurrentSchedule());
             Assert.assertNotNull(tempProfile.rules());
             Assert.assertEquals(1, tempProfile.rules().size());
@@ -366,8 +366,8 @@ public class AutoscaleTests extends MonitorManagementTest {
             Assert.assertNull(tempProfile.recurrentSchedule());
             Assert.assertNotNull(tempProfile.fixedDateSchedule());
             Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(DateTime.parse("2030-02-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(DateTime.parse("2030-02-12T20:45:10Z"), tempProfile.fixedDateSchedule().end());
+            Assert.assertEquals(OffsetDateTime.parse("2030-02-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
+            Assert.assertEquals(OffsetDateTime.parse("2030-02-12T20:45:10Z"), tempProfile.fixedDateSchedule().end());
 
             tempProfile = setting.profiles().get("a new profile");
             Assert.assertNotNull(tempProfile);
@@ -402,8 +402,8 @@ public class AutoscaleTests extends MonitorManagementTest {
             Assert.assertNull(tempProfile.recurrentSchedule());
             Assert.assertNotNull(tempProfile.fixedDateSchedule());
             Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(DateTime.parse("2025-02-02T02:02:02Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(DateTime.parse("2025-02-02T03:03:03Z"), tempProfile.fixedDateSchedule().end());
+            Assert.assertEquals(OffsetDateTime.parse("2025-02-02T02:02:02Z"), tempProfile.fixedDateSchedule().start());
+            Assert.assertEquals(OffsetDateTime.parse("2025-02-02T03:03:03Z"), tempProfile.fixedDateSchedule().end());
 
             Assert.assertNotNull(tempProfile.rules());
             Assert.assertEquals(1, tempProfile.rules().size());
@@ -470,8 +470,8 @@ public class AutoscaleTests extends MonitorManagementTest {
             Assert.assertNull(tempProfile.recurrentSchedule());
             Assert.assertNotNull(tempProfile.fixedDateSchedule());
             Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(DateTime.parse("2030-02-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(DateTime.parse("2030-02-12T20:45:10Z"), tempProfile.fixedDateSchedule().end());
+            Assert.assertEquals(OffsetDateTime.parse("2030-02-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
+            Assert.assertEquals(OffsetDateTime.parse("2030-02-12T20:45:10Z"), tempProfile.fixedDateSchedule().end());
 
             tempProfile = settingFromGet.profiles().get("a new profile");
             Assert.assertNotNull(tempProfile);
@@ -506,8 +506,8 @@ public class AutoscaleTests extends MonitorManagementTest {
             Assert.assertNull(tempProfile.recurrentSchedule());
             Assert.assertNotNull(tempProfile.fixedDateSchedule());
             Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(DateTime.parse("2025-02-02T02:02:02Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(DateTime.parse("2025-02-02T03:03:03Z"), tempProfile.fixedDateSchedule().end());
+            Assert.assertEquals(OffsetDateTime.parse("2025-02-02T02:02:02Z"), tempProfile.fixedDateSchedule().start());
+            Assert.assertEquals(OffsetDateTime.parse("2025-02-02T03:03:03Z"), tempProfile.fixedDateSchedule().end());
 
             Assert.assertNotNull(tempProfile.rules());
             Assert.assertEquals(1, tempProfile.rules().size());

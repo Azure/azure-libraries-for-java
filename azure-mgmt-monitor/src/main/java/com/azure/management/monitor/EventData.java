@@ -6,18 +6,15 @@
 
 package com.azure.management.monitor;
 
-import com.azure.management.monitor.implementation.EventDataInner;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
+import com.azure.management.monitor.models.EventDataInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import java.time.OffsetDateTime;
 
 import java.util.Map;
 
 /**
  * The Azure event log entries are of type EventData.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 public interface EventData
         extends HasInner<EventDataInner> {
 
@@ -26,7 +23,6 @@ public interface EventData
      *
      * @return the authorization value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     SenderAuthorization authorization();
 
     /**
@@ -34,7 +30,6 @@ public interface EventData
      *
      * @return the claims value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Map<String, String> claims();
 
     /**
@@ -42,7 +37,6 @@ public interface EventData
      *
      * @return the caller value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String caller();
 
     /**
@@ -50,7 +44,6 @@ public interface EventData
      *
      * @return the description value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String description();
 
     /**
@@ -58,7 +51,6 @@ public interface EventData
      *
      * @return the id value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String id();
 
     /**
@@ -66,7 +58,6 @@ public interface EventData
      *
      * @return the eventDataId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String eventDataId();
 
     /**
@@ -74,7 +65,6 @@ public interface EventData
      *
      * @return the correlationId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String correlationId();
 
     /**
@@ -82,7 +72,6 @@ public interface EventData
      *
      * @return the eventName value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     LocalizableString eventName();
 
     /**
@@ -90,7 +79,6 @@ public interface EventData
      *
      * @return the category value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     LocalizableString category();
 
     /**
@@ -98,7 +86,6 @@ public interface EventData
      *
      * @return the httpRequest value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     HttpRequestInfo httpRequest();
 
     /**
@@ -106,7 +93,6 @@ public interface EventData
      *
      * @return the level value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     EventLevel level();
 
     /**
@@ -114,7 +100,6 @@ public interface EventData
      *
      * @return the resourceGroupName value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String resourceGroupName();
 
     /**
@@ -122,7 +107,6 @@ public interface EventData
      *
      * @return the resourceProviderName value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     LocalizableString resourceProviderName();
 
     /**
@@ -130,7 +114,6 @@ public interface EventData
      *
      * @return the resourceId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String resourceId();
 
     /**
@@ -138,7 +121,6 @@ public interface EventData
      *
      * @return the resourceType value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     LocalizableString resourceType();
 
     /**
@@ -146,7 +128,6 @@ public interface EventData
      *
      * @return the operationId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String operationId();
 
     /**
@@ -154,7 +135,6 @@ public interface EventData
      *
      * @return the operationName value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     LocalizableString operationName();
 
     /**
@@ -162,7 +142,6 @@ public interface EventData
      *
      * @return the properties value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Map<String, String> properties();
 
     /**
@@ -170,7 +149,6 @@ public interface EventData
      *
      * @return the status value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     LocalizableString status();
 
     /**
@@ -178,7 +156,6 @@ public interface EventData
      *
      * @return the subStatus value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     LocalizableString subStatus();
 
     /**
@@ -186,7 +163,6 @@ public interface EventData
      *
      * @return the eventTimestamp value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     DateTime eventTimestamp();
 
     /**
@@ -194,7 +170,6 @@ public interface EventData
      *
      * @return the submissionTimestamp value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     DateTime submissionTimestamp();
 
     /**
@@ -202,7 +177,6 @@ public interface EventData
      *
      * @return the subscriptionId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String subscriptionId();
 
     /**
@@ -210,6 +184,5 @@ public interface EventData
      *
      * @return the tenantId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String tenantId();
 }

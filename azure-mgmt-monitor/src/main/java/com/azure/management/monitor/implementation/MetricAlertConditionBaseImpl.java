@@ -9,7 +9,7 @@ package com.azure.management.monitor.implementation;
 import com.azure.management.monitor.MetricAlertRuleTimeAggregation;
 import com.azure.management.monitor.MetricDimension;
 import com.azure.management.monitor.MultiMetricCriteria;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -12,12 +12,11 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.ActivityLogs;
 import com.azure.management.monitor.EventData;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+import com.azure.management.resources.fluentcore.utils.PagedListConverter;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
+import java.time.OffsetDateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
 import rx.Observable;
@@ -30,7 +29,6 @@ import java.util.TreeSet;
 /**
  * Implementation for {@link ActivityLogs}.
  */
-@LangDefinition
 class ActivityLogsImpl
     implements ActivityLogs,
         ActivityLogs.ActivityLogsQueryDefinition {
@@ -95,13 +93,13 @@ class ActivityLogsImpl
     }
 
     @Override
-    public ActivityLogsImpl startingFrom(DateTime startTime) {
+    public ActivityLogsImpl startingFrom(OffsetDateTime startTime) {
         this.queryStartTime = startTime;
         return this;
     }
 
     @Override
-    public ActivityLogsImpl endsBefore(DateTime endTime) {
+    public ActivityLogsImpl endsBefore(OffsetDateTime endTime) {
         this.queryEndTime = endTime;
         return this;
     }
@@ -172,8 +170,8 @@ class ActivityLogsImpl
     }
     private String getOdataFilterString() {
         return String.format("eventTimestamp ge '%s' and eventTimestamp le '%s'",
-                this.queryStartTime.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()),
-                this.queryEndTime.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()));
+                this.queryStartTime.withZone(OffsetDateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()),
+                this.queryEndTime.withZone(OffsetDateTimeZone.UTC).toString(ISODateTimeFormat.dateTime()));
     }
 
     private PagedList<EventData> listEventData(String filter) {

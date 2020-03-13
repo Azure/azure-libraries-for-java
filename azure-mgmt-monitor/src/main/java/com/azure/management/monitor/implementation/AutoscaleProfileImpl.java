@@ -15,9 +15,8 @@ import com.azure.management.monitor.ScaleCapacity;
 import com.azure.management.monitor.ScaleRule;
 import com.azure.management.monitor.TimeWindow;
 import com.google.common.base.Strings;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import org.joda.time.DateTime;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import java.time.OffsetDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,6 @@ import java.util.List;
 /**
  * Implementation for AutoscaleProfile.
  */
-@LangDefinition
 class AutoscaleProfileImpl
         extends WrapperImpl<AutoscaleProfileInner>
         implements

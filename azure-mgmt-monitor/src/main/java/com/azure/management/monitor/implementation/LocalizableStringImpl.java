@@ -7,13 +7,11 @@
 package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.LocalizableString;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * The {@link LocalizableString} wrapper class implementation.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class LocalizableStringImpl
         extends WrapperImpl<LocalizableStringInner> implements LocalizableString {
 

@@ -6,14 +6,12 @@
 
 package com.azure.management.monitor;
 
-import com.azure.management.monitor.implementation.ScaleRuleInner;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
+import com.azure.management.monitor.models.ScaleRuleInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 import org.joda.time.Period;
 
 /**
@@ -28,7 +26,6 @@ public interface ScaleRule extends
      *
      * @return the metricResourceUri value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String metricSource();
 
     /**
@@ -36,7 +33,6 @@ public interface ScaleRule extends
      *
      * @return the metricName value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String metricName();
 
     /**
@@ -44,7 +40,6 @@ public interface ScaleRule extends
      *
      * @return the timeWindow value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Period duration();
 
     /**
@@ -52,7 +47,6 @@ public interface ScaleRule extends
      *
      * @return the timeGrain value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Period frequency();
 
     /**
@@ -60,7 +54,6 @@ public interface ScaleRule extends
      *
      * @return the statistic value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     MetricStatisticType frequencyStatistic();
 
     /**
@@ -68,7 +61,6 @@ public interface ScaleRule extends
      *
      * @return the operator value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     ComparisonOperationType condition();
 
     /**
@@ -76,7 +68,6 @@ public interface ScaleRule extends
      *
      * @return the timeAggregation value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     TimeAggregationType timeAggregation();
 
     /**
@@ -84,7 +75,6 @@ public interface ScaleRule extends
      *
      * @return the threshold value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     double threshold();
 
     /**
@@ -92,7 +82,6 @@ public interface ScaleRule extends
      *
      * @return the direction value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     ScaleDirection scaleDirection();
 
     /**
@@ -100,7 +89,6 @@ public interface ScaleRule extends
      *
      * @return the type value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     ScaleType scaleType();
 
     /**
@@ -108,7 +96,6 @@ public interface ScaleRule extends
      *
      * @return the value value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     int scaleInstanceCount();
 
     /**
@@ -116,7 +103,6 @@ public interface ScaleRule extends
      *
      * @return the cooldown value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Period coolDown();
 
     /**
@@ -180,7 +166,6 @@ public interface ScaleRule extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             WithCondition withStatistic();
 
             /**
@@ -301,7 +286,6 @@ public interface ScaleRule extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             WithCondition withStatistic();
 
             /**
@@ -362,7 +346,6 @@ public interface ScaleRule extends
              *
              * @return the next stage of the parent definition
              */
-            @Method
             AutoscaleProfile.UpdateDefinitionStages.WithScaleRuleOptional attach();
         }
     }
@@ -428,7 +411,6 @@ public interface ScaleRule extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             WithCondition withStatistic();
 
             /**
@@ -528,7 +510,6 @@ public interface ScaleRule extends
          *
          * @return the next stage of the definition.
          */
-        @Method
         Update withStatistic();
 
         /**

@@ -8,8 +8,7 @@ package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.ActionGroup;
 import com.azure.management.monitor.ActionGroups;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
@@ -17,7 +16,6 @@ import rx.Completable;
 /**
  * Implementation for {@link ActionGroups}.
  */
-@LangDefinition
 class ActionGroupsImpl
         extends TopLevelModifiableResourcesImpl<
         ActionGroup,

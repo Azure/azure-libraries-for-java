@@ -8,7 +8,6 @@ package com.azure.management.monitor;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.rest.ExpandableStringEnum;
 
 import java.util.Collection;
@@ -16,7 +15,6 @@ import java.util.Collection;
 /**
  * Defines values for EventDataPropertyName.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 public final class EventDataPropertyName extends ExpandableStringEnum<EventDataPropertyName> {
     /** Static value "authorization" for EventDataPropertyName. */
     public static final EventDataPropertyName AUTHORIZATION = fromString("authorization");

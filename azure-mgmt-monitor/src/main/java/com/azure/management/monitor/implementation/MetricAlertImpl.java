@@ -13,13 +13,12 @@ import com.azure.management.monitor.MetricAlertCondition;
 import com.azure.management.monitor.MetricAlertSingleResourceMultipleMetricCriteria;
 import com.azure.management.monitor.MetricCriteria;
 import com.azure.management.monitor.MetricDynamicAlertCondition;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.MetricAlertMultipleResourceMultipleMetricCriteria;
 import com.azure.management.monitor.MultiMetricCriteria;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import org.joda.time.DateTime;
+import com.azure.management.resources.fluentcore.arm.models.HasId;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import java.time.OffsetDateTime;
 import org.joda.time.Period;
 import rx.Observable;
 
@@ -33,7 +32,6 @@ import java.util.TreeMap;
 /**
  * Implementation for MetricAlert.
  */
-@LangDefinition
 class MetricAlertImpl
         extends GroupableResourceImpl<
         MetricAlert,

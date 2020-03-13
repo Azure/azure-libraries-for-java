@@ -6,13 +6,10 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import java.time.OffsetDateTime;
 
 import java.util.Collection;
 
@@ -20,7 +17,6 @@ import java.util.Collection;
  * An immutable client-side representation of an Azure metric alert criteria.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_27_0)
 public interface MetricDynamicAlertCondition extends
         HasInner<DynamicMetricCriteria>,
         HasParent<MetricAlert> {
@@ -30,7 +26,6 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the name value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String name();
 
     /**
@@ -38,7 +33,6 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the metricName value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String metricName();
 
     /**
@@ -46,7 +40,6 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the metricNamespace value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String metricNamespace();
 
     /**
@@ -54,7 +47,6 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the operator value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     DynamicThresholdOperator condition();
 
     /**
@@ -62,7 +54,6 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the timeAggregation value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     MetricAlertRuleTimeAggregation timeAggregation();
 
     /**
@@ -70,7 +61,6 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the threshold value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     DynamicThresholdSensitivity alertSensitivity();
 
     /**
@@ -78,7 +68,6 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the dimensions value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Collection<MetricDimension> dimensions();
 
     /**
@@ -86,7 +75,6 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the failingPeriods value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     DynamicThresholdFailingPeriods failingPeriods();
 
     /**
@@ -94,7 +82,6 @@ public interface MetricDynamicAlertCondition extends
      *
      * @return the ignoreDataBefore value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     DateTime ignoreDataBefore();
 
     /**
@@ -174,7 +161,7 @@ public interface MetricDynamicAlertCondition extends
              * @param dateTime the date from which to start learning the metric historical data and calculate the dynamic thresholds.
              * @return the next stage of metric alert condition definition.
              */
-            WithConditionAttach<ParentT> withIgnoreDataBefore(DateTime dateTime);
+            WithConditionAttach<ParentT> withIgnoreDataBefore(OffsetDateTime dateTime);
 
             /**
              * Adds a metric dimension filter.
@@ -189,7 +176,6 @@ public interface MetricDynamicAlertCondition extends
              * Attaches the defined condition to the parent metric alert.
              * @return the next stage of metric alert definition.
              */
-            @Method
             ParentT attach();
         }
     }
@@ -271,7 +257,7 @@ public interface MetricDynamicAlertCondition extends
              * @param date the date from which to start learning the metric historical data and calculate the dynamic thresholds.
              * @return the next stage of metric alert condition definition.
              */
-            WithConditionAttach<ParentT> withIgnoreDataBefore(DateTime date);
+            WithConditionAttach<ParentT> withIgnoreDataBefore(OffsetDateTime date);
 
             /**
              * Adds a metric dimension filter.
@@ -286,7 +272,6 @@ public interface MetricDynamicAlertCondition extends
              * Attaches the defined condition to the parent metric alert.
              * @return the next stage of metric alert definition.
              */
-            @Method
             ParentT attach();
         }
     }
@@ -336,7 +321,7 @@ public interface MetricDynamicAlertCondition extends
          * @param date the date from which to start learning the metric historical data and calculate the dynamic thresholds.
          * @return the next stage of metric alert condition definition.
          */
-        UpdateStages withIgnoreDataBefore(DateTime date);
+        UpdateStages withIgnoreDataBefore(OffsetDateTime date);
 
         /**
          * Removes the date from which to start learning the metric historical data and calculate the dynamic thresholds.
@@ -350,7 +335,6 @@ public interface MetricDynamicAlertCondition extends
          *
          * @return the next stage of the metric alert update.
          */
-        @Method
         MetricAlert.Update parent();
     }
 }

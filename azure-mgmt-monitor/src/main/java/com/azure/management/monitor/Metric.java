@@ -6,17 +6,14 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.azure.management.monitor.implementation.MetricInner;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.monitor.models.MetricInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.List;
 
 /**
  * The Azure metric entries are of type Metric.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 public interface Metric
         extends HasInner<MetricInner> {
     /**
@@ -24,7 +21,6 @@ public interface Metric
      *
      * @return the id value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String id();
 
     /**
@@ -32,7 +28,6 @@ public interface Metric
      *
      * @return the type value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String type();
 
     /**
@@ -40,7 +35,6 @@ public interface Metric
      *
      * @return the name value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     LocalizableString name();
 
     /**
@@ -48,7 +42,6 @@ public interface Metric
      *
      * @return the unit value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Unit unit();
 
     /**
@@ -56,6 +49,5 @@ public interface Metric
      *
      * @return the timeseries value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<TimeSeriesElement> timeseries();
 }

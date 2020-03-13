@@ -6,17 +6,15 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.monitor.implementation.ActionGroupResourceInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.monitor.models.ActionGroupResourceInner;
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 import java.util.List;
 
@@ -33,7 +31,6 @@ public interface ActionGroup extends
      *
      * @return the groupShortName value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String shortName();
 
     /**
@@ -41,7 +38,6 @@ public interface ActionGroup extends
      *
      * @return the emailReceivers value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<EmailReceiver> emailReceivers();
 
     /**
@@ -49,7 +45,6 @@ public interface ActionGroup extends
      *
      * @return the smsReceivers value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<SmsReceiver> smsReceivers();
 
     /**
@@ -57,7 +52,6 @@ public interface ActionGroup extends
      *
      * @return the webhookReceivers value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<WebhookReceiver> webhookReceivers();
 
     /**
@@ -65,7 +59,6 @@ public interface ActionGroup extends
      *
      * @return the itsmReceivers value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<ItsmReceiver> itsmReceivers();
 
     /**
@@ -73,7 +66,6 @@ public interface ActionGroup extends
      *
      * @return the pushNotificationReceivers value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<AzureAppPushReceiver> pushNotificationReceivers();
 
     /**
@@ -81,7 +73,6 @@ public interface ActionGroup extends
      *
      * @return the automationRunbookReceivers value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<AutomationRunbookReceiver> automationRunbookReceivers();
 
     /**
@@ -89,7 +80,6 @@ public interface ActionGroup extends
      *
      * @return the voiceReceivers value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<VoiceReceiver> voiceReceivers();
 
     /**
@@ -97,7 +87,6 @@ public interface ActionGroup extends
      *
      * @return the logicAppReceivers value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<LogicAppReceiver> logicAppReceivers();
 
     /**
@@ -105,7 +94,6 @@ public interface ActionGroup extends
      *
      * @return the azureFunctionReceivers value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<AzureFunctionReceiver> azureFunctionReceivers();
 
 
@@ -203,7 +191,6 @@ public interface ActionGroup extends
          *
          * @return the next stage of the definition
          */
-        @Method
         ParentT attach();
     }
 
@@ -304,7 +291,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the receiver group update
              */
-            @Method
             WithActionUpdateDefinition withoutEmail();
 
             /**
@@ -312,7 +298,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the receiver group update
              */
-            @Method
             WithActionUpdateDefinition withoutSms();
 
             /**
@@ -320,7 +305,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the receiver group update
              */
-            @Method
             WithActionUpdateDefinition withoutWebhook();
 
             /**
@@ -328,7 +312,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the receiver group update
              */
-            @Method
             WithActionUpdateDefinition withoutItsm();
 
             /**
@@ -336,7 +319,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the receiver group update
              */
-            @Method
             WithActionUpdateDefinition withoutPushNotification();
 
             /**
@@ -344,7 +326,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the receiver group update
              */
-            @Method
             WithActionUpdateDefinition withoutAutomationRunbook();
 
             /**
@@ -352,7 +333,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the receiver group update
              */
-            @Method
             WithActionUpdateDefinition withoutVoice();
 
             /**
@@ -360,7 +340,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the receiver group update
              */
-            @Method
             WithActionUpdateDefinition withoutLogicApp();
 
             /**
@@ -368,7 +347,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the receiver group update
              */
-            @Method
             WithActionUpdateDefinition withoutAzureFunction();
 
             /**
@@ -459,7 +437,6 @@ public interface ActionGroup extends
              *
              * @return the next stage of the update
              */
-            @Method
             Update parent();
         }
     }

@@ -10,15 +10,13 @@ import com.azure.management.monitor.LocalizableString;
 import com.azure.management.monitor.Metric;
 import com.azure.management.monitor.TimeSeriesElement;
 import com.azure.management.monitor.Unit;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.List;
 
 /**
  * The Azure {@link Metric} wrapper class implementation.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class MetricImpl
         extends WrapperImpl<MetricInner> implements Metric {
     private LocalizableString metricName;

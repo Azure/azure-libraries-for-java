@@ -6,15 +6,12 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.azure.management.monitor.implementation.LocalizableStringInner;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.monitor.models.LocalizableStringInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * The localizable string class.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 public interface LocalizableString
         extends HasInner<LocalizableStringInner> {
     /**
@@ -22,7 +19,6 @@ public interface LocalizableString
      *
      * @return the value value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String value();
 
     /**
@@ -30,6 +26,5 @@ public interface LocalizableString
      *
      * @return the localizedValue value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String localizedValue();
 }

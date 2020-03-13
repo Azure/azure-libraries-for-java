@@ -6,21 +6,18 @@
 
 package com.azure.management.monitor;
 
-import com.azure.management.monitor.implementation.DiagnosticSettingsResourceInner;
+import com.azure.management.monitor.models.DiagnosticSettingsResourceInner;
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasId;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.arm.models.HasName;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.Period;
 
 import java.util.List;
@@ -28,7 +25,6 @@ import java.util.List;
 /**
  * An immutable client-side representation of an Azure diagnostic settings.
  */
-@Beta(Beta.SinceVersion.V1_8_0)
 @Fluent
 public interface DiagnosticSetting extends
         Indexable,
@@ -43,7 +39,6 @@ public interface DiagnosticSetting extends
      *
      * @return the associated resource Id value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String resourceId();
 
     /**
@@ -51,7 +46,6 @@ public interface DiagnosticSetting extends
      *
      * @return the storageAccountId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String storageAccountId();
 
     /**
@@ -59,7 +53,6 @@ public interface DiagnosticSetting extends
      *
      * @return the eventHubAuthorizationRuleId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String eventHubAuthorizationRuleId();
 
     /**
@@ -67,7 +60,6 @@ public interface DiagnosticSetting extends
      *
      * @return the eventHubName value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String eventHubName();
 
     /**
@@ -75,7 +67,6 @@ public interface DiagnosticSetting extends
      *
      * @return the metrics value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<MetricSettings> metrics();
 
     /**
@@ -83,7 +74,6 @@ public interface DiagnosticSetting extends
      *
      * @return the logs value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<LogSettings> logs();
 
     /**
@@ -91,7 +81,6 @@ public interface DiagnosticSetting extends
      *
      * @return the workspaceId value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String workspaceId();
 
     /**
@@ -220,7 +209,6 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
-            @Method
             Update withoutStorageAccount();
         }
 
@@ -252,7 +240,6 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
-            @Method
             Update withoutEventHub();
         }
 
@@ -273,7 +260,6 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
-            @Method
             Update withoutLogAnalytics();
         }
 
@@ -328,7 +314,6 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
-            @Method
             Update withoutLogs();
 
             /**
@@ -336,7 +321,6 @@ public interface DiagnosticSetting extends
              *
              * @return the next stage of the Diagnostic Settings update.
              */
-            @Method
             Update withoutMetrics();
         }
     }

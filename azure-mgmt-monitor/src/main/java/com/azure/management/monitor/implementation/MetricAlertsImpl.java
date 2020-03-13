@@ -8,13 +8,11 @@ package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.MetricAlert;
 import com.azure.management.monitor.MetricAlerts;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  * Implementation for {@link MetricAlerts}.
  */
-@LangDefinition
 class MetricAlertsImpl
         extends TopLevelModifiableResourcesImpl<
         MetricAlert,

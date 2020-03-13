@@ -7,16 +7,14 @@
 package com.azure.management.monitor;
 
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.monitor.implementation.AutoscaleSettingResourceInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.monitor.models.AutoscaleSettingResourceInner;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +33,6 @@ public interface AutoscaleSetting extends
      *
      * @return the targetResourceUri value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String targetResourceId();
 
     /**
@@ -43,7 +40,6 @@ public interface AutoscaleSetting extends
      *
      * @return autoscale profiles in the current autoscale setting, indexed by name
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Map<String, AutoscaleProfile> profiles();
 
     /**
@@ -51,7 +47,6 @@ public interface AutoscaleSetting extends
      *
      * @return the enabled value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     boolean autoscaleEnabled();
 
     /**
@@ -59,7 +54,6 @@ public interface AutoscaleSetting extends
      *
      * @return the sendToSubscriptionAdministrator value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     boolean adminEmailNotificationEnabled();
 
     /**
@@ -67,7 +61,6 @@ public interface AutoscaleSetting extends
      *
      * @return the sendToSubscriptionCoAdministrators value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     boolean coAdminEmailNotificationEnabled();
 
     /**
@@ -75,7 +68,6 @@ public interface AutoscaleSetting extends
      *
      * @return the customEmails value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     List<String> customEmailsNotification();
 
     /**
@@ -83,7 +75,6 @@ public interface AutoscaleSetting extends
      *
      * @return the serviceUri value.
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String webhookNotification();
 
     /**
@@ -150,7 +141,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             WithCreate withAdminEmailNotification();
 
             /**
@@ -158,7 +148,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             WithCreate withCoAdminEmailNotification();
 
             /**
@@ -187,7 +176,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of the definition.
              */
-            @Method
             WithCreate withAutoscaleDisabled();
         }
 
@@ -244,7 +232,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of autoscale setting update.
              */
-            @Method
             Update withAutoscaleEnabled();
 
             /**
@@ -252,7 +239,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of autoscale setting update.
              */
-            @Method
             Update withAutoscaleDisabled();
 
             /**
@@ -260,7 +246,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of autoscale setting update.
              */
-            @Method
             Update withAdminEmailNotification();
 
             /**
@@ -268,7 +253,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of autoscale setting update.
              */
-            @Method
             Update withCoAdminEmailNotification();
 
             /**
@@ -292,7 +276,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of autoscale setting update.
              */
-            @Method
             Update withoutAdminEmailNotification();
 
             /**
@@ -300,7 +283,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of autoscale setting update.
              */
-            @Method
             Update withoutCoAdminEmailNotification();
 
             /**
@@ -308,7 +290,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of autoscale setting update.
              */
-            @Method
             Update withoutCustomEmailsNotification();
 
             /**
@@ -316,7 +297,6 @@ public interface AutoscaleSetting extends
              *
              * @return the next stage of autoscale setting update.
              */
-            @Method
             Update withoutWebhookNotification();
         }
     }

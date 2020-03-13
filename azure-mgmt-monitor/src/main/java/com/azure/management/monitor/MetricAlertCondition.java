@@ -6,11 +6,9 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.Collection;
 
@@ -26,7 +24,6 @@ public interface MetricAlertCondition extends
      *
      * @return the name value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String name();
 
     /**
@@ -34,7 +31,6 @@ public interface MetricAlertCondition extends
      *
      * @return the metricName value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String metricName();
 
     /**
@@ -42,7 +38,6 @@ public interface MetricAlertCondition extends
      *
      * @return the metricNamespace value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     String metricNamespace();
 
     /**
@@ -50,7 +45,6 @@ public interface MetricAlertCondition extends
      *
      * @return the operator value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     MetricAlertRuleCondition condition();
 
     /**
@@ -58,7 +52,6 @@ public interface MetricAlertCondition extends
      *
      * @return the timeAggregation value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     MetricAlertRuleTimeAggregation timeAggregation();
 
     /**
@@ -66,7 +59,6 @@ public interface MetricAlertCondition extends
      *
      * @return the threshold value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     double threshold();
 
     /**
@@ -74,7 +66,6 @@ public interface MetricAlertCondition extends
      *
      * @return the dimensions value
      */
-    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
     Collection<MetricDimension> dimensions();
 
     /**
@@ -146,7 +137,6 @@ public interface MetricAlertCondition extends
              * Attaches the defined condition to the parent metric alert.
              * @return the next stage of metric alert definition.
              */
-            @Method
             ParentT attach();
         }
     }
@@ -220,7 +210,6 @@ public interface MetricAlertCondition extends
              * Attaches the defined condition to the parent metric alert.
              * @return the next stage of metric alert definition.
              */
-            @Method
             ParentT attach();
         }
     }
@@ -261,7 +250,6 @@ public interface MetricAlertCondition extends
          *
          * @return the next stage of the metric alert update.
          */
-        @Method
         MetricAlert.Update parent();
     }
 }

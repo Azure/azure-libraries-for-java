@@ -7,8 +7,8 @@
 package com.azure.management.monitor;
 
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
 
 /**
  *  Entry point to Alert Rules management API.

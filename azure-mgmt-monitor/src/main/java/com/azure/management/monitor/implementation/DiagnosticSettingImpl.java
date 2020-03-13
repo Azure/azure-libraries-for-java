@@ -8,12 +8,11 @@ package com.azure.management.monitor.implementation;
 
 import com.azure.management.monitor.LogSettings;
 import com.azure.management.monitor.MetricSettings;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.monitor.CategoryType;
 import com.azure.management.monitor.DiagnosticSetting;
 import com.azure.management.monitor.DiagnosticSettingsCategory;
 import com.azure.management.monitor.RetentionPolicy;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.Period;
 import rx.Observable;
 
@@ -25,7 +24,6 @@ import java.util.TreeMap;
 /**
  * The Azure metric definition entries are of type DiagnosticSetting.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class DiagnosticSettingImpl
         extends CreatableUpdatableImpl<DiagnosticSetting, DiagnosticSettingsResourceInner, DiagnosticSettingImpl>
         implements

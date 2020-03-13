@@ -9,9 +9,8 @@ import com.azure.management.monitor.DiagnosticSetting;
 import com.azure.management.monitor.DiagnosticSettings;
 import com.azure.management.monitor.DiagnosticSettingsCategory;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
+import com.azure.management.resources.fluentcore.utils.RXMapper;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
@@ -26,7 +25,6 @@ import java.util.List;
 /**
  *  Implementation for DiagnosticSettings.
  */
-@LangDefinition
 class DiagnosticSettingsImpl
     extends CreatableResourcesImpl<DiagnosticSetting, DiagnosticSettingImpl, DiagnosticSettingsResourceInner>
     implements DiagnosticSettings {

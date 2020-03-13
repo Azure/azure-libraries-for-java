@@ -13,6 +13,7 @@ import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.http.policy.HostPolicy;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.TimeoutPolicy;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.azure.core.util.Configuration;
@@ -37,6 +38,7 @@ import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
 import java.util.List;
 import java.util.Properties;
 
@@ -212,6 +214,7 @@ public abstract class TestBase {
                     .withHttpClient(generateHttpClientWithProxy(null))
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .withPolicy(new ResourceGroupTaggingPolicy())
+                    .withPolicy(new TimeoutPolicy(Duration.ofMinutes(1)))
                     .withPolicy(new CookiePolicy());
             if (!interceptorManager.isNoneMode()) {
                 builder.withPolicy(interceptorManager.initInterceptor());
@@ -247,11 +250,13 @@ public abstract class TestBase {
                 if (!proxies.isEmpty()) {
                     for (Proxy proxy : proxies) {
                         if (proxy.address() instanceof InetSocketAddress) {
+                            String host = ((InetSocketAddress) proxy.address()).getHostName();
+                            int port = ((InetSocketAddress) proxy.address()).getPort();
                             switch (proxy.type()) {
                                 case HTTP:
-                                    return clientBuilder.proxy(new ProxyOptions(ProxyOptions.Type.HTTP, (InetSocketAddress) proxy.address())).build();
+                                    return clientBuilder.proxy(new ProxyOptions(ProxyOptions.Type.HTTP, new InetSocketAddress(host, port))).build();
                                 case SOCKS:
-                                    return clientBuilder.proxy(new ProxyOptions(ProxyOptions.Type.SOCKS5, (InetSocketAddress)proxy.address())).build();
+                                    return clientBuilder.proxy(new ProxyOptions(ProxyOptions.Type.SOCKS5, new InetSocketAddress(host, port))).build();
                                 default:
                             }
                         }

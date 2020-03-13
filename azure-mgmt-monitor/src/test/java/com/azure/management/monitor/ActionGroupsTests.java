@@ -6,14 +6,15 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ActionGroupsTests extends MonitorManagementTest {
-    private static String RG_NAME = "";
+    private String RG_NAME = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -43,20 +44,20 @@ public class ActionGroupsTests extends MonitorManagementTest {
                     .withWebhook("https://www.spyur.am")
                     .attach()
                 .create();
-        Assert.assertNotNull(ag);
-        Assert.assertEquals("simpleAction", ag.shortName());
-        Assert.assertNotNull(ag.pushNotificationReceivers());
-        Assert.assertEquals(1, ag.pushNotificationReceivers().size());
-        Assert.assertNotNull(ag.smsReceivers());
-        Assert.assertEquals(1, ag.smsReceivers().size());
-        Assert.assertNotNull(ag.voiceReceivers());
-        Assert.assertEquals(1, ag.voiceReceivers().size());
-        Assert.assertNotNull(ag.emailReceivers());
-        Assert.assertEquals(2, ag.emailReceivers().size());
-        Assert.assertNotNull(ag.webhookReceivers());
-        Assert.assertEquals(2, ag.webhookReceivers().size());
-        Assert.assertTrue(ag.emailReceivers().get(0).name().startsWith("first"));
-        Assert.assertTrue(ag.emailReceivers().get(1).name().startsWith("second"));
+        Assertions.assertNotNull(ag);
+        Assertions.assertEquals("simpleAction", ag.shortName());
+        Assertions.assertNotNull(ag.pushNotificationReceivers());
+        Assertions.assertEquals(1, ag.pushNotificationReceivers().size());
+        Assertions.assertNotNull(ag.smsReceivers());
+        Assertions.assertEquals(1, ag.smsReceivers().size());
+        Assertions.assertNotNull(ag.voiceReceivers());
+        Assertions.assertEquals(1, ag.voiceReceivers().size());
+        Assertions.assertNotNull(ag.emailReceivers());
+        Assertions.assertEquals(2, ag.emailReceivers().size());
+        Assertions.assertNotNull(ag.webhookReceivers());
+        Assertions.assertEquals(2, ag.webhookReceivers().size());
+        Assertions.assertTrue(ag.emailReceivers().get(0).name().startsWith("first"));
+        Assertions.assertTrue(ag.emailReceivers().get(1).name().startsWith("second"));
 
         ag.update()
                 .defineReceiver("third")
@@ -69,29 +70,29 @@ public class ActionGroupsTests extends MonitorManagementTest {
                 .apply();
 
 
-        Assert.assertEquals(2, ag.webhookReceivers().size());
-        Assert.assertEquals(1, ag.emailReceivers().size());
-        Assert.assertEquals(0, ag.smsReceivers().size());
+        Assertions.assertEquals(2, ag.webhookReceivers().size());
+        Assertions.assertEquals(1, ag.emailReceivers().size());
+        Assertions.assertEquals(0, ag.smsReceivers().size());
 
         ActionGroup agGet = monitorManager.actionGroups().getById(ag.id());
-        Assert.assertEquals("simpleAction", agGet.shortName());
-        Assert.assertEquals(2, agGet.webhookReceivers().size());
-        Assert.assertEquals(1, agGet.emailReceivers().size());
-        Assert.assertEquals(0, agGet.smsReceivers().size());
+        Assertions.assertEquals("simpleAction", agGet.shortName());
+        Assertions.assertEquals(2, agGet.webhookReceivers().size());
+        Assertions.assertEquals(1, agGet.emailReceivers().size());
+        Assertions.assertEquals(0, agGet.smsReceivers().size());
 
         monitorManager.actionGroups().enableReceiver(agGet.resourceGroupName(), agGet.name(), agGet.emailReceivers().get(0).name());
 
-        PagedList<ActionGroup> agListByRg = monitorManager.actionGroups().listByResourceGroup(RG_NAME);
-        Assert.assertNotNull(agListByRg);
-        Assert.assertEquals(1, agListByRg.size());
+        PagedIterable<ActionGroup> agListByRg = monitorManager.actionGroups().listByResourceGroup(RG_NAME);
+        Assertions.assertNotNull(agListByRg);
+        Assertions.assertEquals(1, TestUtilities.getSize(agListByRg));
 
-        PagedList<ActionGroup> agList = monitorManager.actionGroups().list();
-        Assert.assertNotNull(agListByRg);
-        Assert.assertTrue(agListByRg.size() > 0);
+        PagedIterable<ActionGroup> agList = monitorManager.actionGroups().list();
+        Assertions.assertNotNull(agListByRg);
+        Assertions.assertTrue(TestUtilities.getSize(agListByRg) > 0);
 
         monitorManager.actionGroups().deleteById(ag.id());
         agListByRg = monitorManager.actionGroups().listByResourceGroup(RG_NAME);
-        Assert.assertEquals(0, agListByRg.size());
+        Assertions.assertEquals(0, TestUtilities.getSize(agListByRg));
 
         resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
     }

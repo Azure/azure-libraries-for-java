@@ -6,16 +6,18 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.appservice.AppServicePlan;
-import com.microsoft.azure.management.appservice.OperatingSystem;
-import com.microsoft.azure.management.appservice.PricingTier;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
+import com.azure.management.appservice.AppServicePlan;
+import com.azure.management.appservice.OperatingSystem;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
 import java.time.OffsetDateTime;
-import org.joda.time.Period;
-import org.junit.Assert;
-import org.junit.Test;
 
 public class AutoscaleTests extends MonitorManagementTest {
     private static String RG_NAME = "";
@@ -66,11 +68,11 @@ public class AutoscaleTests extends MonitorManagementTest {
                             // current swagger does not support namespace selection
                             //.withMetricName("CPUPercentage", "Microsoft.Web/serverfarms")
                             .withMetricName("CPUPercentage")
-                            .withStatistic(Period.minutes(10), Period.minutes(1), MetricStatisticType.AVERAGE)
+                            .withStatistic(Duration.ofMinutes(10), Duration.ofMinutes(1), MetricStatisticType.AVERAGE)
                             .withCondition(TimeAggregationType.AVERAGE, ComparisonOperationType.GREATER_THAN, 70)
-                            .withScaleAction(ScaleDirection.INCREASE, ScaleType.EXACT_COUNT, 10, Period.hours(12))
+                            .withScaleAction(ScaleDirection.INCREASE, ScaleType.EXACT_COUNT, 10, Duration.ofHours(12))
                             .attach()
-                        .withFixedDateSchedule("UTC", DateTime.parse("2050-10-12T20:15:10Z"), DateTime.parse("2051-09-11T16:08:04Z"))
+                        .withFixedDateSchedule("UTC", OffsetDateTime.parse("2050-10-12T20:15:10Z"), OffsetDateTime.parse("2051-09-11T16:08:04Z"))
                         .attach()
 
                     .defineAutoscaleProfile("AutoScaleProfile2")
@@ -78,9 +80,9 @@ public class AutoscaleTests extends MonitorManagementTest {
                         .defineScaleRule()
                             .withMetricSource(servicePlan.id())
                             .withMetricName("CPUPercentage")
-                            .withStatistic(Period.minutes(10), Period.minutes(1), MetricStatisticType.AVERAGE)
+                            .withStatistic(Duration.ofMinutes(10), Duration.ofMinutes(1), MetricStatisticType.AVERAGE)
                             .withCondition(TimeAggregationType.AVERAGE, ComparisonOperationType.LESS_THAN, 20)
-                            .withScaleAction(ScaleDirection.DECREASE, ScaleType.EXACT_COUNT, 1, Period.hours(3))
+                            .withScaleAction(ScaleDirection.DECREASE, ScaleType.EXACT_COUNT, 1, Duration.ofHours(3))
                             .attach()
                         .withRecurrentSchedule("UTC", "12:13", DayOfWeek.FRIDAY)
                         .attach()
@@ -91,201 +93,201 @@ public class AutoscaleTests extends MonitorManagementTest {
                     .withAutoscaleDisabled()
                     .create();
 
-            Assert.assertNotNull(setting);
-            Assert.assertEquals("somesettingZ", setting.name());
-            Assert.assertEquals(servicePlan.id(), setting.targetResourceId());
-            Assert.assertTrue(setting.adminEmailNotificationEnabled());
-            Assert.assertTrue(setting.coAdminEmailNotificationEnabled());
-            Assert.assertFalse(setting.autoscaleEnabled());
-            Assert.assertEquals(3, setting.customEmailsNotification().size());
-            Assert.assertEquals("me@mycorp.com", setting.customEmailsNotification().get(0));
-            Assert.assertEquals("you@mycorp.com", setting.customEmailsNotification().get(1));
-            Assert.assertEquals("him@mycorp.com", setting.customEmailsNotification().get(2));
+            Assertions.assertNotNull(setting);
+            Assertions.assertEquals("somesettingZ", setting.name());
+            Assertions.assertEquals(servicePlan.id(), setting.targetResourceId());
+            Assertions.assertTrue(setting.adminEmailNotificationEnabled());
+            Assertions.assertTrue(setting.coAdminEmailNotificationEnabled());
+            Assertions.assertFalse(setting.autoscaleEnabled());
+            Assertions.assertEquals(3, setting.customEmailsNotification().size());
+            Assertions.assertEquals("me@mycorp.com", setting.customEmailsNotification().get(0));
+            Assertions.assertEquals("you@mycorp.com", setting.customEmailsNotification().get(1));
+            Assertions.assertEquals("him@mycorp.com", setting.customEmailsNotification().get(2));
 
-            Assert.assertEquals(3, setting.profiles().size());
+            Assertions.assertEquals(3, setting.profiles().size());
 
             AutoscaleProfile tempProfile = setting.profiles().get("Default");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("Default", tempProfile.name());
-            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(3, tempProfile.maxInstanceCount());
-            Assert.assertEquals(3, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.fixedDateSchedule());
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(0, tempProfile.rules().size());
-            Assert.assertNotNull(tempProfile.recurrentSchedule());
-            Assert.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
-            Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
-            Assert.assertEquals(3, tempProfile.recurrentSchedule().schedule().days().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.MONDAY.toString()));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.TUESDAY.toString()));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.SATURDAY.toString()));
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(18));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(0));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("Default", tempProfile.name());
+            Assertions.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(3, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(3, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.fixedDateSchedule());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(0, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule());
+            Assertions.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule().schedule());
+            Assertions.assertEquals(3, tempProfile.recurrentSchedule().schedule().days().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.MONDAY.toString()));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.TUESDAY.toString()));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.SATURDAY.toString()));
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(18));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(0));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
 
             tempProfile = setting.profiles().get("AutoScaleProfile1");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("AutoScaleProfile1", tempProfile.name());
-            Assert.assertEquals(1, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(10, tempProfile.maxInstanceCount());
-            Assert.assertEquals(1, tempProfile.minInstanceCount());
-            Assert.assertNotNull(tempProfile.fixedDateSchedule());
-            Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(OffsetDateTime.parse("2050-10-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(OffsetDateTime.parse("2051-09-11T16:08:04Z"), tempProfile.fixedDateSchedule().end());
-            Assert.assertNull(tempProfile.recurrentSchedule());
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(1, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("AutoScaleProfile1", tempProfile.name());
+            Assertions.assertEquals(1, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(10, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(1, tempProfile.minInstanceCount());
+            Assertions.assertNotNull(tempProfile.fixedDateSchedule());
+            Assertions.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertEquals(OffsetDateTime.parse("2050-10-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
+            Assertions.assertEquals(OffsetDateTime.parse("2051-09-11T16:08:04Z"), tempProfile.fixedDateSchedule().end());
+            Assertions.assertNull(tempProfile.recurrentSchedule());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(1, tempProfile.rules().size());
             ScaleRule rule = tempProfile.rules().get(0);
-            Assert.assertEquals(servicePlan.id(), rule.metricSource());
-            Assert.assertEquals("CPUPercentage", rule.metricName());
-            Assert.assertEquals(Period.minutes(10), rule.duration());
-            Assert.assertEquals(Period.minutes(1), rule.frequency());
-            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
-            Assert.assertEquals(ComparisonOperationType.GREATER_THAN, rule.condition());
-            Assert.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
-            Assert.assertEquals(70, rule.threshold(), 0.001);
-            Assert.assertEquals(ScaleDirection.INCREASE, rule.scaleDirection());
-            Assert.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
-            Assert.assertEquals(10, rule.scaleInstanceCount());
-            Assert.assertEquals(Period.hours(12), rule.coolDown());
+            Assertions.assertEquals(servicePlan.id(), rule.metricSource());
+            Assertions.assertEquals("CPUPercentage", rule.metricName());
+            Assertions.assertEquals(Duration.ofMinutes(10), rule.duration());
+            Assertions.assertEquals(Duration.ofMinutes(1), rule.frequency());
+            Assertions.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assertions.assertEquals(ComparisonOperationType.GREATER_THAN, rule.condition());
+            Assertions.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
+            Assertions.assertEquals(70, rule.threshold(), 0.001);
+            Assertions.assertEquals(ScaleDirection.INCREASE, rule.scaleDirection());
+            Assertions.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
+            Assertions.assertEquals(10, rule.scaleInstanceCount());
+            Assertions.assertEquals(Duration.ofHours(12), rule.coolDown());
 
             tempProfile = setting.profiles().get("AutoScaleProfile2");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("AutoScaleProfile2", tempProfile.name());
-            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(5, tempProfile.maxInstanceCount());
-            Assert.assertEquals(1, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.fixedDateSchedule());
-            Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().days().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.FRIDAY.toString()));
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(12));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(13));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("AutoScaleProfile2", tempProfile.name());
+            Assertions.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(5, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(1, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.fixedDateSchedule());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule().schedule());
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().days().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.FRIDAY.toString()));
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(12));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(13));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
 
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(1, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(1, tempProfile.rules().size());
             rule = tempProfile.rules().get(0);
-            Assert.assertEquals(servicePlan.id(), rule.metricSource());
-            Assert.assertEquals("CPUPercentage", rule.metricName());
-            Assert.assertEquals(Period.minutes(10), rule.duration());
-            Assert.assertEquals(Period.minutes(1), rule.frequency());
-            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
-            Assert.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
-            Assert.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
-            Assert.assertEquals(20, rule.threshold(), 0.001);
-            Assert.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
-            Assert.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
-            Assert.assertEquals(1, rule.scaleInstanceCount());
-            Assert.assertEquals(Period.hours(3), rule.coolDown());
+            Assertions.assertEquals(servicePlan.id(), rule.metricSource());
+            Assertions.assertEquals("CPUPercentage", rule.metricName());
+            Assertions.assertEquals(Duration.ofMinutes(10), rule.duration());
+            Assertions.assertEquals(Duration.ofMinutes(1), rule.frequency());
+            Assertions.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assertions.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
+            Assertions.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
+            Assertions.assertEquals(20, rule.threshold(), 0.001);
+            Assertions.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
+            Assertions.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
+            Assertions.assertEquals(1, rule.scaleInstanceCount());
+            Assertions.assertEquals(Duration.ofHours(3), rule.coolDown());
 
             // GET Autoscale settings and compare
             AutoscaleSetting settingFromGet = monitorManager.autoscaleSettings().getById(setting.id());
-            Assert.assertNotNull(settingFromGet);
-            Assert.assertEquals("somesettingZ", settingFromGet.name());
-            Assert.assertEquals(servicePlan.id(), settingFromGet.targetResourceId());
-            Assert.assertTrue(settingFromGet.adminEmailNotificationEnabled());
-            Assert.assertTrue(settingFromGet.coAdminEmailNotificationEnabled());
-            Assert.assertFalse(settingFromGet.autoscaleEnabled());
-            Assert.assertEquals(3, settingFromGet.customEmailsNotification().size());
-            Assert.assertEquals("me@mycorp.com", settingFromGet.customEmailsNotification().get(0));
-            Assert.assertEquals("you@mycorp.com", settingFromGet.customEmailsNotification().get(1));
-            Assert.assertEquals("him@mycorp.com", settingFromGet.customEmailsNotification().get(2));
+            Assertions.assertNotNull(settingFromGet);
+            Assertions.assertEquals("somesettingZ", settingFromGet.name());
+            Assertions.assertEquals(servicePlan.id(), settingFromGet.targetResourceId());
+            Assertions.assertTrue(settingFromGet.adminEmailNotificationEnabled());
+            Assertions.assertTrue(settingFromGet.coAdminEmailNotificationEnabled());
+            Assertions.assertFalse(settingFromGet.autoscaleEnabled());
+            Assertions.assertEquals(3, settingFromGet.customEmailsNotification().size());
+            Assertions.assertEquals("me@mycorp.com", settingFromGet.customEmailsNotification().get(0));
+            Assertions.assertEquals("you@mycorp.com", settingFromGet.customEmailsNotification().get(1));
+            Assertions.assertEquals("him@mycorp.com", settingFromGet.customEmailsNotification().get(2));
 
-            Assert.assertEquals(3, settingFromGet.profiles().size());
+            Assertions.assertEquals(3, settingFromGet.profiles().size());
 
             tempProfile = settingFromGet.profiles().get("Default");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("Default", tempProfile.name());
-            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(3, tempProfile.maxInstanceCount());
-            Assert.assertEquals(3, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.fixedDateSchedule());
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(0, tempProfile.rules().size());
-            Assert.assertNotNull(tempProfile.recurrentSchedule());
-            Assert.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
-            Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
-            Assert.assertEquals(3, tempProfile.recurrentSchedule().schedule().days().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.MONDAY.toString()));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.TUESDAY.toString()));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.SATURDAY.toString()));
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(18));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(0));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("Default", tempProfile.name());
+            Assertions.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(3, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(3, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.fixedDateSchedule());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(0, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule());
+            Assertions.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule().schedule());
+            Assertions.assertEquals(3, tempProfile.recurrentSchedule().schedule().days().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.MONDAY.toString()));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.TUESDAY.toString()));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.SATURDAY.toString()));
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(18));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(0));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
 
             tempProfile = settingFromGet.profiles().get("AutoScaleProfile1");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("AutoScaleProfile1", tempProfile.name());
-            Assert.assertEquals(1, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(10, tempProfile.maxInstanceCount());
-            Assert.assertEquals(1, tempProfile.minInstanceCount());
-            Assert.assertNotNull(tempProfile.fixedDateSchedule());
-            Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(OffsetDateTime.parse("2050-10-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(OffsetDateTime.parse("2051-09-11T16:08:04Z"), tempProfile.fixedDateSchedule().end());
-            Assert.assertNull(tempProfile.recurrentSchedule());
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(1, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("AutoScaleProfile1", tempProfile.name());
+            Assertions.assertEquals(1, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(10, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(1, tempProfile.minInstanceCount());
+            Assertions.assertNotNull(tempProfile.fixedDateSchedule());
+            Assertions.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertEquals(OffsetDateTime.parse("2050-10-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
+            Assertions.assertEquals(OffsetDateTime.parse("2051-09-11T16:08:04Z"), tempProfile.fixedDateSchedule().end());
+            Assertions.assertNull(tempProfile.recurrentSchedule());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(1, tempProfile.rules().size());
             rule = tempProfile.rules().get(0);
-            Assert.assertEquals(servicePlan.id(), rule.metricSource());
-            Assert.assertEquals("CPUPercentage", rule.metricName());
-            Assert.assertEquals(Period.minutes(10), rule.duration());
-            Assert.assertEquals(Period.minutes(1), rule.frequency());
-            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
-            Assert.assertEquals(ComparisonOperationType.GREATER_THAN, rule.condition());
-            Assert.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
-            Assert.assertEquals(70, rule.threshold(), 0.001);
-            Assert.assertEquals(ScaleDirection.INCREASE, rule.scaleDirection());
-            Assert.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
-            Assert.assertEquals(10, rule.scaleInstanceCount());
-            Assert.assertEquals(Period.hours(12), rule.coolDown());
+            Assertions.assertEquals(servicePlan.id(), rule.metricSource());
+            Assertions.assertEquals("CPUPercentage", rule.metricName());
+            Assertions.assertEquals(Duration.ofMinutes(10), rule.duration());
+            Assertions.assertEquals(Duration.ofMinutes(1), rule.frequency());
+            Assertions.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assertions.assertEquals(ComparisonOperationType.GREATER_THAN, rule.condition());
+            Assertions.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
+            Assertions.assertEquals(70, rule.threshold(), 0.001);
+            Assertions.assertEquals(ScaleDirection.INCREASE, rule.scaleDirection());
+            Assertions.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
+            Assertions.assertEquals(10, rule.scaleInstanceCount());
+            Assertions.assertEquals(Duration.ofHours(12), rule.coolDown());
 
             tempProfile = settingFromGet.profiles().get("AutoScaleProfile2");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("AutoScaleProfile2", tempProfile.name());
-            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(5, tempProfile.maxInstanceCount());
-            Assert.assertEquals(1, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.fixedDateSchedule());
-            Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().days().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.FRIDAY.toString()));
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(12));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(13));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("AutoScaleProfile2", tempProfile.name());
+            Assertions.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(5, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(1, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.fixedDateSchedule());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule().schedule());
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().days().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.FRIDAY.toString()));
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(12));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(13));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
 
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(1, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(1, tempProfile.rules().size());
             rule = tempProfile.rules().get(0);
-            Assert.assertEquals(servicePlan.id(), rule.metricSource());
-            Assert.assertEquals("CPUPercentage", rule.metricName());
-            Assert.assertEquals(Period.minutes(10), rule.duration());
-            Assert.assertEquals(Period.minutes(1), rule.frequency());
-            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
-            Assert.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
-            Assert.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
-            Assert.assertEquals(20, rule.threshold(), 0.001);
-            Assert.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
-            Assert.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
-            Assert.assertEquals(1, rule.scaleInstanceCount());
-            Assert.assertEquals(Period.hours(3), rule.coolDown());
+            Assertions.assertEquals(servicePlan.id(), rule.metricSource());
+            Assertions.assertEquals("CPUPercentage", rule.metricName());
+            Assertions.assertEquals(Duration.ofMinutes(10), rule.duration());
+            Assertions.assertEquals(Duration.ofMinutes(1), rule.frequency());
+            Assertions.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assertions.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
+            Assertions.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
+            Assertions.assertEquals(20, rule.threshold(), 0.001);
+            Assertions.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
+            Assertions.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
+            Assertions.assertEquals(1, rule.scaleInstanceCount());
+            Assertions.assertEquals(Duration.ofHours(3), rule.coolDown());
 
             // Update
             setting.update()
                     .defineAutoscaleProfile("very new profile")
                         .withScheduleBasedScale(10)
-                        .withFixedDateSchedule("UTC", DateTime.parse("2030-02-12T20:15:10Z"), DateTime.parse("2030-02-12T20:45:10Z"))
+                        .withFixedDateSchedule("UTC", OffsetDateTime.parse("2030-02-12T20:15:10Z"), OffsetDateTime.parse("2030-02-12T20:45:10Z"))
                         .attach()
 
                     .defineAutoscaleProfile("a new profile")
@@ -293,23 +295,23 @@ public class AutoscaleTests extends MonitorManagementTest {
                         .defineScaleRule()
                             .withMetricSource(servicePlan.id())
                             .withMetricName("CPUPercentage")
-                            .withStatistic(Period.hours(10), Period.hours(1), MetricStatisticType.AVERAGE)
+                            .withStatistic(Duration.ofHours(10), Duration.ofHours(1), MetricStatisticType.AVERAGE)
                             .withCondition(TimeAggregationType.TOTAL, ComparisonOperationType.LESS_THAN, 6)
-                            .withScaleAction(ScaleDirection.DECREASE, ScaleType.PERCENT_CHANGE_COUNT, 10, Period.hours(10))
+                            .withScaleAction(ScaleDirection.DECREASE, ScaleType.PERCENT_CHANGE_COUNT, 10, Duration.ofHours(10))
                             .attach()
                         .attach()
 
                     .updateAutoscaleProfile("AutoScaleProfile2")
                         .updateScaleRule(0)
-                            .withStatistic(Period.minutes(15), Period.minutes(1), MetricStatisticType.AVERAGE)
+                            .withStatistic(Duration.ofMinutes(15), Duration.ofMinutes(1), MetricStatisticType.AVERAGE)
                             .parent()
-                        .withFixedDateSchedule("UTC", DateTime.parse("2025-02-02T02:02:02Z"), DateTime.parse("2025-02-02T03:03:03Z"))
+                        .withFixedDateSchedule("UTC", OffsetDateTime.parse("2025-02-02T02:02:02Z"), OffsetDateTime.parse("2025-02-02T03:03:03Z"))
                         .defineScaleRule()
                             .withMetricSource(servicePlan.id())
                             .withMetricName("CPUPercentage")
-                            .withStatistic(Period.hours(5), Period.hours(3), MetricStatisticType.AVERAGE)
+                            .withStatistic(Duration.ofHours(5), Duration.ofHours(3), MetricStatisticType.AVERAGE)
                             .withCondition(TimeAggregationType.TOTAL, ComparisonOperationType.LESS_THAN, 50)
-                            .withScaleAction(ScaleDirection.DECREASE, ScaleType.PERCENT_CHANGE_COUNT, 25, Period.hours(2))
+                            .withScaleAction(ScaleDirection.DECREASE, ScaleType.PERCENT_CHANGE_COUNT, 25, Duration.ofHours(2))
                             .attach()
                         .withoutScaleRule(1)
                         .parent()
@@ -320,216 +322,216 @@ public class AutoscaleTests extends MonitorManagementTest {
                     .withoutCoAdminEmailNotification()
                     .apply();
 
-            Assert.assertNotNull(setting);
-            Assert.assertEquals("somesettingZ", setting.name());
-            Assert.assertEquals(servicePlan.id(), setting.targetResourceId());
-            Assert.assertTrue(setting.adminEmailNotificationEnabled());
-            Assert.assertFalse(setting.coAdminEmailNotificationEnabled());
-            Assert.assertTrue(setting.autoscaleEnabled());
-            Assert.assertEquals(3, setting.customEmailsNotification().size());
-            Assert.assertEquals("me@mycorp.com", setting.customEmailsNotification().get(0));
-            Assert.assertEquals("you@mycorp.com", setting.customEmailsNotification().get(1));
-            Assert.assertEquals("him@mycorp.com", setting.customEmailsNotification().get(2));
+            Assertions.assertNotNull(setting);
+            Assertions.assertEquals("somesettingZ", setting.name());
+            Assertions.assertEquals(servicePlan.id(), setting.targetResourceId());
+            Assertions.assertTrue(setting.adminEmailNotificationEnabled());
+            Assertions.assertFalse(setting.coAdminEmailNotificationEnabled());
+            Assertions.assertTrue(setting.autoscaleEnabled());
+            Assertions.assertEquals(3, setting.customEmailsNotification().size());
+            Assertions.assertEquals("me@mycorp.com", setting.customEmailsNotification().get(0));
+            Assertions.assertEquals("you@mycorp.com", setting.customEmailsNotification().get(1));
+            Assertions.assertEquals("him@mycorp.com", setting.customEmailsNotification().get(2));
 
-            Assert.assertEquals(4, setting.profiles().size());
+            Assertions.assertEquals(4, setting.profiles().size());
 
-            Assert.assertFalse(setting.profiles().containsKey("AutoScaleProfile1"));
+            Assertions.assertFalse(setting.profiles().containsKey("AutoScaleProfile1"));
 
             tempProfile = setting.profiles().get("Default");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("Default", tempProfile.name());
-            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(3, tempProfile.maxInstanceCount());
-            Assert.assertEquals(3, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.fixedDateSchedule());
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(0, tempProfile.rules().size());
-            Assert.assertNotNull(tempProfile.recurrentSchedule());
-            Assert.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
-            Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
-            Assert.assertEquals(3, tempProfile.recurrentSchedule().schedule().days().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.MONDAY.toString()));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.TUESDAY.toString()));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.SATURDAY.toString()));
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(18));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(0));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("Default", tempProfile.name());
+            Assertions.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(3, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(3, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.fixedDateSchedule());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(0, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule());
+            Assertions.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule().schedule());
+            Assertions.assertEquals(3, tempProfile.recurrentSchedule().schedule().days().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.MONDAY.toString()));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.TUESDAY.toString()));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.SATURDAY.toString()));
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(18));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(0));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
 
             tempProfile = setting.profiles().get("very new profile");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("very new profile", tempProfile.name());
-            Assert.assertEquals(10, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(10, tempProfile.maxInstanceCount());
-            Assert.assertEquals(10, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.recurrentSchedule());
-            Assert.assertNotNull(tempProfile.fixedDateSchedule());
-            Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(OffsetDateTime.parse("2030-02-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(OffsetDateTime.parse("2030-02-12T20:45:10Z"), tempProfile.fixedDateSchedule().end());
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("very new profile", tempProfile.name());
+            Assertions.assertEquals(10, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(10, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(10, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.recurrentSchedule());
+            Assertions.assertNotNull(tempProfile.fixedDateSchedule());
+            Assertions.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertEquals(OffsetDateTime.parse("2030-02-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
+            Assertions.assertEquals(OffsetDateTime.parse("2030-02-12T20:45:10Z"), tempProfile.fixedDateSchedule().end());
 
             tempProfile = setting.profiles().get("a new profile");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("a new profile", tempProfile.name());
-            Assert.assertEquals(6, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(7, tempProfile.maxInstanceCount());
-            Assert.assertEquals(5, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.fixedDateSchedule());
-            Assert.assertNull(tempProfile.recurrentSchedule());
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(1, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("a new profile", tempProfile.name());
+            Assertions.assertEquals(6, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(7, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(5, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.fixedDateSchedule());
+            Assertions.assertNull(tempProfile.recurrentSchedule());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(1, tempProfile.rules().size());
             rule = tempProfile.rules().get(0);
-            Assert.assertEquals(servicePlan.id(), rule.metricSource());
-            Assert.assertEquals("CPUPercentage", rule.metricName());
-            Assert.assertEquals(Period.hours(10), rule.duration());
-            Assert.assertEquals(Period.hours(1), rule.frequency());
-            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
-            Assert.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
-            Assert.assertEquals(TimeAggregationType.TOTAL, rule.timeAggregation());
-            Assert.assertEquals(6, rule.threshold(), 0.001);
-            Assert.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
-            Assert.assertEquals(ScaleType.PERCENT_CHANGE_COUNT, rule.scaleType());
-            Assert.assertEquals(10, rule.scaleInstanceCount());
-            Assert.assertEquals(Period.hours(10), rule.coolDown());
+            Assertions.assertEquals(servicePlan.id(), rule.metricSource());
+            Assertions.assertEquals("CPUPercentage", rule.metricName());
+            Assertions.assertEquals(Duration.ofHours(10), rule.duration());
+            Assertions.assertEquals(Duration.ofHours(1), rule.frequency());
+            Assertions.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assertions.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
+            Assertions.assertEquals(TimeAggregationType.TOTAL, rule.timeAggregation());
+            Assertions.assertEquals(6, rule.threshold(), 0.001);
+            Assertions.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
+            Assertions.assertEquals(ScaleType.PERCENT_CHANGE_COUNT, rule.scaleType());
+            Assertions.assertEquals(10, rule.scaleInstanceCount());
+            Assertions.assertEquals(Duration.ofHours(10), rule.coolDown());
 
             tempProfile = setting.profiles().get("AutoScaleProfile2");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("AutoScaleProfile2", tempProfile.name());
-            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(5, tempProfile.maxInstanceCount());
-            Assert.assertEquals(1, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.recurrentSchedule());
-            Assert.assertNotNull(tempProfile.fixedDateSchedule());
-            Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(OffsetDateTime.parse("2025-02-02T02:02:02Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(OffsetDateTime.parse("2025-02-02T03:03:03Z"), tempProfile.fixedDateSchedule().end());
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("AutoScaleProfile2", tempProfile.name());
+            Assertions.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(5, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(1, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.recurrentSchedule());
+            Assertions.assertNotNull(tempProfile.fixedDateSchedule());
+            Assertions.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertEquals(OffsetDateTime.parse("2025-02-02T02:02:02Z"), tempProfile.fixedDateSchedule().start());
+            Assertions.assertEquals(OffsetDateTime.parse("2025-02-02T03:03:03Z"), tempProfile.fixedDateSchedule().end());
 
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(1, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(1, tempProfile.rules().size());
             rule = tempProfile.rules().get(0);
-            Assert.assertEquals(servicePlan.id(), rule.metricSource());
-            Assert.assertEquals("CPUPercentage", rule.metricName());
-            Assert.assertEquals(Period.minutes(15), rule.duration());
-            Assert.assertEquals(Period.minutes(1), rule.frequency());
-            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
-            Assert.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
-            Assert.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
-            Assert.assertEquals(20, rule.threshold(), 0.001);
-            Assert.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
-            Assert.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
-            Assert.assertEquals(1, rule.scaleInstanceCount());
-            Assert.assertEquals(Period.hours(3), rule.coolDown());
+            Assertions.assertEquals(servicePlan.id(), rule.metricSource());
+            Assertions.assertEquals("CPUPercentage", rule.metricName());
+            Assertions.assertEquals(Duration.ofMinutes(15), rule.duration());
+            Assertions.assertEquals(Duration.ofMinutes(1), rule.frequency());
+            Assertions.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assertions.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
+            Assertions.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
+            Assertions.assertEquals(20, rule.threshold(), 0.001);
+            Assertions.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
+            Assertions.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
+            Assertions.assertEquals(1, rule.scaleInstanceCount());
+            Assertions.assertEquals(Duration.ofHours(3), rule.coolDown());
 
             // List
-            settingFromGet = monitorManager.autoscaleSettings().listByResourceGroup(RG_NAME).get(0);
+            settingFromGet = monitorManager.autoscaleSettings().listByResourceGroup(RG_NAME).iterator().next();
 
-            Assert.assertNotNull(settingFromGet);
-            Assert.assertEquals("somesettingZ", settingFromGet.name());
-            Assert.assertEquals(servicePlan.id(), settingFromGet.targetResourceId());
-            Assert.assertTrue(settingFromGet.adminEmailNotificationEnabled());
-            Assert.assertFalse(settingFromGet.coAdminEmailNotificationEnabled());
-            Assert.assertTrue(settingFromGet.autoscaleEnabled());
-            Assert.assertEquals(3, settingFromGet.customEmailsNotification().size());
-            Assert.assertEquals("me@mycorp.com", settingFromGet.customEmailsNotification().get(0));
-            Assert.assertEquals("you@mycorp.com", settingFromGet.customEmailsNotification().get(1));
-            Assert.assertEquals("him@mycorp.com", settingFromGet.customEmailsNotification().get(2));
+            Assertions.assertNotNull(settingFromGet);
+            Assertions.assertEquals("somesettingZ", settingFromGet.name());
+            Assertions.assertEquals(servicePlan.id(), settingFromGet.targetResourceId());
+            Assertions.assertTrue(settingFromGet.adminEmailNotificationEnabled());
+            Assertions.assertFalse(settingFromGet.coAdminEmailNotificationEnabled());
+            Assertions.assertTrue(settingFromGet.autoscaleEnabled());
+            Assertions.assertEquals(3, settingFromGet.customEmailsNotification().size());
+            Assertions.assertEquals("me@mycorp.com", settingFromGet.customEmailsNotification().get(0));
+            Assertions.assertEquals("you@mycorp.com", settingFromGet.customEmailsNotification().get(1));
+            Assertions.assertEquals("him@mycorp.com", settingFromGet.customEmailsNotification().get(2));
 
-            Assert.assertEquals(4, settingFromGet.profiles().size());
+            Assertions.assertEquals(4, settingFromGet.profiles().size());
 
-            Assert.assertFalse(settingFromGet.profiles().containsKey("AutoScaleProfile1"));
+            Assertions.assertFalse(settingFromGet.profiles().containsKey("AutoScaleProfile1"));
 
             tempProfile = settingFromGet.profiles().get("Default");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("Default", tempProfile.name());
-            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(3, tempProfile.maxInstanceCount());
-            Assert.assertEquals(3, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.fixedDateSchedule());
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(0, tempProfile.rules().size());
-            Assert.assertNotNull(tempProfile.recurrentSchedule());
-            Assert.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
-            Assert.assertNotNull(tempProfile.recurrentSchedule().schedule());
-            Assert.assertEquals(3, tempProfile.recurrentSchedule().schedule().days().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.MONDAY.toString()));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.TUESDAY.toString()));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.SATURDAY.toString()));
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
-            Assert.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(18));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(0));
-            Assert.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("Default", tempProfile.name());
+            Assertions.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(3, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(3, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.fixedDateSchedule());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(0, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule());
+            Assertions.assertEquals(RecurrenceFrequency.WEEK, tempProfile.recurrentSchedule().frequency());
+            Assertions.assertNotNull(tempProfile.recurrentSchedule().schedule());
+            Assertions.assertEquals(3, tempProfile.recurrentSchedule().schedule().days().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.MONDAY.toString()));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.TUESDAY.toString()));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().days().contains(DayOfWeek.SATURDAY.toString()));
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().hours().size());
+            Assertions.assertEquals(1, tempProfile.recurrentSchedule().schedule().minutes().size());
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().hours().contains(18));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().minutes().contains(0));
+            Assertions.assertTrue(tempProfile.recurrentSchedule().schedule().timeZone().equalsIgnoreCase("UTC"));
 
             tempProfile = settingFromGet.profiles().get("very new profile");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("very new profile", tempProfile.name());
-            Assert.assertEquals(10, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(10, tempProfile.maxInstanceCount());
-            Assert.assertEquals(10, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.recurrentSchedule());
-            Assert.assertNotNull(tempProfile.fixedDateSchedule());
-            Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(OffsetDateTime.parse("2030-02-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(OffsetDateTime.parse("2030-02-12T20:45:10Z"), tempProfile.fixedDateSchedule().end());
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("very new profile", tempProfile.name());
+            Assertions.assertEquals(10, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(10, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(10, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.recurrentSchedule());
+            Assertions.assertNotNull(tempProfile.fixedDateSchedule());
+            Assertions.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertEquals(OffsetDateTime.parse("2030-02-12T20:15:10Z"), tempProfile.fixedDateSchedule().start());
+            Assertions.assertEquals(OffsetDateTime.parse("2030-02-12T20:45:10Z"), tempProfile.fixedDateSchedule().end());
 
             tempProfile = settingFromGet.profiles().get("a new profile");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("a new profile", tempProfile.name());
-            Assert.assertEquals(6, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(7, tempProfile.maxInstanceCount());
-            Assert.assertEquals(5, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.fixedDateSchedule());
-            Assert.assertNull(tempProfile.recurrentSchedule());
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(1, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("a new profile", tempProfile.name());
+            Assertions.assertEquals(6, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(7, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(5, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.fixedDateSchedule());
+            Assertions.assertNull(tempProfile.recurrentSchedule());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(1, tempProfile.rules().size());
             rule = tempProfile.rules().get(0);
-            Assert.assertEquals(servicePlan.id(), rule.metricSource());
-            Assert.assertEquals("CPUPercentage", rule.metricName());
-            Assert.assertEquals(Period.hours(10), rule.duration());
-            Assert.assertEquals(Period.hours(1), rule.frequency());
-            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
-            Assert.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
-            Assert.assertEquals(TimeAggregationType.TOTAL, rule.timeAggregation());
-            Assert.assertEquals(6, rule.threshold(), 0.001);
-            Assert.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
-            Assert.assertEquals(ScaleType.PERCENT_CHANGE_COUNT, rule.scaleType());
-            Assert.assertEquals(10, rule.scaleInstanceCount());
-            Assert.assertEquals(Period.hours(10), rule.coolDown());
+            Assertions.assertEquals(servicePlan.id(), rule.metricSource());
+            Assertions.assertEquals("CPUPercentage", rule.metricName());
+            Assertions.assertEquals(Duration.ofHours(10), rule.duration());
+            Assertions.assertEquals(Duration.ofHours(1), rule.frequency());
+            Assertions.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assertions.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
+            Assertions.assertEquals(TimeAggregationType.TOTAL, rule.timeAggregation());
+            Assertions.assertEquals(6, rule.threshold(), 0.001);
+            Assertions.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
+            Assertions.assertEquals(ScaleType.PERCENT_CHANGE_COUNT, rule.scaleType());
+            Assertions.assertEquals(10, rule.scaleInstanceCount());
+            Assertions.assertEquals(Duration.ofHours(10), rule.coolDown());
 
             tempProfile = settingFromGet.profiles().get("AutoScaleProfile2");
-            Assert.assertNotNull(tempProfile);
-            Assert.assertEquals("AutoScaleProfile2", tempProfile.name());
-            Assert.assertEquals(3, tempProfile.defaultInstanceCount());
-            Assert.assertEquals(5, tempProfile.maxInstanceCount());
-            Assert.assertEquals(1, tempProfile.minInstanceCount());
-            Assert.assertNull(tempProfile.recurrentSchedule());
-            Assert.assertNotNull(tempProfile.fixedDateSchedule());
-            Assert.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
-            Assert.assertEquals(OffsetDateTime.parse("2025-02-02T02:02:02Z"), tempProfile.fixedDateSchedule().start());
-            Assert.assertEquals(OffsetDateTime.parse("2025-02-02T03:03:03Z"), tempProfile.fixedDateSchedule().end());
+            Assertions.assertNotNull(tempProfile);
+            Assertions.assertEquals("AutoScaleProfile2", tempProfile.name());
+            Assertions.assertEquals(3, tempProfile.defaultInstanceCount());
+            Assertions.assertEquals(5, tempProfile.maxInstanceCount());
+            Assertions.assertEquals(1, tempProfile.minInstanceCount());
+            Assertions.assertNull(tempProfile.recurrentSchedule());
+            Assertions.assertNotNull(tempProfile.fixedDateSchedule());
+            Assertions.assertTrue(tempProfile.fixedDateSchedule().timeZone().equalsIgnoreCase("UTC"));
+            Assertions.assertEquals(OffsetDateTime.parse("2025-02-02T02:02:02Z"), tempProfile.fixedDateSchedule().start());
+            Assertions.assertEquals(OffsetDateTime.parse("2025-02-02T03:03:03Z"), tempProfile.fixedDateSchedule().end());
 
-            Assert.assertNotNull(tempProfile.rules());
-            Assert.assertEquals(1, tempProfile.rules().size());
+            Assertions.assertNotNull(tempProfile.rules());
+            Assertions.assertEquals(1, tempProfile.rules().size());
             rule = tempProfile.rules().get(0);
-            Assert.assertEquals(servicePlan.id(), rule.metricSource());
-            Assert.assertEquals("CPUPercentage", rule.metricName());
-            Assert.assertEquals(Period.minutes(15), rule.duration());
-            Assert.assertEquals(Period.minutes(1), rule.frequency());
-            Assert.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
-            Assert.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
-            Assert.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
-            Assert.assertEquals(20, rule.threshold(), 0.001);
-            Assert.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
-            Assert.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
-            Assert.assertEquals(1, rule.scaleInstanceCount());
-            Assert.assertEquals(Period.hours(3), rule.coolDown());
+            Assertions.assertEquals(servicePlan.id(), rule.metricSource());
+            Assertions.assertEquals("CPUPercentage", rule.metricName());
+            Assertions.assertEquals(Duration.ofMinutes(15), rule.duration());
+            Assertions.assertEquals(Duration.ofMinutes(1), rule.frequency());
+            Assertions.assertEquals(MetricStatisticType.AVERAGE, rule.frequencyStatistic());
+            Assertions.assertEquals(ComparisonOperationType.LESS_THAN, rule.condition());
+            Assertions.assertEquals(TimeAggregationType.AVERAGE, rule.timeAggregation());
+            Assertions.assertEquals(20, rule.threshold(), 0.001);
+            Assertions.assertEquals(ScaleDirection.DECREASE, rule.scaleDirection());
+            Assertions.assertEquals(ScaleType.EXACT_COUNT, rule.scaleType());
+            Assertions.assertEquals(1, rule.scaleInstanceCount());
+            Assertions.assertEquals(Duration.ofHours(3), rule.coolDown());
 
             // Delete
             monitorManager.autoscaleSettings().deleteById(settingFromGet.id());
 
-            PagedList<AutoscaleSetting> emptyList = monitorManager.autoscaleSettings().listByResourceGroup(RG_NAME);
-            Assert.assertEquals(0, emptyList.size());
+            PagedIterable<AutoscaleSetting> emptyList = monitorManager.autoscaleSettings().listByResourceGroup(RG_NAME);
+            Assertions.assertEquals(0, TestUtilities.getSize(emptyList));
         }
         finally {
             resourceManager.resourceGroups().beginDeleteByName(RG_NAME);

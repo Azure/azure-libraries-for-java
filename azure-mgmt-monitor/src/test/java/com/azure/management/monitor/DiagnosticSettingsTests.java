@@ -6,23 +6,17 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.microsoft.azure.management.eventhub.EventHubNamespace;
-import com.microsoft.azure.management.eventhub.EventHubNamespaceAuthorizationRule;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.rest.RestClient;
-import org.joda.time.Period;
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.util.List;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.RestClient;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.storage.StorageAccount;
+import org.junit.jupiter.api.Assertions;
 
 public class DiagnosticSettingsTests extends MonitorManagementTest {
-    private static String RG_NAME = "";
-    private static String SA_NAME = "";
-    private static String DS_NAME="";
-    private static String EH_NAME="";
+    private String RG_NAME = "";
+    private String SA_NAME = "";
+    private String DS_NAME="";
+    private String EH_NAME="";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -38,124 +32,125 @@ public class DiagnosticSettingsTests extends MonitorManagementTest {
         resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
     }
 
-    @Test
-    public void canCRUDDiagnosticSettings() throws Exception {
-
-        VirtualMachine vm = computeManager.virtualMachines().list().get(0);
-
-        // clean all diagnostic settings.
-        PagedList<DiagnosticSetting> dsList = monitorManager.diagnosticSettings().listByResource(vm.id());
-        for(DiagnosticSetting dsd : dsList) {
-            monitorManager.diagnosticSettings().deleteById(dsd.id());
-        }
-
-        StorageAccount sa = storageManager.storageAccounts()
-                .define(SA_NAME)
-                // Storage Account should be in the same region as resource
-                .withRegion(vm.region())
-                .withNewResourceGroup(RG_NAME)
-                .withTag("tag1", "value1")
-                .create();
-
-        EventHubNamespace namespace = eventHubManager.namespaces()
-                .define(EH_NAME)
-                // EventHub should be in the same region as resource
-                .withRegion(vm.region())
-                .withNewResourceGroup(RG_NAME)
-                .withNewManageRule("mngRule1")
-                .withNewSendRule("sndRule1")
-                .create();
-
-        EventHubNamespaceAuthorizationRule evenHubNsRule = namespace.listAuthorizationRules().get(0);
-
-        List<DiagnosticSettingsCategory> categories = monitorManager.diagnosticSettings()
-                .listCategoriesByResource(vm.id());
-
-        Assert.assertNotNull(categories);
-        Assert.assertFalse(categories.isEmpty());
-
-        DiagnosticSetting setting = monitorManager.diagnosticSettings()
-                .define(DS_NAME)
-                .withResource(vm.id())
-                .withStorageAccount(sa.id())
-                .withEventHub(evenHubNsRule.id())
-                .withLogsAndMetrics(categories, Period.minutes(5), 7)
-                .create();
-
-        Assert.assertTrue(vm.id().equalsIgnoreCase(setting.resourceId()));
-        Assert.assertTrue(sa.id().equalsIgnoreCase(setting.storageAccountId()));
-        Assert.assertTrue(evenHubNsRule.id().equalsIgnoreCase(setting.eventHubAuthorizationRuleId()));
-        Assert.assertNull(setting.eventHubName());
-        Assert.assertNull(setting.workspaceId());
-        Assert.assertTrue(setting.logs().isEmpty());
-        Assert.assertFalse(setting.metrics().isEmpty());
-
-        setting.update()
-                .withoutStorageAccount()
-                .withoutLogs()
-                .apply();
-
-        Assert.assertTrue(vm.id().equalsIgnoreCase(setting.resourceId()));
-        Assert.assertTrue(evenHubNsRule.id().equalsIgnoreCase(setting.eventHubAuthorizationRuleId()));
-        Assert.assertNull(setting.storageAccountId());
-        Assert.assertNull(setting.eventHubName());
-        Assert.assertNull(setting.workspaceId());
-        Assert.assertTrue(setting.logs().isEmpty());
-        Assert.assertFalse(setting.metrics().isEmpty());
-
-        DiagnosticSetting ds1 = monitorManager.diagnosticSettings().get(setting.resourceId(), setting.name());
-        checkDiagnosticSettingValues(setting, ds1);
-
-        DiagnosticSetting ds2 = monitorManager.diagnosticSettings().getById(setting.id());
-        checkDiagnosticSettingValues(setting, ds2);
-
-        dsList = monitorManager.diagnosticSettings().listByResource(vm.id());
-        Assert.assertNotNull(dsList);
-        Assert.assertEquals(1, dsList.size());
-        DiagnosticSetting ds3 = dsList.get(0);
-        checkDiagnosticSettingValues(setting, ds3);
-
-        monitorManager.diagnosticSettings().deleteById(setting.id());
-
-        dsList = monitorManager.diagnosticSettings().listByResource(vm.id());
-        Assert.assertNotNull(dsList);
-        Assert.assertTrue(dsList.isEmpty());
-    }
+    // FIXME: need eventhub service
+//    @Test
+//    public void canCRUDDiagnosticSettings() throws Exception {
+//
+//        VirtualMachine vm = computeManager.virtualMachines().list().iterator().next();
+//
+//        // clean all diagnostic settings.
+//        PagedIterable<DiagnosticSetting> dsList = monitorManager.diagnosticSettings().listByResource(vm.id());
+//        for(DiagnosticSetting dsd : dsList) {
+//            monitorManager.diagnosticSettings().deleteById(dsd.id());
+//        }
+//
+//        StorageAccount sa = storageManager.storageAccounts()
+//                .define(SA_NAME)
+//                // Storage Account should be in the same region as resource
+//                .withRegion(vm.region())
+//                .withNewResourceGroup(RG_NAME)
+//                .withTag("tag1", "value1")
+//                .create();
+//
+//        EventHubNamespace namespace = eventHubManager.namespaces()
+//                .define(EH_NAME)
+//                // EventHub should be in the same region as resource
+//                .withRegion(vm.region())
+//                .withNewResourceGroup(RG_NAME)
+//                .withNewManageRule("mngRule1")
+//                .withNewSendRule("sndRule1")
+//                .create();
+//
+//        EventHubNamespaceAuthorizationRule evenHubNsRule = namespace.listAuthorizationRules().get(0);
+//
+//        List<DiagnosticSettingsCategory> categories = monitorManager.diagnosticSettings()
+//                .listCategoriesByResource(vm.id());
+//
+//        Assertions.assertNotNull(categories);
+//        Assertions.assertFalse(categories.isEmpty());
+//
+//        DiagnosticSetting setting = monitorManager.diagnosticSettings()
+//                .define(DS_NAME)
+//                .withResource(vm.id())
+//                .withStorageAccount(sa.id())
+//                .withEventHub(evenHubNsRule.id())
+//                .withLogsAndMetrics(categories, Period.minutes(5), 7)
+//                .create();
+//
+//        Assertions.assertTrue(vm.id().equalsIgnoreCase(setting.resourceId()));
+//        Assertions.assertTrue(sa.id().equalsIgnoreCase(setting.storageAccountId()));
+//        Assertions.assertTrue(evenHubNsRule.id().equalsIgnoreCase(setting.eventHubAuthorizationRuleId()));
+//        Assertions.assertNull(setting.eventHubName());
+//        Assertions.assertNull(setting.workspaceId());
+//        Assertions.assertTrue(setting.logs().isEmpty());
+//        Assertions.assertFalse(setting.metrics().isEmpty());
+//
+//        setting.update()
+//                .withoutStorageAccount()
+//                .withoutLogs()
+//                .apply();
+//
+//        Assertions.assertTrue(vm.id().equalsIgnoreCase(setting.resourceId()));
+//        Assertions.assertTrue(evenHubNsRule.id().equalsIgnoreCase(setting.eventHubAuthorizationRuleId()));
+//        Assertions.assertNull(setting.storageAccountId());
+//        Assertions.assertNull(setting.eventHubName());
+//        Assertions.assertNull(setting.workspaceId());
+//        Assertions.assertTrue(setting.logs().isEmpty());
+//        Assertions.assertFalse(setting.metrics().isEmpty());
+//
+//        DiagnosticSetting ds1 = monitorManager.diagnosticSettings().get(setting.resourceId(), setting.name());
+//        checkDiagnosticSettingValues(setting, ds1);
+//
+//        DiagnosticSetting ds2 = monitorManager.diagnosticSettings().getById(setting.id());
+//        checkDiagnosticSettingValues(setting, ds2);
+//
+//        dsList = monitorManager.diagnosticSettings().listByResource(vm.id());
+//        Assertions.assertNotNull(dsList);
+//        Assertions.assertEquals(1, dsList.size());
+//        DiagnosticSetting ds3 = dsList.get(0);
+//        checkDiagnosticSettingValues(setting, ds3);
+//
+//        monitorManager.diagnosticSettings().deleteById(setting.id());
+//
+//        dsList = monitorManager.diagnosticSettings().listByResource(vm.id());
+//        Assertions.assertNotNull(dsList);
+//        Assertions.assertTrue(dsList.isEmpty());
+//    }
 
     private void checkDiagnosticSettingValues(DiagnosticSetting expected, DiagnosticSetting actual) {
-        Assert.assertTrue(expected.resourceId().equalsIgnoreCase(actual.resourceId()));
-        Assert.assertTrue(expected.name().equalsIgnoreCase(actual.name()));
+        Assertions.assertTrue(expected.resourceId().equalsIgnoreCase(actual.resourceId()));
+        Assertions.assertTrue(expected.name().equalsIgnoreCase(actual.name()));
 
         if (expected.workspaceId() == null) {
-            Assert.assertNull(actual.workspaceId());
+            Assertions.assertNull(actual.workspaceId());
         } else {
-            Assert.assertTrue(expected.workspaceId().equalsIgnoreCase(actual.workspaceId()));
+            Assertions.assertTrue(expected.workspaceId().equalsIgnoreCase(actual.workspaceId()));
         }
         if (expected.storageAccountId() == null) {
-            Assert.assertNull(actual.storageAccountId());
+            Assertions.assertNull(actual.storageAccountId());
         } else {
-            Assert.assertTrue(expected.storageAccountId().equalsIgnoreCase(actual.storageAccountId()));
+            Assertions.assertTrue(expected.storageAccountId().equalsIgnoreCase(actual.storageAccountId()));
         }
         if (expected.eventHubAuthorizationRuleId() == null) {
-            Assert.assertNull(actual.eventHubAuthorizationRuleId());
+            Assertions.assertNull(actual.eventHubAuthorizationRuleId());
         } else {
-            Assert.assertTrue(expected.eventHubAuthorizationRuleId().equalsIgnoreCase(actual.eventHubAuthorizationRuleId()));
+            Assertions.assertTrue(expected.eventHubAuthorizationRuleId().equalsIgnoreCase(actual.eventHubAuthorizationRuleId()));
         }
         if (expected.eventHubName() == null) {
-            Assert.assertNull(actual.eventHubName());
+            Assertions.assertNull(actual.eventHubName());
         } else {
-            Assert.assertTrue(expected.eventHubName().equalsIgnoreCase(actual.eventHubName()));
+            Assertions.assertTrue(expected.eventHubName().equalsIgnoreCase(actual.eventHubName()));
         }
         // arrays
         if (expected.logs() == null) {
-            Assert.assertNull(actual.logs());
+            Assertions.assertNull(actual.logs());
         } else {
-            Assert.assertEquals(expected.logs().size(), actual.logs().size());
+            Assertions.assertEquals(expected.logs().size(), actual.logs().size());
         }
         if (expected.metrics() == null) {
-            Assert.assertNull(actual.metrics());
+            Assertions.assertNull(actual.metrics());
         } else {
-            Assert.assertEquals(expected.metrics().size(), actual.metrics().size());
+            Assertions.assertEquals(expected.metrics().size(), actual.metrics().size());
         }
     }
 }

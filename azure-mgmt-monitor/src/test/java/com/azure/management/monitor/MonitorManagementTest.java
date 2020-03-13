@@ -6,25 +6,25 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
-import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.eventhub.implementation.EventHubManager;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestBase;
+import com.azure.management.appservice.implementation.AppServiceManager;
+import com.azure.management.compute.implementation.ComputeManager;
+//import com.azure.management.eventhub.implementation.EventHubManager;
 import com.azure.management.monitor.implementation.MonitorManager;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.RestClient;
+import com.azure.management.resources.implementation.ResourceManager;
+import com.azure.management.storage.implementation.StorageManager;
 
 /**
  * The base for Monitor manager tests.
  */
 public class MonitorManagementTest extends TestBase {
-    protected static ResourceManager resourceManager;
-    protected static MonitorManager monitorManager;
-    protected static ComputeManager computeManager;
-    protected static StorageManager storageManager;
-    protected static EventHubManager eventHubManager;
-    protected static AppServiceManager appServiceManager;
+    protected ResourceManager resourceManager;
+    protected MonitorManager monitorManager;
+    protected ComputeManager computeManager;
+    protected StorageManager storageManager;
+//    protected EventHubManager eventHubManager;
+    protected AppServiceManager appServiceManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -45,8 +45,8 @@ public class MonitorManagementTest extends TestBase {
         storageManager = StorageManager
                 .authenticate(restClient, defaultSubscription);
 
-        eventHubManager = EventHubManager
-                .authenticate(restClient, defaultSubscription);
+//        eventHubManager = EventHubManager
+//                .authenticate(restClient, defaultSubscription);
     }
 
     @Override

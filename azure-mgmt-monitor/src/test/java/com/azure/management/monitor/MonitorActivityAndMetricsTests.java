@@ -6,29 +6,28 @@
 
 package com.azure.management.monitor;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.compute.VirtualMachine;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import java.time.OffsetDateTime;
-import org.junit.Assert;
-import org.junit.Test;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.compute.VirtualMachine;
+import com.azure.management.resources.core.TestUtilities;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.time.OffsetDateTime;
 
 public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
     @Test
     public void canListEventsAndMetrics() throws Exception {
-        DateTime recordDateTime = SdkContext.dateTimeNow().minusDays(40);
-        VirtualMachine vm = computeManager.virtualMachines().list().get(0);
+        OffsetDateTime recordDateTime = sdkContext.dateTimeNow().minusDays(40);
+        VirtualMachine vm = computeManager.virtualMachines().list().iterator().next();
 
         // Metric Definition
-        List<MetricDefinition> mt = monitorManager.metricDefinitions().listByResource(vm.id());
+        PagedIterable<MetricDefinition> mt = monitorManager.metricDefinitions().listByResource(vm.id());
 
-        Assert.assertNotNull(mt);
-        MetricDefinition mDef = mt.get(0);
-        Assert.assertNotNull(mDef.metricAvailabilities());
-        Assert.assertNotNull(mDef.namespace());
-        Assert.assertNotNull(mDef.supportedAggregationTypes());
+        Assertions.assertNotNull(mt);
+        MetricDefinition mDef = mt.iterator().next();
+        Assertions.assertNotNull(mDef.metricAvailabilities());
+        Assertions.assertNotNull(mDef.namespace());
+        Assertions.assertNotNull(mDef.supportedAggregationTypes());
 
         // Metric
         MetricCollection metrics = mDef.defineQuery()
@@ -37,13 +36,13 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
                 .withResultType(ResultType.DATA)
                 .execute();
 
-        Assert.assertNotNull(metrics);
-        Assert.assertNotNull(metrics.namespace());
-        Assert.assertNotNull(metrics.resourceRegion());
-        Assert.assertEquals("Microsoft.Compute/virtualMachines", metrics.namespace());
+        Assertions.assertNotNull(metrics);
+        Assertions.assertNotNull(metrics.namespace());
+        Assertions.assertNotNull(metrics.resourceRegion());
+        Assertions.assertEquals("Microsoft.Compute/virtualMachines", metrics.namespace());
 
         // Activity Logs
-        PagedList<EventData> retVal = monitorManager.activityLogs()
+        PagedIterable<EventData> retVal = monitorManager.activityLogs()
                 .defineQuery()
                 .startingFrom(recordDateTime.minusDays(30))
                 .endsBefore(recordDateTime)
@@ -55,27 +54,27 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
                 .filterByResource(vm.id())
                 .execute();
 
-        Assert.assertNotNull(retVal);
+        Assertions.assertNotNull(retVal);
         for (EventData event : retVal) {
-            Assert.assertTrue(event.resourceId().toLowerCase().startsWith(vm.id().toLowerCase()));
-            Assert.assertNotNull(event.eventName().localizedValue());
-            Assert.assertNotNull(event.operationName().localizedValue());
-            Assert.assertNotNull(event.eventTimestamp());
+            Assertions.assertTrue(event.resourceId().toLowerCase().startsWith(vm.id().toLowerCase()));
+            Assertions.assertNotNull(event.eventName().localizedValue());
+            Assertions.assertNotNull(event.operationName().localizedValue());
+            Assertions.assertNotNull(event.eventTimestamp());
 
-            Assert.assertNull(event.category());
-            Assert.assertNull(event.authorization());
-            Assert.assertNull(event.caller());
-            Assert.assertNull(event.correlationId());
-            Assert.assertNull(event.description());
-            Assert.assertNull(event.eventDataId());
-            Assert.assertNull(event.httpRequest());
-            Assert.assertNull(event.level());
+            Assertions.assertNull(event.category());
+            Assertions.assertNull(event.authorization());
+            Assertions.assertNull(event.caller());
+            Assertions.assertNull(event.correlationId());
+            Assertions.assertNull(event.description());
+            Assertions.assertNull(event.eventDataId());
+            Assertions.assertNull(event.httpRequest());
+            Assertions.assertNull(event.level());
         }
 
         // List Event Categories
-        List<LocalizableString> eventCategories = monitorManager.activityLogs().listEventCategories();
-        Assert.assertNotNull(eventCategories);
-        Assert.assertFalse(eventCategories.isEmpty());
+        PagedIterable<LocalizableString> eventCategories = monitorManager.activityLogs().listEventCategories();
+        Assertions.assertNotNull(eventCategories);
+        Assertions.assertEquals(0, TestUtilities.getSize(eventCategories));
 
         // List Activity logs at tenant level is not allowed for the current tenant
         try {
@@ -94,7 +93,7 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
         } catch (ErrorResponseException er) {
             // should throw "The client '...' with object id '...' does not have authorization to perform action
             // 'microsoft.insights/eventtypes/values/read' over scope '/providers/microsoft.insights/eventtypes/management'.
-            Assert.assertEquals(403, er.response().raw().code());
+            Assertions.assertEquals(403, er.getResponse().getStatusCode());
         }
     }
 }

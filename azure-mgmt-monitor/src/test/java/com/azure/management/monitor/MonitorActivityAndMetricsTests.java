@@ -74,7 +74,7 @@ public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
         // List Event Categories
         PagedIterable<LocalizableString> eventCategories = monitorManager.activityLogs().listEventCategories();
         Assertions.assertNotNull(eventCategories);
-        Assertions.assertEquals(0, TestUtilities.getSize(eventCategories));
+        Assertions.assertTrue(TestUtilities.getSize(eventCategories) > 0);
 
         // List Activity logs at tenant level is not allowed for the current tenant
         try {

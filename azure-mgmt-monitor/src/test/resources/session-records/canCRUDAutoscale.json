@@ -1,256 +1,249 @@
 {
   "networkCallRecords" : [ {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_0e885514?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4dc41862?api-version=2019-08-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (ResourceManagementClient, 2019-08-01)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)",
+      "Content-Type" : "application/json"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:41:49 GMT",
-      "content-length" : "356",
+      "date" : "Fri, 13 Mar 2020 07:51:48 GMT",
+      "content-length" : "391",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1199",
       "retry-after" : "0",
       "StatusCode" : "201",
-      "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "f1ae553d-7574-4ec5-bd19-83d8e33ce479",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "e5c6f6be-1af6-4fba-a2fa-ce62bbc48541",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074150Z:f1ae553d-7574-4ec5-bd19-83d8e33ce479",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075148Z:e5c6f6be-1af6-4fba-a2fa-ce62bbc48541",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "f1ae553d-7574-4ec5-bd19-83d8e33ce479",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514\",\"name\":\"jmonitor_0e885514\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"eastus2\",\"tags\":{\"tagname\":\"tagvalue\",\"type\":\"autoscale\",\"product\":\"javasdk\",\"cause\":\"automation\",\"date\":\"2019-12-24T07:41:44.332Z\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "e5c6f6be-1af6-4fba-a2fa-ce62bbc48541",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862\",\"name\":\"jmonitor_4dc41862\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"eastus2\",\"tags\":{\"tagname\":\"tagvalue\",\"type\":\"autoscale\",\"product\":\"javasdk\",\"cause\":\"automation\",\"date\":\"2020-03-13T07:51:43.910649800Z\",\"StorageType\":\"Standard_LRS\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps?api-version=2019-08-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (WebSiteManagementClient, 2019-08-01)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)",
+      "Content-Type" : "application/json"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:42:04 GMT",
+      "date" : "Fri, 13 Mar 2020 07:52:00 GMT",
       "server" : "Microsoft-IIS/10.0",
       "content-length" : "1360",
       "expires" : "-1",
-      "vary" : "Accept-Encoding",
       "x-aspnet-version" : "4.0.30319",
       "x-ms-ratelimit-remaining-subscription-writes" : "1198",
       "retry-after" : "0",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "4ee279a9-39dc-4111-977b-32a850a0d14d",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "b07b0585-2f69-443f-8811-4d6cfd84cd69",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074204Z:b07b0585-2f69-443f-8811-4d6cfd84cd69",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075201Z:4ee279a9-39dc-4111-977b-32a850a0d14d",
       "x-powered-by" : "ASP.NET",
       "content-type" : "application/json",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "36c6d2d2-c222-4c34-8b19-91deec4420e1",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"name\":\"HighlyAvailableWebApps\",\"type\":\"Microsoft.Web/serverfarms\",\"kind\":\"app\",\"location\":\"East US 2\",\"tags\":{},\"properties\":{\"serverFarmId\":14959,\"name\":\"HighlyAvailableWebApps\",\"workerSize\":\"Default\",\"workerSizeId\":0,\"workerTierName\":null,\"numberOfWorkers\":1,\"currentWorkerSize\":\"Default\",\"currentWorkerSizeId\":0,\"currentNumberOfWorkers\":1,\"status\":\"Ready\",\"webSpace\":\"jmonitor_0e885514-EastUS2webspace\",\"subscription\":\"00000000-0000-0000-0000-000000000000\",\"adminSiteName\":null,\"hostingEnvironment\":null,\"hostingEnvironmentProfile\":null,\"maximumNumberOfWorkers\":20,\"planName\":\"VirtualDedicatedPlan\",\"adminRuntimeSiteName\":null,\"computeMode\":\"Dedicated\",\"siteMode\":null,\"geoRegion\":\"East US 2\",\"perSiteScaling\":false,\"maximumElasticWorkerCount\":1,\"numberOfSites\":0,\"hostingEnvironmentId\":null,\"isSpot\":false,\"spotExpirationTime\":null,\"freeOfferExpirationTime\":null,\"tags\":{},\"kind\":\"app\",\"resourceGroup\":\"jmonitor_0e885514\",\"reserved\":false,\"isXenon\":false,\"hyperV\":false,\"mdmId\":\"waws-prod-bn1-019_14959\",\"targetWorkerCount\":0,\"targetWorkerSizeId\":0,\"provisioningState\":\"Succeeded\",\"webSiteId\":null,\"existingServerFarmIds\":null},\"sku\":{\"name\":\"P1\",\"tier\":\"Premium\",\"size\":\"P1\",\"family\":\"P\",\"capacity\":1}}"
+      "x-ms-request-id" : "85fcd0e5-3988-40a5-88f1-7975f3391781",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"name\":\"HighlyAvailableWebApps\",\"type\":\"Microsoft.Web/serverfarms\",\"kind\":\"app\",\"location\":\"East US 2\",\"tags\":{},\"properties\":{\"serverFarmId\":24424,\"name\":\"HighlyAvailableWebApps\",\"workerSize\":\"Default\",\"workerSizeId\":0,\"workerTierName\":null,\"numberOfWorkers\":1,\"currentWorkerSize\":\"Default\",\"currentWorkerSizeId\":0,\"currentNumberOfWorkers\":1,\"status\":\"Ready\",\"webSpace\":\"jmonitor_4dc41862-EastUS2webspace\",\"subscription\":\"00000000-0000-0000-0000-000000000000\",\"adminSiteName\":null,\"hostingEnvironment\":null,\"hostingEnvironmentProfile\":null,\"maximumNumberOfWorkers\":20,\"planName\":\"VirtualDedicatedPlan\",\"adminRuntimeSiteName\":null,\"computeMode\":\"Dedicated\",\"siteMode\":null,\"geoRegion\":\"East US 2\",\"perSiteScaling\":false,\"maximumElasticWorkerCount\":1,\"numberOfSites\":0,\"hostingEnvironmentId\":null,\"isSpot\":false,\"spotExpirationTime\":null,\"freeOfferExpirationTime\":null,\"tags\":{},\"kind\":\"app\",\"resourceGroup\":\"jmonitor_4dc41862\",\"reserved\":false,\"isXenon\":false,\"hyperV\":false,\"mdmId\":\"waws-prod-bn1-035_24424\",\"targetWorkerCount\":0,\"targetWorkerSizeId\":0,\"provisioningState\":\"Succeeded\",\"webSiteId\":null,\"existingServerFarmIds\":null},\"sku\":{\"name\":\"P1\",\"tier\":\"Premium\",\"size\":\"P1\",\"family\":\"P\",\"capacity\":1}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings/somesettingZ?api-version=2015-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings/somesettingZ?api-version=2015-04-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (MonitorManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)",
+      "Content-Type" : "application/json"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:42:14 GMT",
-      "content-length" : "2304",
+      "date" : "Fri, 13 Mar 2020 07:52:11 GMT",
       "server" : "Microsoft-IIS/10.0",
+      "content-length" : "2304",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1197",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "bfdefcf7-48a4-4263-904d-8db0d7e73544",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "a9a02dc6-0e29-4d98-8ccb-20c415357763",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074214Z:a9a02dc6-0e29-4d98-8ccb-20c415357763",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075211Z:bfdefcf7-48a4-4263-904d-8db0d7e73544",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "d250b11b-5676-46a1-8b99-54517dcb3806",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings/somesettingZ\",\"name\":\"somesettingZ\",\"type\":\"Microsoft.Insights/autoscaleSettings\",\"location\":\"eastus2\",\"tags\":{},\"properties\":{\"profiles\":[{\"name\":\"Default\",\"capacity\":{\"minimum\":\"3\",\"maximum\":\"3\",\"default\":\"3\"},\"rules\":[],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Monday\",\"Tuesday\",\"Saturday\"],\"hours\":[18],\"minutes\":[0]}}},{\"name\":\"AutoScaleProfile1\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"10\",\"default\":\"1\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT10M\",\"timeAggregation\":\"Average\",\"operator\":\"GreaterThan\",\"threshold\":70.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Increase\",\"type\":\"ExactCount\",\"value\":\"10\",\"cooldown\":\"PT12H\"}}],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2050-10-12T20:15:10Z\",\"end\":\"2051-09-11T16:08:04Z\"}},{\"name\":\"AutoScaleProfile2\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"5\",\"default\":\"3\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT10M\",\"timeAggregation\":\"Average\",\"operator\":\"LessThan\",\"threshold\":20.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"ExactCount\",\"value\":\"1\",\"cooldown\":\"PT3H\"}}],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Friday\"],\"hours\":[12],\"minutes\":[13]}}}],\"enabled\":false,\"name\":\"somesettingZ\",\"targetResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"notifications\":[{\"operation\":\"Scale\",\"email\":{\"sendToSubscriptionAdministrator\":true,\"sendToSubscriptionCoAdministrators\":true,\"customEmails\":[\"me@mycorp.com\",\"you@mycorp.com\",\"him@mycorp.com\"]},\"webhooks\":null}]}}"
+      "x-ms-request-id" : "1991064d-b521-4c88-aa4c-9a19e422de04",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings/somesettingZ\",\"name\":\"somesettingZ\",\"type\":\"Microsoft.Insights/autoscaleSettings\",\"location\":\"eastus2\",\"tags\":{},\"properties\":{\"profiles\":[{\"name\":\"Default\",\"capacity\":{\"minimum\":\"3\",\"maximum\":\"3\",\"default\":\"3\"},\"rules\":[],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Monday\",\"Tuesday\",\"Saturday\"],\"hours\":[18],\"minutes\":[0]}}},{\"name\":\"AutoScaleProfile1\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"10\",\"default\":\"1\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT10M\",\"timeAggregation\":\"Average\",\"operator\":\"GreaterThan\",\"threshold\":70.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Increase\",\"type\":\"ExactCount\",\"value\":\"10\",\"cooldown\":\"PT12H\"}}],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2050-10-12T20:15:10Z\",\"end\":\"2051-09-11T16:08:04Z\"}},{\"name\":\"AutoScaleProfile2\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"5\",\"default\":\"3\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT10M\",\"timeAggregation\":\"Average\",\"operator\":\"LessThan\",\"threshold\":20.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"ExactCount\",\"value\":\"1\",\"cooldown\":\"PT3H\"}}],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Friday\"],\"hours\":[12],\"minutes\":[13]}}}],\"enabled\":false,\"name\":\"somesettingZ\",\"targetResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"notifications\":[{\"operation\":\"Scale\",\"email\":{\"sendToSubscriptionAdministrator\":true,\"sendToSubscriptionCoAdministrators\":true,\"customEmails\":[\"me@mycorp.com\",\"you@mycorp.com\",\"him@mycorp.com\"]},\"webhooks\":null}]}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings/somesettingZ?api-version=2015-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings/somesettingZ?api-version=2015-04-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (MonitorManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)",
+      "Content-Type" : "application/json"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:42:15 GMT",
+      "date" : "Fri, 13 Mar 2020 07:52:12 GMT",
       "server" : "Microsoft-IIS/10.0",
       "content-length" : "2304",
       "expires" : "-1",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11996",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "f7d82cce-eda8-4d4d-8638-73f811838316",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "384ba41e-d5a0-4908-80d7-d1c649c97aba",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074216Z:384ba41e-d5a0-4908-80d7-d1c649c97aba",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075213Z:f7d82cce-eda8-4d4d-8638-73f811838316",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "79cfded1-3b7e-4a2c-b94c-4e42de7b9e71",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings/somesettingZ\",\"name\":\"somesettingZ\",\"type\":\"Microsoft.Insights/autoscaleSettings\",\"location\":\"eastus2\",\"tags\":{},\"properties\":{\"profiles\":[{\"name\":\"Default\",\"capacity\":{\"minimum\":\"3\",\"maximum\":\"3\",\"default\":\"3\"},\"rules\":[],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Monday\",\"Tuesday\",\"Saturday\"],\"hours\":[18],\"minutes\":[0]}}},{\"name\":\"AutoScaleProfile1\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"10\",\"default\":\"1\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT10M\",\"timeAggregation\":\"Average\",\"operator\":\"GreaterThan\",\"threshold\":70.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Increase\",\"type\":\"ExactCount\",\"value\":\"10\",\"cooldown\":\"PT12H\"}}],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2050-10-12T20:15:10Z\",\"end\":\"2051-09-11T16:08:04Z\"}},{\"name\":\"AutoScaleProfile2\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"5\",\"default\":\"3\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT10M\",\"timeAggregation\":\"Average\",\"operator\":\"LessThan\",\"threshold\":20.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"ExactCount\",\"value\":\"1\",\"cooldown\":\"PT3H\"}}],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Friday\"],\"hours\":[12],\"minutes\":[13]}}}],\"enabled\":false,\"name\":\"somesettingZ\",\"targetResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"notifications\":[{\"operation\":\"Scale\",\"email\":{\"sendToSubscriptionAdministrator\":true,\"sendToSubscriptionCoAdministrators\":true,\"customEmails\":[\"me@mycorp.com\",\"you@mycorp.com\",\"him@mycorp.com\"]},\"webhooks\":null}]}}"
+      "x-ms-request-id" : "fa5830a7-b431-4813-810f-bead51d7f152",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings/somesettingZ\",\"name\":\"somesettingZ\",\"type\":\"Microsoft.Insights/autoscaleSettings\",\"location\":\"eastus2\",\"tags\":{},\"properties\":{\"profiles\":[{\"name\":\"Default\",\"capacity\":{\"minimum\":\"3\",\"maximum\":\"3\",\"default\":\"3\"},\"rules\":[],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Monday\",\"Tuesday\",\"Saturday\"],\"hours\":[18],\"minutes\":[0]}}},{\"name\":\"AutoScaleProfile1\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"10\",\"default\":\"1\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT10M\",\"timeAggregation\":\"Average\",\"operator\":\"GreaterThan\",\"threshold\":70.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Increase\",\"type\":\"ExactCount\",\"value\":\"10\",\"cooldown\":\"PT12H\"}}],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2050-10-12T20:15:10Z\",\"end\":\"2051-09-11T16:08:04Z\"}},{\"name\":\"AutoScaleProfile2\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"5\",\"default\":\"3\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT10M\",\"timeAggregation\":\"Average\",\"operator\":\"LessThan\",\"threshold\":20.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"ExactCount\",\"value\":\"1\",\"cooldown\":\"PT3H\"}}],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Friday\"],\"hours\":[12],\"minutes\":[13]}}}],\"enabled\":false,\"name\":\"somesettingZ\",\"targetResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"notifications\":[{\"operation\":\"Scale\",\"email\":{\"sendToSubscriptionAdministrator\":true,\"sendToSubscriptionCoAdministrators\":true,\"customEmails\":[\"me@mycorp.com\",\"you@mycorp.com\",\"him@mycorp.com\"]},\"webhooks\":null}]}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings/somesettingZ?api-version=2015-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings/somesettingZ?api-version=2015-04-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (MonitorManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)",
+      "Content-Type" : "application/json"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:42:22 GMT",
+      "date" : "Fri, 13 Mar 2020 07:52:20 GMT",
       "server" : "Microsoft-IIS/10.0",
       "content-length" : "2379",
       "expires" : "-1",
-      "vary" : "Accept-Encoding",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1196",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1197",
       "retry-after" : "0",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "b54174e8-f9a5-49b7-92cd-8506743e778e",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "a6ce84fa-4b19-4e2e-86fd-b937a3a5a86a",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074222Z:a6ce84fa-4b19-4e2e-86fd-b937a3a5a86a",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075221Z:b54174e8-f9a5-49b7-92cd-8506743e778e",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "3e8426ae-2d55-412c-9031-04847abdad56",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings/somesettingZ\",\"name\":\"somesettingZ\",\"type\":\"Microsoft.Insights/autoscaleSettings\",\"location\":\"eastus2\",\"tags\":{},\"properties\":{\"profiles\":[{\"name\":\"Default\",\"capacity\":{\"minimum\":\"3\",\"maximum\":\"3\",\"default\":\"3\"},\"rules\":[],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Monday\",\"Tuesday\",\"Saturday\"],\"hours\":[18],\"minutes\":[0]}}},{\"name\":\"AutoScaleProfile2\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"5\",\"default\":\"3\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT15M\",\"timeAggregation\":\"Average\",\"operator\":\"LessThan\",\"threshold\":20.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"ExactCount\",\"value\":\"1\",\"cooldown\":\"PT3H\"}}],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2025-02-02T02:02:02Z\",\"end\":\"2025-02-02T03:03:03Z\"}},{\"name\":\"very new profile\",\"capacity\":{\"minimum\":\"10\",\"maximum\":\"10\",\"default\":\"10\"},\"rules\":[],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2030-02-12T20:15:10Z\",\"end\":\"2030-02-12T20:45:10Z\"}},{\"name\":\"a new profile\",\"capacity\":{\"minimum\":\"5\",\"maximum\":\"7\",\"default\":\"6\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1H\",\"statistic\":\"Average\",\"timeWindow\":\"PT10H\",\"timeAggregation\":\"Total\",\"operator\":\"LessThan\",\"threshold\":6.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"PercentChangeCount\",\"value\":\"10\",\"cooldown\":\"PT10H\"}}]}],\"enabled\":true,\"name\":\"somesettingZ\",\"targetResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"notifications\":[{\"operation\":\"Scale\",\"email\":{\"sendToSubscriptionAdministrator\":true,\"sendToSubscriptionCoAdministrators\":false,\"customEmails\":[\"me@mycorp.com\",\"you@mycorp.com\",\"him@mycorp.com\"]},\"webhooks\":null}]}}"
+      "x-ms-request-id" : "e9e8187e-42e0-4a50-adaf-213e6d3f1dd4",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings/somesettingZ\",\"name\":\"somesettingZ\",\"type\":\"Microsoft.Insights/autoscaleSettings\",\"location\":\"eastus2\",\"tags\":{},\"properties\":{\"profiles\":[{\"name\":\"Default\",\"capacity\":{\"minimum\":\"3\",\"maximum\":\"3\",\"default\":\"3\"},\"rules\":[],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Monday\",\"Tuesday\",\"Saturday\"],\"hours\":[18],\"minutes\":[0]}}},{\"name\":\"AutoScaleProfile2\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"5\",\"default\":\"3\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT15M\",\"timeAggregation\":\"Average\",\"operator\":\"LessThan\",\"threshold\":20.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"ExactCount\",\"value\":\"1\",\"cooldown\":\"PT3H\"}}],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2025-02-02T02:02:02Z\",\"end\":\"2025-02-02T03:03:03Z\"}},{\"name\":\"very new profile\",\"capacity\":{\"minimum\":\"10\",\"maximum\":\"10\",\"default\":\"10\"},\"rules\":[],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2030-02-12T20:15:10Z\",\"end\":\"2030-02-12T20:45:10Z\"}},{\"name\":\"a new profile\",\"capacity\":{\"minimum\":\"5\",\"maximum\":\"7\",\"default\":\"6\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1H\",\"statistic\":\"Average\",\"timeWindow\":\"PT10H\",\"timeAggregation\":\"Total\",\"operator\":\"LessThan\",\"threshold\":6.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"PercentChangeCount\",\"value\":\"10\",\"cooldown\":\"PT10H\"}}]}],\"enabled\":true,\"name\":\"somesettingZ\",\"targetResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"notifications\":[{\"operation\":\"Scale\",\"email\":{\"sendToSubscriptionAdministrator\":true,\"sendToSubscriptionCoAdministrators\":false,\"customEmails\":[\"me@mycorp.com\",\"you@mycorp.com\",\"him@mycorp.com\"]},\"webhooks\":null}]}}"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings?api-version=2015-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings?api-version=2015-04-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (MonitorManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)",
+      "Content-Type" : "application/json"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:42:23 GMT",
+      "date" : "Fri, 13 Mar 2020 07:52:22 GMT",
       "server" : "Microsoft-IIS/10.0",
       "content-length" : "2391",
       "expires" : "-1",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11998",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11990",
       "StatusCode" : "200",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "36f735e8-0b29-4536-bc68-2065fb36186e",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "e3b114bf-a22a-494e-b139-ee992081815a",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074223Z:e3b114bf-a22a-494e-b139-ee992081815a",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075222Z:36f735e8-0b29-4536-bc68-2065fb36186e",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "52e5c0ba-e892-41ca-b2a6-0deb78a4c7bf",
-      "Body" : "{\"value\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings/somesettingZ\",\"name\":\"somesettingZ\",\"type\":\"Microsoft.Insights/autoscaleSettings\",\"location\":\"eastus2\",\"tags\":{},\"properties\":{\"profiles\":[{\"name\":\"Default\",\"capacity\":{\"minimum\":\"3\",\"maximum\":\"3\",\"default\":\"3\"},\"rules\":[],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Monday\",\"Tuesday\",\"Saturday\"],\"hours\":[18],\"minutes\":[0]}}},{\"name\":\"AutoScaleProfile2\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"5\",\"default\":\"3\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT15M\",\"timeAggregation\":\"Average\",\"operator\":\"LessThan\",\"threshold\":20.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"ExactCount\",\"value\":\"1\",\"cooldown\":\"PT3H\"}}],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2025-02-02T02:02:02Z\",\"end\":\"2025-02-02T03:03:03Z\"}},{\"name\":\"very new profile\",\"capacity\":{\"minimum\":\"10\",\"maximum\":\"10\",\"default\":\"10\"},\"rules\":[],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2030-02-12T20:15:10Z\",\"end\":\"2030-02-12T20:45:10Z\"}},{\"name\":\"a new profile\",\"capacity\":{\"minimum\":\"5\",\"maximum\":\"7\",\"default\":\"6\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1H\",\"statistic\":\"Average\",\"timeWindow\":\"PT10H\",\"timeAggregation\":\"Total\",\"operator\":\"LessThan\",\"threshold\":6.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"PercentChangeCount\",\"value\":\"10\",\"cooldown\":\"PT10H\"}}]}],\"enabled\":true,\"name\":\"somesettingZ\",\"targetResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_0e885514/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"notifications\":[{\"operation\":\"Scale\",\"email\":{\"sendToSubscriptionAdministrator\":true,\"sendToSubscriptionCoAdministrators\":false,\"customEmails\":[\"me@mycorp.com\",\"you@mycorp.com\",\"him@mycorp.com\"]},\"webhooks\":null}]}}]}"
+      "x-ms-request-id" : "7a7c4553-cc27-4b1e-9b52-6ed1d58465e1",
+      "Body" : "{\"value\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings/somesettingZ\",\"name\":\"somesettingZ\",\"type\":\"Microsoft.Insights/autoscaleSettings\",\"location\":\"eastus2\",\"tags\":{},\"properties\":{\"profiles\":[{\"name\":\"Default\",\"capacity\":{\"minimum\":\"3\",\"maximum\":\"3\",\"default\":\"3\"},\"rules\":[],\"recurrence\":{\"frequency\":\"Week\",\"schedule\":{\"timeZone\":\"UTC\",\"days\":[\"Monday\",\"Tuesday\",\"Saturday\"],\"hours\":[18],\"minutes\":[0]}}},{\"name\":\"AutoScaleProfile2\",\"capacity\":{\"minimum\":\"1\",\"maximum\":\"5\",\"default\":\"3\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1M\",\"statistic\":\"Average\",\"timeWindow\":\"PT15M\",\"timeAggregation\":\"Average\",\"operator\":\"LessThan\",\"threshold\":20.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"ExactCount\",\"value\":\"1\",\"cooldown\":\"PT3H\"}}],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2025-02-02T02:02:02Z\",\"end\":\"2025-02-02T03:03:03Z\"}},{\"name\":\"very new profile\",\"capacity\":{\"minimum\":\"10\",\"maximum\":\"10\",\"default\":\"10\"},\"rules\":[],\"fixedDate\":{\"timeZone\":\"UTC\",\"start\":\"2030-02-12T20:15:10Z\",\"end\":\"2030-02-12T20:45:10Z\"}},{\"name\":\"a new profile\",\"capacity\":{\"minimum\":\"5\",\"maximum\":\"7\",\"default\":\"6\"},\"rules\":[{\"metricTrigger\":{\"metricName\":\"CPUPercentage\",\"metricNamespace\":\"\",\"metricResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"timeGrain\":\"PT1H\",\"statistic\":\"Average\",\"timeWindow\":\"PT10H\",\"timeAggregation\":\"Total\",\"operator\":\"LessThan\",\"threshold\":6.0,\"dimensions\":null,\"dividePerInstance\":false},\"scaleAction\":{\"direction\":\"Decrease\",\"type\":\"PercentChangeCount\",\"value\":\"10\",\"cooldown\":\"PT10H\"}}]}],\"enabled\":true,\"name\":\"somesettingZ\",\"targetResourceUri\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/jmonitor_4dc41862/providers/Microsoft.Web/serverfarms/HighlyAvailableWebApps\",\"notifications\":[{\"operation\":\"Scale\",\"email\":{\"sendToSubscriptionAdministrator\":true,\"sendToSubscriptionCoAdministrators\":false,\"customEmails\":[\"me@mycorp.com\",\"you@mycorp.com\",\"him@mycorp.com\"]},\"webhooks\":null}]}}]}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings/somesettingZ?api-version=2015-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings/somesettingZ?api-version=2015-04-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (MonitorManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)",
+      "Content-Type" : "application/json"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:42:27 GMT",
-      "content-length" : "0",
+      "date" : "Fri, 13 Mar 2020 07:52:26 GMT",
       "server" : "Microsoft-IIS/10.0",
+      "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14997",
       "retry-after" : "0",
       "StatusCode" : "200",
-      "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "cbcd915e-cfc9-4a1c-b42e-b9966f92d2ca",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "9e73b36d-2f4c-4e09-92a4-ae8b8d3cd719",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074228Z:cbcd915e-cfc9-4a1c-b42e-b9966f92d2ca",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075227Z:9e73b36d-2f4c-4e09-92a4-ae8b8d3cd719",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "975306ce-61eb-49db-864a-053d1827552d",
+      "x-ms-request-id" : "72fa715c-aad6-4b0c-997f-9be52f1b94cf",
       "Body" : ""
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_0e885514/providers/microsoft.insights/autoscalesettings?api-version=2015-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4dc41862/providers/microsoft.insights/autoscalesettings?api-version=2015-04-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (MonitorManagementClient)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)",
+      "Content-Type" : "application/json"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:42:27 GMT",
+      "date" : "Fri, 13 Mar 2020 07:52:26 GMT",
       "content-length" : "12",
       "expires" : "-1",
-      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11997",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11994",
       "StatusCode" : "200",
-      "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "8b81197c-292c-48dc-af76-0ff9137f42d6",
+      "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "ff109002-bfa3-4e48-86b4-af00f8ea3ff8",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074228Z:8b81197c-292c-48dc-af76-0ff9137f42d6",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075227Z:ff109002-bfa3-4e48-86b4-af00f8ea3ff8",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "8b81197c-292c-48dc-af76-0ff9137f42d6",
+      "x-ms-request-id" : "ff109002-bfa3-4e48-86b4-af00f8ea3ff8",
       "Body" : "{\"value\":[]}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_0e885514?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4dc41862?api-version=2019-08-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (ResourceManagementClient, 2019-08-01)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:42:32 GMT",
+      "date" : "Fri, 13 Mar 2020 07:52:30 GMT",
       "content-length" : "0",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-deletes" : "14998",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "6ebb67aa-1d57-485d-b1da-a1c59a8b2014",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "d4b86006-3a57-402f-a0be-b476ecef7896",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074232Z:d4b86006-3a57-402f-a0be-b476ecef7896",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KTU9OSVRPUjo1RjBFODg1NTE0LUVBU1RVUzIiLCJqb2JMb2NhdGlvbiI6ImVhc3R1czIifQ?api-version=2019-08-01",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075230Z:6ebb67aa-1d57-485d-b1da-a1c59a8b2014",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KTU9OSVRPUjo1RjREQzQxODYyLUVBU1RVUzIiLCJqb2JMb2NhdGlvbiI6ImVhc3R1czIifQ?api-version=2019-08-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "d4b86006-3a57-402f-a0be-b476ecef7896",
+      "x-ms-request-id" : "6ebb67aa-1d57-485d-b1da-a1c59a8b2014",
       "Body" : ""
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_0e885514?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/jmonitor_4dc41862?api-version=2019-08-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:4c4be74f6c8257dbbe008416a4d411a9aabf191a80fa2bd61b630c829c3c3edd Java:11.0.4 (ResourceManagementClient, 2019-08-01)",
-      "Content-Type" : "application/json; charset=utf-8"
+      "User-Agent" : "azsdk-java-com.azure.management/null (13.0.1; Windows 10 10.0)"
     },
     "Response" : {
-      "date" : "Tue, 24 Dec 2019 07:42:34 GMT",
+      "date" : "Fri, 13 Mar 2020 07:52:35 GMT",
       "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14997",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
+      "x-ms-correlation-request-id" : "245dea43-b62e-4c07-bb26-fd0f1cc08488",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "eed0aa84-c016-4adf-be3e-3552a910dacd",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191224T074235Z:eed0aa84-c016-4adf-be3e-3552a910dacd",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KTU9OSVRPUjo1RjBFODg1NTE0LUVBU1RVUzIiLCJqb2JMb2NhdGlvbiI6ImVhc3R1czIifQ?api-version=2019-08-01",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200313T075236Z:245dea43-b62e-4c07-bb26-fd0f1cc08488",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KTU9OSVRPUjo1RjREQzQxODYyLUVBU1RVUzIiLCJqb2JMb2NhdGlvbiI6ImVhc3R1czIifQ?api-version=2019-08-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "eed0aa84-c016-4adf-be3e-3552a910dacd",
+      "x-ms-request-id" : "245dea43-b62e-4c07-bb26-fd0f1cc08488",
       "Body" : ""
     }
   } ],
-  "variables" : [ "jmonitor_0e885514", "e1f6a6b9-14c1-4dea-ab13-1c157cdcce75", "013651d1-87e9-43b0-8b4a-0a7155dedabf", "affe6ff2-1b06-4a79-8a0b-790e2c562ce8", "018e4111-1a73-406b-9f24-831a9e682247", "47903b49-a1e3-42c3-8dd8-c4d17e50ab93" ]
+  "variables" : [ "jmonitor_4dc41862" ]
 }

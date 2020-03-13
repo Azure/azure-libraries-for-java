@@ -8,6 +8,8 @@ import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
+
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria")
 @Fluent
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public final class MetricAlertMultipleResourceMultipleMetricCriteria extends MetricAlertCriteria {
     /*
      * the list of multiple metric criteria for this 'all of' operation.

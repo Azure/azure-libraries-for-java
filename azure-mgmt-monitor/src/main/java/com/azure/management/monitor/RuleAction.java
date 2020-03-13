@@ -8,6 +8,7 @@ import com.azure.core.annotation.Immutable;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * The RuleAction model.
@@ -19,5 +20,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     @JsonSubTypes.Type(name = "Microsoft.Azure.Management.Insights.Models.RuleWebhookAction", value = RuleWebhookAction.class)
 })
 @Immutable
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class RuleAction {
 }

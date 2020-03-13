@@ -46,6 +46,7 @@ public class AlertsTests extends MonitorManagementTest {
                     .define(SA_NAME)
                     .withRegion(Region.US_EAST2)
                     .withNewResourceGroup(RG_NAME)
+                    .withOnlyHttpsTraffic()
                     .create();
 
             ActionGroup ag = monitorManager.actionGroups().define("simpleActionGroup")

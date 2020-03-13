@@ -90,7 +90,8 @@ final class GenericResourcesImpl
     public GenericResource getById(String id) {
         Provider provider = this.manager().providers().getByName(ResourceUtils.resourceProviderFromResourceId(id));
         String apiVersion = ResourceUtils.defaultApiVersion(id, provider);
-        return wrapModel(this.inner().getById(id, apiVersion)).withApiVersion(apiVersion);
+        GenericResourceImpl genericResource = wrapModel(this.inner().getById(id, apiVersion));
+        return genericResource == null ? null : genericResource.withApiVersion(apiVersion);
     }
 
     @Override
@@ -132,6 +133,11 @@ final class GenericResourcesImpl
                 resourceType,
                 resourceName,
                 apiVersion);
+
+        if (inner == null) {
+            return null;
+        }
+
         GenericResourceImpl resource = new GenericResourceImpl(
                 resourceName,
                 inner,

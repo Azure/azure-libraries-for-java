@@ -51,26 +51,38 @@ public final class MonitorManager extends Manager<MonitorManager, MonitorClientI
     *
     * @param credential the credential to use
     * @param subscriptionId the subscription UUID
+    * @param sdkContext the sdk context
     * @return the MonitorManager
     */
-    public static MonitorManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+    public static MonitorManager authenticate(AzureTokenCredential credential, String subscriptionId, SdkContext sdkContext) {
         return authenticate(new RestClientBuilder()
                 .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
                 .withPolicy(new ProviderRegistrationPolicy(credential))
                 .withPolicy(new ResourceManagerThrottlingPolicy())
-                .buildClient(), subscriptionId);
+                .buildClient(), subscriptionId, sdkContext);
+    }
+    /**
+     * Creates an instance of MonitorManager that exposes Monitor API entry points.
+     *
+     * @param restClient the RestClient to be used for API calls.
+     * @param subscriptionId the subscription UUID
+     * @return the MonitorManager
+     */
+    public static MonitorManager authenticate(RestClient restClient, String subscriptionId) {
+        return new MonitorManager(restClient, subscriptionId, new SdkContext());
     }
     /**
     * Creates an instance of MonitorManager that exposes Monitor API entry points.
     *
     * @param restClient the RestClient to be used for API calls.
     * @param subscriptionId the subscription UUID
+    * @param sdkContext the sdk context
     * @return the MonitorManager
     */
-    public static MonitorManager authenticate(RestClient restClient, String subscriptionId) {
-        return new MonitorManager(restClient, subscriptionId, new SdkContext());
+    public static MonitorManager authenticate(RestClient restClient, String subscriptionId, SdkContext sdkContext) {
+        return new MonitorManager(restClient, subscriptionId, sdkContext);
     }
     /**
     * The interface allowing configurations to be set.

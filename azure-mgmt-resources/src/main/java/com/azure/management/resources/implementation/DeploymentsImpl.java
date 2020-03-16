@@ -34,14 +34,8 @@ final class DeploymentsImpl
 
     @Override
     public PagedIterable<Deployment> list() {
-
-        // TODO: Fix me
-        return null;
-//        final DeploymentsInner client = this.getManager().getInner().deployments();
-//
-//        return this.resourceManager.resourceGroups().listAsync()
-//                .flatMapIterable(resourceGroupName -> client.listByResourceGroup(resourceGroupName.getName(), null, null));
-
+        return this.manager().inner().deployments().list()
+                .mapPage(inner -> new DeploymentImpl(inner, inner.getName(), resourceManager));
     }
 
     @Override

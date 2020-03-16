@@ -264,9 +264,7 @@ class NetworkPeeringImpl
                 .createOrUpdateAsync(this.parent.resourceGroupName(), networkName, this.name(), this.inner())
                 // After successful creation, update the inner
                 .doOnNext(inner -> {
-                    if (inner != null) {
-                        setInner(inner);
-                    }
+                    setInner(inner);
                 })
 
                 // Then get the remote network to update it if needed and in the same subscription
@@ -281,121 +279,123 @@ class NetworkPeeringImpl
                     }
                 })
 
-                // Then update the existing remote network if needed
+                // Then update the existing remote network if needed, flatMap will skip when input is empty
                 .flatMap(remoteNetwork -> {
-                    if (remoteNetwork == null) {
-                        // If no remote network to update, then skip this
-                        return Mono.empty();
-                    }
                     // Check if any peering is already pointing at this network
                     return remoteNetwork.peerings().listAsync().filter(remotePeering ->
                             (remotePeering != null && remotePeering.remoteNetworkId() != null
                                     && remotePeering.remoteNetworkId().equalsIgnoreCase(localPeering.parent.id())))
-                            .last()
+                            .collectList()
+                            .flatMap(remotePeerings -> {
+                                if (remotePeerings.isEmpty()) {
+                                    return Mono.empty();
+                                } else {
+                                    return Mono.justOrEmpty(remotePeerings.get(remotePeerings.size() - 1));
+                                }
+                            })
 
                             // Depending on the existence of a matching remote peering, create one or update existing
                             .flatMap(remotePeering -> {
-                                if (remotePeering != null) {
-                                    // Matching peering exists, so update as needed
-                                    Update remotePeeringUpdate = remotePeering.update();
-                                    boolean isUpdateNeeded = false;
+                                // Matching peering exists, so update as needed
+                                Update remotePeeringUpdate = remotePeering.update();
+                                boolean isUpdateNeeded = false;
 
-                                    // Update traffic forwarding on the remote peering if needed
-                                    if (localPeering.remoteForwarding == null) {
-                                        // No traffic forwarding change, so ignore
-                                    } else if (localPeering.remoteForwarding.booleanValue() && !remotePeering.isTrafficForwardingFromRemoteNetworkAllowed()) {
-                                        isUpdateNeeded = true;
-                                        remotePeeringUpdate = remotePeeringUpdate.withTrafficForwardingFromRemoteNetwork();
-                                    } else if (!localPeering.remoteForwarding.booleanValue() && remotePeering.isTrafficForwardingFromRemoteNetworkAllowed()) {
-                                        isUpdateNeeded = true;
-                                        remotePeeringUpdate = remotePeeringUpdate.withoutTrafficForwardingFromRemoteNetwork();
-                                    }
+                                // Update traffic forwarding on the remote peering if needed
+                                if (localPeering.remoteForwarding == null) {
+                                    // No traffic forwarding change, so ignore
+                                } else if (localPeering.remoteForwarding.booleanValue() && !remotePeering.isTrafficForwardingFromRemoteNetworkAllowed()) {
+                                    isUpdateNeeded = true;
+                                    remotePeeringUpdate = remotePeeringUpdate.withTrafficForwardingFromRemoteNetwork();
+                                } else if (!localPeering.remoteForwarding.booleanValue() && remotePeering.isTrafficForwardingFromRemoteNetworkAllowed()) {
+                                    isUpdateNeeded = true;
+                                    remotePeeringUpdate = remotePeeringUpdate.withoutTrafficForwardingFromRemoteNetwork();
+                                }
 
-                                    // Update network access on the remote peering if needed
-                                    if (localPeering.remoteAccess == null) {
-                                        // No access change, so ignore
-                                    } else if (localPeering.remoteAccess.booleanValue() && !((NetworkPeeringImpl) remotePeering).isAccessFromRemoteNetworkAllowed()) {
-                                        isUpdateNeeded = true;
-                                        remotePeeringUpdate = ((NetworkPeeringImpl) remotePeeringUpdate).withAccessFromRemoteNetwork();
-                                    } else if (!localPeering.remoteAccess.booleanValue() && ((NetworkPeeringImpl) remotePeering).isAccessFromRemoteNetworkAllowed()) {
-                                        isUpdateNeeded = true;
-                                        remotePeeringUpdate = ((NetworkPeeringImpl) remotePeeringUpdate).withoutAccessFromRemoteNetwork();
-                                    }
+                                // Update network access on the remote peering if needed
+                                if (localPeering.remoteAccess == null) {
+                                    // No access change, so ignore
+                                } else if (localPeering.remoteAccess.booleanValue() && !((NetworkPeeringImpl) remotePeering).isAccessFromRemoteNetworkAllowed()) {
+                                    isUpdateNeeded = true;
+                                    remotePeeringUpdate = ((NetworkPeeringImpl) remotePeeringUpdate).withAccessFromRemoteNetwork();
+                                } else if (!localPeering.remoteAccess.booleanValue() && ((NetworkPeeringImpl) remotePeering).isAccessFromRemoteNetworkAllowed()) {
+                                    isUpdateNeeded = true;
+                                    remotePeeringUpdate = ((NetworkPeeringImpl) remotePeeringUpdate).withoutAccessFromRemoteNetwork();
+                                }
 
-                                    // Update gateway use permission on the remote peering if needed
-                                    if (localPeering.allowGatewayUseOnRemoteNetwork == null) {
-                                        // No change, so ignore
-                                    } else if (localPeering.allowGatewayUseOnRemoteNetwork.booleanValue() && remotePeering.gatewayUse() != NetworkPeeringGatewayUse.BY_REMOTE_NETWORK) {
-                                        // Allow gateway use on remote network
-                                        isUpdateNeeded = true;
-                                        remotePeeringUpdate.withGatewayUseByRemoteNetworkAllowed();
-                                    } else if (!localPeering.allowGatewayUseOnRemoteNetwork.booleanValue() && remotePeering.gatewayUse() == NetworkPeeringGatewayUse.BY_REMOTE_NETWORK) {
-                                        // Disallow gateway use on remote network
-                                        isUpdateNeeded = true;
-                                        remotePeeringUpdate.withoutGatewayUseByRemoteNetwork();
-                                    }
+                                // Update gateway use permission on the remote peering if needed
+                                if (localPeering.allowGatewayUseOnRemoteNetwork == null) {
+                                    // No change, so ignore
+                                } else if (localPeering.allowGatewayUseOnRemoteNetwork.booleanValue() && remotePeering.gatewayUse() != NetworkPeeringGatewayUse.BY_REMOTE_NETWORK) {
+                                    // Allow gateway use on remote network
+                                    isUpdateNeeded = true;
+                                    remotePeeringUpdate.withGatewayUseByRemoteNetworkAllowed();
+                                } else if (!localPeering.allowGatewayUseOnRemoteNetwork.booleanValue() && remotePeering.gatewayUse() == NetworkPeeringGatewayUse.BY_REMOTE_NETWORK) {
+                                    // Disallow gateway use on remote network
+                                    isUpdateNeeded = true;
+                                    remotePeeringUpdate.withoutGatewayUseByRemoteNetwork();
+                                }
 
-                                    // Update gateway use start on the remote peering if needed
-                                    if (localPeering.startGatewayUseByRemoteNetwork == null) {
-                                        // No change, so ignore
-                                    } else if (localPeering.startGatewayUseByRemoteNetwork.booleanValue() && remotePeering.gatewayUse() != NetworkPeeringGatewayUse.ON_REMOTE_NETWORK) {
-                                        remotePeeringUpdate.withGatewayUseOnRemoteNetworkStarted();
-                                        isUpdateNeeded = true;
-                                    } else if (!localPeering.startGatewayUseByRemoteNetwork.booleanValue() && remotePeering.gatewayUse() == NetworkPeeringGatewayUse.ON_REMOTE_NETWORK) {
-                                        remotePeeringUpdate.withoutGatewayUseOnRemoteNetwork();
-                                        isUpdateNeeded = true;
-                                    }
+                                // Update gateway use start on the remote peering if needed
+                                if (localPeering.startGatewayUseByRemoteNetwork == null) {
+                                    // No change, so ignore
+                                } else if (localPeering.startGatewayUseByRemoteNetwork.booleanValue() && remotePeering.gatewayUse() != NetworkPeeringGatewayUse.ON_REMOTE_NETWORK) {
+                                    remotePeeringUpdate.withGatewayUseOnRemoteNetworkStarted();
+                                    isUpdateNeeded = true;
+                                } else if (!localPeering.startGatewayUseByRemoteNetwork.booleanValue() && remotePeering.gatewayUse() == NetworkPeeringGatewayUse.ON_REMOTE_NETWORK) {
+                                    remotePeeringUpdate.withoutGatewayUseOnRemoteNetwork();
+                                    isUpdateNeeded = true;
+                                }
 
-                                    if (isUpdateNeeded) {
-                                        localPeering.remoteForwarding = null;
-                                        localPeering.remoteAccess = null;
-                                        localPeering.startGatewayUseByRemoteNetwork = null;
-                                        localPeering.allowGatewayUseOnRemoteNetwork = null;
-                                        return remotePeeringUpdate.applyAsync();
-                                    } else {
-                                        return Mono.just((Indexable) localPeering);
-                                    }
-
-                                } else {
-                                    // No matching remote peering, so create one on the remote network
-                                    String peeringName = this.manager().getSdkContext().randomResourceName("peer", 15);
-
-                                    WithCreate remotePeeringDefinition = remoteNetwork.peerings().define(peeringName)
-                                            .withRemoteNetwork(localPeering.parent.id());
-
-                                    // Process remote network's UseRemoteGateways setting
-                                    if (localPeering.startGatewayUseByRemoteNetwork == null) {
-                                        // Do nothing
-                                    } else if (localPeering.startGatewayUseByRemoteNetwork.booleanValue()) {
-                                        // Start gateway use on this network by the remote network
-                                        remotePeeringDefinition.withGatewayUseOnRemoteNetworkStarted();
-                                    }
-
-                                    // Process remote network's AllowGatewayTransit setting
-                                    if (localPeering.allowGatewayUseOnRemoteNetwork == null) {
-                                        // Do nothing
-                                    } else if (localPeering.allowGatewayUseOnRemoteNetwork.booleanValue()) {
-                                        // Allow gateway use on remote network
-                                        remotePeeringDefinition.withGatewayUseByRemoteNetworkAllowed();
-                                    }
-
-                                    if (localPeering.remoteAccess != null && !localPeering.remoteAccess) {
-                                        ((NetworkPeeringImpl) remotePeeringDefinition).withoutAccessFromRemoteNetwork(); // Assumes by default access is on for new peerings
-                                    }
-
-                                    if (localPeering.remoteForwarding != null && localPeering.remoteForwarding.booleanValue()) {
-                                        remotePeeringDefinition.withTrafficForwardingFromRemoteNetwork(); // Assumes by default forwarding is off for new peerings
-                                    }
-
-                                    localPeering.remoteAccess = null;
+                                if (isUpdateNeeded) {
                                     localPeering.remoteForwarding = null;
+                                    localPeering.remoteAccess = null;
                                     localPeering.startGatewayUseByRemoteNetwork = null;
                                     localPeering.allowGatewayUseOnRemoteNetwork = null;
-                                    return remotePeeringDefinition
-                                            .createAsync()
-                                            .last();
+                                    return remotePeeringUpdate.applyAsync();
+                                } else {
+                                    return Mono.just((Indexable) localPeering);
                                 }
-                            });
+
+                            })
+                            .switchIfEmpty(Mono.defer(() -> {
+                                // No matching remote peering, so create one on the remote network
+                                String peeringName = this.manager().getSdkContext().randomResourceName("peer", 15);
+
+                                WithCreate remotePeeringDefinition = remoteNetwork.peerings().define(peeringName)
+                                        .withRemoteNetwork(localPeering.parent.id());
+
+                                // Process remote network's UseRemoteGateways setting
+                                if (localPeering.startGatewayUseByRemoteNetwork == null) {
+                                    // Do nothing
+                                } else if (localPeering.startGatewayUseByRemoteNetwork.booleanValue()) {
+                                    // Start gateway use on this network by the remote network
+                                    remotePeeringDefinition.withGatewayUseOnRemoteNetworkStarted();
+                                }
+
+                                // Process remote network's AllowGatewayTransit setting
+                                if (localPeering.allowGatewayUseOnRemoteNetwork == null) {
+                                    // Do nothing
+                                } else if (localPeering.allowGatewayUseOnRemoteNetwork.booleanValue()) {
+                                    // Allow gateway use on remote network
+                                    remotePeeringDefinition.withGatewayUseByRemoteNetworkAllowed();
+                                }
+
+                                if (localPeering.remoteAccess != null && !localPeering.remoteAccess) {
+                                    ((NetworkPeeringImpl) remotePeeringDefinition).withoutAccessFromRemoteNetwork(); // Assumes by default access is on for new peerings
+                                }
+
+                                if (localPeering.remoteForwarding != null && localPeering.remoteForwarding.booleanValue()) {
+                                    remotePeeringDefinition.withTrafficForwardingFromRemoteNetwork(); // Assumes by default forwarding is off for new peerings
+                                }
+
+                                localPeering.remoteAccess = null;
+                                localPeering.remoteForwarding = null;
+                                localPeering.startGatewayUseByRemoteNetwork = null;
+                                localPeering.allowGatewayUseOnRemoteNetwork = null;
+                                return remotePeeringDefinition
+                                        .createAsync()
+                                        .last();
+                            }));
                 })
 
                 // Then refresh the parent local network, if available
@@ -411,7 +411,7 @@ class NetworkPeeringImpl
                 })
 
                 // Then return the created local peering
-                .map(n -> localPeering);
+                .then(Mono.just(localPeering));
     }
 
     @Override

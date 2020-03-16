@@ -22,11 +22,13 @@ import com.azure.management.network.VpnClientConfiguration;
 import com.azure.management.network.VpnClientParameters;
 import com.azure.management.network.VpnType;
 import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
+import com.azure.management.network.models.VirtualNetworkGatewayConnectionListEntityInner;
 import com.azure.management.network.models.VirtualNetworkGatewayIPConfigurationInner;
 import com.azure.management.network.models.VirtualNetworkGatewayInner;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -188,17 +190,13 @@ class VirtualNetworkGatewayImpl
 
     @Override
     public PagedIterable<VirtualNetworkGatewayConnection> listConnections() {
-        return this.manager()
-                .inner()
-                .virtualNetworkGateways()
-                .listConnections(this.resourceGroupName(), this.name())
-                .mapPage(connectionInner -> connections().getById(connectionInner.getId()));
+        return new PagedIterable<>(this.listConnectionsAsync());
     }
 
     @Override
     public PagedFlux<VirtualNetworkGatewayConnection> listConnectionsAsync() {
-        return this.manager().inner().virtualNetworkGateways().listConnectionsAsync(this.resourceGroupName(), this.name())
-                .mapPage(connectionInner -> connections().getById(connectionInner.getId()));
+        PagedFlux<VirtualNetworkGatewayConnectionListEntityInner> connectionInners = this.manager().inner().virtualNetworkGateways().listConnectionsAsync(this.resourceGroupName(), this.name());
+        return PagedConverter.flatMapPage(connectionInners, connectionInner -> connections().getByIdAsync(connectionInner.getId()));
     }
 
     @Override
@@ -323,15 +321,17 @@ class VirtualNetworkGatewayImpl
     }
 
     @Override
-    protected void beforeCreating() {
+    protected Mono<Void> beforeCreating() {
         // Reset and update IP configs
         ensureDefaultIPConfig();
         this.inner().withIpConfigurations(innersFromWrappers(this.ipConfigs.values()));
+        return Mono.empty();
     }
 
     @Override
-    protected void afterCreating() {
+    protected Mono<Void> afterCreating() {
         initializeChildrenFromInner();
+        return Mono.empty();
     }
 
     private BgpSettings ensureBgpSettings() {

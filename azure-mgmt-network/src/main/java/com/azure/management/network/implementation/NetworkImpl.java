@@ -231,7 +231,7 @@ class NetworkImpl
     }
 
     @Override
-    protected void beforeCreating() {
+    protected Mono<Void> beforeCreating() {
         // Ensure address spaces
         if (this.addressSpaces().size() == 0) {
             this.withAddressSpace("10.0.0.0/16");
@@ -246,11 +246,13 @@ class NetworkImpl
 
         // Reset and update subnets
         this.inner().withSubnets(innersFromWrappers(this.subnets.values()));
+        return Mono.empty();
     }
 
     @Override
-    protected void afterCreating() {
+    protected Mono<Void> afterCreating() {
         initializeChildrenFromInner();
+        return Mono.empty();
     }
 
     @Override

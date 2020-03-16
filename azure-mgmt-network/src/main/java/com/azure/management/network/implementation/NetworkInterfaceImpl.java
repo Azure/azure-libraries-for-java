@@ -476,12 +476,13 @@ class NetworkInterfaceImpl
     }
 
     @Override
-    protected void afterCreating() {
+    protected Mono<Void> afterCreating() {
         clearCachedRelatedResources();
+        return Mono.empty();
     }
 
     @Override
-    protected void beforeCreating() {
+    protected Mono<Void> beforeCreating() {
         NetworkSecurityGroup networkSecurityGroup = null;
         if (creatableNetworkSecurityGroupKey != null) {
             networkSecurityGroup = this.<NetworkSecurityGroup>taskResult(creatableNetworkSecurityGroupKey);
@@ -498,5 +499,6 @@ class NetworkInterfaceImpl
 
         // Reset and update IP configs
         this.inner().withIpConfigurations(innersFromWrappers(this.nicIPConfigurations.values()));
+        return Mono.empty();
     }
 }

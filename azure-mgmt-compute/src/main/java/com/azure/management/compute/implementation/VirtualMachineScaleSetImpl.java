@@ -1468,7 +1468,7 @@ public class VirtualMachineScaleSetImpl
     // Create Update specific methods
     //
     @Override
-    protected void beforeCreating() {
+    protected Mono<Void> beforeCreating() {
         if (this.extensions.size() > 0) {
             this.inner()
                     .virtualMachineProfile()
@@ -1476,6 +1476,7 @@ public class VirtualMachineScaleSetImpl
                     .extensionProfile()
                     .withExtensions(innersFromWrappers(this.extensions.values()));
         }
+        return Mono.empty();
     }
 
     @Override
@@ -1506,10 +1507,11 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    protected void afterCreating() {
+    protected Mono<Void> afterCreating() {
         this.clearCachedProperties();
         this.initializeChildrenFromInner();
         this.virtualMachineScaleSetMsiHandler.clear();
+        return Mono.empty();
     }
 
     @Override

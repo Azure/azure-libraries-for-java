@@ -34,6 +34,7 @@ import com.azure.management.network.models.ProbeInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import reactor.core.Exceptions;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -188,7 +189,7 @@ class LoadBalancerImpl
     }
 
     @Override
-    protected void beforeCreating() {
+    protected Mono<Void> beforeCreating() {
         // Account for the newly created public IPs
         if (this.creatablePIPKeys != null) {
             for (Entry<String, String> pipFrontendAssociation : this.creatablePIPKeys.entrySet()) {
@@ -286,36 +287,42 @@ class LoadBalancerImpl
                 lbRule.inner().withProbe(null);
             }
         }
+        return Mono.empty();
     }
 
     @Override
-    protected void afterCreating() {
+    protected Mono<Void> afterCreating() {
         if (this.nicsInBackends != null) {
             List<Throwable> nicExceptions = new ArrayList<>();
 
-            // Update the NICs to point to the backend pool
-            for (Entry<String, String> nicInBackend : this.nicsInBackends.entrySet()) {
-                String nicId = nicInBackend.getKey();
-                String backendName = nicInBackend.getValue();
-                try {
-                    NetworkInterface nic = this.manager().networkInterfaces().getById(nicId);
-                    NicIPConfiguration nicIP = nic.primaryIPConfiguration();
-                    nic.update()
-                            .updateIPConfiguration(nicIP.name())
-                            .withExistingLoadBalancerBackend(this, backendName)
-                            .parent()
-                            .apply();
-                } catch (Exception e) {
-                    nicExceptions.add(e);
-                }
-            }
-
-            if (!nicExceptions.isEmpty()) {
-                throw Exceptions.multiple(nicExceptions);
-            }
-
-            this.nicsInBackends.clear();
+            return Flux.fromIterable(this.nicsInBackends.entrySet())
+                    .flatMap(nicInBackend -> {
+                        String nicId = nicInBackend.getKey();
+                        String backendName = nicInBackend.getValue();
+                        return this.manager().networkInterfaces().getByIdAsync(nicId)
+                                .flatMap(nic -> {
+                                    NicIPConfiguration nicIP = nic.primaryIPConfiguration();
+                                    return nic.update()
+                                            .updateIPConfiguration(nicIP.name())
+                                            .withExistingLoadBalancerBackend(this, backendName)
+                                            .parent()
+                                            .applyAsync();
+                                });
+                    })
+                    .onErrorResume(t -> {
+                        nicExceptions.add(t);
+                        return Mono.empty();
+                    })
+                    .then(Mono.defer(() -> {
+                        if (!nicExceptions.isEmpty()) {
+                            return Mono.error(Exceptions.multiple(nicExceptions));
+                        } else {
+                            this.nicsInBackends.clear();
+                            return Mono.empty();
+                        }
+                    }));
         }
+        return Mono.empty();
     }
 
     @Override

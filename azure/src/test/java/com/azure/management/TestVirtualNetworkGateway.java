@@ -204,12 +204,11 @@ public class TestVirtualNetworkGateway {
         public VirtualNetworkGateway createResource(final VirtualNetworkGateways gateways) throws Exception {
 
             // Create virtual network gateway
-            initializeResourceNames(gateways.manager().getSdkContext());
             final List<VirtualNetworkGateway> gws = new ArrayList<>();
             Flux<?> vngwObservable = gateways.define(GATEWAY_NAME1)
                     .withRegion(REGION)
                     .withNewResourceGroup(GROUP_NAME)
-                    .withNewNetwork("10.11.0.0/16", "10.11.255.0/27")
+                    .withNewNetwork(NETWORK_NAME, "10.11.0.0/16", "10.11.255.0/27")
                     .withRouteBasedVpn()
                     .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
                     .createAsync();
@@ -217,7 +216,7 @@ public class TestVirtualNetworkGateway {
             Flux<?> vngw2Observable = gateways.define(GATEWAY_NAME2)
                     .withRegion(REGION)
                     .withNewResourceGroup(GROUP_NAME)
-                    .withNewNetwork("10.41.0.0/16", "10.41.255.0/27")
+                    .withNewNetwork(NETWORK_NAME + "2","10.41.0.0/16", "10.41.255.0/27")
                     .withRouteBasedVpn()
                     .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
                     .createAsync();

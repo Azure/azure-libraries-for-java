@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -450,15 +451,16 @@ public class AzureTests extends TestBase {
     public void testVMImages() throws CloudException, IOException {
         PagedIterable<VirtualMachinePublisher> publishers = azure.virtualMachineImages().publishers().listByRegion(Region.US_WEST);
         Assertions.assertTrue(TestUtilities.getSize(publishers) > 0);
-        for (VirtualMachinePublisher p : publishers) {
+        for (VirtualMachinePublisher p : publishers.stream().limit(5).toArray(VirtualMachinePublisher[]::new)) {
             System.out.println(String.format("Publisher name: %s, region: %s", p.name(), p.region()));
-            for (VirtualMachineOffer o : p.offers().list()) {
+            for (VirtualMachineOffer o : p.offers().list().stream().limit(5).toArray(VirtualMachineOffer[]::new)) {
                 System.out.println(String.format("\tOffer name: %s", o.name()));
-                for (VirtualMachineSku s : o.skus().list()) {
+                for (VirtualMachineSku s : o.skus().list().stream().limit(5).toArray(VirtualMachineSku[]::new)) {
                     System.out.println(String.format("\t\tSku name: %s", s.name()));
                 }
             }
         }
+        // TODO: limit vm images by filter
         PagedIterable<VirtualMachineImage> images = azure.virtualMachineImages().listByRegion(Region.US_WEST);
         Assertions.assertTrue(TestUtilities.getSize(images) > 0);
         // Seems to help avoid connection refused error on subsequent mock test

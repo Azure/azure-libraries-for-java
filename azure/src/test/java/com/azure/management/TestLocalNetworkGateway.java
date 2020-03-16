@@ -15,19 +15,20 @@ import org.junit.jupiter.api.Assertions;
  * Tests Local Network Gateway.
  */
 public class TestLocalNetworkGateway extends TestTemplate<LocalNetworkGateway, LocalNetworkGateways> {
-    private static String TEST_ID = "";
-    private static Region REGION = Region.US_NORTH_CENTRAL;
+    private String TEST_ID = "";
+    private final static Region REGION = Region.US_NORTH_CENTRAL;
     private String groupName;
     private String lngwName;
 
-    private void initializeResourceNames() {
+    private void initializeResourceNames(SdkContext sdkContext) {
+        TEST_ID = sdkContext.randomResourceName("", 8);
         groupName = "rg" + TEST_ID;
         lngwName = "lngw" + TEST_ID;
     }
 
     @Override
     public LocalNetworkGateway createResource(LocalNetworkGateways localNetworkGateways) throws Exception {
-        initializeResourceNames();
+        initializeResourceNames(localNetworkGateways.manager().getSdkContext());
         LocalNetworkGateway gateway = localNetworkGateways.define(lngwName)
                 .withRegion(REGION)
                 .withNewResourceGroup(groupName)

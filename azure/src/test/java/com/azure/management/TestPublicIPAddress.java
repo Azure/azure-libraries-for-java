@@ -61,7 +61,7 @@ public class TestPublicIPAddress extends TestTemplate<PublicIPAddress, PublicIPA
         TestPublicIPAddress.printPIP(pip);
     }
 
-    public static void printPIP(PublicIPAddress resource) {
+    public synchronized static void printPIP(PublicIPAddress resource) {
         StringBuilder info = new StringBuilder().append("Public IP Address: ").append(resource.id())
                 .append("\n\tName: ").append(resource.name())
                 .append("\n\tResource group: ").append(resource.resourceGroupName())

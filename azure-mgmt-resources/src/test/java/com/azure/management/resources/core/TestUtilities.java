@@ -19,7 +19,7 @@ public class TestUtilities {
      *
      * @param milliseconds time in milliseconds for which to sleep.
      */
-    public static void sleep(int milliseconds, boolean isRecordMode) {
+    public synchronized static void sleep(int milliseconds, boolean isRecordMode) {
         if (isRecordMode) {
             try {
                 Thread.sleep(milliseconds);
@@ -29,7 +29,7 @@ public class TestUtilities {
         }
     }
 
-    public static <T> int getSize(Iterable<T> iterable) {
+    public synchronized static <T> int getSize(Iterable<T> iterable) {
         int res = 0;
 
         for (T t : iterable) {
@@ -38,7 +38,7 @@ public class TestUtilities {
         return res;
     }
 
-    public static <T> boolean isEmpty(PagedIterable<T> iterable) {
+    public synchronized static <T> boolean isEmpty(PagedIterable<T> iterable) {
         return !iterable.iterator().hasNext();
     }
 }

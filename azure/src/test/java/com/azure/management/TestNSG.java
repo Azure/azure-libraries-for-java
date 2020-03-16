@@ -63,9 +63,9 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                 .createAsync();
 
         resourceStream.last()
-                .doOnNext(nsg -> nsgFuture.set((NetworkSecurityGroup) nsg))
                 .doOnSuccess((_ignore) -> System.out.print("completed"))
-                .doOnError(throwable -> nsgFuture.setException(throwable));
+                .doOnError(throwable -> nsgFuture.setException(throwable))
+                .subscribe(nsg -> nsgFuture.set((NetworkSecurityGroup) nsg));
 
         NetworkSecurityGroup nsg = nsgFuture.get();
 
@@ -133,7 +133,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         return resource;
     }
 
-    private static StringBuilder printRule(NetworkSecurityRule rule, StringBuilder info) {
+    private synchronized static StringBuilder printRule(NetworkSecurityRule rule, StringBuilder info) {
         info.append("\n\t\tRule: ").append(rule.name())
                 .append("\n\t\t\tAccess: ").append(rule.access())
                 .append("\n\t\t\tDirection: ").append(rule.direction())
@@ -147,7 +147,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         return info;
     }
 
-    public static void printNSG(NetworkSecurityGroup resource) {
+    public synchronized static void printNSG(NetworkSecurityGroup resource) {
         StringBuilder info = new StringBuilder();
         info.append("NSG: ").append(resource.id())
                 .append("Name: ").append(resource.name())

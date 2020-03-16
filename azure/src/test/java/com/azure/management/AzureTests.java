@@ -66,9 +66,9 @@ public class AzureTests extends TestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain);
+        Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain).withSdkContext(sdkContext);
         azure = azureAuthed.withSubscription(defaultSubscription);
-        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
+        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription, sdkContext);
     }
 
     @Override
@@ -482,7 +482,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testLoadBalancersNatRules() throws Exception {
-        new TestLoadBalancer.InternetWithNatRule(azure.virtualMachines().manager())
+        new TestLoadBalancer().new InternetWithNatRule(azure.virtualMachines().manager())
                 .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
 
@@ -493,7 +493,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testLoadBalancersNatPools() throws Exception {
-        new TestLoadBalancer.InternetWithNatPool(azure.virtualMachines().manager())
+        new TestLoadBalancer().new InternetWithNatPool(azure.virtualMachines().manager())
                 .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
 
@@ -504,7 +504,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testLoadBalancersInternetMinimum() throws Exception {
-        new TestLoadBalancer.InternetMinimal(azure.virtualMachines().manager())
+        new TestLoadBalancer().new InternetMinimal(azure.virtualMachines().manager())
                 .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
 
@@ -515,7 +515,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testLoadBalancersNatOnly() throws Exception {
-        new TestLoadBalancer.InternetNatOnly(azure.virtualMachines().manager())
+        new TestLoadBalancer().new InternetNatOnly(azure.virtualMachines().manager())
                 .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
 
@@ -526,7 +526,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testLoadBalancersInternalMinimum() throws Exception {
-        new TestLoadBalancer.InternalMinimal(azure.virtualMachines().manager())
+        new TestLoadBalancer().new InternalMinimal(azure.virtualMachines().manager())
                 .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
 
@@ -538,7 +538,7 @@ public class AzureTests extends TestBase {
     @Test
     @Disabled("Though valid scenario, NRP is failing")
     public void testLoadBalancersInternalWithAvailabilityZone() throws Exception {
-        new TestLoadBalancer.InternalWithZone(azure.virtualMachines().manager())
+        new TestLoadBalancer().new InternalWithZone(azure.virtualMachines().manager())
                 .runTest(azure.loadBalancers(), azure.resourceGroups());
     }
 
@@ -609,7 +609,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testNetworks() throws Exception {
-        new TestNetwork.WithSubnets()
+        new TestNetwork().new WithSubnets()
                 .runTest(azure.networks(), azure.resourceGroups());
     }
 
@@ -620,7 +620,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testNetworkWithAccessFromServiceToSubnet() throws Exception {
-        new TestNetwork.WithAccessFromServiceToSubnet()
+        new TestNetwork().new WithAccessFromServiceToSubnet()
                 .runTest(azure.networks(), azure.resourceGroups());
     }
 
@@ -631,7 +631,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testNetworkPeerings() throws Exception {
-        new TestNetwork.WithPeering()
+        new TestNetwork().new WithPeering()
                 .runTest(azure.networks(), azure.resourceGroups());
     }
 
@@ -642,7 +642,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testDdosAndVmProtection() throws Exception {
-        new TestNetwork.WithDDosProtectionPlanAndVmProtection()
+        new TestNetwork().new WithDDosProtectionPlanAndVmProtection()
                 .runTest(azure.networks(), azure.resourceGroups());
     }
 
@@ -653,7 +653,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testNetworkUpdateTags() throws Exception {
-        new TestNetwork.WithUpdateTags().runTest(azure.networks(), azure.resourceGroups());
+        new TestNetwork().new WithUpdateTags().runTest(azure.networks(), azure.resourceGroups());
     }
 
     /**
@@ -663,7 +663,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testRouteTables() throws Exception {
-        new TestRouteTables.Minimal()
+        new TestRouteTables().new Minimal()
                 .runTest(azure.routeTables(), azure.resourceGroups());
     }
 
@@ -848,7 +848,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testExpressRouteCircuits() throws Exception {
-        new TestExpressRouteCircuit.Basic().runTest(azure.expressRouteCircuits(), azure.resourceGroups());
+        new TestExpressRouteCircuit().new Basic().runTest(azure.expressRouteCircuits(), azure.resourceGroups());
     }
 
     /**
@@ -858,7 +858,7 @@ public class AzureTests extends TestBase {
      */
     @Test
     public void testExpressRouteCircuitPeering() throws Exception {
-        new TestExpressRouteCircuit.ExpressRouteCircuitPeering().runTest(azure.expressRouteCircuits(), azure.resourceGroups());
+        new TestExpressRouteCircuit().new ExpressRouteCircuitPeering().runTest(azure.expressRouteCircuits(), azure.resourceGroups());
     }
 
     /**

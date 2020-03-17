@@ -72,12 +72,13 @@ public abstract class TopLevelModifiableResourcesImpl<
     }
 
     @Override
-    public Flux<Void> deleteByIdsAsync(String... ids) {
+    public Flux<String> deleteByIdsAsync(String... ids) {
         return this.deleteByIdsAsync(new ArrayList<String>(Arrays.asList(ids)));
     }
 
     @Override
-    public Flux<Void> deleteByIdsAsync(Collection<String> ids) {
+    @SuppressWarnings("unchecked")
+    public Flux<String> deleteByIdsAsync(Collection<String> ids) {
         if (ids == null || ids.isEmpty()) {
             return Flux.empty();
         }
@@ -90,7 +91,7 @@ public abstract class TopLevelModifiableResourcesImpl<
             observables.add(o);
         }
 
-        return Flux.mergeDelayError(32, observables.toArray(new Mono[observables.size()]));
+        return Flux.mergeDelayError(32, observables.toArray(new Mono[0]));
     }
 
     @Override

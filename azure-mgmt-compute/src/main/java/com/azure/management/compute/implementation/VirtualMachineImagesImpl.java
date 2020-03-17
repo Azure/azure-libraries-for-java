@@ -83,11 +83,10 @@ class VirtualMachineImagesImpl
 
     @Override
     public PagedFlux<VirtualMachineImage> listByRegionAsync(String regionName) {
-        return PagedConverter.convertListToPagedFlux(publishers().listByRegionAsync(regionName)
-                .flatMap(virtualMachinePublisher -> virtualMachinePublisher.offers().listAsync().onErrorResume(e -> Mono.empty()))
+        return PagedConverter.flatMapPage(publishers().listByRegionAsync(regionName), virtualMachinePublisher -> virtualMachinePublisher.offers().listAsync()
+                .onErrorResume(e -> Mono.empty())
                 .flatMap(virtualMachineOffer -> virtualMachineOffer.skus().listAsync())
-                .flatMap(virtualMachineSku -> virtualMachineSku.images().listAsync())
-                .collectList());
+                .flatMap(virtualMachineSku -> virtualMachineSku.images().listAsync()));
     }
 
     @Override

@@ -107,6 +107,7 @@ class ApplicationGatewaysImpl
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Flux<String> stopAsync(Collection<String> applicationGatewayResourceIds) {
         if (applicationGatewayResourceIds == null) {
             return Flux.empty();
@@ -118,6 +119,6 @@ class ApplicationGatewaysImpl
             Mono<String> o = ReactorMapper.map(this.inner().stopAsync(resourceGroupName, name), id);
             observables.add(o);
         }
-        return Flux.mergeDelayError(32, observables.toArray(new Mono[observables.size()]));
+        return Flux.mergeDelayError(32, observables.toArray(new Mono[0]));
     }
 }

@@ -6,27 +6,28 @@
 
 package com.azure.management.appservice.samples;
 
+import com.azure.management.ApplicationTokenCredential;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.keyvault.KeyVaultClient;
 import com.microsoft.azure.keyvault.authentication.KeyVaultCredentials;
 import com.microsoft.azure.keyvault.requests.SetSecretRequest;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.JavaVersion;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.appservice.WebApp;
-import com.microsoft.azure.management.appservice.WebContainer;
-import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
-import com.microsoft.azure.management.keyvault.Vault;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.Azure;
+import com.azure.management.appservice.JavaVersion;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.appservice.WebApp;
+import com.azure.management.appservice.WebContainer;
+import com.azure.management.cosmosdb.CosmosDBAccount;
+import com.azure.management.cosmosdb.DatabaseAccountKind;
+import com.azure.management.keyvault.Vault;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.Utils;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLogDetailLevel;
 
 import java.io.File;
 import java.io.IOException;
 
-import static com.microsoft.azure.management.samples.Utils.curl;
 
 /**
  * Azure App Service basic sample for managing web apps.
@@ -47,10 +48,10 @@ public final class ManageWebAppCosmosDbByMsi {
     public static boolean runSample(Azure azure) {
         // New resources
         final Region region         = Region.US_WEST;
-        final String appName        = SdkContext.randomResourceName("webapp1-", 20);
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
-        final String vaultName      = SdkContext.randomResourceName("vault", 20);
-        final String cosmosName     = SdkContext.randomResourceName("cosmosdb", 20);
+        final String appName        = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String rgName         = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
+        final String vaultName      = azure.sdkContext().randomResourceName("vault", 20);
+        final String cosmosName     = azure.sdkContext().randomResourceName("cosmosdb", 20);
         final String appUrl         = appName + ".azurewebsites.net";
 
         try {
@@ -74,14 +75,14 @@ public final class ManageWebAppCosmosDbByMsi {
             // Create a key vault
 
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-            final ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credFile);
+            final ApplicationTokenCredential credential = ApplicationTokenCredential.fromFile(credFile);
 
             Vault vault = azure.vaults()
                     .define(vaultName)
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .defineAccessPolicy()
-                        .forServicePrincipal(credentials.clientId())
+                        .forServicePrincipal(credential.clientId())
                         .allowSecretAllPermissions()
                         .attach()
                     .create();
@@ -186,7 +187,7 @@ public final class ManageWebAppCosmosDbByMsi {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

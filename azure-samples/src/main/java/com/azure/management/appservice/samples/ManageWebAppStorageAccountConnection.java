@@ -6,16 +6,16 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.ConnectionStringType;
-import com.microsoft.azure.management.appservice.JavaVersion;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.appservice.WebApp;
-import com.microsoft.azure.management.appservice.WebContainer;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.StorageAccount;
+import com.azure.management.Azure;
+import com.azure.management.appservice.ConnectionStringType;
+import com.azure.management.appservice.JavaVersion;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.appservice.WebApp;
+import com.azure.management.appservice.WebContainer;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.Utils;
+import com.azure.management.storage.StorageAccount;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.BlobContainerPermissions;
@@ -23,15 +23,14 @@ import com.microsoft.azure.storage.blob.BlobContainerPublicAccessType;
 import com.microsoft.azure.storage.blob.CloudBlob;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
-import com.microsoft.rest.LogLevel;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLogDetailLevel;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * Azure App Service basic sample for managing web apps.
@@ -42,8 +41,6 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ManageWebAppStorageAccountConnection {
 
-    private static OkHttpClient httpClient;
-
     /**
      * Main function which runs the actual sample.
      * @param azure instance of the azure client
@@ -52,11 +49,11 @@ public final class ManageWebAppStorageAccountConnection {
     public static boolean runSample(Azure azure) {
         // New resources
         final String suffix         = ".azurewebsites.net";
-        final String app1Name       = SdkContext.randomResourceName("webapp1-", 20);
+        final String app1Name       = azure.sdkContext().randomResourceName("webapp1-", 20);
         final String app1Url        = app1Name + suffix;
-        final String storageName    = SdkContext.randomResourceName("jsdkstore", 20);
-        final String containerName  = SdkContext.randomResourceName("jcontainer", 20);
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
+        final String storageName    = azure.sdkContext().randomResourceName("jsdkstore", 20);
+        final String containerName  = azure.sdkContext().randomResourceName("jcontainer", 20);
+        final String rgName         = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
 
         try {
 
@@ -119,10 +116,10 @@ public final class ManageWebAppStorageAccountConnection {
 
             // warm up
             System.out.println("Warming up " + app1Url + "/azure-samples-blob-traverser...");
-            curl("http://" + app1Url + "/azure-samples-blob-traverser");
+            Utils.curl(("http://" + app1Url + "/azure-samples-blob-traverser");
             SdkContext.sleep(5000);
-            System.out.println("CURLing " + app1Url + "/azure-samples-blob-traverser...");
-            System.out.println(curl("http://" + app1Url + "/azure-samples-blob-traverser"));
+            System.out.println("Utils.curl(ing " + app1Url + "/azure-samples-blob-traverser...");
+            System.out.println(Utils.curl(("http://" + app1Url + "/azure-samples-blob-traverser"));
 
             return true;
         } catch (Exception e) {
@@ -156,7 +153,7 @@ public final class ManageWebAppStorageAccountConnection {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -168,19 +165,6 @@ public final class ManageWebAppStorageAccountConnection {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private static String curl(String url) {
-        Request request = new Request.Builder().url(url).get().build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
     }
 
     private static CloudBlobContainer setUpStorageAccount(String connectionString, String containerName) {

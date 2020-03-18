@@ -6,25 +6,22 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.FunctionApp;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import org.apache.commons.lang3.time.StopWatch;
-import rx.Subscriber;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.appservice.FunctionApp;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.Utils;
+import org.apache.commons.lang.time.StopWatch;
+import reactor.core.publisher.BaseSubscriber;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
  * Azure App Service basic sample for managing function apps.
@@ -35,8 +32,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class ManageFunctionAppLogs {
 
-    private static OkHttpClient httpClient;
-
     /**
      * Main function which runs the actual sample.
      * @param azure instance of the azure client
@@ -45,9 +40,9 @@ public final class ManageFunctionAppLogs {
     public static boolean runSample(Azure azure) {
         // New resources
         final String suffix         = ".azurewebsites.net";
-        final String appName       = SdkContext.randomResourceName("webapp1-", 20);
+        final String appName       = azure.sdkContext().randomResourceName("webapp1-", 20);
         final String appUrl        = appName + suffix;
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
+        final String rgName         = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
 
         try {
 
@@ -62,7 +57,7 @@ public final class ManageFunctionAppLogs {
                     .withNewResourceGroup(rgName)
                     .defineDiagnosticLogsConfiguration()
                         .withApplicationLogging()
-                        .withLogLevel(com.microsoft.azure.management.appservice.LogLevel.VERBOSE)
+                        .withLogLevel(com.azure.management.appservice.LogLevel.VERBOSE)
                         .withApplicationLogsStoredOnFileSystem()
                         .attach()
                     .create();
@@ -87,7 +82,7 @@ public final class ManageFunctionAppLogs {
 
             // warm up
             System.out.println("Warming up " + appUrl + "/api/square...");
-            post("http://" + appUrl + "/api/square", "625");
+            Utils.post("http://" + appUrl + "/api/square", "625");
             SdkContext.sleep(5000);
 
             //============================================================
@@ -101,11 +96,11 @@ public final class ManageFunctionAppLogs {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    post("http://" + appUrl + "/api/square", "625");
+                    Utils.post("http://" + appUrl + "/api/square", "625");
                     SdkContext.sleep(10000);
-                    post("http://" + appUrl + "/api/square", "725");
+                    Utils.post("http://" + appUrl + "/api/square", "725");
                     SdkContext.sleep(10000);
-                    post("http://" + appUrl + "/api/square", "825");
+                    Utils.post("http://" + appUrl + "/api/square", "825");
                 }
             }).start();
             while (line != null && stopWatch.getTime() < 90000) {
@@ -122,37 +117,33 @@ public final class ManageFunctionAppLogs {
                 public void run() {
                     SdkContext.sleep(5000);
                     System.out.println("Starting hitting");
-                    post("http://" + appUrl + "/api/square", "625");
+                    Utils.post("http://" + appUrl + "/api/square", "625");
                     SdkContext.sleep(10000);
-                    post("http://" + appUrl + "/api/square", "725");
+                    Utils.post("http://" + appUrl + "/api/square", "725");
                     SdkContext.sleep(10000);
-                    post("http://" + appUrl + "/api/square", "825");
+                    Utils.post("http://" + appUrl + "/api/square", "825");
                 }
             }).start();
 
             final AtomicInteger count = new AtomicInteger(0);
-            app.streamApplicationLogsAsync()
-                    .subscribe(new Subscriber<String>() {
-                        @Override
-                        public void onCompleted() {
-                            // automatically unsubscribe
+            app.streamApplicationLogsAsync().subscribe(new BaseSubscriber<String>() {
+                @Override
+                protected void hookOnNext(String value) {
+                    System.out.println(value);
+                    if (value.contains("Function completed")) {
+                        if (count.incrementAndGet() >= 3) {
+                            this.dispose();
                         }
+                    }
+                    super.hookOnNext(value);
+                }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                        }
-
-                        @Override
-                        public void onNext(String s) {
-                            System.out.println(s);
-                            if (s.contains("Function completed")) {
-                                if (count.incrementAndGet() >= 3) {
-                                    unsubscribe();
-                                }
-                            }
-                        }
-                    });
+                @Override
+                protected void hookOnError(Throwable throwable) {
+                    throwable.printStackTrace();
+                    super.hookOnError(throwable);
+                }
+            });
 
             return true;
         } catch (Exception e) {
@@ -185,7 +176,7 @@ public final class ManageFunctionAppLogs {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -199,24 +190,6 @@ public final class ManageFunctionAppLogs {
         }
     }
 
-    private static String curl(String url) {
-        Request request = new Request.Builder().url(url).get().build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    private static String post(String url, String body) {
-        Request request = new Request.Builder().url(url).post(RequestBody.create(MediaType.parse("text/plain"), body)).build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
     private static String readLine(InputStream in) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         int c;
@@ -227,9 +200,5 @@ public final class ManageFunctionAppLogs {
             return null;
         }
         return stream.toString("UTF-8");
-    }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
     }
 }

@@ -6,22 +6,20 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.FunctionApp;
-import com.microsoft.azure.management.appservice.FunctionRuntimeStack;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.storage.StorageAccountSkuType;
-import com.microsoft.rest.LogLevel;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import org.apache.commons.lang3.time.StopWatch;
+import com.azure.management.Azure;
+import com.azure.management.appservice.FunctionApp;
+import com.azure.management.appservice.FunctionRuntimeStack;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.Utils;
+import com.azure.management.storage.StorageAccountSkuType;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import org.apache.commons.lang.time.StopWatch;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * Azure App Service basic sample for managing function apps.
@@ -30,8 +28,6 @@ import java.util.concurrent.TimeUnit;
  *    - Deploy 1 under new consumption plan, run from a package.
  */
 public class ManageLinuxFunctionAppSourceControl {
-
-    private static OkHttpClient httpClient;
 
     private static final String FUNCTION_APP_PACKAGE_URL = "https://raw.github.com/Azure/azure-libraries-for-java/master/azure-mgmt-appservice/src/test/resources/java-functions.zip";
     private static final long TIMEOUT_IN_SECONDS = 5 * 60;
@@ -43,14 +39,14 @@ public class ManageLinuxFunctionAppSourceControl {
      */
     public static boolean runSample(Azure azure) {
         final String suffix         = ".azurewebsites.net";
-        final String app1Name       = SdkContext.randomResourceName("webapp1-", 20);
-        final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
+        final String app1Name       = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String app2Name       = azure.sdkContext().randomResourceName("webapp2-", 20);
         final String app1Url        = app1Name + suffix;
         final String app2Url        = app2Name + suffix;
-        final String plan1Name      = SdkContext.randomResourceName("plan1-", 20);
-        final String plan2Name      = SdkContext.randomResourceName("plan2-", 20);
-        final String storage1Name   = SdkContext.randomResourceName("storage1", 20);
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
+        final String plan1Name      = azure.sdkContext().randomResourceName("plan1-", 20);
+        final String plan2Name      = azure.sdkContext().randomResourceName("plan2-", 20);
+        final String storage1Name   = azure.sdkContext().randomResourceName("storage1", 20);
+        final String rgName         = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
 
         try {
 
@@ -75,9 +71,10 @@ public class ManageLinuxFunctionAppSourceControl {
             // warm up
             String app1UrlFunction = app1Url + "/api/HttpTrigger-Java?name=linux_function_app1";
             System.out.println("Warming up " + app1UrlFunction + "...");
-            StopWatch stopWatch = StopWatch.createStarted();
+            StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
             while (stopWatch.getTime() < TIMEOUT_IN_SECONDS * 1000) {
-                String response = get("https://" + app1UrlFunction);
+                String response = Utils.get("https://" + app1UrlFunction);
                 if (response != null && response.contains("Hello")) {
                     break;
                 }
@@ -86,7 +83,7 @@ public class ManageLinuxFunctionAppSourceControl {
 
             // call function
             System.out.println("CURLing " + app1UrlFunction + "...");
-            System.out.println("Response is " + get("https://" + app1UrlFunction));
+            System.out.println("Response is " + Utils.get("https://" + app1UrlFunction));
             // response would be "Hello, ..."
 
 
@@ -111,9 +108,10 @@ public class ManageLinuxFunctionAppSourceControl {
             // warm up
             String app2UrlFunction = app2Url + "/api/HttpTrigger-Java?name=linux_function_app2";
             System.out.println("Warming up " + app2UrlFunction + "...");
-            stopWatch = StopWatch.createStarted();
+            stopWatch = new StopWatch();
+            stopWatch.start();
             while (stopWatch.getTime() < TIMEOUT_IN_SECONDS * 1000) {
-                String response = get("https://" + app2UrlFunction);
+                String response = Utils.get("https://" + app2UrlFunction);
                 if (response != null && response.contains("Hello")) {
                     break;
                 }
@@ -122,7 +120,7 @@ public class ManageLinuxFunctionAppSourceControl {
 
             // call function
             System.out.println("CURLing " + app2UrlFunction + "...");
-            System.out.println("Response is " + get("https://" + app2UrlFunction));
+            System.out.println("Response is " + Utils.get("https://" + app2UrlFunction));
             // response would be "Hello, ..."
 
             return true;
@@ -157,7 +155,7 @@ public class ManageLinuxFunctionAppSourceControl {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -169,18 +167,5 @@ public class ManageLinuxFunctionAppSourceControl {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private static String get(String url) {
-        Request request = new Request.Builder().url(url).get().build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
     }
 }

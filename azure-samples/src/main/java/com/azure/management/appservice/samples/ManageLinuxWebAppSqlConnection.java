@@ -6,20 +6,19 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.appservice.RuntimeStack;
-import com.microsoft.azure.management.appservice.WebApp;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.sql.SqlDatabase;
-import com.microsoft.azure.management.sql.SqlServer;
-import com.microsoft.rest.LogLevel;
-import okhttp3.OkHttpClient;
+import com.azure.management.Azure;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.appservice.RuntimeStack;
+import com.azure.management.appservice.WebApp;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.samples.Utils;
+import com.azure.management.sql.SqlDatabase;
+import com.azure.management.sql.SqlServer;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLogDetailLevel;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * Azure App Service basic sample for managing web apps.
@@ -31,24 +30,23 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ManageLinuxWebAppSqlConnection {
 
-    private static OkHttpClient httpClient;
-
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
         // New resources
-        final String suffix         = ".azurewebsites.net";
-        final String appName        = SdkContext.randomResourceName("webapp1-", 20);
-        final String appUrl         = appName + suffix;
-        final String sqlServerName  = SdkContext.randomResourceName("jsdkserver", 20);
-        final String sqlDbName      = SdkContext.randomResourceName("jsdkdb", 20);
-        final String admin          = "jsdkadmin";
+        final String suffix = ".azurewebsites.net";
+        final String appName = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String appUrl = appName + suffix;
+        final String sqlServerName = azure.sdkContext().randomResourceName("jsdkserver", 20);
+        final String sqlDbName = azure.sdkContext().randomResourceName("jsdkdb", 20);
+        final String admin = "jsdkadmin";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
-        final String password       = "StrongPass!123";
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
+        final String password = "StrongPass!123";
+        final String rgName = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
 
         try {
 
@@ -87,9 +85,9 @@ public final class ManageLinuxWebAppSqlConnection {
                     .withNewLinuxPlan(PricingTier.STANDARD_S1)
                     .withBuiltInImage(RuntimeStack.PHP_5_6)
                     .defineSourceControl()
-                        .withPublicGitRepository("https://github.com/ProjectNami/projectnami")
-                        .withBranch("master")
-                        .attach()
+                    .withPublicGitRepository("https://github.com/ProjectNami/projectnami")
+                    .withBranch("master")
+                    .attach()
                     .withAppSetting("ProjectNami.DBHost", server.fullyQualifiedDomainName())
                     .withAppSetting("ProjectNami.DBName", db.name())
                     .withAppSetting("ProjectNami.DBUser", admin)
@@ -134,8 +132,10 @@ public final class ManageLinuxWebAppSqlConnection {
         }
         return false;
     }
+
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -147,7 +147,7 @@ public final class ManageLinuxWebAppSqlConnection {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -159,9 +159,5 @@ public final class ManageLinuxWebAppSqlConnection {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
     }
 }

@@ -6,22 +6,19 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.DeploymentSlot;
-import com.microsoft.azure.management.appservice.JavaVersion;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.appservice.WebApp;
-import com.microsoft.azure.management.appservice.WebContainer;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import com.azure.management.Azure;
+import com.azure.management.appservice.DeploymentSlot;
+import com.azure.management.appservice.JavaVersion;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.appservice.WebApp;
+import com.azure.management.appservice.WebContainer;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.samples.Utils;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLogDetailLevel;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * Azure App Service basic sample for managing web apps.
@@ -34,7 +31,6 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ManageWebAppSlots {
 
-    private static OkHttpClient httpClient;
     private static final String SUFFIX = ".azurewebsites.net";
 
     /**
@@ -44,10 +40,10 @@ public final class ManageWebAppSlots {
      */
     public static boolean runSample(Azure azure) {
         // New resources
-        final String resourceGroupName     = SdkContext.randomResourceName("rg", 24);
-        final String app1Name       = SdkContext.randomResourceName("webapp1-", 20);
-        final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
-        final String app3Name       = SdkContext.randomResourceName("webapp3-", 20);
+        final String resourceGroupName     = azure.sdkContext().randomResourceName("rg", 24);
+        final String app1Name       = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String app2Name       = azure.sdkContext().randomResourceName("webapp2-", 20);
+        final String app3Name       = azure.sdkContext().randomResourceName("webapp3-", 20);
         final String slotName       = "staging";
 
         try {
@@ -115,7 +111,7 @@ public final class ManageWebAppSlots {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -152,7 +148,7 @@ public final class ManageWebAppSlots {
         Utils.print(app);
 
         System.out.println("CURLing " + appUrl + "...");
-        System.out.println(curl("http://" + appUrl));
+        System.out.println(Utils.curl("http://" + appUrl));
         return app;
     }
 
@@ -185,10 +181,10 @@ public final class ManageWebAppSlots {
         System.out.println("Deployed staging branch to slot " + slot.name());
 
         System.out.println("CURLing " + slotUrl + "...");
-        System.out.println(curl("http://" + slotUrl));
+        System.out.println(Utils.curl("http://" + slotUrl));
 
         System.out.println("CURLing " + appUrl + "...");
-        System.out.println(curl("http://" + appUrl));
+        System.out.println(Utils.curl("http://" + appUrl));
     }
 
     private static void swapProductionBacktoSlot(DeploymentSlot slot) {
@@ -200,19 +196,6 @@ public final class ManageWebAppSlots {
         System.out.println("Swapped production slot back to " + slot.name());
 
         System.out.println("CURLing " + appUrl + "...");
-        System.out.println(curl("http://" + appUrl));
-    }
-
-    private static String curl(String url) {
-        Request request = new Request.Builder().url(url).get().build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
+        System.out.println(Utils.curl("http://" + appUrl));
     }
 }

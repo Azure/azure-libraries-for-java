@@ -6,29 +6,23 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.AppServicePlan;
-import com.microsoft.azure.management.appservice.FunctionApp;
-import com.microsoft.azure.management.appservice.NameValuePair;
-import com.microsoft.azure.management.appservice.PublishingProfile;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
-import okhttp3.Headers;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import com.azure.management.Azure;
+import com.azure.management.appservice.AppServicePlan;
+import com.azure.management.appservice.FunctionApp;
+import com.azure.management.appservice.NameValuePair;
+import com.azure.management.appservice.PublishingProfile;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.Utils;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLogDetailLevel;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * Azure App Service basic sample for managing function apps.
@@ -44,8 +38,6 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ManageFunctionAppWithAuthentication {
 
-    private static OkHttpClient httpClient;
-
     /**
      * Main function which runs the actual sample.
      * @param azure instance of the azure client
@@ -54,13 +46,13 @@ public final class ManageFunctionAppWithAuthentication {
     public static boolean runSample(Azure azure) {
         // New resources
         final String suffix         = ".azurewebsites.net";
-        final String app1Name       = SdkContext.randomResourceName("webapp1-", 20);
-        final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
-        final String app3Name       = SdkContext.randomResourceName("webapp3-", 20);
+        final String app1Name       = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String app2Name       = azure.sdkContext().randomResourceName("webapp2-", 20);
+        final String app3Name       = azure.sdkContext().randomResourceName("webapp3-", 20);
         final String app1Url        = app1Name + suffix;
         final String app2Url        = app2Name + suffix;
         final String app3Url        = app3Name + suffix;
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
+        final String rgName         = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
 
         try {
 
@@ -132,10 +124,10 @@ public final class ManageFunctionAppWithAuthentication {
 
             // warm up
             System.out.println("Warming up " + app1Url + "/api/square...");
-            post("http://" + app1Url + "/api/square", "625");
+            Utils.post("http://" + app1Url + "/api/square", "625");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app1Url + "/api/square...");
-            System.out.println("Square of 625 is " + post("http://" + app1Url + "/api/square?code=" + app1.getMasterKey(), "625"));
+            System.out.println("Square of 625 is " + Utils.post("http://" + app1Url + "/api/square?code=" + app1.getMasterKey(), "625"));
 
             //============================================================
             // Deploy to app 2 through Git
@@ -164,17 +156,17 @@ public final class ManageFunctionAppWithAuthentication {
 
             // warm up
             System.out.println("Warming up " + app2Url + "/api/square...");
-            post("http://" + app2Url + "/api/square", "725");
+            Utils.post("http://" + app2Url + "/api/square", "725");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app2Url + "/api/square...");
-            System.out.println("Square of 725 is " + post("http://" + app2Url + "/api/square?code=" + functionKey, "725"));
+            System.out.println("Square of 725 is " + Utils.post("http://" + app2Url + "/api/square?code=" + functionKey, "725"));
 
             System.out.println("Adding a new key to function app " + app2.name() + "...");
 
             NameValuePair newKey = app2.addFunctionKey("square", "newkey", null);
 
             System.out.println("CURLing " + app2Url + "/api/square...");
-            System.out.println("Square of 825 is " + post("http://" + app2Url + "/api/square?code=" + newKey.value(), "825"));
+            System.out.println("Square of 825 is " + Utils.post("http://" + app2Url + "/api/square?code=" + newKey.value(), "825"));
 
             //============================================================
             // Deploy to app 3 through Git
@@ -195,10 +187,10 @@ public final class ManageFunctionAppWithAuthentication {
 
             // warm up
             System.out.println("Warming up " + app3Url + "/api/square...");
-            post("http://" + app3Url + "/api/square", "925");
+            Utils.post("http://" + app3Url + "/api/square", "925");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app3Url + "/api/square...");
-            System.out.println("Square of 925 is " + post("http://" + app3Url + "/api/square?code=mysecretkey", "925"));
+            System.out.println("Square of 925 is " + Utils.post("http://" + app3Url + "/api/square?code=mysecretkey", "925"));
 
             return true;
         } catch (Exception e) {
@@ -231,7 +223,7 @@ public final class ManageFunctionAppWithAuthentication {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -243,27 +235,5 @@ public final class ManageFunctionAppWithAuthentication {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private static String curl(String url, Map<String, String> headers) {
-        Request request = new Request.Builder().url(url).headers(Headers.of(headers)).get().build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    private static String post(String url, String body) {
-        Request request = new Request.Builder().url(url).post(RequestBody.create(MediaType.parse("text/plain"), body)).build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
     }
 }

@@ -13,26 +13,28 @@ import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.keyvault.KeyVaultClient;
 import com.microsoft.azure.keyvault.authentication.KeyVaultCredentials;
 import com.microsoft.azure.keyvault.requests.SetSecretRequest;
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.appservice.WebApp;
-import com.microsoft.azure.management.containerregistry.AccessKeyType;
-import com.microsoft.azure.management.containerregistry.Registry;
-import com.microsoft.azure.management.containerregistry.RegistryCredentials;
-import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
-import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.keyvault.SecretPermissions;
-import com.microsoft.azure.management.keyvault.Vault;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.DockerUtils;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.Azure;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.appservice.WebApp;
+import com.azure.management.containerregistry.AccessKeyType;
+import com.azure.management.containerregistry.Registry;
+import com.azure.management.containerregistry.RegistryCredentials;
+import com.azure.management.cosmosdb.CosmosDBAccount;
+import com.azure.management.cosmosdb.DatabaseAccountKind;
+import com.azure.management.graphrbac.ServicePrincipal;
+import com.azure.management.keyvault.SecretPermissions;
+import com.azure.management.keyvault.Vault;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.DockerUtils;
+import com.azure.management.samples.Utils;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLogDetailLevel;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+
 
 /**
  * Azure App Service basic sample for managing web apps.
@@ -53,12 +55,12 @@ public final class ManageLinuxWebAppCosmosDbByMsi {
     public static boolean runSample(Azure azure) {
         // New resources
         final Region region         = Region.US_WEST;
-        final String acrName        = SdkContext.randomResourceName("acr", 20);
-        final String appName        = SdkContext.randomResourceName("webapp1-", 20);
+        final String acrName        = azure.sdkContext().randomResourceName("acr", 20);
+        final String appName        = azure.sdkContext().randomResourceName("webapp1-", 20);
         final String password       = SdkContext.randomUuid();
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
-        final String vaultName      = SdkContext.randomResourceName("vault", 20);
-        final String cosmosName     = SdkContext.randomResourceName("cosmosdb", 20);
+        final String rgName         = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
+        final String vaultName      = azure.sdkContext().randomResourceName("vault", 20);
+        final String cosmosName     = azure.sdkContext().randomResourceName("cosmosdb", 20);
 
         try {
             //============================================================
@@ -217,7 +219,7 @@ public final class ManageLinuxWebAppCosmosDbByMsi {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

@@ -6,24 +6,21 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.AppServicePlan;
-import com.microsoft.azure.management.appservice.BuiltInAuthenticationProvider;
-import com.microsoft.azure.management.appservice.JavaVersion;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.appservice.WebApp;
-import com.microsoft.azure.management.appservice.WebContainer;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import com.azure.management.Azure;
+import com.azure.management.appservice.AppServicePlan;
+import com.azure.management.appservice.BuiltInAuthenticationProvider;
+import com.azure.management.appservice.JavaVersion;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.appservice.WebApp;
+import com.azure.management.appservice.WebContainer;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.samples.Utils;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLogDetailLevel;
 
 import java.io.Console;
 import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * Azure App Service sample for managing authentication for web apps.
@@ -35,8 +32,6 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ManageWebAppWithAuthentication {
 
-    private static OkHttpClient httpClient;
-
     /**
      * Main function which runs the actual sample.
      * @param azure instance of the azure client
@@ -45,15 +40,15 @@ public final class ManageWebAppWithAuthentication {
     public static boolean runSample(Azure azure) {
         // New resources
         final String suffix         = ".azurewebsites.net";
-        final String app1Name       = SdkContext.randomResourceName("webapp1-", 20);
-        final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
-        final String app3Name       = SdkContext.randomResourceName("webapp3-", 20);
-        final String app4Name       = SdkContext.randomResourceName("webapp4-", 20);
+        final String app1Name       = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String app2Name       = azure.sdkContext().randomResourceName("webapp2-", 20);
+        final String app3Name       = azure.sdkContext().randomResourceName("webapp3-", 20);
+        final String app4Name       = azure.sdkContext().randomResourceName("webapp4-", 20);
         final String app1Url        = app1Name + suffix;
         final String app2Url        = app2Name + suffix;
         final String app3Url        = app3Name + suffix;
         final String app4Url        = app4Name + suffix;
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
+        final String rgName         = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
 
         try {
 
@@ -234,7 +229,7 @@ public final class ManageWebAppWithAuthentication {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -246,18 +241,5 @@ public final class ManageWebAppWithAuthentication {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private static String curl(String url) {
-        Request request = new Request.Builder().url(url).get().build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
     }
 }

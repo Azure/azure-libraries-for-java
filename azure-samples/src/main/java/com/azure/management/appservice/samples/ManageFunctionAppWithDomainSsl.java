@@ -6,20 +6,19 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.AppServiceDomain;
-import com.microsoft.azure.management.appservice.CustomHostNameDnsRecordType;
-import com.microsoft.azure.management.appservice.FunctionApp;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryPhoneCode;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
-import okhttp3.OkHttpClient;
+import com.azure.management.Azure;
+import com.azure.management.appservice.AppServiceDomain;
+import com.azure.management.appservice.CustomHostNameDnsRecordType;
+import com.azure.management.appservice.FunctionApp;
+import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.azure.management.resources.fluentcore.arm.CountryPhoneCode;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.samples.Utils;
+import com.azure.core.http.policy.HttpLogOptions;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+
 
 /**
  * Azure App Service sample for managing function apps.
@@ -33,8 +32,6 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ManageFunctionAppWithDomainSsl {
 
-    private static OkHttpClient httpClient;
-
     /**
      * Main function which runs the actual sample.
      * @param azure instance of the azure client
@@ -42,10 +39,10 @@ public final class ManageFunctionAppWithDomainSsl {
      */
     public static boolean runSample(Azure azure) {
         // New resources
-        final String app1Name       = SdkContext.randomResourceName("webapp1-", 20);
-        final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
-        final String rgName         = SdkContext.randomResourceName("rgNEMV_", 24);
-        final String domainName     = SdkContext.randomResourceName("jsdkdemo-", 20) + ".com";
+        final String app1Name       = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String app2Name       = azure.sdkContext().randomResourceName("webapp2-", 20);
+        final String rgName         = azure.sdkContext().randomResourceName("rgNEMV_", 24);
+        final String domainName     = azure.sdkContext().randomResourceName("jsdkdemo-", 20) + ".com";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String certPassword   = "StrongPass!12";
 
@@ -192,7 +189,7 @@ public final class ManageFunctionAppWithDomainSsl {
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
 
             Azure azure = Azure.configure()
-                    .withLogLevel(LogLevel.BODY)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -206,10 +203,4 @@ public final class ManageFunctionAppWithDomainSsl {
             e.printStackTrace();
         }
     }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
-    }
-
-
 }

@@ -6,18 +6,15 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.AppServicePlan;
-import com.microsoft.azure.management.appservice.FunctionApp;
-import com.microsoft.azure.management.appservice.PublishingProfile;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.appservice.AppServicePlan;
+import com.azure.management.appservice.FunctionApp;
+import com.azure.management.appservice.PublishingProfile;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.Utils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.transport.RefSpec;
@@ -26,6 +23,7 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
 
 /**
  * Azure App Service basic sample for managing function apps.
@@ -39,8 +37,6 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ManageFunctionAppSourceControl {
 
-    private static OkHttpClient httpClient;
-
     /**
      * Main function which runs the actual sample.
      * @param azure instance of the azure client
@@ -49,19 +45,19 @@ public final class ManageFunctionAppSourceControl {
     public static boolean runSample(Azure azure) {
         // New resources
         final String suffix         = ".azurewebsites.net";
-        final String app1Name       = SdkContext.randomResourceName("webapp1-", 20);
-        final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
-        final String app3Name       = SdkContext.randomResourceName("webapp3-", 20);
-        final String app4Name       = SdkContext.randomResourceName("webapp4-", 20);
-        final String app5Name       = SdkContext.randomResourceName("webapp5-", 20);
-        final String app6Name       = SdkContext.randomResourceName("webapp6-", 20);
+        final String app1Name       = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String app2Name       = azure.sdkContext().randomResourceName("webapp2-", 20);
+        final String app3Name       = azure.sdkContext().randomResourceName("webapp3-", 20);
+        final String app4Name       = azure.sdkContext().randomResourceName("webapp4-", 20);
+        final String app5Name       = azure.sdkContext().randomResourceName("webapp5-", 20);
+        final String app6Name       = azure.sdkContext().randomResourceName("webapp6-", 20);
         final String app1Url        = app1Name + suffix;
         final String app2Url        = app2Name + suffix;
         final String app3Url        = app3Name + suffix;
         final String app4Url        = app4Name + suffix;
         final String app5Url        = app5Name + suffix;
         final String app6Url        = app6Name + suffix;
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
+        final String rgName         = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
 
         try {
 
@@ -96,10 +92,10 @@ public final class ManageFunctionAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app1Url + "/api/square...");
-            post("http://" + app1Url + "/api/square", "625");
+            Utils.post("http://" + app1Url + "/api/square", "625");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app1Url + "/api/square...");
-            System.out.println("Square of 625 is " + post("http://" + app1Url + "/api/square", "625"));
+            System.out.println("Square of 625 is " + Utils.post("http://" + app1Url + "/api/square", "625"));
 
             //============================================================
             // Create a second function app with local git source control
@@ -140,10 +136,10 @@ public final class ManageFunctionAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app2Url + "/api/square...");
-            post("http://" + app2Url + "/api/square", "725");
+            Utils.post("http://" + app2Url + "/api/square", "725");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app2Url + "/api/square...");
-            System.out.println("Square of 725 is " + post("http://" + app2Url + "/api/square", "725"));
+            System.out.println("Square of 725 is " + Utils.post("http://" + app2Url + "/api/square", "725"));
 
             //============================================================
             // Create a 3rd function app with a public GitHub repo in Azure-Samples
@@ -164,10 +160,10 @@ public final class ManageFunctionAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app3Url + "/api/square...");
-            post("http://" + app3Url + "/api/square", "825");
+            Utils.post("http://" + app3Url + "/api/square", "825");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app3Url + "/api/square...");
-            System.out.println("Square of 825 is " + post("http://" + app3Url + "/api/square", "825"));
+            System.out.println("Square of 825 is " + Utils.post("http://" + app3Url + "/api/square", "825"));
 
             //============================================================
             // Create a 4th function app with a personal GitHub repo and turn on continuous integration
@@ -191,10 +187,10 @@ public final class ManageFunctionAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app4Url + "...");
-            curl("http://" + app4Url);
+            Utils.curl("http://" + app4Url);
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app4Url + "...");
-            System.out.println(curl("http://" + app4Url));
+            System.out.println(Utils.curl("http://" + app4Url));
 
             //============================================================
             // Create a 5th function app with web deploy
@@ -217,10 +213,10 @@ public final class ManageFunctionAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app5Url + "/api/square...");
-            post("http://" + app5Url + "/api/square", "925");
+            Utils.post("http://" + app5Url + "/api/square", "925");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app5Url + "/api/square...");
-            System.out.println("Square of 925 is " + post("http://" + app5Url + "/api/square", "925"));
+            System.out.println("Square of 925 is " + Utils.post("http://" + app5Url + "/api/square", "925"));
 
             //============================================================
             // Create a 6th function app with zip deploy
@@ -243,10 +239,10 @@ public final class ManageFunctionAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app6Url + "/api/square...");
-            post("http://" + app6Url + "/api/square", "926");
+            Utils.post("http://" + app6Url + "/api/square", "926");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app6Url + "/api/square...");
-            System.out.println("Square of 926 is " + post("http://" + app6Url + "/api/square", "926"));
+            System.out.println("Square of 926 is " + Utils.post("http://" + app6Url + "/api/square", "926"));
 
             return true;
         } catch (Exception e) {
@@ -279,7 +275,7 @@ public final class ManageFunctionAppSourceControl {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -291,27 +287,5 @@ public final class ManageFunctionAppSourceControl {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private static String curl(String url) {
-        Request request = new Request.Builder().url(url).get().build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    private static String post(String url, String body) {
-        Request request = new Request.Builder().url(url).post(RequestBody.create(MediaType.parse("text/plain"), body)).build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
     }
 }

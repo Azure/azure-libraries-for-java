@@ -6,16 +6,17 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.AppServicePlan;
-import com.microsoft.azure.management.appservice.FunctionApp;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
+import com.azure.management.Azure;
+import com.azure.management.appservice.AppServicePlan;
+import com.azure.management.appservice.FunctionApp;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.samples.Utils;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLogDetailLevel;
 
 import java.io.File;
+
 
 /**
  * Azure App Service basic sample for managing function apps.
@@ -34,11 +35,11 @@ public final class ManageFunctionAppBasic {
      */
     public static boolean runSample(Azure azure) {
         // New resources
-        final String app1Name       = SdkContext.randomResourceName("webapp1-", 20);
-        final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
-        final String app3Name       = SdkContext.randomResourceName("webapp3-", 20);
-        final String rg1Name        = SdkContext.randomResourceName("rg1NEMV_", 24);
-        final String rg2Name        = SdkContext.randomResourceName("rg2NEMV_", 24);
+        final String app1Name       = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String app2Name       = azure.sdkContext().randomResourceName("webapp2-", 20);
+        final String app3Name       = azure.sdkContext().randomResourceName("webapp3-", 20);
+        final String rg1Name        = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
+        final String rg2Name        = azure.sdkContext().randomResourceName("rg2NEMV_", 24);
 
         try {
 
@@ -162,7 +163,7 @@ public final class ManageFunctionAppBasic {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 

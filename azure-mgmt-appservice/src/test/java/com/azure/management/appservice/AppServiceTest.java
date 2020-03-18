@@ -167,7 +167,7 @@ public class AppServiceTest extends TestBase {
         }
     }
 
-    protected Response<String> curl(String urlString) throws IOException {
+    protected Response<String> curl(String urlString) {
         try {
             return stringResponse(httpClient.getString(getHost(urlString), getPathAndQuery(urlString))).block();
         } catch (MalformedURLException e) {

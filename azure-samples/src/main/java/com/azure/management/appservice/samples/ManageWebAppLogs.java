@@ -6,28 +6,25 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.appservice.JavaVersion;
-import com.microsoft.azure.management.appservice.PricingTier;
-import com.microsoft.azure.management.appservice.WebApp;
-import com.microsoft.azure.management.appservice.WebContainer;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.rest.LogLevel;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.management.Azure;
+import com.azure.management.appservice.JavaVersion;
+import com.azure.management.appservice.PricingTier;
+import com.azure.management.appservice.WebApp;
+import com.azure.management.appservice.WebContainer;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.samples.Utils;
 import org.apache.commons.lang.time.StopWatch;
-import rx.Subscriber;
+import reactor.core.publisher.BaseSubscriber;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
  * Azure App Service basic sample for managing web app logs.
@@ -38,19 +35,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class ManageWebAppLogs {
 
-    private static OkHttpClient httpClient;
-
     /**
      * Main function which runs the actual sample.
+     *
      * @param azure instance of the azure client
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
         // New resources
-        final String suffix         = ".azurewebsites.net";
-        final String appName       = SdkContext.randomResourceName("webapp1-", 20);
-        final String appUrl        = appName + suffix;
-        final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
+        final String suffix = ".azurewebsites.net";
+        final String appName = azure.sdkContext().randomResourceName("webapp1-", 20);
+        final String appUrl = appName + suffix;
+        final String rgName = azure.sdkContext().randomResourceName("rg1NEMV_", 24);
 
         try {
 
@@ -66,14 +62,14 @@ public final class ManageWebAppLogs {
                     .withJavaVersion(JavaVersion.JAVA_8_NEWEST)
                     .withWebContainer(WebContainer.TOMCAT_8_0_NEWEST)
                     .defineDiagnosticLogsConfiguration()
-                        .withWebServerLogging()
-                        .withWebServerLogsStoredOnFileSystem()
-                        .attach()
+                    .withWebServerLogging()
+                    .withWebServerLogsStoredOnFileSystem()
+                    .attach()
                     .defineDiagnosticLogsConfiguration()
-                        .withApplicationLogging()
-                        .withLogLevel(com.microsoft.azure.management.appservice.LogLevel.VERBOSE)
-                        .withApplicationLogsStoredOnFileSystem()
-                        .attach()
+                    .withApplicationLogging()
+                    .withLogLevel(com.azure.management.appservice.LogLevel.VERBOSE)
+                    .withApplicationLogsStoredOnFileSystem()
+                    .attach()
                     .create();
 
             System.out.println("Created web app " + app.name());
@@ -106,10 +102,10 @@ public final class ManageWebAppLogs {
 
                     // warm up
                     System.out.println("Warming up " + appUrl + "/coffeeshop...");
-                    curl("http://" + appUrl + "/coffeeshop");
+                    Utils.curl("http://" + appUrl + "/coffeeshop");
                     SdkContext.sleep(5000);
                     System.out.println("CURLing " + appUrl + "/coffeeshop...");
-                    System.out.println(curl("http://" + appUrl + "/coffeeshop"));
+                    System.out.println(Utils.curl("http://" + appUrl + "/coffeeshop"));
                 }
             }).start();
             // Watch logs for 2 minutes
@@ -127,37 +123,33 @@ public final class ManageWebAppLogs {
                 public void run() {
                     SdkContext.sleep(10000);
                     System.out.println("Starting hitting");
-                    curl("http://" + appUrl + "/coffeeshop");
+                    Utils.curl("http://" + appUrl + "/coffeeshop");
                     SdkContext.sleep(15000);
-                    curl("http://" + appUrl + "/coffeeshop");
+                    Utils.curl("http://" + appUrl + "/coffeeshop");
                     SdkContext.sleep(20000);
-                    curl("http://" + appUrl + "/coffeeshop");
+                    Utils.curl("http://" + appUrl + "/coffeeshop");
                 }
             }).start();
 
             final AtomicInteger count = new AtomicInteger(0);
-            app.streamHttpLogsAsync()
-                    .subscribe(new Subscriber<String>() {
-                        @Override
-                        public void onCompleted() {
-                            // automatically unsubscribe
+            app.streamHttpLogsAsync().subscribe(new BaseSubscriber<String>() {
+                @Override
+                protected void hookOnNext(String value) {
+                    System.out.println(value);
+                    if (value.contains("GET /coffeeshop/")) {
+                        if (count.incrementAndGet() >= 3) {
+                            this.dispose();
                         }
+                    }
+                    super.hookOnNext(value);
+                }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                        }
-
-                        @Override
-                        public void onNext(String s) {
-                            System.out.println(s);
-                            if (s.contains("GET /coffeeshop/")) {
-                                if (count.incrementAndGet() >= 3) {
-                                    unsubscribe();
-                                }
-                            }
-                        }
-                    });
+                @Override
+                protected void hookOnError(Throwable throwable) {
+                    throwable.printStackTrace();
+                    super.hookOnError(throwable);
+                }
+            });
 
             return true;
         } catch (Exception e) {
@@ -176,8 +168,10 @@ public final class ManageWebAppLogs {
         }
         return false;
     }
+
     /**
      * Main entry point.
+     *
      * @param args the parameters
      */
     public static void main(String[] args) {
@@ -190,7 +184,7 @@ public final class ManageWebAppLogs {
 
             Azure azure = Azure
                     .configure()
-                    .withLogLevel(LogLevel.BASIC)
+                    .withLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BASIC))
                     .authenticate(credFile)
                     .withDefaultSubscription();
 
@@ -204,24 +198,6 @@ public final class ManageWebAppLogs {
         }
     }
 
-    private static String curl(String url) {
-        Request request = new Request.Builder().url(url).get().build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    private static String post(String url, String body) {
-        Request request = new Request.Builder().url(url).post(RequestBody.create(MediaType.parse("text/plain"), body)).build();
-        try {
-            return httpClient.newCall(request).execute().body().string();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
     private static String readLine(InputStream in) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         int c;
@@ -232,9 +208,5 @@ public final class ManageWebAppLogs {
             return null;
         }
         return stream.toString("UTF-8");
-    }
-
-    static {
-        httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
     }
 }

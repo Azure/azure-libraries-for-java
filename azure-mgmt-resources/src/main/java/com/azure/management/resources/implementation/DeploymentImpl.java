@@ -305,7 +305,6 @@ public final class DeploymentImpl extends
         return this;
     }
 
-    // TODO: What's the different between beginCreateAsync * createResourceAsync
     @Override
     public Mono<Deployment> beginCreateAsync() {
         return Mono.just(creatableResourceGroup)
@@ -316,7 +315,7 @@ public final class DeploymentImpl extends
                         return Mono.just((Indexable) DeploymentImpl.this);
                     }
                 })
-                .flatMap(indexable -> manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner()))
+                .flatMap(indexable -> manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner()))
                 .map(innerToFluentMap(this));
     }
 

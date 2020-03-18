@@ -8,7 +8,6 @@ package com.microsoft.azure.management.keyvault.implementation;
 
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.keyvault.SecretIdentifier;
 import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.SecretAttributes;
 import com.microsoft.azure.keyvault.models.SecretBundle;

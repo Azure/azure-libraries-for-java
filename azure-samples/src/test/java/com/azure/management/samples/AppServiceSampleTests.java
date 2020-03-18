@@ -6,84 +6,84 @@
 
 package com.azure.management.samples;
 
-import com.microsoft.azure.management.appservice.samples.ManageFunctionAppBasic;
-import com.microsoft.azure.management.appservice.samples.ManageFunctionAppWithDomainSsl;
-import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppBasic;
-import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppSqlConnection;
-import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppWithDomainSsl;
-import com.microsoft.azure.management.appservice.samples.ManageLinuxWebAppWithTrafficManager;
-import com.microsoft.azure.management.appservice.samples.ManageWebAppBasic;
-import com.microsoft.azure.management.appservice.samples.ManageWebAppSlots;
-import com.microsoft.azure.management.appservice.samples.ManageWebAppSourceControlAsync;
-import com.microsoft.azure.management.appservice.samples.ManageWebAppSqlConnection;
-import com.microsoft.azure.management.appservice.samples.ManageWebAppWithDomainSsl;
-import com.microsoft.azure.management.appservice.samples.ManageWebAppWithTrafficManager;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import com.azure.management.appservice.samples.ManageFunctionAppBasic;
+import com.azure.management.appservice.samples.ManageFunctionAppWithDomainSsl;
+import com.azure.management.appservice.samples.ManageLinuxWebAppBasic;
+import com.azure.management.appservice.samples.ManageLinuxWebAppSqlConnection;
+import com.azure.management.appservice.samples.ManageLinuxWebAppWithDomainSsl;
+import com.azure.management.appservice.samples.ManageLinuxWebAppWithTrafficManager;
+import com.azure.management.appservice.samples.ManageWebAppBasic;
+import com.azure.management.appservice.samples.ManageWebAppSlots;
+import com.azure.management.appservice.samples.ManageWebAppSourceControlAsync;
+import com.azure.management.appservice.samples.ManageWebAppSqlConnection;
+import com.azure.management.appservice.samples.ManageWebAppWithDomainSsl;
+import com.azure.management.appservice.samples.ManageWebAppWithTrafficManager;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class AppServiceSampleTests extends SamplesTestBase {
     @Test
     public void testManageWebAppBasic() {
-        Assert.assertTrue(ManageWebAppBasic.runSample(azure));
+        Assertions.assertTrue(ManageWebAppBasic.runSample(azure));
     }
 
     @Test
-    @Ignore("Fails randomly when creating one of the three slots")
+    @Disabled("Fails randomly when creating one of the three slots")
     public void testManageWebAppSlots() {
-        Assert.assertTrue(ManageWebAppSlots.runSample(azure));
+        Assertions.assertTrue(ManageWebAppSlots.runSample(azure));
     }
 
     @Test
-    @Ignore("Failing in playback - dependent on git")
+    @Disabled("Failing in playback - dependent on git")
     public void testManageWebAppSourceControlAsync() {
-        Assert.assertTrue(ManageWebAppSourceControlAsync.runSample(azure));
+        Assertions.assertTrue(ManageWebAppSourceControlAsync.runSample(azure));
     }
 
     @Test
-    @Ignore("Stops in between for user input")
+    @Disabled("Stops in between for user input")
     public void testManageWebAppSqlConnection() {
-        Assert.assertTrue(ManageWebAppSqlConnection.runSample(azure));
+        Assertions.assertTrue(ManageWebAppSqlConnection.runSample(azure));
     }
 
     @Test
     public void testManageWebAppWithDomainSsl() {
-        Assert.assertTrue(ManageWebAppWithDomainSsl.runSample(azure));
+        Assertions.assertTrue(ManageWebAppWithDomainSsl.runSample(azure));
     }
 
     @Test
     public void testManageWebAppWithTrafficManager() {
-        Assert.assertTrue(ManageWebAppWithTrafficManager.runSample(azure));
+        Assertions.assertTrue(ManageWebAppWithTrafficManager.runSample(azure));
     }
 
     @Test
     public void testManageLinuxWebAppBasic() {
-        Assert.assertTrue(ManageLinuxWebAppBasic.runSample(azure));
+        Assertions.assertTrue(ManageLinuxWebAppBasic.runSample(azure));
     }
 
     @Test
-    @Ignore("Stops in between for user input")
+    @Disabled("Stops in between for user input")
     public void testManageLinuxWebAppSqlConnection() {
-        Assert.assertTrue(ManageLinuxWebAppSqlConnection.runSample(azure));
+        Assertions.assertTrue(ManageLinuxWebAppSqlConnection.runSample(azure));
     }
 
     @Test
     public void testManageLinuxWebAppWithDomainSsl() {
-        Assert.assertTrue(ManageLinuxWebAppWithDomainSsl.runSample(azure));
+        Assertions.assertTrue(ManageLinuxWebAppWithDomainSsl.runSample(azure));
     }
 
     @Test
     public void testManageLinuxWebAppWithTrafficManager() {
-        Assert.assertTrue(ManageLinuxWebAppWithTrafficManager.runSample(azure));
+        Assertions.assertTrue(ManageLinuxWebAppWithTrafficManager.runSample(azure));
     }
 
     @Test
     public void testManageFunctionAppBasic() {
-        Assert.assertTrue(ManageFunctionAppBasic.runSample(azure));
+        Assertions.assertTrue(ManageFunctionAppBasic.runSample(azure));
     }
 
     @Test
     public void testManageFunctionAppWithDomainSsl() {
-        Assert.assertTrue(ManageFunctionAppWithDomainSsl.runSample(azure));
+        Assertions.assertTrue(ManageFunctionAppWithDomainSsl.runSample(azure));
     }
 }

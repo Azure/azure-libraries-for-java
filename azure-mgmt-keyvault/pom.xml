@@ -75,13 +75,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.microsoft.azure</groupId>
-      <artifactId>azure-mgmt-resources</artifactId>
-      <version>1.31.2-SNAPSHOT</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <scope>test</scope>
@@ -92,6 +85,25 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <profiles>
+    <profile>
+      <id>azure-mgmt-sdk-test-jar</id>
+      <activation>
+        <property>
+          <name>!maven.test.skip</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>com.microsoft.azure</groupId>
+          <artifactId>azure-mgmt-resources</artifactId>
+          <version>1.31.2-SNAPSHOT</version>
+          <type>test-jar</type>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
   <build>
     <plugins>
       <plugin>

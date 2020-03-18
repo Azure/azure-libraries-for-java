@@ -19,8 +19,10 @@ import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.jupiter.api.Assertions;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -221,7 +223,10 @@ public class TestVirtualNetworkGateway {
                     .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
                     .createAsync();
 
-            Flux.merge(vngwObservable, vngw2Observable).map(obj -> {
+            Flux<?> vngw2ObservableSleep = Mono.delay(Duration.ofSeconds(10))
+                    .thenMany(vngw2Observable);
+
+            Flux.merge(vngwObservable, vngw2ObservableSleep).map(obj -> {
                 if (obj instanceof VirtualNetworkGateway) {
                     gws.add((VirtualNetworkGateway) obj);
                 }

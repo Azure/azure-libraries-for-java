@@ -100,7 +100,6 @@ import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountEncryptionStatus;
 import com.azure.management.storage.StorageAccountKey;
 import com.azure.management.storage.StorageService;
-import jersey.repackaged.com.google.common.base.Joiner;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
@@ -116,6 +115,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Common utils for Azure management samples.
@@ -463,8 +463,8 @@ public final class Utils {
                 .append("\n\tAccess policies: ");
         for (AccessPolicy accessPolicy : vault.accessPolicies()) {
             info.append("\n\t\tIdentity:").append(accessPolicy.objectId())
-                    .append("\n\t\tKey permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().getKeys()))
-                    .append("\n\t\tSecret permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().getSecrets()));
+                    .append("\n\t\tKey permissions: ").append(String.join(", ", accessPolicy.permissions().getKeys().stream().map(key -> key.toString()).collect(Collectors.toList())))
+                    .append("\n\t\tSecret permissions: ").append(String.join(", ", accessPolicy.permissions().getSecrets().stream().map(secret -> secret.toString()).collect(Collectors.toList())));
         }
         System.out.println(info.toString());
     }

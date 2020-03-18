@@ -18,10 +18,14 @@ import com.azure.management.network.SecurityRuleProtocol;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.samples.Utils;
+import javafx.util.Pair;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -110,7 +114,7 @@ public final class ManageVirtualNetworkAsync {
                             }),
                     azure.networkSecurityGroups().define(vnet1FrontEndSubnetNsgName)
                             .withRegion(Region.US_EAST)
-                            .withExistingResourceGroup(rgName)
+                            .withNewResourceGroup(rgName)
                             .defineRule("AllowHttpInComing")
                             .allowInbound()
                             .fromAddress("INTERNET")
@@ -131,15 +135,9 @@ public final class ManageVirtualNetworkAsync {
             ).map(indexable -> {
                 if (indexable instanceof NetworkSecurityGroup) {
                     NetworkSecurityGroup nsg = (NetworkSecurityGroup) indexable;
-                    System.out.println("Created network security group");
-                    // Print the network security group
-                    Utils.print(nsg);
                     createdResources.put(nsg.name(), nsg);
                 } else if (indexable instanceof Network) {
                     Network vn = (Network) indexable;
-                    System.out.println("Created a virtual network");
-                    // Print the virtual network details
-                    Utils.print(vn);
                     createdResources.put(vn.name(), vn);
                 }
                 return indexable;
@@ -148,6 +146,13 @@ public final class ManageVirtualNetworkAsync {
             NetworkSecurityGroup frontEndSubnetNsg = (NetworkSecurityGroup) createdResources.get(vnet1FrontEndSubnetNsgName);
             Network virtualNetwork1 = (Network) createdResources.get(vnetName1);
 
+            System.out.println("Created network security group");
+            // Print the network security group
+            Utils.print(frontEndSubnetNsg);
+
+            System.out.println("Created a virtual network");
+            // Print the virtual network details
+            Utils.print(virtualNetwork1);
 
             //============================================================
             // Update a virtual network
@@ -177,6 +182,7 @@ public final class ManageVirtualNetworkAsync {
             // Create a virtual network with default address-space and one default subnet
             System.out.println("Creating virtual network #2...");
 
+            final List<Pair<Indexable, Long>> creations = new ArrayList<>();
             final Date t1 = new Date();
 
             Flux.merge(
@@ -211,34 +217,36 @@ public final class ManageVirtualNetworkAsync {
                     .map(indexable -> {
                         Date t2 = new Date();
                         long duration = ((t2.getTime() - t1.getTime()) / 1000);
-
-                        if (indexable instanceof VirtualMachine) {
-                            VirtualMachine vm = (VirtualMachine) indexable;
-                            System.out.println("Created Linux VM: (took "
-                                    + duration + " seconds) " + vm.id());
-                            // Print virtual machine details
-                            Utils.print(vm);
-                        } else if (indexable instanceof Network) {
-                            Network vn = (Network) indexable;
-                            System.out.println("Created a virtual network: took "
-                                    + duration + " seconds) " + vn.id());
-                            // Print the virtual network details
-                            Utils.print(vn);
-                        }
+                        creations.add(new Pair<>(indexable, duration));
                         return indexable;
                     });
 
+            for (Pair<Indexable, Long> creation : creations) {
+                if (creation.getKey() instanceof VirtualMachine) {
+                    VirtualMachine vm = (VirtualMachine) creation.getKey();
+                    System.out.println("Created Linux VM: (took "
+                            + creation.getValue() + " seconds) " + vm.id());
+                    // Print virtual machine details
+                    Utils.print(vm);
+                } else if (creation.getKey() instanceof Network) {
+                    Network vn = (Network) creation.getKey();
+                    System.out.println("Created a virtual network: took "
+                            + creation.getValue() + " seconds) " + vn.id());
+                    // Print the virtual network details
+                    Utils.print(vn);
+                }
+            }
+
             //============================================================
             // List virtual networks and print details
-            azure.networks().listByResourceGroupAsync(rgName)
-                    .map(network -> {
-                        Utils.print(network);
-                        return network;
-                    }).blockLast();
+            for (Network network : azure.networks().listByResourceGroup(rgName)) {
+                Utils.print(network);
+            }
 
             return true;
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         } finally {
             try {
                 System.out.println("Deleting Resource Group: " + rgName);

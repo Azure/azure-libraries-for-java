@@ -18,11 +18,9 @@ import com.azure.management.network.SecurityRuleProtocol;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.samples.Utils;
-import javafx.util.Pair;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +37,16 @@ import java.util.TreeMap;
  */
 
 public final class ManageVirtualNetworkAsync {
+
+    private static class Indexable2Duration {
+        Indexable indexable;
+        Long duration;
+
+        public Indexable2Duration(Indexable indexable, long duration) {
+            this.indexable = indexable;
+            this.duration = duration;
+        }
+    }
 
     /**
      * Main function which runs the actual sample.
@@ -182,7 +190,7 @@ public final class ManageVirtualNetworkAsync {
             // Create a virtual network with default address-space and one default subnet
             System.out.println("Creating virtual network #2...");
 
-            final List<Pair<Indexable, Long>> creations = new ArrayList<>();
+            final List<Indexable2Duration> creations = new ArrayList<>();
             final Date t1 = new Date();
 
             Flux.merge(
@@ -217,21 +225,21 @@ public final class ManageVirtualNetworkAsync {
                     .map(indexable -> {
                         Date t2 = new Date();
                         long duration = ((t2.getTime() - t1.getTime()) / 1000);
-                        creations.add(new Pair<>(indexable, duration));
+                        creations.add(new Indexable2Duration(indexable, duration));
                         return indexable;
                     });
 
-            for (Pair<Indexable, Long> creation : creations) {
-                if (creation.getKey() instanceof VirtualMachine) {
-                    VirtualMachine vm = (VirtualMachine) creation.getKey();
+            for (Indexable2Duration creation : creations) {
+                if (creation.indexable instanceof VirtualMachine) {
+                    VirtualMachine vm = (VirtualMachine) creation.indexable;
                     System.out.println("Created Linux VM: (took "
-                            + creation.getValue() + " seconds) " + vm.id());
+                            + creation.duration + " seconds) " + vm.id());
                     // Print virtual machine details
                     Utils.print(vm);
-                } else if (creation.getKey() instanceof Network) {
-                    Network vn = (Network) creation.getKey();
+                } else if (creation.indexable instanceof Network) {
+                    Network vn = (Network) creation.indexable;
                     System.out.println("Created a virtual network: took "
-                            + creation.getValue() + " seconds) " + vn.id());
+                            + creation.duration + " seconds) " + vn.id());
                     // Print the virtual network details
                     Utils.print(vn);
                 }

@@ -35,7 +35,7 @@ import java.io.File;
  *  - Scale up the app service plans to twice the capacity
  */
 public final class ManageLinuxWebAppWithTrafficManager {
-    private static final String RG_NAME = azure.sdkContext().randomResourceName("rgNEMV_", 24);
+    private static String RG_NAME;
     // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
     private static final String CERT_PASSWORD = "StrongPass!12";
 
@@ -49,6 +49,8 @@ public final class ManageLinuxWebAppWithTrafficManager {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
+//        RG_NAME = azure.sdkContext().randomResourceName("rgNEMV_", 24);
+//
 //        if (ManageLinuxWebAppWithTrafficManager.azure == null) {
 //            ManageLinuxWebAppWithTrafficManager.azure = azure;
 //        }

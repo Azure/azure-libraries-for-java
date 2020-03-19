@@ -7,6 +7,8 @@
 package com.azure.management.appservice.samples;
 
 import com.azure.management.ApplicationTokenCredential;
+import com.azure.security.keyvault.secrets.SecretClient;
+import com.azure.security.keyvault.secrets.SecretClientBuilder;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.keyvault.KeyVaultClient;
 import com.microsoft.azure.keyvault.authentication.KeyVaultCredentials;
@@ -89,7 +91,9 @@ public final class ManageWebAppCosmosDbByMsi {
 
             SdkContext.sleep(10000);
 
-            KeyVaultClient client = new KeyVaultClient(new KeyVaultCredentials() {
+            SecretClient client = new SecretClientBuilder().
+
+                    new KeyVaultClient(new KeyVaultCredentials() {
                 @Override
                 public String doAuthenticate(String authorization, String resource, String scope) {
                     try {

@@ -6,7 +6,7 @@
 
 package com.azure.management.appservice.samples;
 
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
+import com.azure.management.ApplicationTokenCredential;
 import com.azure.management.Azure;
 import com.azure.management.appservice.JavaVersion;
 import com.azure.management.appservice.PricingTier;
@@ -70,14 +70,14 @@ public final class ManageWebAppCosmosDbThroughKeyVault {
             // Create a key vault
 
             final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-            final ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(credFile);
+            final ApplicationTokenCredential credentials = ApplicationTokenCredential.fromFile(credFile);
 
             Vault vault = azure.vaults()
                     .define(vaultName)
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .defineAccessPolicy()
-                        .forServicePrincipal(credentials.clientId())
+                        .forServicePrincipal(credentials.getClientId())
                         .allowSecretAllPermissions()
                         .attach()
                     .create();

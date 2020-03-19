@@ -101,6 +101,7 @@ class ActiveDirectoryUserImpl
     @Override
     public ActiveDirectoryUserImpl withPassword(String password) {
         createParameters.withPasswordProfile(new PasswordProfile().withPassword(password));
+        updateParameters.withPasswordProfile(new PasswordProfile().withPassword(password));
         return this;
     }
 
@@ -163,6 +164,7 @@ class ActiveDirectoryUserImpl
     @Override
     public ActiveDirectoryUserImpl withPromptToChangePasswordOnLogin(boolean promptToChangePasswordOnLogin) {
         createParameters.passwordProfile().withForceChangePasswordNextLogin(promptToChangePasswordOnLogin);
+        updateParameters.passwordProfile().withForceChangePasswordNextLogin(promptToChangePasswordOnLogin);
         return this;
     }
 

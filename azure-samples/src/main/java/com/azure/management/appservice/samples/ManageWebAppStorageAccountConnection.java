@@ -26,6 +26,9 @@ import com.azure.storage.blob.models.BlobSignedIdentifier;
 import com.azure.storage.blob.models.PublicAccessType;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 
@@ -114,10 +117,10 @@ public final class ManageWebAppStorageAccountConnection {
 
             // warm up
             System.out.println("Warming up " + app1Url + "/azure-samples-blob-traverser...");
-            Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser");
+            Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser/");
             SdkContext.sleep(5000);
-            System.out.println("Utils.curl(ing " + app1Url + "/azure-samples-blob-traverser...");
-            System.out.println(Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser"));
+            System.out.println("Utils.curling " + app1Url + "/azure-samples-blob-traverser...");
+            System.out.println(Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser/"));
 
             return true;
         } catch (Exception e) {
@@ -126,7 +129,7 @@ public final class ManageWebAppStorageAccountConnection {
         } finally {
             try {
                 System.out.println("Deleting Resource Group: " + rgName);
-                azure.resourceGroups().beginDeleteByName(rgName);
+                //azure.resourceGroups().beginDeleteByName(rgName);
                 System.out.println("Deleted Resource Group: " + rgName);
             } catch (NullPointerException npe) {
                 System.out.println("Did not create any resources in Azure. No clean up is necessary");
@@ -186,6 +189,12 @@ public final class ManageWebAppStorageAccountConnection {
 
     private static void uploadFileToContainer(BlobContainerClient blobContainerClient, String fileName, String filePath) {
         BlobClient blobClient = blobContainerClient.getBlobClient(fileName);
-        blobClient.uploadFromFile(filePath);
+        File file = new File(filePath);
+        try (InputStream is = new FileInputStream(file)) {
+            blobClient.upload(is, file.length());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

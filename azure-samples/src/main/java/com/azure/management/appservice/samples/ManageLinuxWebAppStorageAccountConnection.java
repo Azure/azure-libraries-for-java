@@ -24,6 +24,9 @@ import com.azure.storage.blob.models.BlobSignedIdentifier;
 import com.azure.storage.blob.models.PublicAccessType;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 
@@ -113,10 +116,10 @@ public final class ManageLinuxWebAppStorageAccountConnection {
 
             // warm up
             System.out.println("Warming up " + app1Url + "/azure-samples-blob-traverser...");
-            Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser");
+            Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser/");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app1Url + "/azure-samples-blob-traverser...");
-            System.out.println(Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser"));
+            System.out.println(Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser/"));
 
             return true;
         } catch (Exception e) {
@@ -185,6 +188,12 @@ public final class ManageLinuxWebAppStorageAccountConnection {
 
     private static void uploadFileToContainer(BlobContainerClient blobContainerClient, String fileName, String filePath) {
         BlobClient blobClient = blobContainerClient.getBlobClient(fileName);
-        blobClient.uploadFromFile(filePath);
+        File file = new File(fileName);
+        try (InputStream is = new FileInputStream(file)) {
+            blobClient.upload(is, file.length());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

@@ -56,6 +56,8 @@ import com.azure.management.graphrbac.RoleAssignment;
 import com.azure.management.graphrbac.RoleDefinition;
 import com.azure.management.graphrbac.ServicePrincipal;
 import com.azure.management.keyvault.AccessPolicy;
+import com.azure.management.keyvault.KeyPermissions;
+import com.azure.management.keyvault.SecretPermissions;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.msi.Identity;
 import com.azure.management.network.ApplicationGateway;
@@ -123,7 +125,6 @@ import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountEncryptionStatus;
 import com.azure.management.storage.StorageAccountKey;
 import com.azure.management.storage.StorageService;
-import jersey.repackaged.com.google.common.base.Joiner;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import reactor.core.publisher.Flux;
@@ -145,6 +146,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Common utils for Azure management samples.
@@ -492,8 +494,8 @@ public final class Utils {
                 .append("\n\tAccess policies: ");
         for (AccessPolicy accessPolicy : vault.accessPolicies()) {
             info.append("\n\t\tIdentity:").append(accessPolicy.objectId())
-                    .append("\n\t\tKey permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().getKeys()))
-                    .append("\n\t\tSecret permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().getSecrets()));
+                    .append("\n\t\tKey permissions: ").append(accessPolicy.permissions().getKeys().stream().map(KeyPermissions::toString).collect(Collectors.joining(", ")))
+                    .append("\n\t\tSecret permissions: ").append(accessPolicy.permissions().getSecrets().stream().map(SecretPermissions::toString).collect(Collectors.joining(", ")));
         }
         System.out.println(info.toString());
     }

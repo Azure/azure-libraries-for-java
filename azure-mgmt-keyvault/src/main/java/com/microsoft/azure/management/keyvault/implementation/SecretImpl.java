@@ -8,7 +8,6 @@ package com.microsoft.azure.management.keyvault.implementation;
 
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.keyvault.SecretIdentifier;
 import com.microsoft.azure.keyvault.models.Attributes;
 import com.microsoft.azure.keyvault.models.SecretAttributes;
 import com.microsoft.azure.keyvault.models.SecretBundle;
@@ -97,7 +96,16 @@ class SecretImpl
 
                     @Override
                     protected ServiceFuture<SecretBundle> callAsync() {
-                        return vault.client().getSecretAsync(secretItem.identifier().identifier(), null);
+                        if (secretItem.attributes().enabled()) {
+                            return vault.client().getSecretAsync(secretItem.identifier().identifier(), null);
+                        } else {
+                            SecretBundle secretBundle = new SecretBundle()
+                                    .withId(secretItem.id())
+                                    .withAttributes(secretItem.attributes())
+                                    .withContentType(secretItem.contentType())
+                                    .withTags(secretItem.tags());
+                            return ServiceFuture.fromBody(Observable.just(secretBundle), null);
+                        }
                     }
 
                     @Override
@@ -111,7 +119,7 @@ class SecretImpl
 
     @Override
     public Observable<Secret> listVersionsAsync() {
-        return new KeyVaultFutures.ListCallbackObserver<SecretItem, SecretIdentifier>() {
+        return new KeyVaultFutures.ListCallbackObserver<SecretItem, SecretItem>() {
 
             @Override
             protected void list(ListOperationCallback<SecretItem> callback) {
@@ -119,23 +127,32 @@ class SecretImpl
             }
 
             @Override
-            protected Observable<SecretIdentifier> typeConvertAsync(SecretItem o) {
-                return Observable.just(o.identifier());
+            protected Observable<SecretItem> typeConvertAsync(SecretItem o) {
+                return Observable.just(o);
             }
         }.toObservable()
-                .flatMap(new Func1<SecretIdentifier, Observable<Secret>>() {
+                .flatMap(new Func1<SecretItem, Observable<Secret>>() {
                     @Override
-                    public Observable<Secret> call(final SecretIdentifier secretIdentifier) {
+                    public Observable<Secret> call(final SecretItem secretItem) {
                         return new KeyVaultFutures.ServiceFutureConverter<SecretBundle, Secret>() {
 
                             @Override
                             protected ServiceFuture<SecretBundle> callAsync() {
-                                return vault.client().getSecretAsync(secretIdentifier.identifier(), null);
+                                if (secretItem.attributes().enabled()) {
+                                    return vault.client().getSecretAsync(secretItem.identifier().identifier(), null);
+                                } else {
+                                    SecretBundle secretBundle = new SecretBundle()
+                                            .withId(secretItem.id())
+                                            .withAttributes(secretItem.attributes())
+                                            .withContentType(secretItem.contentType())
+                                            .withTags(secretItem.tags());
+                                    return ServiceFuture.fromBody(Observable.just(secretBundle), null);
+                                }
                             }
 
                             @Override
                             protected Secret wrapModel(SecretBundle secretBundle) {
-                                return new SecretImpl(secretIdentifier.name(), secretBundle, vault);
+                                return new SecretImpl(secretItem.identifier().name(), secretBundle, vault);
                             }
                         }.toObservable();
                     }

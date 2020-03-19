@@ -39,6 +39,13 @@ import com.azure.management.graphrbac.ServicePrincipals;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.keyvault.Vaults;
 import com.azure.management.keyvault.implementation.KeyVaultManager;
+import com.azure.management.monitor.ActionGroups;
+import com.azure.management.monitor.ActivityLogs;
+import com.azure.management.monitor.AlertRules;
+import com.azure.management.monitor.AutoscaleSettings;
+import com.azure.management.monitor.DiagnosticSettings;
+import com.azure.management.monitor.MetricDefinitions;
+import com.azure.management.monitor.implementation.MonitorManager;
 import com.azure.management.msi.Identities;
 import com.azure.management.msi.implementation.MSIManager;
 import com.azure.management.network.ApplicationGateways;
@@ -108,7 +115,7 @@ public final class Azure {
     private final CosmosDBManager cosmosDBManager;
 //    private final AuthorizationManager authorizationManager;
     private final MSIManager msiManager;
-    //    private final MonitorManager monitorManager;
+    private final MonitorManager monitorManager;
 //    private final EventHubManager eventHubManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
@@ -417,7 +424,7 @@ public final class Azure {
 //        this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId, sdkContext);
 //        this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId, sdkContext);
         this.msiManager = MSIManager.authenticate(restClient, subscriptionId, sdkContext);
-//        this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId, sdkContext);
+        this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId, sdkContext);
 //        this.eventHubManager = EventHubManager.authenticate(restClient, subscriptionId, sdkContext);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
@@ -865,53 +872,47 @@ public final class Azure {
         return this.authenticated;
     }
 
-//    /**
-//     * @return entry point to listing activity log events in Azure
-//     */
-//    public ActivityLogs activityLogs() {
-//        return this.monitorManager.activityLogs();
-//    }
-//
-//    /**
-//     * @return entry point to listing metric definitions in Azure
-//     */
-//    @Beta(SinceVersion.V1_6_0)
-//    public MetricDefinitions metricDefinitions() {
-//        return this.monitorManager.metricDefinitions();
-//    }
-//
-//    /**
-//     * @return entry point to listing diagnostic settings in Azure
-//     */
-//    @Beta(SinceVersion.V1_8_0)
-//    public DiagnosticSettings diagnosticSettings() {
-//        return this.monitorManager.diagnosticSettings();
-//    }
-//
-//    /**
-//     * @return entry point to managing action groups in Azure
-//     */
-//    @Beta(SinceVersion.V1_9_0)
-//    public ActionGroups actionGroups() {
-//        return this.monitorManager.actionGroups();
-//    }
-//
-//    /**
-//     * @return entry point to managing alertRules in Azure
-//     */
-//    @Beta(SinceVersion.V1_15_0)
-//    public AlertRules alertRules() {
-//        return this.monitorManager.alertRules();
-//    }
+    /**
+     * @return entry point to listing activity log events in Azure
+     */
+    public ActivityLogs activityLogs() {
+        return this.monitorManager.activityLogs();
+    }
 
-//
-//    /**
-//     * @return entry point to managing Autoscale Settings in Azure
-//     */
-//    @Beta(SinceVersion.V1_15_0)
-//    public AutoscaleSettings autoscaleSettings() {
-//        return this.monitorManager.autoscaleSettings();
-//    }
+    /**
+     * @return entry point to listing metric definitions in Azure
+     */
+    public MetricDefinitions metricDefinitions() {
+        return this.monitorManager.metricDefinitions();
+    }
+
+    /**
+     * @return entry point to listing diagnostic settings in Azure
+     */
+    public DiagnosticSettings diagnosticSettings() {
+        return this.monitorManager.diagnosticSettings();
+    }
+
+    /**
+     * @return entry point to managing action groups in Azure
+     */
+    public ActionGroups actionGroups() {
+        return this.monitorManager.actionGroups();
+    }
+
+    /**
+     * @return entry point to managing alertRules in Azure
+     */
+    public AlertRules alertRules() {
+        return this.monitorManager.alertRules();
+    }
+
+    /**
+     * @return entry point to managing Autoscale Settings in Azure
+     */
+    public AutoscaleSettings autoscaleSettings() {
+        return this.monitorManager.autoscaleSettings();
+    }
 //
 //    /**
 //     * @return entry point to managing event hub namespaces.

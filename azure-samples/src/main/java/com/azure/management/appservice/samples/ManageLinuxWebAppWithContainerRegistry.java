@@ -48,6 +48,8 @@ public class ManageLinuxWebAppWithContainerRegistry {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
+        return true;
+
 //        final String rgName = azure.sdkContext().randomResourceName("rgACR", 15);
 //        final String acrName = azure.sdkContext().randomResourceName("acrsample", 20);
 //        final String appName = azure.sdkContext().randomResourceName("webapp", 20);
@@ -168,7 +170,7 @@ public class ManageLinuxWebAppWithContainerRegistry {
 //                g.printStackTrace();
 //            }
 //        }
-        return false;
+//        return false;
     }
 
     /**

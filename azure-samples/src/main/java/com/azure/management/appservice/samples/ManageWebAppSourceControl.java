@@ -95,10 +95,10 @@ public final class ManageWebAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app1Url + "/helloworld...");
-            Utils.curl("http://" + app1Url + "/helloworld");
+            Utils.curl("http://" + app1Url + "/helloworld/");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app1Url + "/helloworld...");
-            System.out.println(Utils.curl("http://" + app1Url + "/helloworld"));
+            System.out.println(Utils.curl("http://" + app1Url + "/helloworld/"));
 
             //============================================================
             // Create a second web app with local git source control
@@ -140,10 +140,10 @@ public final class ManageWebAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app2Url + "/helloworld...");
-            Utils.curl("http://" + app2Url + "/helloworld");
+            Utils.curl("http://" + app2Url + "/helloworld/");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app2Url + "/helloworld...");
-            System.out.println(Utils.curl("http://" + app2Url + "/helloworld"));
+            System.out.println(Utils.curl("http://" + app2Url + "/helloworld/"));
 
             //============================================================
             // Create a 3rd web app with a public GitHub repo in Azure-Samples

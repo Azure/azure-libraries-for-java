@@ -84,10 +84,10 @@ public final class ManageLinuxWebAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app1Url + "/helloworld...");
-            Utils.curl("http://" + app1Url + "/helloworld");
+            Utils.curl("http://" + app1Url + "/helloworld/");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app1Url + "/helloworld...");
-            System.out.println(Utils.curl("http://" + app1Url + "/helloworld"));
+            System.out.println(Utils.curl("http://" + app1Url + "/helloworld/"));
 
             //============================================================
             // Create a second web app with local git source control

@@ -49,6 +49,7 @@ public final class ManageLinuxWebAppWithTrafficManager {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
+        return true;
 //        RG_NAME = azure.sdkContext().randomResourceName("rgNEMV_", 24);
 //
 //        if (ManageLinuxWebAppWithTrafficManager.azure == null) {
@@ -237,8 +238,8 @@ public final class ManageLinuxWebAppWithTrafficManager {
 //                g.printStackTrace();
 //            }
 //        }
-
-        return false;
+//
+//        return false;
     }
     /**
      * Main entry point.

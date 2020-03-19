@@ -9,10 +9,7 @@ package com.azure.management.appservice.samples;
 import com.azure.management.ApplicationTokenCredential;
 import com.azure.security.keyvault.secrets.SecretClient;
 import com.azure.security.keyvault.secrets.SecretClientBuilder;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.keyvault.KeyVaultClient;
-import com.microsoft.azure.keyvault.authentication.KeyVaultCredentials;
-import com.microsoft.azure.keyvault.requests.SetSecretRequest;
+import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.azure.management.Azure;
 import com.azure.management.appservice.JavaVersion;
 import com.azure.management.appservice.PricingTier;
@@ -28,7 +25,6 @@ import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 
 import java.io.File;
-import java.io.IOException;
 
 
 /**
@@ -84,32 +80,24 @@ public final class ManageWebAppCosmosDbByMsi {
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .defineAccessPolicy()
-                        .forServicePrincipal(credential.clientId())
+                        .forServicePrincipal(credential.getClientId())
                         .allowSecretAllPermissions()
                         .attach()
                     .create();
 
             SdkContext.sleep(10000);
 
-            SecretClient client = new SecretClientBuilder().
-
-                    new KeyVaultClient(new KeyVaultCredentials() {
-                @Override
-                public String doAuthenticate(String authorization, String resource, String scope) {
-                    try {
-                        return credentials.getToken(resource);
-                    } catch (IOException e) {
-                        return null;
-                    }
-                }
-            });
+            SecretClient client = new SecretClientBuilder()
+                    .vaultUrl(vault.vaultUri())
+                    .credential(credential)
+                    .buildClient();
 
             //============================================================
             // Store Cosmos DB credentials in Key Vault
 
-            client.setSecret(new SetSecretRequest.Builder(vault.vaultUri(), "azure-documentdb-uri", cosmosDBAccount.documentEndpoint()).build());
-            client.setSecret(new SetSecretRequest.Builder(vault.vaultUri(), "azure-documentdb-key", cosmosDBAccount.listKeys().primaryMasterKey()).build());
-            client.setSecret(new SetSecretRequest.Builder(vault.vaultUri(), "azure-documentdb-database", "tododb").build());
+            client.setSecret(new KeyVaultSecret("azure-documentdb-uri", cosmosDBAccount.documentEndpoint()));
+            client.setSecret(new KeyVaultSecret("azure-documentdb-key", cosmosDBAccount.listKeys().primaryMasterKey()));
+            client.setSecret(new KeyVaultSecret("azure-documentdb-database", "tododb"));
 
             //============================================================
             // Create a web app with a new app service plan
@@ -153,10 +141,10 @@ public final class ManageWebAppCosmosDbByMsi {
 
             // warm up
             System.out.println("Warming up " + appUrl + "...");
-            curl("http://" + appUrl);
+            Utils.curl("http://" + appUrl);
             SdkContext.sleep(10000);
             System.out.println("CURLing " + appUrl);
-            System.out.println(curl("http://" + appUrl));
+            System.out.println(Utils.curl("http://" + appUrl));
 
 
             return true;

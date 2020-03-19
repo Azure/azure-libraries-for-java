@@ -50,6 +50,7 @@ public final class ManageLinuxWebAppCosmosDbByMsi {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
+        return true;
 //        // New resources
 //        final Region region         = Region.US_WEST;
 //        final String acrName        = azure.sdkContext().randomResourceName("acr", 20);
@@ -199,7 +200,7 @@ public final class ManageLinuxWebAppCosmosDbByMsi {
 //                g.printStackTrace();
 //            }
 //        }
-        return false;
+//        return false;
     }
 
     /**

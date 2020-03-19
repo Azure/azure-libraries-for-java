@@ -102,10 +102,10 @@ public final class ManageWebAppLogs {
 
                     // warm up
                     System.out.println("Warming up " + appUrl + "/coffeeshop...");
-                    Utils.curl("http://" + appUrl + "/coffeeshop");
+                    Utils.curl("http://" + appUrl + "/coffeeshop/");
                     SdkContext.sleep(5000);
                     System.out.println("CURLing " + appUrl + "/coffeeshop...");
-                    System.out.println(Utils.curl("http://" + appUrl + "/coffeeshop"));
+                    System.out.println(Utils.curl("http://" + appUrl + "/coffeeshop/"));
                 }
             }).start();
             // Watch logs for 2 minutes
@@ -123,11 +123,11 @@ public final class ManageWebAppLogs {
                 public void run() {
                     SdkContext.sleep(10000);
                     System.out.println("Starting hitting");
-                    Utils.curl("http://" + appUrl + "/coffeeshop");
+                    Utils.curl("http://" + appUrl + "/coffeeshop/");
                     SdkContext.sleep(15000);
-                    Utils.curl("http://" + appUrl + "/coffeeshop");
+                    Utils.curl("http://" + appUrl + "/coffeeshop/");
                     SdkContext.sleep(20000);
-                    Utils.curl("http://" + appUrl + "/coffeeshop");
+                    Utils.curl("http://" + appUrl + "/coffeeshop/");
                 }
             }).start();
 

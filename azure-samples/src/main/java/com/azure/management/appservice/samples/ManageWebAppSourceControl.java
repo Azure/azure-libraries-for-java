@@ -231,12 +231,12 @@ public final class ManageWebAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app5Url + "/helloworld...");
-            Utils.curl("http://" + app5Url + "/helloworld");
+            Utils.curl("http://" + app5Url + "/helloworld/");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app5Url + "/helloworld...");
-            System.out.println(Utils.curl("http://" + app5Url + "/helloworld"));
+            System.out.println(Utils.curl("http://" + app5Url + "/helloworld/"));
             System.out.println("CURLing " + app5Url + "/coffeeshop...");
-            System.out.println(Utils.curl("http://" + app5Url + "/coffeeshop"));
+            System.out.println(Utils.curl("http://" + app5Url + "/coffeeshop/"));
 
             //============================================================
             // Create a 6th web app with the existing app service plan
@@ -272,12 +272,12 @@ public final class ManageWebAppSourceControl {
 
             // warm up
             System.out.println("Warming up " + app6Url + "/helloworld...");
-            Utils.curl("http://" + app6Url + "/helloworld");
+            Utils.curl("http://" + app6Url + "/helloworld/");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app6Url + "/helloworld...");
-            System.out.println(Utils.curl("http://" + app6Url + "/helloworld"));
+            System.out.println(Utils.curl("http://" + app6Url + "/helloworld/"));
             System.out.println("CURLing " + app6Url + "/coffeeshop...");
-            System.out.println(Utils.curl("http://" + app6Url + "/coffeeshop"));
+            System.out.println(Utils.curl("http://" + app6Url + "/coffeeshop/"));
 
             //============================================================
             // Create a 7th web app with the existing app service plan

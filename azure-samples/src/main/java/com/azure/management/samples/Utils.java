@@ -24,6 +24,13 @@ import com.azure.management.compute.ImageDataDisk;
 import com.azure.management.compute.VirtualMachine;
 import com.azure.management.compute.VirtualMachineCustomImage;
 import com.azure.management.compute.VirtualMachineExtension;
+import com.azure.management.containerservice.ContainerService;
+import com.azure.management.containerservice.ContainerServiceOrchestratorTypes;
+import com.azure.management.containerservice.KubernetesCluster;
+import com.azure.management.cosmosdb.CosmosDBAccount;
+import com.azure.management.cosmosdb.DatabaseAccountListKeysResult;
+import com.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
+import com.azure.management.cosmosdb.Location;
 import com.azure.management.graphrbac.ActiveDirectoryApplication;
 import com.azure.management.graphrbac.ActiveDirectoryGroup;
 import com.azure.management.graphrbac.ActiveDirectoryObject;
@@ -1182,57 +1189,57 @@ public final class Utils {
 //                .append("\n\tSecond Password: ").append(acrCredentials.accessKeys().get(AccessKeyType.SECONDARY));
 //        System.out.println(info.toString());
 //    }
-//
-//    /**
-//     * Print an Azure Container Service.
-//     *
-//     * @param containerService an Azure Container Service
-//     */
-//    public static void print(ContainerService containerService) {
-//        StringBuilder info = new StringBuilder();
-//
-//        info.append("Azure Container Service: ").append(containerService.id())
-//                .append("\n\tName: ").append(containerService.name())
-//                .append("\n\tWith orchestration: ").append(containerService.orchestratorType().toString())
-//                .append("\n\tMaster FQDN: ").append(containerService.masterFqdn())
-//                .append("\n\tMaster node count: ").append(containerService.masterNodeCount())
-//                .append("\n\tMaster domain label prefix: ").append(containerService.masterDnsPrefix())
-//                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(containerService.agentPools().keySet()).get(0))
-//                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).count())
-//                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).vmSize().toString())
-//                .append("\n\t\tAgent pool FQDN: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).fqdn())
-//                .append("\n\t\tAgent pool domain label prefix: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).dnsPrefix())
-//                .append("\n\tLinux user name: ").append(containerService.linuxRootUsername())
-//                .append("\n\tSSH key: ").append(containerService.sshKey());
-//        if (containerService.orchestratorType() == ContainerServiceOrchestratorTypes.KUBERNETES) {
-//            info.append("\n\tName: ").append(containerService.servicePrincipalClientId());
-//        }
-//
-//        System.out.println(info.toString());
-//    }
-//
-//    /**
-//     * Print an Azure Container Service (AKS).
-//     *
-//     * @param kubernetesCluster a managed container service
-//     */
-//    public static void print(KubernetesCluster kubernetesCluster) {
-//        StringBuilder info = new StringBuilder();
-//
-//        info.append("Azure Container Service: ").append(kubernetesCluster.id())
-//                .append("\n\tName: ").append(kubernetesCluster.name())
-//                .append("\n\tFQDN: ").append(kubernetesCluster.fqdn())
-//                .append("\n\tDNS prefix label: ").append(kubernetesCluster.dnsPrefix())
-//                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(kubernetesCluster.agentPools().keySet()).get(0))
-//                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).count())
-//                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).vmSize().toString())
-//                .append("\n\tLinux user name: ").append(kubernetesCluster.linuxRootUsername())
-//                .append("\n\tSSH key: ").append(kubernetesCluster.sshKey())
-//                .append("\n\tService principal client ID: ").append(kubernetesCluster.servicePrincipalClientId());
-//
-//        System.out.println(info.toString());
-//    }
-//
+
+    /**
+     * Print an Azure Container Service.
+     *
+     * @param containerService an Azure Container Service
+     */
+    public static void print(ContainerService containerService) {
+        StringBuilder info = new StringBuilder();
+
+        info.append("Azure Container Service: ").append(containerService.id())
+                .append("\n\tName: ").append(containerService.name())
+                .append("\n\tWith orchestration: ").append(containerService.orchestratorType().toString())
+                .append("\n\tMaster FQDN: ").append(containerService.masterFqdn())
+                .append("\n\tMaster node count: ").append(containerService.masterNodeCount())
+                .append("\n\tMaster domain label prefix: ").append(containerService.masterDnsPrefix())
+                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(containerService.agentPools().keySet()).get(0))
+                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).count())
+                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).vmSize().toString())
+                .append("\n\t\tAgent pool FQDN: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).fqdn())
+                .append("\n\t\tAgent pool domain label prefix: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).dnsPrefix())
+                .append("\n\tLinux user name: ").append(containerService.linuxRootUsername())
+                .append("\n\tSSH key: ").append(containerService.sshKey());
+        if (containerService.orchestratorType() == ContainerServiceOrchestratorTypes.KUBERNETES) {
+            info.append("\n\tName: ").append(containerService.servicePrincipalClientId());
+        }
+
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print an Azure Container Service (AKS).
+     *
+     * @param kubernetesCluster a managed container service
+     */
+    public static void print(KubernetesCluster kubernetesCluster) {
+        StringBuilder info = new StringBuilder();
+
+        info.append("Azure Container Service: ").append(kubernetesCluster.id())
+                .append("\n\tName: ").append(kubernetesCluster.name())
+                .append("\n\tFQDN: ").append(kubernetesCluster.fqdn())
+                .append("\n\tDNS prefix label: ").append(kubernetesCluster.dnsPrefix())
+                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(kubernetesCluster.agentPools().keySet()).get(0))
+                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).count())
+                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).vmSize().toString())
+                .append("\n\tLinux user name: ").append(kubernetesCluster.linuxRootUsername())
+                .append("\n\tSSH key: ").append(kubernetesCluster.sshKey())
+                .append("\n\tService principal client ID: ").append(kubernetesCluster.servicePrincipalClientId());
+
+        System.out.println(info.toString());
+    }
+
 //    /**
 //     * Print an Azure Search Service.
 //     *
@@ -2241,40 +2248,40 @@ public final class Utils {
 //        System.out.println(builder.toString());
 //    }
 
-//    /**
-//     * Print CosmosDB info.
-//     *
-//     * @param cosmosDBAccount a CosmosDB
-//     */
-//    public static void print(CosmosDBAccount cosmosDBAccount) {
-//        StringBuilder builder = new StringBuilder()
-//                .append("CosmosDB: ").append(cosmosDBAccount.id())
-//                .append("\n\tName: ").append(cosmosDBAccount.name())
-//                .append("\n\tResourceGroupName: ").append(cosmosDBAccount.resourceGroupName())
-//                .append("\n\tKind: ").append(cosmosDBAccount.kind().toString())
-//                .append("\n\tDefault consistency level: ").append(cosmosDBAccount.consistencyPolicy().defaultConsistencyLevel())
-//                .append("\n\tIP range filter: ").append(cosmosDBAccount.ipRangeFilter());
-//
-//        DatabaseAccountListKeysResult keys = cosmosDBAccount.listKeys();
-//        DatabaseAccountListReadOnlyKeysResult readOnlyKeys = cosmosDBAccount.listReadOnlyKeys();
-//        builder
-//                .append("\n\tPrimary Master Key: ").append(keys.primaryMasterKey())
-//                .append("\n\tSecondary Master Key: ").append(keys.secondaryMasterKey())
-//                .append("\n\tPrimary Read-Only Key: ").append(readOnlyKeys.primaryReadonlyMasterKey())
-//                .append("\n\tSecondary Read-Only Key: ").append(readOnlyKeys.secondaryReadonlyMasterKey());
-//
-//        for (com.microsoft.azure.management.cosmosdb.Location writeReplica : cosmosDBAccount.writableReplications()) {
-//            builder.append("\n\t\tWrite replication: ")
-//                    .append("\n\t\t\tName :").append(writeReplica.locationName());
-//        }
-//
-//        builder.append("\n\tNumber of read replications: ").append(cosmosDBAccount.readableReplications().size());
-//        for (com.microsoft.azure.management.cosmosdb.Location readReplica : cosmosDBAccount.readableReplications()) {
-//            builder.append("\n\t\tRead replication: ")
-//                    .append("\n\t\t\tName :").append(readReplica.locationName());
-//        }
-//
-//    }
+    /**
+     * Print CosmosDB info.
+     *
+     * @param cosmosDBAccount a CosmosDB
+     */
+    public static void print(CosmosDBAccount cosmosDBAccount) {
+        StringBuilder builder = new StringBuilder()
+                .append("CosmosDB: ").append(cosmosDBAccount.id())
+                .append("\n\tName: ").append(cosmosDBAccount.name())
+                .append("\n\tResourceGroupName: ").append(cosmosDBAccount.resourceGroupName())
+                .append("\n\tKind: ").append(cosmosDBAccount.kind().toString())
+                .append("\n\tDefault consistency level: ").append(cosmosDBAccount.consistencyPolicy().defaultConsistencyLevel())
+                .append("\n\tIP range filter: ").append(cosmosDBAccount.ipRangeFilter());
+
+        DatabaseAccountListKeysResult keys = cosmosDBAccount.listKeys();
+        DatabaseAccountListReadOnlyKeysResult readOnlyKeys = cosmosDBAccount.listReadOnlyKeys();
+        builder
+                .append("\n\tPrimary Master Key: ").append(keys.primaryMasterKey())
+                .append("\n\tSecondary Master Key: ").append(keys.secondaryMasterKey())
+                .append("\n\tPrimary Read-Only Key: ").append(readOnlyKeys.primaryReadonlyMasterKey())
+                .append("\n\tSecondary Read-Only Key: ").append(readOnlyKeys.secondaryReadonlyMasterKey());
+
+        for (Location writeReplica : cosmosDBAccount.writableReplications()) {
+            builder.append("\n\t\tWrite replication: ")
+                    .append("\n\t\t\tName :").append(writeReplica.locationName());
+        }
+
+        builder.append("\n\tNumber of read replications: ").append(cosmosDBAccount.readableReplications().size());
+        for (Location readReplica : cosmosDBAccount.readableReplications()) {
+            builder.append("\n\t\tRead replication: ")
+                    .append("\n\t\t\tName :").append(readReplica.locationName());
+        }
+
+    }
 
     /**
      * Print Active Directory User info.

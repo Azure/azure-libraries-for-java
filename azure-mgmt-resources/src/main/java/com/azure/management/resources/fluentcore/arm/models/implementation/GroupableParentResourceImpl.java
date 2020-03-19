@@ -42,25 +42,21 @@ public abstract class GroupableParentResourceImpl<
 
     protected abstract void initializeChildrenFromInner();
 
-    protected Mono<Void> beforeCreating() {
-        return Mono.empty();
-    }
+    protected void beforeCreating() {}
 
-    protected Mono<Void> afterCreating() {
-        return Mono.empty();
-    }
+    protected void afterCreating() {}
 
     @Override
     public Mono<FluentModelT> createResourceAsync() {
         @SuppressWarnings("unchecked") final FluentModelT self = (FluentModelT) this;
-        return beforeCreating()
-                .then(createInner())
+        beforeCreating();
+        return createInner()
                 .flatMap(inner -> {
                     setInner(inner);
                     try {
                         initializeChildrenFromInner();
-                        return afterCreating()
-                            .then(Mono.just(self));
+                        afterCreating();
+                        return Mono.just(self);
                     } catch (Exception e) {
                         return Mono.error(e);
                     }

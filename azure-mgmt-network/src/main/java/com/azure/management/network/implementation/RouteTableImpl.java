@@ -127,16 +127,9 @@ class RouteTableImpl
     // Helpers
 
     @Override
-    protected Mono<Void> beforeCreating() {
+    protected void beforeCreating() {
         // Reset and update routes
         this.inner().withRoutes(innersFromWrappers(this.routes.values()));
-        return Mono.empty();
-    }
-
-    @Override
-    protected Mono<Void> afterCreating() {
-        initializeChildrenFromInner();
-        return Mono.empty();
     }
 
     @Override

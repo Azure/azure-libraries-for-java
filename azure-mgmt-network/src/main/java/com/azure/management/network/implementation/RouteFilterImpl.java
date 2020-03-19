@@ -61,9 +61,8 @@ class RouteFilterImpl
     }
 
     @Override
-    protected Mono<Void> beforeCreating() {
+    protected void beforeCreating() {
         this.inner().withRules(innersFromWrappers(this.rules.values()));
-        return Mono.empty();
     }
 
     @Override

@@ -321,17 +321,10 @@ class VirtualNetworkGatewayImpl
     }
 
     @Override
-    protected Mono<Void> beforeCreating() {
+    protected void beforeCreating() {
         // Reset and update IP configs
         ensureDefaultIPConfig();
         this.inner().withIpConfigurations(innersFromWrappers(this.ipConfigs.values()));
-        return Mono.empty();
-    }
-
-    @Override
-    protected Mono<Void> afterCreating() {
-        initializeChildrenFromInner();
-        return Mono.empty();
     }
 
     private BgpSettings ensureBgpSettings() {

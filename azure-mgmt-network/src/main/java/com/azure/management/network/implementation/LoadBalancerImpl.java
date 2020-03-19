@@ -189,7 +189,7 @@ class LoadBalancerImpl
     }
 
     @Override
-    protected Mono<Void> beforeCreating() {
+    protected void beforeCreating() {
         // Account for the newly created public IPs
         if (this.creatablePIPKeys != null) {
             for (Entry<String, String> pipFrontendAssociation : this.creatablePIPKeys.entrySet()) {
@@ -287,11 +287,9 @@ class LoadBalancerImpl
                 lbRule.inner().withProbe(null);
             }
         }
-        return Mono.empty();
     }
 
-    @Override
-    protected Mono<Void> afterCreating() {
+    protected Mono<Void> afterCreatingAsync() {
         if (this.nicsInBackends != null) {
             List<Throwable> nicExceptions = new ArrayList<>();
 
@@ -332,7 +330,14 @@ class LoadBalancerImpl
 
     @Override
     public Mono<LoadBalancer> createResourceAsync() {
-        return super.createResourceAsync().flatMap(model -> this.refreshAsync());
+        beforeCreating();
+        return createInner()
+                .flatMap(inner -> {
+                    setInner(inner);
+                    initializeChildrenFromInner();
+                    return afterCreatingAsync()
+                            .then(this.refreshAsync());
+                });
     }
 
     private void initializeFrontendsFromInner() {

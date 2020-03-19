@@ -273,7 +273,7 @@ class ApplicationGatewayImpl
     }
 
     @Override
-    protected Mono<Void> beforeCreating() {
+    protected void beforeCreating() {
         // Process created PIPs
         for (Entry<String, String> frontendPipPair : this.creatablePipsByFrontend.entrySet()) {
             Resource createdPip = this.<Resource>taskResult(frontendPipPair.getValue());
@@ -393,7 +393,6 @@ class ApplicationGatewayImpl
                 rule.inner().withHttpListener(null);
             }
         }
-        return Mono.empty();
     }
 
     protected SubResource ensureBackendRef(String name) {

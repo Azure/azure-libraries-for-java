@@ -142,10 +142,9 @@ class NetworkSecurityGroupImpl
     }
 
     @Override
-    protected Mono<Void> beforeCreating() {
+    protected void beforeCreating() {
         // Reset and update subnets
         this.inner().withSecurityRules(innersFromWrappers(this.rules.values()));
-        return Mono.empty();
     }
 
     @Override

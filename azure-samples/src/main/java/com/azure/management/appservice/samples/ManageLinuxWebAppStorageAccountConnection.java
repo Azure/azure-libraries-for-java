@@ -16,11 +16,16 @@ import com.azure.management.samples.Utils;
 import com.azure.management.storage.StorageAccount;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobContainerClientBuilder;
+import com.azure.storage.blob.models.BlobAccessPolicy;
+import com.azure.storage.blob.models.BlobSignedIdentifier;
+import com.azure.storage.blob.models.PublicAccessType;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.InvalidKeyException;
+import java.time.OffsetDateTime;
+import java.util.Collections;
 
 
 /**
@@ -58,7 +63,7 @@ public final class ManageLinuxWebAppStorageAccountConnection {
                     .withNewResourceGroup(rgName)
                     .create();
 
-            String accountKey = storageAccount.getKeys().get(0).value();
+            String accountKey = storageAccount.getKeys().get(0).getValue();
 
             String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
                     storageAccount.name(), accountKey);
@@ -70,11 +75,11 @@ public final class ManageLinuxWebAppStorageAccountConnection {
 
             System.out.println("Uploading 2 blobs to container " + containerName + "...");
 
-            CloudBlobContainer container = setUpStorageAccount(connectionString, containerName);
+            BlobContainerClient container = setUpStorageAccount(connectionString, containerName);
             uploadFileToContainer(container, "helloworld.war", ManageLinuxWebAppStorageAccountConnection.class.getResource("/helloworld.war").getPath());
             uploadFileToContainer(container, "install_apache.sh", ManageLinuxWebAppStorageAccountConnection.class.getResource("/install_apache.sh").getPath());
 
-            System.out.println("Uploaded 2 blobs to container " + container.getName());
+            System.out.println("Uploaded 2 blobs to container " + container.getBlobContainerName());
 
             //============================================================
             // Create a web app with a new app service plan
@@ -108,10 +113,10 @@ public final class ManageLinuxWebAppStorageAccountConnection {
 
             // warm up
             System.out.println("Warming up " + app1Url + "/azure-samples-blob-traverser...");
-            curl("http://" + app1Url + "/azure-samples-blob-traverser");
+            Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser");
             SdkContext.sleep(5000);
             System.out.println("CURLing " + app1Url + "/azure-samples-blob-traverser...");
-            System.out.println(curl("http://" + app1Url + "/azure-samples-blob-traverser"));
+            System.out.println(Utils.curl("http://" + app1Url + "/azure-samples-blob-traverser"));
 
             return true;
         } catch (Exception e) {
@@ -136,7 +141,6 @@ public final class ManageLinuxWebAppStorageAccountConnection {
      */
     public static void main(String[] args) {
 
-
         try {
 
             //=============================================================
@@ -159,31 +163,28 @@ public final class ManageLinuxWebAppStorageAccountConnection {
         }
     }
 
-    private static CloudBlobContainer setUpStorageAccount(String connectionString, String containerName) {
-        try {
-            CloudStorageAccount account = CloudStorageAccount.parse(connectionString);
-            // Create a blob service client
-            CloudBlobClient blobClient = account.createCloudBlobClient();
-            CloudBlobContainer container = blobClient.getContainerReference(containerName);
-            container.createIfNotExists();
-            BlobContainerPermissions containerPermissions = new BlobContainerPermissions();
-            // Include public access in the permissions object
-            containerPermissions.setPublicAccess(BlobContainerPublicAccessType.CONTAINER);
-            // Set the permissions on the container
-            container.uploadPermissions(containerPermissions);
-            return container;
-        } catch (StorageException | URISyntaxException | InvalidKeyException e) {
-            throw new RuntimeException(e);
-        }
+    private static BlobContainerClient setUpStorageAccount(String connectionString, String containerName) {
+        BlobContainerClient blobContainerClient = new BlobContainerClientBuilder()
+                .connectionString(connectionString)
+                .containerName(containerName)
+                .buildClient();
 
+        blobContainerClient.create();
+
+        BlobSignedIdentifier identifier = new BlobSignedIdentifier()
+                .setId("webapp")
+                .setAccessPolicy(new BlobAccessPolicy()
+                        .setStartsOn(OffsetDateTime.now())
+                        .setExpiresOn(OffsetDateTime.now().plusDays(7))
+                        .setPermissions("rl"));
+
+        blobContainerClient.setAccessPolicy(PublicAccessType.CONTAINER, Collections.singletonList(identifier));
+
+        return blobContainerClient;
     }
 
-    private static void uploadFileToContainer(CloudBlobContainer container, String fileName, String filePath) {
-        try {
-            CloudBlob blob = container.getBlockBlobReference(fileName);
-            blob.uploadFromFile(filePath);
-        } catch (StorageException | URISyntaxException | IOException e) {
-            throw new RuntimeException(e);
-        }
+    private static void uploadFileToContainer(BlobContainerClient blobContainerClient, String fileName, String filePath) {
+        BlobClient blobClient = blobContainerClient.getBlobClient(fileName);
+        blobClient.uploadFromFile(filePath);
     }
 }

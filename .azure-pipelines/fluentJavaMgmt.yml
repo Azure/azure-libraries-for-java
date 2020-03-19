@@ -2,7 +2,10 @@
 # "pomFile" : "pom.xml".   This is the project object model file for Maven.
 
 trigger:
-  - master
+  - vnext
+
+pr:
+  - vnext
 
 variables:
   DefaultOptions: '--settings settings.xml -Dmaven.wagon.http.pool=false'

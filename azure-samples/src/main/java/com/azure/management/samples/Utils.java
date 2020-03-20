@@ -113,6 +113,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -463,8 +464,8 @@ public final class Utils {
                 .append("\n\tAccess policies: ");
         for (AccessPolicy accessPolicy : vault.accessPolicies()) {
             info.append("\n\t\tIdentity:").append(accessPolicy.objectId())
-                    .append("\n\t\tKey permissions: ").append(String.join(", ", accessPolicy.permissions().getKeys().stream().map(key -> key.toString()).collect(Collectors.toList())))
-                    .append("\n\t\tSecret permissions: ").append(String.join(", ", accessPolicy.permissions().getSecrets().stream().map(secret -> secret.toString()).collect(Collectors.toList())));
+                    .append("\n\t\tKey permissions: ").append(accessPolicy.permissions().getKeys().stream().map(Objects::toString).collect(Collectors.joining(", ")))
+                    .append("\n\t\tSecret permissions: ").append(accessPolicy.permissions().getSecrets().stream().map(Objects::toString).collect(Collectors.joining(", ")));
         }
         System.out.println(info.toString());
     }

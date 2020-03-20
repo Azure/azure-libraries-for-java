@@ -9,6 +9,7 @@ package com.azure.management.appservice.samples;
 import com.azure.management.Azure;
 import com.azure.management.appservice.ConnectionStringType;
 import com.azure.management.appservice.PricingTier;
+import com.azure.management.appservice.RuntimeStack;
 import com.azure.management.appservice.WebApp;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -89,15 +90,14 @@ public final class ManageLinuxWebAppStorageAccountConnection {
 
             System.out.println("Creating web app " + app1Name + "...");
 
+            // FIXME the env variable will not work in linux since dot is not allowed in env variable name
             WebApp app1 = azure.webApps().define(app1Name)
                     .withRegion(Region.US_WEST)
                     .withExistingResourceGroup(rgName)
                     .withNewLinuxPlan(PricingTier.STANDARD_S1)
-                    .withPublicDockerHubImage("tomcat:8-jre8")
-                    .withStartUpCommand("/bin/bash -c \"sed -ie 's/appBase=\\\"webapps\\\"/appBase=\\\"\\\\/home\\\\/site\\\\/wwwroot\\\\/webapps\\\"/g' conf/server.xml && catalina.sh run\"")
+                    .withBuiltInImage(RuntimeStack.TOMCAT_8_5_JRE8)
                     .withConnectionString("storage.connectionString", connectionString, ConnectionStringType.CUSTOM)
                     .withAppSetting("storage.containerName", containerName)
-                    .withAppSetting("PORT", "8080")
                     .create();
 
             System.out.println("Created web app " + app1.name());

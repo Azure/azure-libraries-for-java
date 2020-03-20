@@ -1040,7 +1040,7 @@ public class TestLoadBalancer {
     }
 
     // Print LB info
-    synchronized static void printLB(LoadBalancer resource) {
+    static void printLB(LoadBalancer resource) {
         StringBuilder info = new StringBuilder();
         info.append("Load balancer: ").append(resource.id())
                 .append("Name: ").append(resource.name())

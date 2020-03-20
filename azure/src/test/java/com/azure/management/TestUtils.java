@@ -31,7 +31,7 @@ public final class TestUtils {
      *
      * @param resource virtual machine to show
      */
-    public synchronized static void print(VirtualMachine resource) {
+    public static void print(VirtualMachine resource) {
         StringBuilder storageProfile = new StringBuilder().append("\n\tStorageProfile: ");
         if (resource.storageProfile().imageReference() != null) {
             storageProfile.append("\n\t\tImageReference:");

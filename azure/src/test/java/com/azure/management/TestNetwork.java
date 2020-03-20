@@ -443,7 +443,7 @@ public class TestNetwork {
      *
      * @param resource a network
      */
-    public synchronized static void printNetwork(Network resource) {
+    public static void printNetwork(Network resource) {
         StringBuilder info = new StringBuilder();
         info.append("Network: ").append(resource.id())
                 .append("Name: ").append(resource.name())

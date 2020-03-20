@@ -133,7 +133,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         return resource;
     }
 
-    private synchronized static StringBuilder printRule(NetworkSecurityRule rule, StringBuilder info) {
+    private static StringBuilder printRule(NetworkSecurityRule rule, StringBuilder info) {
         info.append("\n\t\tRule: ").append(rule.name())
                 .append("\n\t\t\tAccess: ").append(rule.access())
                 .append("\n\t\t\tDirection: ").append(rule.direction())
@@ -147,7 +147,7 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
         return info;
     }
 
-    public synchronized static void printNSG(NetworkSecurityGroup resource) {
+    public static void printNSG(NetworkSecurityGroup resource) {
         StringBuilder info = new StringBuilder();
         info.append("NSG: ").append(resource.id())
                 .append("Name: ").append(resource.name())

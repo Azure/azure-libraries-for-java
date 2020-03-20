@@ -1358,7 +1358,7 @@ public class TestApplicationGateway {
     }
 
     // Print app gateway info
-    synchronized static void printAppGateway(ApplicationGateway resource) {
+    static void printAppGateway(ApplicationGateway resource) {
         StringBuilder info = new StringBuilder();
         info.append("Application gateway: ").append(resource.id())
                 .append("Name: ").append(resource.name())

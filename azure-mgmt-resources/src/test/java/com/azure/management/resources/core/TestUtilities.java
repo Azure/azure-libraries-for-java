@@ -19,7 +19,7 @@ public class TestUtilities {
      *
      * @param milliseconds time in milliseconds for which to sleep.
      */
-    public synchronized static void sleep(int milliseconds, boolean isRecordMode) {
+    public static void sleep(int milliseconds, boolean isRecordMode) {
         if (isRecordMode) {
             try {
                 Thread.sleep(milliseconds);

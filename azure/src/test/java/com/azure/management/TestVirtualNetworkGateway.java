@@ -333,7 +333,7 @@ public class TestVirtualNetworkGateway {
         }
     }
 
-    synchronized static void printVirtualNetworkGateway(VirtualNetworkGateway gateway) {
+    static void printVirtualNetworkGateway(VirtualNetworkGateway gateway) {
         StringBuilder info = new StringBuilder();
         info.append("Virtual Network Gateway: ").append(gateway.id())
                 .append("\n\tName: ").append(gateway.name())

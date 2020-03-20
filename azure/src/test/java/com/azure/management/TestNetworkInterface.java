@@ -110,7 +110,7 @@ public class TestNetworkInterface extends TestTemplate<NetworkInterface, Network
         return resource;
     }
 
-    public synchronized static void printNic(NetworkInterface resource) {
+    public static void printNic(NetworkInterface resource) {
         StringBuilder info = new StringBuilder();
         info.append("NetworkInterface: ").append(resource.id())
                 .append("Name: ").append(resource.name())

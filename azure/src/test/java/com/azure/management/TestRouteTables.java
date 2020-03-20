@@ -143,7 +143,7 @@ public class TestRouteTables {
      *
      * @param resource a route table
      */
-    public synchronized static void printRouteTable(RouteTable resource) {
+    public static void printRouteTable(RouteTable resource) {
         StringBuilder info = new StringBuilder();
         info.append("Route table: ").append(resource.id())
                 .append("\n\tName: ").append(resource.name())

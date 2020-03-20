@@ -129,7 +129,7 @@ public class TestExpressRouteCircuit {
         }
     }
 
-    private synchronized static void printExpressRouteCircuit(ExpressRouteCircuit resource) {
+    private static void printExpressRouteCircuit(ExpressRouteCircuit resource) {
         StringBuilder info = new StringBuilder();
         info.append("Express Route Circuit: ").append(resource.id())
                 .append("\n\tName: ").append(resource.name())

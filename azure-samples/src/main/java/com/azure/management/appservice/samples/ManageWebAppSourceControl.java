@@ -53,7 +53,7 @@ public final class ManageWebAppSourceControl {
         final String app3Name       = azure.sdkContext().randomResourceName("webapp3-", 20);
         final String app4Name       = azure.sdkContext().randomResourceName("webapp4-", 20);
         final String app5Name       = azure.sdkContext().randomResourceName("webapp5-", 20);
-        final String app6Name       = azure.sdkContext().randomResourceName("webapp5-", 20);
+        final String app6Name       = azure.sdkContext().randomResourceName("webapp6-", 20);
         final String app7Name       = azure.sdkContext().randomResourceName("webapp7-", 20);
         final String app1Url        = app1Name + suffix;
         final String app2Url        = app2Name + suffix;

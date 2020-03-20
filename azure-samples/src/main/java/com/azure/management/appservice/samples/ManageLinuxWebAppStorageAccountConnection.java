@@ -189,7 +189,7 @@ public final class ManageLinuxWebAppStorageAccountConnection {
     private static void uploadFileToContainer(BlobContainerClient blobContainerClient, String fileName, String filePath) {
         BlobClient blobClient = blobContainerClient.getBlobClient(fileName);
         File file = new File(fileName);
-        try (InputStream is = new FileInputStream(file)) {
+        try (InputStream is = new FileInputStream(filePath)) {
             blobClient.upload(is, file.length());
         } catch (IOException e) {
             System.out.println(e.getMessage());

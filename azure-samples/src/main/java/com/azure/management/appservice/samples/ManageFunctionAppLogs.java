@@ -93,15 +93,12 @@ public final class ManageFunctionAppLogs {
             String line = readLine(stream);
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Utils.post("http://" + appUrl + "/api/square", "625");
-                    SdkContext.sleep(10000);
-                    Utils.post("http://" + appUrl + "/api/square", "725");
-                    SdkContext.sleep(10000);
-                    Utils.post("http://" + appUrl + "/api/square", "825");
-                }
+            new Thread(() ->  {
+                Utils.post("http://" + appUrl + "/api/square", "625");
+                SdkContext.sleep(10000);
+                Utils.post("http://" + appUrl + "/api/square", "725");
+                SdkContext.sleep(10000);
+                Utils.post("http://" + appUrl + "/api/square", "825");
             }).start();
             while (line != null && stopWatch.getTime() < 90000) {
                 System.out.println(line);
@@ -112,17 +109,14 @@ public final class ManageFunctionAppLogs {
             //============================================================
             // Listen to logs asynchronously until 3 requests are completed
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    SdkContext.sleep(5000);
-                    System.out.println("Starting hitting");
-                    Utils.post("http://" + appUrl + "/api/square", "625");
-                    SdkContext.sleep(10000);
-                    Utils.post("http://" + appUrl + "/api/square", "725");
-                    SdkContext.sleep(10000);
-                    Utils.post("http://" + appUrl + "/api/square", "825");
-                }
+            new Thread(() ->  {
+                SdkContext.sleep(5000);
+                System.out.println("Starting hitting");
+                Utils.post("http://" + appUrl + "/api/square", "625");
+                SdkContext.sleep(10000);
+                Utils.post("http://" + appUrl + "/api/square", "725");
+                SdkContext.sleep(10000);
+                Utils.post("http://" + appUrl + "/api/square", "825");
             }).start();
 
             final AtomicInteger count = new AtomicInteger(0);

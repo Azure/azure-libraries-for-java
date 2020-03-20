@@ -99,6 +99,7 @@ public final class ManageSqlWithRecoveredOrRestoredDatabase {
             OffsetDateTime currentTime = OffsetDateTime.now();
             long waitForRestoreToBeReady = ChronoUnit.MILLIS.between(currentTime, restorePointInTime.earliestRestoreDate())
                     + 5 * 60 * 1000;
+            System.out.printf("waitForRestoreToBeReady %d\n", waitForRestoreToBeReady);
             if (waitForRestoreToBeReady > 0) {
                 SdkContext.sleep((int) waitForRestoreToBeReady);
             }

@@ -9,6 +9,7 @@ package com.microsoft.azure.management.appservice.samples;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.appservice.ConnectionStringType;
 import com.microsoft.azure.management.appservice.PricingTier;
+import com.microsoft.azure.management.appservice.RuntimeStack;
 import com.microsoft.azure.management.appservice.WebApp;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -95,11 +96,9 @@ public final class ManageLinuxWebAppStorageAccountConnection {
                     .withRegion(Region.US_WEST)
                     .withExistingResourceGroup(rgName)
                     .withNewLinuxPlan(PricingTier.STANDARD_S1)
-                    .withPublicDockerHubImage("tomcat:8-jre8")
-                    .withStartUpCommand("/bin/bash -c \"sed -ie 's/appBase=\\\"webapps\\\"/appBase=\\\"\\\\/home\\\\/site\\\\/wwwroot\\\\/webapps\\\"/g' conf/server.xml && catalina.sh run\"")
+                    .withBuiltInImage(RuntimeStack.TOMCAT_8_5_JRE8)
                     .withConnectionString("storage.connectionString", connectionString, ConnectionStringType.CUSTOM)
                     .withAppSetting("storage.containerName", containerName)
-                    .withAppSetting("PORT", "8080")
                     .create();
 
             System.out.println("Created web app " + app1.name());

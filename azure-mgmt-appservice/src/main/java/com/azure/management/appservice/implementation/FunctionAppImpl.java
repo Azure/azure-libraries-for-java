@@ -510,40 +510,35 @@ class FunctionAppImpl
     @Override
     public Flux<String> streamApplicationLogsAsync() {
         return functionService.ping(functionServiceHost)
-                .mergeWith(functionService.getHostStatus(functionServiceHost))
-                .last()
+                .then(functionService.getHostStatus(functionServiceHost))
                 .thenMany(FunctionAppImpl.super.streamApplicationLogsAsync());
     }
 
     @Override
     public Flux<String> streamHttpLogsAsync() {
         return functionService.ping(functionServiceHost)
-                .mergeWith(functionService.getHostStatus(functionServiceHost))
-                .last()
+                .then(functionService.getHostStatus(functionServiceHost))
                 .thenMany(FunctionAppImpl.super.streamHttpLogsAsync());
     }
 
     @Override
     public Flux<String> streamTraceLogsAsync() {
         return functionService.ping(functionServiceHost)
-                .mergeWith(functionService.getHostStatus(functionServiceHost))
-                .last()
+                .then(functionService.getHostStatus(functionServiceHost))
                 .thenMany(FunctionAppImpl.super.streamTraceLogsAsync());
     }
 
     @Override
     public Flux<String> streamDeploymentLogsAsync() {
         return functionService.ping(functionServiceHost)
-                .mergeWith(functionService.getHostStatus(functionServiceHost))
-                .last()
+                .then(functionService.getHostStatus(functionServiceHost))
                 .thenMany(FunctionAppImpl.super.streamDeploymentLogsAsync());
     }
 
     @Override
     public Flux<String> streamAllLogsAsync() {
         return functionService.ping(functionServiceHost)
-                .mergeWith(functionService.getHostStatus(functionServiceHost))
-                .last()
+                .then(functionService.getHostStatus(functionServiceHost))
                 .thenMany(FunctionAppImpl.super.streamAllLogsAsync());
     }
 

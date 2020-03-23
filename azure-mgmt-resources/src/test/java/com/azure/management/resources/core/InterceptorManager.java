@@ -62,6 +62,7 @@ public class InterceptorManager {
     public static InterceptorManager create(String testName, TestBase.TestMode testMode) throws IOException {
         InterceptorManager interceptorManager = new InterceptorManager(testName, testMode);
         SdkContext.setDelayProvider(new TestDelayProvider(interceptorManager.isRecordMode() || interceptorManager.isNoneMode()));
+        SdkContext.setFileProvider(new TestFileProvider(interceptorManager.isRecordMode()));
         if (!interceptorManager.isNoneMode()) {
             SdkContext.setReactorScheduler(Schedulers.boundedElastic());
         }

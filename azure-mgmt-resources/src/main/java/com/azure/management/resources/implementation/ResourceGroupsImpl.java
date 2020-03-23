@@ -114,6 +114,6 @@ final class ResourceGroupsImpl
 
     @Override
     public PagedFlux<ResourceGroup> listAsync() {
-        return this.client.listAsync(null, null).mapPage(inner -> wrapModel(inner));
+        return this.client.listAsync().mapPage(inner -> wrapModel(inner));
     }
 }

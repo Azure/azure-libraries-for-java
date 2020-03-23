@@ -39,8 +39,7 @@ final class ResourceGroupsImpl
 
     @Override
     public PagedIterable<ResourceGroup> list() {
-        // FIXME
-        return wrapList(client.list(null, null));
+        return wrapList(client.list());
     }
 
     @Override
@@ -115,7 +114,6 @@ final class ResourceGroupsImpl
 
     @Override
     public PagedFlux<ResourceGroup> listAsync() {
-        // FIXME: For parameter
         return this.client.listAsync(null, null).mapPage(inner -> wrapModel(inner));
     }
 }

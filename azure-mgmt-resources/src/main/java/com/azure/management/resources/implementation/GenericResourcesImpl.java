@@ -40,26 +40,24 @@ final class GenericResourcesImpl
 
     @Override
     public PagedIterable<GenericResource> list() {
-        // FIXME: parameters
-        return wrapList(this.manager().inner().resources().list(null, null, null));
+        return wrapList(this.manager().inner().resources().list());
     }
 
     @Override
     public PagedIterable<GenericResource> listByResourceGroup(String groupName) {
-        // FIXME: parameters
-        return wrapList(this.manager().inner().resources().listByResourceGroup(groupName, null, null, null));
+        return wrapList(this.manager().inner().resources().listByResourceGroup(groupName));
     }
 
     @Override
     public PagedIterable<GenericResource> listByTag(String resourceGroupName, String tagName, String tagValue) {
         return wrapList(this.manager().inner().resources().listByResourceGroup(resourceGroupName,
-                Utils.createOdataFilterForTags(tagName, tagValue), null, null));
+                Utils.createOdataFilterForTags(tagName, tagValue)));
     }
 
     @Override
     public PagedFlux<GenericResource> listByTagAsync(String resourceGroupName, String tagName, String tagValue) {
         return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName,
-                Utils.createOdataFilterForTags(tagName, tagValue), null, null));
+                Utils.createOdataFilterForTags(tagName, tagValue)));
     }
 
     @Override
@@ -72,28 +70,26 @@ final class GenericResourcesImpl
 
     @Override
     public boolean checkExistence(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
-        // FIXME: Where is API version
         return this.inner().checkExistence(
                 resourceGroupName,
                 resourceProviderNamespace,
                 parentResourcePath,
                 resourceType,
-                resourceName);
+                resourceName,
+                apiVersion);
     }
 
     @Override
     public boolean checkExistenceById(String id) {
-        // FIXME: The usage of API version
         String apiVersion = getApiVersionFromId(id).block();
-        return this.inner().checkExistenceById(id);
+        return this.inner().checkExistenceById(id, apiVersion);
     }
 
     @Override
     public GenericResource getById(String id) {
         Provider provider = this.manager().providers().getByName(ResourceUtils.resourceProviderFromResourceId(id));
         String apiVersion = ResourceUtils.defaultApiVersion(id, provider);
-        // FIXME: apiversion usage
-        return wrapModel(this.inner().getById(id)).withApiVersion(apiVersion);
+        return wrapModel(this.inner().getById(id, apiVersion)).withApiVersion(apiVersion);
     }
 
     @Override
@@ -128,13 +124,13 @@ final class GenericResourcesImpl
             parentResourcePath = "";
         }
 
-        // FIXME: where is the apiversion
         GenericResourceInner inner = this.inner().get(
                 resourceGroupName,
                 resourceProviderNamespace,
                 parentResourcePath,
                 resourceType,
-                resourceName);
+                resourceName,
+                apiVersion);
         GenericResourceImpl resource = new GenericResourceImpl(
                 resourceName,
                 inner,
@@ -166,8 +162,7 @@ final class GenericResourcesImpl
 
     @Override
     public Mono<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
-        // FIXME: where is the apiversion
-        return this.inner().deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName);
+        return this.inner().deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion);
     }
 
 
@@ -207,9 +202,8 @@ final class GenericResourcesImpl
     @Override
     public Mono<Void> deleteByIdAsync(final String id) {
         final ResourcesInner inner = this.inner();
-        // FIXME: apiversion
         return getApiVersionFromId(id)
-                .flatMap(apiVersion -> inner.deleteByIdAsync(id));
+                .flatMap(apiVersion -> inner.deleteByIdAsync(id, apiVersion));
     }
 
     private Mono<String> getApiVersionFromId(final String id) {
@@ -219,13 +213,11 @@ final class GenericResourcesImpl
 
     @Override
     public PagedFlux<GenericResource> listAsync() {
-        // FIXME: parameters
-        return wrapPageAsync(this.inner().listAsync(null, null, null));
+        return wrapPageAsync(this.inner().listAsync());
     }
 
     @Override
     public PagedFlux<GenericResource> listByResourceGroupAsync(String resourceGroupName) {
-        // FIXME: parameters
-        return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName, null, null, null));
+        return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName));
     }
 }

@@ -29,8 +29,7 @@ final class FeaturesImpl
 
     @Override
     public PagedIterable<Feature> list() {
-        // FIXME: resourceProviderNamespace value
-        return wrapList(client.list(null));
+        return wrapList(client.list());
     }
 
     @Override
@@ -53,7 +52,6 @@ final class FeaturesImpl
 
     @Override
     public PagedFlux<Feature> listAsync() {
-        // FIXME: resourceProviderNamespace value
-        return wrapPageAsync(client.listAsync(null));
+        return wrapPageAsync(client.listAsync());
     }
 }

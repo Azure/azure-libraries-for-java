@@ -29,8 +29,7 @@ final class ProvidersImpl
 
     @Override
     public PagedIterable<Provider> list() {
-        // FIXME
-        return wrapList(client.list(null, null));
+        return wrapList(client.list());
     }
 
     @Override
@@ -55,20 +54,17 @@ final class ProvidersImpl
 
     @Override
     public Mono<Provider> getByNameAsync(String name) {
-        // FIXME
-        return client.getAsync(name, null).map(providerInner -> wrapModel(providerInner));
+        return client.getAsync(name).map(providerInner -> wrapModel(providerInner));
     }
 
     @Override
     public Provider getByName(String resourceProviderNamespace) {
-        // FIXME
-        return wrapModel(client.get(resourceProviderNamespace, null));
+        return wrapModel(client.get(resourceProviderNamespace));
     }
 
     @Override
     public PagedFlux<Provider> listAsync() {
-        // FIXME
-        return this.client.listAsync(0, null).mapPage(inner -> wrapModel(inner));
+        return this.client.listAsync().mapPage(inner -> wrapModel(inner));
     }
 
     @Override

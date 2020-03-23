@@ -85,7 +85,8 @@ final class GenericResourceImpl
                 resourceProviderNamespace(),
                 parentResourcePath(),
                 resourceType(),
-                this.name());
+                this.name(),
+                this.apiVersion());
     }
 
     public GenericResourceImpl withProperties(Object properties) {
@@ -173,8 +174,7 @@ final class GenericResourceImpl
                             parentResourcePath(),
                             resourceType,
                             name,
-// FIXME: API version
-//                            api,
+                            api,
                             inner())
                             .subscribeOn(SdkContext.getReactorScheduler())
                             .map(innerToFluentMap(self));

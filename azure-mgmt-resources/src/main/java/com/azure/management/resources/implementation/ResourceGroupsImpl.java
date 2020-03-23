@@ -40,7 +40,7 @@ final class ResourceGroupsImpl
     @Override
     public PagedIterable<ResourceGroup> list() {
         // FIXME
-        return wrapList(client.list(null, 0));
+        return wrapList(client.list(null, null));
     }
 
     @Override

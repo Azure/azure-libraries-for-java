@@ -952,7 +952,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Flux<Indexable> resourceStream = sqlServer.databases()
                 .define(SQL_DATABASE_NAME)
                 .withEdition(DatabaseEdition.DATA_WAREHOUSE)
-                .withServiceObjective(ServiceObjectiveName.fromString("DW100C"))
+                .withServiceObjective(ServiceObjectiveName.fromString("DW1000C"))
                 .withCollation(COLLATION)
                 .createAsync();
 

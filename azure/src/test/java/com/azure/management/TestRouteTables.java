@@ -21,17 +21,19 @@ import java.util.Map;
  * Test of virtual network management.
  */
 public class TestRouteTables {
-    private static String ROUTE1_NAME = "route1";
-    private static String ROUTE2_NAME = "route2";
-    private static String ROUTE_ADDED_NAME = "route3";
-    private static String VIRTUAL_APPLIANCE_IP = "10.1.1.1";
+    private String ROUTE1_NAME = "route1";
+    private String ROUTE2_NAME = "route2";
+    private String ROUTE_ADDED_NAME = "route3";
+    private String VIRTUAL_APPLIANCE_IP = "10.1.1.1";
 
     /**
      * Test of minimal route tables.
      */
-    public static class Minimal extends TestTemplate<RouteTable, RouteTables> {
+    public class Minimal extends TestTemplate<RouteTable, RouteTables> {
+        private String netName;
         @Override
         public RouteTable createResource(RouteTables routeTables) throws Exception {
+            netName = routeTables.manager().getSdkContext().randomResourceName("net", 10);
             final String newName = routeTables.manager().getSdkContext().randomResourceName("rt", 10);;
             Region region = Region.US_WEST;
             String groupName = routeTables.manager().getSdkContext().randomResourceName("rg", 10);;
@@ -71,7 +73,7 @@ public class TestRouteTables {
             Assertions.assertTrue(routeTable.isBgpRoutePropagationDisabled());
 
             // Create a subnet that references the route table
-            routeTables.manager().networks().define(routeTables.manager().getSdkContext().randomResourceName("net", 10))
+            routeTables.manager().networks().define(netName)
                     .withRegion(region)
                     .withExistingResourceGroup(groupName)
                     .withAddressSpace("10.0.0.0/22")
@@ -112,7 +114,7 @@ public class TestRouteTables {
             Assertions.assertTrue(routeTable.routes().containsKey(ROUTE_ADDED_NAME));
             Assertions.assertFalse(routeTable.isBgpRoutePropagationDisabled());
 
-            routeTable.manager().networks().getByResourceGroup(routeTable.resourceGroupName(), routeTable.manager().getSdkContext().randomResourceName("net", 10)).update()
+            routeTable.manager().networks().getByResourceGroup(routeTable.resourceGroupName(), netName).update()
                     .updateSubnet("subnet1")
                     .withoutRouteTable()
                     .parent()

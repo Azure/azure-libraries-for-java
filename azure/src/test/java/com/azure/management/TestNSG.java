@@ -63,9 +63,9 @@ public class TestNSG extends TestTemplate<NetworkSecurityGroup, NetworkSecurityG
                 .createAsync();
 
         resourceStream.last()
-                .doOnNext(nsg -> nsgFuture.set((NetworkSecurityGroup) nsg))
                 .doOnSuccess((_ignore) -> System.out.print("completed"))
-                .doOnError(throwable -> nsgFuture.setException(throwable));
+                .doOnError(throwable -> nsgFuture.setException(throwable))
+                .subscribe(nsg -> nsgFuture.set((NetworkSecurityGroup) nsg));
 
         NetworkSecurityGroup nsg = nsgFuture.get();
 

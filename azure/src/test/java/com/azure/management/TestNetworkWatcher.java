@@ -33,12 +33,13 @@ import java.util.List;
  * Tests Network Watcher.
  */
 public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatchers> {
-    private static String TEST_ID = "";
-    private static Region REGION = Region.US_SOUTH_CENTRAL;
+    private String TEST_ID = "";
+    private final static Region REGION = Region.US_SOUTH_CENTRAL;
     private String groupName;
     private String nwName;
 
-    private void initializeResourceNames() {
+    private void initializeResourceNames(SdkContext sdkContext) {
+        TEST_ID = sdkContext.randomResourceName("", 8);
         groupName = "rg" + TEST_ID;
         nwName = "nw" + TEST_ID;
     }
@@ -46,7 +47,7 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
     @Override
     public NetworkWatcher createResource(NetworkWatchers networkWatchers) throws Exception {
         // Network Watcher should be in the same region as monitored resources
-        initializeResourceNames();
+        initializeResourceNames(networkWatchers.manager().getSdkContext());
 
         // make sure Network Watcher is disabled in current subscription and region as only one can exist
         PagedIterable<NetworkWatcher> nwList = networkWatchers.list();

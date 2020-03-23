@@ -1508,7 +1508,6 @@ public class VirtualMachineScaleSetImpl
     @Override
     protected void afterCreating() {
         this.clearCachedProperties();
-        this.initializeChildrenFromInner();
         this.virtualMachineScaleSetMsiHandler.clear();
     }
 

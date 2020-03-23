@@ -66,10 +66,6 @@ class RouteFilterImpl
     }
 
     @Override
-    protected void afterCreating() {
-    }
-
-    @Override
     protected Mono<RouteFilterInner> getInnerAsync() {
         // FIXME: parameter - expand
         return this.manager().inner().routeFilters().getByResourceGroupAsync(this.resourceGroupName(), this.name(), null);

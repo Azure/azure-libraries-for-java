@@ -16,10 +16,13 @@ import com.azure.management.network.VirtualNetworkGateways;
 import com.azure.management.network.implementation.NetworkManager;
 import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.jupiter.api.Assertions;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,16 +33,17 @@ import java.util.Map;
  * Tests Virtual Network Gateway.
  */
 public class TestVirtualNetworkGateway {
-    private static String TEST_ID = "";
-    private static Region REGION = Region.US_NORTH_CENTRAL;
-    private static String GROUP_NAME;
-    private static String GATEWAY_NAME1;
-    private static String GATEWAY_NAME2;
-    private static String NETWORK_NAME;
-    private static String CONNECTION_NAME = "myNewConnection";
-    private static String CERTIFICATE_NAME = "myTest3.cer";
+    private String TEST_ID = "";
+    private Region REGION = Region.US_NORTH_CENTRAL;
+    private String GROUP_NAME;
+    private String GATEWAY_NAME1;
+    private String GATEWAY_NAME2;
+    private String NETWORK_NAME;
+    private String CONNECTION_NAME = "myNewConnection";
+    private String CERTIFICATE_NAME = "myTest3.cer";
 
-    private static void initializeResourceNames() {
+    private void initializeResourceNames(SdkContext sdkContext) {
+        TEST_ID = sdkContext.randomResourceName("", 8);
         GROUP_NAME = "rg" + TEST_ID;
         GATEWAY_NAME1 = "vngw" + TEST_ID;
         GATEWAY_NAME2 = "vngw2" + TEST_ID;
@@ -49,10 +53,10 @@ public class TestVirtualNetworkGateway {
     /**
      * Test Virtual Network Gateway Create and Update.
      */
-    public static class Basic extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
+    public class Basic extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
 
         public Basic(NetworkManager networkManager) {
-            initializeResourceNames();
+            initializeResourceNames(networkManager.getSdkContext());
         }
 
         @Override
@@ -100,9 +104,9 @@ public class TestVirtualNetworkGateway {
     /**
      * Test Site-To-Site Virtual Network Gateway Connection.
      */
-    public static class SiteToSite extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
+    public class SiteToSite extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
         public SiteToSite(NetworkManager networkManager) {
-            initializeResourceNames();
+            initializeResourceNames(networkManager.getSdkContext());
         }
 
         @Override
@@ -114,7 +118,7 @@ public class TestVirtualNetworkGateway {
         public VirtualNetworkGateway createResource(VirtualNetworkGateways gateways) throws Exception {
 
             // Create virtual network gateway
-            initializeResourceNames();
+            initializeResourceNames(gateways.manager().getSdkContext());
             VirtualNetworkGateway vngw = gateways.define(GATEWAY_NAME1)
                     .withRegion(REGION)
                     .withNewResourceGroup()
@@ -187,10 +191,10 @@ public class TestVirtualNetworkGateway {
     /**
      * Test VNet-to-VNet Virtual Network Gateway Connection.
      */
-    public static class VNetToVNet extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
+    public class VNetToVNet extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
 
         public VNetToVNet(NetworkManager networkManager) {
-            initializeResourceNames();
+            initializeResourceNames(networkManager.getSdkContext());
         }
 
         @Override
@@ -202,12 +206,11 @@ public class TestVirtualNetworkGateway {
         public VirtualNetworkGateway createResource(final VirtualNetworkGateways gateways) throws Exception {
 
             // Create virtual network gateway
-            initializeResourceNames();
             final List<VirtualNetworkGateway> gws = new ArrayList<>();
             Flux<?> vngwObservable = gateways.define(GATEWAY_NAME1)
                     .withRegion(REGION)
                     .withNewResourceGroup(GROUP_NAME)
-                    .withNewNetwork("10.11.0.0/16", "10.11.255.0/27")
+                    .withNewNetwork(NETWORK_NAME, "10.11.0.0/16", "10.11.255.0/27")
                     .withRouteBasedVpn()
                     .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
                     .createAsync();
@@ -215,16 +218,19 @@ public class TestVirtualNetworkGateway {
             Flux<?> vngw2Observable = gateways.define(GATEWAY_NAME2)
                     .withRegion(REGION)
                     .withNewResourceGroup(GROUP_NAME)
-                    .withNewNetwork("10.41.0.0/16", "10.41.255.0/27")
+                    .withNewNetwork(NETWORK_NAME + "2","10.41.0.0/16", "10.41.255.0/27")
                     .withRouteBasedVpn()
                     .withSku(VirtualNetworkGatewaySkuName.VPN_GW1)
                     .createAsync();
 
-            Flux.merge(vngwObservable, vngw2Observable).map(obj -> {
+            Flux<?> vngw2ObservableSleep = Mono.delay(Duration.ofSeconds(10))
+                    .thenMany(vngw2Observable);
+
+            Flux.merge(vngwObservable, vngw2ObservableSleep).map(obj -> {
                 if (obj instanceof VirtualNetworkGateway) {
                     gws.add((VirtualNetworkGateway) obj);
                 }
-                return null;
+                return obj;
             }).blockLast();
             VirtualNetworkGateway vngw1 = gws.get(0);
             VirtualNetworkGateway vngw2 = gws.get(1);
@@ -260,10 +266,10 @@ public class TestVirtualNetworkGateway {
     /**
      * Test VNet-to-VNet Virtual Network Gateway Connection.
      */
-    public static class PointToSite extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
+    public class PointToSite extends TestTemplate<VirtualNetworkGateway, VirtualNetworkGateways> {
 
         public PointToSite(NetworkManager networkManager) {
-            initializeResourceNames();
+            initializeResourceNames(networkManager.getSdkContext());
         }
 
         @Override
@@ -275,7 +281,7 @@ public class TestVirtualNetworkGateway {
         public VirtualNetworkGateway createResource(final VirtualNetworkGateways gateways) throws Exception {
 
             // Create virtual network gateway
-            initializeResourceNames();
+            initializeResourceNames(gateways.manager().getSdkContext());
 
             Network network = gateways.manager().networks().define(NETWORK_NAME)
                     .withRegion(REGION)

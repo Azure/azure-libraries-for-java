@@ -43,21 +43,22 @@ import java.util.Map;
  * Test of application gateway management.
  */
 public class TestApplicationGateway {
-    static String TEST_ID = "";
+    String TEST_ID = "";
     static final Region REGION = Region.US_WEST;
-    static String GROUP_NAME = "";
-    static String APP_GATEWAY_NAME = "";
-    static String[] PIP_NAMES = null;
+    String GROUP_NAME = "";
+    String APP_GATEWAY_NAME = "";
+    String[] PIP_NAMES = null;
     static final String ID_TEMPLATE = "/subscriptions/${subId}/resourceGroups/${rgName}/providers/Microsoft.Network/applicationGateways/${resourceName}";
 
-    static String createResourceId(String subscriptionId) {
+    String createResourceId(String subscriptionId) {
         return ID_TEMPLATE
                 .replace("${subId}", subscriptionId)
                 .replace("${rgName}", GROUP_NAME)
                 .replace("${resourceName}", APP_GATEWAY_NAME);
     }
 
-    static void initializeResourceNames() {
+    void initializeResourceNames(SdkContext sdkContext) {
+        TEST_ID = sdkContext.randomResourceName("", 8);
         GROUP_NAME = "rg" + TEST_ID;
         APP_GATEWAY_NAME = "ag" + TEST_ID;
         PIP_NAMES = new String[]{"pipa" + TEST_ID, "pipb" + TEST_ID};
@@ -66,14 +67,14 @@ public class TestApplicationGateway {
     /**
      * Minimalistic internal (private) app gateway test.
      */
-    public static class PrivateMinimal extends TestTemplate<ApplicationGateway, ApplicationGateways> {
-        PrivateMinimal() {
-            initializeResourceNames();
+    public class PrivateMinimal extends TestTemplate<ApplicationGateway, ApplicationGateways> {
+        PrivateMinimal(SdkContext sdkContext) {
+            initializeResourceNames(sdkContext);
         }
 
         @Override
         public void print(ApplicationGateway resource) {
-            TestApplicationGateway.printAppGateway(resource);
+            printAppGateway(resource);
         }
 
         @Override
@@ -83,7 +84,7 @@ public class TestApplicationGateway {
                 @Override
                 public void run() {
                     // Create an application gateway
-                    resources.define(TestApplicationGateway.APP_GATEWAY_NAME)
+                    resources.define(APP_GATEWAY_NAME)
                             .withRegion(REGION)
                             .withNewResourceGroup(GROUP_NAME)
 
@@ -102,8 +103,7 @@ public class TestApplicationGateway {
             // Start the creation...
             creationThread.start();
 
-            //...But bail out after 30 sec, as it is enough to test the results
-            SdkContext.sleep(30 * 1000);
+            creationThread.join();
 
             // Get the resource as created so far
             String resourceId = createResourceId(resources.manager().getSubscriptionId());
@@ -150,7 +150,6 @@ public class TestApplicationGateway {
             Assertions.assertTrue(rule.backend().containsIPAddress("11.1.1.2"));
             Assertions.assertTrue(rule.backendPort() == 8080);
 
-            creationThread.join();
             return appGateway;
         }
 
@@ -246,14 +245,14 @@ public class TestApplicationGateway {
     /**
      * Minimalistic internal (private) app gateway test.
      */
-    public static class UrlPathBased extends TestTemplate<ApplicationGateway, ApplicationGateways> {
-        UrlPathBased() {
-            initializeResourceNames();
+    public class UrlPathBased extends TestTemplate<ApplicationGateway, ApplicationGateways> {
+        UrlPathBased(SdkContext sdkContext) {
+            initializeResourceNames(sdkContext);
         }
 
         @Override
         public void print(ApplicationGateway resource) {
-            TestApplicationGateway.printAppGateway(resource);
+            printAppGateway(resource);
         }
 
         @Override
@@ -263,7 +262,7 @@ public class TestApplicationGateway {
                 @Override
                 public void run() {
                     // Create an application gateway
-                    resources.define(TestApplicationGateway.APP_GATEWAY_NAME)
+                    resources.define(APP_GATEWAY_NAME)
                             .withRegion(REGION)
                             .withNewResourceGroup(GROUP_NAME)
                             .definePathBasedRoutingRule("pathMap")
@@ -295,7 +294,7 @@ public class TestApplicationGateway {
             creationThread.start();
 
             //...But bail out after 30 sec, as it is enough to test the results
-            SdkContext.sleep(60 * 1000);
+            creationThread.join();
 
             // Get the resource as created so far
             String resourceId = createResourceId(resources.manager().getSubscriptionId());
@@ -333,7 +332,6 @@ public class TestApplicationGateway {
             Assertions.assertNotNull(rule.listener().frontend());
             Assertions.assertTrue(rule.listener().frontend().isPublic());
             Assertions.assertTrue(!rule.listener().frontend().isPrivate());
-            creationThread.join();
             return appGateway;
         }
 
@@ -383,20 +381,20 @@ public class TestApplicationGateway {
     /**
      * Complex internal (private) app gateway test.
      */
-    public static class PrivateComplex extends TestTemplate<ApplicationGateway, ApplicationGateways> {
+    public class PrivateComplex extends TestTemplate<ApplicationGateway, ApplicationGateways> {
 
         /**
          * Tests minimal internal app gateways.
          *
          * @throws Exception when something goes wrong
          */
-        public PrivateComplex() throws Exception {
-            initializeResourceNames();
+        public PrivateComplex(SdkContext sdkContext) throws Exception {
+            initializeResourceNames(sdkContext);
         }
 
         @Override
         public void print(ApplicationGateway resource) {
-            TestApplicationGateway.printAppGateway(resource);
+            printAppGateway(resource);
         }
 
         @Override
@@ -423,7 +421,7 @@ public class TestApplicationGateway {
                 public void run() {
                     // Create an application gateway
                     try {
-                        resources.define(TestApplicationGateway.APP_GATEWAY_NAME)
+                        resources.define(APP_GATEWAY_NAME)
                                 .withRegion(REGION)
                                 .withExistingResourceGroup(GROUP_NAME)
 
@@ -525,8 +523,7 @@ public class TestApplicationGateway {
             creationThread.setUncaughtExceptionHandler(threadException);
             creationThread.start();
 
-            // ...But don't wait till the end - not needed for the test, 30 sec should be enough
-            SdkContext.sleep(30 * 1000);
+            creationThread.join();
 
             // Get the resource as created so far
             String resourceId = createResourceId(resources.manager().getSubscriptionId());
@@ -664,8 +661,6 @@ public class TestApplicationGateway {
             Assertions.assertNotNull(rule);
             Assertions.assertNotNull(rule.redirectConfiguration());
             Assertions.assertEquals("redirect1", rule.redirectConfiguration().name());
-
-            creationThread.join();
 
             return appGateway;
         }
@@ -828,19 +823,19 @@ public class TestApplicationGateway {
     /**
      * Complex Internet-facing (public) app gateway test.
      */
-    public static class PublicComplex extends TestTemplate<ApplicationGateway, ApplicationGateways> {
+    public class PublicComplex extends TestTemplate<ApplicationGateway, ApplicationGateways> {
         /**
          * Tests minimal internal app gateways.
          *
          * @throws Exception when something goes wrong with test PIP creation
          */
-        public PublicComplex() throws Exception {
-            initializeResourceNames();
+        public PublicComplex(SdkContext sdkContext) throws Exception {
+            initializeResourceNames(sdkContext);
         }
 
         @Override
         public void print(ApplicationGateway resource) {
-            TestApplicationGateway.printAppGateway(resource);
+            printAppGateway(resource);
         }
 
         @Override
@@ -860,7 +855,7 @@ public class TestApplicationGateway {
                 public void run() {
                     // Create an application gateway
                     try {
-                        resources.define(TestApplicationGateway.APP_GATEWAY_NAME)
+                        resources.define(APP_GATEWAY_NAME)
                                 .withRegion(REGION)
                                 .withExistingResourceGroup(GROUP_NAME)
 
@@ -954,8 +949,7 @@ public class TestApplicationGateway {
             creationThread.setUncaughtExceptionHandler(threadException);
             creationThread.start();
 
-            // ...But don't wait till the end - not needed for the test, 30 sec should be enough
-            SdkContext.sleep(30 * 1000);
+            creationThread.join();
 
             // Get the resource as created so far
             String resourceId = createResourceId(resources.manager().getSubscriptionId());
@@ -1079,8 +1073,6 @@ public class TestApplicationGateway {
             Assertions.assertTrue(probe.healthyHttpResponseStatusCodeRanges().contains("650-660"));
             Assertions.assertEquals("I am too healthy for this test.", probe.healthyHttpResponseBodyContents());
 
-            creationThread.join();
-
             // Verify SSL policy - disabled protocols
             Assertions.assertEquals(2, appGateway.disabledSslProtocols().size());
             Assertions.assertTrue(appGateway.disabledSslProtocols().contains(ApplicationGatewaySslProtocol.TLSV1_0));
@@ -1180,14 +1172,14 @@ public class TestApplicationGateway {
     /**
      * Internet-facing LB test with NAT pool test.
      */
-    public static class PublicMinimal extends TestTemplate<ApplicationGateway, ApplicationGateways> {
-        PublicMinimal() {
-            initializeResourceNames();
+    public class PublicMinimal extends TestTemplate<ApplicationGateway, ApplicationGateways> {
+        PublicMinimal(SdkContext sdkContext) {
+            initializeResourceNames(sdkContext);
         }
 
         @Override
         public void print(ApplicationGateway resource) {
-            TestApplicationGateway.printAppGateway(resource);
+            printAppGateway(resource);
         }
 
         @Override
@@ -1198,7 +1190,7 @@ public class TestApplicationGateway {
                 public void run() {
                     // Create an application gateway
                     try {
-                        resources.define(TestApplicationGateway.APP_GATEWAY_NAME)
+                        resources.define(APP_GATEWAY_NAME)
                                 .withRegion(REGION)
                                 .withNewResourceGroup(GROUP_NAME)
 
@@ -1223,8 +1215,7 @@ public class TestApplicationGateway {
             // Start the creation...
             creationThread.start();
 
-            //...But bail out after 30 sec, as it is enough to test the results
-            SdkContext.sleep(30 * 1000);
+            creationThread.join();
 
             // Get the resource as created so far
             String resourceId = createResourceId(resources.manager().getSubscriptionId());
@@ -1272,7 +1263,6 @@ public class TestApplicationGateway {
             // Verify certificates
             Assertions.assertTrue(appGateway.sslCertificates().size() == 1);
 
-            creationThread.join();
             return appGateway;
         }
 
@@ -1355,7 +1345,7 @@ public class TestApplicationGateway {
     }
 
     // Create VNet for the app gateway
-    private static Map<String, PublicIPAddress> ensurePIPs(PublicIPAddresses pips) throws Exception {
+    private Map<String, PublicIPAddress> ensurePIPs(PublicIPAddresses pips) throws Exception {
         List<Creatable<PublicIPAddress>> creatablePips = new ArrayList<>();
         for (int i = 0; i < PIP_NAMES.length; i++) {
             creatablePips.add(

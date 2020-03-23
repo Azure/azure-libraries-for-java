@@ -21,6 +21,7 @@ import com.azure.management.resources.models.ResourcesInner;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Implementation of the {@link GenericResources}.
@@ -40,24 +41,28 @@ final class GenericResourcesImpl
 
     @Override
     public PagedIterable<GenericResource> list() {
-        return wrapList(this.manager().inner().resources().list());
+        return wrapList(this.manager().inner().resources().list()
+                .mapPage(res -> (GenericResourceInner) res));
     }
 
     @Override
     public PagedIterable<GenericResource> listByResourceGroup(String groupName) {
-        return wrapList(this.manager().inner().resources().listByResourceGroup(groupName));
+        return wrapList(this.manager().inner().resources().listByResourceGroup(groupName)
+                .mapPage(res -> (GenericResourceInner) res));
     }
 
     @Override
     public PagedIterable<GenericResource> listByTag(String resourceGroupName, String tagName, String tagValue) {
         return wrapList(this.manager().inner().resources().listByResourceGroup(resourceGroupName,
-                Utils.createOdataFilterForTags(tagName, tagValue)));
+                Utils.createOdataFilterForTags(tagName, tagValue), null, null)
+                .mapPage(res -> (GenericResourceInner) res));
     }
 
     @Override
     public PagedFlux<GenericResource> listByTagAsync(String resourceGroupName, String tagName, String tagValue) {
         return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName,
-                Utils.createOdataFilterForTags(tagName, tagValue)));
+                Utils.createOdataFilterForTags(tagName, tagValue), null, null)
+                .mapPage(res -> (GenericResourceInner) res));
     }
 
     @Override
@@ -213,11 +218,13 @@ final class GenericResourcesImpl
 
     @Override
     public PagedFlux<GenericResource> listAsync() {
-        return wrapPageAsync(this.inner().listAsync());
+        return wrapPageAsync(this.inner().listAsync()
+                .mapPage(res -> (GenericResourceInner) res));
     }
 
     @Override
     public PagedFlux<GenericResource> listByResourceGroupAsync(String resourceGroupName) {
-        return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName));
+        return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName)
+                .mapPage(res -> (GenericResourceInner) res));
     }
 }

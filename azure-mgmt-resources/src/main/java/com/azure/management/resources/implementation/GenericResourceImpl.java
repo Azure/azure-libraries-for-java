@@ -79,7 +79,6 @@ final class GenericResourceImpl
 
     @Override
     protected Mono<GenericResourceInner> getInnerAsync() {
-        // TODO: Whey fluent V1 has api version here.
         return this.manager().inner().resources().getAsync(
                 resourceGroupName(),
                 resourceProviderNamespace(),

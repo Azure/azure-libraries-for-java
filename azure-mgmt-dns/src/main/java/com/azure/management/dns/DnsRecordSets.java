@@ -4,14 +4,14 @@
  * license information.
  */
 
-package com.microsoft.azure.management.dns;
+package com.azure.management.dns;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
 
 /**
  * Base interface for all record sets.
@@ -29,14 +29,14 @@ public interface DnsRecordSets<RecordSetT> extends
      * @param recordSetNameSuffix the record set name suffix
      * @return list of record sets
      */
-    PagedList<RecordSetT> list(String recordSetNameSuffix);
+    PagedIterable<RecordSetT> list(String recordSetNameSuffix);
     /**
      * Lists all the record sets, with number of entries in each page limited to given size.
      *
      * @param pageSize the maximum number of record sets in a page
      * @return list of record sets
      */
-    PagedList<RecordSetT> list(int pageSize);
+    PagedIterable<RecordSetT> list(int pageSize);
     /**
      * Lists all the record sets with the given suffix, also limits the number of entries
      * per page to the given page size.
@@ -45,21 +45,21 @@ public interface DnsRecordSets<RecordSetT> extends
      * @param pageSize the maximum number of record sets in a page
      * @return the record sets
      */
-    PagedList<RecordSetT> list(String recordSetNameSuffix, int pageSize);
+    PagedIterable<RecordSetT> list(String recordSetNameSuffix, int pageSize);
     /**
      * Lists all the record sets with the given suffix.
      *
      * @param recordSetNameSuffix the record set name suffix
      * @return an observable that emits record sets
      */
-    Observable<RecordSetT> listAsync(String recordSetNameSuffix);
+    PagedFlux<RecordSetT> listAsync(String recordSetNameSuffix);
     /**
      * Lists all the record sets, with number of entries in each page limited to given size.
      *
      * @param pageSize the maximum number of record sets in a page
      * @return an observable that emits record sets
      */
-    Observable<RecordSetT> listAsync(int pageSize);
+    PagedFlux<RecordSetT> listAsync(int pageSize);
     /**
      * Lists all the record sets with the given suffix, also limits the number of entries
      * per page to the given page size.
@@ -68,5 +68,5 @@ public interface DnsRecordSets<RecordSetT> extends
      * @param pageSize the maximum number of record sets in a page
      * @return an observable that emits record sets
      */
-    Observable<RecordSetT> listAsync(String recordSetNameSuffix, int pageSize);
+    PagedFlux<RecordSetT> listAsync(String recordSetNameSuffix, int pageSize);
 }

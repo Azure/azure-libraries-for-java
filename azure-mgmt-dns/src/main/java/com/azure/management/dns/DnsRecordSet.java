@@ -3,15 +3,14 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns;
+package com.azure.management.dns;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.dns.implementation.RecordSetInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.List;
 import java.util.Map;
@@ -21,8 +20,8 @@ import java.util.Map;
  */
 @Fluent
 public interface DnsRecordSet extends
-    ExternalChildResource<DnsRecordSet, DnsZone>,
-    HasInner<RecordSetInner> {
+        ExternalChildResource<DnsRecordSet, DnsZone>,
+        HasInner<RecordSetInner> {
 
     /**
      * @return the type of records in this record set
@@ -43,7 +42,6 @@ public interface DnsRecordSet extends
      * @return the fully qualified domain name of the record set.
      */
 
-    @Beta(Beta.SinceVersion.V1_9_0)
     String fqdn();
 
     /**
@@ -163,7 +161,6 @@ public interface DnsRecordSet extends
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface CaaRecordSetBlank<ParentT> extends WithCaaRecordEntry<ParentT> {
         }
 
@@ -172,7 +169,6 @@ public interface DnsRecordSet extends
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithCaaRecordEntry<ParentT> {
             /**
              * Specifies a Caa record for a service.
@@ -182,7 +178,6 @@ public interface DnsRecordSet extends
              * @param value the value for this CAA record
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_9_0)
             WithCaaRecordEntryOrAttachable<ParentT> withRecord(int flags, String tag, String value);
         }
 
@@ -192,7 +187,6 @@ public interface DnsRecordSet extends
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithCaaRecordEntryOrAttachable<ParentT>
                 extends WithCaaRecordEntry<ParentT>, WithAttach<ParentT> {
         }
@@ -568,7 +562,6 @@ public interface DnsRecordSet extends
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface CaaRecordSetBlank<ParentT> extends WithCaaRecordEntry<ParentT> {
         }
 
@@ -577,7 +570,6 @@ public interface DnsRecordSet extends
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithCaaRecordEntry<ParentT> {
             /**
              * Specifies a Caa record for a service.
@@ -587,7 +579,6 @@ public interface DnsRecordSet extends
              * @param value the value for this CAA record
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_9_0)
             WithCaaRecordEntryOrAttachable<ParentT> withRecord(int flags, String tag, String value);
         }
 
@@ -597,7 +588,6 @@ public interface DnsRecordSet extends
          *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithCaaRecordEntryOrAttachable<ParentT>
                 extends WithCaaRecordEntry<ParentT>, WithAttach<ParentT> {
         }
@@ -898,7 +888,6 @@ public interface DnsRecordSet extends
     /**
      * The entirety of a Caa record set update as a part of parent DNS zone update.
      */
-    @Beta(Beta.SinceVersion.V1_9_0)
     interface UpdateCaaRecordSet extends
             UpdateStages.WithCaaRecordEntry,
             Update {
@@ -1019,7 +1008,6 @@ public interface DnsRecordSet extends
         /**
          * The stage of the Caa record definition allowing to add or remove service record.
          */
-        @Beta(Beta.SinceVersion.V1_9_0)
         interface WithCaaRecordEntry {
             /**
              * Specifies a Caa record for a service.
@@ -1029,7 +1017,6 @@ public interface DnsRecordSet extends
              * @param value the value for this CAA record
              * @return the next stage of the record set update
              */
-            @Beta(Beta.SinceVersion.V1_9_0)
             UpdateCaaRecordSet withRecord(int flags, String tag, String value);
 
             /**
@@ -1040,7 +1027,6 @@ public interface DnsRecordSet extends
              * @param value the value for this CAA record
              * @return the next stage of the record set update
              */
-            @Beta(Beta.SinceVersion.V1_9_0)
             UpdateCaaRecordSet withoutRecord(int flags, String tag, String value);
         }
 

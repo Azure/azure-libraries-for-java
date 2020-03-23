@@ -3,9 +3,9 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns;
+package com.azure.management.dns;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 /**
  * An immutable client-side representation of a SOA (start of authority) record set in Azure DNS Zone.

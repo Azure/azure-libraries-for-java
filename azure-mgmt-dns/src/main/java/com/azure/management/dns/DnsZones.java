@@ -3,23 +3,23 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns;
+package com.azure.management.dns;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
-import com.microsoft.azure.management.dns.implementation.ZonesInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import rx.Completable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.dns.models.ZonesInner;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.dns.implementation.DnsZoneManager;
+import reactor.core.publisher.Mono;
 
 /**
  * Entry point to DNS zone management API in Azure.
@@ -45,7 +45,7 @@ public interface DnsZones extends
      * @param eTagValue the ETag value to set on IfMatch header for concurrency protection
      * @return a representation of the deferred computation this delete call
      */
-    Completable deleteByResourceGroupNameAsync(String resourceGroupName, String zoneName, String eTagValue);
+    Mono<Void> deleteByResourceGroupNameAsync(String resourceGroupName, String zoneName, String eTagValue);
     /**
      * Asynchronously delete the zone from Azure, identifying it by its resource ID.
      *
@@ -53,7 +53,7 @@ public interface DnsZones extends
      * @param eTagValue the ETag value to set on IfMatch header for concurrency protection
      * @return a representation of the deferred computation this delete call
      */
-    Completable deleteByIdAsync(String id, String eTagValue);
+    Mono<Void> deleteByIdAsync(String id, String eTagValue);
     /**
      * Deletes the zone from Azure, identifying it by its name and its resource group.
      *

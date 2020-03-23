@@ -714,7 +714,7 @@ If you are using snapshots builds for this repo, add the following repository an
 
 ## Upgrading from older versions
 
-If you are migrating your code from 1.32.0 to 1.32.1, you can use these release notes for [preparing your code for 1.32.1 from 1.31.0](./notes/prepare-for-1.32.1.md).
+If you are migrating your code from 1.32.0 to 1.32.1, you can use these release notes for [preparing your code for 1.32.1 from 1.32.0](./notes/prepare-for-1.32.1.md).
 
 In general, Azure Libraries for Java follow [semantic versioning](http://semver.org/), so user code should continue working in a compatible fashion between minor versions of the same major version release train, with the following caveats:
 

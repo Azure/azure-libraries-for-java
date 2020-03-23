@@ -10,6 +10,7 @@ import com.azure.management.Azure;
 import com.azure.management.appservice.AppServicePlan;
 import com.azure.management.appservice.PricingTier;
 import com.azure.management.appservice.PublishingProfile;
+import com.azure.management.appservice.RuntimeStack;
 import com.azure.management.appservice.WebApp;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -64,9 +65,7 @@ public final class ManageLinuxWebAppSourceControl {
                     .withRegion(Region.US_WEST)
                     .withNewResourceGroup(rgName)
                     .withNewLinuxPlan(PricingTier.STANDARD_S1)
-                    .withPublicDockerHubImage("tomcat:8-jre8")
-                    .withStartUpCommand("/bin/bash -c \"sed -ie 's/appBase=\\\"webapps\\\"/appBase=\\\"\\\\/home\\\\/site\\\\/wwwroot\\\\/webapps\\\"/g' conf/server.xml && catalina.sh run\"")
-                    .withAppSetting("PORT", "8080")
+                    .withBuiltInImage(RuntimeStack.TOMCAT_8_5_JRE8)
                     .create();
 
             System.out.println("Created web app " + app1.name());
@@ -97,9 +96,7 @@ public final class ManageLinuxWebAppSourceControl {
             WebApp app2 = azure.webApps().define(app2Name)
                     .withExistingLinuxPlan(plan)
                     .withExistingResourceGroup(rgName)
-                    .withPublicDockerHubImage("tomcat:8-jre8")
-                    .withStartUpCommand("/bin/bash -c \"sed -ie 's/appBase=\\\"webapps\\\"/appBase=\\\"\\\\/home\\\\/site\\\\/wwwroot\\\\/webapps\\\"/g' conf/server.xml && catalina.sh run\"")
-                    .withAppSetting("PORT", "8080")
+                    .withBuiltInImage(RuntimeStack.TOMCAT_8_5_JRE8)
                     .withLocalGitSourceControl()
                     .create();
 
@@ -142,9 +139,7 @@ public final class ManageLinuxWebAppSourceControl {
             WebApp app3 = azure.webApps().define(app3Name)
                     .withExistingLinuxPlan(plan)
                     .withNewResourceGroup(rgName)
-                    .withPublicDockerHubImage("tomcat:8-jre8")
-                    .withStartUpCommand("/bin/bash -c \"sed -ie 's/appBase=\\\"webapps\\\"/appBase=\\\"\\\\/home\\\\/site\\\\/wwwroot\\\\/webapps\\\"/g' conf/server.xml && catalina.sh run\"")
-                    .withAppSetting("PORT", "8080")
+                    .withBuiltInImage(RuntimeStack.TOMCAT_8_5_JRE8)
                         .defineSourceControl()
                         .withPublicGitRepository("https://github.com/azure-appservice-samples/java-get-started")
                         .withBranch("master")
@@ -169,9 +164,7 @@ public final class ManageLinuxWebAppSourceControl {
                     .define(app4Name)
                     .withExistingLinuxPlan(plan)
                     .withExistingResourceGroup(rgName)
-                    .withPublicDockerHubImage("tomcat:8-jre8")
-                    .withStartUpCommand("/bin/bash -c \"sed -ie 's/appBase=\\\"webapps\\\"/appBase=\\\"\\\\/home\\\\/site\\\\/wwwroot\\\\/webapps\\\"/g' conf/server.xml && catalina.sh run\"")
-                    .withAppSetting("PORT", "8080")
+                    .withBuiltInImage(RuntimeStack.TOMCAT_8_5_JRE8)
                     // Uncomment the following lines to turn on 4th scenario
                     //.defineSourceControl()
                     //    .withContinuouslyIntegratedGitHubRepository("username", "reponame")

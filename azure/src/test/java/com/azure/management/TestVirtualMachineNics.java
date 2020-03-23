@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Assertions;
 
 public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, VirtualMachines> {
     private final NetworkManager networkManager;
+    private String secondaryNicName;
 
     public TestVirtualMachineNics(NetworkManager networkManager) {
         this.networkManager = networkManager;
@@ -43,7 +44,7 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
                 .withAddressSpace("10.0.0.0/28");
 
         // Prepare the secondary network interface definition
-        final String secondaryNicName = virtualMachines.manager().getSdkContext().randomResourceName("nic", 10);;
+        secondaryNicName = virtualMachines.manager().getSdkContext().randomResourceName("nic", 10);;
         Creatable<NetworkInterface> secondaryNetworkInterfaceCreatable = this.networkManager.networkInterfaces()
                 .define(secondaryNicName)
                 .withRegion(Region.US_EAST)
@@ -90,7 +91,6 @@ public class TestVirtualMachineNics extends TestTemplate<VirtualMachine, Virtual
 
     @Override
     public VirtualMachine updateResource(VirtualMachine virtualMachine) throws Exception {
-        final String secondaryNicName = virtualMachine.manager().getSdkContext().randomResourceName("nic", 10);;
         virtualMachine.powerOff();
         virtualMachine.deallocate();
         virtualMachine = virtualMachine.update()

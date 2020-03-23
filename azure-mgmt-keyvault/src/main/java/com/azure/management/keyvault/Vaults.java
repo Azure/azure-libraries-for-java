@@ -86,7 +86,7 @@ public interface Vaults extends
      *            The location of the deleted vault.
      * @throws IllegalArgumentException
      *             thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
+     * @return the {@link Mono} object
      */
     Mono<DeletedVault> getDeletedAsync(String vaultName, String location);
 

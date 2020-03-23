@@ -97,13 +97,6 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
         return inner().serviceProviderProperties();
     }
 
-    protected void beforeCreating() {
-    }
-
-    @Override
-    protected void afterCreating() {
-    }
-
     @Override
     protected Mono<ExpressRouteCircuitInner> createInner() {
         return this.manager().inner().expressRouteCircuits().createOrUpdateAsync(

@@ -13,8 +13,10 @@ import com.azure.management.resources.Deployment;
 import com.azure.management.resources.DeploymentMode;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.io.ByteStreams;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,9 +52,13 @@ public final class DeployUsingARMTemplateAsync {
             // Template only needs an SSH Key parameter
 
             ObjectMapper mapper = new ObjectMapper();
-            final String parameters = mapper.createObjectNode()
-                    .set("sshKeyData", mapper.createObjectNode()
-                            .put("value", sshKey)).toString();
+            ObjectNode node = mapper.createObjectNode();
+
+            node.set("adminPublicKey", mapper.createObjectNode().put("value", sshKey));
+            node.set("projectName", mapper.createObjectNode().put("value", "fluenttest"));
+            node.set("adminUsername", mapper.createObjectNode().put("value", "fluenttesting"));
+
+            final String parameters = node.toString();
 
             System.out.println("Starting VM deployments...");
 
@@ -66,7 +72,7 @@ public final class DeployUsingARMTemplateAsync {
                         try {
                             String params;
                             if (integer == numDeployments) {
-                                params = "{\"sshKeyData\":{\"value\":\"bad content\"}}"; // Invalid parameters as a negative path
+                                params = "{\"adminPublicKey\":{\"value\":\"bad content\"}}"; // Invalid parameters as a negative path
                             } else {
                                 params = parameters;
                             }
@@ -90,7 +96,9 @@ public final class DeployUsingARMTemplateAsync {
                             succeeded.add(deployment.name());
                         }
                     })
-                    .doOnComplete(() -> latch.countDown());
+                    .onErrorResume(e -> Mono.empty())
+                    .doOnComplete(() -> latch.countDown())
+                    .subscribe();
 
             latch.await();
 

@@ -247,12 +247,6 @@ class NetworkImpl
         // Reset and update subnets
         this.inner().withSubnets(innersFromWrappers(this.subnets.values()));
     }
-
-    @Override
-    protected void afterCreating() {
-        initializeChildrenFromInner();
-    }
-
     @Override
     public SubnetImpl updateSubnet(String name) {
         return (SubnetImpl) this.subnets.get(name);

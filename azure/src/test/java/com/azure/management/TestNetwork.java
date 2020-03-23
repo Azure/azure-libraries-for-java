@@ -33,7 +33,7 @@ public class TestNetwork {
     /**
      * Test of network with subnets.
      */
-    public static class WithSubnets extends TestTemplate<Network, Networks> {
+    public class WithSubnets extends TestTemplate<Network, Networks> {
         @Override
         public Network createResource(Networks networks) throws Exception {
 
@@ -148,7 +148,7 @@ public class TestNetwork {
     /**
      * Test of network with subnets configured to have access from azure service.
      */
-    public static class WithAccessFromServiceToSubnet extends TestTemplate<Network, Networks> {
+    public class WithAccessFromServiceToSubnet extends TestTemplate<Network, Networks> {
 
         @Override
         public Network createResource(Networks networks) throws Exception {
@@ -244,7 +244,7 @@ public class TestNetwork {
     /**
      * Test of network peerings.
      */
-    public static class WithPeering extends TestTemplate<Network, Networks> {
+    public class WithPeering extends TestTemplate<Network, Networks> {
         @Override
         public Network createResource(Networks networks) throws Exception {
             Region region = Region.US_EAST;
@@ -362,7 +362,7 @@ public class TestNetwork {
     /**
      * Test of network with DDoS protection plan.
      */
-    public static class WithDDosProtectionPlanAndVmProtection extends TestTemplate<Network, Networks> {
+    public class WithDDosProtectionPlanAndVmProtection extends TestTemplate<Network, Networks> {
         @Override
         public Network createResource(Networks networks) throws Exception {
             Region region = Region.US_EAST2;
@@ -404,7 +404,7 @@ public class TestNetwork {
     /**
      * Test of network updateTags functionality.
      */
-    public static class WithUpdateTags extends TestTemplate<Network, Networks> {
+    public class WithUpdateTags extends TestTemplate<Network, Networks> {
         @Override
         public Network createResource(Networks networks) throws Exception {
             Region region = Region.US_SOUTH_CENTRAL;

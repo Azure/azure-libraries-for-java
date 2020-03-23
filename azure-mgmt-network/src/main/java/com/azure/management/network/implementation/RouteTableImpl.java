@@ -133,11 +133,6 @@ class RouteTableImpl
     }
 
     @Override
-    protected void afterCreating() {
-        initializeChildrenFromInner();
-    }
-
-    @Override
     protected Mono<RouteTableInner> createInner() {
         return this.manager().inner().routeTables().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
     }

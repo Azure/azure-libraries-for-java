@@ -6,6 +6,7 @@
 package com.azure.management;
 
 
+import com.azure.core.management.CloudException;
 import com.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.azure.management.compute.VirtualMachine;
 import com.azure.management.network.ApplicationGateway;
@@ -23,7 +24,6 @@ import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.CreatedResources;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +51,7 @@ public class ApplicationGatewayTests extends TestBase {
      */
     @Test
     public void testAppGatewaysInternalComplex() throws Exception {
-        new TestApplicationGateway.PrivateComplex()
+        new TestApplicationGateway().new PrivateComplex(azure.sdkContext())
                 .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 
@@ -62,7 +62,7 @@ public class ApplicationGatewayTests extends TestBase {
      */
     @Test
     public void testAppGatewaysPublicUrlPathBased() throws Exception {
-        new TestApplicationGateway.UrlPathBased()
+        new TestApplicationGateway().new UrlPathBased(azure.sdkContext())
                 .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 
@@ -217,7 +217,7 @@ public class ApplicationGatewayTests extends TestBase {
      */
     @Test
     public void testAppGatewaysInternalMinimal() throws Exception {
-        new TestApplicationGateway.PrivateMinimal()
+        new TestApplicationGateway().new PrivateMinimal(azure.sdkContext())
                 .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 
@@ -303,7 +303,12 @@ public class ApplicationGatewayTests extends TestBase {
 
         azure.applicationGateways().deleteByIds(agIds);
         for (String id : agIds) {
-            Assertions.assertNull(azure.applicationGateways().getById(id));
+            try {
+                ApplicationGateway ag = azure.applicationGateways().getById(id);
+                Assertions.assertNull(ag);
+            } catch (CloudException e) {
+                Assertions.assertEquals(404, e.getResponse().getStatusCode());
+            }
         }
 
         azure.resourceGroups().beginDeleteByName(rgName);
@@ -316,7 +321,7 @@ public class ApplicationGatewayTests extends TestBase {
      */
     @Test
     public void testAppGatewaysInternetFacingMinimal() throws Exception {
-        new TestApplicationGateway.PublicMinimal()
+        new TestApplicationGateway().new PublicMinimal(azure.sdkContext())
                 .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 
@@ -327,7 +332,7 @@ public class ApplicationGatewayTests extends TestBase {
      */
     @Test
     public void testAppGatewaysInternetFacingComplex() throws Exception {
-        new TestApplicationGateway.PublicComplex()
+        new TestApplicationGateway().new PublicComplex(azure.sdkContext())
                 .runTest(azure.applicationGateways(), azure.resourceGroups());
     }
 }

@@ -395,10 +395,6 @@ class ApplicationGatewayImpl
         }
     }
 
-    @Override
-    protected void afterCreating() {
-    }
-
     protected SubResource ensureBackendRef(String name) {
         // Ensure existence of backend, creating one if needed
         ApplicationGatewayBackendImpl backend;

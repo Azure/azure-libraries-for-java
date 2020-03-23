@@ -148,10 +148,6 @@ class NetworkSecurityGroupImpl
     }
 
     @Override
-    protected void afterCreating() {
-    }
-
-    @Override
     protected Mono<NetworkSecurityGroupInner> createInner() {
         return this.manager().inner().networkSecurityGroups().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
     }

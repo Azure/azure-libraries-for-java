@@ -98,7 +98,7 @@ class NetworkPeeringsImpl
                 })
 
                 // Then continue till the last peering is deleted
-                .last();
+                .then();
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("Docker")
 @Fluent
-public final class DockerBuildStep extends TaskStepProperties {
+public final class DockerTaskStep extends TaskStepProperties {
     /*
      * The fully qualified image names including the repository and tag.
      */
@@ -73,7 +73,7 @@ public final class DockerBuildStep extends TaskStepProperties {
      * @param imageNames the imageNames value to set.
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withImageNames(List<String> imageNames) {
+    public DockerTaskStep withImageNames(List<String> imageNames) {
         this.imageNames = imageNames;
         return this;
     }
@@ -95,7 +95,7 @@ public final class DockerBuildStep extends TaskStepProperties {
      * @param isPushEnabled the isPushEnabled value to set.
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withIsPushEnabled(Boolean isPushEnabled) {
+    public DockerTaskStep withIsPushEnabled(Boolean isPushEnabled) {
         this.isPushEnabled = isPushEnabled;
         return this;
     }
@@ -117,7 +117,7 @@ public final class DockerBuildStep extends TaskStepProperties {
      * @param noCache the noCache value to set.
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withNoCache(Boolean noCache) {
+    public DockerTaskStep withNoCache(Boolean noCache) {
         this.noCache = noCache;
         return this;
     }
@@ -139,7 +139,7 @@ public final class DockerBuildStep extends TaskStepProperties {
      * @param dockerFilePath the dockerFilePath value to set.
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withDockerFilePath(String dockerFilePath) {
+    public DockerTaskStep withDockerFilePath(String dockerFilePath) {
         this.dockerFilePath = dockerFilePath;
         return this;
     }
@@ -161,7 +161,7 @@ public final class DockerBuildStep extends TaskStepProperties {
      * @param target the target value to set.
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withTarget(String target) {
+    public DockerTaskStep withTarget(String target) {
         this.target = target;
         return this;
     }
@@ -183,7 +183,7 @@ public final class DockerBuildStep extends TaskStepProperties {
      * @param arguments the arguments value to set.
      * @return the DockerBuildStep object itself.
      */
-    public DockerBuildStep withArguments(List<Argument> arguments) {
+    public DockerTaskStep withArguments(List<Argument> arguments) {
         this.arguments = arguments;
         return this;
     }

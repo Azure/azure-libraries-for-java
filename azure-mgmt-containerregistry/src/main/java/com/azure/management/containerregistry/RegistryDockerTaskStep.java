@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Fluent()
 public interface RegistryDockerTaskStep extends
-        HasInner<DockerBuildStep>,
+        HasInner<DockerTaskStep>,
         RegistryTaskStep {
     /**
      * @return the image names of this Docker task step

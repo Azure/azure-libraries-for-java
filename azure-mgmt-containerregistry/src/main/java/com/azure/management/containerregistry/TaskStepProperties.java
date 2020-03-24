@@ -17,7 +17,7 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", defaultImpl = TaskStepProperties.class)
 @JsonTypeName("TaskStepProperties")
 @JsonSubTypes({
-    @JsonSubTypes.Type(name = "Docker", value = DockerBuildStep.class),
+    @JsonSubTypes.Type(name = "Docker", value = DockerTaskStep.class),
     @JsonSubTypes.Type(name = "FileTask", value = FileTaskStep.class),
     @JsonSubTypes.Type(name = "EncodedTask", value = EncodedTaskStep.class)
 })

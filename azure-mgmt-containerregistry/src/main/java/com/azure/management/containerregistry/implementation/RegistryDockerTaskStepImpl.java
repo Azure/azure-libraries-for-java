@@ -7,9 +7,11 @@ package com.azure.management.containerregistry.implementation;
 
 import com.azure.management.containerregistry.Argument;
 import com.azure.management.containerregistry.DockerBuildStepUpdateParameters;
+import com.azure.management.containerregistry.DockerTaskStep;
 import com.azure.management.containerregistry.OverridingArgument;
 import com.azure.management.containerregistry.RegistryDockerTaskStep;
 import com.azure.management.containerregistry.RegistryTask;
+import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;

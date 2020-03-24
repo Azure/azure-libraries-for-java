@@ -12,6 +12,7 @@ import com.azure.management.containerregistry.BaseImageTrigger;
 import com.azure.management.containerregistry.BaseImageTriggerType;
 import com.azure.management.containerregistry.BaseImageTriggerUpdateParameters;
 import com.azure.management.containerregistry.DockerBuildStepUpdateParameters;
+import com.azure.management.containerregistry.DockerTaskStep;
 import com.azure.management.containerregistry.EncodedTaskStep;
 import com.azure.management.containerregistry.EncodedTaskStepUpdateParameters;
 import com.azure.management.containerregistry.FileTaskStep;
@@ -51,7 +52,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 
 class RegistryTaskImpl implements
         RegistryTask,

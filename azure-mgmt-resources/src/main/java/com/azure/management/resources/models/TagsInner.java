@@ -99,8 +99,8 @@ public final class TagsInner {
     /**
      * Deletes a tag value.
      * 
-     * @param tagName 
-     * @param tagValue 
+     * @param tagName The name of the tag.
+     * @param tagValue The value of the tag to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -113,8 +113,8 @@ public final class TagsInner {
     /**
      * Deletes a tag value.
      * 
-     * @param tagName 
-     * @param tagValue 
+     * @param tagName The name of the tag.
+     * @param tagValue The value of the tag to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -128,8 +128,8 @@ public final class TagsInner {
     /**
      * Deletes a tag value.
      * 
-     * @param tagName 
-     * @param tagValue 
+     * @param tagName The name of the tag.
+     * @param tagValue The value of the tag to delete.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -142,8 +142,8 @@ public final class TagsInner {
     /**
      * Creates a tag value. The name of the tag must already exist.
      * 
-     * @param tagName 
-     * @param tagValue 
+     * @param tagName The name of the tag.
+     * @param tagValue The value of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -156,8 +156,8 @@ public final class TagsInner {
     /**
      * Creates a tag value. The name of the tag must already exist.
      * 
-     * @param tagName 
-     * @param tagValue 
+     * @param tagName The name of the tag.
+     * @param tagValue The value of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -177,8 +177,8 @@ public final class TagsInner {
     /**
      * Creates a tag value. The name of the tag must already exist.
      * 
-     * @param tagName 
-     * @param tagValue 
+     * @param tagName The name of the tag.
+     * @param tagValue The value of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -191,7 +191,7 @@ public final class TagsInner {
     /**
      * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these prefixes.
      * 
-     * @param tagName 
+     * @param tagName The name of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -204,7 +204,7 @@ public final class TagsInner {
     /**
      * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these prefixes.
      * 
-     * @param tagName 
+     * @param tagName The name of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -224,7 +224,7 @@ public final class TagsInner {
     /**
      * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these prefixes.
      * 
-     * @param tagName 
+     * @param tagName The name of the tag to create.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -237,7 +237,7 @@ public final class TagsInner {
     /**
      * You must remove all values from a resource tag before you can delete it.
      * 
-     * @param tagName 
+     * @param tagName The name of the tag.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -250,7 +250,7 @@ public final class TagsInner {
     /**
      * You must remove all values from a resource tag before you can delete it.
      * 
-     * @param tagName 
+     * @param tagName The name of the tag.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -264,7 +264,7 @@ public final class TagsInner {
     /**
      * You must remove all values from a resource tag before you can delete it.
      * 
-     * @param tagName 
+     * @param tagName The name of the tag.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

@@ -435,8 +435,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -449,8 +449,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -466,8 +466,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -480,8 +480,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -494,8 +494,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -515,8 +515,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -529,8 +529,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -544,8 +544,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -562,8 +562,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -577,8 +577,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -591,8 +591,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -612,8 +612,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -626,8 +626,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -640,8 +640,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -655,8 +655,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -669,8 +669,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -684,8 +684,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -706,8 +706,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -721,8 +721,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -735,8 +735,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -756,8 +756,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -770,9 +770,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments at the given scope.
      * 
-     * @param scope 
-     * @param filter 
-     * @param top 
+     * @param scope The scope of a deployment.
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -792,9 +792,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments at the given scope.
      * 
-     * @param scope 
-     * @param filter 
-     * @param top 
+     * @param scope The scope of a deployment.
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -809,7 +809,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments at the given scope.
      * 
-     * @param scope 
+     * @param scope The scope of a deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -826,9 +826,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments at the given scope.
      * 
-     * @param scope 
-     * @param filter 
-     * @param top 
+     * @param scope The scope of a deployment.
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -841,7 +841,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments at the given scope.
      * 
-     * @param scope 
+     * @param scope The scope of a deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -856,7 +856,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -869,7 +869,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -885,7 +885,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -898,7 +898,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -911,7 +911,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -931,7 +931,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -944,7 +944,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -958,7 +958,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -975,7 +975,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -989,7 +989,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1002,7 +1002,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1022,7 +1022,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1035,7 +1035,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1048,7 +1048,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1062,7 +1062,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1075,7 +1075,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1089,7 +1089,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1110,7 +1110,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1124,7 +1124,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1137,7 +1137,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1157,7 +1157,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1170,8 +1170,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments at the tenant scope.
      * 
-     * @param filter 
-     * @param top 
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1191,8 +1191,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments at the tenant scope.
      * 
-     * @param filter 
-     * @param top 
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1222,8 +1222,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments at the tenant scope.
      * 
-     * @param filter 
-     * @param top 
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1249,8 +1249,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1263,8 +1263,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1280,8 +1280,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1294,8 +1294,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1308,8 +1308,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1329,8 +1329,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1343,8 +1343,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1358,8 +1358,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1376,8 +1376,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1391,8 +1391,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1405,8 +1405,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1426,8 +1426,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1440,8 +1440,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1454,8 +1454,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1469,8 +1469,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1483,8 +1483,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1498,8 +1498,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1520,8 +1520,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1535,8 +1535,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1549,8 +1549,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1570,8 +1570,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1584,9 +1584,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a management group.
      * 
-     * @param groupId 
-     * @param filter 
-     * @param top 
+     * @param groupId The management group ID.
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1606,9 +1606,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a management group.
      * 
-     * @param groupId 
-     * @param filter 
-     * @param top 
+     * @param groupId The management group ID.
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1623,7 +1623,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a management group.
      * 
-     * @param groupId 
+     * @param groupId The management group ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1640,9 +1640,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a management group.
      * 
-     * @param groupId 
-     * @param filter 
-     * @param top 
+     * @param groupId The management group ID.
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1655,7 +1655,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a management group.
      * 
-     * @param groupId 
+     * @param groupId The management group ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1670,7 +1670,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1683,7 +1683,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1699,7 +1699,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1712,7 +1712,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1725,7 +1725,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1745,7 +1745,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1758,7 +1758,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1772,7 +1772,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1789,7 +1789,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1803,7 +1803,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1816,7 +1816,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1836,7 +1836,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1849,7 +1849,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1862,7 +1862,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1876,7 +1876,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1889,7 +1889,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1903,7 +1903,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1924,7 +1924,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1938,7 +1938,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1952,7 +1952,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1969,7 +1969,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1983,7 +1983,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1996,7 +1996,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2016,7 +2016,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2029,8 +2029,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a subscription.
      * 
-     * @param filter 
-     * @param top 
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2050,8 +2050,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a subscription.
      * 
-     * @param filter 
-     * @param top 
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2081,8 +2081,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a subscription.
      * 
-     * @param filter 
-     * @param top 
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2108,8 +2108,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group with the deployment to delete. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2122,8 +2122,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group with the deployment to delete. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2139,8 +2139,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group with the deployment to delete. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2153,8 +2153,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group with the deployment to check. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2167,8 +2167,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group with the deployment to check. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2188,8 +2188,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Checks whether the deployment exists.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group with the deployment to check. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2202,8 +2202,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2217,8 +2217,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2235,8 +2235,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2250,8 +2250,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2264,8 +2264,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2285,8 +2285,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Gets a deployment.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2299,8 +2299,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2313,8 +2313,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2328,8 +2328,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2342,8 +2342,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2357,8 +2357,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2379,8 +2379,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2394,8 +2394,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2409,8 +2409,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2427,8 +2427,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2442,8 +2442,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2456,8 +2456,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2477,8 +2477,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Exports the template used for specified deployment.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2491,9 +2491,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a resource group.
      * 
-     * @param resourceGroupName 
-     * @param filter 
-     * @param top 
+     * @param resourceGroupName The name of the resource group with the deployments to get. The name is case insensitive.
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2513,9 +2513,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a resource group.
      * 
-     * @param resourceGroupName 
-     * @param filter 
-     * @param top 
+     * @param resourceGroupName The name of the resource group with the deployments to get. The name is case insensitive.
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2530,7 +2530,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group with the deployments to get. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2547,9 +2547,9 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a resource group.
      * 
-     * @param resourceGroupName 
-     * @param filter 
-     * @param top 
+     * @param resourceGroupName The name of the resource group with the deployments to get. The name is case insensitive.
+     * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
+     * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2562,7 +2562,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Get all the deployments for a resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group with the deployments to get. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2623,8 +2623,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2637,8 +2637,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2652,8 +2652,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2666,8 +2666,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2681,8 +2681,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2703,8 +2703,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param scope 
-     * @param deploymentName 
+     * @param scope The scope of a deployment.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2718,7 +2718,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2731,7 +2731,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2745,7 +2745,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2758,7 +2758,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2772,7 +2772,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2793,7 +2793,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2807,8 +2807,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2821,8 +2821,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2836,8 +2836,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2850,8 +2850,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2865,8 +2865,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2887,8 +2887,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param groupId 
-     * @param deploymentName 
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2902,7 +2902,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2915,7 +2915,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2929,7 +2929,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -2942,7 +2942,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2956,7 +2956,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2977,7 +2977,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -2991,7 +2991,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -3005,7 +3005,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -3026,7 +3026,7 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the subscription.
      * 
-     * @param deploymentName 
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -3040,8 +3040,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group with the deployment to delete. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -3054,8 +3054,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group with the deployment to delete. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -3069,8 +3069,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group with the deployment to delete. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -3083,8 +3083,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -3098,8 +3098,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -3120,8 +3120,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * You can provide the template and parameters directly in the request or link to JSON files.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -3135,8 +3135,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -3150,8 +3150,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -3172,8 +3172,8 @@ public final class DeploymentsInner implements InnerSupportsGet<DeploymentExtend
     /**
      * Returns changes that will be made by the deployment if executed at the scope of the resource group.
      * 
-     * @param resourceGroupName 
-     * @param deploymentName 
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
      * @param parameters Deployment What-if operation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

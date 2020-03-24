@@ -133,7 +133,7 @@ public final class ResourceGroupsInner {
     /**
      * Checks whether a resource group exists.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -146,7 +146,7 @@ public final class ResourceGroupsInner {
     /**
      * Checks whether a resource group exists.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -166,7 +166,7 @@ public final class ResourceGroupsInner {
     /**
      * Checks whether a resource group exists.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -179,7 +179,7 @@ public final class ResourceGroupsInner {
     /**
      * Creates or updates a resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to create or update. Can include alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters that match the allowed characters.
      * @param parameters Resource group information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -193,7 +193,7 @@ public final class ResourceGroupsInner {
     /**
      * Creates or updates a resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to create or update. Can include alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters that match the allowed characters.
      * @param parameters Resource group information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -214,7 +214,7 @@ public final class ResourceGroupsInner {
     /**
      * Creates or updates a resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to create or update. Can include alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters that match the allowed characters.
      * @param parameters Resource group information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -228,7 +228,7 @@ public final class ResourceGroupsInner {
     /**
      * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -241,7 +241,7 @@ public final class ResourceGroupsInner {
     /**
      * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -257,7 +257,7 @@ public final class ResourceGroupsInner {
     /**
      * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -270,7 +270,7 @@ public final class ResourceGroupsInner {
     /**
      * Gets a resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -283,7 +283,7 @@ public final class ResourceGroupsInner {
     /**
      * Gets a resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -303,7 +303,7 @@ public final class ResourceGroupsInner {
     /**
      * Gets a resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -316,7 +316,7 @@ public final class ResourceGroupsInner {
     /**
      * Resource groups can be updated through a simple PATCH operation to a group address. The format of the request is the same as that for creating a resource group. If a field is unspecified, the current value is retained.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to update. The name is case insensitive.
      * @param parameters Resource group information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -330,7 +330,7 @@ public final class ResourceGroupsInner {
     /**
      * Resource groups can be updated through a simple PATCH operation to a group address. The format of the request is the same as that for creating a resource group. If a field is unspecified, the current value is retained.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to update. The name is case insensitive.
      * @param parameters Resource group information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -351,7 +351,7 @@ public final class ResourceGroupsInner {
     /**
      * Resource groups can be updated through a simple PATCH operation to a group address. The format of the request is the same as that for creating a resource group. If a field is unspecified, the current value is retained.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to update. The name is case insensitive.
      * @param parameters Resource group information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -365,7 +365,7 @@ public final class ResourceGroupsInner {
     /**
      * Captures the specified resource group as a template.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Export resource group template request parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -379,7 +379,7 @@ public final class ResourceGroupsInner {
     /**
      * Captures the specified resource group as a template.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Export resource group template request parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -396,7 +396,7 @@ public final class ResourceGroupsInner {
     /**
      * Captures the specified resource group as a template.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Export resource group template request parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -410,8 +410,8 @@ public final class ResourceGroupsInner {
     /**
      * Gets all the resource groups for a subscription.
      * 
-     * @param filter 
-     * @param top 
+     * @param filter The filter to apply on the operation.&lt;br&gt;&lt;br&gt;You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'.
+     * @param top The number of results to return. If null is passed, returns all resource groups.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -431,8 +431,8 @@ public final class ResourceGroupsInner {
     /**
      * Gets all the resource groups for a subscription.
      * 
-     * @param filter 
-     * @param top 
+     * @param filter The filter to apply on the operation.&lt;br&gt;&lt;br&gt;You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'.
+     * @param top The number of results to return. If null is passed, returns all resource groups.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -462,8 +462,8 @@ public final class ResourceGroupsInner {
     /**
      * Gets all the resource groups for a subscription.
      * 
-     * @param filter 
-     * @param top 
+     * @param filter The filter to apply on the operation.&lt;br&gt;&lt;br&gt;You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'.
+     * @param top The number of results to return. If null is passed, returns all resource groups.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -489,7 +489,7 @@ public final class ResourceGroupsInner {
     /**
      * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -502,7 +502,7 @@ public final class ResourceGroupsInner {
     /**
      * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -516,7 +516,7 @@ public final class ResourceGroupsInner {
     /**
      * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -529,7 +529,7 @@ public final class ResourceGroupsInner {
     /**
      * Captures the specified resource group as a template.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Export resource group template request parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -543,7 +543,7 @@ public final class ResourceGroupsInner {
     /**
      * Captures the specified resource group as a template.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Export resource group template request parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -564,7 +564,7 @@ public final class ResourceGroupsInner {
     /**
      * Captures the specified resource group as a template.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Export resource group template request parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

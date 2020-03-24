@@ -4,19 +4,20 @@
  * license information.
  */
 package com.azure.management.containerregistry;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
 public class RegistryTaskTests extends RegistryTest {
 
     @Test
-    @Ignore("Needs personal tokens to run")
+    @Disabled("Needs personal tokens to run")
     public void FileTaskTest(){
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -56,40 +57,40 @@ public class RegistryTaskTests extends RegistryTest {
         RegistryFileTaskStep registryFileTaskStep = (RegistryFileTaskStep) registryTask.registryTaskStep();
 
         //Assert the name of the registryTask is correct
-        Assert.assertEquals(taskName, registryTask.name());
+        Assertions.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, registryTask.resourceGroupName());
+        Assertions.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
+        Assertions.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
+        Assertions.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
+        Assertions.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
         //Assert that the registryTask file path is correct
-        Assert.assertEquals(taskFilePath, registryFileTaskStep.taskFilePath());
+        Assertions.assertEquals(taskFilePath, registryFileTaskStep.taskFilePath());
 
         //Assert CPU count is correct
-        Assert.assertEquals(2, registryTask.cpuCount());
+        Assertions.assertEquals(2, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
+        Assertions.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
+        Assertions.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
 
 
     }
 
     @Test
-    @Ignore("Needs personal tokens to run")
+    @Disabled("Needs personal tokens to run")
     public void FileTaskUpdateTest(){
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -137,34 +138,34 @@ public class RegistryTaskTests extends RegistryTest {
         RegistryFileTaskStep registryFileTaskStep = (RegistryFileTaskStep) registryTask.registryTaskStep();
 
         //Assert the name of the registryTask is correct
-        Assert.assertEquals(taskName, registryTask.name());
+        Assertions.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, registryTask.resourceGroupName());
+        Assertions.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
+        Assertions.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
+        Assertions.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
+        Assertions.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
         //Assert CPU count is correct
-        Assert.assertEquals(2, registryTask.cpuCount());
+        Assertions.assertEquals(2, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
+        Assertions.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
+        Assertions.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
 
         //Checking to see whether file path name is updated correctly
-        Assert.assertEquals(taskFileUpdatePath, registryFileTaskStep.taskFilePath());
+        Assertions.assertEquals(taskFileUpdatePath, registryFileTaskStep.taskFilePath());
 
         boolean errorRaised = false;
         try {
@@ -177,11 +178,11 @@ public class RegistryTaskTests extends RegistryTest {
         }
 
         //Checking to see whether error is raised if update is called on the incorrect registryTask step type.
-        Assert.assertTrue(errorRaised);
+        Assertions.assertTrue(errorRaised);
     }
 
     @Test
-    @Ignore("Needs personal tokens to run")
+    @Disabled("Needs personal tokens to run")
     public void EncodedTaskTest(){
 
         final String acrName = generateRandomResourceName("acr", 10);
@@ -224,40 +225,40 @@ public class RegistryTaskTests extends RegistryTest {
         RegistryEncodedTaskStep registryEncodedTaskStep = (RegistryEncodedTaskStep) registryTask.registryTaskStep();
 
         //Assert the name of the registryTask is correct
-        Assert.assertEquals(taskName, registryTask.name());
+        Assertions.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, registryTask.resourceGroupName());
+        Assertions.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
+        Assertions.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
+        Assertions.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
+        Assertions.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
         //Assert that the registryTask file path is correct
-        Assert.assertEquals(encodedTaskContent, registryEncodedTaskStep.encodedTaskContent());
+        Assertions.assertEquals(encodedTaskContent, registryEncodedTaskStep.encodedTaskContent());
 
         //Assert CPU count is correct
-        Assert.assertEquals(2, registryTask.cpuCount());
+        Assertions.assertEquals(2, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
+        Assertions.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
+        Assertions.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
 
     }
 
 
     @Test
-    @Ignore("Needs personal tokens to run")
+    @Disabled("Needs personal tokens to run")
     public void EncodedTaskUpdateTest(){
 
         final String acrName = generateRandomResourceName("acr", 10);
@@ -309,34 +310,34 @@ public class RegistryTaskTests extends RegistryTest {
         RegistryEncodedTaskStep registryEncodedTaskStep = (RegistryEncodedTaskStep) registryTask.registryTaskStep();
 
         //Assert the name of the registryTask is correct
-        Assert.assertEquals(taskName, registryTask.name());
+        Assertions.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, registryTask.resourceGroupName());
+        Assertions.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
+        Assertions.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
+        Assertions.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
+        Assertions.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
         //Assert that the registryTask file path is correct
-        Assert.assertEquals(encodedTaskContentUpdate, registryEncodedTaskStep.encodedTaskContent());
+        Assertions.assertEquals(encodedTaskContentUpdate, registryEncodedTaskStep.encodedTaskContent());
 
         //Assert CPU count is correct
-        Assert.assertEquals(1, registryTask.cpuCount());
+        Assertions.assertEquals(1, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
+        Assertions.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
+        Assertions.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
 
         boolean errorRaised = false;
         try {
@@ -349,12 +350,12 @@ public class RegistryTaskTests extends RegistryTest {
         }
 
         //Checking to see whether error is raised if update is called on the incorrect registryTask step type.
-        Assert.assertTrue(errorRaised);
+        Assertions.assertTrue(errorRaised);
 
     }
 
     @Test
-    @Ignore("Needs personal tokens to run")
+    @Disabled("Needs personal tokens to run")
     public void DockerTaskTest(){
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -400,48 +401,48 @@ public class RegistryTaskTests extends RegistryTest {
         RegistryDockerTaskStep registryDockerTaskStep = (RegistryDockerTaskStep) registryTask.registryTaskStep();
 
         //Assert the name of the registryTask is correct
-        Assert.assertEquals(taskName, registryTask.name());
+        Assertions.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, registryTask.resourceGroupName());
+        Assertions.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
+        Assertions.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
+        Assertions.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
+        Assertions.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
         //Assert that the registryTask file path is correct
-        Assert.assertEquals(dockerFilePath, registryDockerTaskStep.dockerFilePath());
+        Assertions.assertEquals(dockerFilePath, registryDockerTaskStep.dockerFilePath());
 
         //Assert that the image name array is correct
-        Assert.assertEquals(imageName, registryDockerTaskStep.imageNames().get(0));
+        Assertions.assertEquals(imageName, registryDockerTaskStep.imageNames().get(0));
 
         //Assert that with cache works
-        Assert.assertTrue(!registryDockerTaskStep.noCache());
+        Assertions.assertTrue(!registryDockerTaskStep.noCache());
 
         //Assert that push is enabled
-        Assert.assertTrue(registryDockerTaskStep.isPushEnabled());
+        Assertions.assertTrue(registryDockerTaskStep.isPushEnabled());
 
         //Assert CPU count is correct
-        Assert.assertEquals(2, registryTask.cpuCount());
+        Assertions.assertEquals(2, registryTask.cpuCount());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
+        Assertions.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
+        Assertions.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
 
     }
 
     @Test
-    @Ignore("Needs personal tokens to run")
+    @Disabled("Needs personal tokens to run")
     public void DockerTaskUpdateTest(){
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -495,40 +496,40 @@ public class RegistryTaskTests extends RegistryTest {
         RegistryDockerTaskStep registryDockerTaskStep = (RegistryDockerTaskStep) registryTask.registryTaskStep();
 
         //Assert the name of the registryTask is correct
-        Assert.assertEquals(taskName, registryTask.name());
+        Assertions.assertEquals(taskName, registryTask.name());
 
         //Assert the resource group name is correct
-        Assert.assertEquals(rgName, registryTask.resourceGroupName());
+        Assertions.assertEquals(rgName, registryTask.resourceGroupName());
 
         //Assert location is correct
-        Assert.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
+        Assertions.assertEquals(Region.US_WEST_CENTRAL.name(), registryTask.regionName());
 
         //Assert OS is correct
-        Assert.assertEquals(OS.LINUX, registryTask.platform().os());
+        Assertions.assertEquals(OS.LINUX, registryTask.platform().os());
 
         //Assert architecture is correct
-        Assert.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
+        Assertions.assertEquals(Architecture.AMD64, registryTask.platform().architecture());
 
         //Assert that the registryTask file path is correct
-        Assert.assertEquals(dockerFilePathUpdate, registryDockerTaskStep.dockerFilePath());
+        Assertions.assertEquals(dockerFilePathUpdate, registryDockerTaskStep.dockerFilePath());
 
         //Assert that the image name array is correct
-        Assert.assertEquals(imageName, registryDockerTaskStep.imageNames().get(0));
+        Assertions.assertEquals(imageName, registryDockerTaskStep.imageNames().get(0));
 
         //Assert that with no cache works
-        Assert.assertTrue(registryDockerTaskStep.noCache());
+        Assertions.assertTrue(registryDockerTaskStep.noCache());
 
         //Assert that push is disabled
-        Assert.assertTrue(!registryDockerTaskStep.isPushEnabled());
+        Assertions.assertTrue(!registryDockerTaskStep.isPushEnabled());
 
         //Assert the length of the source triggers array list is correct
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source triggers are correct
-        Assert.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
+        Assertions.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert base image trigger is correct
-        Assert.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
+        Assertions.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
 
         boolean errorRaised = false;
         try {
@@ -541,12 +542,12 @@ public class RegistryTaskTests extends RegistryTest {
         }
 
         //Checking to see whether error is raised if update is called on the incorrect registryTask step type.
-        Assert.assertTrue(errorRaised);
+        Assertions.assertTrue(errorRaised);
 
     }
 
     @Test
-    @Ignore("Required to setup a github repo with proper file structure")
+    @Disabled("Required to setup a github repo with proper file structure")
     public void FileTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -572,25 +573,25 @@ public class RegistryTaskTests extends RegistryTest {
                 .execute();
 
         registryTaskRun.refresh();
-        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
-        Assert.assertEquals(acrName, registryTaskRun.registryName());
-        Assert.assertTrue(registryTaskRun.isArchiveEnabled());
-        Assert.assertEquals(OS.WINDOWS,registryTaskRun.platform().os());
+        Assertions.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assertions.assertEquals(acrName, registryTaskRun.registryName());
+        Assertions.assertTrue(registryTaskRun.isArchiveEnabled());
+        Assertions.assertEquals(OS.WINDOWS,registryTaskRun.platform().os());
 
-        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
-        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.get(0);
-        Assert.assertTrue(registryTaskRunFromList.status() != null);
-        Assert.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
-        Assert.assertTrue(registryTaskRunFromList.isArchiveEnabled());
-        Assert.assertEquals(OS.WINDOWS, registryTaskRunFromList.platform().os());
-        Assert.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
+        PagedIterable<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.stream().findFirst().get();
+        Assertions.assertTrue(registryTaskRunFromList.status() != null);
+        Assertions.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
+        Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
+        Assertions.assertEquals(OS.WINDOWS, registryTaskRunFromList.platform().os());
+        Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
 
 
 
     }
 
     @Test
-    @Ignore("Required to setup a github repo with proper file structure")
+    @Disabled("Required to setup a github repo with proper file structure")
     public void FileTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -617,25 +618,25 @@ public class RegistryTaskTests extends RegistryTest {
                 .execute();
 
         registryTaskRun.refresh();
-        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
-        Assert.assertEquals(acrName, registryTaskRun.registryName());
-        Assert.assertTrue(registryTaskRun.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX,registryTaskRun.platform().os());
+        Assertions.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assertions.assertEquals(acrName, registryTaskRun.registryName());
+        Assertions.assertTrue(registryTaskRun.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX,registryTaskRun.platform().os());
 
-        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
-        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.get(0);
-        Assert.assertTrue(registryTaskRunFromList.status() != null);
-        Assert.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
-        Assert.assertTrue(registryTaskRunFromList.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
-        Assert.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
+        PagedIterable<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.stream().findFirst().get();
+        Assertions.assertTrue(registryTaskRunFromList.status() != null);
+        Assertions.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
+        Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
+        Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
 
 
 
     }
 
     @Test
-    @Ignore("Required to setup a github repo with proper file structure")
+    @Disabled("Required to setup a github repo with proper file structure")
     public void EncodedTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -663,22 +664,22 @@ public class RegistryTaskTests extends RegistryTest {
 
         registryTaskRun.refresh();
 
-        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
-        Assert.assertEquals(acrName, registryTaskRun.registryName());
-        Assert.assertTrue(registryTaskRun.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX,registryTaskRun.platform().os());
+        Assertions.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assertions.assertEquals(acrName, registryTaskRun.registryName());
+        Assertions.assertTrue(registryTaskRun.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX,registryTaskRun.platform().os());
 
-        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
-        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.get(0);
-        Assert.assertTrue(registryTaskRunFromList.status() != null);
-        Assert.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
-        Assert.assertTrue(registryTaskRunFromList.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
-        Assert.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
+        PagedIterable<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.stream().findFirst().get();
+        Assertions.assertTrue(registryTaskRunFromList.status() != null);
+        Assertions.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
+        Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
+        Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
     }
 
     @Test
-    @Ignore("Required to setup a github repo with proper file structure")
+    @Disabled("Required to setup a github repo with proper file structure")
     public void EncodedTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -706,22 +707,22 @@ public class RegistryTaskTests extends RegistryTest {
 
         registryTaskRun.refresh();
 
-        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
-        Assert.assertEquals(acrName, registryTaskRun.registryName());
-        Assert.assertTrue(registryTaskRun.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX,registryTaskRun.platform().os());
+        Assertions.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assertions.assertEquals(acrName, registryTaskRun.registryName());
+        Assertions.assertTrue(registryTaskRun.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX,registryTaskRun.platform().os());
 
-        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
-        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.get(0);
-        Assert.assertTrue(registryTaskRunFromList.status() != null);
-        Assert.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
-        Assert.assertTrue(registryTaskRunFromList.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
-        Assert.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
+        PagedIterable<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.stream().findFirst().get();
+        Assertions.assertTrue(registryTaskRunFromList.status() != null);
+        Assertions.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
+        Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
+        Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
     }
 
     @Test
-    @Ignore("Required to setup a github repo with proper file structure")
+    @Disabled("Required to setup a github repo with proper file structure")
     public void DockerTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -751,25 +752,25 @@ public class RegistryTaskTests extends RegistryTest {
                 .execute();
 
         registryTaskRun.refresh();
-        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
-        Assert.assertEquals(acrName, registryTaskRun.registryName());
-        Assert.assertTrue(registryTaskRun.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX,registryTaskRun.platform().os());
+        Assertions.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assertions.assertEquals(acrName, registryTaskRun.registryName());
+        Assertions.assertTrue(registryTaskRun.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX,registryTaskRun.platform().os());
 
-        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
-        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.get(0);
-        Assert.assertTrue(registryTaskRunFromList.status() != null);
-        Assert.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
-        Assert.assertTrue(registryTaskRunFromList.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
-        Assert.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
+        PagedIterable<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.stream().findFirst().get();
+        Assertions.assertTrue(registryTaskRunFromList.status() != null);
+        Assertions.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
+        Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
+        Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
 
 
 
     }
 
     @Test
-    @Ignore("Required to setup a github repo with proper file structure")
+    @Disabled("Required to setup a github repo with proper file structure")
     public void DockerTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -801,25 +802,25 @@ public class RegistryTaskTests extends RegistryTest {
                 .execute();
 
         registryTaskRun.refresh();
-        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
-        Assert.assertEquals(acrName, registryTaskRun.registryName());
+        Assertions.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assertions.assertEquals(acrName, registryTaskRun.registryName());
 
-        Assert.assertTrue(registryTaskRun.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX,registryTaskRun.platform().os());
+        Assertions.assertTrue(registryTaskRun.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX,registryTaskRun.platform().os());
 
-        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
-        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.get(0);
-        Assert.assertTrue(registryTaskRunFromList.status() != null);
-        Assert.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
-        Assert.assertTrue(registryTaskRunFromList.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
-        Assert.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
+        PagedIterable<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.stream().findFirst().get();
+        Assertions.assertTrue(registryTaskRunFromList.status() != null);
+        Assertions.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
+        Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
+        Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
 
 
     }
 
     @Test
-    @Ignore("Needs personal tokens to run")
+    @Disabled("Needs personal tokens to run")
     public void TaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -880,26 +881,26 @@ public class RegistryTaskTests extends RegistryTest {
             SdkContext.sleep(10000);
         }
 
-        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
-        Assert.assertEquals(acrName, registryTaskRun.registryName());
-        Assert.assertEquals(taskName, registryTaskRun.taskName());
-        Assert.assertTrue(registryTaskRun.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX,registryTaskRun.platform().os());
+        Assertions.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assertions.assertEquals(acrName, registryTaskRun.registryName());
+        Assertions.assertEquals(taskName, registryTaskRun.taskName());
+        Assertions.assertTrue(registryTaskRun.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX,registryTaskRun.platform().os());
 
-        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
-        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.get(0);
-        Assert.assertTrue(registryTaskRunFromList.status() != null);
-        Assert.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
-        Assert.assertTrue(registryTaskRunFromList.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
-        Assert.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
-        Assert.assertEquals(taskName, registryTaskRunFromList.taskName());
+        PagedIterable<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.stream().findFirst().get();
+        Assertions.assertTrue(registryTaskRunFromList.status() != null);
+        Assertions.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
+        Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
+        Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
+        Assertions.assertEquals(taskName, registryTaskRunFromList.taskName());
 
 
     }
 
     @Test
-    @Ignore("Needs personal tokens to run")
+    @Disabled("Needs personal tokens to run")
     public void TaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -960,21 +961,21 @@ public class RegistryTaskTests extends RegistryTest {
             }
             SdkContext.sleep(10000);
         }
-        Assert.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
-        Assert.assertEquals(acrName, registryTaskRun.registryName());
-        Assert.assertEquals(taskName, registryTaskRun.taskName());
-        Assert.assertTrue(registryTaskRun.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX,registryTaskRun.platform().os());
+        Assertions.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
+        Assertions.assertEquals(acrName, registryTaskRun.registryName());
+        Assertions.assertEquals(taskName, registryTaskRun.taskName());
+        Assertions.assertTrue(registryTaskRun.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX,registryTaskRun.platform().os());
 
 
-        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
-        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.get(0);
-        Assert.assertTrue(registryTaskRunFromList.status() != null);
-        Assert.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
-        Assert.assertTrue(registryTaskRunFromList.isArchiveEnabled());
-        Assert.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
-        Assert.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
-        Assert.assertEquals(taskName, registryTaskRunFromList.taskName());
+        PagedIterable<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+        RegistryTaskRun registryTaskRunFromList = registryTaskRuns.stream().findFirst().get();
+        Assertions.assertTrue(registryTaskRunFromList.status() != null);
+        Assertions.assertEquals("QuickRun", registryTaskRunFromList.runType().toString());
+        Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
+        Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
+        Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
+        Assertions.assertEquals(taskName, registryTaskRunFromList.taskName());
 
 
 
@@ -982,7 +983,7 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
-    @Ignore("Required to setup a github repo with proper file structure")
+    @Disabled("Required to setup a github repo with proper file structure")
     public void GetBuildSourceUploadUrlFromRegistryAndRegistries() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -997,17 +998,17 @@ public class RegistryTaskTests extends RegistryTest {
 
         //Calling getBuildSourceUploadUrl from Registry
         SourceUploadDefinition buildSourceUploadUrlRegistry = registry.getBuildSourceUploadUrl();
-        Assert.assertNotNull(buildSourceUploadUrlRegistry.relativePath());
-        Assert.assertNotNull(buildSourceUploadUrlRegistry.uploadUrl());
+        Assertions.assertNotNull(buildSourceUploadUrlRegistry.relativePath());
+        Assertions.assertNotNull(buildSourceUploadUrlRegistry.uploadUrl());
 
         //Calling getBuildSourceUploadUrl from Registries
         SourceUploadDefinition buildSourceUploadUrlRegistries = registryManager.containerRegistries().getBuildSourceUploadUrl(rgName, acrName);
-        Assert.assertNotNull(buildSourceUploadUrlRegistries.relativePath());
-        Assert.assertNotNull(buildSourceUploadUrlRegistries.uploadUrl());
+        Assertions.assertNotNull(buildSourceUploadUrlRegistries.relativePath());
+        Assertions.assertNotNull(buildSourceUploadUrlRegistries.uploadUrl());
     }
 
     @Test
-    @Ignore("Needs personal tokens to run.")
+    @Disabled("Needs personal tokens to run.")
     public void CancelAndDeleteRunsAndTasks() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -1064,12 +1065,12 @@ public class RegistryTaskTests extends RegistryTest {
             }
             if (registryTaskRun.status() == RunStatus.FAILED) {
                 System.out.println(registryManager.registryTaskRuns().getLogSasUrl(rgName, acrName, registryTaskRun.runId()));
-                Assert.fail("Registry registryTask run failed");
+                Assertions.fail("Registry registryTask run failed");
             }
             SdkContext.sleep(10000);
         }
 
-        Assert.assertTrue(registryManager.registryTaskRuns().listByRegistry(rgName, acrName).size() == 1);
+        Assertions.assertTrue(registryManager.registryTaskRuns().listByRegistry(rgName, acrName).stream().count() == 1);
 
         //cancelling the run we just created
         registryManager.inner().runs().cancel(rgName, acrName, registryTaskRun.runId());
@@ -1082,15 +1083,15 @@ public class RegistryTaskTests extends RegistryTest {
             }
             if (registryTaskRun.status() == RunStatus.FAILED) {
                 System.out.println(registryManager.registryTaskRuns().getLogSasUrl(rgName, acrName, registryTaskRun.runId()));
-                Assert.fail("Registry registryTask run failed");
+                Assertions.fail("Registry registryTask run failed");
             }
             SdkContext.sleep(10000);
         }
 
-        PagedList<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
+        PagedIterable<RegistryTaskRun> registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
 
         for (RegistryTaskRun rtr : registryTaskRuns) {
-            Assert.assertTrue(rtr.status() == RunStatus.CANCELED);
+            Assertions.assertTrue(rtr.status() == RunStatus.CANCELED);
         }
 
         //deleting the run we just cancelled
@@ -1101,14 +1102,14 @@ public class RegistryTaskTests extends RegistryTest {
         registryTaskRuns = registryManager.registryTaskRuns().listByRegistry(rgName, acrName);
         //Test is set to 1 because there is a server side issue that results in task runs not actually being deleted.
         //Test will fail once the server side issue is fixed.
-        Assert.assertTrue(registryManager.containerRegistryTasks().listByRegistry(rgName, acrName).size() == 1);
+        Assertions.assertTrue(registryManager.containerRegistryTasks().listByRegistry(rgName, acrName).stream().count() == 1);
 
 
 
     }
 
     @Test
-    @Ignore("Required to setup a github repo with proper file structure")
+    @Disabled("Required to setup a github repo with proper file structure")
     public void GetLogSasUrl() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -1140,13 +1141,13 @@ public class RegistryTaskTests extends RegistryTest {
                 .execute();
 
         String sasUrl = registryManager.registryTaskRuns().getLogSasUrl(rgName, acrName, registryTaskRun.runId());
-        Assert.assertNotNull(sasUrl);
-        Assert.assertNotEquals("", sasUrl);
+        Assertions.assertNotNull(sasUrl);
+        Assertions.assertNotEquals("", sasUrl);
 
     }
 
     @Test
-    @Ignore("Needs personal tokens to run.")
+    @Disabled("Needs personal tokens to run.")
     public void UpdateTriggers() {
         final String acrName = generateRandomResourceName("acr", 10);
         final String rgName = generateRandomResourceName("rgacr", 10);
@@ -1186,40 +1187,40 @@ public class RegistryTaskTests extends RegistryTest {
                 .create();
 
         //Assert there is the correct number of source triggers
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
 
         //Assert source control is correct
-        Assert.assertEquals(SourceControlType.GITHUB.toString(), registryTask.trigger().sourceTriggers().get(0).sourceRepository().sourceControlType().toString());
+        Assertions.assertEquals(SourceControlType.GITHUB.toString(), registryTask.trigger().sourceTriggers().get(0).sourceRepository().sourceControlType().toString());
 
         //Assert source control repository url is correct
-        Assert.assertEquals(githubRepoUrl, registryTask.trigger().sourceTriggers().get(0).sourceRepository().repositoryUrl());
+        Assertions.assertEquals(githubRepoUrl, registryTask.trigger().sourceTriggers().get(0).sourceRepository().repositoryUrl());
 
         //Ignore because of server-side error regarding pull request
         //Assert source control source trigger event list is of correct size
 
-//        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().size() == 2);
+//        Assertions.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().size() == 2);
 //
         //Temporarily set size to 1 so when pull request functionality is added back, there is a test alert
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().size() == 1);
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().size() == 1);
 
         //Assert source trigger event list contains commit
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.COMMIT));
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.COMMIT));
 //
 //        //Assert source trigger event list contains pull request
-//        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.PULLREQUEST));
+//        Assertions.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.PULLREQUEST));
 
         //Assert source control repository branch is correct
-        Assert.assertEquals(githubBranch, registryTask.trigger().sourceTriggers().get(0).sourceRepository().branch());
+        Assertions.assertEquals(githubBranch, registryTask.trigger().sourceTriggers().get(0).sourceRepository().branch());
 
         //Assert trigger status is correct
-        Assert.assertEquals(TriggerStatus.ENABLED.toString(), registryTask.trigger().sourceTriggers().get(0).status().toString());
+        Assertions.assertEquals(TriggerStatus.ENABLED.toString(), registryTask.trigger().sourceTriggers().get(0).status().toString());
 
         //Assert name of the base image trigger is correct
-        Assert.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
+        Assertions.assertEquals("SampleBaseImageTrigger", registryTask.trigger().baseImageTrigger().name());
 
         //Assert that the base image trigger type is correct
-        Assert.assertEquals(BaseImageTriggerType.RUNTIME.toString(), registryTask.trigger().baseImageTrigger().baseImageTriggerType().toString());
+        Assertions.assertEquals(BaseImageTriggerType.RUNTIME.toString(), registryTask.trigger().baseImageTrigger().baseImageTriggerType().toString());
 
         registryTask.update()
                 .updateSourceTrigger("SampleSourceTrigger")
@@ -1233,28 +1234,28 @@ public class RegistryTaskTests extends RegistryTest {
                 .apply();
 
         //Assert source triggers are correct
-        Assert.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
+        Assertions.assertEquals("SampleSourceTrigger", registryTask.trigger().sourceTriggers().get(0).name());
 
         //Assert source control is correct
-        Assert.assertEquals(SourceControlType.GITHUB.toString(), registryTask.trigger().sourceTriggers().get(0).sourceRepository().sourceControlType().toString());
+        Assertions.assertEquals(SourceControlType.GITHUB.toString(), registryTask.trigger().sourceTriggers().get(0).sourceRepository().sourceControlType().toString());
 
         //Assert source control repository url is correct
-        Assert.assertEquals(githubRepoUrlUpdate, registryTask.trigger().sourceTriggers().get(0).sourceRepository().repositoryUrl());
+        Assertions.assertEquals(githubRepoUrlUpdate, registryTask.trigger().sourceTriggers().get(0).sourceRepository().repositoryUrl());
 
         //Assert source trigger has correct number of trigger events
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().size() == 1);
 
         //Assert source trigger event list contains commit
-        Assert.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.COMMIT));
+        Assertions.assertTrue(registryTask.trigger().sourceTriggers().get(0).sourceTriggerEvents().contains(SourceTriggerEvent.COMMIT));
 
         //Assert trigger status is correct
-        Assert.assertEquals(TriggerStatus.DISABLED.toString(), registryTask.trigger().sourceTriggers().get(0).status().toString());
+        Assertions.assertEquals(TriggerStatus.DISABLED.toString(), registryTask.trigger().sourceTriggers().get(0).status().toString());
 
         //Assert name of the base image trigger is correct
-        Assert.assertEquals("SampleBaseImageTriggerUpdate", registryTask.trigger().baseImageTrigger().name());
+        Assertions.assertEquals("SampleBaseImageTriggerUpdate", registryTask.trigger().baseImageTrigger().name());
 
         //Assert that the base image trigger type is correct
-        Assert.assertEquals(BaseImageTriggerType.ALL.toString(), registryTask.trigger().baseImageTrigger().baseImageTriggerType().toString());
+        Assertions.assertEquals(BaseImageTriggerType.ALL.toString(), registryTask.trigger().baseImageTrigger().baseImageTriggerType().toString());
     }
 
 

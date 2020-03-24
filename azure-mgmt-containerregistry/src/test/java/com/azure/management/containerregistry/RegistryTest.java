@@ -6,10 +6,11 @@
 
 package com.azure.management.containerregistry;
 
+
+import com.azure.management.RestClient;
 import com.azure.management.containerregistry.implementation.ContainerRegistryManager;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
+import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.implementation.ResourceManager;
 
 /**
  * The base for storage manager tests.
@@ -22,10 +23,11 @@ public abstract class RegistryTest extends TestBase {
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         resourceManager = ResourceManager
                 .authenticate(restClient)
+                .withSdkContext(sdkContext)
                 .withSubscription(defaultSubscription);
 
         registryManager = ContainerRegistryManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
 
 
 

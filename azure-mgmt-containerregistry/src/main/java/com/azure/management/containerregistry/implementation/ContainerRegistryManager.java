@@ -26,7 +26,6 @@ import com.microsoft.rest.RestClient;
 /**
  * Entry point to Azure container registry management.
  */
-@Beta(SinceVersion.V1_1_0)
 public final class ContainerRegistryManager extends Manager<ContainerRegistryManager, ContainerRegistryManagementClientImpl> {
     // The service managers
     private RegistriesImpl registries;

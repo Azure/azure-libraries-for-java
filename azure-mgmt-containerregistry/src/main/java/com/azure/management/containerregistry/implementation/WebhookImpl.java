@@ -36,7 +36,6 @@ import java.util.TreeMap;
 /**
  * Implementation for Webhook.
  */
-@LangDefinition
 public class WebhookImpl
     extends ExternalChildResourceImpl<Webhook, WebhookInner, RegistryImpl, Registry>
     implements

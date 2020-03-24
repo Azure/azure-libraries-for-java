@@ -15,7 +15,6 @@ import rx.Observable;
  * An immutable client-side representation of collection of Azure registry task runs.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_17_0)
 public interface RegistryTaskRuns {
     /**
      * The function that begins the steps to schedule a run.

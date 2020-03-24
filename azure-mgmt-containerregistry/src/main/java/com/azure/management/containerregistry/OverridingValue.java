@@ -10,7 +10,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 /**
  * Defines an overriding value that overrides values passed in for RegistryFileTaskStep, RegistryFileTaskRunRequest, RegistryEncodedTaskStep, and RegistryEncodedTaskRunRequest.
  */
-@LangDefinition
 public class OverridingValue {
     private final String value;
     private final boolean isSecret;

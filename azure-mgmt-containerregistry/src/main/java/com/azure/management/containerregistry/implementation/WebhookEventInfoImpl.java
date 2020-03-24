@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 /**
  * Response containing the webhook event info.
  */
-@LangDefinition
 public class WebhookEventInfoImpl extends WrapperImpl<EventInner> implements WebhookEventInfo {
     protected WebhookEventInfoImpl(EventInner innerObject) {
         super(innerObject);

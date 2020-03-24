@@ -16,7 +16,6 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
-@LangDefinition
 class RegistryTasksImpl implements RegistryTasks {
 
     private final ContainerRegistryManager registryManager;

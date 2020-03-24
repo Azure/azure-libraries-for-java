@@ -15,7 +15,6 @@ import rx.Observable;
 /**
  * Represents a webhook collection associated with a container registry.
  */
-@LangDefinition
 public class WebhookOperationsImpl implements WebhookOperations {
     private final RegistryImpl containerRegistry;
     private final WebhooksClientImpl webhooksClient;

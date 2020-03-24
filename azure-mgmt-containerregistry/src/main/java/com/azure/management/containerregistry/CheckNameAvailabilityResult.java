@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * The result of checking for container registry name availability.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
 public interface CheckNameAvailabilityResult extends HasInner<RegistryNameStatusInner> {
     /**
      * @return true if the specified name is valid and available for use, otherwise false

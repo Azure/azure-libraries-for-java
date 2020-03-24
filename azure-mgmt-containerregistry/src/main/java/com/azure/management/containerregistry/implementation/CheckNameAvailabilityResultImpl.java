@@ -12,7 +12,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 /**
  * Implementation for CheckNameAvailabilityResult.
  */
-@LangDefinition
 public class CheckNameAvailabilityResultImpl
     extends WrapperImpl<RegistryNameStatusInner>
     implements CheckNameAvailabilityResult {

@@ -35,7 +35,6 @@ import java.util.Collection;
 /**
  * Implementation for Registry and its create and update interfaces.
  */
-@LangDefinition
 public class RegistryImpl
         extends GroupableResourceImpl<
                                     Registry,

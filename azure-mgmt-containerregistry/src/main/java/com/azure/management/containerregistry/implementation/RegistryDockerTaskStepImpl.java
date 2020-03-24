@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@LangDefinition
 class RegistryDockerTaskStepImpl
         extends RegistryTaskStepImpl
         implements

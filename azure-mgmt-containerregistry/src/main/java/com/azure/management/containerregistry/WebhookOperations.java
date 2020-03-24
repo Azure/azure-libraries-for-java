@@ -15,7 +15,6 @@ import rx.Observable;
  * Grouping of container registry webhook actions.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
 public interface WebhookOperations {
     /**
      * Gets the properties of the specified webhook.
@@ -60,6 +59,5 @@ public interface WebhookOperations {
      *
      * @return a representation of the future computation of this call, returning the list of all the webhooks for the specified container registry
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
     Observable<Webhook> listAsync();
 }

@@ -27,7 +27,6 @@ import java.util.Collection;
  * An immutable client-side representation of an Azure registry.
  */
 @Fluent
-@Beta(SinceVersion.V1_1_0)
 public interface Registry extends
     GroupableResource<ContainerRegistryManager, RegistryInner>,
     Refreshable<Registry>,
@@ -61,20 +60,17 @@ public interface Registry extends
     /**
      * @return the ID of the storage account for the container registry; 'null' if container register SKU a managed tier
      */
-    @Beta(SinceVersion.V1_4_0)
     String storageAccountId();
 
     /**
      * @return the login credentials for the specified container registry
      */
-    @Beta(SinceVersion.V1_4_0)
     @Method
     RegistryCredentials getCredentials();
 
     /**
      * @return a representation of the future computation of this call
      */
-    @Beta(SinceVersion.V1_4_0)
     @Method
     Observable<RegistryCredentials> getCredentialsAsync();
 
@@ -83,7 +79,6 @@ public interface Registry extends
      * @param accessKeyType the admin user access key name to regenerate the value for
      * @return the result of the regeneration
      */
-    @Beta(SinceVersion.V1_4_0)
     RegistryCredentials regenerateCredential(AccessKeyType accessKeyType);
 
     /**
@@ -92,7 +87,6 @@ public interface Registry extends
      * @param accessKeyType the admin user access key name to regenerate the value for
      * @return a representation of the future computation of this call
      */
-    @Beta(SinceVersion.V1_4_0)
     Observable<RegistryCredentials> regenerateCredentialAsync(AccessKeyType accessKeyType);
 
     /**
@@ -100,7 +94,6 @@ public interface Registry extends
      *
      * @return the list of container registry's quota usages
      */
-    @Beta(SinceVersion.V1_4_0)
     @Method
     Collection<RegistryUsage> listQuotaUsages();
 
@@ -109,14 +102,12 @@ public interface Registry extends
      *
      * @return a representation of the future computation of this call
      */
-    @Beta(SinceVersion.V1_4_0)
     @Method
     Observable<RegistryUsage> listQuotaUsagesAsync();
 
     /**
      * @return returns the upload location for the user to be able to upload the source.
      */
-    @Beta(SinceVersion.V1_14_0)
     SourceUploadDefinition getBuildSourceUploadUrl();
 
     /**
@@ -124,7 +115,6 @@ public interface Registry extends
      *
      * @return a representation of the future computation of this call
      */
-    @Beta(SinceVersion.V1_14_0)
     Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync();
 
     /**
@@ -173,7 +163,6 @@ public interface Registry extends
         /**
          * The stage of the container service definition allowing to specify the resource group.
          */
-        @Beta(SinceVersion.V1_4_0)
         interface WithGroup extends
                 GroupableResource.DefinitionStages.WithGroup<WithSku> {
         }
@@ -186,28 +175,24 @@ public interface Registry extends
              * Creates a container registry with a 'Classic' SKU type.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             WithStorageAccount withClassicSku();
 
             /**
              * Creates a 'managed' registry with a 'Basic' SKU type.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             WithCreate withBasicSku();
 
             /**
              * Creates a 'managed' registry with a 'Standard' SKU type.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             WithCreate withStandardSku();
 
             /**
              * Creates a 'managed' registry with a 'Premium' SKU type.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             WithCreate withPremiumSku();
         }
 
@@ -234,7 +219,6 @@ public interface Registry extends
              * @param id the resource ID of the storage account; must be in the same physical location as the container registry
              * @return the next stage
              */
-            @Beta(SinceVersion.V1_4_0)
             WithCreate withExistingStorageAccount(String id);
 
             /**
@@ -245,7 +229,6 @@ public interface Registry extends
              * @param storageAccountName the name of the storage account
              * @return the next stage
              */
-            @Beta(SinceVersion.V1_4_0)
             WithCreate withNewStorageAccount(String storageAccountName);
 
             /**
@@ -335,21 +318,18 @@ public interface Registry extends
              * Updates the current container registry to a 'managed' registry with a 'Basic' SKU type.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             Update withBasicSku();
 
             /**
              * Updates the current container registry to a 'managed' registry with a 'Standard' SKU type.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             Update withStandardSku();
 
             /**
              * Updates the current container registry to a 'managed' registry with a 'Premium' SKU type.
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             Update withPremiumSku();
         }
 

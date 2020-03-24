@@ -32,7 +32,6 @@ import java.util.List;
 /**
  * Implementation for Registries.
  */
-@LangDefinition
 public class RegistriesImpl
         extends
         GroupableResourcesImpl<

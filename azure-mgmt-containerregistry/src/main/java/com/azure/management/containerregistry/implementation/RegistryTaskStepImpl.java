@@ -13,7 +13,6 @@ import com.azure.management.containerregistry.TaskStepProperties;
 
 import java.util.List;
 
-@LangDefinition
 abstract class RegistryTaskStepImpl implements RegistryTaskStep {
     private final TaskStepProperties taskStepProperties;
 

@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@LangDefinition
 class RegistryTaskRunImpl implements
         RegistryTaskRun,
         RegistryTaskRun.Definition {

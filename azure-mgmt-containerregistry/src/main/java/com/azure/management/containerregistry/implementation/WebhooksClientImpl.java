@@ -18,7 +18,6 @@ import rx.functions.Func1;
 /**
  * Represents a webhook collection associated with a container registry.
  */
-@LangDefinition
 public class WebhooksClientImpl implements Registries.WebhooksClient {
     private final ContainerRegistryManager containerRegistryManager;
     private final RegistryImpl containerRegistry;

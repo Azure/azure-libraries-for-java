@@ -18,7 +18,6 @@ import java.util.Map;
  * An immutable client-side representation of an Azure RegistryDockerTaskStep registry task.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_17_0)
 public interface RegistryDockerTaskStep extends
         HasInner<DockerTaskStep>,
         RegistryTaskStep {

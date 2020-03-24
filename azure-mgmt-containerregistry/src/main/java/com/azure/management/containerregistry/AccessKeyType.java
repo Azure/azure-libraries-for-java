@@ -14,8 +14,6 @@ import java.util.Collection;
 /**
  * Defines values for admin user access key names.
  */
-@LangDefinition
-@Beta(Beta.SinceVersion.V1_3_0)
 public class AccessKeyType extends ExpandableStringEnum<AccessKeyType> {
     /** Primary key. */
     public static final AccessKeyType PRIMARY = fromString(PasswordName.PASSWORD.toString());

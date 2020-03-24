@@ -18,7 +18,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Settable;
  * An immutable client-side representation of an Azure RegistryEncodedTaskStep registry task.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_17_0)
 public interface RegistryEncodedTaskStep extends RegistryTaskStep {
     /**
      * @return the encoded task content of this encoded task step

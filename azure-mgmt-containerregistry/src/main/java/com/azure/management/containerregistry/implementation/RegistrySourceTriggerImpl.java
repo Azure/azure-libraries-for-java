@@ -23,7 +23,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import java.util.ArrayList;
 import java.util.List;
 
-@LangDefinition
 class RegistrySourceTriggerImpl implements
         RegistrySourceTrigger,
         RegistrySourceTrigger.Definition,

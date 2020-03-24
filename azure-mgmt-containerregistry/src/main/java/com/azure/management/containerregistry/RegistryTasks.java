@@ -19,7 +19,6 @@ import rx.Observable;
  * Interface to define the RegistryTasks collection.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_17_0)
 public interface RegistryTasks extends
         HasInner<TasksInner>,
         SupportsCreating<RegistryTask.DefinitionStages.Blank> {

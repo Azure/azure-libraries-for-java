@@ -10,7 +10,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 /**
  * Defines an overriding argument that overrides arguments passed in for RegistryDockerTaskStep and RegistryDockerTaskRunRequest.
  */
-@LangDefinition
 public class OverridingArgument {
     private final String value;
     private final boolean isSecret;

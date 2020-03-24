@@ -30,7 +30,6 @@ import java.util.Collection;
  * Entry point to the registry management API.
  */
 @Fluent()
-@Beta(SinceVersion.V1_1_0)
 public interface Registries extends
     SupportsCreating<Registry.DefinitionStages.Blank>,
     HasManager<ContainerRegistryManager>,
@@ -50,7 +49,6 @@ public interface Registries extends
      * @param registryName the registry name
      * @return the container registry's login credentials
      */
-    @Beta(SinceVersion.V1_4_0)
     RegistryCredentials getCredentials(String resourceGroupName, String registryName);
 
     /**
@@ -60,7 +58,6 @@ public interface Registries extends
      * @param registryName the registry name
      * @return a representation of the future computation of this call, returning the container registry's login credentials
      */
-    @Beta(SinceVersion.V1_4_0)
     Observable<RegistryCredentials> getCredentialsAsync(String resourceGroupName, String registryName);
 
     /**
@@ -71,7 +68,6 @@ public interface Registries extends
      * @param accessKeyType the admin user access key name to regenerate the value for
      * @return the container registry's login credentials
      */
-    @Beta(SinceVersion.V1_4_0)
     RegistryCredentials regenerateCredential(String resourceGroupName, String registryName, AccessKeyType accessKeyType);
 
     /**
@@ -82,7 +78,6 @@ public interface Registries extends
      * @param accessKeyType the admin user access key name to regenerate the value for
      * @return a representation of the future computation of this call, returning the container registry's login credentials
      */
-    @Beta(SinceVersion.V1_4_0)
     Observable<RegistryCredentials> regenerateCredentialAsync(String resourceGroupName, String registryName, AccessKeyType accessKeyType);
 
     /**
@@ -92,7 +87,6 @@ public interface Registries extends
      * @param registryName the registry name
      * @return the list of container registry's quota usages
      */
-    @Beta(SinceVersion.V1_4_0)
     Collection<RegistryUsage> listQuotaUsages(String resourceGroupName, String registryName);
 
     /**
@@ -102,7 +96,6 @@ public interface Registries extends
      * @param registryName the registry name
      * @return a representation of the future computation of this call, returning the list of container registry's quota usages
      */
-    @Beta(SinceVersion.V1_4_0)
     Observable<RegistryUsage> listQuotaUsagesAsync(String resourceGroupName, String registryName);
 
     /**
@@ -111,7 +104,6 @@ public interface Registries extends
      * @param name the container registry name to check
      * @return whether the name is available and other info if not
      */
-    @Beta(SinceVersion.V1_4_0)
     CheckNameAvailabilityResult checkNameAvailability(String name);
 
     /**
@@ -120,7 +112,6 @@ public interface Registries extends
      * @param name the container registry name to check
      * @return a representation of the future computation of this call, returning whether the name is available or other info if not
      */
-    @Beta(SinceVersion.V1_4_0)
     Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
 
     /**
@@ -162,7 +153,6 @@ public interface Registries extends
          * @param webhookName the name of the webhook
          * @return the Webhook object if successful
          */
-        @Beta(SinceVersion.V1_4_0)
         Webhook get(String resourceGroupName, String registryName, String webhookName);
 
         /**
@@ -173,7 +163,6 @@ public interface Registries extends
          * @param webhookName the name of the webhook
          * @return a representation of the future computation of this call, returning the Webhook object
          */
-        @Beta(SinceVersion.V1_4_0)
         Observable<Webhook> getAsync(String resourceGroupName, String registryName, String webhookName);
 
         /**
@@ -183,7 +172,6 @@ public interface Registries extends
          * @param registryName the registry name
          * @param webhookName the name of the webhook
          */
-        @Beta(SinceVersion.V1_4_0)
         void delete(String resourceGroupName, String registryName, String webhookName);
 
         /**
@@ -194,7 +182,6 @@ public interface Registries extends
          * @param webhookName the name of the webhook
          * @return a representation of the future computation of this call
          */
-        @Beta(SinceVersion.V1_4_0)
         Completable deleteAsync(String resourceGroupName, String registryName, String webhookName);
 
         /**
@@ -204,7 +191,6 @@ public interface Registries extends
          * @param registryName the registry name
          * @return the list of all the webhooks for the specified container registry
          */
-        @Beta(SinceVersion.V1_4_0)
         PagedList<Webhook> list(String resourceGroupName, String registryName);
 
         /**
@@ -214,7 +200,6 @@ public interface Registries extends
          * @param registryName the registry name
          * @return a representation of the future computation of this call, returning the list of all the webhooks for the specified container registry
          */
-        @Beta(SinceVersion.V1_4_0)
         Observable<Webhook> listAsync(String resourceGroupName, String registryName);
 
     }

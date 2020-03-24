@@ -14,7 +14,6 @@ import java.util.Map;
  * Response containing the login credentials for a container registry.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
 public interface RegistryCredentials {
     /**
      * The admin user access key names and values which can be used to login into the container registry.

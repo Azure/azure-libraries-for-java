@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * The source repository properties for a build task.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_14_0)
 public interface SourceUploadDefinition extends HasInner<SourceUploadDefinitionInner> {
     /**
      * @return the URL where the client can upload the source

@@ -18,7 +18,6 @@ import java.util.Map;
 /**
  * Implementation for RegistryCredentials.
  */
-@LangDefinition
 public class RegistryCredentialsImpl extends WrapperImpl<RegistryListCredentialsResultInner> implements RegistryCredentials {
     private Map<AccessKeyType, String> accessKeys;
 

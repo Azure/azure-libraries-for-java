@@ -12,7 +12,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 /**
  * Implementation for SourceUploadDefinition.
  */
-@LangDefinition
 public class SourceUploadDefinitionImpl
     extends WrapperImpl<SourceUploadDefinitionInner>
     implements SourceUploadDefinition {

@@ -9,36 +9,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * The FileShareItems model.
+ * The EncryptionScopeListResult model.
  */
 @Immutable
-public final class FileShareItemsInner {
+public final class EncryptionScopeListResultInner {
     /*
-     * List of file shares returned.
+     * List of encryption scopes requested.
      */
     @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
-    private List<FileShareItemInner> value;
+    private List<EncryptionScopeInner> value;
 
     /*
-     * Request URL that can be used to query next page of shares. Returned when
-     * total number of requested shares exceed maximum page size.
+     * Request URL that can be used to query next page of encryption scopes.
+     * Returned when total number of requested encryption scopes exceeds the
+     * maximum page size.
      */
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
     /**
-     * Get the value property: List of file shares returned.
+     * Get the value property: List of encryption scopes requested.
      * 
      * @return the value value.
      */
-    public List<FileShareItemInner> getValue() {
+    public List<EncryptionScopeInner> getValue() {
         return this.value;
     }
 
     /**
      * Get the nextLink property: Request URL that can be used to query next
-     * page of shares. Returned when total number of requested shares exceed
-     * maximum page size.
+     * page of encryption scopes. Returned when total number of requested
+     * encryption scopes exceeds the maximum page size.
      * 
      * @return the nextLink value.
      */

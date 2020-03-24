@@ -16,8 +16,9 @@ import com.azure.management.resources.implementation.ResourceManager;
  * The base for storage manager tests.
  */
 public abstract class RegistryTest extends TestBase {
-    protected static ResourceManager resourceManager;
-    protected static ContainerRegistryManager registryManager;
+    protected ResourceManager resourceManager;
+    protected ContainerRegistryManager registryManager;
+    protected String rgName;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -29,8 +30,7 @@ public abstract class RegistryTest extends TestBase {
         registryManager = ContainerRegistryManager
                 .authenticate(restClient, defaultSubscription, sdkContext);
 
-
-
+        rgName = generateRandomResourceName("rgacr", 10);
     }
 
 

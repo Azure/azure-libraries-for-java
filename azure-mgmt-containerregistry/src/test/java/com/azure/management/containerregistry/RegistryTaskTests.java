@@ -20,7 +20,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Needs personal tokens to run")
     public void FileTaskTest(){
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
@@ -93,7 +92,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Needs personal tokens to run")
     public void FileTaskUpdateTest(){
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
@@ -184,9 +182,7 @@ public class RegistryTaskTests extends RegistryTest {
     @Test
     @Disabled("Needs personal tokens to run")
     public void EncodedTaskTest(){
-
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
@@ -260,9 +256,7 @@ public class RegistryTaskTests extends RegistryTest {
     @Test
     @Disabled("Needs personal tokens to run")
     public void EncodedTaskUpdateTest(){
-
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
@@ -358,7 +352,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Needs personal tokens to run")
     public void DockerTaskTest(){
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
@@ -445,7 +438,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Needs personal tokens to run")
     public void DockerTaskUpdateTest(){
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
@@ -550,7 +542,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Required to setup a github repo with proper file structure")
     public void FileTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String sourceLocation = "URL of your source repository.";
         String taskFilePath = "Path to your file task that is relative to your source repository URL.";
 
@@ -594,7 +585,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Required to setup a github repo with proper file structure")
     public void FileTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String sourceLocation = "URL of your source repository.";
         String taskFilePath = "Path to your task path that is relative to your source repository URL.";
 
@@ -639,7 +629,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Required to setup a github repo with proper file structure")
     public void EncodedTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String sourceLocation = "URL of your source repository.";
         String encodedTaskContent = "Base64 encoded task content.";
 
@@ -682,7 +671,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Required to setup a github repo with proper file structure")
     public void EncodedTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String sourceLocation = "URL of your source repository.";
         String encodedTaskContent = "Base64 encoded task content.";
 
@@ -725,7 +713,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Required to setup a github repo with proper file structure")
     public void DockerTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String dockerFilePath = "Replace with your docker file path relative to githubContext, eg: Dockerfile";
         String imageName = "Replace with the name of your image.";
         String sourceLocation = "URL of your source repository.";
@@ -773,11 +760,9 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Required to setup a github repo with proper file structure")
     public void DockerTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String dockerFilePath = "Replace with your docker file path relative to githubContext, eg: Dockerfile";
         String imageName = "Replace with the name of your image.";
         String sourceLocation = "URL of your source repository.";
-
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -823,7 +808,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Needs personal tokens to run")
     public void TaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String imageName = "Replace with the name of your image.";
         String taskName = generateRandomResourceName("ft", 10);
         String dockerFilePath = "Replace with your docker file path relative to githubContext, eg: Dockerfile";
@@ -903,7 +887,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Needs personal tokens to run")
     public void TaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String imageName = "Replace with the name of your image.";
         String taskName = generateRandomResourceName("ft", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
@@ -983,10 +966,8 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
-    @Disabled("Required to setup a github repo with proper file structure")
     public void GetBuildSourceUploadUrlFromRegistryAndRegistries() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -1011,7 +992,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Needs personal tokens to run.")
     public void CancelAndDeleteRunsAndTasks() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String taskName = generateRandomResourceName("ft", 10);
         String dockerFilePath = "Replace with your docker file path relative to githubContext, eg: Dockerfile";
         String imageName = "Replace with the name of your image.";
@@ -1112,7 +1092,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Required to setup a github repo with proper file structure")
     public void GetLogSasUrl() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String dockerFilePath = "Replace with your docker file path relative to githubContext, eg: Dockerfile";
         String imageName = "Replace with the name of your image.";
         String sourceLocation = "URL of your source repository.";
@@ -1150,7 +1129,6 @@ public class RegistryTaskTests extends RegistryTest {
     @Disabled("Needs personal tokens to run.")
     public void UpdateTriggers() {
         final String acrName = generateRandomResourceName("acr", 10);
-        final String rgName = generateRandomResourceName("rgacr", 10);
         String githubRepoUrl = "Replace with your github repository url, eg: https://github.com/Azure/acr.git";
         String githubBranch = "Replace with your github repositoty branch, eg: master";
         String githubPAT = "Replace with your github personal access token which should have the scopes: admin:repo_hook and repo";
@@ -1261,5 +1239,6 @@ public class RegistryTaskTests extends RegistryTest {
 
     @Override
     protected void cleanUpResources() {
+        resourceManager.resourceGroups().beginDeleteByName(rgName);
     }
 }

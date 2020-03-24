@@ -39,13 +39,6 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
         initializeChildrenFromInner();
     }
 
-    protected void beforeCreating() {
-    }
-
-    @Override
-    protected void afterCreating() {
-    }
-
     @Override
     protected Mono<ExpressRouteCrossConnectionInner> createInner() {
         return this.manager().inner().expressRouteCrossConnections().createOrUpdateAsync(

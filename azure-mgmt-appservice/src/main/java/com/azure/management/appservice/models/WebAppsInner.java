@@ -1812,7 +1812,7 @@ public final class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSup
         Mono<Response<Void>> syncRepository(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("name") String name, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/syncfunctiontriggers")
-        @ExpectedResponses({204})
+        @ExpectedResponses({200, 204})
         @UnexpectedResponseExceptionType(DefaultErrorResponseException.class)
         Mono<Response<Void>> syncFunctionTriggers(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("name") String name, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 

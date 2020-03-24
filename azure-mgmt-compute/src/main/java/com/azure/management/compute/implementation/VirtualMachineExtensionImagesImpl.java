@@ -43,11 +43,10 @@ class VirtualMachineExtensionImagesImpl
 
     @Override
     public PagedFlux<VirtualMachineExtensionImage> listByRegionAsync(String regionName) {
-        return PagedConverter.convertListToPagedFlux(publishers.listByRegionAsync(regionName)
-                .flatMap(virtualMachinePublisher -> virtualMachinePublisher.extensionTypes().listAsync().onErrorResume(e -> Mono.empty()))
+        return PagedConverter.flatMapPage(publishers.listByRegionAsync(regionName), virtualMachinePublisher -> virtualMachinePublisher.extensionTypes().listAsync()
+                .onErrorResume(e -> Mono.empty())
                 .flatMap(virtualMachineExtensionImageType -> virtualMachineExtensionImageType.versions().listAsync())
-                .flatMap(VirtualMachineExtensionImageVersion::getImageAsync)
-                .collectList());
+                .flatMap(VirtualMachineExtensionImageVersion::getImageAsync));
     }
 
     @Override

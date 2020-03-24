@@ -24,7 +24,9 @@ public class SamplesTestBase extends TestBase {
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         azure = Azure
-                .authenticate(restClient, domain, defaultSubscription).withSubscription(defaultSubscription);
+                .authenticate(restClient, domain, defaultSubscription)
+                .withSdkContext(sdkContext)
+                .withSubscription(defaultSubscription);
     }
 
     @Override

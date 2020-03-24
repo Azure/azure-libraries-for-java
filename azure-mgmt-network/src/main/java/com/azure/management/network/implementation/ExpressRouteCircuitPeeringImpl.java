@@ -88,11 +88,11 @@ class ExpressRouteCircuitPeeringImpl extends
     @Override
     public Mono<ExpressRouteCircuitPeering> createResourceAsync() {
         return this.client.createOrUpdateAsync(parent.resourceGroupName(), parent.name(), this.name(), inner())
-                .map(innerModel -> {
-                    ExpressRouteCircuitPeeringImpl.this.setInner(innerModel);
+                .flatMap(innerModel -> {
+                    this.setInner(innerModel);
                     stats = new ExpressRouteCircuitStatsImpl(innerModel.stats());
-                    parent.refresh();
-                    return ExpressRouteCircuitPeeringImpl.this;
+                    return parent.refreshAsync()
+                        .then(Mono.just(this));
                 });
     }
 

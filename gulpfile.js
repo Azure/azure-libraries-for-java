@@ -120,7 +120,7 @@ function codegen(project, cb) {
     }
 
     const generatorPath = args['autorest-java']
-        ? `--use=${path.join(path.resolve(args['autorest-java']), '/../fluentnamer')} --use=${path.resolve(args['autorest-java'])} `
+        ? `--use=${path.resolve(args['autorest-java'])} `
         : '';
 
     const regenManager = args['regenerate-manager'] ? ' --regenerate-manager=true ' : '';

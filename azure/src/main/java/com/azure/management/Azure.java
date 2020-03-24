@@ -25,6 +25,11 @@ import com.azure.management.compute.VirtualMachineImages;
 import com.azure.management.compute.VirtualMachineScaleSets;
 import com.azure.management.compute.VirtualMachines;
 import com.azure.management.compute.implementation.ComputeManager;
+import com.azure.management.containerservice.ContainerServices;
+import com.azure.management.containerservice.KubernetesClusters;
+import com.azure.management.containerservice.implementation.ContainerServiceManager;
+import com.azure.management.cosmosdb.CosmosDBAccounts;
+import com.azure.management.cosmosdb.implementation.CosmosDBManager;
 import com.azure.management.graphrbac.ActiveDirectoryApplications;
 import com.azure.management.graphrbac.ActiveDirectoryGroups;
 import com.azure.management.graphrbac.ActiveDirectoryUsers;
@@ -34,6 +39,13 @@ import com.azure.management.graphrbac.ServicePrincipals;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.keyvault.Vaults;
 import com.azure.management.keyvault.implementation.KeyVaultManager;
+import com.azure.management.monitor.ActionGroups;
+import com.azure.management.monitor.ActivityLogs;
+import com.azure.management.monitor.AlertRules;
+import com.azure.management.monitor.AutoscaleSettings;
+import com.azure.management.monitor.DiagnosticSettings;
+import com.azure.management.monitor.MetricDefinitions;
+import com.azure.management.monitor.implementation.MonitorManager;
 import com.azure.management.msi.Identities;
 import com.azure.management.msi.implementation.MSIManager;
 import com.azure.management.network.ApplicationGateways;
@@ -98,12 +110,12 @@ public final class Azure {
     //    private final ServiceBusManager serviceBusManager;
 //    private final ContainerInstanceManager containerInstanceManager;
 //    private final ContainerRegistryManager containerRegistryManager;
-//    private final ContainerServiceManager containerServiceManager;
+    private final ContainerServiceManager containerServiceManager;
 //    private final SearchServiceManager searchServiceManager;
-//    private final CosmosDBManager cosmosDBManager;
+    private final CosmosDBManager cosmosDBManager;
 //    private final AuthorizationManager authorizationManager;
     private final MSIManager msiManager;
-    //    private final MonitorManager monitorManager;
+    private final MonitorManager monitorManager;
 //    private final EventHubManager eventHubManager;
     private final String subscriptionId;
     private final Authenticated authenticated;
@@ -240,6 +252,11 @@ public final class Azure {
         String tenantId();
 
         /**
+         * @return the sdk context in authenticated
+         */
+        SdkContext sdkContext();
+
+        /**
          * Entry point to subscription management APIs.
          *
          * @return Subscriptions interface providing access to subscription management
@@ -252,6 +269,14 @@ public final class Azure {
          * @return Tenants interface providing access to tenant management
          */
         Tenants tenants();
+
+        /**
+         * Specifies sdk context for azure.
+         *
+         * @param sdkContext the sdk context
+         * @return the authenticated itself for chaining
+         */
+        Authenticated withSdkContext(SdkContext sdkContext);
 
         /**
          * Selects a specific subscription for the APIs to work with.
@@ -284,6 +309,7 @@ public final class Azure {
         private final RestClient restClient;
         private final ResourceManager.Authenticated resourceManagerAuthenticated;
         private final GraphRbacManager graphRbacManager;
+        private SdkContext sdkContext;
         private String defaultSubscription;
         private String tenantId;
 
@@ -292,6 +318,7 @@ public final class Azure {
             this.graphRbacManager = GraphRbacManager.authenticate(restClient, tenantId);
             this.restClient = restClient;
             this.tenantId = tenantId;
+            this.sdkContext = new SdkContext();
         }
 
         private AuthenticatedImpl withDefaultSubscription(String subscriptionId) {
@@ -345,6 +372,17 @@ public final class Azure {
         }
 
         @Override
+        public Authenticated withSdkContext(SdkContext sdkContext) {
+            this.sdkContext = sdkContext;
+            return this;
+        }
+
+        @Override
+        public SdkContext sdkContext() {
+            return this.sdkContext;
+        }
+
+        @Override
         public Azure withSubscription(String subscriptionId) {
             return new Azure(restClient, subscriptionId, tenantId, this);
         }
@@ -365,31 +403,31 @@ public final class Azure {
     }
 
     private Azure(RestClient restClient, String subscriptionId, String tenantId, Authenticated authenticated) {
-        this.resourceManager = ResourceManager.authenticate(restClient).withSubscription(subscriptionId);
-        this.storageManager = StorageManager.authenticate(restClient, subscriptionId);
-        this.computeManager = ComputeManager.authenticate(restClient, subscriptionId);
-        this.networkManager = NetworkManager.authenticate(restClient, subscriptionId);
-        this.keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId);
-//        this.batchManager = BatchManager.authenticate(restClient, subscriptionId);
-//        this.trafficManager = TrafficManager.authenticate(restClient, subscriptionId);
-//        this.redisManager = RedisManager.authenticate(restClient, subscriptionId);
-//        this.cdnManager = CdnManager.authenticate(restClient, subscriptionId);
-//        this.dnsZoneManager = DnsZoneManager.authenticate(restClient, subscriptionId);
-        this.appServiceManager = AppServiceManager.authenticate(restClient, tenantId, subscriptionId);
-        this.sqlServerManager = SqlServerManager.authenticate(restClient, tenantId, subscriptionId);
-//        this.serviceBusManager = ServiceBusManager.authenticate(restClient, subscriptionId);
-//        this.containerInstanceManager = ContainerInstanceManager.authenticate(restClient, subscriptionId);
-//        this.containerRegistryManager = ContainerRegistryManager.authenticate(restClient, subscriptionId);
-//        this.containerServiceManager = ContainerServiceManager.authenticate(restClient, subscriptionId);
-//        this.cosmosDBManager = CosmosDBManager.authenticate(restClient, subscriptionId);
-//        this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId);
-//        this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId);
-        this.msiManager = MSIManager.authenticate(restClient, subscriptionId);
-//        this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId);
-//        this.eventHubManager = EventHubManager.authenticate(restClient, subscriptionId);
+        this.sdkContext = authenticated.sdkContext();
+        this.resourceManager = ResourceManager.authenticate(restClient).withSdkContext(sdkContext).withSubscription(subscriptionId);
+        this.storageManager = StorageManager.authenticate(restClient, subscriptionId, sdkContext);
+        this.computeManager = ComputeManager.authenticate(restClient, subscriptionId, sdkContext);
+        this.networkManager = NetworkManager.authenticate(restClient, subscriptionId, sdkContext);
+        this.keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId, sdkContext);
+//        this.batchManager = BatchManager.authenticate(restClient, subscriptionId, sdkContext);
+//        this.trafficManager = TrafficManager.authenticate(restClient, subscriptionId, sdkContext);
+//        this.redisManager = RedisManager.authenticate(restClient, subscriptionId, sdkContext);
+//        this.cdnManager = CdnManager.authenticate(restClient, subscriptionId, sdkContext);
+//        this.dnsZoneManager = DnsZoneManager.authenticate(restClient, subscriptionId, sdkContext);
+        this.appServiceManager = AppServiceManager.authenticate(restClient, tenantId, subscriptionId, sdkContext);
+        this.sqlServerManager = SqlServerManager.authenticate(restClient, tenantId, subscriptionId, sdkContext);
+//        this.serviceBusManager = ServiceBusManager.authenticate(restClient, subscriptionId, sdkContext);
+//        this.containerInstanceManager = ContainerInstanceManager.authenticate(restClient, subscriptionId, sdkContext);
+//        this.containerRegistryManager = ContainerRegistryManager.authenticate(restClient, subscriptionId, sdkContext);
+        this.containerServiceManager = ContainerServiceManager.authenticate(restClient, subscriptionId, sdkContext);
+        this.cosmosDBManager = CosmosDBManager.authenticate(restClient, subscriptionId, sdkContext);
+//        this.searchServiceManager = SearchServiceManager.authenticate(restClient, subscriptionId, sdkContext);
+//        this.authorizationManager = AuthorizationManager.authenticate(restClient, subscriptionId, sdkContext);
+        this.msiManager = MSIManager.authenticate(restClient, subscriptionId, sdkContext);
+        this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId, sdkContext);
+//        this.eventHubManager = EventHubManager.authenticate(restClient, subscriptionId, sdkContext);
         this.subscriptionId = subscriptionId;
         this.authenticated = authenticated;
-        this.sdkContext = new SdkContext();
     }
 
 
@@ -759,21 +797,19 @@ public final class Azure {
     //    return serviceBusManager.operations();
     //}
 //
-//    /**
-//     * @return entry point to managing Container Services.
-//     */
-//    @Beta(SinceVersion.V1_4_0)
-//    public ContainerServices containerServices() {
-//        return containerServiceManager.containerServices();
-//    }
-//
-//    /**
-//     * @return entry point to managing Kubernetes clusters.
-//     */
-//    @Beta(SinceVersion.V1_4_0)
-//    public KubernetesClusters kubernetesClusters() {
-//        return containerServiceManager.kubernetesClusters();
-//    }
+    /**
+     * @return entry point to managing Container Services.
+     */
+    public ContainerServices containerServices() {
+        return containerServiceManager.containerServices();
+    }
+
+    /**
+     * @return entry point to managing Kubernetes clusters.
+     */
+    public KubernetesClusters kubernetesClusters() {
+        return containerServiceManager.kubernetesClusters();
+    }
 //
 //    /**
 //     * @return entry point to managing Azure Container Instances.
@@ -806,14 +842,13 @@ public final class Azure {
 //    public RegistryTaskRuns containerRegistryTaskRuns() {
 //        return containerRegistryManager.registryTaskRuns();
 //    }
-//
-//    /**
-//     * @return entry point to managing Container Regsitries.
-//     */
-//    @Beta(SinceVersion.V1_2_0)
-//    public CosmosDBAccounts cosmosDBAccounts() {
-//        return cosmosDBManager.databaseAccounts();
-//    }
+
+    /**
+     * @return entry point to managing Container Regsitries.
+     */
+    public CosmosDBAccounts cosmosDBAccounts() {
+        return cosmosDBManager.databaseAccounts();
+    }
 
 //    /**
 //     * @return entry point to managing Search services.
@@ -837,53 +872,47 @@ public final class Azure {
         return this.authenticated;
     }
 
-//    /**
-//     * @return entry point to listing activity log events in Azure
-//     */
-//    public ActivityLogs activityLogs() {
-//        return this.monitorManager.activityLogs();
-//    }
-//
-//    /**
-//     * @return entry point to listing metric definitions in Azure
-//     */
-//    @Beta(SinceVersion.V1_6_0)
-//    public MetricDefinitions metricDefinitions() {
-//        return this.monitorManager.metricDefinitions();
-//    }
-//
-//    /**
-//     * @return entry point to listing diagnostic settings in Azure
-//     */
-//    @Beta(SinceVersion.V1_8_0)
-//    public DiagnosticSettings diagnosticSettings() {
-//        return this.monitorManager.diagnosticSettings();
-//    }
-//
-//    /**
-//     * @return entry point to managing action groups in Azure
-//     */
-//    @Beta(SinceVersion.V1_9_0)
-//    public ActionGroups actionGroups() {
-//        return this.monitorManager.actionGroups();
-//    }
-//
-//    /**
-//     * @return entry point to managing alertRules in Azure
-//     */
-//    @Beta(SinceVersion.V1_15_0)
-//    public AlertRules alertRules() {
-//        return this.monitorManager.alertRules();
-//    }
+    /**
+     * @return entry point to listing activity log events in Azure
+     */
+    public ActivityLogs activityLogs() {
+        return this.monitorManager.activityLogs();
+    }
 
-//
-//    /**
-//     * @return entry point to managing Autoscale Settings in Azure
-//     */
-//    @Beta(SinceVersion.V1_15_0)
-//    public AutoscaleSettings autoscaleSettings() {
-//        return this.monitorManager.autoscaleSettings();
-//    }
+    /**
+     * @return entry point to listing metric definitions in Azure
+     */
+    public MetricDefinitions metricDefinitions() {
+        return this.monitorManager.metricDefinitions();
+    }
+
+    /**
+     * @return entry point to listing diagnostic settings in Azure
+     */
+    public DiagnosticSettings diagnosticSettings() {
+        return this.monitorManager.diagnosticSettings();
+    }
+
+    /**
+     * @return entry point to managing action groups in Azure
+     */
+    public ActionGroups actionGroups() {
+        return this.monitorManager.actionGroups();
+    }
+
+    /**
+     * @return entry point to managing alertRules in Azure
+     */
+    public AlertRules alertRules() {
+        return this.monitorManager.alertRules();
+    }
+
+    /**
+     * @return entry point to managing Autoscale Settings in Azure
+     */
+    public AutoscaleSettings autoscaleSettings() {
+        return this.monitorManager.autoscaleSettings();
+    }
 //
 //    /**
 //     * @return entry point to managing event hub namespaces.

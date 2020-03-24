@@ -25,7 +25,7 @@ public class VirtualNetworkGatewayTests extends TestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain);
+        Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain).withSdkContext(sdkContext);
         azure = azureAuthed.withSubscription(defaultSubscription);
     }
 
@@ -105,7 +105,7 @@ public class VirtualNetworkGatewayTests extends TestBase {
      */
     @Test
     public void testVirtualNetworkGateways() throws Exception {
-        new TestVirtualNetworkGateway.Basic(azure.virtualNetworkGateways().manager()).runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
+        new TestVirtualNetworkGateway().new Basic(azure.virtualNetworkGateways().manager()).runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
     }
 
     /**
@@ -115,7 +115,7 @@ public class VirtualNetworkGatewayTests extends TestBase {
      */
     @Test
     public void testVirtualNetworkGatewaySiteToSite() throws Exception {
-        new TestVirtualNetworkGateway.SiteToSite(azure.virtualNetworkGateways().manager())
+        new TestVirtualNetworkGateway().new SiteToSite(azure.virtualNetworkGateways().manager())
                 .runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
     }
 
@@ -126,7 +126,7 @@ public class VirtualNetworkGatewayTests extends TestBase {
      */
     @Test
     public void testVirtualNetworkGatewayVNetToVNet() throws Exception {
-        new TestVirtualNetworkGateway.VNetToVNet(azure.virtualNetworkGateways().manager())
+        new TestVirtualNetworkGateway().new VNetToVNet(azure.virtualNetworkGateways().manager())
                 .runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
     }
 
@@ -137,7 +137,7 @@ public class VirtualNetworkGatewayTests extends TestBase {
      */
     @Test
     public void testVirtualNetworkGatewayPointToSite() throws Exception {
-        new TestVirtualNetworkGateway.PointToSite(azure.virtualNetworkGateways().manager())
+        new TestVirtualNetworkGateway().new PointToSite(azure.virtualNetworkGateways().manager())
                 .runTest(azure.virtualNetworkGateways(), azure.resourceGroups());
     }
 }

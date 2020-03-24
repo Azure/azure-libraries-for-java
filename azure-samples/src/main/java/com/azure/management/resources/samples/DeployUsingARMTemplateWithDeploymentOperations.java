@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.io.ByteStreams;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.IOException;
@@ -91,7 +92,9 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
                         System.out.println("Deployment created: " + deployment.name());
                         deploymentList.add(deployment);
                     })
-                    .doOnComplete(() -> latch.countDown());
+                    .onErrorResume(e -> Mono.empty())
+                    .doOnComplete(() -> latch.countDown())
+                    .subscribe();
 
             latch.await();
 
@@ -125,7 +128,11 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
                                         || "Failed".equalsIgnoreCase(deployment.provisioningState());
 
                             })
-                    ).doOnComplete(() -> operationLatch.countDown());
+                    )
+                    .onErrorResume(e -> Mono.empty())
+                    .doOnComplete(() -> operationLatch.countDown())
+                    .subscribe();
+
             operationLatch.await();
 
             // Summary

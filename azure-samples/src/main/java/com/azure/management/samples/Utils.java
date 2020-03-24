@@ -6,7 +6,24 @@
 
 package com.azure.management.samples;
 
+import com.azure.core.annotation.BodyParam;
+import com.azure.core.annotation.ExpectedResponses;
+import com.azure.core.annotation.Get;
+import com.azure.core.annotation.Host;
+import com.azure.core.annotation.HostParam;
+import com.azure.core.annotation.PathParam;
+import com.azure.core.annotation.Post;
+import com.azure.core.annotation.ServiceInterface;
+import com.azure.core.http.HttpPipelineBuilder;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLoggingPolicy;
+import com.azure.core.http.policy.RetryPolicy;
+import com.azure.core.http.rest.Response;
+import com.azure.core.http.rest.RestProxy;
+import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.FluxUtil;
 import com.azure.management.appservice.AppServiceCertificateOrder;
 import com.azure.management.appservice.AppServiceDomain;
 import com.azure.management.appservice.AppServicePlan;
@@ -24,6 +41,13 @@ import com.azure.management.compute.ImageDataDisk;
 import com.azure.management.compute.VirtualMachine;
 import com.azure.management.compute.VirtualMachineCustomImage;
 import com.azure.management.compute.VirtualMachineExtension;
+import com.azure.management.containerservice.ContainerService;
+import com.azure.management.containerservice.ContainerServiceOrchestratorTypes;
+import com.azure.management.containerservice.KubernetesCluster;
+import com.azure.management.cosmosdb.CosmosDBAccount;
+import com.azure.management.cosmosdb.DatabaseAccountListKeysResult;
+import com.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
+import com.azure.management.cosmosdb.Location;
 import com.azure.management.graphrbac.ActiveDirectoryApplication;
 import com.azure.management.graphrbac.ActiveDirectoryGroup;
 import com.azure.management.graphrbac.ActiveDirectoryObject;
@@ -33,6 +57,8 @@ import com.azure.management.graphrbac.RoleAssignment;
 import com.azure.management.graphrbac.RoleDefinition;
 import com.azure.management.graphrbac.ServicePrincipal;
 import com.azure.management.keyvault.AccessPolicy;
+import com.azure.management.keyvault.KeyPermissions;
+import com.azure.management.keyvault.SecretPermissions;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.msi.Identity;
 import com.azure.management.network.ApplicationGateway;
@@ -100,9 +126,10 @@ import com.azure.management.storage.StorageAccount;
 import com.azure.management.storage.StorageAccountEncryptionStatus;
 import com.azure.management.storage.StorageAccountKey;
 import com.azure.management.storage.StorageService;
-import jersey.repackaged.com.google.common.base.Joiner;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -110,12 +137,17 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Common utils for Azure management samples.
@@ -463,8 +495,8 @@ public final class Utils {
                 .append("\n\tAccess policies: ");
         for (AccessPolicy accessPolicy : vault.accessPolicies()) {
             info.append("\n\t\tIdentity:").append(accessPolicy.objectId())
-                    .append("\n\t\tKey permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().getKeys()))
-                    .append("\n\t\tSecret permissions: ").append(Joiner.on(", ").join(accessPolicy.permissions().getSecrets()));
+                    .append("\n\t\tKey permissions: ").append(accessPolicy.permissions().getKeys().stream().map(KeyPermissions::toString).collect(Collectors.joining(", ")))
+                    .append("\n\t\tSecret permissions: ").append(accessPolicy.permissions().getSecrets().stream().map(SecretPermissions::toString).collect(Collectors.joining(", ")));
         }
         System.out.println(info.toString());
     }
@@ -1182,57 +1214,57 @@ public final class Utils {
 //                .append("\n\tSecond Password: ").append(acrCredentials.accessKeys().get(AccessKeyType.SECONDARY));
 //        System.out.println(info.toString());
 //    }
-//
-//    /**
-//     * Print an Azure Container Service.
-//     *
-//     * @param containerService an Azure Container Service
-//     */
-//    public static void print(ContainerService containerService) {
-//        StringBuilder info = new StringBuilder();
-//
-//        info.append("Azure Container Service: ").append(containerService.id())
-//                .append("\n\tName: ").append(containerService.name())
-//                .append("\n\tWith orchestration: ").append(containerService.orchestratorType().toString())
-//                .append("\n\tMaster FQDN: ").append(containerService.masterFqdn())
-//                .append("\n\tMaster node count: ").append(containerService.masterNodeCount())
-//                .append("\n\tMaster domain label prefix: ").append(containerService.masterDnsPrefix())
-//                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(containerService.agentPools().keySet()).get(0))
-//                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).count())
-//                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).vmSize().toString())
-//                .append("\n\t\tAgent pool FQDN: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).fqdn())
-//                .append("\n\t\tAgent pool domain label prefix: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).dnsPrefix())
-//                .append("\n\tLinux user name: ").append(containerService.linuxRootUsername())
-//                .append("\n\tSSH key: ").append(containerService.sshKey());
-//        if (containerService.orchestratorType() == ContainerServiceOrchestratorTypes.KUBERNETES) {
-//            info.append("\n\tName: ").append(containerService.servicePrincipalClientId());
-//        }
-//
-//        System.out.println(info.toString());
-//    }
-//
-//    /**
-//     * Print an Azure Container Service (AKS).
-//     *
-//     * @param kubernetesCluster a managed container service
-//     */
-//    public static void print(KubernetesCluster kubernetesCluster) {
-//        StringBuilder info = new StringBuilder();
-//
-//        info.append("Azure Container Service: ").append(kubernetesCluster.id())
-//                .append("\n\tName: ").append(kubernetesCluster.name())
-//                .append("\n\tFQDN: ").append(kubernetesCluster.fqdn())
-//                .append("\n\tDNS prefix label: ").append(kubernetesCluster.dnsPrefix())
-//                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(kubernetesCluster.agentPools().keySet()).get(0))
-//                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).count())
-//                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).vmSize().toString())
-//                .append("\n\tLinux user name: ").append(kubernetesCluster.linuxRootUsername())
-//                .append("\n\tSSH key: ").append(kubernetesCluster.sshKey())
-//                .append("\n\tService principal client ID: ").append(kubernetesCluster.servicePrincipalClientId());
-//
-//        System.out.println(info.toString());
-//    }
-//
+
+    /**
+     * Print an Azure Container Service.
+     *
+     * @param containerService an Azure Container Service
+     */
+    public static void print(ContainerService containerService) {
+        StringBuilder info = new StringBuilder();
+
+        info.append("Azure Container Service: ").append(containerService.id())
+                .append("\n\tName: ").append(containerService.name())
+                .append("\n\tWith orchestration: ").append(containerService.orchestratorType().toString())
+                .append("\n\tMaster FQDN: ").append(containerService.masterFqdn())
+                .append("\n\tMaster node count: ").append(containerService.masterNodeCount())
+                .append("\n\tMaster domain label prefix: ").append(containerService.masterDnsPrefix())
+                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(containerService.agentPools().keySet()).get(0))
+                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).count())
+                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).vmSize().toString())
+                .append("\n\t\tAgent pool FQDN: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).fqdn())
+                .append("\n\t\tAgent pool domain label prefix: ").append(new ArrayList<>(containerService.agentPools().values()).get(0).dnsPrefix())
+                .append("\n\tLinux user name: ").append(containerService.linuxRootUsername())
+                .append("\n\tSSH key: ").append(containerService.sshKey());
+        if (containerService.orchestratorType() == ContainerServiceOrchestratorTypes.KUBERNETES) {
+            info.append("\n\tName: ").append(containerService.servicePrincipalClientId());
+        }
+
+        System.out.println(info.toString());
+    }
+
+    /**
+     * Print an Azure Container Service (AKS).
+     *
+     * @param kubernetesCluster a managed container service
+     */
+    public static void print(KubernetesCluster kubernetesCluster) {
+        StringBuilder info = new StringBuilder();
+
+        info.append("Azure Container Service: ").append(kubernetesCluster.id())
+                .append("\n\tName: ").append(kubernetesCluster.name())
+                .append("\n\tFQDN: ").append(kubernetesCluster.fqdn())
+                .append("\n\tDNS prefix label: ").append(kubernetesCluster.dnsPrefix())
+                .append("\n\t\tWith Agent pool name: ").append(new ArrayList<>(kubernetesCluster.agentPools().keySet()).get(0))
+                .append("\n\t\tAgent pool count: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).count())
+                .append("\n\t\tAgent pool VM size: ").append(new ArrayList<>(kubernetesCluster.agentPools().values()).get(0).vmSize().toString())
+                .append("\n\tLinux user name: ").append(kubernetesCluster.linuxRootUsername())
+                .append("\n\tSSH key: ").append(kubernetesCluster.sshKey())
+                .append("\n\tService principal client ID: ").append(kubernetesCluster.servicePrincipalClientId());
+
+        System.out.println(info.toString());
+    }
+
 //    /**
 //     * Print an Azure Search Service.
 //     *
@@ -1343,7 +1375,7 @@ public final class Utils {
                 "-keystore", pfxPath, "-storepass", password, "-validity",
                 validityInDays, "-keyalg", keyAlg, "-sigalg", sigAlg, "-keysize", keySize,
                 "-storetype", storeType, "-dname", "CN=" + cnName, "-ext", "EKU=1.3.6.1.5.5.7.3.1"};
-        Utils.cmdInvocation(commandArgs, false);
+        Utils.cmdInvocation(commandArgs, true);
 
         // Create cer file i.e. extract public key from pfx
         File pfxFile = new File(pfxPath);
@@ -2241,40 +2273,40 @@ public final class Utils {
 //        System.out.println(builder.toString());
 //    }
 
-//    /**
-//     * Print CosmosDB info.
-//     *
-//     * @param cosmosDBAccount a CosmosDB
-//     */
-//    public static void print(CosmosDBAccount cosmosDBAccount) {
-//        StringBuilder builder = new StringBuilder()
-//                .append("CosmosDB: ").append(cosmosDBAccount.id())
-//                .append("\n\tName: ").append(cosmosDBAccount.name())
-//                .append("\n\tResourceGroupName: ").append(cosmosDBAccount.resourceGroupName())
-//                .append("\n\tKind: ").append(cosmosDBAccount.kind().toString())
-//                .append("\n\tDefault consistency level: ").append(cosmosDBAccount.consistencyPolicy().defaultConsistencyLevel())
-//                .append("\n\tIP range filter: ").append(cosmosDBAccount.ipRangeFilter());
-//
-//        DatabaseAccountListKeysResult keys = cosmosDBAccount.listKeys();
-//        DatabaseAccountListReadOnlyKeysResult readOnlyKeys = cosmosDBAccount.listReadOnlyKeys();
-//        builder
-//                .append("\n\tPrimary Master Key: ").append(keys.primaryMasterKey())
-//                .append("\n\tSecondary Master Key: ").append(keys.secondaryMasterKey())
-//                .append("\n\tPrimary Read-Only Key: ").append(readOnlyKeys.primaryReadonlyMasterKey())
-//                .append("\n\tSecondary Read-Only Key: ").append(readOnlyKeys.secondaryReadonlyMasterKey());
-//
-//        for (com.microsoft.azure.management.cosmosdb.Location writeReplica : cosmosDBAccount.writableReplications()) {
-//            builder.append("\n\t\tWrite replication: ")
-//                    .append("\n\t\t\tName :").append(writeReplica.locationName());
-//        }
-//
-//        builder.append("\n\tNumber of read replications: ").append(cosmosDBAccount.readableReplications().size());
-//        for (com.microsoft.azure.management.cosmosdb.Location readReplica : cosmosDBAccount.readableReplications()) {
-//            builder.append("\n\t\tRead replication: ")
-//                    .append("\n\t\t\tName :").append(readReplica.locationName());
-//        }
-//
-//    }
+    /**
+     * Print CosmosDB info.
+     *
+     * @param cosmosDBAccount a CosmosDB
+     */
+    public static void print(CosmosDBAccount cosmosDBAccount) {
+        StringBuilder builder = new StringBuilder()
+                .append("CosmosDB: ").append(cosmosDBAccount.id())
+                .append("\n\tName: ").append(cosmosDBAccount.name())
+                .append("\n\tResourceGroupName: ").append(cosmosDBAccount.resourceGroupName())
+                .append("\n\tKind: ").append(cosmosDBAccount.kind().toString())
+                .append("\n\tDefault consistency level: ").append(cosmosDBAccount.consistencyPolicy().defaultConsistencyLevel())
+                .append("\n\tIP range filter: ").append(cosmosDBAccount.ipRangeFilter());
+
+        DatabaseAccountListKeysResult keys = cosmosDBAccount.listKeys();
+        DatabaseAccountListReadOnlyKeysResult readOnlyKeys = cosmosDBAccount.listReadOnlyKeys();
+        builder
+                .append("\n\tPrimary Master Key: ").append(keys.primaryMasterKey())
+                .append("\n\tSecondary Master Key: ").append(keys.secondaryMasterKey())
+                .append("\n\tPrimary Read-Only Key: ").append(readOnlyKeys.primaryReadonlyMasterKey())
+                .append("\n\tSecondary Read-Only Key: ").append(readOnlyKeys.secondaryReadonlyMasterKey());
+
+        for (com.azure.management.cosmosdb.Location writeReplica : cosmosDBAccount.writableReplications()) {
+            builder.append("\n\t\tWrite replication: ")
+                    .append("\n\t\t\tName :").append(writeReplica.locationName());
+        }
+
+        builder.append("\n\tNumber of read replications: ").append(cosmosDBAccount.readableReplications().size());
+        for (com.azure.management.cosmosdb.Location readReplica : cosmosDBAccount.readableReplications()) {
+            builder.append("\n\t\tRead replication: ")
+                    .append("\n\t\t\tName :").append(readReplica.locationName());
+        }
+
+    }
 
     /**
      * Print Active Directory User info.
@@ -2990,32 +3022,68 @@ public final class Utils {
 //        System.out.println(info.toString());
 //    }
 
+    public static Response<String> curl(String urlString) {
+        try {
+            return stringResponse(httpClient.getString(getHost(urlString), getPathAndQuery(urlString))).block();
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }
 
-//    private static OkHttpClient httpClient;
-//
-//    /**
-//     * Ensure the HTTP client is valid.
-//     */
-//    private static OkHttpClient ensureValidHttpClient() {
-//        if (httpClient == null) {
-//            httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).build();
-//        }
-//
-//        return httpClient;
-//    }
-//
-//    /**
-//     * Connect to a specified URL using "curl" like HTTP GET client.
-//     *
-//     * @param url URL to be tested
-//     * @return the HTTP GET response content
-//     */
-//    public static String curl(String url) {
-//        Request request = new Request.Builder().url(url).get().build();
-//        try {
-//            return ensureValidHttpClient().newCall(request).execute().body().string();
-//        } catch (IOException e) {
-//            return null;
-//        }
-//    }
+    public static String get(String urlString) {
+        try {
+            return stringResponse(httpClient.getString(getHost(urlString), getPathAndQuery(urlString))).block().getValue();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String post(String urlString, String body) {
+        try {
+            return stringResponse(httpClient.postString(getHost(urlString), getPathAndQuery(urlString), body)).block().getValue();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static Mono<SimpleResponse<String>> stringResponse(Mono<SimpleResponse<Flux<ByteBuffer>>> responseMono) {
+        return responseMono.flatMap(response -> FluxUtil.collectBytesInByteBufferStream(response.getValue())
+                .map(bytes -> new String(bytes, StandardCharsets.UTF_8))
+                .map(str -> new SimpleResponse<>(response.getRequest(), response.getStatusCode(), response.getHeaders(), str)));
+    }
+
+    private static String getHost(String urlString) throws MalformedURLException {
+        URL url = new URL(urlString);
+        String protocol = url.getProtocol();
+        String host = url.getAuthority();
+        return protocol + "://" + host;
+    }
+
+    private static String getPathAndQuery(String urlString) throws MalformedURLException {
+        URL url = new URL(urlString);
+        String path = url.getPath();
+        String query = url.getQuery();
+        if (query != null && !query.isEmpty()) {
+            path = path + "?" + query;
+        }
+        return path;
+    }
+
+    protected static WebAppTestClient httpClient = RestProxy.create(
+            WebAppTestClient.class,
+            new HttpPipelineBuilder()
+                    .policies(new HttpLoggingPolicy(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)), new RetryPolicy())
+                    .build());
+
+    @Host("{$host}")
+    @ServiceInterface(name = "WebAppTestClient")
+    private interface WebAppTestClient {
+        @Get("{path}")
+        @ExpectedResponses({200, 400, 404})
+        Mono<SimpleResponse<Flux<ByteBuffer>>> getString(@HostParam("$host") String host, @PathParam(value = "path", encoded = true) String path);
+
+        @Post("{path}")
+        @ExpectedResponses({200, 400, 404})
+        Mono<SimpleResponse<Flux<ByteBuffer>>> postString(@HostParam("$host") String host, @PathParam(value = "path", encoded = true) String path, @BodyParam("text/plain") String body);
+    }
 }

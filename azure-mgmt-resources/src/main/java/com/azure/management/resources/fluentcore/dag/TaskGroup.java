@@ -344,6 +344,7 @@ public class TaskGroup
      *                method of each entry in the group when it is selected for execution
      * @return a {@link Flux} that emits the result of tasks in the order they finishes.
      */
+    @SuppressWarnings("unchecked")
     private Flux<Indexable> invokeReadyTasksAsync(final InvocationContext context) {
         TaskGroupEntry<TaskItem> readyTaskEntry = super.getNext();
         final List<Flux<Indexable>> observables = new ArrayList<>();
@@ -359,7 +360,7 @@ public class TaskGroup
             }
             readyTaskEntry = super.getNext();
         }
-        return Flux.mergeDelayError(32, observables.toArray(new Flux[observables.size()]));
+        return Flux.mergeDelayError(32, observables.toArray(new Flux[0]));
     }
 
     /**

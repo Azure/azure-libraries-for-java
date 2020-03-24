@@ -18,21 +18,22 @@ import org.junit.jupiter.api.Assertions;
  * Tests Express Route Circuit.
  */
 public class TestExpressRouteCircuit {
-    private static String TEST_ID = "";
-    private static Region REGION = Region.US_NORTH_CENTRAL;
-    private static String CIRCUIT_NAME;
+    private String TEST_ID = "";
+    private final static Region REGION = Region.US_NORTH_CENTRAL;
+    private String CIRCUIT_NAME;
 
-    private static void initializeResourceNames() {
+    private void initializeResourceNames(SdkContext sdkContext) {
+        TEST_ID = sdkContext.randomResourceName("", 8);
         CIRCUIT_NAME = "erc" + TEST_ID;
     }
 
     /**
      * Test Express Route Circuit Create and Update.
      */
-    public static class Basic extends TestTemplate<ExpressRouteCircuit, ExpressRouteCircuits> {
+    public class Basic extends TestTemplate<ExpressRouteCircuit, ExpressRouteCircuits> {
         @Override
         public ExpressRouteCircuit createResource(ExpressRouteCircuits expressRouteCircuits) throws Exception {
-            initializeResourceNames();
+            initializeResourceNames(expressRouteCircuits.manager().getSdkContext());
 
             // create Express Route Circuit
             ExpressRouteCircuit erc = expressRouteCircuits.define(CIRCUIT_NAME)
@@ -80,10 +81,10 @@ public class TestExpressRouteCircuit {
     /**
      * Test Virtual Network Gateway Create and Update.
      */
-    public static class ExpressRouteCircuitPeering extends TestTemplate<ExpressRouteCircuit, ExpressRouteCircuits> {
+    public class ExpressRouteCircuitPeering extends TestTemplate<ExpressRouteCircuit, ExpressRouteCircuits> {
         @Override
         public ExpressRouteCircuit createResource(ExpressRouteCircuits expressRouteCircuits) throws Exception {
-            initializeResourceNames();
+            initializeResourceNames(expressRouteCircuits.manager().getSdkContext());
 
             // create Express Route Circuit
             ExpressRouteCircuit erc = expressRouteCircuits.define(CIRCUIT_NAME)

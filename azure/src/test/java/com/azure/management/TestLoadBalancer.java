@@ -49,13 +49,14 @@ import java.util.Set;
  * Test of load balancer management.
  */
 public class TestLoadBalancer {
-    static String TEST_ID = "";
-    static Region REGION = Region.US_NORTH_CENTRAL;
-    static String GROUP_NAME = "";
-    static String LB_NAME = "";
-    static String[] PIP_NAMES = null;
+    String TEST_ID = "";
+    Region REGION = Region.US_NORTH_CENTRAL;
+    String GROUP_NAME = "";
+    String LB_NAME = "";
+    String[] PIP_NAMES = null;
 
-    private static void initializeResourceNames() {
+    private void initializeResourceNames(SdkContext sdkContext) {
+        TEST_ID = sdkContext.randomResourceName("", 8);
         GROUP_NAME = "rg" + TEST_ID;
         LB_NAME = "lb" + TEST_ID;
         PIP_NAMES = new String[]{"pipa" + TEST_ID, "pipb" + TEST_ID};
@@ -64,7 +65,7 @@ public class TestLoadBalancer {
     /**
      * Internet-facing LB test with NAT pool test.
      */
-    public static class InternetWithNatPool extends TestTemplate<LoadBalancer, LoadBalancers> {
+    public class InternetWithNatPool extends TestTemplate<LoadBalancer, LoadBalancers> {
         private final ComputeManager computeManager;
 
         /**
@@ -73,13 +74,13 @@ public class TestLoadBalancer {
          * @param computeManager compute manager
          */
         public InternetWithNatPool(ComputeManager computeManager) {
-            initializeResourceNames();
+            initializeResourceNames(computeManager.getSdkContext());
             this.computeManager = computeManager;
         }
 
         @Override
         public void print(LoadBalancer resource) {
-            TestLoadBalancer.printLB(resource);
+            printLB(resource);
         }
 
         @Override
@@ -89,7 +90,7 @@ public class TestLoadBalancer {
             PublicIPAddress pip0 = resources.manager().publicIPAddresses().getByResourceGroup(GROUP_NAME, PIP_NAMES[0]);
 
             // Create a load balancer
-            LoadBalancer lb = resources.define(TestLoadBalancer.LB_NAME)
+            LoadBalancer lb = resources.define(LB_NAME)
                     .withRegion(REGION)
                     .withExistingResourceGroup(GROUP_NAME)
 
@@ -211,7 +212,7 @@ public class TestLoadBalancer {
     /**
      * Internet-facing LB test with NAT rules.
      */
-    public static class InternetWithNatRule extends TestTemplate<LoadBalancer, LoadBalancers> {
+    public class InternetWithNatRule extends TestTemplate<LoadBalancer, LoadBalancers> {
         private final ComputeManager computeManager;
 
         /**
@@ -220,13 +221,13 @@ public class TestLoadBalancer {
          * @param computeManager compute manager
          */
         public InternetWithNatRule(ComputeManager computeManager) {
-            initializeResourceNames();
+            initializeResourceNames(computeManager.getSdkContext());
             this.computeManager = computeManager;
         }
 
         @Override
         public void print(LoadBalancer resource) {
-            TestLoadBalancer.printLB(resource);
+            printLB(resource);
         }
 
         @Override
@@ -238,9 +239,9 @@ public class TestLoadBalancer {
             NetworkInterface nic2 = existingVMs[1].getPrimaryNetworkInterface();
 
             // Create a load balancer
-            LoadBalancer lb = resources.define(TestLoadBalancer.LB_NAME)
-                    .withRegion(TestLoadBalancer.REGION)
-                    .withExistingResourceGroup(TestLoadBalancer.GROUP_NAME)
+            LoadBalancer lb = resources.define(LB_NAME)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(GROUP_NAME)
 
                     // Load balancing rules
                     .defineLoadBalancingRule("rule1")
@@ -395,7 +396,7 @@ public class TestLoadBalancer {
     /**
      * Internet-facing minimalistic LB test without LB rules, only a NAT rule.
      */
-    public static class InternetNatOnly extends TestTemplate<LoadBalancer, LoadBalancers> {
+    public class InternetNatOnly extends TestTemplate<LoadBalancer, LoadBalancers> {
         private final ComputeManager computeManager;
 
         /**
@@ -404,27 +405,27 @@ public class TestLoadBalancer {
          * @param computeManager compute manager
          */
         public InternetNatOnly(ComputeManager computeManager) {
-            initializeResourceNames();
+            initializeResourceNames(computeManager.getSdkContext());
             this.computeManager = computeManager;
         }
 
         @Override
         public void print(LoadBalancer resource) {
-            TestLoadBalancer.printLB(resource);
+            printLB(resource);
         }
 
         @Override
         public LoadBalancer createResource(LoadBalancers resources) throws Exception {
             VirtualMachine[] existingVMs = ensureVMs(resources.manager().networks(), computeManager, 2);
             Creatable<PublicIPAddress> pipDef = resources.manager().publicIPAddresses().define(PIP_NAMES[0])
-                    .withRegion(TestLoadBalancer.REGION)
-                    .withExistingResourceGroup(TestLoadBalancer.GROUP_NAME)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(GROUP_NAME)
                     .withLeafDomainLabel(PIP_NAMES[0]);
 
             // Create a load balancer
-            LoadBalancer lb = resources.define(TestLoadBalancer.LB_NAME)
-                    .withRegion(TestLoadBalancer.REGION)
-                    .withExistingResourceGroup(TestLoadBalancer.GROUP_NAME)
+            LoadBalancer lb = resources.define(LB_NAME)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(GROUP_NAME)
                     // Inbound NAT rule
                     .defineInboundNatRule("natrule1")
                     .withProtocol(TransportProtocol.TCP)
@@ -487,8 +488,8 @@ public class TestLoadBalancer {
             Assertions.assertNotNull(natRule);
             LoadBalancerPublicFrontend publicFrontend = (LoadBalancerPublicFrontend) natRule.frontend();
             PublicIPAddress pip = resource.manager().publicIPAddresses().define(PIP_NAMES[1])
-                    .withRegion(TestLoadBalancer.REGION)
-                    .withExistingResourceGroup(TestLoadBalancer.GROUP_NAME)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(GROUP_NAME)
                     .withLeafDomainLabel(PIP_NAMES[1])
                     .create();
 
@@ -536,7 +537,7 @@ public class TestLoadBalancer {
     /**
      * Internet-facing minimalistic LB test.
      */
-    public static class InternetMinimal extends TestTemplate<LoadBalancer, LoadBalancers> {
+    public class InternetMinimal extends TestTemplate<LoadBalancer, LoadBalancers> {
         private final ComputeManager computeManager;
 
         /**
@@ -545,13 +546,13 @@ public class TestLoadBalancer {
          * @param computeManager compute manager
          */
         public InternetMinimal(ComputeManager computeManager) {
-            initializeResourceNames();
+            initializeResourceNames(computeManager.getSdkContext());
             this.computeManager = computeManager;
         }
 
         @Override
         public void print(LoadBalancer resource) {
-            TestLoadBalancer.printLB(resource);
+            printLB(resource);
         }
 
         @Override
@@ -560,9 +561,9 @@ public class TestLoadBalancer {
             String pipDnsLabel = resources.manager().getSdkContext().randomResourceName("pip", 20);
 
             // Create a load balancer
-            LoadBalancer lb = resources.define(TestLoadBalancer.LB_NAME)
-                    .withRegion(TestLoadBalancer.REGION)
-                    .withExistingResourceGroup(TestLoadBalancer.GROUP_NAME)
+            LoadBalancer lb = resources.define(LB_NAME)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(GROUP_NAME)
                     // LB rule
                     .defineLoadBalancingRule("lbrule1")
                     .withProtocol(TransportProtocol.TCP)
@@ -613,7 +614,7 @@ public class TestLoadBalancer {
         @Override
         public LoadBalancer updateResource(LoadBalancer resource) throws Exception {
             ensurePIPs(resource.manager().publicIPAddresses());
-            PublicIPAddress pip = resource.manager().publicIPAddresses().getByResourceGroup(TestLoadBalancer.GROUP_NAME, PIP_NAMES[0]);
+            PublicIPAddress pip = resource.manager().publicIPAddresses().getByResourceGroup(GROUP_NAME, PIP_NAMES[0]);
             Assertions.assertNotNull(pip);
             LoadBalancerBackend backend = resource.backends().values().iterator().next();
             Assertions.assertNotNull(backend);
@@ -704,7 +705,7 @@ public class TestLoadBalancer {
     /**
      * Internal minimalistic LB test.
      */
-    public static class InternalMinimal extends TestTemplate<LoadBalancer, LoadBalancers> {
+    public class InternalMinimal extends TestTemplate<LoadBalancer, LoadBalancers> {
         private final ComputeManager computeManager;
         private Network network;
 
@@ -714,13 +715,13 @@ public class TestLoadBalancer {
          * @param computeManager compute manager
          */
         public InternalMinimal(ComputeManager computeManager) {
-            initializeResourceNames();
+            initializeResourceNames(computeManager.getSdkContext());
             this.computeManager = computeManager;
         }
 
         @Override
         public void print(LoadBalancer resource) {
-            TestLoadBalancer.printLB(resource);
+            printLB(resource);
         }
 
         @Override
@@ -731,9 +732,9 @@ public class TestLoadBalancer {
             this.network = existingVMs[0].getPrimaryNetworkInterface().primaryIPConfiguration().getNetwork();
 
             // Create a load balancer
-            LoadBalancer lb = resources.define(TestLoadBalancer.LB_NAME)
-                    .withRegion(TestLoadBalancer.REGION)
-                    .withExistingResourceGroup(TestLoadBalancer.GROUP_NAME)
+            LoadBalancer lb = resources.define(LB_NAME)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(GROUP_NAME)
                     // LB rule
                     .defineLoadBalancingRule("lbrule1")
                     .withProtocol(TransportProtocol.TCP)
@@ -878,7 +879,7 @@ public class TestLoadBalancer {
     /**
      * Basic SKU load balancer with zoned private
      */
-    public static class InternalWithZone extends TestTemplate<LoadBalancer, LoadBalancers> {
+    public class InternalWithZone extends TestTemplate<LoadBalancer, LoadBalancers> {
         private final ComputeManager computeManager;
         private Network network;
 
@@ -889,13 +890,13 @@ public class TestLoadBalancer {
          */
         public InternalWithZone(ComputeManager computeManager) {
             REGION = Region.US_EAST2;
-            initializeResourceNames();
+            initializeResourceNames(computeManager.getSdkContext());
             this.computeManager = computeManager;
         }
 
         @Override
         public void print(LoadBalancer resource) {
-            TestLoadBalancer.printLB(resource);
+            printLB(resource);
         }
 
         @Override
@@ -907,9 +908,9 @@ public class TestLoadBalancer {
             this.network = existingVMs[0].getPrimaryNetworkInterface().primaryIPConfiguration().getNetwork();
 
             // Create a load balancer
-            LoadBalancer lb = resources.define(TestLoadBalancer.LB_NAME)
-                    .withRegion(TestLoadBalancer.REGION)
-                    .withExistingResourceGroup(TestLoadBalancer.GROUP_NAME)
+            LoadBalancer lb = resources.define(LB_NAME)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(GROUP_NAME)
                     // LB rule
                     .defineLoadBalancingRule("lbrule1")
                     .withProtocol(TransportProtocol.TCP)
@@ -980,7 +981,7 @@ public class TestLoadBalancer {
     }
 
     // Create VNet for the LB
-    private static Map<String, PublicIPAddress> ensurePIPs(PublicIPAddresses pips) throws Exception {
+    private Map<String, PublicIPAddress> ensurePIPs(PublicIPAddresses pips) throws Exception {
         List<Creatable<PublicIPAddress>> creatablePips = new ArrayList<>();
         for (int i = 0; i < PIP_NAMES.length; i++) {
             creatablePips.add(pips.define(PIP_NAMES[i])
@@ -993,7 +994,7 @@ public class TestLoadBalancer {
     }
 
     // Ensure VMs for the LB
-    private static VirtualMachine[] ensureVMs(Networks networks, ComputeManager computeManager, int count) throws Exception {
+    private VirtualMachine[] ensureVMs(Networks networks, ComputeManager computeManager, int count) throws Exception {
         // Create a network for the VMs
         Network network = networks.define("net" + TEST_ID)
                 .withRegion(REGION)

@@ -34,7 +34,6 @@ public abstract class ReadableWrappersImpl<
         return pagedList.mapPage(innerT -> wrapModel(innerT));
     }
 
-
     protected PagedFlux<T> wrapPageAsync(PagedFlux<InnerT> innerPage) {
         return innerPage.mapPage(innerT -> wrapModel(innerT));
     }

@@ -33,8 +33,7 @@ final class DeploymentOperationsImpl
 
     @Override
     public PagedIterable<DeploymentOperation> list() {
-        // FIXME: THe top parameter
-        return wrapList(client.listByResourceGroup(deployment.resourceGroupName(), deployment.name(), null));
+        return wrapList(client.listByResourceGroup(deployment.resourceGroupName(), deployment.name()));
     }
 
     @Override
@@ -57,7 +56,6 @@ final class DeploymentOperationsImpl
 
     @Override
     public PagedFlux<DeploymentOperation> listAsync() {
-        // FIXME:  The top parameter.
-        return wrapPageAsync(this.client.listAtManagementGroupScopeAsync(deployment.resourceGroupName(), deployment.name(), null));
+        return wrapPageAsync(this.client.listAtManagementGroupScopeAsync(deployment.resourceGroupName(), deployment.name()));
     }
 }

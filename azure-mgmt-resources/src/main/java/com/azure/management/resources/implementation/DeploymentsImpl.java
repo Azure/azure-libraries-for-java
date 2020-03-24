@@ -14,6 +14,7 @@ import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.SupportsGettingByResourceGroupImpl;
 import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
 import com.azure.management.resources.models.DeploymentExtendedInner;
 import com.azure.management.resources.models.DeploymentsInner;
 import reactor.core.publisher.Mono;
@@ -40,8 +41,7 @@ final class DeploymentsImpl
 
     @Override
     public PagedIterable<Deployment> listByResourceGroup(String groupName) {
-        // FIXME: filter & top parameter
-        return this.manager().inner().deployments().listByResourceGroup(groupName, null, null).mapPage(inner -> createFluentModel(inner));
+        return this.manager().inner().deployments().listByResourceGroup(groupName).mapPage(inner -> createFluentModel(inner));
     }
 
     @Override
@@ -127,17 +127,14 @@ final class DeploymentsImpl
 
     @Override
     public PagedFlux<Deployment> listAsync() {
-        // TODO: Fix me
-        return null;
-//        return this.getManager().resourceGroups().listAsync()
-//                (resourceGroup -> listByResourceGroupAsync(resourceGroup.getName()));
+        return PagedConverter.flatMapPage(this.manager().resourceGroups().listAsync(),
+                resourceGroup -> listByResourceGroupAsync(resourceGroup.name()));
     }
 
 
     @Override
     public PagedFlux<Deployment> listByResourceGroupAsync(String resourceGroupName) {
         final DeploymentsInner client = this.manager().inner().deployments();
-        // FIXME: filter & top
-        return client.listByResourceGroupAsync(resourceGroupName, null, null).mapPage(deploymentExtendedInner -> createFluentModel(deploymentExtendedInner));
+        return client.listByResourceGroupAsync(resourceGroupName).mapPage(deploymentExtendedInner -> createFluentModel(deploymentExtendedInner));
     }
 }

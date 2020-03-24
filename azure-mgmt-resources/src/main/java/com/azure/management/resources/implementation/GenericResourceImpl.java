@@ -79,13 +79,13 @@ final class GenericResourceImpl
 
     @Override
     protected Mono<GenericResourceInner> getInnerAsync() {
-        // TODO: Whey fluent V1 has api version here.
         return this.manager().inner().resources().getAsync(
                 resourceGroupName(),
                 resourceProviderNamespace(),
                 parentResourcePath(),
                 resourceType(),
-                this.name());
+                this.name(),
+                this.apiVersion());
     }
 
     public GenericResourceImpl withProperties(Object properties) {
@@ -173,8 +173,7 @@ final class GenericResourceImpl
                             parentResourcePath(),
                             resourceType,
                             name,
-// FIXME: API version
-//                            api,
+                            api,
                             inner())
                             .subscribeOn(SdkContext.getReactorScheduler())
                             .map(innerToFluentMap(self));

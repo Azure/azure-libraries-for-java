@@ -5,11 +5,10 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import reactor.core.publisher.Mono;
 
 /**
  * Grouping of container registry webhook actions.
@@ -30,7 +29,7 @@ public interface WebhookOperations {
      * @param webhookName the name of the webhook
      * @return a representation of the future computation of this call, returning the Webhook object
      */
-    Observable<Webhook> getAsync(String webhookName);
+    Mono<Webhook> getAsync(String webhookName);
 
     /**
      * Deletes a webhook from the container registry.
@@ -45,19 +44,19 @@ public interface WebhookOperations {
      * @param webhookName the name of the webhook
      * @return a representation of the future computation of this call
      */
-    Completable deleteAsync(String webhookName);
+    Mono<Void> deleteAsync(String webhookName);
 
     /**
      * Lists all the webhooks for the container registry.
      *
      * @return the list of all the webhooks for the specified container registry
      */
-    PagedList<Webhook> list();
+    PagedIterable<Webhook> list();
 
     /**
      * Lists all the webhooks for the container registry.
      *
      * @return a representation of the future computation of this call, returning the list of all the webhooks for the specified container registry
      */
-    Observable<Webhook> listAsync();
+    PagedFlux<Webhook> listAsync();
 }

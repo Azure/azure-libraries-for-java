@@ -6,21 +6,18 @@
 
 package com.azure.management.containerregistry;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.containerregistry.models.TaskInner;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.containerregistry.implementation.TaskInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import org.joda.time.DateTime;
-
+import java.time.OffsetDateTime;
 import java.util.Map;
-
 
 /**
  * An immutable client-side representation of an Azure registry task.
@@ -51,7 +48,7 @@ public interface RegistryTask extends
     /**
      * @return the creation date of build task
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * @return the current status of build task

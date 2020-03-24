@@ -5,11 +5,10 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,7 @@ import java.util.Map;
  */
 @Fluent()
 public interface RegistryDockerTaskStep extends
-        HasInner<DockerTaskStep>,
+        HasInner<DockerBuildStep>,
         RegistryTaskStep {
     /**
      * @return the image names of this Docker task step

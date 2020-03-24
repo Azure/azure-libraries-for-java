@@ -5,9 +5,9 @@
  */
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerregistry.CheckNameAvailabilityResult;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.containerregistry.models.RegistryNameStatusInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * Implementation for CheckNameAvailabilityResult.

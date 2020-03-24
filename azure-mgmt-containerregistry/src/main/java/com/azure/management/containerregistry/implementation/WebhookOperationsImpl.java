@@ -5,12 +5,11 @@
  */
 package com.azure.management.containerregistry.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.containerregistry.Webhook;
 import com.azure.management.containerregistry.WebhookOperations;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import rx.Completable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * Represents a webhook collection associated with a container registry.
@@ -30,11 +29,11 @@ public class WebhookOperationsImpl implements WebhookOperations {
 
     @Override
     public Webhook get(final String webhookName) {
-        return this.getAsync(webhookName).toBlocking().single();
+        return this.getAsync(webhookName).block();
     }
 
     @Override
-    public Observable<Webhook> getAsync(final String webhookName) {
+    public Mono<Webhook> getAsync(final String webhookName) {
         if (this.containerRegistry == null) {
             return null;
         }
@@ -50,7 +49,7 @@ public class WebhookOperationsImpl implements WebhookOperations {
     }
 
     @Override
-    public Completable deleteAsync(final String webhookName) {
+    public Mono<Void> deleteAsync(final String webhookName) {
         if (this.containerRegistry == null) {
             return null;
         }
@@ -58,7 +57,7 @@ public class WebhookOperationsImpl implements WebhookOperations {
     }
 
     @Override
-    public PagedList<Webhook> list() {
+    public PagedIterable<Webhook> list() {
         if (this.containerRegistry == null) {
             return null;
         }
@@ -66,7 +65,7 @@ public class WebhookOperationsImpl implements WebhookOperations {
     }
 
     @Override
-    public Observable<Webhook> listAsync() {
+    public PagedFlux<Webhook> listAsync() {
         if (this.containerRegistry == null) {
             return null;
         }

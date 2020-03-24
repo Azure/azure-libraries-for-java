@@ -6,7 +6,6 @@
 
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerregistry.BaseImageDependency;
 import com.azure.management.containerregistry.RegistryTaskStep;
 import com.azure.management.containerregistry.TaskStepProperties;

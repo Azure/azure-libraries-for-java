@@ -6,13 +6,12 @@
 
 package com.azure.management.containerregistry;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.List;
 import java.util.Map;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
 /**
  * An immutable client-side representation of an Azure RegistryEncodedTaskStep registry task.

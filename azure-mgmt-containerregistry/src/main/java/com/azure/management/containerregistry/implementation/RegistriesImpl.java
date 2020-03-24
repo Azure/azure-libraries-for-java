@@ -6,8 +6,8 @@
 
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.containerregistry.AccessKeyType;
 import com.azure.management.containerregistry.CheckNameAvailabilityResult;
 import com.azure.management.containerregistry.PasswordName;
@@ -16,18 +16,17 @@ import com.azure.management.containerregistry.Registry;
 import com.azure.management.containerregistry.RegistryCredentials;
 import com.azure.management.containerregistry.RegistryUsage;
 import com.azure.management.containerregistry.SourceUploadDefinition;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.containerregistry.models.RegistriesInner;
+import com.azure.management.containerregistry.models.RegistryInner;
+import com.azure.management.containerregistry.models.RegistryUsageListResultInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
+import com.azure.management.storage.implementation.StorageManager;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Implementation for Registries.
@@ -35,11 +34,11 @@ import java.util.List;
 public class RegistriesImpl
         extends
         GroupableResourcesImpl<
-                Registry,
-                RegistryImpl,
-                RegistryInner,
-                RegistriesInner,
-                ContainerRegistryManager>
+                        Registry,
+                        RegistryImpl,
+                        RegistryInner,
+                        RegistriesInner,
+                        ContainerRegistryManager>
         implements Registries {
     private final StorageManager storageManager;
     protected RegistriesImpl(final ContainerRegistryManager manager,
@@ -49,41 +48,29 @@ public class RegistriesImpl
     }
 
     @Override
-    public PagedList<Registry> list() {
-        final RegistriesImpl self = this;
-        return new GroupPagedList<Registry>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<Registry> listNextGroup(String resourceGroupName) {
-                return wrapList(self.inner().listByResourceGroup(resourceGroupName));
-
-            }
-        };
+    public PagedIterable<Registry> list() {
+        return new PagedIterable<>(this.listAsync());
     }
 
     @Override
-    public Observable<Registry> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<Registry>>() {
-                    @Override
-                    public Observable<Registry> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+    public PagedFlux<Registry> listAsync() {
+        return this.inner().listAsync()
+                .mapPage(inner -> new RegistryImpl(inner.getName(), inner, this.manager(), this.storageManager));
     }
 
     @Override
-    public Observable<Registry> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<Registry> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
     }
 
 
     @Override
-    public PagedList<Registry> listByResourceGroup(String groupName) {
+    public PagedIterable<Registry> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
     }
 
     @Override
-    protected Observable<RegistryInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Mono<RegistryInner> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
@@ -93,8 +80,8 @@ public class RegistriesImpl
     }
 
     @Override
-    protected Completable deleteInnerAsync(String groupName, String name) {
-        return this.inner().deleteAsync(groupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String groupName, String name) {
+        return this.inner().deleteAsync(groupName, name);
     }
 
     /**************************************************************
@@ -115,7 +102,7 @@ public class RegistriesImpl
             return null;
         }
 
-        return new RegistryImpl(containerServiceInner.name(),
+        return new RegistryImpl(containerServiceInner.getName(),
                 containerServiceInner,
                 this.manager(),
                 this.storageManager);
@@ -127,14 +114,9 @@ public class RegistriesImpl
     }
 
     @Override
-    public Observable<RegistryCredentials> getCredentialsAsync(String resourceGroupName, String registryName) {
+    public Mono<RegistryCredentials> getCredentialsAsync(String resourceGroupName, String registryName) {
         return this.inner().listCredentialsAsync(resourceGroupName, registryName)
-            .map(new Func1<RegistryListCredentialsResultInner, RegistryCredentials>() {
-                @Override
-                public RegistryCredentials call(RegistryListCredentialsResultInner registryListCredentialsResultInner) {
-                    return new RegistryCredentialsImpl(registryListCredentialsResultInner);
-                }
-            });
+            .map(registryListCredentialsResultInner -> new RegistryCredentialsImpl(registryListCredentialsResultInner));
     }
 
     @Override
@@ -143,14 +125,9 @@ public class RegistriesImpl
     }
 
     @Override
-    public Observable<RegistryCredentials> regenerateCredentialAsync(String resourceGroupName, String registryName, AccessKeyType accessKeyType) {
+    public Mono<RegistryCredentials> regenerateCredentialAsync(String resourceGroupName, String registryName, AccessKeyType accessKeyType) {
         return this.inner().regenerateCredentialAsync(resourceGroupName, registryName, PasswordName.fromString(accessKeyType.toString()))
-            .map(new Func1<RegistryListCredentialsResultInner, RegistryCredentials>() {
-                @Override
-                public RegistryCredentials call(RegistryListCredentialsResultInner registryListCredentialsResultInner) {
-                    return new RegistryCredentialsImpl(registryListCredentialsResultInner);
-                }
-            });
+            .map(registryListCredentialsResultInner -> new RegistryCredentialsImpl(registryListCredentialsResultInner));
     }
 
     @Override
@@ -161,14 +138,14 @@ public class RegistriesImpl
     }
 
     @Override
-    public Observable<RegistryUsage> listQuotaUsagesAsync(String resourceGroupName, String registryName) {
-        return this.inner().listUsagesAsync(resourceGroupName, registryName)
-            .flatMap(new Func1<RegistryUsageListResultInner, Observable<RegistryUsage>>() {
-                @Override
-                public Observable<RegistryUsage> call(RegistryUsageListResultInner registryUsageListResultInner) {
-                    return registryUsageListResultInner.value() != null ? Observable.from(registryUsageListResultInner.value()) : null;
+    public PagedFlux<RegistryUsage> listQuotaUsagesAsync(String resourceGroupName, String registryName) {
+        return PagedConverter.convertListToPagedFlux(this.inner().listUsagesAsync(resourceGroupName, registryName)
+            .flatMap(registryUsageListResultInner -> {
+                if (registryUsageListResultInner.value() == null) {
+                    return Mono.empty();
                 }
-            });
+                return Mono.just(registryUsageListResultInner.value());
+            }));
     }
 
     @Override
@@ -177,30 +154,21 @@ public class RegistriesImpl
     }
 
     @Override
-    public Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
-        return this.inner().checkNameAvailabilityAsync(name).map(new Func1<RegistryNameStatusInner, CheckNameAvailabilityResult>() {
-            @Override
-            public CheckNameAvailabilityResult call(RegistryNameStatusInner registryNameStatusInner) {
-                return new CheckNameAvailabilityResultImpl(registryNameStatusInner);
-            }
-        });
+    public Mono<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name) {
+        return this.inner().checkNameAvailabilityAsync(name)
+            .map(registryNameStatusInner -> new CheckNameAvailabilityResultImpl(registryNameStatusInner));
     }
 
     @Override
     public SourceUploadDefinition getBuildSourceUploadUrl(String rgName, String acrName) {
-        return this.getBuildSourceUploadUrlAsync(rgName, acrName).toBlocking().single();
+        return this.getBuildSourceUploadUrlAsync(rgName, acrName).block();
     }
 
     @Override
-    public Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync(String rgName, String acrName) {
+    public Mono<SourceUploadDefinition> getBuildSourceUploadUrlAsync(String rgName, String acrName) {
         return this.manager().inner().registries()
                 .getBuildSourceUploadUrlAsync(rgName, acrName)
-                .map(new Func1<SourceUploadDefinitionInner, SourceUploadDefinition>() {
-                    @Override
-                    public SourceUploadDefinition call(SourceUploadDefinitionInner sourceUploadDefinitionInner) {
-                        return new SourceUploadDefinitionImpl(sourceUploadDefinitionInner);
-                    }
-                });
+                .map(sourceUploadDefinitionInner -> new SourceUploadDefinitionImpl(sourceUploadDefinitionInner));
     }
 
     @Override

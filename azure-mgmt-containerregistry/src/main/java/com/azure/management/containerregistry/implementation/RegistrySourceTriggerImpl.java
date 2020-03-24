@@ -5,7 +5,6 @@
  */
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerregistry.AuthInfo;
 import com.azure.management.containerregistry.AuthInfoUpdateParameters;
 import com.azure.management.containerregistry.RegistrySourceTrigger;
@@ -18,7 +17,7 @@ import com.azure.management.containerregistry.SourceTriggerUpdateParameters;
 import com.azure.management.containerregistry.SourceUpdateParameters;
 import com.azure.management.containerregistry.TokenType;
 import com.azure.management.containerregistry.TriggerStatus;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ class RegistrySourceTriggerImpl implements
     RegistrySourceTriggerImpl(String sourceTriggerName, RegistryTaskImpl registryTaskImpl, boolean creation) {
         if (creation) {
             this.registryTaskImpl = registryTaskImpl;
-            if (registryTaskImpl.inner().id() == null) {
+            if (registryTaskImpl.inner().getId() == null) {
                 this.inner = new SourceTrigger();
                 this.inner.withSourceRepository(new SourceProperties());
                 this.inner.withName(sourceTriggerName);
@@ -253,7 +252,7 @@ class RegistrySourceTriggerImpl implements
     }
 
     private boolean isInCreateMode() {
-        if (this.registryTaskImpl.inner().id() == null) {
+        if (this.registryTaskImpl.inner().getId() == null) {
             return true;
         }
         return false;

@@ -5,11 +5,10 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import reactor.core.publisher.Mono;
 
 /**
  * An immutable client-side representation of collection of Azure registry task runs.
@@ -30,7 +29,7 @@ public interface RegistryTaskRuns {
      * @param acrName the name of the parent registry.
      * @return the list of RegistryTaskRun instances.
      */
-    Observable<RegistryTaskRun> listByRegistryAsync(String rgName, String acrName);
+    PagedFlux<RegistryTaskRun> listByRegistryAsync(String rgName, String acrName);
 
     /**
      * The function that lists the RegistryTaskRun instances in a registry asynch.
@@ -39,7 +38,7 @@ public interface RegistryTaskRuns {
      * @param acrName the name of the parent registry.
      * @return the list of RegistryTaskRun instances.
      */
-    PagedList<RegistryTaskRun> listByRegistry(String rgName, String acrName);
+    PagedIterable<RegistryTaskRun> listByRegistry(String rgName, String acrName);
 
     /**
      * The function that returns the URI to the task run logs asynchronously.
@@ -49,7 +48,7 @@ public interface RegistryTaskRuns {
      * @param runId the id of the task run.
      * @return the URI to the task run logs.
      */
-    Observable<String> getLogSasUrlAsync(String rgName, String acrName, String runId);
+    Mono<String> getLogSasUrlAsync(String rgName, String acrName, String runId);
 
     /**
      * The function that returns the URI to the task run logs.
@@ -69,7 +68,7 @@ public interface RegistryTaskRuns {
      * @param runId the id of the task run.
      * @return handle to the request.
      */
-    Completable cancelAsync(String rgName, String acrName, String runId);
+    Mono<Void> cancelAsync(String rgName, String acrName, String runId);
 
     /**
      * The function that cancels a task run.

@@ -5,8 +5,6 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-
 /**
  * Defines an overriding argument that overrides arguments passed in for RegistryDockerTaskStep and RegistryDockerTaskRunRequest.
  */

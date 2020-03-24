@@ -7,18 +7,18 @@ package com.azure.management.containerregistry.implementation;
 
 import com.azure.management.containerregistry.Registry;
 import com.azure.management.containerregistry.Webhook;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
+import com.azure.management.containerregistry.models.WebhookInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
 
 /**
  * Represents a webhook collection associated with a container registry.
  */
 public class WebhooksImpl
     extends ExternalChildResourcesNonCachedImpl<WebhookImpl,
-        Webhook,
-                                                WebhookInner,
-                                                RegistryImpl,
-        Registry> {
+            Webhook,
+            WebhookInner,
+            RegistryImpl,
+            Registry> {
 
     /**
      * Creates a new ExternalNonInlineChildResourcesImpl.
@@ -31,14 +31,14 @@ public class WebhooksImpl
     }
 
     WebhookImpl defineWebhook(String name) {
-        return prepareInlineDefine(new WebhookImpl(name, this.parent(), new WebhookInner(), this.parent().manager()).setCreateMode(true));
+        return prepareInlineDefine(new WebhookImpl(name, this.getParent(), new WebhookInner(), this.getParent().manager()).setCreateMode(true));
     }
 
     WebhookImpl updateWebhook(String name) {
-        return prepareInlineUpdate(new WebhookImpl(name, this.parent(), new WebhookInner(), this.parent().manager()).setCreateMode(false));
+        return prepareInlineUpdate(new WebhookImpl(name, this.getParent(), new WebhookInner(), this.getParent().manager()).setCreateMode(false));
     }
 
     void withoutWebhook(String name) {
-        prepareInlineRemove(new WebhookImpl(name, this.parent(), new WebhookInner(), this.parent().manager()).setCreateMode(false));
+        prepareInlineRemove(new WebhookImpl(name, this.getParent(), new WebhookInner(), this.getParent().manager()).setCreateMode(false));
     }
 }

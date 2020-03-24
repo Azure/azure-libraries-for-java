@@ -6,14 +6,13 @@
 
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.containerregistry.EncodedTaskStepUpdateParameters;
-import com.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.azure.management.containerregistry.EncodedTaskStep;
+import com.azure.management.containerregistry.EncodedTaskStepUpdateParameters;
+import com.azure.management.containerregistry.OverridingValue;
+import com.azure.management.containerregistry.RegistryEncodedTaskStep;
 import com.azure.management.containerregistry.RegistryTask;
 import com.azure.management.containerregistry.SetValue;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.containerregistry.OverridingValue;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +65,7 @@ class RegistryEncodedTaskStepImpl
     @Override
     public RegistryEncodedTaskStepImpl withBase64EncodedTaskContent(String encodedTaskContent) {
         if (isInCreateMode()) {
-            this.inner.withBase64EncodedTaskContent(encodedTaskContent);
+            this.inner.withEncodedTaskContent(encodedTaskContent);
         } else {
             this.encodedTaskStepUpdateParameters.withEncodedTaskContent(encodedTaskContent);
         }
@@ -76,7 +75,7 @@ class RegistryEncodedTaskStepImpl
     @Override
     public RegistryEncodedTaskStepImpl withBase64EncodedValueContent(String encodedValueContent) {
         if (isInCreateMode()) {
-            this.inner.withBase64EncodedValuesContent(encodedValueContent);
+            this.inner.withEncodedValuesContent(encodedValueContent);
         } else {
             this.encodedTaskStepUpdateParameters.withEncodedValuesContent(encodedValueContent);
         }
@@ -139,7 +138,7 @@ class RegistryEncodedTaskStepImpl
     }
 
     private boolean isInCreateMode() {
-        if (this.taskImpl.inner().id() == null) {
+        if (this.taskImpl.inner().getId() == null) {
             return true;
         }
         return false;

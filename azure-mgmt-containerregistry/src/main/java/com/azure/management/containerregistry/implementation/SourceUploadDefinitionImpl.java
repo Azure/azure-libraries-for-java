@@ -6,8 +6,8 @@
 package com.azure.management.containerregistry.implementation;
 
 import com.azure.management.containerregistry.SourceUploadDefinition;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.containerregistry.models.SourceUploadDefinitionInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * Implementation for SourceUploadDefinition.

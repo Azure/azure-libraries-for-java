@@ -5,8 +5,7 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 import java.util.Map;
 

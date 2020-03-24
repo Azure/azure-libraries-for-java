@@ -5,15 +5,13 @@
  */
 package com.azure.management.containerregistry.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.containerregistry.Registries;
 import com.azure.management.containerregistry.Webhook;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.containerregistry.models.WebhooksInner;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
+import reactor.core.publisher.Mono;
 
 /**
  * Represents a webhook collection associated with a container registry.
@@ -29,30 +27,22 @@ public class WebhooksClientImpl implements Registries.WebhooksClient {
 
     @Override
     public Webhook get(final String resourceGroupName, final String registryName, final String webhookName) {
-        return this.getAsync(resourceGroupName, registryName, webhookName).toBlocking().single();
+        return this.getAsync(resourceGroupName, registryName, webhookName).block();
     }
 
     @Override
-    public Observable<Webhook> getAsync(final String resourceGroupName, final String registryName, final String webhookName) {
+    public Mono<Webhook> getAsync(final String resourceGroupName, final String registryName, final String webhookName) {
         final WebhooksClientImpl self = this;
         final WebhooksInner webhooksInner = this.containerRegistryManager.inner().webhooks();
 
         return webhooksInner.getAsync(resourceGroupName, registryName, webhookName)
-            .map(new Func1<WebhookInner, WebhookImpl>() {
-                @Override
-                public WebhookImpl call(WebhookInner webhookInner) {
-                    if (self.containerRegistry != null) {
-                        return new WebhookImpl(webhookName, self.containerRegistry, webhookInner, self.containerRegistryManager);
-                    } else {
-                        return new WebhookImpl(resourceGroupName, registryName, webhookName, webhookInner, self.containerRegistryManager);
-                    }
+            .map(webhookInner -> {
+                if (self.containerRegistry != null) {
+                    return new WebhookImpl(webhookName, self.containerRegistry, webhookInner, self.containerRegistryManager);
+                } else {
+                    return new WebhookImpl(resourceGroupName, registryName, webhookName, webhookInner, self.containerRegistryManager);
                 }
-            }).flatMap(new Func1<WebhookImpl, Observable<Webhook>>() {
-                @Override
-                public Observable<Webhook> call(WebhookImpl webhook) {
-                    return webhook.setCallbackConfigAsync();
-                }
-            });
+            }).flatMap(webhook -> webhook.setCallbackConfigAsync());
     }
 
     @Override
@@ -61,52 +51,27 @@ public class WebhooksClientImpl implements Registries.WebhooksClient {
     }
 
     @Override
-    public Completable deleteAsync(final String resourceGroupName, final String registryName, final String webhookName) {
-        return this.containerRegistryManager.inner().webhooks().deleteAsync(resourceGroupName, registryName, webhookName).toCompletable();
+    public Mono<Void> deleteAsync(final String resourceGroupName, final String registryName, final String webhookName) {
+        return this.containerRegistryManager.inner().webhooks().deleteAsync(resourceGroupName, registryName, webhookName);
     }
 
     @Override
-    public PagedList<Webhook> list(final String resourceGroupName, final String registryName) {
-        final WebhooksClientImpl self = this;
-        final PagedListConverter<WebhookInner, Webhook> converter = new PagedListConverter<WebhookInner, Webhook>() {
-            @Override
-            public Observable<Webhook> typeConvertAsync(WebhookInner inner) {
-                if (self.containerRegistry != null) {
-                    return new WebhookImpl(inner.name(), self.containerRegistry, inner, self.containerRegistryManager).setCallbackConfigAsync();
-                } else {
-                    return Observable.just((Webhook) new WebhookImpl(resourceGroupName, registryName, inner.name(), inner, self.containerRegistryManager));
-                }
-            }
-        };
-
-        return converter.convert(this.containerRegistryManager.inner().webhooks().list(resourceGroupName, registryName));
+    public PagedIterable<Webhook> list(final String resourceGroupName, final String registryName) {
+        return new PagedIterable<>(this.listAsync(resourceGroupName, registryName));
     }
 
     @Override
-    public Observable<Webhook> listAsync(final String resourceGroupName, final String registryName) {
+    public PagedFlux<Webhook> listAsync(final String resourceGroupName, final String registryName) {
         final WebhooksClientImpl self = this;
         final WebhooksInner webhooksInner = this.containerRegistryManager.inner().webhooks();
 
-        return webhooksInner.listAsync(resourceGroupName, registryName)
-            .flatMap(new Func1<Page<WebhookInner>, Observable<WebhookInner>>() {
-                @Override
-                public Observable<WebhookInner> call(Page<WebhookInner> webhookInnerPage) {
-                    return Observable.from(webhookInnerPage.items());
+        return PagedConverter.flatMapPage(webhooksInner.listAsync(resourceGroupName, registryName)
+             .mapPage(inner -> {
+                if (self.containerRegistry != null) {
+                    return new WebhookImpl(inner.getName(), self.containerRegistry, inner, self.containerRegistryManager);
+                } else {
+                    return new WebhookImpl(resourceGroupName, registryName, inner.getName(), inner, self.containerRegistryManager);
                 }
-            }).map(new Func1<WebhookInner, WebhookImpl>() {
-                @Override
-                public WebhookImpl call(WebhookInner inner) {
-                    if (self.containerRegistry != null) {
-                        return new WebhookImpl(inner.name(), self.containerRegistry, inner, self.containerRegistryManager);
-                    } else {
-                        return new WebhookImpl(resourceGroupName, registryName, inner.name(), inner, self.containerRegistryManager);
-                    }
-                }
-            }).flatMap(new Func1<WebhookImpl, Observable<Webhook>>() {
-                @Override
-                public Observable<Webhook> call(WebhookImpl webhook) {
-                    return webhook.setCallbackConfigAsync();
-                }
-            });
+            }), webhook -> webhook.setCallbackConfigAsync());
     }
 }

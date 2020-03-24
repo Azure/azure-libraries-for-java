@@ -5,14 +5,13 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.containerregistry.implementation.RunInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import org.joda.time.DateTime;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.containerregistry.models.RunInner;
+import com.azure.management.resources.fluentcore.model.Executable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
 
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 /**
@@ -50,12 +49,12 @@ public interface RegistryTaskRun extends
     /**
      * @return the last time the run request was updated
      */
-    DateTime lastUpdatedTime();
+    OffsetDateTime lastUpdatedTime();
 
     /**
      * @return the time when the run request was created
      */
-    DateTime createTime();
+    OffsetDateTime createTime();
 
     /**
      * @return whether archiving is enabled for the run request

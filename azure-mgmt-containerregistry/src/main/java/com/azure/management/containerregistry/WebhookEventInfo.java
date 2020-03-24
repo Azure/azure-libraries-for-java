@@ -5,8 +5,7 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 /**
  * Response containing the primary and secondary admin API keys for a given Azure Search service.

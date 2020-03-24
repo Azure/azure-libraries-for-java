@@ -8,8 +8,8 @@ package com.azure.management.containerregistry.implementation;
 import com.azure.management.containerregistry.EventRequestMessage;
 import com.azure.management.containerregistry.EventResponseMessage;
 import com.azure.management.containerregistry.WebhookEventInfo;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.containerregistry.models.EventInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * Response containing the webhook event info.

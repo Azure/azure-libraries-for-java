@@ -6,14 +6,12 @@
 
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerregistry.AgentProperties;
 import com.azure.management.containerregistry.Architecture;
 import com.azure.management.containerregistry.BaseImageTrigger;
 import com.azure.management.containerregistry.BaseImageTriggerType;
 import com.azure.management.containerregistry.BaseImageTriggerUpdateParameters;
 import com.azure.management.containerregistry.DockerBuildStepUpdateParameters;
-import com.azure.management.containerregistry.DockerTaskStep;
 import com.azure.management.containerregistry.EncodedTaskStep;
 import com.azure.management.containerregistry.EncodedTaskStepUpdateParameters;
 import com.azure.management.containerregistry.FileTaskStep;
@@ -38,22 +36,22 @@ import com.azure.management.containerregistry.TriggerProperties;
 import com.azure.management.containerregistry.TriggerStatus;
 import com.azure.management.containerregistry.TriggerUpdateParameters;
 import com.azure.management.containerregistry.Variant;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.containerregistry.models.TaskInner;
+import com.azure.management.containerregistry.models.TasksInner;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 class RegistryTaskImpl implements
         RegistryTask,
@@ -71,22 +69,22 @@ class RegistryTaskImpl implements
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String type() {
-        return this.inner().type();
+        return this.inner().getType();
     }
 
     @Override
     public String regionName() {
-        return this.inner().location();
+        return this.inner().getLocation();
     }
 
     @Override
@@ -115,7 +113,7 @@ class RegistryTaskImpl implements
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner.creationDate();
     }
 
@@ -190,10 +188,10 @@ class RegistryTaskImpl implements
 
     RegistryTaskImpl(ContainerRegistryManager registryManager, TaskInner inner) {
         this.tasksInner = registryManager.inner().tasks();
-        this.taskName = inner.name();
+        this.taskName = inner.getName();
         this.inner = inner;
-        this.resourceGroupName = ResourceUtils.groupFromResourceId(this.inner.id());
-        this.registryName = ResourceUtils.nameFromResourceId(ResourceUtils.parentResourceIdFromResourceId(this.inner.id()));
+        this.resourceGroupName = ResourceUtils.groupFromResourceId(this.inner.getId());
+        this.registryName = ResourceUtils.nameFromResourceId(ResourceUtils.parentResourceIdFromResourceId(this.inner.getId()));
         this.taskUpdateParameters = new TaskUpdateParameters();
         setTaskUpdateParameterTriggers();
     }
@@ -222,13 +220,13 @@ class RegistryTaskImpl implements
 
     @Override
     public DefinitionStages.Platform withLocation(String location) {
-        this.inner.withLocation(location);
+        this.inner.setLocation(location);
         return this;
     }
 
     @Override
     public DefinitionStages.Platform withLocation(Region location) {
-        this.inner.withLocation(location.toString());
+        this.inner.setLocation(location.toString());
         return this;
     }
 
@@ -409,50 +407,36 @@ class RegistryTaskImpl implements
 
     @Override
     public RegistryTask create() {
-        return (RegistryTask) createAsync().toBlocking().last();
+        return (RegistryTask) createAsync().blockLast();
     }
 
     @Override
-    public ServiceFuture<RegistryTask> createAsync(ServiceCallback<RegistryTask> callback) {
-        return ServiceFuture.fromBody(createAsync().map(new Func1<Indexable, RegistryTask>() {
-            @Override
-            public RegistryTask call(Indexable indexable) {
-                return (RegistryTask) indexable;
-            }
-        }), callback);
-    }
-
-    @Override
-    public Observable<Indexable> createAsync() {
+    public Flux<Indexable> createAsync() {
         final RegistryTaskImpl self = this;
-        return this.tasksInner.createAsync(this.resourceGroupName, this.registryName, this.taskName, this.inner).map(new Func1<TaskInner, Indexable>() {
-            @Override
-            public Indexable call(TaskInner taskInner) {
+        return this.tasksInner.createAsync(this.resourceGroupName, this.registryName, this.taskName, this.inner)
+            .flatMapMany(taskInner -> {
                 self.inner = taskInner;
                 self.taskUpdateParameters = new TaskUpdateParameters();
                 self.setTaskUpdateParameterTriggers();
-                return self;
-            }
-        });
+                return Mono.just(self);
+            });
     }
 
     @Override
     public RegistryTask refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().block();
     }
 
     @Override
-    public Observable<RegistryTask> refreshAsync() {
+    public Mono<RegistryTask> refreshAsync() {
         final RegistryTaskImpl self = this;
-        return this.tasksInner.getAsync(this.resourceGroupName, this.registryName, this.taskName).map(new Func1<TaskInner, RegistryTask>() {
-            @Override
-            public RegistryTask call(TaskInner taskInner) {
+        return this.tasksInner.getAsync(this.resourceGroupName, this.registryName, this.taskName)
+            .map(taskInner -> {
                 self.inner = taskInner;
                 self.taskUpdateParameters = new TaskUpdateParameters();
                 self.setTaskUpdateParameterTriggers();
                 return self;
-            }
-        });
+            });
     }
 
     @Override
@@ -509,32 +493,25 @@ class RegistryTaskImpl implements
 
     @Override
     public RegistryTask apply() {
-        return applyAsync().toBlocking().last();
+        return applyAsync().block();
     }
 
     @Override
-    public Observable<RegistryTask> applyAsync() {
+    public Mono<RegistryTask> applyAsync() {
         final RegistryTaskImpl self = this;
-        return this.tasksInner.updateAsync(this.resourceGroupName, this.registryName, this.taskName, this.taskUpdateParameters).map(new Func1<TaskInner, RegistryTask>() {
-            @Override
-            public RegistryTask call(TaskInner taskInner) {
+        return this.tasksInner.updateAsync(this.resourceGroupName, this.registryName, this.taskName, this.taskUpdateParameters)
+            .map(taskInner -> {
                 self.inner = taskInner;
                 self.taskUpdateParameters = new TaskUpdateParameters();
                 self.registryTaskStep = null;
                 self.taskUpdateParameters = new TaskUpdateParameters();
                 self.setTaskUpdateParameterTriggers();
                 return self;
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<RegistryTask> applyAsync(ServiceCallback<RegistryTask> callback) {
-        return ServiceFuture.fromBody(applyAsync(), callback);
+            });
     }
 
     private boolean isInCreateMode() {
-        if (this.inner().id() == null) {
+        if (this.inner().getId() == null) {
             return true;
         }
         return false;

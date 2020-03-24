@@ -6,14 +6,13 @@
 
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerregistry.FileTaskStep;
 import com.azure.management.containerregistry.FileTaskStepUpdateParameters;
+import com.azure.management.containerregistry.OverridingValue;
 import com.azure.management.containerregistry.RegistryFileTaskStep;
 import com.azure.management.containerregistry.RegistryTask;
 import com.azure.management.containerregistry.SetValue;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.containerregistry.OverridingValue;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -140,7 +139,7 @@ class RegistryFileTaskStepImpl
     }
 
     private boolean isInCreateMode() {
-        if (this.taskImpl.inner().id() == null) {
+        if (this.taskImpl.inner().getId() == null) {
             return true;
         }
         return false;

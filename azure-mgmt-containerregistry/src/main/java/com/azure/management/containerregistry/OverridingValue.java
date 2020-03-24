@@ -5,8 +5,6 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-
 /**
  * Defines an overriding value that overrides values passed in for RegistryFileTaskStep, RegistryFileTaskRunRequest, RegistryEncodedTaskStep, and RegistryEncodedTaskRunRequest.
  */

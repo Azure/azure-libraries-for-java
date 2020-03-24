@@ -5,10 +5,9 @@
  */
 package com.azure.management.containerregistry;
 
-import com.azure.management.containerregistry.implementation.RegistryNameStatusInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.containerregistry.models.RegistryNameStatusInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * The result of checking for container registry name availability.

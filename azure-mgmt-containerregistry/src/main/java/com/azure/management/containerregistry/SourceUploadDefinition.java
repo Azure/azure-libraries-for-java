@@ -5,10 +5,9 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.containerregistry.implementation.SourceUploadDefinitionInner;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.containerregistry.models.SourceUploadDefinitionInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * The source repository properties for a build task.

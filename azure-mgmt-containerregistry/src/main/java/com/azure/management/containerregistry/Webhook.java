@@ -5,21 +5,19 @@
  */
 package com.azure.management.containerregistry;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.containerregistry.implementation.WebhookInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.containerregistry.models.WebhookInner;
+import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Settable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.Map;
@@ -29,11 +27,11 @@ import java.util.Map;
  */
 @Fluent
 public interface Webhook extends
-    ExternalChildResource<Webhook, Registry>,
+        ExternalChildResource<Webhook, Registry>,
     Resource,
-    HasInner<WebhookInner>,
-    Refreshable<Webhook>,
-    Updatable<Webhook.Update> {
+        HasInner<WebhookInner>,
+        Refreshable<Webhook>,
+        Updatable<Webhook.Update> {
 
     /**
      * @return the status of the webhook
@@ -79,7 +77,6 @@ public interface Webhook extends
     /**
      * Changes the status of the webhook to "enabled".
      */
-    @Method
     void enable();
 
     /**
@@ -87,13 +84,11 @@ public interface Webhook extends
      *
      * @return a representation of the future computation of this call
      */
-    @Method
-    Completable enableAsync();
+    Mono<Void> enableAsync();
 
     /**
      * Changes the status of the webhook to "disabled".
      */
-    @Method
     void disable();
 
     /**
@@ -101,32 +96,27 @@ public interface Webhook extends
      *
      * @return a representation of the future computation of this call
      */
-    @Method
-    Completable disableAsync();
+    Mono<Void> disableAsync();
 
     /**
      * @return the id on an event info resource
      */
-    @Method
     String ping();
 
     /**
      * @return a representation of the future computation of this call, returning the id on an event info resource
      */
-    @Method
-    Observable<String> pingAsync();
+    Mono<String> pingAsync();
 
     /**
      * @return the list of event info object
      */
-    @Method
-    PagedList<WebhookEventInfo> listEvents();
+    PagedIterable<WebhookEventInfo> listEvents();
 
     /**
      * @return a representation of the future computation of this call, returning the list of event info object
      */
-    @Method
-    Observable<WebhookEventInfo> listEventsAsync();
+    PagedFlux<WebhookEventInfo> listEventsAsync();
 
     /**
      * Grouping of webhook definition stages.
@@ -417,7 +407,7 @@ public interface Webhook extends
         UpdateStages.WithRepositoriesScope,
         UpdateStages.WithDefaultStatus,
         Resource.UpdateWithTags<Update>,
-        Appliable<Webhook> {
+            Appliable<Webhook> {
     }
 
     /**
@@ -650,7 +640,7 @@ public interface Webhook extends
             WithRepositoriesScope<ParentT>,
             WithDefaultStatus<ParentT>,
             WithOrWithoutTags<ParentT>,
-            Settable<ParentT> {
+                Settable<ParentT> {
         }
     }
 }

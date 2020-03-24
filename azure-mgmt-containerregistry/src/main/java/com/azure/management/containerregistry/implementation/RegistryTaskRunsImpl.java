@@ -5,15 +5,12 @@
  */
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.containerregistry.RegistryTaskRun;
 import com.azure.management.containerregistry.RegistryTaskRuns;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.containerregistry.models.RunInner;
+import reactor.core.publisher.Mono;
 
 class RegistryTaskRunsImpl implements RegistryTaskRuns {
 
@@ -30,55 +27,35 @@ class RegistryTaskRunsImpl implements RegistryTaskRuns {
     }
 
     @Override
-    public Observable<RegistryTaskRun> listByRegistryAsync(String rgName, String acrName) {
+    public PagedFlux<RegistryTaskRun> listByRegistryAsync(String rgName, String acrName) {
         return this.registryManager.inner().runs().listAsync(rgName, acrName)
-                .flatMapIterable(new Func1<Page<RunInner>, Iterable<RunInner>>() {
-                    @Override
-                    public Iterable<RunInner> call(Page<RunInner> page) {
-                        return page.items();
-                    }
-                })
-                .map(new Func1<RunInner, RegistryTaskRun>() {
-                    @Override
-                    public RegistryTaskRun call(RunInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .mapPage(inner -> wrapModel(inner));
     }
 
     @Override
-    public PagedList<RegistryTaskRun> listByRegistry(String rgName, String acrName) {
-        return (new PagedListConverter<RunInner, RegistryTaskRun>() {
-            @Override
-            public Observable<RegistryTaskRun> typeConvertAsync(final RunInner inner) {
-                return Observable.<RegistryTaskRun>just(wrapModel(inner));
-            }
-        }).convert(this.registryManager.inner().runs().list(rgName, acrName));
+    public PagedIterable<RegistryTaskRun> listByRegistry(String rgName, String acrName) {
+        return new PagedIterable<>(this.listByRegistryAsync(rgName, acrName));
     }
 
     @Override
-    public Observable<String> getLogSasUrlAsync(String rgName, String acrName, String runId) {
-        return this.registryManager.inner().runs().getLogSasUrlAsync(rgName, acrName, runId).map(new Func1<RunGetLogResultInner, String>() {
-            @Override
-            public String call(RunGetLogResultInner runGetLogResultInner) {
-                return runGetLogResultInner.logLink();
-            }
-        });
+    public Mono<String> getLogSasUrlAsync(String rgName, String acrName, String runId) {
+        return this.registryManager.inner().runs().getLogSasUrlAsync(rgName, acrName, runId)
+            .map(runGetLogResultInner -> runGetLogResultInner.logLink());
     }
 
     @Override
     public String getLogSasUrl(String rgName, String acrName, String runId) {
-        return this.getLogSasUrlAsync(rgName, acrName, runId).toBlocking().last();
+        return this.getLogSasUrlAsync(rgName, acrName, runId).block();
     }
 
     @Override
-    public Completable cancelAsync(String rgName, String acrName, String runId) {
-        return this.registryManager.inner().runs().cancelAsync(rgName, acrName, runId).toCompletable();
+    public Mono<Void> cancelAsync(String rgName, String acrName, String runId) {
+        return this.registryManager.inner().runs().cancelAsync(rgName, acrName, runId);
     }
 
     @Override
     public void cancel(String rgName, String acrName, String runId) {
-        this.cancelAsync(rgName, acrName, runId).await();
+        this.cancelAsync(rgName, acrName, runId).block();
     }
 
     private RegistryTaskRunImpl wrapModel(RunInner innerModel) {

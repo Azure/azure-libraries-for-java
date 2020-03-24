@@ -5,11 +5,11 @@
  */
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.containerregistry.AccessKeyType;
 import com.azure.management.containerregistry.RegistryCredentials;
 import com.azure.management.containerregistry.RegistryPassword;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.containerregistry.models.RegistryListCredentialsResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.Collections;
 import java.util.HashMap;

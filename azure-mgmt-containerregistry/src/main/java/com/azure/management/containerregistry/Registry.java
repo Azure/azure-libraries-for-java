@@ -5,22 +5,20 @@
  */
 package com.azure.management.containerregistry;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.containerregistry.implementation.ContainerRegistryManager;
-import com.azure.management.containerregistry.implementation.RegistryInner;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.microsoft.azure.management.storage.StorageAccount;
-import org.joda.time.DateTime;
-import rx.Observable;
+import com.azure.management.containerregistry.models.RegistryInner;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.storage.StorageAccount;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.Collection;
 
 /**
@@ -29,8 +27,8 @@ import java.util.Collection;
 @Fluent
 public interface Registry extends
     GroupableResource<ContainerRegistryManager, RegistryInner>,
-    Refreshable<Registry>,
-    Updatable<Registry.Update> {
+        Refreshable<Registry>,
+        Updatable<Registry.Update> {
 
     /**
      * @return the SKU of the container registry.
@@ -45,7 +43,7 @@ public interface Registry extends
     /**
      * @return the creation date of the container registry in ISO8601 format
      */
-    DateTime creationDate();
+    OffsetDateTime creationDate();
 
     /**
      * @return the value that indicates whether the admin user is enabled
@@ -65,14 +63,12 @@ public interface Registry extends
     /**
      * @return the login credentials for the specified container registry
      */
-    @Method
     RegistryCredentials getCredentials();
 
     /**
      * @return a representation of the future computation of this call
      */
-    @Method
-    Observable<RegistryCredentials> getCredentialsAsync();
+    Mono<RegistryCredentials> getCredentialsAsync();
 
     /**
      * Regenerates one of the login credentials for the specified container registry.
@@ -87,14 +83,13 @@ public interface Registry extends
      * @param accessKeyType the admin user access key name to regenerate the value for
      * @return a representation of the future computation of this call
      */
-    Observable<RegistryCredentials> regenerateCredentialAsync(AccessKeyType accessKeyType);
+    Mono<RegistryCredentials> regenerateCredentialAsync(AccessKeyType accessKeyType);
 
     /**
      * Lists the quota usages for the specified container registry.
      *
      * @return the list of container registry's quota usages
      */
-    @Method
     Collection<RegistryUsage> listQuotaUsages();
 
     /**
@@ -102,8 +97,7 @@ public interface Registry extends
      *
      * @return a representation of the future computation of this call
      */
-    @Method
-    Observable<RegistryUsage> listQuotaUsagesAsync();
+    PagedFlux<RegistryUsage> listQuotaUsagesAsync();
 
     /**
      * @return returns the upload location for the user to be able to upload the source.
@@ -115,7 +109,7 @@ public interface Registry extends
      *
      * @return a representation of the future computation of this call
      */
-    Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync();
+    Mono<SourceUploadDefinition> getBuildSourceUploadUrlAsync();
 
     /**
      * @return returns entry point to manage container registry webhooks.

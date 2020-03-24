@@ -6,10 +6,8 @@
 
 package com.azure.management.containerregistry.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.containerregistry.AccessKeyType;
-//import com.microsoft.azure.management.containerregistry.BuildTaskOperations;
-//import com.microsoft.azure.management.containerregistry.QueuedBuildOperations;
 import com.azure.management.containerregistry.Registry;
 import com.azure.management.containerregistry.RegistryCredentials;
 import com.azure.management.containerregistry.RegistryTaskRun;
@@ -20,16 +18,16 @@ import com.azure.management.containerregistry.SkuName;
 import com.azure.management.containerregistry.SourceUploadDefinition;
 import com.azure.management.containerregistry.StorageAccountProperties;
 import com.azure.management.containerregistry.WebhookOperations;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.storage.StorageAccount;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
-import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.containerregistry.models.RegistryInner;
+import com.azure.management.containerregistry.models.RunInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.storage.StorageAccount;
+import com.azure.management.storage.implementation.StorageManager;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.Collection;
 
 /**
@@ -37,10 +35,10 @@ import java.util.Collection;
  */
 public class RegistryImpl
         extends GroupableResourceImpl<
-                                    Registry,
-                                    RegistryInner,
-                                    RegistryImpl,
-                                    ContainerRegistryManager>
+                Registry,
+                RegistryInner,
+                RegistryImpl,
+                ContainerRegistryManager>
         implements Registry,
         Registry.Definition,
         Registry.Update {
@@ -63,7 +61,7 @@ public class RegistryImpl
     }
 
     @Override
-    protected Observable<RegistryInner> getInnerAsync() {
+    protected Mono<RegistryInner> getInnerAsync() {
         return this.manager().inner().registries().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -74,7 +72,7 @@ public class RegistryImpl
     }
 
     @Override
-    public Observable<Registry> createResourceAsync() {
+    public Mono<Registry> createResourceAsync() {
         final RegistryImpl self = this;
         if (isInCreateMode()) {
             if (self.creatableStorageAccountKey != null) {
@@ -94,9 +92,9 @@ public class RegistryImpl
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+    public Mono<Void> afterPostRunAsync(boolean isGroupFaulted) {
         this.webhooks.clear();
-        return Completable.complete();
+        return Mono.empty();
     }
 
 
@@ -111,7 +109,7 @@ public class RegistryImpl
     }
 
     @Override
-    public DateTime creationDate() {
+    public OffsetDateTime creationDate() {
         return this.inner().creationDate();
     }
 
@@ -126,7 +124,7 @@ public class RegistryImpl
             return null;
         }
 
-        return ResourceUtils.nameFromResourceId(this.inner().storageAccount().id());
+        return ResourceUtils.nameFromResourceId(this.inner().storageAccount().getId());
     }
 
     @Override
@@ -135,7 +133,7 @@ public class RegistryImpl
             return null;
         }
 
-        return this.inner().storageAccount().id();
+        return this.inner().storageAccount().getId();
     }
 
     @Override
@@ -246,7 +244,7 @@ public class RegistryImpl
     }
 
     @Override
-    public Observable<RegistryCredentials> getCredentialsAsync() {
+    public Mono<RegistryCredentials> getCredentialsAsync() {
         return this.manager().containerRegistries()
             .getCredentialsAsync(this.resourceGroupName(), this.name());
     }
@@ -258,7 +256,7 @@ public class RegistryImpl
     }
 
     @Override
-    public Observable<RegistryCredentials> regenerateCredentialAsync(AccessKeyType accessKeyType) {
+    public Mono<RegistryCredentials> regenerateCredentialAsync(AccessKeyType accessKeyType) {
         return this.manager().containerRegistries()
             .regenerateCredentialAsync(this.resourceGroupName(), this.name(), accessKeyType);
     }
@@ -270,7 +268,7 @@ public class RegistryImpl
     }
 
     @Override
-    public Observable<RegistryUsage> listQuotaUsagesAsync() {
+    public PagedFlux<RegistryUsage> listQuotaUsagesAsync() {
         return this.manager().containerRegistries()
             .listQuotaUsagesAsync(this.resourceGroupName(), this.name());
     }
@@ -303,19 +301,14 @@ public class RegistryImpl
 
     @Override
     public SourceUploadDefinition getBuildSourceUploadUrl() {
-        return this.getBuildSourceUploadUrlAsync().toBlocking().single();
+        return this.getBuildSourceUploadUrlAsync().block();
     }
 
     @Override
-    public Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync() {
+    public Mono<SourceUploadDefinition> getBuildSourceUploadUrlAsync() {
         return this.manager().inner().registries()
             .getBuildSourceUploadUrlAsync(this.resourceGroupName(), this.name())
-            .map(new Func1<SourceUploadDefinitionInner, SourceUploadDefinition>() {
-                @Override
-                public SourceUploadDefinition call(SourceUploadDefinitionInner sourceUploadDefinitionInner) {
-                    return new SourceUploadDefinitionImpl(sourceUploadDefinitionInner);
-                }
-            });
+            .map(sourceUploadDefinitionInner -> new SourceUploadDefinitionImpl(sourceUploadDefinitionInner));
     }
 
     @Override

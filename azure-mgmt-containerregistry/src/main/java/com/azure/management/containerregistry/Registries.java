@@ -5,24 +5,22 @@
  */
 package com.azure.management.containerregistry;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.containerregistry.implementation.ContainerRegistryManager;
-import com.azure.management.containerregistry.implementation.RegistriesInner;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.containerregistry.models.RegistriesInner;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 
@@ -31,16 +29,16 @@ import java.util.Collection;
  */
 @Fluent()
 public interface Registries extends
-    SupportsCreating<Registry.DefinitionStages.Blank>,
-    HasManager<ContainerRegistryManager>,
-    HasInner<RegistriesInner>,
-    SupportsBatchCreation<Registry>,
-    SupportsGettingById<Registry>,
-    SupportsDeletingById,
-    SupportsDeletingByResourceGroup,
-    SupportsListingByResourceGroup<Registry>,
-    SupportsGettingByResourceGroup<Registry>,
-    SupportsListing<Registry> {
+        SupportsCreating<Registry.DefinitionStages.Blank>,
+        HasManager<ContainerRegistryManager>,
+        HasInner<RegistriesInner>,
+        SupportsBatchCreation<Registry>,
+        SupportsGettingById<Registry>,
+        SupportsDeletingById,
+        SupportsDeletingByResourceGroup,
+        SupportsListingByResourceGroup<Registry>,
+        SupportsGettingByResourceGroup<Registry>,
+        SupportsListing<Registry> {
 
     /**
      * Gets the login credentials for the specified container registry.
@@ -58,7 +56,7 @@ public interface Registries extends
      * @param registryName the registry name
      * @return a representation of the future computation of this call, returning the container registry's login credentials
      */
-    Observable<RegistryCredentials> getCredentialsAsync(String resourceGroupName, String registryName);
+    Mono<RegistryCredentials> getCredentialsAsync(String resourceGroupName, String registryName);
 
     /**
      * Regenerates the value for one of the admin user access key for the specified container registry.
@@ -78,7 +76,7 @@ public interface Registries extends
      * @param accessKeyType the admin user access key name to regenerate the value for
      * @return a representation of the future computation of this call, returning the container registry's login credentials
      */
-    Observable<RegistryCredentials> regenerateCredentialAsync(String resourceGroupName, String registryName, AccessKeyType accessKeyType);
+    Mono<RegistryCredentials> regenerateCredentialAsync(String resourceGroupName, String registryName, AccessKeyType accessKeyType);
 
     /**
      * Lists the quota usages for the specified container registry.
@@ -96,7 +94,7 @@ public interface Registries extends
      * @param registryName the registry name
      * @return a representation of the future computation of this call, returning the list of container registry's quota usages
      */
-    Observable<RegistryUsage> listQuotaUsagesAsync(String resourceGroupName, String registryName);
+    PagedFlux<RegistryUsage> listQuotaUsagesAsync(String resourceGroupName, String registryName);
 
     /**
      * Checks if the specified container registry name is valid and available.
@@ -112,7 +110,7 @@ public interface Registries extends
      * @param name the container registry name to check
      * @return a representation of the future computation of this call, returning whether the name is available or other info if not
      */
-    Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
+    Mono<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
 
     /**
      * The function that gets the URL of the build source upload.
@@ -130,7 +128,7 @@ public interface Registries extends
      * @param acrName the name of the container.
      * @return the URL of the build source upload.
      */
-    Observable<SourceUploadDefinition> getBuildSourceUploadUrlAsync(String rgName, String acrName);
+    Mono<SourceUploadDefinition> getBuildSourceUploadUrlAsync(String rgName, String acrName);
 
 
 
@@ -163,7 +161,7 @@ public interface Registries extends
          * @param webhookName the name of the webhook
          * @return a representation of the future computation of this call, returning the Webhook object
          */
-        Observable<Webhook> getAsync(String resourceGroupName, String registryName, String webhookName);
+        Mono<Webhook> getAsync(String resourceGroupName, String registryName, String webhookName);
 
         /**
          * Deletes a webhook from the container registry.
@@ -182,7 +180,7 @@ public interface Registries extends
          * @param webhookName the name of the webhook
          * @return a representation of the future computation of this call
          */
-        Completable deleteAsync(String resourceGroupName, String registryName, String webhookName);
+        Mono<Void> deleteAsync(String resourceGroupName, String registryName, String webhookName);
 
         /**
          * Lists all the webhooks for the container registry.
@@ -191,7 +189,7 @@ public interface Registries extends
          * @param registryName the registry name
          * @return the list of all the webhooks for the specified container registry
          */
-        PagedList<Webhook> list(String resourceGroupName, String registryName);
+        PagedIterable<Webhook> list(String resourceGroupName, String registryName);
 
         /**
          * Lists all the webhooks for the container registry.
@@ -200,7 +198,7 @@ public interface Registries extends
          * @param registryName the registry name
          * @return a representation of the future computation of this call, returning the list of all the webhooks for the specified container registry
          */
-        Observable<Webhook> listAsync(String resourceGroupName, String registryName);
+        PagedFlux<Webhook> listAsync(String resourceGroupName, String registryName);
 
     }
 

@@ -4,24 +4,23 @@
  * license information.
  */
 
-package com.microsoft.azure.management.dns;
+package com.azure.management.dns;
 
 
-import com.microsoft.azure.CloudError;
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
-import org.junit.Assert;
-import org.junit.Test;
-import rx.exceptions.CompositeException;
-import rx.functions.Action0;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.CloudError;
+import com.azure.core.management.CloudException;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.core.TestUtilities;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.implementation.ResourceManager;
+import com.azure.management.dns.implementation.DnsZoneManager;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DnsZoneRecordSetETagTests extends TestBase {
-    private static String RG_NAME = "";
+    private String RG_NAME = "";
 
     public DnsZoneRecordSetETagTests() {
         super(TestBase.RunCondition.BOTH);
@@ -34,9 +33,10 @@ public class DnsZoneRecordSetETagTests extends TestBase {
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         resourceManager = ResourceManager
                 .authenticate(restClient)
+                .withSdkContext(sdkContext)
                 .withSubscription(defaultSubscription);
         zoneManager = DnsZoneManager
-                .authenticate(restClient, defaultSubscription);
+                .authenticate(restClient, defaultSubscription, sdkContext);
         RG_NAME = generateRandomResourceName("dnsetagtest", 15);
     }
 
@@ -54,17 +54,13 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                 .withNewResourceGroup(RG_NAME, region)
                 .withETagCheck()
                 .create();
-        Assert.assertNotNull(dnsZone.eTag());
-        Action0 action = new Action0() {
-            @Override
-            public void call() {
-                zoneManager.zones().define(topLevelDomain)
-                        .withNewResourceGroup(RG_NAME, region)
-                        .withETagCheck()
-                        .create();
-            }
-        };
-        ensureETagExceptionIsThrown(action);
+        Assertions.assertNotNull(dnsZone.eTag());
+
+        Runnable runnable = () -> zoneManager.zones().define(topLevelDomain)
+                .withNewResourceGroup(RG_NAME, region)
+                .withETagCheck()
+                .create();
+        ensureETagExceptionIsThrown(runnable);
     }
 
     @Test
@@ -76,16 +72,12 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                 .withNewResourceGroup(RG_NAME, region)
                 .withETagCheck()
                 .create();
-        Assert.assertNotNull(dnsZone.eTag());
-        Action0 action = new Action0() {
-            @Override
-            public void call() {
-                dnsZone.update()
-                        .withETagCheck(dnsZone.eTag() + "-foo")
-                        .apply();
-            }
-        };
-        ensureETagExceptionIsThrown(action);
+        Assertions.assertNotNull(dnsZone.eTag());
+
+        Runnable runnable = () -> dnsZone.update()
+                .withETagCheck(dnsZone.eTag() + "-foo")
+                .apply();
+        ensureETagExceptionIsThrown(runnable);
         dnsZone.update()
                 .withETagCheck(dnsZone.eTag())
                 .apply();
@@ -100,14 +92,10 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                 .withNewResourceGroup(RG_NAME, region)
                 .withETagCheck()
                 .create();
-        Assert.assertNotNull(dnsZone.eTag());
-        Action0 action = new Action0() {
-            @Override
-            public void call() {
-                zoneManager.zones().deleteById(dnsZone.id(), dnsZone.eTag() + "-foo");
-            }
-        };
-        ensureETagExceptionIsThrown(action);
+        Assertions.assertNotNull(dnsZone.eTag());
+
+        Runnable runnable = () -> zoneManager.zones().deleteById(dnsZone.id(), dnsZone.eTag() + "-foo");
+        ensureETagExceptionIsThrown(runnable);
         zoneManager.zones().deleteById(dnsZone.id(), dnsZone.eTag());
     }
 
@@ -144,31 +132,34 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                 .create();
 
         // Check A records
-        PagedList<ARecordSet> aRecordSets = dnsZone.aRecordSets().list();
-        Assert.assertTrue(aRecordSets.size() == 1);
-        Assert.assertTrue(aRecordSets.get(0).timeToLive() == 7200);
+        PagedIterable<ARecordSet> aRecordSets = dnsZone.aRecordSets().list();
+        Assertions.assertTrue(TestUtilities.getSize(aRecordSets) == 1);
+        ARecordSet aRecordSet1 = aRecordSets.iterator().next();
+        Assertions.assertTrue(aRecordSet1.timeToLive() == 7200);
 
         // Check AAAA records
-        PagedList<AaaaRecordSet> aaaaRecordSets = dnsZone.aaaaRecordSets().list();
-        Assert.assertTrue(aaaaRecordSets.size() == 1);
-        Assert.assertTrue(aaaaRecordSets.get(0).name().startsWith("www"));
-        Assert.assertTrue(aaaaRecordSets.get(0).ipv6Addresses().size() == 2);
+        PagedIterable<AaaaRecordSet> aaaaRecordSets = dnsZone.aaaaRecordSets().list();
+        Assertions.assertTrue(TestUtilities.getSize(aaaaRecordSets) == 1);
+        AaaaRecordSet aaaaRecordSet1 = aaaaRecordSets.iterator().next();
+        Assertions.assertTrue(aaaaRecordSet1.name().startsWith("www"));
+        Assertions.assertTrue(aaaaRecordSet1.ipv6Addresses().size() == 2);
 
         // Check CNAME records
-        PagedList<CNameRecordSet> cnameRecordSets = dnsZone.cNameRecordSets().list();
-        Assert.assertTrue(cnameRecordSets.size() == 2);
+        PagedIterable<CNameRecordSet> cnameRecordSets = dnsZone.cNameRecordSets().list();
+        Assertions.assertTrue(TestUtilities.getSize(cnameRecordSets) == 2);
 
         // Check Caa records
-        PagedList<CaaRecordSet> caaRecordSets = dnsZone.caaRecordSets().list();
-        Assert.assertTrue(caaRecordSets.size() == 1);
-        Assert.assertTrue(caaRecordSets.get(0).name().startsWith("caaname"));
-        Assert.assertTrue(caaRecordSets.get(0).records().get(0).value().equalsIgnoreCase("someValue"));
-        Assert.assertEquals(4, (long) caaRecordSets.get(0).records().get(0).flags());
-        Assert.assertTrue(caaRecordSets.get(0).fqdn().startsWith("caaname.www.contoso"));
+        PagedIterable<CaaRecordSet> caaRecordSets = dnsZone.caaRecordSets().list();
+        Assertions.assertTrue(TestUtilities.getSize(caaRecordSets) == 1);
+        CaaRecordSet caaRecordSet1 = caaRecordSets.iterator().next();
+        Assertions.assertTrue(caaRecordSet1.name().startsWith("caaname"));
+        Assertions.assertTrue(caaRecordSet1.records().get(0).value().equalsIgnoreCase("someValue"));
+        Assertions.assertEquals(4, (long) caaRecordSet1.records().get(0).flags());
+        Assertions.assertTrue(caaRecordSet1.fqdn().startsWith("caaname.www.contoso"));
 
-        Assert.assertEquals(ZoneType.PRIVATE , dnsZone.accessType());
+        Assertions.assertEquals(ZoneType.PRIVATE , dnsZone.accessType());
 
-        CompositeException compositeException = null;
+        Exception  compositeException = null;
         try {
             zoneManager.zones().define(topLevelDomain)
                     .withNewResourceGroup(RG_NAME, region)
@@ -193,17 +184,19 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                         .withETagCheck()
                         .attach()
                     .create();
-        } catch (CompositeException exception) {
+        } catch (Exception exception) {
             compositeException = exception;
         }
-        Assert.assertNotNull(compositeException);
-        Assert.assertEquals(4, compositeException.getExceptions().size());
-        for(Throwable exception : compositeException.getExceptions()) {
-            Assert.assertTrue(exception instanceof CloudException);
-            CloudError cloudError = ((CloudException) exception).body();
-            Assert.assertNotNull(cloudError);
-            Assert.assertNotNull(cloudError.code());
-            Assert.assertTrue(cloudError.code().contains("PreconditionFailed"));
+        Assertions.assertNotNull(compositeException);
+
+        Assertions.assertEquals(5, compositeException.getSuppressed().length);
+        for(int i = 0; i < 4; ++i) {
+            Throwable exception = compositeException.getSuppressed()[i];
+            Assertions.assertTrue(exception instanceof CloudException);
+            CloudError cloudError = ((CloudException) exception).getValue();
+            Assertions.assertNotNull(cloudError);
+            Assertions.assertNotNull(cloudError.getCode());
+            Assertions.assertTrue(cloudError.getCode().contains("PreconditionFailed"));
         }
     }
 
@@ -228,22 +221,22 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                 .create();
 
         // Check A records
-        PagedList<ARecordSet> aRecordSets = dnsZone.aRecordSets().list();
-        Assert.assertTrue(aRecordSets.size() == 1);
-        ARecordSet aRecordSet = aRecordSets.get(0);
-        Assert.assertNotNull(aRecordSet.eTag());
+        PagedIterable<ARecordSet> aRecordSets = dnsZone.aRecordSets().list();
+        Assertions.assertTrue(TestUtilities.getSize(aRecordSets) == 1);
+        ARecordSet aRecordSet = aRecordSets.iterator().next();
+        Assertions.assertNotNull(aRecordSet.eTag());
 
         // Check AAAA records
-        PagedList<AaaaRecordSet> aaaaRecordSets = dnsZone.aaaaRecordSets().list();
-        Assert.assertTrue(aaaaRecordSets.size() == 1);
-        AaaaRecordSet aaaaRecordSet = aaaaRecordSets.get(0);
-        Assert.assertNotNull(aaaaRecordSet.eTag());
+        PagedIterable<AaaaRecordSet> aaaaRecordSets = dnsZone.aaaaRecordSets().list();
+        Assertions.assertTrue(TestUtilities.getSize(aaaaRecordSets) == 1);
+        AaaaRecordSet aaaaRecordSet = aaaaRecordSets.iterator().next();
+        Assertions.assertNotNull(aaaaRecordSet.eTag());
 
         // by default zone access type should be public
-        Assert.assertEquals(ZoneType.PUBLIC, dnsZone.accessType());
+        Assertions.assertEquals(ZoneType.PUBLIC, dnsZone.accessType());
         // Try updates with invalid eTag
         //
-        CompositeException compositeException = null;
+        Exception compositeException = null;
         try {
             dnsZone.update()
                 .updateARecordSet("www")
@@ -253,17 +246,18 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                     .withETagCheck(aaaaRecordSet.eTag() + "-foo")
                     .parent()
                 .apply();
-        } catch (CompositeException exception) {
+        } catch (Exception exception) {
             compositeException = exception;
         }
-        Assert.assertNotNull(compositeException);
-        Assert.assertEquals(2, compositeException.getExceptions().size());
-        for(Throwable exception : compositeException.getExceptions()) {
-            Assert.assertTrue(exception instanceof CloudException);
-            CloudError cloudError = ((CloudException) exception).body();
-            Assert.assertNotNull(cloudError);
-            Assert.assertNotNull(cloudError.code());
-            Assert.assertTrue(cloudError.code().contains("PreconditionFailed"));
+        Assertions.assertNotNull(compositeException);
+        Assertions.assertEquals(3, compositeException.getSuppressed().length);
+        for(int i = 0; i < 2; ++i) {
+            Throwable exception = compositeException.getSuppressed()[i];
+            Assertions.assertTrue(exception instanceof CloudException);
+            CloudError cloudError = ((CloudException) exception).getValue();
+            Assertions.assertNotNull(cloudError);
+            Assertions.assertNotNull(cloudError.getCode());
+            Assertions.assertTrue(cloudError.getCode().contains("PreconditionFailed"));
         }
         // Try update with correct etags
         dnsZone.update()
@@ -278,16 +272,16 @@ public class DnsZoneRecordSetETagTests extends TestBase {
 
         // Check A records
         aRecordSets = dnsZone.aRecordSets().list();
-        Assert.assertTrue(aRecordSets.size() == 1);
-        aRecordSet = aRecordSets.get(0);
-        Assert.assertNotNull(aRecordSet.eTag());
-        Assert.assertTrue(aRecordSet.ipv4Addresses().size() == 3);
+        Assertions.assertTrue(TestUtilities.getSize(aRecordSets) == 1);
+        aRecordSet = aRecordSets.iterator().next();
+        Assertions.assertNotNull(aRecordSet.eTag());
+        Assertions.assertTrue(aRecordSet.ipv4Addresses().size() == 3);
 
         // Check AAAA records
         aaaaRecordSets = dnsZone.aaaaRecordSets().list();
-        Assert.assertTrue(aaaaRecordSets.size() == 1);
-        aaaaRecordSet = aaaaRecordSets.get(0);
-        Assert.assertNotNull(aaaaRecordSet.eTag());
+        Assertions.assertTrue(TestUtilities.getSize(aaaaRecordSets) == 1);
+        aaaaRecordSet = aaaaRecordSets.iterator().next();
+        Assertions.assertNotNull(aaaaRecordSet.eTag());
     }
 
     @Test
@@ -311,36 +305,37 @@ public class DnsZoneRecordSetETagTests extends TestBase {
                 .create();
 
         // Check A records
-        PagedList<ARecordSet> aRecordSets = dnsZone.aRecordSets().list();
-        Assert.assertTrue(aRecordSets.size() == 1);
-        ARecordSet aRecordSet = aRecordSets.get(0);
-        Assert.assertNotNull(aRecordSet.eTag());
+        PagedIterable<ARecordSet> aRecordSets = dnsZone.aRecordSets().list();
+        Assertions.assertTrue(TestUtilities.getSize(aRecordSets) == 1);
+        ARecordSet aRecordSet = aRecordSets.iterator().next();
+        Assertions.assertNotNull(aRecordSet.eTag());
 
         // Check AAAA records
-        PagedList<AaaaRecordSet> aaaaRecordSets = dnsZone.aaaaRecordSets().list();
-        Assert.assertTrue(aaaaRecordSets.size() == 1);
-        AaaaRecordSet aaaaRecordSet = aaaaRecordSets.get(0);
-        Assert.assertNotNull(aaaaRecordSet.eTag());
+        PagedIterable<AaaaRecordSet> aaaaRecordSets = dnsZone.aaaaRecordSets().list();
+        Assertions.assertTrue(TestUtilities.getSize(aaaaRecordSets) == 1);
+        AaaaRecordSet aaaaRecordSet = aaaaRecordSets.iterator().next();
+        Assertions.assertNotNull(aaaaRecordSet.eTag());
 
         // Try delete with invalid eTag
         //
-        CompositeException compositeException = null;
+        Exception compositeException = null;
         try {
             dnsZone.update()
                     .withoutARecordSet("www", aRecordSet.eTag() + "-foo")
                     .withoutAaaaRecordSet("www", aaaaRecordSet.eTag() + "-foo")
                     .apply();
-        } catch (CompositeException exception) {
+        } catch (Exception exception) {
             compositeException = exception;
         }
-        Assert.assertNotNull(compositeException);
-        Assert.assertEquals(2, compositeException.getExceptions().size());
-        for(Throwable exception : compositeException.getExceptions()) {
-            Assert.assertTrue(exception instanceof CloudException);
-            CloudError cloudError = ((CloudException) exception).body();
-            Assert.assertNotNull(cloudError);
-            Assert.assertNotNull(cloudError.code());
-            Assert.assertTrue(cloudError.code().contains("PreconditionFailed"));
+        Assertions.assertNotNull(compositeException);
+        Assertions.assertEquals(3, compositeException.getSuppressed().length);
+        for(int i = 0; i < 2; ++i) {
+            Throwable exception = compositeException.getSuppressed()[i];
+            Assertions.assertTrue(exception instanceof CloudException);
+            CloudError cloudError = ((CloudException) exception).getValue();
+            Assertions.assertNotNull(cloudError);
+            Assertions.assertNotNull(cloudError.getCode());
+            Assertions.assertTrue(cloudError.getCode().contains("PreconditionFailed"));
         }
         // Try delete with correct etags
         dnsZone.update()
@@ -350,36 +345,36 @@ public class DnsZoneRecordSetETagTests extends TestBase {
 
         // Check A records
         aRecordSets = dnsZone.aRecordSets().list();
-        Assert.assertTrue(aRecordSets.size() == 0);
+        Assertions.assertTrue(TestUtilities.getSize(aRecordSets) == 0);
 
         // Check AAAA records
         aaaaRecordSets = dnsZone.aaaaRecordSets().list();
-        Assert.assertTrue(aaaaRecordSets.size() == 0);
+        Assertions.assertTrue(TestUtilities.getSize(aaaaRecordSets) == 0);
     }
 
     /**
      * Runs the action and assert that action throws CloudException with CloudError.Code
      * property set to 'PreconditionFailed'.
      *
-     * @param action action to run
+     * @param runnable runnable to run
      */
-    private void ensureETagExceptionIsThrown(final Action0 action) {
+    private void ensureETagExceptionIsThrown(final Runnable runnable) {
         boolean isCloudExceptionThrown = false;
         boolean isCloudErrorSet = false;
         boolean isPreconditionFailedCodeSet = false;
         try {
-            action.call();
+            runnable.run();
         } catch (CloudException exception) {
             isCloudExceptionThrown = true;
-            CloudError cloudError = exception.body();
+            CloudError cloudError = exception.getValue();
             if (cloudError != null) {
                 isCloudErrorSet = true;
-                isPreconditionFailedCodeSet = cloudError.code().contains("PreconditionFailed");
+                isPreconditionFailedCodeSet = cloudError.getCode().contains("PreconditionFailed");
             }
         }
-        Assert.assertTrue("Expected CloudException is not thrown", isCloudExceptionThrown);
-        Assert.assertTrue("Expected CloudError property is not set in CloudException", isCloudErrorSet);
-        Assert.assertTrue("Expected PreconditionFailed code is not set indicating ETag concurrency check failure", isPreconditionFailedCodeSet);
+        Assertions.assertTrue(isCloudExceptionThrown, "Expected CloudException is not thrown");
+        Assertions.assertTrue(isCloudErrorSet, "Expected CloudError property is not set in CloudException");
+        Assertions.assertTrue(isPreconditionFailedCodeSet, "Expected PreconditionFailed code is not set indicating ETag concurrency check failure");
     }
 }
 

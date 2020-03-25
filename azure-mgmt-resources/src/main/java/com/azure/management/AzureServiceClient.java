@@ -94,10 +94,20 @@ public abstract class AzureServiceClient {
 
     private String sdkName;
 
+    /**
+     * Gets serializer adapter for JSON serialization/de-serialization.
+     *
+     * @return the serializer adapter.
+     */
     public SerializerAdapter getSerializerAdapter() {
         return this.serializerAdapter;
     }
 
+    /**
+     * Gets default client context.
+     *
+     * @return the default client context.
+     */
     public Context getContext() {
         Context context = new Context("java.version", JAVA_VERSION);
         if (!CoreUtils.isNullOrEmpty(OS_NAME)) {
@@ -117,6 +127,17 @@ public abstract class AzureServiceClient {
         return context;
     }
 
+    /**
+     * Gets long running operation result.
+     *
+     * @param lroInit the raw response of init operation.
+     * @param httpPipeline the http pipeline.
+     * @param pollResultType type of poll result.
+     * @param finalResultType type of final result.
+     * @param <T> type of poll result.
+     * @param <U> type of final result.
+     * @return poller flux for poll result and final result.
+     */
     public <T, U> PollerFlux<PollResult<T>, U> getLroResultAsync(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit,
                                                                  HttpPipeline httpPipeline,
                                                                  Type pollResultType, Type finalResultType) {
@@ -146,7 +167,8 @@ public abstract class AzureServiceClient {
         return "Unknown";
     }
 
-    static class DateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
+    // this should be moved to core-mgmt when stable.
+    private static class DateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
 
         public static SimpleModule getModule() {
             SimpleModule module = new SimpleModule();

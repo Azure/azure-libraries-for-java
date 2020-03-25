@@ -3,19 +3,19 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.MXRecordSet;
-import com.microsoft.azure.management.dns.MXRecordSets;
-import com.microsoft.azure.management.dns.RecordType;
-import rx.Observable;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.MXRecordSet;
+import com.azure.management.dns.MXRecordSets;
+import com.azure.management.dns.RecordType;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation of MXRecordSets.
  */
-@LangDefinition
 class MXRecordSetsImpl
         extends DnsRecordSetsBaseImpl<MXRecordSet, MXRecordSetImpl>
         implements MXRecordSets {
@@ -25,25 +25,28 @@ class MXRecordSetsImpl
     }
 
     @Override
-    public MXRecordSetImpl getByName(String name) {
-        RecordSetInner inner = this.parent().manager().inner().recordSets().get(this.dnsZone.resourceGroupName(),
-                this.dnsZone.name(),
-                name,
-                this.recordType);
-        if (inner == null) {
-            return null;
-        }
-        return new MXRecordSetImpl(inner.name(), this.dnsZone, inner);
+    public MXRecordSet getByName(String name) {
+        return getByNameAsync(name).block();
     }
 
     @Override
-    public PagedList<MXRecordSet> list() {
+    public Mono<MXRecordSet> getByNameAsync(String name) {
+        return this.parent().manager().inner().recordSets().getAsync(this.dnsZone.resourceGroupName(),
+                this.dnsZone.name(),
+                name,
+                this.recordType)
+                .onErrorResume(e -> Mono.empty())
+                .map(this::wrapModel);
+    }
+
+    @Override
+    public PagedIterable<MXRecordSet> list() {
         return super.wrapList(this.parent().manager().inner().recordSets().listByType(
                 this.dnsZone.resourceGroupName(), this.dnsZone.name(), this.recordType));
     }
 
     @Override
-    protected PagedList<MXRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
+    protected PagedIterable<MXRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
         return super.wrapList(this.parent().manager().inner().recordSets().listByType(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
@@ -53,7 +56,7 @@ class MXRecordSetsImpl
     }
 
     @Override
-    protected Observable<MXRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
+    protected PagedFlux<MXRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
         return wrapPageAsync(this.parent().manager().inner().recordSets().listByTypeAsync(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
@@ -65,6 +68,6 @@ class MXRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new MXRecordSetImpl(inner.name(), this.dnsZone, inner);
+        return new MXRecordSetImpl(inner.getName(), this.dnsZone, inner);
     }
 }

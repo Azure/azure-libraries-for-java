@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.RecordType;
-import com.microsoft.azure.management.dns.TxtRecord;
-import com.microsoft.azure.management.dns.TxtRecordSet;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.RecordType;
+import com.azure.management.dns.TxtRecord;
+import com.azure.management.dns.TxtRecordSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * Implementation of TxtRecordSet.
  */
-@LangDefinition
 class TxtRecordSetImpl
         extends DnsRecordSetImpl
         implements TxtRecordSet {
@@ -28,7 +27,7 @@ class TxtRecordSetImpl
     static TxtRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
         return new TxtRecordSetImpl(name, parent,
                 new RecordSetInner()
-                        .withTxtRecords(new ArrayList<TxtRecord>()));
+                        .withTxtRecords(new ArrayList<>()));
     }
 
     @Override
@@ -36,14 +35,14 @@ class TxtRecordSetImpl
         if (this.inner().txtRecords() != null) {
             return Collections.unmodifiableList(this.inner().txtRecords());
         }
-        return Collections.unmodifiableList(new ArrayList<TxtRecord>());
+        return Collections.unmodifiableList(new ArrayList<>());
     }
 
     @Override
     protected RecordSetInner prepareForUpdate(RecordSetInner resource) {
         if (this.inner().txtRecords() != null && this.inner().txtRecords().size() > 0) {
             if (resource.txtRecords() == null) {
-                resource.withTxtRecords(new ArrayList<TxtRecord>());
+                resource.withTxtRecords(new ArrayList<>());
             }
 
             resource.txtRecords().addAll(this.inner().txtRecords());

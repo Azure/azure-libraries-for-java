@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.PtrRecord;
-import com.microsoft.azure.management.dns.PtrRecordSet;
-import com.microsoft.azure.management.dns.RecordType;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.PtrRecord;
+import com.azure.management.dns.PtrRecordSet;
+import com.azure.management.dns.RecordType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * Implementation of {@link PtrRecordSet}.
  */
-@LangDefinition
 class PtrRecordSetImpl
         extends DnsRecordSetImpl
         implements PtrRecordSet {
@@ -28,7 +27,7 @@ class PtrRecordSetImpl
     static PtrRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
         return new PtrRecordSetImpl(name, parent,
                 new RecordSetInner()
-                        .withPtrRecords(new ArrayList<PtrRecord>()));
+                        .withPtrRecords(new ArrayList<>()));
     }
 
     @Override
@@ -46,7 +45,7 @@ class PtrRecordSetImpl
     protected RecordSetInner prepareForUpdate(RecordSetInner resource) {
         if (this.inner().ptrRecords() != null && this.inner().ptrRecords().size() > 0) {
             if (resource.ptrRecords() == null) {
-                resource.withPtrRecords(new ArrayList<PtrRecord>());
+                resource.withPtrRecords(new ArrayList<>());
             }
 
             resource.ptrRecords().addAll(this.inner().ptrRecords());

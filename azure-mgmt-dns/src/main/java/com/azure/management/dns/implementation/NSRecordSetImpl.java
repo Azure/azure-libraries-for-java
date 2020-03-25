@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.NsRecord;
-import com.microsoft.azure.management.dns.NSRecordSet;
-import com.microsoft.azure.management.dns.RecordType;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.NsRecord;
+import com.azure.management.dns.NSRecordSet;
+import com.azure.management.dns.RecordType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * Implementation of NSRecordSet.
  */
-@LangDefinition
 class NSRecordSetImpl
         extends DnsRecordSetImpl
         implements NSRecordSet {

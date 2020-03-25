@@ -3,19 +3,19 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.DnsZone;
-import com.microsoft.azure.management.dns.DnsZones;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
-import rx.Completable;
+import com.azure.management.dns.models.ZoneInner;
+import com.azure.management.dns.models.ZonesInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.dns.DnsZone;
+import com.azure.management.dns.DnsZones;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation of DnsZones.
  */
-@LangDefinition
 class DnsZonesImpl extends TopLevelModifiableResourcesImpl<
         DnsZone,
         DnsZoneImpl,
@@ -43,22 +43,22 @@ class DnsZonesImpl extends TopLevelModifiableResourcesImpl<
         if (inner == null) {
             return null;
         }
-        return new DnsZoneImpl(inner.name(), inner, this.manager());
+        return new DnsZoneImpl(inner.getName(), inner, this.manager());
     }
 
     private DnsZoneImpl setDefaults(DnsZoneImpl dnsZone) {
         // Zone location must be 'global' irrespective of region of the resource group it resides.
-        dnsZone.inner().withLocation("global");
+        dnsZone.inner().setLocation("global");
         return dnsZone;
     }
 
     @Override
-    public Completable deleteByResourceGroupNameAsync(String resourceGroupName, String zoneName, String eTagValue) {
-        return this.manager().inner().zones().deleteAsync(resourceGroupName, zoneName, eTagValue).toCompletable();
+    public Mono<Void> deleteByResourceGroupNameAsync(String resourceGroupName, String zoneName, String eTagValue) {
+        return this.manager().inner().zones().deleteAsync(resourceGroupName, zoneName, eTagValue);
     }
 
     @Override
-    public Completable deleteByIdAsync(String id, String eTagValue) {
+    public Mono<Void> deleteByIdAsync(String id, String eTagValue) {
         return deleteByResourceGroupNameAsync(ResourceUtils.groupFromResourceId(id),
                 ResourceUtils.nameFromResourceId(id),
                 eTagValue);
@@ -66,11 +66,11 @@ class DnsZonesImpl extends TopLevelModifiableResourcesImpl<
 
     @Override
     public void deleteByResourceGroupName(String resourceGroupName, String zoneName, String eTagValue) {
-        deleteByResourceGroupNameAsync(resourceGroupName, zoneName, eTagValue).await();
+        deleteByResourceGroupNameAsync(resourceGroupName, zoneName, eTagValue).block();
     }
 
     @Override
     public void deleteById(String id, String eTagValue) {
-        deleteByIdAsync(id, eTagValue).await();
+        deleteByIdAsync(id, eTagValue).block();
     }
 }

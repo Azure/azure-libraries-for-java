@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.ARecord;
-import com.microsoft.azure.management.dns.ARecordSet;
-import com.microsoft.azure.management.dns.RecordType;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.ARecord;
+import com.azure.management.dns.ARecordSet;
+import com.azure.management.dns.RecordType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * Implementation of ARecordSet.
  */
-@LangDefinition
 class ARecordSetImpl
         extends DnsRecordSetImpl
         implements ARecordSet {
@@ -28,7 +27,7 @@ class ARecordSetImpl
     static ARecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
         return new ARecordSetImpl(name, parent,
                 new RecordSetInner()
-                    .withARecords(new ArrayList<ARecord>()));
+                    .withARecords(new ArrayList<>()));
     }
 
     @Override
@@ -46,7 +45,7 @@ class ARecordSetImpl
     protected RecordSetInner prepareForUpdate(RecordSetInner resource) {
         if (this.inner().aRecords() != null && this.inner().aRecords().size() > 0) {
             if (resource.aRecords() == null) {
-                resource.withARecords(new ArrayList<ARecord>());
+                resource.withARecords(new ArrayList<>());
             }
 
             resource.aRecords().addAll(this.inner().aRecords());

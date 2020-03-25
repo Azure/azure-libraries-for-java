@@ -3,19 +3,19 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.CNameRecordSet;
-import com.microsoft.azure.management.dns.CNameRecordSets;
-import com.microsoft.azure.management.dns.RecordType;
-import rx.Observable;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.CNameRecordSet;
+import com.azure.management.dns.CNameRecordSets;
+import com.azure.management.dns.RecordType;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation of CNameRecordSets.
  */
-@LangDefinition
 class CNameRecordSetsImpl
         extends DnsRecordSetsBaseImpl<CNameRecordSet, CNameRecordSetImpl>
         implements CNameRecordSets {
@@ -26,19 +26,22 @@ class CNameRecordSetsImpl
 
     @Override
     public CNameRecordSet getByName(String name) {
-        RecordSetInner inner = this.parent().manager().inner().recordSets().get(
-                this.dnsZone.resourceGroupName(),
-                this.dnsZone.name(),
-                name,
-                this.recordType);
-        if (inner == null) {
-            return null;
-        }
-        return new CNameRecordSetImpl(inner.name(), this.dnsZone, inner);
+        return getByNameAsync(name).block();
     }
 
     @Override
-    protected PagedList<CNameRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
+    public Mono<CNameRecordSet> getByNameAsync(String name) {
+        return this.parent().manager().inner().recordSets().getAsync(
+                this.dnsZone.resourceGroupName(),
+                this.dnsZone.name(),
+                name,
+                this.recordType)
+                .onErrorResume(e -> Mono.empty())
+                .map(this::wrapModel);
+    }
+
+    @Override
+    protected PagedIterable<CNameRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
         return super.wrapList(this.parent().manager().inner().recordSets().listByType(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
@@ -48,7 +51,7 @@ class CNameRecordSetsImpl
     }
 
     @Override
-    protected Observable<CNameRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
+    protected PagedFlux<CNameRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
         return wrapPageAsync(this.parent().manager().inner().recordSets().listByTypeAsync(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
@@ -60,6 +63,6 @@ class CNameRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new CNameRecordSetImpl(inner.name(), this.dnsZone, inner);
+        return new CNameRecordSetImpl(inner.getName(), this.dnsZone, inner);
     }
 }

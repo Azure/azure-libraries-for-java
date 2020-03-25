@@ -3,19 +3,18 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.DnsRecordSets;
-import com.microsoft.azure.management.dns.RecordType;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import rx.Observable;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.azure.management.dns.DnsRecordSets;
+import com.azure.management.dns.RecordType;
 
 /**
  * The base implementation for Dns Record sets.
  */
-@LangDefinition
 abstract class DnsRecordSetsBaseImpl<RecordSetT, RecordSetImplT extends RecordSetT>
     extends
         ReadableWrappersImpl<RecordSetT, RecordSetImplT, RecordSetInner>
@@ -42,42 +41,42 @@ abstract class DnsRecordSetsBaseImpl<RecordSetT, RecordSetImplT extends RecordSe
     }
 
     @Override
-    public PagedList<RecordSetT> list() {
+    public PagedIterable<RecordSetT> list() {
         return listIntern(null, null);
     }
 
     @Override
-    public PagedList<RecordSetT> list(String recordSetNameSuffix) {
+    public PagedIterable<RecordSetT> list(String recordSetNameSuffix) {
         return listIntern(recordSetNameSuffix, null);
     }
 
     @Override
-    public PagedList<RecordSetT> list(int pageSize) {
+    public PagedIterable<RecordSetT> list(int pageSize) {
         return listIntern(null, pageSize);
     }
 
     @Override
-    public PagedList<RecordSetT> list(String recordSetNameSuffix, int pageSize) {
+    public PagedIterable<RecordSetT> list(String recordSetNameSuffix, int pageSize) {
         return listIntern(recordSetNameSuffix, pageSize);
     }
 
     @Override
-    public Observable<RecordSetT> listAsync() {
+    public PagedFlux<RecordSetT> listAsync() {
         return listInternAsync(null, null);
     }
 
     @Override
-    public Observable<RecordSetT> listAsync(String recordSetNameSuffix) {
+    public PagedFlux<RecordSetT> listAsync(String recordSetNameSuffix) {
         return listInternAsync(recordSetNameSuffix, null);
     }
 
     @Override
-    public Observable<RecordSetT> listAsync(int pageSize) {
+    public PagedFlux<RecordSetT> listAsync(int pageSize) {
         return listInternAsync(null, pageSize);
     }
 
     @Override
-    public Observable<RecordSetT> listAsync(String recordSetNameSuffix, int pageSize) {
+    public PagedFlux<RecordSetT> listAsync(String recordSetNameSuffix, int pageSize) {
         return listInternAsync(recordSetNameSuffix, pageSize);
     }
 
@@ -86,6 +85,6 @@ abstract class DnsRecordSetsBaseImpl<RecordSetT, RecordSetImplT extends RecordSe
         return this.dnsZone;
     }
 
-    protected abstract PagedList<RecordSetT> listIntern(String recordSetNameSuffix, Integer pageSize);
-    protected abstract Observable<RecordSetT> listInternAsync(String recordSetNameSuffix, Integer pageSize);
+    protected abstract PagedIterable<RecordSetT> listIntern(String recordSetNameSuffix, Integer pageSize);
+    protected abstract PagedFlux<RecordSetT> listInternAsync(String recordSetNameSuffix, Integer pageSize);
 }

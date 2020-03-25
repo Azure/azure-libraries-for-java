@@ -3,17 +3,16 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.CnameRecord;
-import com.microsoft.azure.management.dns.CNameRecordSet;
-import com.microsoft.azure.management.dns.RecordType;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.CnameRecord;
+import com.azure.management.dns.CNameRecordSet;
+import com.azure.management.dns.RecordType;
 
 /**
  * Implementation of CNameRecordSet.
  */
-@LangDefinition
 class CNameRecordSetImpl
         extends DnsRecordSetImpl
         implements CNameRecordSet {

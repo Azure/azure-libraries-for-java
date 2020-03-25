@@ -3,23 +3,22 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.DnsRecordSet;
-import com.microsoft.azure.management.dns.DnsZone;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesNonCachedImpl;
+import com.azure.management.dns.DnsRecordSet;
+import com.azure.management.dns.DnsZone;
 
 /**
  * Represents an record set collection associated with a DNS zone.
  */
-@LangDefinition
 class DnsRecordSetsImpl extends
         ExternalChildResourcesNonCachedImpl<DnsRecordSetImpl,
-                                        DnsRecordSet,
-                                        RecordSetInner,
-                                        DnsZoneImpl,
-                                        DnsZone> {
+                        DnsRecordSet,
+                        RecordSetInner,
+                        DnsZoneImpl,
+                        DnsZone> {
     /**
      * The default record set ttl in seconds.
      */
@@ -35,121 +34,121 @@ class DnsRecordSetsImpl extends
     }
 
     DnsRecordSetImpl defineARecordSet(String name) {
-        return setDefaults(prepareInlineDefine(ARecordSetImpl.newRecordSet(name, this.parent())));
+        return setDefaults(prepareInlineDefine(ARecordSetImpl.newRecordSet(name, this.getParent())));
     }
 
     DnsRecordSetImpl defineAaaaRecordSet(String name) {
-        return setDefaults(prepareInlineDefine(AaaaRecordSetImpl.newRecordSet(name, this.parent())));
+        return setDefaults(prepareInlineDefine(AaaaRecordSetImpl.newRecordSet(name, this.getParent())));
     }
 
     void withCNameRecordSet(String name, String alias) {
-        CNameRecordSetImpl recordSet = CNameRecordSetImpl.newRecordSet(name, this.parent());
+        CNameRecordSetImpl recordSet = CNameRecordSetImpl.newRecordSet(name, this.getParent());
         recordSet.inner().cnameRecord().withCname(alias);
         setDefaults(prepareInlineDefine(recordSet.withTimeToLive(defaultTtlInSeconds)));
     }
 
     DnsRecordSetImpl defineCaaRecordSet(String name) {
-        return setDefaults(prepareInlineDefine(CaaRecordSetImpl.newRecordSet(name, this.parent())));
+        return setDefaults(prepareInlineDefine(CaaRecordSetImpl.newRecordSet(name, this.getParent())));
     }
 
     DnsRecordSetImpl defineCNameRecordSet(String name) {
-        return setDefaults(prepareInlineDefine(CNameRecordSetImpl.newRecordSet(name, this.parent())));
+        return setDefaults(prepareInlineDefine(CNameRecordSetImpl.newRecordSet(name, this.getParent())));
     }
 
     DnsRecordSetImpl defineMXRecordSet(String name) {
-        return setDefaults(prepareInlineDefine(MXRecordSetImpl.newRecordSet(name, this.parent())));
+        return setDefaults(prepareInlineDefine(MXRecordSetImpl.newRecordSet(name, this.getParent())));
     }
 
     DnsRecordSetImpl defineNSRecordSet(String name) {
-        return setDefaults(prepareInlineDefine(NSRecordSetImpl.newRecordSet(name, this.parent())));
+        return setDefaults(prepareInlineDefine(NSRecordSetImpl.newRecordSet(name, this.getParent())));
     }
 
     DnsRecordSetImpl definePtrRecordSet(String name) {
-        return setDefaults(prepareInlineDefine(PtrRecordSetImpl.newRecordSet(name, this.parent())));
+        return setDefaults(prepareInlineDefine(PtrRecordSetImpl.newRecordSet(name, this.getParent())));
     }
 
     DnsRecordSetImpl defineSrvRecordSet(String name) {
-        return setDefaults(prepareInlineDefine(SrvRecordSetImpl.newRecordSet(name, this.parent())));
+        return setDefaults(prepareInlineDefine(SrvRecordSetImpl.newRecordSet(name, this.getParent())));
     }
 
     DnsRecordSetImpl defineTxtRecordSet(String name) {
-        return setDefaults(prepareInlineDefine(TxtRecordSetImpl.newRecordSet(name, this.parent())));
+        return setDefaults(prepareInlineDefine(TxtRecordSetImpl.newRecordSet(name, this.getParent())));
     }
 
     DnsRecordSetImpl updateARecordSet(String name) {
-        return prepareInlineUpdate(ARecordSetImpl.newRecordSet(name, this.parent()));
+        return prepareInlineUpdate(ARecordSetImpl.newRecordSet(name, this.getParent()));
     }
 
     DnsRecordSetImpl updateAaaaRecordSet(String name) {
-        return prepareInlineUpdate(AaaaRecordSetImpl.newRecordSet(name, this.parent()));
+        return prepareInlineUpdate(AaaaRecordSetImpl.newRecordSet(name, this.getParent()));
     }
 
     DnsRecordSetImpl updateMXRecordSet(String name) {
-        return prepareInlineUpdate(MXRecordSetImpl.newRecordSet(name, this.parent()));
+        return prepareInlineUpdate(MXRecordSetImpl.newRecordSet(name, this.getParent()));
     }
 
     DnsRecordSetImpl updateCaaRecordSet(String name) {
-        return prepareInlineUpdate(CaaRecordSetImpl.newRecordSet(name, this.parent()));
+        return prepareInlineUpdate(CaaRecordSetImpl.newRecordSet(name, this.getParent()));
     }
 
     DnsRecordSetImpl updateCNameRecordSet(String name) {
-        return prepareInlineUpdate(CNameRecordSetImpl.newRecordSet(name, this.parent()));
+        return prepareInlineUpdate(CNameRecordSetImpl.newRecordSet(name, this.getParent()));
     }
 
     DnsRecordSetImpl updateNSRecordSet(String name) {
-        return prepareInlineUpdate(NSRecordSetImpl.newRecordSet(name, this.parent()));
+        return prepareInlineUpdate(NSRecordSetImpl.newRecordSet(name, this.getParent()));
     }
 
     DnsRecordSetImpl updatePtrRecordSet(String name) {
-        return prepareInlineUpdate(PtrRecordSetImpl.newRecordSet(name, this.parent()));
+        return prepareInlineUpdate(PtrRecordSetImpl.newRecordSet(name, this.getParent()));
     }
 
     DnsRecordSetImpl updateSrvRecordSet(String name) {
-        return prepareInlineUpdate(SrvRecordSetImpl.newRecordSet(name, this.parent()));
+        return prepareInlineUpdate(SrvRecordSetImpl.newRecordSet(name, this.getParent()));
     }
 
     DnsRecordSetImpl updateTxtRecordSet(String name) {
-        return prepareInlineUpdate(TxtRecordSetImpl.newRecordSet(name, this.parent()));
+        return prepareInlineUpdate(TxtRecordSetImpl.newRecordSet(name, this.getParent()));
     }
 
     DnsRecordSetImpl updateSoaRecordSet() {
-        return prepareInlineUpdate(SoaRecordSetImpl.newRecordSet(this.parent()));
+        return prepareInlineUpdate(SoaRecordSetImpl.newRecordSet(this.getParent()));
     }
 
     void withoutARecordSet(String name, String eTagValue) {
-        prepareInlineRemove(ARecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
+        prepareInlineRemove(ARecordSetImpl.newRecordSet(name, this.getParent()).withETagOnDelete(eTagValue));
     }
 
     void withoutAaaaRecordSet(String name, String eTagValue) {
-        prepareInlineRemove(AaaaRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
+        prepareInlineRemove(AaaaRecordSetImpl.newRecordSet(name, this.getParent()).withETagOnDelete(eTagValue));
     }
 
     void withoutCaaRecordSet(String name, String eTagValue) {
-        prepareInlineRemove(CaaRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
+        prepareInlineRemove(CaaRecordSetImpl.newRecordSet(name, this.getParent()).withETagOnDelete(eTagValue));
     }
 
     void withoutCNameRecordSet(String name, String eTagValue) {
-        prepareInlineRemove(CNameRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
+        prepareInlineRemove(CNameRecordSetImpl.newRecordSet(name, this.getParent()).withETagOnDelete(eTagValue));
     }
 
     void withoutMXRecordSet(String name, String eTagValue) {
-        prepareInlineRemove(MXRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
+        prepareInlineRemove(MXRecordSetImpl.newRecordSet(name, this.getParent()).withETagOnDelete(eTagValue));
     }
 
     void withoutNSRecordSet(String name, String eTagValue) {
-        prepareInlineRemove(NSRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
+        prepareInlineRemove(NSRecordSetImpl.newRecordSet(name, this.getParent()).withETagOnDelete(eTagValue));
     }
 
     void withoutPtrRecordSet(String name, String eTagValue) {
-        prepareInlineRemove(PtrRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
+        prepareInlineRemove(PtrRecordSetImpl.newRecordSet(name, this.getParent()).withETagOnDelete(eTagValue));
     }
 
     void withoutSrvRecordSet(String name, String eTagValue) {
-        prepareInlineRemove(SrvRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
+        prepareInlineRemove(SrvRecordSetImpl.newRecordSet(name, this.getParent()).withETagOnDelete(eTagValue));
     }
 
     void withoutTxtRecordSet(String name, String eTagValue) {
-        prepareInlineRemove(TxtRecordSetImpl.newRecordSet(name, this.parent()).withETagOnDelete(eTagValue));
+        prepareInlineRemove(TxtRecordSetImpl.newRecordSet(name, this.getParent()).withETagOnDelete(eTagValue));
     }
 
     private DnsRecordSetImpl setDefaults(DnsRecordSetImpl recordSet) {

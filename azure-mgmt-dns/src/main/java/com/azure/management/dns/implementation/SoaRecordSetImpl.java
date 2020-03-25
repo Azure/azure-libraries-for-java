@@ -3,17 +3,16 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.RecordType;
-import com.microsoft.azure.management.dns.SoaRecord;
-import com.microsoft.azure.management.dns.SoaRecordSet;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.RecordType;
+import com.azure.management.dns.SoaRecord;
+import com.azure.management.dns.SoaRecordSet;
 
 /**
  * Implementation of SoaRecordSet.
  */
-@LangDefinition
 class SoaRecordSetImpl
         extends DnsRecordSetImpl
         implements SoaRecordSet {

@@ -8,4 +8,4 @@
  * This package contains the implementation classes for DnsManagementClient.
  * The DNS Management Client.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;

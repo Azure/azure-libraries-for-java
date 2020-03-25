@@ -3,19 +3,19 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.AaaaRecordSet;
-import com.microsoft.azure.management.dns.AaaaRecordSets;
-import com.microsoft.azure.management.dns.RecordType;
-import rx.Observable;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.AaaaRecordSet;
+import com.azure.management.dns.AaaaRecordSets;
+import com.azure.management.dns.RecordType;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation of AaaaRecordSets.
  */
-@LangDefinition
 class AaaaRecordSetsImpl
         extends DnsRecordSetsBaseImpl<AaaaRecordSet, AaaaRecordSetImpl>
         implements AaaaRecordSets {
@@ -25,20 +25,28 @@ class AaaaRecordSetsImpl
     }
 
     @Override
-    public AaaaRecordSetImpl getByName(String name) {
-        RecordSetInner inner = this.parent().manager().inner().recordSets().get(this.dnsZone.resourceGroupName(),
-                this.dnsZone.name(),
-                name,
-                this.recordType);
-        if (inner == null) {
-            return null;
-        }
-        return new AaaaRecordSetImpl(inner.name(), this.dnsZone, inner);
+    public AaaaRecordSet getByName(String name) {
+        return getByNameAsync(name).block();
     }
 
     @Override
-    protected PagedList<AaaaRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
-        return super.wrapList(this.parent().manager().inner().recordSets().listByType(
+    public Mono<AaaaRecordSet> getByNameAsync(String name) {
+        return this.parent().manager().inner().recordSets().getAsync(this.dnsZone.resourceGroupName(),
+                this.dnsZone.name(),
+                name,
+                this.recordType)
+                .onErrorResume(e -> Mono.empty())
+                .map(this::wrapModel);
+    }
+
+    @Override
+    protected PagedIterable<AaaaRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
+        return new PagedIterable<>(listInternAsync(recordSetNameSuffix, pageSize));
+    }
+
+    @Override
+    protected PagedFlux<AaaaRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
+        return wrapPageAsync(this.parent().manager().inner().recordSets().listByTypeAsync(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
                 this.recordType,
@@ -47,18 +55,10 @@ class AaaaRecordSetsImpl
     }
 
     @Override
-    protected Observable<AaaaRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
-        return wrapPageAsync(this.parent().manager().inner().recordSets().listByTypeAsync(
-                this.dnsZone.resourceGroupName(),
-                this.dnsZone.name(),
-                this.recordType));
-    }
-
-    @Override
     protected AaaaRecordSetImpl wrapModel(RecordSetInner inner) {
         if (inner == null) {
             return null;
         }
-        return new AaaaRecordSetImpl(inner.name(), this.dnsZone, inner);
+        return new AaaaRecordSetImpl(inner.getName(), this.dnsZone, inner);
     }
 }

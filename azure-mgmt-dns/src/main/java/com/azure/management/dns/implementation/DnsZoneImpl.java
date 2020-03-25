@@ -3,32 +3,31 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.ARecordSets;
-import com.microsoft.azure.management.dns.AaaaRecordSets;
-import com.microsoft.azure.management.dns.CNameRecordSets;
-import com.microsoft.azure.management.dns.CaaRecordSets;
-import com.microsoft.azure.management.dns.DnsRecordSet;
-import com.microsoft.azure.management.dns.DnsZone;
-import com.microsoft.azure.management.dns.MXRecordSets;
-import com.microsoft.azure.management.dns.NSRecordSets;
-import com.microsoft.azure.management.dns.PtrRecordSets;
-import com.microsoft.azure.management.dns.RecordType;
-import com.microsoft.azure.management.dns.SoaRecordSet;
-import com.microsoft.azure.management.dns.SrvRecordSets;
-import com.microsoft.azure.management.dns.SubResource;
-import com.microsoft.azure.management.dns.TxtRecordSets;
-import com.microsoft.azure.management.dns.ZoneType;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func0;
-import rx.functions.Func1;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.SubResource;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.models.ZoneInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.utils.PagedConverter;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.dns.ARecordSets;
+import com.azure.management.dns.AaaaRecordSets;
+import com.azure.management.dns.CNameRecordSets;
+import com.azure.management.dns.CaaRecordSets;
+import com.azure.management.dns.DnsRecordSet;
+import com.azure.management.dns.DnsZone;
+import com.azure.management.dns.MXRecordSets;
+import com.azure.management.dns.NSRecordSets;
+import com.azure.management.dns.PtrRecordSets;
+import com.azure.management.dns.RecordType;
+import com.azure.management.dns.SoaRecordSet;
+import com.azure.management.dns.SrvRecordSets;
+import com.azure.management.dns.TxtRecordSets;
+import com.azure.management.dns.ZoneType;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +35,12 @@ import java.util.List;
 /**
  * Implementation for {@link DnsZone}.
  */
-@LangDefinition
 public class DnsZoneImpl
         extends GroupableResourceImpl<
-            DnsZone,
-            ZoneInner,
-            DnsZoneImpl,
-            DnsZoneManager>
+                DnsZone,
+                ZoneInner,
+                DnsZoneImpl,
+                DnsZoneManager>
         implements
             DnsZone,
             DnsZone.Definition,
@@ -95,7 +93,7 @@ public class DnsZoneImpl
         List<String> list = new ArrayList<>();
         if (this.inner().registrationVirtualNetworks() != null) {
             for (SubResource sb : this.inner().registrationVirtualNetworks()) {
-                list.add(sb.id());
+                list.add(sb.getId());
             }
         }
         return list;
@@ -106,29 +104,29 @@ public class DnsZoneImpl
         List<String> list = new ArrayList<>();
         if (this.inner().resolutionVirtualNetworks() != null) {
             for (SubResource sb : this.inner().resolutionVirtualNetworks()) {
-                list.add(sb.id());
+                list.add(sb.getId());
             }
         }
         return list;
     }
 
     @Override
-    public PagedList<DnsRecordSet> listRecordSets() {
+    public PagedIterable<DnsRecordSet> listRecordSets() {
         return this.listRecordSetsIntern(null, null);
     }
 
     @Override
-    public PagedList<DnsRecordSet> listRecordSets(String recordSetNameSuffix) {
+    public PagedIterable<DnsRecordSet> listRecordSets(String recordSetNameSuffix) {
         return this.listRecordSetsIntern(recordSetNameSuffix, null);
     }
 
     @Override
-    public PagedList<DnsRecordSet> listRecordSets(int pageSize) {
+    public PagedIterable<DnsRecordSet> listRecordSets(int pageSize) {
         return this.listRecordSetsIntern(null, pageSize);
     }
 
     @Override
-    public PagedList<DnsRecordSet> listRecordSets(String recordSetNameSuffix, int pageSize) {
+    public PagedIterable<DnsRecordSet> listRecordSets(String recordSetNameSuffix, int pageSize) {
         return this.listRecordSetsIntern(recordSetNameSuffix, pageSize);
     }
 
@@ -191,7 +189,7 @@ public class DnsZoneImpl
         if (inner == null) {
             return null;
         }
-        return new SoaRecordSetImpl(inner.name(), this, inner);
+        return new SoaRecordSetImpl(inner.getName(), this, inner);
     }
 
     // Setters
@@ -413,51 +411,46 @@ public class DnsZoneImpl
     }
 
     @Override
-    public Observable<DnsZone> createResourceAsync() {
-        final DnsZoneImpl self = this;
-        Func0<Observable<ZoneInner>> createOrUpdateAsync = new Func0<Observable<ZoneInner>>() {
-            @Override
-            public Observable<ZoneInner> call() {
-                if (self.isInCreateMode()) {
-                    return self.manager().inner().zones().createOrUpdateAsync(self.resourceGroupName(),
-                            self.name(), self.inner(), null/*IfMatch*/, self.dnsZoneETag/*IfNoneMatch*/);
-                } else {
-                    return self.manager().inner().zones().createOrUpdateAsync(self.resourceGroupName(),
-                            self.name(), self.inner(), self.dnsZoneETag/*IfMatch*/, null/*IfNoneMatch*/);
-                }
-            }
-        };
-        return createOrUpdateAsync.call()
-                .map(innerToFluentMap(this))
-                .map(new Func1<DnsZone, DnsZone>() {
-                    @Override
-                    public DnsZone call(DnsZone dnsZone) {
-                        self.dnsZoneETag = null;
-                        return dnsZone;
+    public Mono<DnsZone> createResourceAsync() {
+        return Mono.just(this)
+                .flatMap(self -> {
+                    if (self.isInCreateMode()) {
+                        return self.manager().inner().zones().createOrUpdateAsync(self.resourceGroupName(),
+                                self.name(), self.inner(), null/*IfMatch*/, self.dnsZoneETag/*IfNoneMatch*/);
+                    } else {
+                        return self.manager().inner().zones().createOrUpdateAsync(self.resourceGroupName(),
+                                self.name(), self.inner(), self.dnsZoneETag/*IfMatch*/, null/*IfNoneMatch*/);
                     }
+                })
+                .map(innerToFluentMap(this))
+                .map(dnsZone -> {
+                    this.dnsZoneETag = null;
+                    return dnsZone;
                 });
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
-        recordSets.clear();
-        return Completable.complete();
+    public Mono<Void> afterPostRunAsync(boolean isGroupFaulted) {
+        return Mono.just(true)
+                .map(ignored -> {
+                    recordSets.clear();
+                    return ignored;
+                })
+                .then();
     }
 
     @Override
-    public Observable<DnsZone> refreshAsync() {
-        return super.refreshAsync().map(new Func1<DnsZone, DnsZone>() {
-            @Override
-            public DnsZone call(DnsZone dnsZone) {
-                DnsZoneImpl impl = (DnsZoneImpl) dnsZone;
-                impl.initRecordSets();
-                return impl;
-            }
-        });
+    public Mono<DnsZone> refreshAsync() {
+        return super.refreshAsync()
+                .map(dnsZone -> {
+                    DnsZoneImpl impl = (DnsZoneImpl) dnsZone;
+                    impl.initRecordSets();
+                    return impl;
+                });
     }
 
     @Override
-    protected Observable<ZoneInner> getInnerAsync() {
+    protected Mono<ZoneInner> getInnerAsync() {
         return this.manager().inner().zones().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -474,39 +467,38 @@ public class DnsZoneImpl
         this.recordSets.clear();
     }
 
-    private PagedList<DnsRecordSet> listRecordSetsIntern(String recordSetSuffix, Integer pageSize) {
+    private PagedIterable<DnsRecordSet> listRecordSetsIntern(String recordSetSuffix, Integer pageSize) {
         final DnsZoneImpl self = this;
-        PagedListConverter<RecordSetInner, DnsRecordSet> converter = new PagedListConverter<RecordSetInner, DnsRecordSet>() {
-            @Override
-            public Observable<DnsRecordSet> typeConvertAsync(RecordSetInner inner) {
-                DnsRecordSet recordSet = new DnsRecordSetImpl(inner.name(), inner.type(), self, inner);
-                switch (recordSet.recordType()) {
-                    case A:
-                        return Observable.just((DnsRecordSet) new ARecordSetImpl(inner.name(), self, inner));
-                    case AAAA:
-                        return Observable.just((DnsRecordSet) new AaaaRecordSetImpl(inner.name(), self, inner));
-                    case CAA:
-                        return Observable.just((DnsRecordSet) new CaaRecordSetImpl(inner.name(), self, inner));
-                    case CNAME:
-                        return Observable.just((DnsRecordSet) new CNameRecordSetImpl(inner.name(), self, inner));
-                    case MX:
-                        return Observable.just((DnsRecordSet) new MXRecordSetImpl(inner.name(), self, inner));
-                    case NS:
-                        return Observable.just((DnsRecordSet) new NSRecordSetImpl(inner.name(), self, inner));
-                    case PTR:
-                        return Observable.just((DnsRecordSet) new PtrRecordSetImpl(inner.name(), self, inner));
-                    case SOA:
-                        return Observable.just((DnsRecordSet) new SoaRecordSetImpl(inner.name(), self, inner));
-                    case SRV:
-                        return Observable.just((DnsRecordSet) new SrvRecordSetImpl(inner.name(), self, inner));
-                    case TXT:
-                        return Observable.just((DnsRecordSet) new TxtRecordSetImpl(inner.name(), self, inner));
-                    default:
-                        return Observable.just(recordSet);
-                }
-            }
-        };
-        return converter.convert(manager().inner().recordSets().listByDnsZone(this.resourceGroupName(), this.name(), pageSize, recordSetSuffix));
+        PagedFlux<DnsRecordSet> recordSets = PagedConverter.flatMapPage(
+                this.manager().inner().recordSets().listByDnsZoneAsync(this.resourceGroupName(), this.name(), pageSize, recordSetSuffix),
+                inner -> {
+                    DnsRecordSet recordSet = new DnsRecordSetImpl(inner.getName(), inner.getType(), self, inner);
+                    switch (recordSet.recordType()) {
+                        case A:
+                            return Mono.just(new ARecordSetImpl(inner.getName(), self, inner));
+                        case AAAA:
+                            return Mono.just(new AaaaRecordSetImpl(inner.getName(), self, inner));
+                        case CAA:
+                            return Mono.just(new CaaRecordSetImpl(inner.getName(), self, inner));
+                        case CNAME:
+                            return Mono.just(new CNameRecordSetImpl(inner.getName(), self, inner));
+                        case MX:
+                            return Mono.just(new MXRecordSetImpl(inner.getName(), self, inner));
+                        case NS:
+                            return Mono.just(new NSRecordSetImpl(inner.getName(), self, inner));
+                        case PTR:
+                            return Mono.just(new PtrRecordSetImpl(inner.getName(), self, inner));
+                        case SOA:
+                            return Mono.just(new SoaRecordSetImpl(inner.getName(), self, inner));
+                        case SRV:
+                            return Mono.just(new SrvRecordSetImpl(inner.getName(), self, inner));
+                        case TXT:
+                            return Mono.just(new TxtRecordSetImpl(inner.getName(), self, inner));
+                        default:
+                            return Mono.just(recordSet);
+                    }
+                });
+        return new PagedIterable<>(recordSets);
     }
 
     @Override
@@ -528,16 +520,16 @@ public class DnsZoneImpl
     @Override
     public DnsZoneImpl withPrivateAccess(List<String> registrationVirtualNetworkIds, List<String> resolutionVirtualNetworkIds) {
         this.withPrivateAccess();
-        this.inner().withRegistrationVirtualNetworks(new ArrayList<SubResource>());
-        this.inner().withResolutionVirtualNetworks(new ArrayList<SubResource>());
+        this.inner().withRegistrationVirtualNetworks(new ArrayList<>());
+        this.inner().withResolutionVirtualNetworks(new ArrayList<>());
         for (String rvnId : registrationVirtualNetworkIds) {
             SubResource sb = new SubResource();
-            sb.withId(rvnId);
+            sb.setId(rvnId);
             this.inner().registrationVirtualNetworks().add(sb);
         }
         for (String rvnId : resolutionVirtualNetworkIds) {
             SubResource sb = new SubResource();
-            sb.withId(rvnId);
+            sb.setId(rvnId);
             this.inner().resolutionVirtualNetworks().add(sb);
         }
         return this;

@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.MXRecordSet;
-import com.microsoft.azure.management.dns.MxRecord;
-import com.microsoft.azure.management.dns.RecordType;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.MXRecordSet;
+import com.azure.management.dns.MxRecord;
+import com.azure.management.dns.RecordType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * Implementation of MXRecordSet.
  */
-@LangDefinition
 class MXRecordSetImpl
         extends DnsRecordSetImpl
         implements MXRecordSet {
@@ -28,7 +27,7 @@ class MXRecordSetImpl
     static MXRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
         return new MXRecordSetImpl(name, parent,
                 new RecordSetInner()
-                        .withMxRecords(new ArrayList<MxRecord>()));
+                        .withMxRecords(new ArrayList<>()));
     }
 
     @Override
@@ -36,14 +35,14 @@ class MXRecordSetImpl
         if (this.inner().mxRecords() != null) {
             return Collections.unmodifiableList(this.inner().mxRecords());
         }
-        return Collections.unmodifiableList(new ArrayList<MxRecord>());
+        return Collections.unmodifiableList(new ArrayList<>());
     }
 
     @Override
     protected RecordSetInner prepareForUpdate(RecordSetInner resource) {
         if (this.inner().mxRecords() != null && this.inner().mxRecords().size() > 0) {
             if (resource.mxRecords() == null) {
-                resource.withMxRecords(new ArrayList<MxRecord>());
+                resource.withMxRecords(new ArrayList<>());
             }
 
             resource.mxRecords().addAll(this.inner().mxRecords());

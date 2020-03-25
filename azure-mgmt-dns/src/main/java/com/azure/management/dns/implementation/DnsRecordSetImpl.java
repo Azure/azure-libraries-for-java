@@ -3,25 +3,23 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.google.common.base.Splitter;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.ARecord;
-import com.microsoft.azure.management.dns.AaaaRecord;
-import com.microsoft.azure.management.dns.CaaRecord;
-import com.microsoft.azure.management.dns.CnameRecord;
-import com.microsoft.azure.management.dns.DnsRecordSet;
-import com.microsoft.azure.management.dns.DnsZone;
-import com.microsoft.azure.management.dns.MxRecord;
-import com.microsoft.azure.management.dns.NsRecord;
-import com.microsoft.azure.management.dns.PtrRecord;
-import com.microsoft.azure.management.dns.RecordType;
-import com.microsoft.azure.management.dns.SrvRecord;
-import com.microsoft.azure.management.dns.TxtRecord;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
+import com.azure.management.dns.ARecord;
+import com.azure.management.dns.AaaaRecord;
+import com.azure.management.dns.CaaRecord;
+import com.azure.management.dns.CnameRecord;
+import com.azure.management.dns.DnsRecordSet;
+import com.azure.management.dns.DnsZone;
+import com.azure.management.dns.MxRecord;
+import com.azure.management.dns.NsRecord;
+import com.azure.management.dns.PtrRecord;
+import com.azure.management.dns.RecordType;
+import com.azure.management.dns.SrvRecord;
+import com.azure.management.dns.TxtRecord;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,9 +30,8 @@ import java.util.Map;
 /**
  * Implementation of DnsRecordSet.
  */
-@LangDefinition
 class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
-            RecordSetInner,
+        RecordSetInner,
             DnsZoneImpl,
             DnsZone>
         implements DnsRecordSet,
@@ -49,21 +46,21 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
         super(name, parent, innerModel);
         this.type = type;
         this.recordSetRemoveInfo = new RecordSetInner()
-            .withARecords(new ArrayList<ARecord>())
-            .withAaaaRecords(new ArrayList<AaaaRecord>())
-            .withCaaRecords(new ArrayList<CaaRecord>())
+            .withARecords(new ArrayList<>())
+            .withAaaaRecords(new ArrayList<>())
+            .withCaaRecords(new ArrayList<>())
             .withCnameRecord(new CnameRecord())
-            .withMxRecords(new ArrayList<MxRecord>())
-            .withNsRecords(new ArrayList<NsRecord>())
-            .withPtrRecords(new ArrayList<PtrRecord>())
-            .withSrvRecords(new ArrayList<SrvRecord>())
-            .withTxtRecords(new ArrayList<TxtRecord>())
-            .withMetadata(new LinkedHashMap<String, String>());
+            .withMxRecords(new ArrayList<>())
+            .withNsRecords(new ArrayList<>())
+            .withPtrRecords(new ArrayList<>())
+            .withSrvRecords(new ArrayList<>())
+            .withTxtRecords(new ArrayList<>())
+            .withMetadata(new LinkedHashMap<>());
     }
 
     @Override
     public String id() {
-      return inner().id();
+      return inner().getId();
     }
 
     @Override
@@ -232,7 +229,7 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
             return this;
         }
         List<String> chunks = new ArrayList<>();
-        for (String chunk : Splitter.fixedLength(255).split(text)) {
+        for (String chunk : text.split("(?<=\\G.{250})")) {
             chunks.add(chunk);
         }
         this.inner().txtRecords().add(new TxtRecord().withValue(chunks));
@@ -330,28 +327,20 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
     //
 
     @Override
-    public Observable<DnsRecordSet> createResourceAsync() {
+    public Mono<DnsRecordSet> createResourceAsync() {
         return createOrUpdateAsync(this.inner());
     }
 
     @Override
-    public Observable<DnsRecordSet> updateResourceAsync() {
+    public Mono<DnsRecordSet> updateResourceAsync() {
         return this.parent().manager().inner().recordSets().getAsync(this.parent().resourceGroupName(),
                 this.parent().name(), this.name(), this.recordType())
-                .map(new Func1<RecordSetInner, RecordSetInner>() {
-                    public RecordSetInner call(RecordSetInner resource) {
-                        return prepare(resource);
-                    }
-                }).flatMap(new Func1<RecordSetInner, Observable<DnsRecordSet>>() {
-                    @Override
-                    public Observable<DnsRecordSet> call(RecordSetInner resource) {
-                        return createOrUpdateAsync(resource);
-                    }
-                });
+                .map(recordSetInner -> prepare(recordSetInner))
+                .flatMap(recordSetInner -> createOrUpdateAsync(recordSetInner));
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         return this.parent().manager().inner().recordSets().deleteAsync(this.parent().resourceGroupName(),
                 this.parent().name(), this.name(), this.recordType(), this.eTagState.ifMatchValueOnDelete());
     }
@@ -367,24 +356,21 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
     }
 
     @Override
-    protected Observable<RecordSetInner> getInnerAsync() {
+    protected Mono<RecordSetInner> getInnerAsync() {
         return this.parent().manager().inner().recordSets().getAsync(this.parent().resourceGroupName(),
                 this.parent().name(),
                 this.name(),
                 this.recordType());
     }
 
-    private Observable<DnsRecordSet> createOrUpdateAsync(RecordSetInner resource) {
+    private Mono<DnsRecordSet> createOrUpdateAsync(RecordSetInner resource) {
         final DnsRecordSetImpl self = this;
         return this.parent().manager().inner().recordSets().createOrUpdateAsync(this.parent().resourceGroupName(),
                 this.parent().name(), this.name(), this.recordType(), resource, eTagState.ifMatchValueOnUpdate(resource.etag()), eTagState.ifNonMatchValueOnCreate())
-                .map(new Func1<RecordSetInner, DnsRecordSet>() {
-                    @Override
-                    public DnsRecordSet call(RecordSetInner inner) {
-                        setInner(inner);
-                        self.eTagState.clear();
-                        return self;
-                    }
+                .map(recordSetInner -> {
+                   setInner(recordSetInner);
+                   self.eTagState.clear();
+                   return self;
                 });
     }
 
@@ -399,7 +385,7 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
         }
         if (this.inner().metadata() != null && this.inner().metadata().size() > 0) {
             if (resource.metadata() == null) {
-                resource.withMetadata(new LinkedHashMap<String, String>());
+                resource.withMetadata(new LinkedHashMap<>());
             }
             for (Map.Entry<String, String> keyVal : this.inner().metadata().entrySet()) {
                 resource.metadata().put(keyVal.getKey(), keyVal.getValue());
@@ -424,7 +410,6 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
         return this;
     }
 
-    @LangDefinition
     private class ETagState {
         private boolean doImplicitETagCheckOnCreate;
         private boolean doImplicitETagCheckOnUpdate;

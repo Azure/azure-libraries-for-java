@@ -3,19 +3,19 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.PtrRecordSet;
-import com.microsoft.azure.management.dns.PtrRecordSets;
-import com.microsoft.azure.management.dns.RecordType;
-import rx.Observable;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.PtrRecordSet;
+import com.azure.management.dns.PtrRecordSets;
+import com.azure.management.dns.RecordType;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation of PtrRecordSets.
  */
-@LangDefinition
 class PtrRecordSetsImpl
         extends DnsRecordSetsBaseImpl<PtrRecordSet, PtrRecordSetImpl>
         implements PtrRecordSets {
@@ -25,20 +25,22 @@ class PtrRecordSetsImpl
     }
 
     @Override
-    public PtrRecordSetImpl getByName(String name) {
-        RecordSetInner inner = this.parent().manager().inner().recordSets().get(
-                this.dnsZone.resourceGroupName(),
-                this.dnsZone.name(),
-                name,
-                this.recordType);
-        if (inner == null) {
-            return null;
-        }
-        return new PtrRecordSetImpl(inner.name(), this.dnsZone, inner);
+    public PtrRecordSet getByName(String name) {
+        return getByNameAsync(name).block();
     }
 
     @Override
-    protected PagedList<PtrRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
+    public Mono<PtrRecordSet> getByNameAsync(String name) {
+        return this.parent().manager().inner().recordSets().getAsync(this.dnsZone.resourceGroupName(),
+                this.dnsZone.name(),
+                name,
+                this.recordType)
+                .onErrorResume(e -> Mono.empty())
+                .map(this::wrapModel);
+    }
+
+    @Override
+    protected PagedIterable<PtrRecordSet> listIntern(String recordSetNameSuffix, Integer pageSize) {
         return super.wrapList(this.parent().manager().inner().recordSets().listByType(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
@@ -48,7 +50,7 @@ class PtrRecordSetsImpl
     }
 
     @Override
-    protected Observable<PtrRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
+    protected PagedFlux<PtrRecordSet> listInternAsync(String recordSetNameSuffix, Integer pageSize) {
         return wrapPageAsync(this.parent().manager().inner().recordSets().listByTypeAsync(
                 this.dnsZone.resourceGroupName(),
                 this.dnsZone.name(),
@@ -60,6 +62,6 @@ class PtrRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new PtrRecordSetImpl(inner.name(), this.dnsZone, inner);
+        return new PtrRecordSetImpl(inner.getName(), this.dnsZone, inner);
     }
 }

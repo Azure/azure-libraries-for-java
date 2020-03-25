@@ -3,12 +3,12 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-package com.microsoft.azure.management.dns.implementation;
+package com.azure.management.dns.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.dns.AaaaRecord;
-import com.microsoft.azure.management.dns.AaaaRecordSet;
-import com.microsoft.azure.management.dns.RecordType;
+import com.azure.management.dns.models.RecordSetInner;
+import com.azure.management.dns.AaaaRecord;
+import com.azure.management.dns.AaaaRecordSet;
+import com.azure.management.dns.RecordType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * Implementation of AaaaRecordSet.
  */
-@LangDefinition
 class AaaaRecordSetImpl
         extends DnsRecordSetImpl
         implements AaaaRecordSet {
@@ -29,7 +28,7 @@ class AaaaRecordSetImpl
     static AaaaRecordSetImpl newRecordSet(final String name, final DnsZoneImpl parent) {
         return new AaaaRecordSetImpl(name, parent,
                 new RecordSetInner()
-                        .withAaaaRecords(new ArrayList<AaaaRecord>()));
+                        .withAaaaRecords(new ArrayList<>()));
     }
 
     @Override
@@ -47,7 +46,7 @@ class AaaaRecordSetImpl
     protected RecordSetInner prepareForUpdate(RecordSetInner resource) {
         if (this.inner().aaaaRecords() != null && this.inner().aaaaRecords().size() > 0) {
             if (resource.aaaaRecords() == null) {
-                resource.withAaaaRecords(new ArrayList<AaaaRecord>());
+                resource.withAaaaRecords(new ArrayList<>());
             }
 
             resource.aaaaRecords().addAll(this.inner().aaaaRecords());

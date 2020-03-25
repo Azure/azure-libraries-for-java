@@ -8,7 +8,6 @@ package com.microsoft.azure.management.containerservice.implementation;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
-import com.microsoft.azure.management.containerservice.KubernetesClusterAccessProfileRole;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
 import com.microsoft.azure.management.containerservice.OrchestratorVersionProfile;
 import com.microsoft.azure.management.resources.ResourceGroup;

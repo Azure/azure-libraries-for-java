@@ -168,7 +168,7 @@ public class KubernetesClustersImpl extends
                 public byte[] call(CredentialResultsInner credentialInner) {
                     if (credentialInner == null
                             || credentialInner.kubeconfigs() == null
-                            || credentialInner.kubeconfigs().size() == 0) {
+                            || credentialInner.kubeconfigs().isEmpty()) {
                         return new byte[0];
                     } else {
                         return credentialInner.kubeconfigs().get(0).value();
@@ -191,7 +191,7 @@ public class KubernetesClustersImpl extends
                 public byte[] call(CredentialResultsInner credentialInner) {
                     if (credentialInner == null
                         || credentialInner.kubeconfigs() == null
-                        || credentialInner.kubeconfigs().size() == 0) {
+                        || credentialInner.kubeconfigs().isEmpty()) {
                         return new byte[0];
                     } else {
                         return credentialInner.kubeconfigs().get(0).value();

@@ -131,8 +131,8 @@ public final class TasksInner {
     /**
      * Lists all the tasks for a specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -153,8 +153,8 @@ public final class TasksInner {
     /**
      * Lists all the tasks for a specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -169,8 +169,8 @@ public final class TasksInner {
     /**
      * Lists all the tasks for a specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -183,9 +183,9 @@ public final class TasksInner {
     /**
      * Get the properties of a specified task.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -199,9 +199,9 @@ public final class TasksInner {
     /**
      * Get the properties of a specified task.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -221,9 +221,9 @@ public final class TasksInner {
     /**
      * Get the properties of a specified task.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -236,9 +236,9 @@ public final class TasksInner {
     /**
      * Creates a task for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskCreateParameters The task that has the ARM resource and task properties. 
      * The task will have all information to schedule a run against it.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -254,9 +254,9 @@ public final class TasksInner {
     /**
      * Creates a task for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskCreateParameters The task that has the ARM resource and task properties. 
      * The task will have all information to schedule a run against it.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -274,9 +274,9 @@ public final class TasksInner {
     /**
      * Creates a task for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskCreateParameters The task that has the ARM resource and task properties. 
      * The task will have all information to schedule a run against it.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -291,9 +291,9 @@ public final class TasksInner {
     /**
      * Deletes a specified task.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -307,9 +307,9 @@ public final class TasksInner {
     /**
      * Deletes a specified task.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -325,9 +325,9 @@ public final class TasksInner {
     /**
      * Deletes a specified task.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -340,9 +340,9 @@ public final class TasksInner {
     /**
      * Updates a task with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskUpdateParameters The parameters for updating a task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -357,9 +357,9 @@ public final class TasksInner {
     /**
      * Updates a task with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskUpdateParameters The parameters for updating a task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -376,9 +376,9 @@ public final class TasksInner {
     /**
      * Updates a task with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskUpdateParameters The parameters for updating a task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -392,9 +392,9 @@ public final class TasksInner {
     /**
      * Returns a task with extended information that includes all secrets.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -408,9 +408,9 @@ public final class TasksInner {
     /**
      * Returns a task with extended information that includes all secrets.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -430,9 +430,9 @@ public final class TasksInner {
     /**
      * Returns a task with extended information that includes all secrets.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -445,9 +445,9 @@ public final class TasksInner {
     /**
      * Creates a task for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskCreateParameters The task that has the ARM resource and task properties. 
      * The task will have all information to schedule a run against it.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -463,9 +463,9 @@ public final class TasksInner {
     /**
      * Creates a task for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskCreateParameters The task that has the ARM resource and task properties. 
      * The task will have all information to schedule a run against it.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -487,9 +487,9 @@ public final class TasksInner {
     /**
      * Creates a task for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskCreateParameters The task that has the ARM resource and task properties. 
      * The task will have all information to schedule a run against it.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
@@ -504,9 +504,9 @@ public final class TasksInner {
     /**
      * Deletes a specified task.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -520,9 +520,9 @@ public final class TasksInner {
     /**
      * Deletes a specified task.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -536,9 +536,9 @@ public final class TasksInner {
     /**
      * Deletes a specified task.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -551,9 +551,9 @@ public final class TasksInner {
     /**
      * Updates a task with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskUpdateParameters The parameters for updating a task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -568,9 +568,9 @@ public final class TasksInner {
     /**
      * Updates a task with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskUpdateParameters The parameters for updating a task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -591,9 +591,9 @@ public final class TasksInner {
     /**
      * Updates a task with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param taskName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param taskName The name of the container registry task.
      * @param taskUpdateParameters The parameters for updating a task.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

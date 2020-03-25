@@ -117,10 +117,10 @@ public final class RunsInner {
     /**
      * Gets all the runs for a registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param filter 
-     * @param top 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param filter The runs filter to apply on the operation. Arithmetic operators are not supported. The allowed string function is 'contains'. All logical operators except 'Not', 'Has', 'All' are allowed.
+     * @param top $top is supported for get list of runs, which limits the maximum number of runs to return.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -141,10 +141,10 @@ public final class RunsInner {
     /**
      * Gets all the runs for a registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param filter 
-     * @param top 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param filter The runs filter to apply on the operation. Arithmetic operators are not supported. The allowed string function is 'contains'. All logical operators except 'Not', 'Has', 'All' are allowed.
+     * @param top $top is supported for get list of runs, which limits the maximum number of runs to return.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -159,8 +159,8 @@ public final class RunsInner {
     /**
      * Gets all the runs for a registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -177,10 +177,10 @@ public final class RunsInner {
     /**
      * Gets all the runs for a registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param filter 
-     * @param top 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param filter The runs filter to apply on the operation. Arithmetic operators are not supported. The allowed string function is 'contains'. All logical operators except 'Not', 'Has', 'All' are allowed.
+     * @param top $top is supported for get list of runs, which limits the maximum number of runs to return.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -193,8 +193,8 @@ public final class RunsInner {
     /**
      * Gets all the runs for a registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -209,9 +209,9 @@ public final class RunsInner {
     /**
      * Gets the detailed information for a given run.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -225,9 +225,9 @@ public final class RunsInner {
     /**
      * Gets the detailed information for a given run.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -247,9 +247,9 @@ public final class RunsInner {
     /**
      * Gets the detailed information for a given run.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -262,9 +262,9 @@ public final class RunsInner {
     /**
      * Patch the run properties.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -281,9 +281,9 @@ public final class RunsInner {
     /**
      * Patch the run properties.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -300,9 +300,9 @@ public final class RunsInner {
     /**
      * Patch the run properties.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -316,9 +316,9 @@ public final class RunsInner {
     /**
      * Gets a link to download the run logs.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -332,9 +332,9 @@ public final class RunsInner {
     /**
      * Gets a link to download the run logs.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -354,9 +354,9 @@ public final class RunsInner {
     /**
      * Gets a link to download the run logs.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -369,9 +369,9 @@ public final class RunsInner {
     /**
      * Cancel an existing run.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -385,9 +385,9 @@ public final class RunsInner {
     /**
      * Cancel an existing run.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -403,9 +403,9 @@ public final class RunsInner {
     /**
      * Cancel an existing run.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -418,9 +418,9 @@ public final class RunsInner {
     /**
      * Patch the run properties.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -437,9 +437,9 @@ public final class RunsInner {
     /**
      * Patch the run properties.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -460,9 +460,9 @@ public final class RunsInner {
     /**
      * Patch the run properties.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -476,9 +476,9 @@ public final class RunsInner {
     /**
      * Cancel an existing run.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -492,9 +492,9 @@ public final class RunsInner {
     /**
      * Cancel an existing run.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -508,9 +508,9 @@ public final class RunsInner {
     /**
      * Cancel an existing run.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param runId 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param runId The run ID.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

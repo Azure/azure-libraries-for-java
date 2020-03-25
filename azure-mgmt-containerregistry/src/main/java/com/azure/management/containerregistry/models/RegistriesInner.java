@@ -217,9 +217,9 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Copies an image to this container registry from the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param parameters 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param parameters The parameters specifying the image to copy and the source container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -233,9 +233,9 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Copies an image to this container registry from the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param parameters 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param parameters The parameters specifying the image to copy and the source container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -251,9 +251,9 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Copies an image to this container registry from the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param parameters 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param parameters The parameters specifying the image to copy and the source container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -315,8 +315,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Gets the properties of the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -330,8 +330,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Gets the properties of the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -351,8 +351,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Gets the properties of the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -365,8 +365,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Creates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registry An object that represents a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -381,8 +381,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Creates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registry An object that represents a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -399,8 +399,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Creates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registry An object that represents a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -414,8 +414,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Deletes a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -429,8 +429,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Deletes a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -446,8 +446,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Deletes a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -460,8 +460,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryUpdateParameters The parameters for updating a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -476,8 +476,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryUpdateParameters The parameters for updating a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -494,8 +494,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryUpdateParameters The parameters for updating a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -509,7 +509,7 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Lists all the container registries under the specified resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -530,7 +530,7 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Lists all the container registries under the specified resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -545,7 +545,7 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Lists all the container registries under the specified resource group.
      * 
-     * @param resourceGroupName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -601,8 +601,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Lists the login credentials for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -616,8 +616,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Lists the login credentials for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -637,8 +637,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Lists the login credentials for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -651,9 +651,9 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Regenerates one of the login credentials for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param name Specifies name of the password which should be regenerated -- password or password2.
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param name The password name.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -669,9 +669,9 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Regenerates one of the login credentials for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param name Specifies name of the password which should be regenerated -- password or password2.
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param name The password name.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -691,9 +691,9 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Regenerates one of the login credentials for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param name Specifies name of the password which should be regenerated -- password or password2.
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param name The password name.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -706,8 +706,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Gets the quota usages for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -721,8 +721,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Gets the quota usages for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -742,8 +742,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Gets the quota usages for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -756,8 +756,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Lists the policies for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -771,8 +771,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Lists the policies for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -792,8 +792,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Lists the policies for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -806,8 +806,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates the policies for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryPoliciesUpdateParameters An object that represents policies for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -822,8 +822,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates the policies for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryPoliciesUpdateParameters An object that represents policies for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -840,8 +840,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates the policies for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryPoliciesUpdateParameters An object that represents policies for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -855,8 +855,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Schedules a new run based on the request parameters and add it to the run queue.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -873,8 +873,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Schedules a new run based on the request parameters and add it to the run queue.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -891,8 +891,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Schedules a new run based on the request parameters and add it to the run queue.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -906,8 +906,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Get the upload location for the user to be able to upload the source.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -921,8 +921,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Get the upload location for the user to be able to upload the source.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -942,8 +942,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Get the upload location for the user to be able to upload the source.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -956,9 +956,9 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Copies an image to this container registry from the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param parameters 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param parameters The parameters specifying the image to copy and the source container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -972,9 +972,9 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Copies an image to this container registry from the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param parameters 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param parameters The parameters specifying the image to copy and the source container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -988,9 +988,9 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Copies an image to this container registry from the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param parameters 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param parameters The parameters specifying the image to copy and the source container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1003,8 +1003,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Creates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registry An object that represents a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1019,8 +1019,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Creates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registry An object that represents a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1041,8 +1041,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Creates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registry An object that represents a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1056,8 +1056,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Deletes a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1071,8 +1071,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Deletes a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1086,8 +1086,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Deletes a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1100,8 +1100,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryUpdateParameters The parameters for updating a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1116,8 +1116,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryUpdateParameters The parameters for updating a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1138,8 +1138,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryUpdateParameters The parameters for updating a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1153,8 +1153,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates the policies for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryPoliciesUpdateParameters An object that represents policies for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1169,8 +1169,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates the policies for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryPoliciesUpdateParameters An object that represents policies for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1191,8 +1191,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Updates the policies for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param registryPoliciesUpdateParameters An object that represents policies for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1206,8 +1206,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Schedules a new run based on the request parameters and add it to the run queue.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1224,8 +1224,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Schedules a new run based on the request parameters and add it to the run queue.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1246,8 +1246,8 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
     /**
      * Schedules a new run based on the request parameters and add it to the run queue.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

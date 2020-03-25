@@ -125,9 +125,9 @@ public final class ReplicationsInner {
     /**
      * Gets the properties of the specified replication.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -141,9 +141,9 @@ public final class ReplicationsInner {
     /**
      * Gets the properties of the specified replication.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -163,9 +163,9 @@ public final class ReplicationsInner {
     /**
      * Gets the properties of the specified replication.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -178,9 +178,9 @@ public final class ReplicationsInner {
     /**
      * Creates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param replication An object that represents a replication for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -195,9 +195,9 @@ public final class ReplicationsInner {
     /**
      * Creates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param replication An object that represents a replication for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -214,9 +214,9 @@ public final class ReplicationsInner {
     /**
      * Creates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param replication An object that represents a replication for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -230,9 +230,9 @@ public final class ReplicationsInner {
     /**
      * Deletes a replication from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -246,9 +246,9 @@ public final class ReplicationsInner {
     /**
      * Deletes a replication from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -264,9 +264,9 @@ public final class ReplicationsInner {
     /**
      * Deletes a replication from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -279,9 +279,9 @@ public final class ReplicationsInner {
     /**
      * Updates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param tags The tags for the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -298,9 +298,9 @@ public final class ReplicationsInner {
     /**
      * Updates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param tags The tags for the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -317,9 +317,9 @@ public final class ReplicationsInner {
     /**
      * Updates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param tags The tags for the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -333,8 +333,8 @@ public final class ReplicationsInner {
     /**
      * Lists all the replications for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -355,8 +355,8 @@ public final class ReplicationsInner {
     /**
      * Lists all the replications for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -371,8 +371,8 @@ public final class ReplicationsInner {
     /**
      * Lists all the replications for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -385,9 +385,9 @@ public final class ReplicationsInner {
     /**
      * Creates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param replication An object that represents a replication for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -402,9 +402,9 @@ public final class ReplicationsInner {
     /**
      * Creates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param replication An object that represents a replication for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -425,9 +425,9 @@ public final class ReplicationsInner {
     /**
      * Creates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param replication An object that represents a replication for a container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -441,9 +441,9 @@ public final class ReplicationsInner {
     /**
      * Deletes a replication from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -457,9 +457,9 @@ public final class ReplicationsInner {
     /**
      * Deletes a replication from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -473,9 +473,9 @@ public final class ReplicationsInner {
     /**
      * Deletes a replication from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -488,9 +488,9 @@ public final class ReplicationsInner {
     /**
      * Updates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param tags The tags for the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -507,9 +507,9 @@ public final class ReplicationsInner {
     /**
      * Updates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param tags The tags for the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -530,9 +530,9 @@ public final class ReplicationsInner {
     /**
      * Updates a replication for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param replicationName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param replicationName The name of the replication.
      * @param tags The tags for the replication.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

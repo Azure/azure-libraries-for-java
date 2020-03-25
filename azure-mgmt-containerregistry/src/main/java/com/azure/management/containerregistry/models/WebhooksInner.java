@@ -150,9 +150,9 @@ public final class WebhooksInner {
     /**
      * Gets the properties of the specified webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -166,9 +166,9 @@ public final class WebhooksInner {
     /**
      * Gets the properties of the specified webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -188,9 +188,9 @@ public final class WebhooksInner {
     /**
      * Gets the properties of the specified webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -203,9 +203,9 @@ public final class WebhooksInner {
     /**
      * Creates a webhook for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookCreateParameters The parameters for creating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -220,9 +220,9 @@ public final class WebhooksInner {
     /**
      * Creates a webhook for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookCreateParameters The parameters for creating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -239,9 +239,9 @@ public final class WebhooksInner {
     /**
      * Creates a webhook for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookCreateParameters The parameters for creating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -255,9 +255,9 @@ public final class WebhooksInner {
     /**
      * Deletes a webhook from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -271,9 +271,9 @@ public final class WebhooksInner {
     /**
      * Deletes a webhook from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -289,9 +289,9 @@ public final class WebhooksInner {
     /**
      * Deletes a webhook from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -304,9 +304,9 @@ public final class WebhooksInner {
     /**
      * Updates a webhook with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookUpdateParameters The parameters for updating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -321,9 +321,9 @@ public final class WebhooksInner {
     /**
      * Updates a webhook with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookUpdateParameters The parameters for updating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -340,9 +340,9 @@ public final class WebhooksInner {
     /**
      * Updates a webhook with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookUpdateParameters The parameters for updating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -356,8 +356,8 @@ public final class WebhooksInner {
     /**
      * Lists all the webhooks for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -378,8 +378,8 @@ public final class WebhooksInner {
     /**
      * Lists all the webhooks for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -394,8 +394,8 @@ public final class WebhooksInner {
     /**
      * Lists all the webhooks for the specified container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -408,9 +408,9 @@ public final class WebhooksInner {
     /**
      * Triggers a ping event to be sent to the webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -424,9 +424,9 @@ public final class WebhooksInner {
     /**
      * Triggers a ping event to be sent to the webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -446,9 +446,9 @@ public final class WebhooksInner {
     /**
      * Triggers a ping event to be sent to the webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -461,9 +461,9 @@ public final class WebhooksInner {
     /**
      * Gets the configuration of service URI and custom headers for the webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -477,9 +477,9 @@ public final class WebhooksInner {
     /**
      * Gets the configuration of service URI and custom headers for the webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -499,9 +499,9 @@ public final class WebhooksInner {
     /**
      * Gets the configuration of service URI and custom headers for the webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -514,9 +514,9 @@ public final class WebhooksInner {
     /**
      * Lists recent events for the specified webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -537,9 +537,9 @@ public final class WebhooksInner {
     /**
      * Lists recent events for the specified webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -554,9 +554,9 @@ public final class WebhooksInner {
     /**
      * Lists recent events for the specified webhook.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -569,9 +569,9 @@ public final class WebhooksInner {
     /**
      * Creates a webhook for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookCreateParameters The parameters for creating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -586,9 +586,9 @@ public final class WebhooksInner {
     /**
      * Creates a webhook for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookCreateParameters The parameters for creating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -609,9 +609,9 @@ public final class WebhooksInner {
     /**
      * Creates a webhook for a container registry with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookCreateParameters The parameters for creating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -625,9 +625,9 @@ public final class WebhooksInner {
     /**
      * Deletes a webhook from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -641,9 +641,9 @@ public final class WebhooksInner {
     /**
      * Deletes a webhook from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -657,9 +657,9 @@ public final class WebhooksInner {
     /**
      * Deletes a webhook from a container registry.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -672,9 +672,9 @@ public final class WebhooksInner {
     /**
      * Updates a webhook with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookUpdateParameters The parameters for updating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -689,9 +689,9 @@ public final class WebhooksInner {
     /**
      * Updates a webhook with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookUpdateParameters The parameters for updating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -712,9 +712,9 @@ public final class WebhooksInner {
     /**
      * Updates a webhook with the specified parameters.
      * 
-     * @param resourceGroupName 
-     * @param registryName 
-     * @param webhookName 
+     * @param resourceGroupName The name of the resource group to which the container registry belongs.
+     * @param registryName The name of the container registry.
+     * @param webhookName The name of the webhook.
      * @param webhookUpdateParameters The parameters for updating a webhook.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

@@ -289,25 +289,25 @@ class RegistryTaskRunImpl implements
     public Mono<RegistryTaskRun> executeAsync() {
         final RegistryTaskRunImpl self = this;
         if (this.fileTaskRunRequest != null) {
-            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.fileTaskRunRequest.isArchiveEnabled())
+            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.fileTaskRunRequest)
                 .map(runInner -> {
                     self.inner = runInner;
                     return self;
                 });
         } else if (this.encodedTaskRunRequest != null) {
-            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.encodedTaskRunRequest.isArchiveEnabled())
+            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.encodedTaskRunRequest)
                 .map(runInner -> {
                     self.inner = runInner;
                     return self;
                 });
         } else if (this.dockerTaskRunRequest != null) {
-            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.dockerTaskRunRequest.isArchiveEnabled())
+            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.dockerTaskRunRequest)
                 .map(runInner -> {
                     self.inner = runInner;
                     return self;
                 });
         } else if (this.taskRunRequest != null) {
-            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.taskRunRequest.isArchiveEnabled())
+            return this.registriesInner.scheduleRunAsync(this.resourceGroupName, this.registryName, this.taskRunRequest)
                 .map(runInner -> {
                     self.inner = runInner;
                     return self;

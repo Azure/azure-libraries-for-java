@@ -6,6 +6,7 @@
 
 package com.azure.management.storage.implementation;
 
+import com.azure.management.storage.Action;
 import com.azure.management.storage.Bypass;
 import com.azure.management.storage.DefaultAction;
 import com.azure.management.storage.IPRule;
@@ -221,7 +222,8 @@ final class StorageNetworkRulesHelper {
         }
         if (!found) {
             networkRuleSet.getVirtualNetworkRules().add(new VirtualNetworkRule()
-                    .setVirtualNetworkResourceId(subnetId));
+                    .setVirtualNetworkResourceId(subnetId)
+                    .setAction(Action.ALLOW));
         }
         return this;
     }
@@ -505,7 +507,8 @@ final class StorageNetworkRulesHelper {
         }
         if (!found) {
             networkRuleSet.getIpRules().add(new IPRule()
-                    .setIPAddressOrRange(ipAddressOrRange));
+                    .setIPAddressOrRange(ipAddressOrRange)
+                    .setAction(Action.ALLOW));
         }
         return this;
     }

@@ -27,14 +27,7 @@ public final class SecretObject {
      * interpreted.
      */
     @JsonProperty(value = "type")
-    private String type;
-
-    /**
-     * Creates an instance of SecretObject class.
-     */
-    public SecretObject() {
-        type = "Opaque";
-    }
+    private SecretObjectType type;
 
     /**
      * Get the value property: The value of the secret. The format of this
@@ -71,7 +64,7 @@ public final class SecretObject {
      * 
      * @return the type value.
      */
-    public String type() {
+    public SecretObjectType type() {
         return this.type;
     }
 
@@ -83,7 +76,7 @@ public final class SecretObject {
      * @param type the type value to set.
      * @return the SecretObject object itself.
      */
-    public SecretObject withType(String type) {
+    public SecretObject withType(SecretObjectType type) {
         this.type = type;
         return this;
     }

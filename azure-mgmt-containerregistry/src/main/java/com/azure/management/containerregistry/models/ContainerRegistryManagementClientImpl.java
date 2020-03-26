@@ -36,7 +36,7 @@ public final class ContainerRegistryManagementClientImpl extends AzureServiceCli
      * @param subscriptionId the subscriptionId value.
      * @return the service client itself.
      */
-    ContainerRegistryManagementClientImpl setSubscriptionId(String subscriptionId) {
+    public ContainerRegistryManagementClientImpl setSubscriptionId(String subscriptionId) {
         this.subscriptionId = subscriptionId;
         return this;
     }
@@ -61,7 +61,7 @@ public final class ContainerRegistryManagementClientImpl extends AzureServiceCli
      * @param host the host value.
      * @return the service client itself.
      */
-    ContainerRegistryManagementClientImpl setHost(String host) {
+    public ContainerRegistryManagementClientImpl setHost(String host) {
         this.host = host;
         return this;
     }

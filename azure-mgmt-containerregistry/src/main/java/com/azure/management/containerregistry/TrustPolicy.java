@@ -16,7 +16,7 @@ public final class TrustPolicy {
      * The type of trust policy.
      */
     @JsonProperty(value = "type")
-    private String type;
+    private TrustPolicyType type;
 
     /*
      * The value that indicates whether the policy is enabled or not.
@@ -25,18 +25,11 @@ public final class TrustPolicy {
     private PolicyStatus status;
 
     /**
-     * Creates an instance of TrustPolicy class.
-     */
-    public TrustPolicy() {
-        type = "Notary";
-    }
-
-    /**
      * Get the type property: The type of trust policy.
      * 
      * @return the type value.
      */
-    public String type() {
+    public TrustPolicyType type() {
         return this.type;
     }
 
@@ -46,7 +39,7 @@ public final class TrustPolicy {
      * @param type the type value to set.
      * @return the TrustPolicy object itself.
      */
-    public TrustPolicy withType(String type) {
+    public TrustPolicy withType(TrustPolicyType type) {
         this.type = type;
         return this;
     }

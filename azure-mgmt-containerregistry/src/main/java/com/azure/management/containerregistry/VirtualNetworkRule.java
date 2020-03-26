@@ -16,7 +16,7 @@ public final class VirtualNetworkRule {
      * The action of virtual network rule.
      */
     @JsonProperty(value = "action")
-    private String action;
+    private Action action;
 
     /*
      * Resource ID of a subnet, for example:
@@ -26,18 +26,11 @@ public final class VirtualNetworkRule {
     private String virtualNetworkResourceId;
 
     /**
-     * Creates an instance of VirtualNetworkRule class.
-     */
-    public VirtualNetworkRule() {
-        action = "Allow";
-    }
-
-    /**
      * Get the action property: The action of virtual network rule.
      * 
      * @return the action value.
      */
-    public String action() {
+    public Action action() {
         return this.action;
     }
 
@@ -47,7 +40,7 @@ public final class VirtualNetworkRule {
      * @param action the action value to set.
      * @return the VirtualNetworkRule object itself.
      */
-    public VirtualNetworkRule withAction(String action) {
+    public VirtualNetworkRule withAction(Action action) {
         this.action = action;
         return this;
     }

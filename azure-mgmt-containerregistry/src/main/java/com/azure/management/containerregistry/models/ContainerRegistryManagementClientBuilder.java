@@ -15,7 +15,7 @@ import com.azure.core.management.AzureEnvironment;
 /**
  * A builder for creating a new instance of the ContainerRegistryManagementClientImpl type.
  */
-@ServiceClientBuilder(serviceClients = ContainerRegistryManagementClientImpl.class)
+@ServiceClientBuilder(serviceClients = {ContainerRegistryManagementClientImpl.class})
 public final class ContainerRegistryManagementClientBuilder {
     /*
      * The Microsoft Azure subscription ID.

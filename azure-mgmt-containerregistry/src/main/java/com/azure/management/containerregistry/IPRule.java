@@ -16,7 +16,7 @@ public final class IPRule {
      * The action of IP ACL rule.
      */
     @JsonProperty(value = "action")
-    private String action;
+    private Action action;
 
     /*
      * Specifies the IP or IP range in CIDR format. Only IPV4 address is
@@ -26,18 +26,11 @@ public final class IPRule {
     private String iPAddressOrRange;
 
     /**
-     * Creates an instance of IPRule class.
-     */
-    public IPRule() {
-        action = "Allow";
-    }
-
-    /**
      * Get the action property: The action of IP ACL rule.
      * 
      * @return the action value.
      */
-    public String action() {
+    public Action action() {
         return this.action;
     }
 
@@ -47,7 +40,7 @@ public final class IPRule {
      * @param action the action value to set.
      * @return the IPRule object itself.
      */
-    public IPRule withAction(String action) {
+    public IPRule withAction(Action action) {
         this.action = action;
         return this;
     }

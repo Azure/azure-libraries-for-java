@@ -857,16 +857,14 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
      * 
      * @param resourceGroupName The name of the resource group to which the container registry belongs.
      * @param registryName The name of the container registry.
-     * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
+     * @param runRequest The request parameters for scheduling a run.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<Flux<ByteBuffer>>> scheduleRunWithResponseAsync(String resourceGroupName, String registryName, Boolean isArchiveEnabled) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> scheduleRunWithResponseAsync(String resourceGroupName, String registryName, RunRequest runRequest) {
         final String apiVersion = "2018-09-01";
-        RunRequest runRequest = new RunRequest();
-        runRequest.withIsArchiveEnabled(isArchiveEnabled);
         return service.scheduleRun(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, registryName, apiVersion, runRequest);
     }
 
@@ -875,14 +873,14 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
      * 
      * @param resourceGroupName The name of the resource group to which the container registry belongs.
      * @param registryName The name of the container registry.
-     * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
+     * @param runRequest The request parameters for scheduling a run.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<RunInner> scheduleRunAsync(String resourceGroupName, String registryName, Boolean isArchiveEnabled) {
-        Mono<SimpleResponse<Flux<ByteBuffer>>> mono = scheduleRunWithResponseAsync(resourceGroupName, registryName, isArchiveEnabled);
+    public Mono<RunInner> scheduleRunAsync(String resourceGroupName, String registryName, RunRequest runRequest) {
+        Mono<SimpleResponse<Flux<ByteBuffer>>> mono = scheduleRunWithResponseAsync(resourceGroupName, registryName, runRequest);
         return this.client.<RunInner, RunInner>getLroResultAsync(mono, this.client.getHttpPipeline(), RunInner.class, RunInner.class)
             .last()
             .flatMap(AsyncPollResponse::getFinalResult);
@@ -893,14 +891,14 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
      * 
      * @param resourceGroupName The name of the resource group to which the container registry belongs.
      * @param registryName The name of the container registry.
-     * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
+     * @param runRequest The request parameters for scheduling a run.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public RunInner scheduleRun(String resourceGroupName, String registryName, Boolean isArchiveEnabled) {
-        return scheduleRunAsync(resourceGroupName, registryName, isArchiveEnabled).block();
+    public RunInner scheduleRun(String resourceGroupName, String registryName, RunRequest runRequest) {
+        return scheduleRunAsync(resourceGroupName, registryName, runRequest).block();
     }
 
     /**
@@ -1208,16 +1206,14 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
      * 
      * @param resourceGroupName The name of the resource group to which the container registry belongs.
      * @param registryName The name of the container registry.
-     * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
+     * @param runRequest The request parameters for scheduling a run.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<RunInner>> beginScheduleRunWithResponseAsync(String resourceGroupName, String registryName, Boolean isArchiveEnabled) {
+    public Mono<SimpleResponse<RunInner>> beginScheduleRunWithResponseAsync(String resourceGroupName, String registryName, RunRequest runRequest) {
         final String apiVersion = "2018-09-01";
-        RunRequest runRequest = new RunRequest();
-        runRequest.withIsArchiveEnabled(isArchiveEnabled);
         return service.beginScheduleRun(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, registryName, apiVersion, runRequest);
     }
 
@@ -1226,14 +1222,14 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
      * 
      * @param resourceGroupName The name of the resource group to which the container registry belongs.
      * @param registryName The name of the container registry.
-     * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
+     * @param runRequest The request parameters for scheduling a run.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<RunInner> beginScheduleRunAsync(String resourceGroupName, String registryName, Boolean isArchiveEnabled) {
-        return beginScheduleRunWithResponseAsync(resourceGroupName, registryName, isArchiveEnabled)
+    public Mono<RunInner> beginScheduleRunAsync(String resourceGroupName, String registryName, RunRequest runRequest) {
+        return beginScheduleRunWithResponseAsync(resourceGroupName, registryName, runRequest)
             .flatMap((SimpleResponse<RunInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -1248,14 +1244,14 @@ public final class RegistriesInner implements InnerSupportsGet<RegistryInner>, I
      * 
      * @param resourceGroupName The name of the resource group to which the container registry belongs.
      * @param registryName The name of the container registry.
-     * @param isArchiveEnabled The value that indicates whether archiving is enabled for the run or not.
+     * @param runRequest The request parameters for scheduling a run.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public RunInner beginScheduleRun(String resourceGroupName, String registryName, Boolean isArchiveEnabled) {
-        return beginScheduleRunAsync(resourceGroupName, registryName, isArchiveEnabled).block();
+    public RunInner beginScheduleRun(String resourceGroupName, String registryName, RunRequest runRequest) {
+        return beginScheduleRunAsync(resourceGroupName, registryName, runRequest).block();
     }
 
     /**

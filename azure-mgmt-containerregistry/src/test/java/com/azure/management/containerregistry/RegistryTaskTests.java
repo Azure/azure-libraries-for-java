@@ -12,7 +12,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Arrays;
+import java.util.Base64;
 
 public class RegistryTaskTests extends RegistryTest {
 
@@ -539,11 +542,10 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
-    @Disabled("Required to setup a github repo with proper file structure")
     public void FileTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
-        String sourceLocation = "URL of your source repository.";
-        String taskFilePath = "Path to your file task that is relative to your source repository URL.";
+        String sourceLocation = "https://github.com/Azure/acr.git";
+        String taskFilePath = "samples/java/task/acb.yaml";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -576,17 +578,13 @@ public class RegistryTaskTests extends RegistryTest {
         Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
         Assertions.assertEquals(OS.WINDOWS, registryTaskRunFromList.platform().os());
         Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
-
-
-
     }
 
     @Test
-    @Disabled("Required to setup a github repo with proper file structure")
     public void FileTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
-        String sourceLocation = "URL of your source repository.";
-        String taskFilePath = "Path to your task path that is relative to your source repository URL.";
+        String sourceLocation = "https://github.com/Azure/acr.git";
+        String taskFilePath = "samples/java/task/acb.yaml";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -620,17 +618,13 @@ public class RegistryTaskTests extends RegistryTest {
         Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
         Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
         Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
-
-
-
     }
 
     @Test
-    @Disabled("Required to setup a github repo with proper file structure")
-    public void EncodedTaskRunRequestFromRegistry() {
+    public void EncodedTaskRunRequestFromRegistry() throws Exception {
         final String acrName = generateRandomResourceName("acr", 10);
-        String sourceLocation = "URL of your source repository.";
-        String encodedTaskContent = "Base64 encoded task content.";
+        String sourceLocation = "https://github.com/Azure/acr.git";
+        String encodedTaskContent = Base64.getEncoder().encodeToString(readTaskYaml());
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -650,7 +644,6 @@ public class RegistryTaskTests extends RegistryTest {
                 .withArchiveEnabled(true)
                 .execute();
 
-
         registryTaskRun.refresh();
 
         Assertions.assertEquals(registry.resourceGroupName(), registryTaskRun.resourceGroupName());
@@ -668,11 +661,10 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
-    @Disabled("Required to setup a github repo with proper file structure")
-    public void EncodedTaskRunRequestFromRuns() {
+    public void EncodedTaskRunRequestFromRuns() throws Exception {
         final String acrName = generateRandomResourceName("acr", 10);
-        String sourceLocation = "URL of your source repository.";
-        String encodedTaskContent = "Base64 encoded task content.";
+        String sourceLocation = "https://github.com/Azure/acr.git#master:samples/java/task";
+        String encodedTaskContent = Base64.getEncoder().encodeToString(readTaskYaml());
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -710,12 +702,11 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
-    @Disabled("Required to setup a github repo with proper file structure")
     public void DockerTaskRunRequestFromRegistry() {
         final String acrName = generateRandomResourceName("acr", 10);
-        String dockerFilePath = "Replace with your docker file path relative to githubContext, eg: Dockerfile";
-        String imageName = "Replace with the name of your image.";
-        String sourceLocation = "URL of your source repository.";
+        String dockerFilePath = "Dockerfile";
+        String imageName = "test";
+        String sourceLocation = "https://github.com/Azure/acr.git#master:samples/java/task";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -751,18 +742,14 @@ public class RegistryTaskTests extends RegistryTest {
         Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
         Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
         Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
-
-
-
     }
 
     @Test
-    @Disabled("Required to setup a github repo with proper file structure")
     public void DockerTaskRunRequestFromRuns() {
         final String acrName = generateRandomResourceName("acr", 10);
-        String dockerFilePath = "Replace with your docker file path relative to githubContext, eg: Dockerfile";
-        String imageName = "Replace with the name of your image.";
-        String sourceLocation = "URL of your source repository.";
+        String dockerFilePath = "Dockerfile";
+        String imageName = "test";
+        String sourceLocation = "https://github.com/Azure/acr.git#master:samples/java/task";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -800,8 +787,6 @@ public class RegistryTaskTests extends RegistryTest {
         Assertions.assertTrue(registryTaskRunFromList.isArchiveEnabled());
         Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
         Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
-
-
     }
 
     @Test
@@ -959,10 +944,6 @@ public class RegistryTaskTests extends RegistryTest {
         Assertions.assertEquals(OS.LINUX, registryTaskRunFromList.platform().os());
         Assertions.assertEquals("Succeeded", registryTaskRunFromList.provisioningState().toString());
         Assertions.assertEquals(taskName, registryTaskRunFromList.taskName());
-
-
-
-
     }
 
     @Test
@@ -1089,13 +1070,11 @@ public class RegistryTaskTests extends RegistryTest {
     }
 
     @Test
-    @Disabled("Required to setup a github repo with proper file structure")
     public void GetLogSasUrl() {
         final String acrName = generateRandomResourceName("acr", 10);
-        String dockerFilePath = "Replace with your docker file path relative to githubContext, eg: Dockerfile";
-        String imageName = "Replace with the name of your image.";
-        String sourceLocation = "URL of your source repository.";
-
+        String dockerFilePath = "Dockerfile";
+        String imageName = "test";
+        String sourceLocation = "https://github.com/Azure/acr.git#master:samples/java/task";
 
         Registry registry = registryManager.containerRegistries().define(acrName)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -1236,9 +1215,16 @@ public class RegistryTaskTests extends RegistryTest {
         Assertions.assertEquals(BaseImageTriggerType.ALL.toString(), registryTask.trigger().baseImageTrigger().baseImageTriggerType().toString());
     }
 
-
     @Override
     protected void cleanUpResources() {
         resourceManager.resourceGroups().beginDeleteByName(rgName);
+    }
+
+    private byte[] readTaskYaml() throws Exception {
+        File taskFile = new File(getClass().getClassLoader().getResource("task.yaml").getFile());
+        FileInputStream taskFileInput = new FileInputStream(taskFile);
+        byte[] data = new byte[(int) taskFile.length()];
+        taskFileInput.read(data);
+        return data;
     }
 }

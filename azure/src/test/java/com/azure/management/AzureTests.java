@@ -55,7 +55,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -1041,6 +1040,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    @Disabled("Container service will be deprecated")
     public void testContainerService() throws Exception {
         new TestContainerService()
                 .runTest(azure.containerServices(), azure.resourceGroups());

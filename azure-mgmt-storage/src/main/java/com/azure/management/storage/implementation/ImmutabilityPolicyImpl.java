@@ -54,20 +54,28 @@ class ImmutabilityPolicyImpl
     public Mono<ImmutabilityPolicy> createResourceAsync() {
         BlobContainersInner client = this.manager().inner().blobContainers();
         return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.eTagState.eTagOnCreate(), this.cImmutabilityPeriodSinceCreationInDays, null)
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .map(self -> {
+                    this.eTagState.clear();
+                    return self;
+                });
     }
 
     @Override
     public Mono<ImmutabilityPolicy> updateResourceAsync() {
         BlobContainersInner client = this.manager().inner().blobContainers();
         return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.eTagState.eTagOnUpdate(this.inner().getEtag()), this.uImmutabilityPeriodSinceCreationInDays, null)
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .map(self -> {
+                    this.eTagState.clear();
+                    return self;
+                });
     }
 
     @Override
     protected Mono<ImmutabilityPolicyInner> getInnerAsync() {
         BlobContainersInner client = this.manager().inner().blobContainers();
-        return client.getImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.eTagState.eTagOnUpdate(this.inner().getEtag()));
+        return client.getImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, null);
     }
 
     @Override

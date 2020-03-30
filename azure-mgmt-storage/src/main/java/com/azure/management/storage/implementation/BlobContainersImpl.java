@@ -102,9 +102,9 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
     }
 
     @Override
-    public Mono<ImmutabilityPolicy> getImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName) {
+    public Mono<ImmutabilityPolicy> getImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch) {
         BlobContainersInner client = this.inner();
-        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName)
+        return client.getImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch)
                 .map(inner -> wrapImmutabilityPolicyModel(inner));
     }
 

@@ -343,7 +343,7 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
     @Override
     public Mono<Void> deleteResourceAsync() {
         return this.parent().manager().inner().recordSets().deleteAsync(this.parent().resourceGroupName(),
-                this.parent().name(), this.name(), this.recordType(), this.eTagState.ifMatchValueOnDelete());
+                this.parent().name(), this.name(), this.recordType(), this.eTagState.eTagOnDelete());
     }
 
     @Override
@@ -367,7 +367,7 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
     private Mono<DnsRecordSet> createOrUpdateAsync(RecordSetInner resource) {
         final DnsRecordSetImpl self = this;
         return this.parent().manager().inner().recordSets().createOrUpdateAsync(this.parent().resourceGroupName(),
-                this.parent().name(), this.name(), this.recordType(), resource, eTagState.ifMatchValueOnUpdate(resource.etag()), eTagState.ifNonMatchValueOnCreate())
+                this.parent().name(), this.name(), this.recordType(), resource, eTagState.eTagOnUpdate(resource.etag()), eTagState.eTagOnCreate())
                 .map(recordSetInner -> {
                    setInner(recordSetInner);
                    self.eTagState.clear();

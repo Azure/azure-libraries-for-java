@@ -9,6 +9,7 @@ package com.azure.management.resources.fluentcore.utils;
 public class ETagState {
     private boolean doImplicitETagCheckOnCreate;
     private boolean doImplicitETagCheckOnUpdate;
+    private String eTagOnCreate;
     private String eTagOnUpdate;
     private String eTagOnDelete;
 
@@ -19,6 +20,11 @@ public class ETagState {
 
     public ETagState withImplicitETagCheckOnUpdate() {
         this.doImplicitETagCheckOnUpdate = true;
+        return this;
+    }
+
+    public ETagState withExplicitETagCheckOnCreate(String eTagValue) {
+        this.eTagOnCreate = eTagValue;
         return this;
     }
 
@@ -36,30 +42,27 @@ public class ETagState {
     public ETagState clear() {
         this.doImplicitETagCheckOnCreate = false;
         this.doImplicitETagCheckOnUpdate = false;
+        this.eTagOnCreate = null;
         this.eTagOnUpdate = null;
         this.eTagOnDelete = null;
         return this;
     }
 
-    public String ifMatchValueOnUpdate(String currentETagValue) {
-        String eTagValue = null;
+    public String eTagOnUpdate(String currentETagValue) {
         if (this.doImplicitETagCheckOnUpdate) {
-            eTagValue = currentETagValue;
+            return currentETagValue;
         }
-        if (this.eTagOnUpdate != null) {
-            eTagValue = this.eTagOnUpdate;
-        }
-        return eTagValue;
+        return this.eTagOnUpdate;
     }
 
-    public String ifMatchValueOnDelete() {
+    public String eTagOnDelete() {
         return this.eTagOnDelete;
     }
 
-    public String ifNonMatchValueOnCreate() {
+    public String eTagOnCreate() {
         if (this.doImplicitETagCheckOnCreate) {
             return "*";
         }
-        return null;
+        return this.eTagOnCreate;
     }
 }

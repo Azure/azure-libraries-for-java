@@ -413,7 +413,7 @@ public class DnsZoneImpl
     public Mono<DnsZone> createResourceAsync() {
         return Mono.just(this)
                 .flatMap(self -> self.manager().inner().zones().createOrUpdateAsync(self.resourceGroupName(),
-                        self.name(), self.inner(), this.eTagState.ifMatchValueOnUpdate(self.inner().etag()), eTagState.ifNonMatchValueOnCreate()))
+                        self.name(), self.inner(), this.eTagState.eTagOnUpdate(self.inner().etag()), eTagState.eTagOnCreate()))
                 .map(innerToFluentMap(this))
                 .map(dnsZone -> {
                     this.eTagState.clear();

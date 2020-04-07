@@ -84,6 +84,9 @@ class PublicIPAddressImpl
 
     @Override
     public PublicIPAddressImpl withLeafDomainLabel(String dnsName) {
+        if (this.inner().dnsSettings() == null) {
+            this.inner().withDnsSettings(new PublicIPAddressDnsSettings());
+        }
         this.inner().dnsSettings().withDomainNameLabel((dnsName == null) ? null : dnsName.toLowerCase());
         return this;
     }
@@ -119,6 +122,9 @@ class PublicIPAddressImpl
 
     @Override
     public PublicIPAddressImpl withReverseFqdn(String reverseFqdn) {
+        if (this.inner().dnsSettings() == null) {
+            this.inner().withDnsSettings(new PublicIPAddressDnsSettings());
+        }
         this.inner().dnsSettings().withReverseFqdn(reverseFqdn != null ? reverseFqdn.toLowerCase() : null);
         return this;
     }

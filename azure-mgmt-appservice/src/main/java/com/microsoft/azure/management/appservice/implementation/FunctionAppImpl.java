@@ -80,6 +80,8 @@ class FunctionAppImpl
     private StorageAccount currentStorageAccount;
     private final FunctionAppKeyService functionAppKeyService;
     private FunctionService functionService;
+    private FunctionServiceViaKey functionServiceViaKey;
+    private String cachedFunctionAppMasterKey;
     private FunctionDeploymentSlots deploymentSlots;
 
     private Func1<AppServicePlan, Void> linuxFxVersionSetter = null;
@@ -105,6 +107,11 @@ class FunctionAppImpl
                     .withLogLevel(LogLevel.BODY_AND_HEADERS)
                     .build()
                     .retrofit().create(FunctionService.class);
+            functionServiceViaKey = manager().restClient().newBuilder()
+                    .withBaseUrl(defaultHostName.toString())
+                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .build()
+                    .retrofit().create(FunctionServiceViaKey.class);
         }
     }
 
@@ -490,6 +497,35 @@ class FunctionAppImpl
     }
 
     @Override
+    public void triggerFunction(String functionName, Object payload) {
+        triggerFunctionAsync(functionName, payload).toObservable().toBlocking().subscribe();
+    }
+
+    @Override
+    public Completable triggerFunctionAsync(final String functionName, final Object payload) {
+        return getCachedMasterKey().flatMap(new Func1<String, Observable<Void>>() {
+            @Override
+            public Observable<Void> call(String s) {
+                return functionServiceViaKey.triggerFunction(s, functionName, payload);
+            }
+        }).toCompletable();
+    }
+
+    private Observable<String> getCachedMasterKey() {
+        if (cachedFunctionAppMasterKey != null) {
+            return Observable.just(cachedFunctionAppMasterKey);
+        } else {
+            return this.getMasterKeyAsync().map(new Func1<String, String>() {
+                @Override
+                public String call(String s) {
+                    cachedFunctionAppMasterKey = s;
+                    return s;
+                }
+            });
+        }
+    }
+
+    @Override
     public void syncTriggers() {
         syncTriggersAsync().toObservable().toBlocking().subscribe();
     }
@@ -665,6 +701,12 @@ class FunctionAppImpl
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getHostStatus" })
         @GET("admin/host/status")
         Observable<Void> getHostStatus();
+    }
+
+    private interface FunctionServiceViaKey {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps triggerFunction" })
+        @POST("admin/functions/{name}")
+        Observable<Void> triggerFunction(@Header("x-functions-key") String key, @Path("name") String functionName, @Body Object payload);
     }
 
     private static class FunctionKeyListResult {

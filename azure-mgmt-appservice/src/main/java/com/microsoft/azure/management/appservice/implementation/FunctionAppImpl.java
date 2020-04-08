@@ -434,11 +434,11 @@ class FunctionAppImpl
 
     @Override
     public Observable<String> getMasterKeyAsync() {
-        return functionAppKeyService.getMasterKey(resourceGroupName(), name(), manager().subscriptionId(), "2016-08-01", manager().inner().userAgent())
-                .map(new Func1<Map<String, String>, String>() {
+        return functionAppKeyService.getMasterKey(resourceGroupName(), name(), manager().subscriptionId(), "2019-08-01", manager().inner().userAgent())
+                .map(new Func1<ListKeysResult, String>() {
                     @Override
-                    public String call(Map<String, String> stringStringMap) {
-                        return stringStringMap.get("masterKey");
+                    public String call(ListKeysResult keys) {
+                        return keys.getMasterKey();
                     }
                 });
     }
@@ -620,10 +620,25 @@ class FunctionAppImpl
         return super.afterPostRunAsync(isGroupFaulted);
     }
 
+    private static class ListKeysResult {
+        @JsonProperty("masterKey")
+        private String masterKey;
+
+        @JsonProperty("functionKeys")
+        private Map<String, String> functionKeys;
+
+        @JsonProperty("systemKeys")
+        private Map<String, String> systemKeys;
+
+        public String getMasterKey() {
+            return masterKey;
+        }
+    }
+
     private interface FunctionAppKeyService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getMasterKey" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/admin/masterkey")
-        Observable<Map<String, String>> getMasterKey(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("User-Agent") String userAgent);
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/listkeys")
+        Observable<ListKeysResult> getMasterKey(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("User-Agent") String userAgent);
     }
 
     private interface FunctionService {

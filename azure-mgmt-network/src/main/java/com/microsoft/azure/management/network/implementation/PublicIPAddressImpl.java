@@ -117,7 +117,8 @@ class PublicIPAddressImpl
 
     @Override
     public PublicIPAddressImpl withoutLeafDomainLabel() {
-        return this.withLeafDomainLabel(null);
+        this.inner().withDnsSettings(null);
+        return this;
     }
 
     @Override

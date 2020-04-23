@@ -253,7 +253,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withTemplate(String templateJson) throws IOException {
-        return withTemplate(objectMapper.readTree(templateJson));
+        return withTemplate(objectMapper.readValue(templateJson, Object.class));
     }
 
     @Override
@@ -287,7 +287,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withParameters(String parametersJson) throws IOException {
-        return withParameters(objectMapper.readTree(parametersJson));
+        return withParameters(objectMapper.readValue(parametersJson, Object.class));
     }
 
     @Override

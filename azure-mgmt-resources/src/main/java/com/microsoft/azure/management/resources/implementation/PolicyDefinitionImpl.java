@@ -81,7 +81,7 @@ final class PolicyDefinitionImpl extends
     @Override
     public PolicyDefinitionImpl withPolicyRuleJson(String policyRuleJson) {
         try {
-            inner().withPolicyRule(new ObjectMapper().readTree(policyRuleJson));
+            inner().withPolicyRule(new ObjectMapper().readValue(policyRuleJson, Object.class));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

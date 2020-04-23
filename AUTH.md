@@ -19,7 +19,7 @@ The authentication file, referenced as "my.azureauth" in the example above, cont
 az ad sp create-for-rbac --sdk-auth > my.azureauth
 ```
 
-If you don't have Azure CLI installed, you can also do this in the [cloud shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart). Alternatively, you can login to Java SDK through other ways of authentication and create an auth file by following [this sample](https://github.com/Azure/azure-sdk-for-java/blob/master/azure-samples/src/main/java/com/microsoft/azure/management/graphrbac/samples/ManageServicePrincipal.java). For detailed explanations of the content in this auth file, or directions to create the auth file manually, please see [Auth file formats](#auth-file-formats).
+If you don't have Azure CLI installed, you can also do this in the [cloud shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart). Alternatively, you can login to Java SDK through other ways of authentication and create an auth file by following [this sample](https://github.com/Azure-Samples/aad-java-manage-service-principals/blob/master/src/main/java/com/microsoft/azure/management/graphrbac/samples/ManageServicePrincipal.java). For detailed explanations of the content in this auth file, or directions to create the auth file manually, please see [Auth file formats](#auth-file-formats).
 
 ## Using `ApplicationTokenCredentials`
 

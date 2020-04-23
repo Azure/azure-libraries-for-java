@@ -90,7 +90,9 @@ class VirtualMachineExtensionsImpl extends
                                 .flatMap(new Func1<VirtualMachineExtensionInner, Observable<VirtualMachineExtension>>() {
                                     @Override
                                     public Observable<VirtualMachineExtension> call(VirtualMachineExtensionInner extensionInner) {
-                                        if (extensionInner == null) return Observable.empty();
+                                        if (extensionInner == null) {
+                                            return Observable.empty();
+                                        }
                                         return Observable.just((VirtualMachineExtension) new VirtualMachineExtensionImpl(extension.name(), parent(), extensionInner, client));
                                     }
                                 });

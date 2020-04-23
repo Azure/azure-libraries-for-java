@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.azure.management.resources.DebugSetting;
 import com.microsoft.azure.management.resources.Dependency;
@@ -42,7 +41,6 @@ import rx.functions.Func1;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The implementation of {@link Deployment} and its nested interfaces.
@@ -255,9 +253,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withTemplate(String templateJson) throws IOException {
-        return withTemplate(objectMapper.readValue(templateJson,
-                new TypeReference<Map<String, Object>>() {
-                }));
+        return withTemplate(objectMapper.readValue(templateJson, Object.class));
     }
 
     @Override
@@ -291,9 +287,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withParameters(String parametersJson) throws IOException {
-        return withParameters(objectMapper.readValue(parametersJson,
-                new TypeReference<Map<String, Object>>() {
-                }));
+        return withParameters(objectMapper.readValue(parametersJson, Object.class));
     }
 
     @Override

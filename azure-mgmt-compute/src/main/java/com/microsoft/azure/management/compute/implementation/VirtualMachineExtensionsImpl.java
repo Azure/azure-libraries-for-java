@@ -87,10 +87,13 @@ class VirtualMachineExtensionsImpl extends
                     @Override
                     public Observable<VirtualMachineExtension> call(final VirtualMachineExtensionImpl extension) {
                         return client.getAsync(parent().resourceGroupName(), parent().name(), extension.name())
-                                .map(new Func1<VirtualMachineExtensionInner, VirtualMachineExtension>() {
+                                .flatMap(new Func1<VirtualMachineExtensionInner, Observable<VirtualMachineExtension>>() {
                                     @Override
-                                    public VirtualMachineExtension call(VirtualMachineExtensionInner extensionInner) {
-                                        return new VirtualMachineExtensionImpl(extension.name(), parent(), extensionInner, client);
+                                    public Observable<VirtualMachineExtension> call(VirtualMachineExtensionInner extensionInner) {
+                                        if (extensionInner == null) {
+                                            return Observable.empty();
+                                        }
+                                        return Observable.just((VirtualMachineExtension) new VirtualMachineExtensionImpl(extension.name(), parent(), extensionInner, client));
                                     }
                                 });
                     }

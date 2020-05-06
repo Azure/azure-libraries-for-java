@@ -1653,7 +1653,7 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
+            @Deprecated
             WithCreate withLowPriority();
 
             /**
@@ -1662,8 +1662,23 @@ public interface VirtualMachine extends
              * @param policy eviction policy for the virtual machine
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
+            @Deprecated
             WithCreate withLowPriority(VirtualMachineEvictionPolicyTypes policy);
+
+            /**
+             * Specify that virtual machine should be spot priority.
+             *
+             * @return the next stage of the definition
+             */
+            WithCreate withSpotPriority();
+
+            /**
+             * Specify that virtual machines should be spot priority VMs with the provided eviction policy.
+             *
+             * @param policy eviction policy for the virtual machine
+             * @return the next stage of the definition
+             */
+            WithCreate withSpotPriority(VirtualMachineEvictionPolicyTypes policy);
         }
 
         /**

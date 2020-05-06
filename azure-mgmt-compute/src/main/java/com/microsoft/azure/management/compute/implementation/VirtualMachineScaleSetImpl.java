@@ -2385,6 +2385,12 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public VirtualMachineScaleSetImpl withVirtualMachineEvictionPolicy(VirtualMachineEvictionPolicyTypes policy) {
+        this.inner().virtualMachineProfile().withEvictionPolicy(policy);
+        return this;
+    }
+
+    @Override
     public VirtualMachineScaleSetImpl withLowPriorityVirtualMachine() {
         this.withVirtualMachinePriority(VirtualMachinePriorityTypes.LOW);
         return this;
@@ -2393,6 +2399,32 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withLowPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy) {
         this.withLowPriorityVirtualMachine();
+        this.inner().virtualMachineProfile().withEvictionPolicy(policy);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withRegularPriorityVirtualMachine() {
+        this.withVirtualMachinePriority(VirtualMachinePriorityTypes.REGULAR);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withRegularPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy) {
+        this.withRegularPriorityVirtualMachine();
+        this.inner().virtualMachineProfile().withEvictionPolicy(policy);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withSpotPriorityVirtualMachine() {
+        this.withVirtualMachinePriority(VirtualMachinePriorityTypes.SPOT);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withSpotPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy) {
+        this.withSpotPriorityVirtualMachine();
         this.inner().virtualMachineProfile().withEvictionPolicy(policy);
         return this;
     }

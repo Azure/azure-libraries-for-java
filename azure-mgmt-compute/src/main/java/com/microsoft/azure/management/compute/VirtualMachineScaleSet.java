@@ -1724,19 +1724,11 @@ public interface VirtualMachineScaleSet extends
             WithCreate withVirtualMachinePriority(VirtualMachinePriorityTypes priority);
 
             /**
-             * Specifies the eviction policy of the virtual machines in the scale set.
-             *
-             * @param policy eviction policy for the virtual machines in the scale set.
-             * @return the next stage of the definition
-             */
-            WithCreate withVirtualMachineEvictionPolicy(VirtualMachineEvictionPolicyTypes policy);
-
-            /**
              * Specify that virtual machines in the scale set should be low priority VMs.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_11_0)
+            @Deprecated
             WithCreate withLowPriorityVirtualMachine();
 
             /**
@@ -1747,25 +1739,8 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_11_0)
+            @Deprecated
             WithCreate withLowPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy);
-
-            /**
-             * Specify that virtual machines in the scale set should be regular priority VMs.
-             *
-             * @return the next stage of the definition
-             */
-            WithCreate withRegularPriorityVirtualMachine();
-
-            /**
-             * Specify that virtual machines in the scale set should be regular priority VMs with
-             * provided eviction policy.
-             *
-             * @param policy eviction policy for the virtual machines in the scale set.
-             *
-             * @return the next stage of the definition
-             */
-            WithCreate withRegularPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy);
 
             /**
              * Specify that virtual machines in the scale set should be spot priority VMs.

@@ -163,7 +163,7 @@ public final class ResourceUtils {
     }
 
     /**
-     * Get the resource type used to find api version
+     * Get the resource type used to find api version.
      *
      * @param id the resource ID
      * @return the resource type to use

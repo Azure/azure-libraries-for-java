@@ -152,6 +152,9 @@ public final class ResourceUtils {
      * @return the default api version to use
      */
     public static String defaultApiVersion(String id, Provider provider) {
+        if (id == null) {
+            return null;
+        }
         String resourceType = resourceTypeForApiVersion(id);
         // Exact match
         for (ProviderResourceType prt : provider.resourceTypes()) {
@@ -159,7 +162,7 @@ public final class ResourceUtils {
                 return prt.apiVersions().get(0);
             }
         }
-        return null;
+        return defaultApiVersion(parentResourceIdFromResourceId(id), provider);
     }
 
     /**

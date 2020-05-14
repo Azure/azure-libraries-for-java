@@ -28,6 +28,12 @@ public class ManagedClusterAddonProfile {
     private Map<String, String> config;
 
     /**
+     * Information of user assigned identity used by this add-on.
+     */
+    @JsonProperty(value = "identity", access = JsonProperty.Access.WRITE_ONLY)
+    private ManagedClusterAddonProfileIdentity identity;
+
+    /**
      * Get whether the add-on is enabled or not.
      *
      * @return the enabled value
@@ -65,6 +71,15 @@ public class ManagedClusterAddonProfile {
     public ManagedClusterAddonProfile withConfig(Map<String, String> config) {
         this.config = config;
         return this;
+    }
+
+    /**
+     * Get information of user assigned identity used by this add-on.
+     *
+     * @return the identity value
+     */
+    public ManagedClusterAddonProfileIdentity identity() {
+        return this.identity;
     }
 
 }

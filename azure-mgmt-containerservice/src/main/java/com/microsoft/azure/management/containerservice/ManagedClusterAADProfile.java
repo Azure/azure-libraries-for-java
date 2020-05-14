@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.containerservice;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -15,15 +16,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ManagedClusterAADProfile {
     /**
+     * Whether to enable managed AAD.
+     */
+    @JsonProperty(value = "managed")
+    private Boolean managed;
+
+    /**
+     * AAD group object IDs that will have admin role of the cluster.
+     */
+    @JsonProperty(value = "adminGroupObjectIDs")
+    private List<String> adminGroupObjectIDs;
+
+    /**
      * The client AAD application ID.
      */
-    @JsonProperty(value = "clientAppID", required = true)
+    @JsonProperty(value = "clientAppID")
     private String clientAppID;
 
     /**
      * The server AAD application ID.
      */
-    @JsonProperty(value = "serverAppID", required = true)
+    @JsonProperty(value = "serverAppID")
     private String serverAppID;
 
     /**
@@ -38,6 +51,46 @@ public class ManagedClusterAADProfile {
      */
     @JsonProperty(value = "tenantID")
     private String tenantID;
+
+    /**
+     * Get whether to enable managed AAD.
+     *
+     * @return the managed value
+     */
+    public Boolean managed() {
+        return this.managed;
+    }
+
+    /**
+     * Set whether to enable managed AAD.
+     *
+     * @param managed the managed value to set
+     * @return the ManagedClusterAADProfile object itself.
+     */
+    public ManagedClusterAADProfile withManaged(Boolean managed) {
+        this.managed = managed;
+        return this;
+    }
+
+    /**
+     * Get aAD group object IDs that will have admin role of the cluster.
+     *
+     * @return the adminGroupObjectIDs value
+     */
+    public List<String> adminGroupObjectIDs() {
+        return this.adminGroupObjectIDs;
+    }
+
+    /**
+     * Set aAD group object IDs that will have admin role of the cluster.
+     *
+     * @param adminGroupObjectIDs the adminGroupObjectIDs value to set
+     * @return the ManagedClusterAADProfile object itself.
+     */
+    public ManagedClusterAADProfile withAdminGroupObjectIDs(List<String> adminGroupObjectIDs) {
+        this.adminGroupObjectIDs = adminGroupObjectIDs;
+        return this;
+    }
 
     /**
      * Get the client AAD application ID.

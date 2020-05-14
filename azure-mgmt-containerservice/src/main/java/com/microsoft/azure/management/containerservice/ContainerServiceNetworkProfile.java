@@ -29,6 +29,13 @@ public class ContainerServiceNetworkProfile {
     private NetworkPolicy networkPolicy;
 
     /**
+     * Network mode used for building Kubernetes network. Possible values
+     * include: 'transparent', 'bridge'.
+     */
+    @JsonProperty(value = "networkMode")
+    private NetworkMode networkMode;
+
+    /**
      * A CIDR notation IP range from which to assign pod IPs when kubenet is
      * used.
      */
@@ -56,6 +63,13 @@ public class ContainerServiceNetworkProfile {
      */
     @JsonProperty(value = "dockerBridgeCidr")
     private String dockerBridgeCidr;
+
+    /**
+     * The outbound (egress) routing method. Possible values include:
+     * 'loadBalancer', 'userDefinedRouting'.
+     */
+    @JsonProperty(value = "outboundType")
+    private OutboundType outboundType;
 
     /**
      * The load balancer sku for the managed cluster. Possible values include:
@@ -107,6 +121,26 @@ public class ContainerServiceNetworkProfile {
      */
     public ContainerServiceNetworkProfile withNetworkPolicy(NetworkPolicy networkPolicy) {
         this.networkPolicy = networkPolicy;
+        return this;
+    }
+
+    /**
+     * Get network mode used for building Kubernetes network. Possible values include: 'transparent', 'bridge'.
+     *
+     * @return the networkMode value
+     */
+    public NetworkMode networkMode() {
+        return this.networkMode;
+    }
+
+    /**
+     * Set network mode used for building Kubernetes network. Possible values include: 'transparent', 'bridge'.
+     *
+     * @param networkMode the networkMode value to set
+     * @return the ContainerServiceNetworkProfile object itself.
+     */
+    public ContainerServiceNetworkProfile withNetworkMode(NetworkMode networkMode) {
+        this.networkMode = networkMode;
         return this;
     }
 
@@ -187,6 +221,26 @@ public class ContainerServiceNetworkProfile {
      */
     public ContainerServiceNetworkProfile withDockerBridgeCidr(String dockerBridgeCidr) {
         this.dockerBridgeCidr = dockerBridgeCidr;
+        return this;
+    }
+
+    /**
+     * Get the outbound (egress) routing method. Possible values include: 'loadBalancer', 'userDefinedRouting'.
+     *
+     * @return the outboundType value
+     */
+    public OutboundType outboundType() {
+        return this.outboundType;
+    }
+
+    /**
+     * Set the outbound (egress) routing method. Possible values include: 'loadBalancer', 'userDefinedRouting'.
+     *
+     * @param outboundType the outboundType value to set
+     * @return the ContainerServiceNetworkProfile object itself.
+     */
+    public ContainerServiceNetworkProfile withOutboundType(OutboundType outboundType) {
+        this.outboundType = outboundType;
         return this;
     }
 

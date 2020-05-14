@@ -11,9 +11,11 @@ package com.microsoft.azure.management.containerservice.implementation;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.OSType;
 import com.microsoft.azure.management.containerservice.AgentPoolType;
+import com.microsoft.azure.management.containerservice.AgentPoolMode;
 import java.util.List;
 import com.microsoft.azure.management.containerservice.ScaleSetPriority;
 import com.microsoft.azure.management.containerservice.ScaleSetEvictionPolicy;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -25,7 +27,7 @@ import com.microsoft.azure.SubResource;
 public class AgentPoolInner extends SubResource {
     /**
      * Number of agents (VMs) to host docker containers. Allowed values must be
-     * in the range of 1 to 100 (inclusive). The default value is 1.
+     * in the range of 0 to 100 (inclusive). The default value is 1.
      */
     @JsonProperty(value = "properties.count", required = true)
     private int count;
@@ -140,6 +142,13 @@ public class AgentPoolInner extends SubResource {
     private AgentPoolType agentPoolType;
 
     /**
+     * AgentPoolMode represents mode of an agent pool. Possible values include:
+     * 'System', 'User'.
+     */
+    @JsonProperty(value = "properties.mode")
+    private AgentPoolMode mode;
+
+    /**
      * Version of orchestrator specified when creating the managed cluster.
      */
     @JsonProperty(value = "properties.orchestratorVersion")
@@ -153,7 +162,7 @@ public class AgentPoolInner extends SubResource {
     private String provisioningState;
 
     /**
-     * (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets
+     * Availability zones for nodes. Must use VirtualMachineScaleSets
      * AgentPoolType.
      */
     @JsonProperty(value = "properties.availabilityZones")
@@ -167,18 +176,40 @@ public class AgentPoolInner extends SubResource {
 
     /**
      * ScaleSetPriority to be used to specify virtual machine scale set
-     * priority. Default to regular. Possible values include: 'Low', 'Regular'.
+     * priority. Default to regular. Possible values include: 'Spot', 'Low',
+     * 'Regular'.
      */
     @JsonProperty(value = "properties.scaleSetPriority")
     private ScaleSetPriority scaleSetPriority;
 
     /**
-     * ScaleSetEvictionPolicy to be used to specify eviction policy for low
-     * priority virtual machine scale set. Default to Delete. Possible values
-     * include: 'Delete', 'Deallocate'.
+     * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or
+     * low priority virtual machine scale set. Default to Delete. Possible
+     * values include: 'Delete', 'Deallocate'.
      */
     @JsonProperty(value = "properties.scaleSetEvictionPolicy")
     private ScaleSetEvictionPolicy scaleSetEvictionPolicy;
+
+    /**
+     * SpotMaxPrice to be used to specify the maximum price you are willing to
+     * pay in US Dollars. Possible values are any decimal value greater than
+     * zero or -1 which indicates default price to be up-to on-demand.
+     */
+    @JsonProperty(value = "properties.spotMaxPrice")
+    private Double spotMaxPrice;
+
+    /**
+     * Agent pool tags to be persisted on the agent pool virtual machine scale
+     * set.
+     */
+    @JsonProperty(value = "properties.tags")
+    private Map<String, String> tags;
+
+    /**
+     * Agent pool node labels to be persisted across all nodes in agent pool.
+     */
+    @JsonProperty(value = "properties.nodeLabels")
+    private Map<String, String> nodeLabels;
 
     /**
      * Taints added to new nodes during node pool create and scale. For
@@ -201,7 +232,7 @@ public class AgentPoolInner extends SubResource {
     private String type;
 
     /**
-     * Get number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+     * Get number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1.
      *
      * @return the count value
      */
@@ -210,7 +241,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Set number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+     * Set number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1.
      *
      * @param count the count value to set
      * @return the AgentPoolInner object itself.
@@ -401,6 +432,26 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
+     * Get agentPoolMode represents mode of an agent pool. Possible values include: 'System', 'User'.
+     *
+     * @return the mode value
+     */
+    public AgentPoolMode mode() {
+        return this.mode;
+    }
+
+    /**
+     * Set agentPoolMode represents mode of an agent pool. Possible values include: 'System', 'User'.
+     *
+     * @param mode the mode value to set
+     * @return the AgentPoolInner object itself.
+     */
+    public AgentPoolInner withMode(AgentPoolMode mode) {
+        this.mode = mode;
+        return this;
+    }
+
+    /**
      * Get version of orchestrator specified when creating the managed cluster.
      *
      * @return the orchestratorVersion value
@@ -430,7 +481,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Get (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+     * Get availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
      *
      * @return the availabilityZones value
      */
@@ -439,7 +490,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Set (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+     * Set availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
      *
      * @param availabilityZones the availabilityZones value to set
      * @return the AgentPoolInner object itself.
@@ -470,7 +521,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Get scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Low', 'Regular'.
+     * Get scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Low', 'Regular'.
      *
      * @return the scaleSetPriority value
      */
@@ -479,7 +530,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Set scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Low', 'Regular'.
+     * Set scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Low', 'Regular'.
      *
      * @param scaleSetPriority the scaleSetPriority value to set
      * @return the AgentPoolInner object itself.
@@ -490,7 +541,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Get scaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
+     * Get scaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
      *
      * @return the scaleSetEvictionPolicy value
      */
@@ -499,13 +550,73 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Set scaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
+     * Set scaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
      *
      * @param scaleSetEvictionPolicy the scaleSetEvictionPolicy value to set
      * @return the AgentPoolInner object itself.
      */
     public AgentPoolInner withScaleSetEvictionPolicy(ScaleSetEvictionPolicy scaleSetEvictionPolicy) {
         this.scaleSetEvictionPolicy = scaleSetEvictionPolicy;
+        return this;
+    }
+
+    /**
+     * Get spotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.
+     *
+     * @return the spotMaxPrice value
+     */
+    public Double spotMaxPrice() {
+        return this.spotMaxPrice;
+    }
+
+    /**
+     * Set spotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.
+     *
+     * @param spotMaxPrice the spotMaxPrice value to set
+     * @return the AgentPoolInner object itself.
+     */
+    public AgentPoolInner withSpotMaxPrice(Double spotMaxPrice) {
+        this.spotMaxPrice = spotMaxPrice;
+        return this;
+    }
+
+    /**
+     * Get agent pool tags to be persisted on the agent pool virtual machine scale set.
+     *
+     * @return the tags value
+     */
+    public Map<String, String> tags() {
+        return this.tags;
+    }
+
+    /**
+     * Set agent pool tags to be persisted on the agent pool virtual machine scale set.
+     *
+     * @param tags the tags value to set
+     * @return the AgentPoolInner object itself.
+     */
+    public AgentPoolInner withTags(Map<String, String> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    /**
+     * Get agent pool node labels to be persisted across all nodes in agent pool.
+     *
+     * @return the nodeLabels value
+     */
+    public Map<String, String> nodeLabels() {
+        return this.nodeLabels;
+    }
+
+    /**
+     * Set agent pool node labels to be persisted across all nodes in agent pool.
+     *
+     * @param nodeLabels the nodeLabels value to set
+     * @return the AgentPoolInner object itself.
+     */
+    public AgentPoolInner withNodeLabels(Map<String, String> nodeLabels) {
+        this.nodeLabels = nodeLabels;
         return this;
     }
 

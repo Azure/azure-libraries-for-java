@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.containerservice;
 
 import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ManagedClusterAgentPoolProfileProperties {
     /**
      * Number of agents (VMs) to host docker containers. Allowed values must be
-     * in the range of 1 to 100 (inclusive). The default value is 1.
+     * in the range of 0 to 100 (inclusive). The default value is 1.
      */
     @JsonProperty(value = "count", required = true)
     private int count;
@@ -132,6 +133,13 @@ public class ManagedClusterAgentPoolProfileProperties {
     private AgentPoolType type;
 
     /**
+     * AgentPoolMode represents mode of an agent pool. Possible values include:
+     * 'System', 'User'.
+     */
+    @JsonProperty(value = "mode")
+    private AgentPoolMode mode;
+
+    /**
      * Version of orchestrator specified when creating the managed cluster.
      */
     @JsonProperty(value = "orchestratorVersion")
@@ -145,7 +153,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     private String provisioningState;
 
     /**
-     * (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets
+     * Availability zones for nodes. Must use VirtualMachineScaleSets
      * AgentPoolType.
      */
     @JsonProperty(value = "availabilityZones")
@@ -159,18 +167,40 @@ public class ManagedClusterAgentPoolProfileProperties {
 
     /**
      * ScaleSetPriority to be used to specify virtual machine scale set
-     * priority. Default to regular. Possible values include: 'Low', 'Regular'.
+     * priority. Default to regular. Possible values include: 'Spot', 'Low',
+     * 'Regular'.
      */
     @JsonProperty(value = "scaleSetPriority")
     private ScaleSetPriority scaleSetPriority;
 
     /**
-     * ScaleSetEvictionPolicy to be used to specify eviction policy for low
-     * priority virtual machine scale set. Default to Delete. Possible values
-     * include: 'Delete', 'Deallocate'.
+     * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or
+     * low priority virtual machine scale set. Default to Delete. Possible
+     * values include: 'Delete', 'Deallocate'.
      */
     @JsonProperty(value = "scaleSetEvictionPolicy")
     private ScaleSetEvictionPolicy scaleSetEvictionPolicy;
+
+    /**
+     * SpotMaxPrice to be used to specify the maximum price you are willing to
+     * pay in US Dollars. Possible values are any decimal value greater than
+     * zero or -1 which indicates default price to be up-to on-demand.
+     */
+    @JsonProperty(value = "spotMaxPrice")
+    private Double spotMaxPrice;
+
+    /**
+     * Agent pool tags to be persisted on the agent pool virtual machine scale
+     * set.
+     */
+    @JsonProperty(value = "tags")
+    private Map<String, String> tags;
+
+    /**
+     * Agent pool node labels to be persisted across all nodes in agent pool.
+     */
+    @JsonProperty(value = "nodeLabels")
+    private Map<String, String> nodeLabels;
 
     /**
      * Taints added to new nodes during node pool create and scale. For
@@ -180,7 +210,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     private List<String> nodeTaints;
 
     /**
-     * Get number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+     * Get number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1.
      *
      * @return the count value
      */
@@ -189,7 +219,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Set number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+     * Set number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1.
      *
      * @param count the count value to set
      * @return the ManagedClusterAgentPoolProfileProperties object itself.
@@ -380,6 +410,26 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
+     * Get agentPoolMode represents mode of an agent pool. Possible values include: 'System', 'User'.
+     *
+     * @return the mode value
+     */
+    public AgentPoolMode mode() {
+        return this.mode;
+    }
+
+    /**
+     * Set agentPoolMode represents mode of an agent pool. Possible values include: 'System', 'User'.
+     *
+     * @param mode the mode value to set
+     * @return the ManagedClusterAgentPoolProfileProperties object itself.
+     */
+    public ManagedClusterAgentPoolProfileProperties withMode(AgentPoolMode mode) {
+        this.mode = mode;
+        return this;
+    }
+
+    /**
      * Get version of orchestrator specified when creating the managed cluster.
      *
      * @return the orchestratorVersion value
@@ -409,7 +459,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Get (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+     * Get availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
      *
      * @return the availabilityZones value
      */
@@ -418,7 +468,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Set (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+     * Set availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
      *
      * @param availabilityZones the availabilityZones value to set
      * @return the ManagedClusterAgentPoolProfileProperties object itself.
@@ -449,7 +499,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Get scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Low', 'Regular'.
+     * Get scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Low', 'Regular'.
      *
      * @return the scaleSetPriority value
      */
@@ -458,7 +508,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Set scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Low', 'Regular'.
+     * Set scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Low', 'Regular'.
      *
      * @param scaleSetPriority the scaleSetPriority value to set
      * @return the ManagedClusterAgentPoolProfileProperties object itself.
@@ -469,7 +519,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Get scaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
+     * Get scaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
      *
      * @return the scaleSetEvictionPolicy value
      */
@@ -478,13 +528,73 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Set scaleSetEvictionPolicy to be used to specify eviction policy for low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
+     * Set scaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
      *
      * @param scaleSetEvictionPolicy the scaleSetEvictionPolicy value to set
      * @return the ManagedClusterAgentPoolProfileProperties object itself.
      */
     public ManagedClusterAgentPoolProfileProperties withScaleSetEvictionPolicy(ScaleSetEvictionPolicy scaleSetEvictionPolicy) {
         this.scaleSetEvictionPolicy = scaleSetEvictionPolicy;
+        return this;
+    }
+
+    /**
+     * Get spotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.
+     *
+     * @return the spotMaxPrice value
+     */
+    public Double spotMaxPrice() {
+        return this.spotMaxPrice;
+    }
+
+    /**
+     * Set spotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.
+     *
+     * @param spotMaxPrice the spotMaxPrice value to set
+     * @return the ManagedClusterAgentPoolProfileProperties object itself.
+     */
+    public ManagedClusterAgentPoolProfileProperties withSpotMaxPrice(Double spotMaxPrice) {
+        this.spotMaxPrice = spotMaxPrice;
+        return this;
+    }
+
+    /**
+     * Get agent pool tags to be persisted on the agent pool virtual machine scale set.
+     *
+     * @return the tags value
+     */
+    public Map<String, String> tags() {
+        return this.tags;
+    }
+
+    /**
+     * Set agent pool tags to be persisted on the agent pool virtual machine scale set.
+     *
+     * @param tags the tags value to set
+     * @return the ManagedClusterAgentPoolProfileProperties object itself.
+     */
+    public ManagedClusterAgentPoolProfileProperties withTags(Map<String, String> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    /**
+     * Get agent pool node labels to be persisted across all nodes in agent pool.
+     *
+     * @return the nodeLabels value
+     */
+    public Map<String, String> nodeLabels() {
+        return this.nodeLabels;
+    }
+
+    /**
+     * Set agent pool node labels to be persisted across all nodes in agent pool.
+     *
+     * @param nodeLabels the nodeLabels value to set
+     * @return the ManagedClusterAgentPoolProfileProperties object itself.
+     */
+    public ManagedClusterAgentPoolProfileProperties withNodeLabels(Map<String, String> nodeLabels) {
+        this.nodeLabels = nodeLabels;
         return this;
     }
 

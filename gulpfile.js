@@ -67,7 +67,7 @@ var autoRestExe;
 gulp.task('codegen', function(cb) {
     if (autoRestVersion.match(/[0-9]+\.[0-9]+\.[0-9]+.*/) ||
         autoRestVersion == 'latest') {
-            autoRestExe = 'autorest ---version=' + autoRestVersion;
+            autoRestExe = 'autorest --version=' + autoRestVersion;
             handleInput(projects, cb);
     } else {
         autoRestExe = "node " + path.join(autoRestVersion, "src/autorest-core/dist/app.js");

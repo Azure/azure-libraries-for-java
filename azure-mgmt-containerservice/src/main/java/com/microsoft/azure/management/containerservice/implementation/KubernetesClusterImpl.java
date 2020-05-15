@@ -15,6 +15,7 @@ import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPoo
 import com.microsoft.azure.management.containerservice.KubernetesVersion;
 import com.microsoft.azure.management.containerservice.ManagedClusterAddonProfile;
 import com.microsoft.azure.management.containerservice.ManagedClusterAgentPoolProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterSKU;
 import com.microsoft.azure.management.containerservice.ManagedClusterServicePrincipalProfile;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Observable;
@@ -66,6 +67,11 @@ public class KubernetesClusterImpl extends
     @Override
     public String fqdn() {
         return this.inner().fqdn();
+    }
+
+    @Override
+    public ManagedClusterSKU sku() {
+        return this.inner().sku();
     }
 
     @Override
@@ -352,6 +358,12 @@ public class KubernetesClusterImpl extends
     @Override
     public KubernetesClusterImpl withRBACDisabled() {
         this.inner().withEnableRBAC(false);
+        return this;
+    }
+
+    @Override
+    public KubernetesCluster.DefinitionStages.WithCreate withSku(ManagedClusterSKU sku) {
+        this.inner().withSku(sku);
         return this;
     }
 }

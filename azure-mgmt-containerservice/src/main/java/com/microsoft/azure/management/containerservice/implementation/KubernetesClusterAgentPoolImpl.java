@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.containerservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.containerservice.AgentPoolMode;
 import com.microsoft.azure.management.containerservice.AgentPoolType;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
@@ -83,6 +84,11 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
+    public AgentPoolMode mode() {
+        return this.inner().mode();
+    }
+
+    @Override
     public KubernetesClusterAgentPoolImpl withVirtualMachineSize(ContainerServiceVMSizeTypes param0) {
         this.inner().withVmSize(param0);
         return this;
@@ -129,6 +135,12 @@ public class KubernetesClusterAgentPoolImpl
         String vnetSubnetId = virtualNetworkId + "/subnets/" + subnetName;
         this.subnetName = subnetName;
         this.inner().withVnetSubnetID(vnetSubnetId);
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterAgentPoolImpl withMode(AgentPoolMode mode) {
+        this.inner().withMode(mode);
         return this;
     }
 

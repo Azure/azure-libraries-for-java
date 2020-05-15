@@ -40,6 +40,21 @@ public class ManagedClusterLoadBalancerProfile {
     private List<ResourceReference> effectiveOutboundIPs;
 
     /**
+     * Desired number of allocated SNAT ports per VM. Allowed values must be in
+     * the range of 0 to 64000 (inclusive). The default value is 0 which
+     * results in Azure dynamically allocating ports.
+     */
+    @JsonProperty(value = "allocatedOutboundPorts")
+    private Integer allocatedOutboundPorts;
+
+    /**
+     * Desired outbound flow idle timeout in minutes. Allowed values must be in
+     * the range of 4 to 120 (inclusive). The default value is 30 minutes.
+     */
+    @JsonProperty(value = "idleTimeoutInMinutes")
+    private Integer idleTimeoutInMinutes;
+
+    /**
      * Get desired managed outbound IPs for the cluster load balancer.
      *
      * @return the managedOutboundIPs value
@@ -116,6 +131,46 @@ public class ManagedClusterLoadBalancerProfile {
      */
     public ManagedClusterLoadBalancerProfile withEffectiveOutboundIPs(List<ResourceReference> effectiveOutboundIPs) {
         this.effectiveOutboundIPs = effectiveOutboundIPs;
+        return this;
+    }
+
+    /**
+     * Get desired number of allocated SNAT ports per VM. Allowed values must be in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
+     *
+     * @return the allocatedOutboundPorts value
+     */
+    public Integer allocatedOutboundPorts() {
+        return this.allocatedOutboundPorts;
+    }
+
+    /**
+     * Set desired number of allocated SNAT ports per VM. Allowed values must be in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
+     *
+     * @param allocatedOutboundPorts the allocatedOutboundPorts value to set
+     * @return the ManagedClusterLoadBalancerProfile object itself.
+     */
+    public ManagedClusterLoadBalancerProfile withAllocatedOutboundPorts(Integer allocatedOutboundPorts) {
+        this.allocatedOutboundPorts = allocatedOutboundPorts;
+        return this;
+    }
+
+    /**
+     * Get desired outbound flow idle timeout in minutes. Allowed values must be in the range of 4 to 120 (inclusive). The default value is 30 minutes.
+     *
+     * @return the idleTimeoutInMinutes value
+     */
+    public Integer idleTimeoutInMinutes() {
+        return this.idleTimeoutInMinutes;
+    }
+
+    /**
+     * Set desired outbound flow idle timeout in minutes. Allowed values must be in the range of 4 to 120 (inclusive). The default value is 30 minutes.
+     *
+     * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set
+     * @return the ManagedClusterLoadBalancerProfile object itself.
+     */
+    public ManagedClusterLoadBalancerProfile withIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
+        this.idleTimeoutInMinutes = idleTimeoutInMinutes;
         return this;
     }
 

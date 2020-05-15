@@ -59,6 +59,12 @@ public interface KubernetesClusterAgentPool
     @Beta(SinceVersion.V1_15_0)
     String networkId();
 
+    /**
+     * @return the mode of the agent pool
+     */
+    @Beta(SinceVersion.V1_34_0)
+    AgentPoolMode mode();
+
 
     // Fluent interfaces
 
@@ -210,6 +216,24 @@ public interface KubernetesClusterAgentPool
             WithAttach<ParentT> withVirtualNetwork(String virtualNetworkId, String subnetName);
         }
 
+
+        /**
+         * The stage of a container service agent pool definition allowing to specify the mode of the agents.
+         *
+         * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
+         */
+        @Beta(SinceVersion.V1_34_0)
+        interface WithMode<ParentT> {
+            /**
+             * Specifies the mode of the agents.
+             *
+             * @param mode the agent pool mode
+             * @return the next stage
+             */
+            @Beta(SinceVersion.V1_34_0)
+            WithAttach<ParentT> withMode(AgentPoolMode mode);
+        }
+
         /** The final stage of a container service agent pool definition.
          * At this stage, any remaining optional settings can be specified, or the container service agent pool
          * can be attached to the parent container service definition.
@@ -222,6 +246,7 @@ public interface KubernetesClusterAgentPool
             WithAgentPoolVirtualMachineCount<ParentT>,
             WithMaxPodsCount<ParentT>,
             WithVirtualNetwork<ParentT>,
+            WithMode<ParentT>,
             Attachable.InDefinition<ParentT> {
         }
 

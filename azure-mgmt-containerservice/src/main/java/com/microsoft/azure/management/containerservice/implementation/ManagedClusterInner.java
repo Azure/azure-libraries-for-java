@@ -17,8 +17,11 @@ import java.util.Map;
 import com.microsoft.azure.management.containerservice.ManagedClusterAddonProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceNetworkProfile;
 import com.microsoft.azure.management.containerservice.ManagedClusterAADProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterPropertiesAutoScalerProfile;
 import com.microsoft.azure.management.containerservice.ManagedClusterAPIServerAccessProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterPropertiesIdentityProfileValue;
 import com.microsoft.azure.management.containerservice.ManagedClusterIdentity;
+import com.microsoft.azure.management.containerservice.ManagedClusterSKU;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -58,6 +61,12 @@ public class ManagedClusterInner extends Resource {
      */
     @JsonProperty(value = "properties.fqdn", access = JsonProperty.Access.WRITE_ONLY)
     private String fqdn;
+
+    /**
+     * FQDN of private cluster.
+     */
+    @JsonProperty(value = "properties.privateFQDN", access = JsonProperty.Access.WRITE_ONLY)
+    private String privateFQDN;
 
     /**
      * Properties of the agent pool.
@@ -121,16 +130,41 @@ public class ManagedClusterInner extends Resource {
     private ManagedClusterAADProfile aadProfile;
 
     /**
+     * Parameters to be applied to the cluster-autoscaler when enabled.
+     */
+    @JsonProperty(value = "properties.autoScalerProfile")
+    private ManagedClusterPropertiesAutoScalerProfile autoScalerProfile;
+
+    /**
      * Access profile for managed cluster API server.
      */
     @JsonProperty(value = "properties.apiServerAccessProfile")
     private ManagedClusterAPIServerAccessProfile apiServerAccessProfile;
 
     /**
+     * ResourceId of the disk encryption set to use for enabling encryption at
+     * rest.
+     */
+    @JsonProperty(value = "properties.diskEncryptionSetID")
+    private String diskEncryptionSetID;
+
+    /**
+     * Identities associated with the cluster.
+     */
+    @JsonProperty(value = "properties.identityProfile")
+    private Map<String, ManagedClusterPropertiesIdentityProfileValue> identityProfile;
+
+    /**
      * The identity of the managed cluster, if configured.
      */
     @JsonProperty(value = "identity")
     private ManagedClusterIdentity identity;
+
+    /**
+     * The managed cluster SKU.
+     */
+    @JsonProperty(value = "sku")
+    private ManagedClusterSKU sku;
 
     /**
      * Get the current deployment or provisioning state, which only appears in the response.
@@ -197,6 +231,15 @@ public class ManagedClusterInner extends Resource {
      */
     public String fqdn() {
         return this.fqdn;
+    }
+
+    /**
+     * Get fQDN of private cluster.
+     *
+     * @return the privateFQDN value
+     */
+    public String privateFQDN() {
+        return this.privateFQDN;
     }
 
     /**
@@ -400,6 +443,26 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
+     * Get parameters to be applied to the cluster-autoscaler when enabled.
+     *
+     * @return the autoScalerProfile value
+     */
+    public ManagedClusterPropertiesAutoScalerProfile autoScalerProfile() {
+        return this.autoScalerProfile;
+    }
+
+    /**
+     * Set parameters to be applied to the cluster-autoscaler when enabled.
+     *
+     * @param autoScalerProfile the autoScalerProfile value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withAutoScalerProfile(ManagedClusterPropertiesAutoScalerProfile autoScalerProfile) {
+        this.autoScalerProfile = autoScalerProfile;
+        return this;
+    }
+
+    /**
      * Get access profile for managed cluster API server.
      *
      * @return the apiServerAccessProfile value
@@ -420,6 +483,46 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
+     * Get resourceId of the disk encryption set to use for enabling encryption at rest.
+     *
+     * @return the diskEncryptionSetID value
+     */
+    public String diskEncryptionSetID() {
+        return this.diskEncryptionSetID;
+    }
+
+    /**
+     * Set resourceId of the disk encryption set to use for enabling encryption at rest.
+     *
+     * @param diskEncryptionSetID the diskEncryptionSetID value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withDiskEncryptionSetID(String diskEncryptionSetID) {
+        this.diskEncryptionSetID = diskEncryptionSetID;
+        return this;
+    }
+
+    /**
+     * Get identities associated with the cluster.
+     *
+     * @return the identityProfile value
+     */
+    public Map<String, ManagedClusterPropertiesIdentityProfileValue> identityProfile() {
+        return this.identityProfile;
+    }
+
+    /**
+     * Set identities associated with the cluster.
+     *
+     * @param identityProfile the identityProfile value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withIdentityProfile(Map<String, ManagedClusterPropertiesIdentityProfileValue> identityProfile) {
+        this.identityProfile = identityProfile;
+        return this;
+    }
+
+    /**
      * Get the identity of the managed cluster, if configured.
      *
      * @return the identity value
@@ -436,6 +539,26 @@ public class ManagedClusterInner extends Resource {
      */
     public ManagedClusterInner withIdentity(ManagedClusterIdentity identity) {
         this.identity = identity;
+        return this;
+    }
+
+    /**
+     * Get the managed cluster SKU.
+     *
+     * @return the sku value
+     */
+    public ManagedClusterSKU sku() {
+        return this.sku;
+    }
+
+    /**
+     * Set the managed cluster SKU.
+     *
+     * @param sku the sku value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withSku(ManagedClusterSKU sku) {
+        this.sku = sku;
         return this;
     }
 

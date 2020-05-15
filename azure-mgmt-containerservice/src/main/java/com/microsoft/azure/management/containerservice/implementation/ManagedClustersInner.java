@@ -94,6 +94,10 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential")
         Observable<Response<ResponseBody>> listClusterUserCredentials(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters listClusterMonitoringUserCredentials" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterMonitoringUserCredential")
+        Observable<Response<ResponseBody>> listClusterMonitoringUserCredentials(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}")
         Observable<Response<ResponseBody>> getByResourceGroup(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -137,6 +141,14 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters beginResetAADProfile" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile")
         Observable<Response<ResponseBody>> beginResetAADProfile(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Body ManagedClusterAADProfile parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters rotateClusterCertificates" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates")
+        Observable<Response<ResponseBody>> rotateClusterCertificates(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters beginRotateClusterCertificates" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates")
+        Observable<Response<ResponseBody>> beginRotateClusterCertificates(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters listNext" })
         @GET
@@ -236,7 +248,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ManagedClusterInner>>>>() {
                 @Override
@@ -354,7 +366,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ManagedClusterInner>>>>() {
                 @Override
@@ -442,7 +454,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.getUpgradeProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedClusterUpgradeProfileInner>>>() {
                 @Override
@@ -537,7 +549,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (roleName == null) {
             throw new IllegalArgumentException("Parameter roleName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.getAccessProfile(this.client.subscriptionId(), resourceGroupName, resourceName, roleName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedClusterAccessProfileInner>>>() {
                 @Override
@@ -625,7 +637,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.listClusterAdminCredentials(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CredentialResultsInner>>>() {
                 @Override
@@ -713,7 +725,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.listClusterUserCredentials(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CredentialResultsInner>>>() {
                 @Override
@@ -729,6 +741,94 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     }
 
     private ServiceResponse<CredentialResultsInner> listClusterUserCredentialsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<CredentialResultsInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<CredentialResultsInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets cluster monitoring user credential of a managed cluster.
+     * Gets cluster monitoring user credential of the managed cluster with a specified resource group and name.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the CredentialResultsInner object if successful.
+     */
+    public CredentialResultsInner listClusterMonitoringUserCredentials(String resourceGroupName, String resourceName) {
+        return listClusterMonitoringUserCredentialsWithServiceResponseAsync(resourceGroupName, resourceName).toBlocking().single().body();
+    }
+
+    /**
+     * Gets cluster monitoring user credential of a managed cluster.
+     * Gets cluster monitoring user credential of the managed cluster with a specified resource group and name.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<CredentialResultsInner> listClusterMonitoringUserCredentialsAsync(String resourceGroupName, String resourceName, final ServiceCallback<CredentialResultsInner> serviceCallback) {
+        return ServiceFuture.fromResponse(listClusterMonitoringUserCredentialsWithServiceResponseAsync(resourceGroupName, resourceName), serviceCallback);
+    }
+
+    /**
+     * Gets cluster monitoring user credential of a managed cluster.
+     * Gets cluster monitoring user credential of the managed cluster with a specified resource group and name.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the CredentialResultsInner object
+     */
+    public Observable<CredentialResultsInner> listClusterMonitoringUserCredentialsAsync(String resourceGroupName, String resourceName) {
+        return listClusterMonitoringUserCredentialsWithServiceResponseAsync(resourceGroupName, resourceName).map(new Func1<ServiceResponse<CredentialResultsInner>, CredentialResultsInner>() {
+            @Override
+            public CredentialResultsInner call(ServiceResponse<CredentialResultsInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets cluster monitoring user credential of a managed cluster.
+     * Gets cluster monitoring user credential of the managed cluster with a specified resource group and name.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the CredentialResultsInner object
+     */
+    public Observable<ServiceResponse<CredentialResultsInner>> listClusterMonitoringUserCredentialsWithServiceResponseAsync(String resourceGroupName, String resourceName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (resourceName == null) {
+            throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
+        }
+        final String apiVersion = "2020-03-01";
+        return service.listClusterMonitoringUserCredentials(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CredentialResultsInner>>>() {
+                @Override
+                public Observable<ServiceResponse<CredentialResultsInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<CredentialResultsInner> clientResponse = listClusterMonitoringUserCredentialsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<CredentialResultsInner> listClusterMonitoringUserCredentialsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<CredentialResultsInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<CredentialResultsInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -801,7 +901,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedClusterInner>>>() {
                 @Override
@@ -897,7 +997,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ManagedClusterInner>() { }.getType());
     }
@@ -976,7 +1076,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedClusterInner>>>() {
                 @Override
@@ -1065,7 +1165,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -1143,7 +1243,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -1216,7 +1316,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -1305,7 +1405,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1394,7 +1494,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -1464,7 +1564,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -1560,7 +1660,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         Observable<Response<ResponseBody>> observable = service.resetServicePrincipalProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -1638,7 +1738,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.beginResetServicePrincipalProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -1734,7 +1834,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         Observable<Response<ResponseBody>> observable = service.resetAADProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -1812,7 +1912,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-08-01";
+        final String apiVersion = "2020-03-01";
         return service.beginResetAADProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -1831,6 +1931,164 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Rotate certificates of a managed cluster.
+     * Rotate certificates of a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void rotateClusterCertificates(String resourceGroupName, String resourceName) {
+        rotateClusterCertificatesWithServiceResponseAsync(resourceGroupName, resourceName).toBlocking().last().body();
+    }
+
+    /**
+     * Rotate certificates of a managed cluster.
+     * Rotate certificates of a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> rotateClusterCertificatesAsync(String resourceGroupName, String resourceName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(rotateClusterCertificatesWithServiceResponseAsync(resourceGroupName, resourceName), serviceCallback);
+    }
+
+    /**
+     * Rotate certificates of a managed cluster.
+     * Rotate certificates of a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> rotateClusterCertificatesAsync(String resourceGroupName, String resourceName) {
+        return rotateClusterCertificatesWithServiceResponseAsync(resourceGroupName, resourceName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Rotate certificates of a managed cluster.
+     * Rotate certificates of a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> rotateClusterCertificatesWithServiceResponseAsync(String resourceGroupName, String resourceName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (resourceName == null) {
+            throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
+        }
+        final String apiVersion = "2020-03-01";
+        Observable<Response<ResponseBody>> observable = service.rotateClusterCertificates(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Rotate certificates of a managed cluster.
+     * Rotate certificates of a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginRotateClusterCertificates(String resourceGroupName, String resourceName) {
+        beginRotateClusterCertificatesWithServiceResponseAsync(resourceGroupName, resourceName).toBlocking().single().body();
+    }
+
+    /**
+     * Rotate certificates of a managed cluster.
+     * Rotate certificates of a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginRotateClusterCertificatesAsync(String resourceGroupName, String resourceName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginRotateClusterCertificatesWithServiceResponseAsync(resourceGroupName, resourceName), serviceCallback);
+    }
+
+    /**
+     * Rotate certificates of a managed cluster.
+     * Rotate certificates of a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginRotateClusterCertificatesAsync(String resourceGroupName, String resourceName) {
+        return beginRotateClusterCertificatesWithServiceResponseAsync(resourceGroupName, resourceName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Rotate certificates of a managed cluster.
+     * Rotate certificates of a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginRotateClusterCertificatesWithServiceResponseAsync(String resourceGroupName, String resourceName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (resourceName == null) {
+            throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
+        }
+        final String apiVersion = "2020-03-01";
+        return service.beginRotateClusterCertificates(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginRotateClusterCertificatesDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginRotateClusterCertificatesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

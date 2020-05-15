@@ -16,6 +16,9 @@ import com.microsoft.rest.ExpandableStringEnum;
  * Defines values for ScaleSetPriority.
  */
 public final class ScaleSetPriority extends ExpandableStringEnum<ScaleSetPriority> {
+    /** Static value Spot for ScaleSetPriority. */
+    public static final ScaleSetPriority SPOT = fromString("Spot");
+
     /** Static value Low for ScaleSetPriority. */
     public static final ScaleSetPriority LOW = fromString("Low");
 

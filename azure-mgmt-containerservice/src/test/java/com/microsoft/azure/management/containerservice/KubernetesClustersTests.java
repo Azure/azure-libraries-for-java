@@ -49,7 +49,7 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
         KubernetesCluster kubernetesCluster = containerServiceManager
             .kubernetesClusters()
             .define(aksName)
-            .withRegion(Region.US_CENTRAL)
+            .withRegion(Region.US_EAST)
             .withExistingResourceGroup(RG_NAME)
             .withLatestVersion()
             .withRootUsername("testaks")
@@ -63,12 +63,17 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
                 .withMode(AgentPoolMode.SYSTEM)
                 .attach()
             .withDnsPrefix("mp1" + dnsPrefix)
+            .withSku(new ManagedClusterSKU()
+                    .withName(ManagedClusterSKUName.BASIC)
+                    .withTier(ManagedClusterSKUTier.PAID))
             .withTag("tag1", "value1")
             .create();
 
         Assert.assertNotNull(kubernetesCluster.id());
-        Assert.assertEquals(Region.US_CENTRAL, kubernetesCluster.region());
+        Assert.assertEquals(Region.US_EAST, kubernetesCluster.region());
         Assert.assertEquals("testaks", kubernetesCluster.linuxRootUsername());
+        Assert.assertEquals(ManagedClusterSKUName.BASIC, kubernetesCluster.sku().name());
+        Assert.assertEquals(ManagedClusterSKUTier.PAID, kubernetesCluster.sku().tier());
         Assert.assertEquals(1, kubernetesCluster.agentPools().size());
         Assert.assertNotNull(kubernetesCluster.agentPools().get(agentPoolName));
         Assert.assertEquals(1, kubernetesCluster.agentPools().get(agentPoolName).count());

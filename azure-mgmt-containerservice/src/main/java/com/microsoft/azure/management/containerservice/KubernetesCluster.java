@@ -111,7 +111,11 @@ public interface KubernetesCluster extends
     @Beta(SinceVersion.V1_15_0)
     boolean enableRBAC();
 
-
+    /**
+     * @return the sku of the cluster
+     */
+    @Beta(SinceVersion.V1_34_0)
+    ManagedClusterSKU sku();
 
     // Fluent interfaces
 
@@ -412,13 +416,27 @@ public interface KubernetesCluster extends
          */
         interface WithAddOnProfiles {
             /**
-             * Updates the cluster's add-on's profiles.
+             * Specifies the cluster's add-on's profiles.
              *
              * @param addOnProfileMap the cluster's add-on's profiles
-             * @return the next stage of the update
+             * @return the next stage of the definition
              */
             @Beta(SinceVersion.V1_15_0)
-            KubernetesCluster.Update withAddOnProfiles(Map<String, ManagedClusterAddonProfile> addOnProfileMap);
+            KubernetesCluster.DefinitionStages.WithCreate withAddOnProfiles(Map<String, ManagedClusterAddonProfile> addOnProfileMap);
+        }
+
+        /**
+         * The stage of the Kubernetes cluster definition allowing to specify the cluster's sku.
+         */
+        interface WithSku {
+            /**
+             * Specifies the cluster's sku.
+             *
+             * @param sku the cluster's sku
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_34_0)
+            KubernetesCluster.DefinitionStages.WithCreate withSku(ManagedClusterSKU sku);
         }
 
         /**
@@ -431,6 +449,7 @@ public interface KubernetesCluster extends
             WithNetworkProfile,
             WithDnsPrefix,
             WithAddOnProfiles,
+            WithSku,
             Resource.DefinitionWithTags<WithCreate> {
         }
     }

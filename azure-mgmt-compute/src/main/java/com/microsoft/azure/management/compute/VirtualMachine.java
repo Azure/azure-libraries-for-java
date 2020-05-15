@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
@@ -450,7 +449,6 @@ public interface VirtualMachine extends
     /**
      * @return the availability zones assigned to the virtual machine
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
@@ -493,20 +491,17 @@ public interface VirtualMachine extends
     /**
      * @return the priority for the virtual machine.
      */
-    @Beta(Beta.SinceVersion.V1_25_0)
     VirtualMachinePriorityTypes priority();
 
 
     /**
      * @return the eviction policy for the virtual machine.
      */
-    @Beta(Beta.SinceVersion.V1_25_0)
     VirtualMachineEvictionPolicyTypes evictionPolicy();
 
     /**
      * @return the billing related details of a low priority virtual machine
      */
-    @Beta(Beta.SinceVersion.V1_25_0)
     BillingProfile billingProfile();
 
     // Setters
@@ -796,7 +791,6 @@ public interface VirtualMachine extends
              * @param galleryImageVersionId the resource ID of the gallery image version
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_15_0)
             WithWindowsAdminUsernameManaged withWindowsGalleryImageVersion(String galleryImageVersionId);
 
             /**
@@ -847,7 +841,6 @@ public interface VirtualMachine extends
              * @param galleryImageVersionId the resource ID of a gallery image version
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_15_0)
             WithLinuxRootUsernameManaged withLinuxGalleryImageVersion(String galleryImageVersionId);
 
             /**
@@ -1637,7 +1630,6 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine definition allowing to specify priority.
          */
-        @Beta(Beta.SinceVersion.V1_25_0)
         interface WithPriority {
             /**
              * Specifies the priority of the virtual machine.
@@ -1645,7 +1637,6 @@ public interface VirtualMachine extends
              * @param priority the priority to set
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
             WithCreate withPriority(VirtualMachinePriorityTypes priority);
 
             /**
@@ -1684,7 +1675,6 @@ public interface VirtualMachine extends
         /**
          * The stage of a virtual machine definition allowing to set the billing related details of a low priority virtual machine.
          */
-        @Beta(Beta.SinceVersion.V1_25_0)
         interface WithBillingProfile {
 
             /**
@@ -1692,21 +1682,18 @@ public interface VirtualMachine extends
              * @param maxPrice the maxPrice value to set
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
             WithCreate withMaxPrice(Double maxPrice);
         }
 
         /**
          * The stage of the virtual machine definition allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the virtual machine.
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
         }
 
@@ -1714,7 +1701,6 @@ public interface VirtualMachine extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine allowing to
          * set access role for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate {
             /**
              * Specifies that virtual machine's system assigned (local) identity should have the given access
@@ -1725,7 +1711,6 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -1736,7 +1721,6 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -1748,7 +1732,6 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -1760,14 +1743,12 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
         /**
          * The stage of the virtual machine definition allowing to specify User Assigned (External) Managed Service Identities.
          */
-        @Beta(Beta.SinceVersion.V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
@@ -1775,7 +1756,6 @@ public interface VirtualMachine extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -1784,7 +1764,6 @@ public interface VirtualMachine extends
              * @param identity the identity
              * @return the next stage of the virtual machine definition
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
@@ -1792,7 +1771,6 @@ public interface VirtualMachine extends
          * The stage of the virtual machine definition allowing to specify that the image or disk that is being used was licensed
          * on-premises. This element is only used for images that contain the Windows Server operating system.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithLicenseType {
             /**
              * Specifies that the image or disk that is being used was licensed on-premises.
@@ -1800,14 +1778,12 @@ public interface VirtualMachine extends
              * @param licenseType license type
              * @return the next stage of the virtual machine definition
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
             WithCreate withLicenseType(String licenseType);
         }
 
         /**
          * The stage of the VM definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the virtual machine.
@@ -1815,7 +1791,6 @@ public interface VirtualMachine extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
             WithManagedCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 
@@ -1925,7 +1900,6 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine update allowing to specify billing profile.
          */
-        @Beta(Beta.SinceVersion.V1_25_0)
         interface WithBillingProfile {
             /**
              * Set the billing related details of a low priority virtual machine.
@@ -2236,7 +2210,6 @@ public interface VirtualMachine extends
         /**
          * The stage of the virtual machine update allowing to enable System Assigned (Local) Managed Service Identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedManagedServiceIdentity {
             /**
              * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the
@@ -2244,7 +2217,6 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity();
 
             /**
@@ -2252,7 +2224,6 @@ public interface VirtualMachine extends
              *
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
             Update withoutSystemAssignedManagedServiceIdentity();
         }
 
@@ -2260,7 +2231,6 @@ public interface VirtualMachine extends
          * The stage of the System Assigned (Local) Managed Service Identity enabled virtual machine allowing
          * to set access role for the identity.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithSystemAssignedIdentityBasedAccessOrUpdate extends Update {
             /**
              * Specifies that virtual machine's system assigned (local) identity should have the given
@@ -2272,7 +2242,6 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
 
             /**
@@ -2283,7 +2252,6 @@ public interface VirtualMachine extends
              * @param role access role to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
 
             /**
@@ -2296,7 +2264,6 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
 
             /**
@@ -2307,14 +2274,12 @@ public interface VirtualMachine extends
              * @param roleDefinitionId access role definition to assigned to the virtual machine's local identity
              * @return the next stage of the update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
         /**
          * The stage of the virtual machine update allowing to add or remove User Assigned (External) Managed Service Identities.
          */
-        @Beta(Beta.SinceVersion.V1_5_1)
         interface WithUserAssignedManagedServiceIdentity {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
@@ -2322,7 +2287,6 @@ public interface VirtualMachine extends
              * @param creatableIdentity a creatable identity definition
              * @return the next stage of the virtual machine update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             Update withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
 
             /**
@@ -2330,7 +2294,6 @@ public interface VirtualMachine extends
              * @param identity the identity
              * @return the next stage of the virtual machine update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             Update withExistingUserAssignedManagedServiceIdentity(Identity identity);
 
             /**
@@ -2339,7 +2302,6 @@ public interface VirtualMachine extends
              * @param identityId ARM resource id of the identity
              * @return the next stage of the virtual machine update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
             Update withoutUserAssignedManagedServiceIdentity(String identityId);
         }
 
@@ -2347,7 +2309,6 @@ public interface VirtualMachine extends
          * The stage of the virtual machine update allowing to specify that the image or disk that is being used was licensed
          * on-premises. This element is only used for images that contain the Windows Server operating system.
          */
-        @Beta(Beta.SinceVersion.V1_14_0)
         interface WithLicenseType {
             /**
              * Specifies that the image or disk that is being used was licensed on-premises.
@@ -2355,7 +2316,6 @@ public interface VirtualMachine extends
              * @param licenseType license type
              * @return the next stage of the virtual machine update
              */
-            @Beta(Beta.SinceVersion.V1_14_0)
             Update withLicenseType(String licenseType);
         }
     }
@@ -2452,7 +2412,6 @@ public interface VirtualMachine extends
          * @param priority a priority from the list of available priority types
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_29_0)
         Update withPriority(VirtualMachinePriorityTypes priority);
     }
 }

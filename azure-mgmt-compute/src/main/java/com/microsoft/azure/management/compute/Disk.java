@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.DiskInner;
@@ -77,13 +76,11 @@ public interface Disk extends
     /**
      * @return the availability zones assigned to the disk
      */
-    @Beta(Beta.SinceVersion.V1_3_0)
     Set<AvailabilityZoneId> availabilityZones();
 
     /**
      * @return the disk encryption settings
      */
-    @Beta(Beta.SinceVersion.V1_19_0)
     EncryptionSettingsCollection encryptionSettings();
 
     /**
@@ -463,7 +460,6 @@ public interface Disk extends
         /**
          * The stage of the managed disk definition allowing to specify availability zone.
          */
-        @Beta(Beta.SinceVersion.V1_3_0)
         interface WithAvailabilityZone {
             /**
              * Specifies the availability zone for the managed disk.
@@ -471,7 +467,6 @@ public interface Disk extends
              * @param zoneId the zone identifier.
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_3_0)
             WithCreate withAvailabilityZone(AvailabilityZoneId zoneId);
         }
 

@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.GalleryImageVersionsInner;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
@@ -19,7 +18,6 @@ import rx.Observable;
  * Entry point to gallery image versions management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_15_0)
 public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersion.DefinitionStages.Blank>,
         HasInner<GalleryImageVersionsInner> {
     /**
@@ -32,7 +30,6 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     Observable<GalleryImageVersion> getByGalleryImageAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName);
 
     /**
@@ -45,7 +42,6 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the gallery image version resource
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     GalleryImageVersion getByGalleryImage(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName);
 
     /**
@@ -57,7 +53,6 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     Observable<GalleryImageVersion> listByGalleryImageAsync(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
@@ -69,7 +64,6 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return list of gallery image versions
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     PagedList<GalleryImageVersion> listByGalleryImage(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
@@ -82,7 +76,6 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the completable for the request
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     Completable deleteByGalleryImageAsync(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName);
 
     /**
@@ -94,6 +87,5 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @param galleryImageVersionName The name of the gallery image version.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     void deleteByGalleryImage(String resourceGroupName, String galleryName, String galleryImageName, String galleryImageVersionName);
 }

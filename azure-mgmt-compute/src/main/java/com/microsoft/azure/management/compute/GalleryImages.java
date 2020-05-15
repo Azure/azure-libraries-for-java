@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.GalleryImagesInner;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
@@ -19,7 +18,6 @@ import rx.Observable;
  * Entry point to gallery images management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_15_0)
 public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionStages.Blank>,
         HasInner<GalleryImagesInner> {
     /**
@@ -31,7 +29,6 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     Observable<GalleryImage> getByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
@@ -43,7 +40,6 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the gallery image
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     GalleryImage getByGallery(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
@@ -54,7 +50,6 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     Observable<GalleryImage> listByGalleryAsync(String resourceGroupName, String galleryName);
 
     /**
@@ -65,7 +60,6 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the list of images in the gallery
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     PagedList<GalleryImage> listByGallery(String resourceGroupName, String galleryName);
 
     /**
@@ -77,7 +71,6 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the completable for the request
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     Completable deleteByGalleryAsync(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
@@ -88,6 +81,5 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @param galleryImageName The name of the gallery image.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      */
-    @Beta(Beta.SinceVersion.V1_15_0)
     void deleteByGallery(String resourceGroupName, String galleryName, String galleryImageName);
 }

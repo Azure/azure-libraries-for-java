@@ -59,6 +59,7 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
         try {
             synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
                 if (REENTRANT_LOCK_MAP.get(subscriptionId).isLocked()) {
+                    response.close();
                     REENTRANT_LOCK_MAP.get(subscriptionId).wait();
                     return chain.proceed(chain.request());
                 } else {
@@ -103,15 +104,14 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
                 }
                 LoggerFactory.getLogger(context)
                     .info("Azure Resource Manager read/write per hour limit reached. Will retry in: " + retryAfter + " seconds");
+                response.close();
                 SdkContext.sleep((int) (TimeUnit.SECONDS.toMillis(retryAfter) + 100));
             }
             return chain.proceed(chain.request());
         } catch (Throwable t) {
             throw new IOException(t);
         } finally {
-            if (response.body() != null) {
-                response.body().close();
-            }
+            response.close();
             synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
                 REENTRANT_LOCK_MAP.get(subscriptionId).unlock();
                 REENTRANT_LOCK_MAP.get(subscriptionId).notifyAll();

@@ -1728,7 +1728,7 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_11_0)
+            @Deprecated
             WithCreate withLowPriorityVirtualMachine();
 
             /**
@@ -1739,8 +1739,25 @@ public interface VirtualMachineScaleSet extends
              *
              * @return the next stage of the definition
              */
-            @Beta(Beta.SinceVersion.V1_11_0)
+            @Deprecated
             WithCreate withLowPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy);
+
+            /**
+             * Specify that virtual machines in the scale set should be spot priority VMs.
+             *
+             * @return the next stage of the definition
+             */
+            WithCreate withSpotPriorityVirtualMachine();
+
+            /**
+             * Specify that virtual machines in the scale set should be spot priority VMs with
+             * provided eviction policy.
+             *
+             * @param policy eviction policy for the virtual machines in the scale set.
+             *
+             * @return the next stage of the definition
+             */
+            WithCreate withSpotPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes policy);
         }
 
         /**

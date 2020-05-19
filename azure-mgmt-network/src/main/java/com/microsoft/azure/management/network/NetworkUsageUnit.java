@@ -10,7 +10,7 @@ import java.util.Collection;
 import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 /**
- * Netowork usage units.
+ * Network usage units.
  */
 public class NetworkUsageUnit extends ExpandableStringEnum<NetworkUsageUnit> {
     /** Static value Count for NetworkUsageUnit. */

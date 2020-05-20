@@ -152,27 +152,33 @@ public final class ResourceUtils {
      * @return the default api version to use
      */
     public static String defaultApiVersion(String id, Provider provider) {
-        String resourceType = resourceTypeFromResourceId(id).toLowerCase();
+        if (id == null) {
+            return null;
+        }
+        String resourceType = resourceTypeForApiVersion(id);
         // Exact match
         for (ProviderResourceType prt : provider.resourceTypes()) {
             if (prt.resourceType().equalsIgnoreCase(resourceType)) {
                 return prt.apiVersions().get(0);
             }
         }
-        // child resource, e.g. sites/config
-        for (ProviderResourceType prt : provider.resourceTypes()) {
-            if (prt.resourceType().toLowerCase().contains("/" + resourceType)) {
-                return prt.apiVersions().get(0);
-            }
+        return defaultApiVersion(parentResourceIdFromResourceId(id), provider);
+    }
+
+    /**
+     * Get the resource type used to find api version.
+     *
+     * @param id the resource ID
+     * @return the resource type to use
+     */
+    private static String resourceTypeForApiVersion(String id) {
+        String type = resourceTypeFromResourceId(id);
+        String parent = parentResourceIdFromResourceId(id);
+        while (parent != null) {
+            type = resourceTypeFromResourceId(parent) + "/" + type;
+            parent = parentResourceIdFromResourceId(parent);
         }
-        // look for parent
-        String parentId = parentResourceIdFromResourceId(id);
-        if (parentId != null) {
-            return defaultApiVersion(parentId, provider);
-        } else {
-            // Fallback: use a random one, not guaranteed to work
-            return provider.resourceTypes().get(0).apiVersions().get(0);
-        }
+        return type;
     }
 
     /**

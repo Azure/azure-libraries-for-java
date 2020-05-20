@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
@@ -40,7 +39,6 @@ public interface DiskVolumeEncryptionMonitor
     /**
      * @return disks encryption status from instance view level.
      */
-    @Beta
      Map<String, InstanceViewStatus> diskInstanceViewEncryptionStatuses();
 
     /**

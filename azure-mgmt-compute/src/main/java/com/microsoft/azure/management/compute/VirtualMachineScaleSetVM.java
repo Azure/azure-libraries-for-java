@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetVMInner;
@@ -362,7 +361,6 @@ public interface VirtualMachineScaleSetVM extends
          * @param cachingTypes the caching type
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_24_0)
         Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes);
 
         /**
@@ -374,7 +372,6 @@ public interface VirtualMachineScaleSetVM extends
          * @param storageAccountTypes the storage account type
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_24_0)
         Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes, StorageAccountTypes storageAccountTypes);
 
         /**
@@ -383,7 +380,6 @@ public interface VirtualMachineScaleSetVM extends
          * @param lun the disk LUN
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_24_0)
         Update withoutDataDisk(int lun);
     }
 }

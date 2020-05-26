@@ -16,6 +16,7 @@ import com.microsoft.azure.management.resources.PolicyAssignments;
 import com.microsoft.azure.management.resources.PolicyDefinitions;
 import com.microsoft.azure.management.resources.Providers;
 import com.microsoft.azure.management.resources.ResourceGroups;
+import com.microsoft.azure.management.resources.Subscription;
 import com.microsoft.azure.management.resources.Subscriptions;
 import com.microsoft.azure.management.resources.Tenants;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
@@ -35,6 +36,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     private final ResourceManagementClientImpl resourceManagementClient;
     private final FeatureClientImpl featureClient;
     private final PolicyClientImpl policyClient;
+    private final SubscriptionClientImpl subscriptionClient;
     // The collections
     private ResourceGroups resourceGroups;
     private GenericResources genericResources;
@@ -43,6 +45,8 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     private Providers providers;
     private PolicyDefinitions policyDefinitions;
     private PolicyAssignments policyAssignments;
+    private Subscriptions subscriptions;
+    private Tenants tenants;
 
     /**
      * Creates an instance of ResourceManager that exposes resource management API entry points.
@@ -169,6 +173,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
         this.featureClient.withSubscriptionId(subscriptionId);
         this.policyClient = new PolicyClientImpl(restClient);
         this.policyClient.withSubscriptionId(subscriptionId);
+        this.subscriptionClient = new SubscriptionClientImpl(restClient);
     }
 
     /**
@@ -179,6 +184,26 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
             resourceGroups = new ResourceGroupsImpl(resourceManagementClient);
         }
         return resourceGroups;
+    }
+
+    /**
+     * @return the subscription management API entry point
+     */
+    public Subscriptions subscriptions() {
+        if (subscriptions == null) {
+            subscriptions = new SubscriptionsImpl(subscriptionClient.subscriptions());
+        }
+        return subscriptions;
+    }
+
+    /**
+     * @return the tenant management API entry point
+     */
+    public Tenants tenants() {
+        if (tenants == null) {
+            tenants = new TenantsImpl(subscriptionClient.tenants());
+        }
+        return tenants;
     }
 
     /**

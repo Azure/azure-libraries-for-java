@@ -102,6 +102,7 @@ import com.microsoft.azure.management.resources.Providers;
 import com.microsoft.azure.management.resources.ResourceGroups;
 import com.microsoft.azure.management.resources.Subscription;
 import com.microsoft.azure.management.resources.Subscriptions;
+import com.microsoft.azure.management.resources.Tenant;
 import com.microsoft.azure.management.resources.Tenants;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
@@ -157,6 +158,7 @@ public final class Azure {
     private final MonitorManager monitorManager;
     private final EventHubManager eventHubManager;
     private final String subscriptionId;
+    private final String tenantId;
     private final Authenticated authenticated;
 
     /**
@@ -437,6 +439,7 @@ public final class Azure {
         this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId);
         this.eventHubManager = EventHubManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
+        this.tenantId = tenantId;
         this.authenticated = authenticated;
     }
 
@@ -448,6 +451,13 @@ public final class Azure {
     }
 
     /**
+     * @return the currently tenant ID this client is authenticated to work with
+     */
+    public String tenantId() {
+        return this.tenantId;
+    }
+
+    /**
      * @return the currently selected subscription this client is authenticated to work with
      */
     public Subscription getCurrentSubscription() {
@@ -455,10 +465,17 @@ public final class Azure {
     }
 
     /**
-     * @return subscriptions that this authenticated client has access to
+     * @return entry point to managing subscriptions
      */
     public Subscriptions subscriptions() {
-        return this.authenticated.subscriptions();
+        return this.resourceManager.subscriptions();
+    }
+
+    /**
+     * @return entry point to managing tenants
+     */
+    public Tenants tenants() {
+        return this.resourceManager.tenants();
     }
 
     /**

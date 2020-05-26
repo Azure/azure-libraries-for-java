@@ -16,7 +16,6 @@ import com.microsoft.azure.management.resources.PolicyAssignments;
 import com.microsoft.azure.management.resources.PolicyDefinitions;
 import com.microsoft.azure.management.resources.Providers;
 import com.microsoft.azure.management.resources.ResourceGroups;
-import com.microsoft.azure.management.resources.Subscription;
 import com.microsoft.azure.management.resources.Subscriptions;
 import com.microsoft.azure.management.resources.Tenants;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;

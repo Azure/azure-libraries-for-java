@@ -158,7 +158,6 @@ public final class Azure {
     private final MonitorManager monitorManager;
     private final EventHubManager eventHubManager;
     private final String subscriptionId;
-    private final String tenantId;
     private final Authenticated authenticated;
 
     /**
@@ -439,7 +438,6 @@ public final class Azure {
         this.monitorManager = MonitorManager.authenticate(restClient, subscriptionId);
         this.eventHubManager = EventHubManager.authenticate(restClient, subscriptionId);
         this.subscriptionId = subscriptionId;
-        this.tenantId = tenantId;
         this.authenticated = authenticated;
     }
 
@@ -454,7 +452,7 @@ public final class Azure {
      * @return the currently tenant ID this client is authenticated to work with
      */
     public String tenantId() {
-        return this.tenantId;
+        return this.authenticated.tenantId();
     }
 
     /**

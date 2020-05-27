@@ -448,6 +448,13 @@ public final class Azure {
     }
 
     /**
+     * @return the currently tenant ID this client is authenticated to work with
+     */
+    public String tenantId() {
+        return this.authenticated.tenantId();
+    }
+
+    /**
      * @return the currently selected subscription this client is authenticated to work with
      */
     public Subscription getCurrentSubscription() {
@@ -455,10 +462,17 @@ public final class Azure {
     }
 
     /**
-     * @return subscriptions that this authenticated client has access to
+     * @return entry point to managing subscriptions
      */
     public Subscriptions subscriptions() {
-        return this.authenticated.subscriptions();
+        return this.resourceManager.subscriptions();
+    }
+
+    /**
+     * @return entry point to managing tenants
+     */
+    public Tenants tenants() {
+        return this.resourceManager.tenants();
     }
 
     /**

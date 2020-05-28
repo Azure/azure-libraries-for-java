@@ -28,7 +28,6 @@ import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.management.compute.RunCommandInputParameter;
 import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.SshConfiguration;
-import com.microsoft.azure.management.compute.SshPublicKey;
 import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.UpgradeMode;
 import com.microsoft.azure.management.compute.UpgradePolicy;
@@ -975,10 +974,10 @@ public class VirtualMachineScaleSetImpl
                 .osProfile();
         if (osProfile.linuxConfiguration().ssh() == null) {
             SshConfiguration sshConfiguration = new SshConfiguration();
-            sshConfiguration.withPublicKeys(new ArrayList<SshPublicKey>());
+            sshConfiguration.withPublicKeys(new ArrayList<SshPublicKeyInner>());
             osProfile.linuxConfiguration().withSsh(sshConfiguration);
         }
-        SshPublicKey sshPublicKey = new SshPublicKey();
+        SshPublicKeyInner sshPublicKey = new SshPublicKeyInner();
         sshPublicKey.withKeyData(publicKeyData);
         sshPublicKey.withPath("/home/" + osProfile.adminUsername() + "/.ssh/authorized_keys");
         osProfile.linuxConfiguration().ssh().publicKeys().add(sshPublicKey);

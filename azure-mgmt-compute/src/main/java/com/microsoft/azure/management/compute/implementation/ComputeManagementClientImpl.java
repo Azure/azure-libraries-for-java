@@ -10,6 +10,8 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.AzureClient;
 import com.microsoft.azure.AzureServiceClient;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 import com.microsoft.rest.credentials.ServiceClientCredentials;
 import com.microsoft.rest.RestClient;
 
@@ -186,6 +188,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The SshPublicKeysInner object to access its operations.
+     */
+    private SshPublicKeysInner sshPublicKeys;
+
+    /**
+     * Gets the SshPublicKeysInner object to access its operations.
+     * @return the SshPublicKeysInner object.
+     */
+    public SshPublicKeysInner sshPublicKeys() {
+        return this.sshPublicKeys;
+    }
+
+    /**
      * The VirtualMachineExtensionImagesInner object to access its operations.
      */
     private VirtualMachineExtensionImagesInner virtualMachineExtensionImages;
@@ -313,6 +328,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      */
     public VirtualMachineScaleSetRollingUpgradesInner virtualMachineScaleSetRollingUpgrades() {
         return this.virtualMachineScaleSetRollingUpgrades;
+    }
+
+    /**
+     * The VirtualMachineScaleSetVMExtensionsInner object to access its operations.
+     */
+    private VirtualMachineScaleSetVMExtensionsInner virtualMachineScaleSetVMExtensions;
+
+    /**
+     * Gets the VirtualMachineScaleSetVMExtensionsInner object to access its operations.
+     * @return the VirtualMachineScaleSetVMExtensionsInner object.
+     */
+    public VirtualMachineScaleSetVMExtensionsInner virtualMachineScaleSetVMExtensions() {
+        return this.virtualMachineScaleSetVMExtensions;
     }
 
     /**
@@ -523,6 +551,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.proximityPlacementGroups = new ProximityPlacementGroupsInner(restClient().retrofit(), this);
         this.dedicatedHostGroups = new DedicatedHostGroupsInner(restClient().retrofit(), this);
         this.dedicatedHosts = new DedicatedHostsInner(restClient().retrofit(), this);
+        this.sshPublicKeys = new SshPublicKeysInner(restClient().retrofit(), this);
         this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesInner(restClient().retrofit(), this);
         this.virtualMachineExtensions = new VirtualMachineExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineImages = new VirtualMachineImagesInner(restClient().retrofit(), this);
@@ -533,6 +562,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.virtualMachineScaleSets = new VirtualMachineScaleSetsInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetRollingUpgrades = new VirtualMachineScaleSetRollingUpgradesInner(restClient().retrofit(), this);
+        this.virtualMachineScaleSetVMExtensions = new VirtualMachineScaleSetVMExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsInner(restClient().retrofit(), this);
         this.logAnalytics = new LogAnalyticsInner(restClient().retrofit(), this);
         this.virtualMachineRunCommands = new VirtualMachineRunCommandsInner(restClient().retrofit(), this);

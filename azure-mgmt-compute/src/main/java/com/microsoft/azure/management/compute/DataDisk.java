@@ -95,6 +95,24 @@ public class DataDisk {
     private Boolean toBeDetached;
 
     /**
+     * Specifies the Read-Write IOPS for the managed disk when
+     * StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine
+     * ScaleSet VM disks. Can be updated only via updates to the VirtualMachine
+     * Scale Set.
+     */
+    @JsonProperty(value = "diskIOPSReadWrite", access = JsonProperty.Access.WRITE_ONLY)
+    private Long diskIOPSReadWrite;
+
+    /**
+     * Specifies the bandwidth in MB per second for the managed disk when
+     * StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine
+     * ScaleSet VM disks. Can be updated only via updates to the VirtualMachine
+     * Scale Set.
+     */
+    @JsonProperty(value = "diskMBpsReadWrite", access = JsonProperty.Access.WRITE_ONLY)
+    private Long diskMBpsReadWrite;
+
+    /**
      * Get specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
      *
      * @return the lun value
@@ -292,6 +310,24 @@ public class DataDisk {
     public DataDisk withToBeDetached(Boolean toBeDetached) {
         this.toBeDetached = toBeDetached;
         return this;
+    }
+
+    /**
+     * Get specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
+     *
+     * @return the diskIOPSReadWrite value
+     */
+    public Long diskIOPSReadWrite() {
+        return this.diskIOPSReadWrite;
+    }
+
+    /**
+     * Get specifies the bandwidth in MB per second for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
+     *
+     * @return the diskMBpsReadWrite value
+     */
+    public Long diskMBpsReadWrite() {
+        return this.diskMBpsReadWrite;
     }
 
 }

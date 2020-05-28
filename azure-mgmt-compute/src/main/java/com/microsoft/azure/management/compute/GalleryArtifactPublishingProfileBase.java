@@ -54,7 +54,7 @@ public class GalleryArtifactPublishingProfileBase {
     /**
      * Specifies the storage account type to be used to store the image. This
      * property is not updatable. Possible values include: 'Standard_LRS',
-     * 'Standard_ZRS'.
+     * 'Standard_ZRS', 'Premium_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountType storageAccountType;
@@ -149,7 +149,7 @@ public class GalleryArtifactPublishingProfileBase {
     }
 
     /**
-     * Get specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'.
+     * Get specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'.
      *
      * @return the storageAccountType value
      */
@@ -158,7 +158,7 @@ public class GalleryArtifactPublishingProfileBase {
     }
 
     /**
-     * Set specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'.
+     * Set specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'.
      *
      * @param storageAccountType the storageAccountType value to set
      * @return the GalleryArtifactPublishingProfileBase object itself.

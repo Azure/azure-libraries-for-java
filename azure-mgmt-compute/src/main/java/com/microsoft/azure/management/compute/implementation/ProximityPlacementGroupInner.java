@@ -10,7 +10,8 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
 import java.util.List;
-import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.compute.SubResourceWithColocationStatus;
+import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -35,21 +36,27 @@ public class ProximityPlacementGroupInner extends Resource {
      * group.
      */
     @JsonProperty(value = "properties.virtualMachines", access = JsonProperty.Access.WRITE_ONLY)
-    private List<SubResource> virtualMachines;
+    private List<SubResourceWithColocationStatus> virtualMachines;
 
     /**
      * A list of references to all virtual machine scale sets in the proximity
      * placement group.
      */
     @JsonProperty(value = "properties.virtualMachineScaleSets", access = JsonProperty.Access.WRITE_ONLY)
-    private List<SubResource> virtualMachineScaleSets;
+    private List<SubResourceWithColocationStatus> virtualMachineScaleSets;
 
     /**
      * A list of references to all availability sets in the proximity placement
      * group.
      */
     @JsonProperty(value = "properties.availabilitySets", access = JsonProperty.Access.WRITE_ONLY)
-    private List<SubResource> availabilitySets;
+    private List<SubResourceWithColocationStatus> availabilitySets;
+
+    /**
+     * Describes colocation status of the Proximity Placement Group.
+     */
+    @JsonProperty(value = "properties.colocationStatus")
+    private InstanceViewStatus colocationStatus;
 
     /**
      * Get specifies the type of the proximity placement group. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Standard** : Co-locate resources within an Azure region or Availability Zone. &lt;br&gt;&lt;br&gt; **Ultra** : For future use. Possible values include: 'Standard', 'Ultra'.
@@ -76,7 +83,7 @@ public class ProximityPlacementGroupInner extends Resource {
      *
      * @return the virtualMachines value
      */
-    public List<SubResource> virtualMachines() {
+    public List<SubResourceWithColocationStatus> virtualMachines() {
         return this.virtualMachines;
     }
 
@@ -85,7 +92,7 @@ public class ProximityPlacementGroupInner extends Resource {
      *
      * @return the virtualMachineScaleSets value
      */
-    public List<SubResource> virtualMachineScaleSets() {
+    public List<SubResourceWithColocationStatus> virtualMachineScaleSets() {
         return this.virtualMachineScaleSets;
     }
 
@@ -94,8 +101,28 @@ public class ProximityPlacementGroupInner extends Resource {
      *
      * @return the availabilitySets value
      */
-    public List<SubResource> availabilitySets() {
+    public List<SubResourceWithColocationStatus> availabilitySets() {
         return this.availabilitySets;
+    }
+
+    /**
+     * Get describes colocation status of the Proximity Placement Group.
+     *
+     * @return the colocationStatus value
+     */
+    public InstanceViewStatus colocationStatus() {
+        return this.colocationStatus;
+    }
+
+    /**
+     * Set describes colocation status of the Proximity Placement Group.
+     *
+     * @param colocationStatus the colocationStatus value to set
+     * @return the ProximityPlacementGroupInner object itself.
+     */
+    public ProximityPlacementGroupInner withColocationStatus(InstanceViewStatus colocationStatus) {
+        this.colocationStatus = colocationStatus;
+        return this;
     }
 
 }

@@ -178,7 +178,7 @@ public class GalleryImagesInner {
             throw new IllegalArgumentException("Parameter galleryImage is required and cannot be null.");
         }
         Validator.validate(galleryImage);
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, galleryImage, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<GalleryImageInner>() { }.getType());
     }
@@ -260,7 +260,7 @@ public class GalleryImagesInner {
             throw new IllegalArgumentException("Parameter galleryImage is required and cannot be null.");
         }
         Validator.validate(galleryImage);
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, galleryImage, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageInner>>>() {
                 @Override
@@ -361,7 +361,7 @@ public class GalleryImagesInner {
             throw new IllegalArgumentException("Parameter galleryImage is required and cannot be null.");
         }
         Validator.validate(galleryImage);
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         Observable<Response<ResponseBody>> observable = service.update(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, galleryImage, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<GalleryImageInner>() { }.getType());
     }
@@ -443,7 +443,7 @@ public class GalleryImagesInner {
             throw new IllegalArgumentException("Parameter galleryImage is required and cannot be null.");
         }
         Validator.validate(galleryImage);
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, galleryImage, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageInner>>>() {
                 @Override
@@ -534,7 +534,7 @@ public class GalleryImagesInner {
         if (galleryImageName == null) {
             throw new IllegalArgumentException("Parameter galleryImageName is required and cannot be null.");
         }
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.get(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageInner>>>() {
                 @Override
@@ -624,7 +624,7 @@ public class GalleryImagesInner {
         if (galleryImageName == null) {
             throw new IllegalArgumentException("Parameter galleryImageName is required and cannot be null.");
         }
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -697,7 +697,7 @@ public class GalleryImagesInner {
         if (galleryImageName == null) {
             throw new IllegalArgumentException("Parameter galleryImageName is required and cannot be null.");
         }
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -820,7 +820,7 @@ public class GalleryImagesInner {
         if (galleryName == null) {
             throw new IllegalArgumentException("Parameter galleryName is required and cannot be null.");
         }
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.listByGallery(this.client.subscriptionId(), resourceGroupName, galleryName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<GalleryImageInner>>>>() {
                 @Override

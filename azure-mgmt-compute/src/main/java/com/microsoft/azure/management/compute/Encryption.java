@@ -26,7 +26,7 @@ public class Encryption {
      * include: 'EncryptionAtRestWithPlatformKey',
      * 'EncryptionAtRestWithCustomerKey'.
      */
-    @JsonProperty(value = "type", required = true)
+    @JsonProperty(value = "type")
     private EncryptionType type;
 
     /**

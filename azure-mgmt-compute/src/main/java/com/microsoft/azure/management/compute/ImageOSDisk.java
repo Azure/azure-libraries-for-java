@@ -8,13 +8,12 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Describes an Operating System disk.
  */
-public class ImageOSDisk {
+public class ImageOSDisk extends ImageDisk {
     /**
      * This property allows you to specify the type of the OS that is included
      * in the disk if creating a VM from a custom image. &lt;br&gt;&lt;br&gt;
@@ -30,50 +29,6 @@ public class ImageOSDisk {
      */
     @JsonProperty(value = "osState", required = true)
     private OperatingSystemStateTypes osState;
-
-    /**
-     * The snapshot.
-     */
-    @JsonProperty(value = "snapshot")
-    private SubResource snapshot;
-
-    /**
-     * The managedDisk.
-     */
-    @JsonProperty(value = "managedDisk")
-    private SubResource managedDisk;
-
-    /**
-     * The Virtual Hard Disk.
-     */
-    @JsonProperty(value = "blobUri")
-    private String blobUri;
-
-    /**
-     * Specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values
-     * are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly**
-     * &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None
-     * for Standard storage. ReadOnly for Premium storage**. Possible values
-     * include: 'None', 'ReadOnly', 'ReadWrite'.
-     */
-    @JsonProperty(value = "caching")
-    private CachingTypes caching;
-
-    /**
-     * Specifies the size of empty data disks in gigabytes. This element can be
-     * used to overwrite the name of the disk in a virtual machine image.
-     * &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
-     */
-    @JsonProperty(value = "diskSizeGB")
-    private Integer diskSizeGB;
-
-    /**
-     * Specifies the storage account type for the managed disk. UltraSSD_LRS
-     * cannot be used with OS Disk. Possible values include: 'Standard_LRS',
-     * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'.
-     */
-    @JsonProperty(value = "storageAccountType")
-    private StorageAccountTypes storageAccountType;
 
     /**
      * Get this property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
@@ -112,126 +67,6 @@ public class ImageOSDisk {
      */
     public ImageOSDisk withOsState(OperatingSystemStateTypes osState) {
         this.osState = osState;
-        return this;
-    }
-
-    /**
-     * Get the snapshot.
-     *
-     * @return the snapshot value
-     */
-    public SubResource snapshot() {
-        return this.snapshot;
-    }
-
-    /**
-     * Set the snapshot.
-     *
-     * @param snapshot the snapshot value to set
-     * @return the ImageOSDisk object itself.
-     */
-    public ImageOSDisk withSnapshot(SubResource snapshot) {
-        this.snapshot = snapshot;
-        return this;
-    }
-
-    /**
-     * Get the managedDisk.
-     *
-     * @return the managedDisk value
-     */
-    public SubResource managedDisk() {
-        return this.managedDisk;
-    }
-
-    /**
-     * Set the managedDisk.
-     *
-     * @param managedDisk the managedDisk value to set
-     * @return the ImageOSDisk object itself.
-     */
-    public ImageOSDisk withManagedDisk(SubResource managedDisk) {
-        this.managedDisk = managedDisk;
-        return this;
-    }
-
-    /**
-     * Get the Virtual Hard Disk.
-     *
-     * @return the blobUri value
-     */
-    public String blobUri() {
-        return this.blobUri;
-    }
-
-    /**
-     * Set the Virtual Hard Disk.
-     *
-     * @param blobUri the blobUri value to set
-     * @return the ImageOSDisk object itself.
-     */
-    public ImageOSDisk withBlobUri(String blobUri) {
-        this.blobUri = blobUri;
-        return this;
-    }
-
-    /**
-     * Get specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
-     *
-     * @return the caching value
-     */
-    public CachingTypes caching() {
-        return this.caching;
-    }
-
-    /**
-     * Set specifies the caching requirements. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **None** &lt;br&gt;&lt;br&gt; **ReadOnly** &lt;br&gt;&lt;br&gt; **ReadWrite** &lt;br&gt;&lt;br&gt; Default: **None for Standard storage. ReadOnly for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
-     *
-     * @param caching the caching value to set
-     * @return the ImageOSDisk object itself.
-     */
-    public ImageOSDisk withCaching(CachingTypes caching) {
-        this.caching = caching;
-        return this;
-    }
-
-    /**
-     * Get specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
-     *
-     * @return the diskSizeGB value
-     */
-    public Integer diskSizeGB() {
-        return this.diskSizeGB;
-    }
-
-    /**
-     * Set specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
-     *
-     * @param diskSizeGB the diskSizeGB value to set
-     * @return the ImageOSDisk object itself.
-     */
-    public ImageOSDisk withDiskSizeGB(Integer diskSizeGB) {
-        this.diskSizeGB = diskSizeGB;
-        return this;
-    }
-
-    /**
-     * Get specifies the storage account type for the managed disk. UltraSSD_LRS cannot be used with OS Disk. Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'.
-     *
-     * @return the storageAccountType value
-     */
-    public StorageAccountTypes storageAccountType() {
-        return this.storageAccountType;
-    }
-
-    /**
-     * Set specifies the storage account type for the managed disk. UltraSSD_LRS cannot be used with OS Disk. Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'.
-     *
-     * @param storageAccountType the storageAccountType value to set
-     * @return the ImageOSDisk object itself.
-     */
-    public ImageOSDisk withStorageAccountType(StorageAccountTypes storageAccountType) {
-        this.storageAccountType = storageAccountType;
         return this;
     }
 

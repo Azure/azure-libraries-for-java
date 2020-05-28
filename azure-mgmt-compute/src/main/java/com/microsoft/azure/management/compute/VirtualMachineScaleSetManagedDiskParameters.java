@@ -24,6 +24,13 @@ public class VirtualMachineScaleSetManagedDiskParameters {
     private StorageAccountTypes storageAccountType;
 
     /**
+     * Specifies the customer managed disk encryption set resource id for the
+     * managed disk.
+     */
+    @JsonProperty(value = "diskEncryptionSet")
+    private DiskEncryptionSetParameters diskEncryptionSet;
+
+    /**
      * Get specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'.
      *
      * @return the storageAccountType value
@@ -40,6 +47,26 @@ public class VirtualMachineScaleSetManagedDiskParameters {
      */
     public VirtualMachineScaleSetManagedDiskParameters withStorageAccountType(StorageAccountTypes storageAccountType) {
         this.storageAccountType = storageAccountType;
+        return this;
+    }
+
+    /**
+     * Get specifies the customer managed disk encryption set resource id for the managed disk.
+     *
+     * @return the diskEncryptionSet value
+     */
+    public DiskEncryptionSetParameters diskEncryptionSet() {
+        return this.diskEncryptionSet;
+    }
+
+    /**
+     * Set specifies the customer managed disk encryption set resource id for the managed disk.
+     *
+     * @param diskEncryptionSet the diskEncryptionSet value to set
+     * @return the VirtualMachineScaleSetManagedDiskParameters object itself.
+     */
+    public VirtualMachineScaleSetManagedDiskParameters withDiskEncryptionSet(DiskEncryptionSetParameters diskEncryptionSet) {
+        this.diskEncryptionSet = diskEncryptionSet;
         return this;
     }
 

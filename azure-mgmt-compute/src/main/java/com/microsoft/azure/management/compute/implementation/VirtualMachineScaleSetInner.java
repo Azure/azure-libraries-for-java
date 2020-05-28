@@ -92,7 +92,9 @@ public class VirtualMachineScaleSetInner extends Resource {
 
     /**
      * When true this limits the scale set to a single placement group, of max
-     * size 100 virtual machines.
+     * size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may
+     * be modified to false. However, if singlePlacementGroup is false, it may
+     * not be modified to true.
      */
     @JsonProperty(value = "properties.singlePlacementGroup")
     private Boolean singlePlacementGroup;
@@ -141,7 +143,8 @@ public class VirtualMachineScaleSetInner extends Resource {
     private VirtualMachineScaleSetIdentity identity;
 
     /**
-     * The virtual machine scale set zones.
+     * The virtual machine scale set zones. NOTE: Availability zones can only
+     * be set when you create the scale set.
      */
     @JsonProperty(value = "zones")
     private List<String> zones;
@@ -305,7 +308,7 @@ public class VirtualMachineScaleSetInner extends Resource {
     }
 
     /**
-     * Get when true this limits the scale set to a single placement group, of max size 100 virtual machines.
+     * Get when true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true.
      *
      * @return the singlePlacementGroup value
      */
@@ -314,7 +317,7 @@ public class VirtualMachineScaleSetInner extends Resource {
     }
 
     /**
-     * Set when true this limits the scale set to a single placement group, of max size 100 virtual machines.
+     * Set when true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true.
      *
      * @param singlePlacementGroup the singlePlacementGroup value to set
      * @return the VirtualMachineScaleSetInner object itself.
@@ -445,7 +448,7 @@ public class VirtualMachineScaleSetInner extends Resource {
     }
 
     /**
-     * Get the virtual machine scale set zones.
+     * Get the virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set.
      *
      * @return the zones value
      */
@@ -454,7 +457,7 @@ public class VirtualMachineScaleSetInner extends Resource {
     }
 
     /**
-     * Set the virtual machine scale set zones.
+     * Set the virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set.
      *
      * @param zones the zones value to set
      * @return the VirtualMachineScaleSetInner object itself.

@@ -18,7 +18,7 @@ public class GalleryArtifactVersionSource {
      * The id of the gallery artifact version source. Can specify a disk uri,
      * snapshot uri, or user image.
      */
-    @JsonProperty(value = "id", required = true)
+    @JsonProperty(value = "id")
     private String id;
 
     /**

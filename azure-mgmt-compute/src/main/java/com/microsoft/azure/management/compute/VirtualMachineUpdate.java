@@ -51,7 +51,8 @@ public class VirtualMachineUpdate extends UpdateResource {
     private AdditionalCapabilities additionalCapabilities;
 
     /**
-     * Specifies the operating system settings for the virtual machine.
+     * Specifies the operating system settings used while creating the virtual
+     * machine. Some of the settings cannot be changed once VM is provisioned.
      */
     @JsonProperty(value = "properties.osProfile")
     private OSProfile osProfile;
@@ -80,9 +81,11 @@ public class VirtualMachineUpdate extends UpdateResource {
      * see [Planned maintenance for virtual machines in
      * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
      * &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability
-     * set at creation time. An existing VM cannot be added to an availability
-     * set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a
-     * non-null properties.virtualMachineScaleSet reference.
+     * set at creation time. The availability set to which the VM is being
+     * added should be under the same resource group as the availability set
+     * resource. An existing VM cannot be added to an availability set.
+     * &lt;br&gt;&lt;br&gt;This property cannot exist along with a non-null
+     * properties.virtualMachineScaleSet reference.
      */
     @JsonProperty(value = "properties.availabilitySet")
     private SubResource availabilitySet;
@@ -117,10 +120,13 @@ public class VirtualMachineUpdate extends UpdateResource {
     private VirtualMachinePriorityTypes priority;
 
     /**
-     * Specifies the eviction policy for the Azure Spot virtual machine. Only
-     * supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum
-     * api-version: 2019-03-01. Possible values include: 'Deallocate',
-     * 'Delete'.
+     * Specifies the eviction policy for the Azure Spot virtual machine and
+     * Azure Spot scale set. &lt;br&gt;&lt;br&gt;For Azure Spot virtual
+     * machines, the only supported value is 'Deallocate' and the minimum
+     * api-version is 2019-03-01. &lt;br&gt;&lt;br&gt;For Azure Spot scale
+     * sets, both 'Deallocate' and 'Delete' are supported and the minimum
+     * api-version is 2017-10-30-preview. Possible values include:
+     * 'Deallocate', 'Delete'.
      */
     @JsonProperty(value = "properties.evictionPolicy")
     private VirtualMachineEvictionPolicyTypes evictionPolicy;
@@ -267,7 +273,7 @@ public class VirtualMachineUpdate extends UpdateResource {
     }
 
     /**
-     * Get specifies the operating system settings for the virtual machine.
+     * Get specifies the operating system settings used while creating the virtual machine. Some of the settings cannot be changed once VM is provisioned.
      *
      * @return the osProfile value
      */
@@ -276,7 +282,7 @@ public class VirtualMachineUpdate extends UpdateResource {
     }
 
     /**
-     * Set specifies the operating system settings for the virtual machine.
+     * Set specifies the operating system settings used while creating the virtual machine. Some of the settings cannot be changed once VM is provisioned.
      *
      * @param osProfile the osProfile value to set
      * @return the VirtualMachineUpdate object itself.
@@ -327,7 +333,7 @@ public class VirtualMachineUpdate extends UpdateResource {
     }
 
     /**
-     * Get specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+     * Get specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being added should be under the same resource group as the availability set resource. An existing VM cannot be added to an availability set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
      *
      * @return the availabilitySet value
      */
@@ -336,7 +342,7 @@ public class VirtualMachineUpdate extends UpdateResource {
     }
 
     /**
-     * Set specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+     * Set specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being added should be under the same resource group as the availability set resource. An existing VM cannot be added to an availability set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
      *
      * @param availabilitySet the availabilitySet value to set
      * @return the VirtualMachineUpdate object itself.
@@ -407,7 +413,7 @@ public class VirtualMachineUpdate extends UpdateResource {
     }
 
     /**
-     * Get specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Deallocate', 'Delete'.
+     * Get specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. &lt;br&gt;&lt;br&gt;For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. &lt;br&gt;&lt;br&gt;For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
      *
      * @return the evictionPolicy value
      */
@@ -416,7 +422,7 @@ public class VirtualMachineUpdate extends UpdateResource {
     }
 
     /**
-     * Set specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Deallocate', 'Delete'.
+     * Set specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. &lt;br&gt;&lt;br&gt;For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. &lt;br&gt;&lt;br&gt;For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
      *
      * @param evictionPolicy the evictionPolicy value to set
      * @return the VirtualMachineUpdate object itself.

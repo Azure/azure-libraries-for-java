@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for OperatingSystemStateTypes.
  */
 public enum OperatingSystemStateTypes {
-    /** Enum value Generalized. */
+    /** Generalized image. Needs to be provisioned during deployment time. */
     GENERALIZED("Generalized"),
 
-    /** Enum value Specialized. */
+    /** Specialized image. Contains already provisioned OS Disk. */
     SPECIALIZED("Specialized");
 
     /** The actual serialized value for a OperatingSystemStateTypes instance. */

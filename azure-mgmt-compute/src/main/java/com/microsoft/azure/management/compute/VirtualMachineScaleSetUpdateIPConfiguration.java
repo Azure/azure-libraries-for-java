@@ -15,6 +15,8 @@ import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * Describes a virtual machine scale set network profile's IP configuration.
+ * NOTE: The subnet of a scale set may be modified as long as the original
+ * subnet and the new subnet are in the same virtual network.
  */
 @JsonFlatten
 public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {

@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.DiskSku;
 import java.util.List;
+import com.microsoft.azure.management.compute.DiskSku;
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.HyperVGeneration;
@@ -17,6 +17,7 @@ import com.microsoft.azure.management.compute.CreationData;
 import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
 import com.microsoft.azure.management.compute.DiskState;
 import com.microsoft.azure.management.compute.Encryption;
+import com.microsoft.azure.management.compute.ShareInfoElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -31,6 +32,14 @@ public class DiskInner extends Resource {
      */
     @JsonProperty(value = "managedBy", access = JsonProperty.Access.WRITE_ONLY)
     private String managedBy;
+
+    /**
+     * List of relative URIs containing the IDs of the VMs that have the disk
+     * attached. maxShares should be set to a value greater than one for disks
+     * to allow attaching them to multiple VMs.
+     */
+    @JsonProperty(value = "managedByExtended", access = JsonProperty.Access.WRITE_ONLY)
+    private List<String> managedByExtended;
 
     /**
      * The sku property.
@@ -118,7 +127,23 @@ public class DiskInner extends Resource {
      * of powers of 10.
      */
     @JsonProperty(value = "properties.diskMBpsReadWrite")
-    private Integer diskMBpsReadWrite;
+    private Long diskMBpsReadWrite;
+
+    /**
+     * The total number of IOPS that will be allowed across all VMs mounting
+     * the shared disk as ReadOnly. One operation can transfer between 4k and
+     * 256k bytes.
+     */
+    @JsonProperty(value = "properties.diskIOPSReadOnly")
+    private Long diskIOPSReadOnly;
+
+    /**
+     * The total throughput (MBps) that will be allowed across all VMs mounting
+     * the shared disk as ReadOnly. MBps means millions of bytes per second -
+     * MB here uses the ISO notation, of powers of 10.
+     */
+    @JsonProperty(value = "properties.diskMBpsReadOnly")
+    private Long diskMBpsReadOnly;
 
     /**
      * The state of the disk. Possible values include: 'Unattached',
@@ -135,12 +160,37 @@ public class DiskInner extends Resource {
     private Encryption encryption;
 
     /**
+     * The maximum number of VMs that can attach to the disk at the same time.
+     * Value greater than one indicates a disk that can be mounted on multiple
+     * VMs at the same time.
+     */
+    @JsonProperty(value = "properties.maxShares")
+    private Integer maxShares;
+
+    /**
+     * Details of the list of all VMs that have the disk attached. maxShares
+     * should be set to a value greater than one for disks to allow attaching
+     * them to multiple VMs.
+     */
+    @JsonProperty(value = "properties.shareInfo", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ShareInfoElement> shareInfo;
+
+    /**
      * Get a relative URI containing the ID of the VM that has the disk attached.
      *
      * @return the managedBy value
      */
     public String managedBy() {
         return this.managedBy;
+    }
+
+    /**
+     * Get list of relative URIs containing the IDs of the VMs that have the disk attached. maxShares should be set to a value greater than one for disks to allow attaching them to multiple VMs.
+     *
+     * @return the managedByExtended value
+     */
+    public List<String> managedByExtended() {
+        return this.managedByExtended;
     }
 
     /**
@@ -344,7 +394,7 @@ public class DiskInner extends Resource {
      *
      * @return the diskMBpsReadWrite value
      */
-    public Integer diskMBpsReadWrite() {
+    public Long diskMBpsReadWrite() {
         return this.diskMBpsReadWrite;
     }
 
@@ -354,8 +404,48 @@ public class DiskInner extends Resource {
      * @param diskMBpsReadWrite the diskMBpsReadWrite value to set
      * @return the DiskInner object itself.
      */
-    public DiskInner withDiskMBpsReadWrite(Integer diskMBpsReadWrite) {
+    public DiskInner withDiskMBpsReadWrite(Long diskMBpsReadWrite) {
         this.diskMBpsReadWrite = diskMBpsReadWrite;
+        return this;
+    }
+
+    /**
+     * Get the total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes.
+     *
+     * @return the diskIOPSReadOnly value
+     */
+    public Long diskIOPSReadOnly() {
+        return this.diskIOPSReadOnly;
+    }
+
+    /**
+     * Set the total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes.
+     *
+     * @param diskIOPSReadOnly the diskIOPSReadOnly value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withDiskIOPSReadOnly(Long diskIOPSReadOnly) {
+        this.diskIOPSReadOnly = diskIOPSReadOnly;
+        return this;
+    }
+
+    /**
+     * Get the total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
+     *
+     * @return the diskMBpsReadOnly value
+     */
+    public Long diskMBpsReadOnly() {
+        return this.diskMBpsReadOnly;
+    }
+
+    /**
+     * Set the total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
+     *
+     * @param diskMBpsReadOnly the diskMBpsReadOnly value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withDiskMBpsReadOnly(Long diskMBpsReadOnly) {
+        this.diskMBpsReadOnly = diskMBpsReadOnly;
         return this;
     }
 
@@ -386,6 +476,35 @@ public class DiskInner extends Resource {
     public DiskInner withEncryption(Encryption encryption) {
         this.encryption = encryption;
         return this;
+    }
+
+    /**
+     * Get the maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time.
+     *
+     * @return the maxShares value
+     */
+    public Integer maxShares() {
+        return this.maxShares;
+    }
+
+    /**
+     * Set the maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time.
+     *
+     * @param maxShares the maxShares value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withMaxShares(Integer maxShares) {
+        this.maxShares = maxShares;
+        return this;
+    }
+
+    /**
+     * Get details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than one for disks to allow attaching them to multiple VMs.
+     *
+     * @return the shareInfo value
+     */
+    public List<ShareInfoElement> shareInfo() {
+        return this.shareInfo;
     }
 
 }

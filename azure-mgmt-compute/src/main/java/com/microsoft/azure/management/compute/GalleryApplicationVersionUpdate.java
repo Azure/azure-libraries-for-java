@@ -16,7 +16,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * update.
  */
 @JsonFlatten
-public class GalleryApplicationVersionUpdate extends UpdateResource {
+public class GalleryApplicationVersionUpdate extends UpdateResourceDefinition {
     /**
      * The publishingProfile property.
      */

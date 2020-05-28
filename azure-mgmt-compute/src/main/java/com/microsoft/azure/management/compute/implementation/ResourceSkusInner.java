@@ -168,7 +168,7 @@ public class ResourceSkusInner {
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
-     * @param filter The filter to apply on the operation.
+     * @param filter The filter to apply on the operation. Only **location** filter is supported currently.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -187,7 +187,7 @@ public class ResourceSkusInner {
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
-     * @param filter The filter to apply on the operation.
+     * @param filter The filter to apply on the operation. Only **location** filter is supported currently.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -207,7 +207,7 @@ public class ResourceSkusInner {
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
-     * @param filter The filter to apply on the operation.
+     * @param filter The filter to apply on the operation. Only **location** filter is supported currently.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceSkuInner&gt; object
      */
@@ -224,7 +224,7 @@ public class ResourceSkusInner {
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
-     * @param filter The filter to apply on the operation.
+     * @param filter The filter to apply on the operation. Only **location** filter is supported currently.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceSkuInner&gt; object
      */
@@ -245,7 +245,7 @@ public class ResourceSkusInner {
     /**
      * Gets the list of Microsoft.Compute SKUs available for your Subscription.
      *
-    ServiceResponse<PageImpl1<ResourceSkuInner>> * @param filter The filter to apply on the operation.
+    ServiceResponse<PageImpl1<ResourceSkuInner>> * @param filter The filter to apply on the operation. Only **location** filter is supported currently.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */

@@ -17,7 +17,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * to update.
  */
 @JsonFlatten
-public class GalleryApplicationUpdate extends UpdateResource {
+public class GalleryApplicationUpdate extends UpdateResourceDefinition {
     /**
      * The description of this gallery Application Definition resource. This
      * property is updatable.

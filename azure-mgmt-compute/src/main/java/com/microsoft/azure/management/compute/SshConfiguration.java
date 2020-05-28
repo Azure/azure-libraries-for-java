@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.compute;
 
 import java.util.List;
+import com.microsoft.azure.management.compute.implementation.SshPublicKeyInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -19,14 +20,14 @@ public class SshConfiguration {
      * The list of SSH public keys used to authenticate with linux based VMs.
      */
     @JsonProperty(value = "publicKeys")
-    private List<SshPublicKey> publicKeys;
+    private List<SshPublicKeyInner> publicKeys;
 
     /**
      * Get the list of SSH public keys used to authenticate with linux based VMs.
      *
      * @return the publicKeys value
      */
-    public List<SshPublicKey> publicKeys() {
+    public List<SshPublicKeyInner> publicKeys() {
         return this.publicKeys;
     }
 
@@ -36,7 +37,7 @@ public class SshConfiguration {
      * @param publicKeys the publicKeys value to set
      * @return the SshConfiguration object itself.
      */
-    public SshConfiguration withPublicKeys(List<SshPublicKey> publicKeys) {
+    public SshConfiguration withPublicKeys(List<SshPublicKeyInner> publicKeys) {
         this.publicKeys = publicKeys;
         return this;
     }

@@ -165,6 +165,29 @@ public interface VirtualMachine extends
     ServiceFuture<Void> redeployAsync(ServiceCallback<Void> callback);
 
     /**
+     * Simulates the eviction of spot virtual machine.
+     * The eviction will occur with 30 minutes after calling this API.
+     */
+    void simulateEviction();
+
+    /**
+     * Simulates the eviction of spot virtual machine asynchronously.
+     * The eviction will occur with 30 minutes after calling this API.
+     *
+     * @return a representation of the deferred computation of this call
+     */
+    Completable simulateEvictionAsync();
+
+    /**
+     * Simulates the eviction of spot virtual machine asynchronously.
+     * The eviction will occur with 30 minutes after calling this API.
+     *
+     * @param callback the callback to call on success or failure
+     * @return a handle to cancel the request
+     */
+    ServiceFuture<Void> simulateEvictionAsync(ServiceCallback<Void> callback);
+
+    /**
      * @return entry point to enabling, disabling and querying disk encryption
      */
     VirtualMachineEncryption diskEncryption();

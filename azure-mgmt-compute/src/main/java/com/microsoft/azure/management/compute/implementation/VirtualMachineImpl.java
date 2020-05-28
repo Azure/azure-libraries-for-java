@@ -317,6 +317,21 @@ class VirtualMachineImpl
     }
 
     @Override
+    public void simulateEviction() {
+        this.simulateEvictionAsync().await();
+    }
+
+    @Override
+    public Completable simulateEvictionAsync() {
+        return this.manager().inner().virtualMachines().simulateEvictionAsync(this.resourceGroupName(), this.name()).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> simulateEvictionAsync(ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(this.simulateEvictionAsync(), callback);
+    }
+
+    @Override
     public void convertToManaged() {
         this.manager().inner().virtualMachines().convertToManagedDisks(this.resourceGroupName(), this.name());
         this.refresh();

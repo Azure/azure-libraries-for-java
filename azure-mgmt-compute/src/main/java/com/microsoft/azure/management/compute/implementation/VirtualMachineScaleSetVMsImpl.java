@@ -127,4 +127,14 @@ class VirtualMachineScaleSetVMsImpl
     public void updateInstances(String... instanceIds) {
         this.updateInstancesAsync(instanceIds).await();
     }
+
+    @Override
+    public void simulateEviction(String instanceId) {
+        this.simulateEvictionAsync(instanceId).await();
+    }
+
+    @Override
+    public Completable simulateEvictionAsync(String instanceId) {
+        return this.client.simulateEvictionAsync(this.scaleSet.resourceGroupName(), this.scaleSet.name(), instanceId).toCompletable();
+    }
 }

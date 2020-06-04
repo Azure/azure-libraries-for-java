@@ -191,7 +191,7 @@ class FunctionAppImpl
                     @Override
                     public Observable<Indexable> call(StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) {
                         String connectionString = com.microsoft.azure.management.resources.fluentcore.utils.Utils.getStorageConnectionString(
-                                storageAccountToSet.name(), storageAccountKey.value(), manager().inner().restClient());
+                                storageAccountToSet.name(), storageAccountKey.value(), manager().restClient());
                         addAppSettingIfNotModified(SETTING_WEB_JOBS_STORAGE, connectionString);
                         addAppSettingIfNotModified(SETTING_WEB_JOBS_DASHBOARD, connectionString);
                         if (OperatingSystem.WINDOWS.equals(operatingSystem()) && // as Portal logic, only Windows plan would have following appSettings

@@ -279,12 +279,13 @@ public final class Utils {
      */
     public static String getStorageConnectionString(String accountName, String accountKey,
                                                     RestClient restClient) {
-        AzureEnvironment environment;
-        try {
-            environment = extractAzureEnvironment(restClient);
-        } catch (IllegalArgumentException e) {
-            // use global cloud, if not able to get AzureEnvironment.
-            environment = AzureEnvironment.AZURE;
+        AzureEnvironment environment = AzureEnvironment.AZURE;
+        if (restClient != null) {
+            try {
+                environment = extractAzureEnvironment(restClient);
+            } catch (IllegalArgumentException e) {
+                // ignored
+            }
         }
         String suffix = environment.storageEndpointSuffix().replaceAll("^\\.*", "");
         return String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s",

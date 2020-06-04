@@ -270,6 +270,21 @@ public final class Utils {
         return buffer.clone().readUtf8();
     }
 
+    /**
+     * Get the Azure storage account connection string.
+     * @param accountName storage account name
+     * @param accountKey storage account key
+     * @param restClient rest client
+     * @return the storage account connection string.
+     */
+    public static String getStorageConnectionString(String accountName, String accountKey,
+                                                    RestClient restClient) {
+        AzureEnvironment environment = extractAzureEnvironment(restClient);
+        String suffix = environment.storageEndpointSuffix().replaceAll("^\\.*", "");
+        return String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=%s",
+                accountName, accountKey, suffix);
+    }
+
     private Utils() {
     }
 }

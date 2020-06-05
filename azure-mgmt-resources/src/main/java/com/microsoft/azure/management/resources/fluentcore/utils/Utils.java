@@ -282,7 +282,10 @@ public final class Utils {
         AzureEnvironment environment = AzureEnvironment.AZURE;
         if (restClient != null) {
             try {
-                environment = extractAzureEnvironment(restClient);
+                AzureEnvironment environment1 = extractAzureEnvironment(restClient);
+                if (environment1 != null && environment1.storageEndpointSuffix() != null) {
+                    environment = environment1;
+                }
             } catch (IllegalArgumentException e) {
                 // ignored
             }

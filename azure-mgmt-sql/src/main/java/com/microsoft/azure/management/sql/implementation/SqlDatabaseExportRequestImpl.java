@@ -10,6 +10,7 @@ import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskIte
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.sql.AuthenticationType;
 import com.microsoft.azure.management.sql.ExportRequest;
 import com.microsoft.azure.management.sql.SqlDatabase;
@@ -97,7 +98,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
                     self.inner.withStorageKey(storageAccountKey.value());
                     try {
                         CloudStorageAccount cloudStorageAccount =
-                            CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", storageAccount.name(), storageAccountKey.value()));
+                            CloudStorageAccount.parse(Utils.getStorageConnectionString(storageAccount.name(), storageAccountKey.value(), sqlServerManager.inner().restClient()));
                         CloudBlobClient blobClient = cloudStorageAccount.createCloudBlobClient();
                         blobClient.getContainerReference(containerName)
                             .createIfNotExists();

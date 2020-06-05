@@ -591,7 +591,7 @@ class EventHubImpl
                         @Override
                         public CloudStorageAccount call(StorageAccountKey storageAccountKey) {
                             try {
-                            return CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", storageAccount.name(), storageAccountKey.value()));
+                            return CloudStorageAccount.parse(Utils.getStorageConnectionString(storageAccount.name(), storageAccountKey.value(), manager().inner().restClient()));
                             } catch (URISyntaxException syntaxException) {
                                 throw Exceptions.propagate(syntaxException);
                             } catch (InvalidKeyException keyException) {

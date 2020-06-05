@@ -352,16 +352,4 @@ public class FunctionAppsTests extends AppServiceTest {
 
         return resource;
     }
-
-    private static String readLine(InputStream in) throws IOException {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        int c;
-        for (c = in.read(); c != '\n' && c >= 0 ; c = in.read()) {
-            stream.write(c);
-        }
-        if (c == -1 && stream.size() == 0) {
-            return null;
-        }
-        return stream.toString("UTF-8");
-    }
 }

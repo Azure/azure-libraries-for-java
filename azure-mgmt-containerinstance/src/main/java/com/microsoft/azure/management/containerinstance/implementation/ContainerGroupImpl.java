@@ -35,6 +35,7 @@ import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
@@ -161,9 +162,10 @@ public class ContainerGroupImpl
                     @Override
                     public Observable<Triple<String, String, String>> call(final String storageAccountKey) {
                         try {
-                            cloudFileClient = CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
+                            cloudFileClient = CloudStorageAccount.parse(Utils.getStorageConnectionString(
                                     storageAccount.name(),
-                                    storageAccountKey))
+                                    storageAccountKey,
+                                    manager().inner().restClient()))
                                     .createCloudFileClient();
                         } catch (URISyntaxException syntaxException) {
                             throw Exceptions.propagate(syntaxException);

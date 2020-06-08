@@ -6,11 +6,16 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.credentials.ApplicationTokenCredentials;
+import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
 
 public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
@@ -27,51 +32,90 @@ public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTe
     }
 
     @Test
-    @Ignore("Requires manually creating service principal and setting SP credentials in the test")
-    public void canEncryptVirtualMachine() {
-        // https://docs.microsoft.com/en-us/azure/security/azure-security-disk-encryption
-        //
-        // KeyVault Resource ID
-        String keyVaultId = "KEY_VAULT_ID_HERE";
-        // Azure AD service principal client (application) ID
-        String aadClientId = "AAD_APPLICATION_ID_HERE";
-        // Azure AD service principal client secret
-        String aadSecret  = "AAD_CLIENT_SECRET_HERE";
+    public void canEncryptVirtualMachine() throws IOException {
+        String rgName2 = generateRandomResourceName("rgencryptst", 18);
+        String vaultName = generateRandomResourceName("vlt", 18);
+        String vmName = generateRandomResourceName("vm", 18);
+        String pipName = generateRandomResourceName("pip", 18);
 
-        final String vmName1 = "myvm1";
-        final String publicIpDnsLabel = generateRandomResourceName("pip", 20);
-        final String uname = "juser";
-        final String password = "123tEst!@|ac";
-        VirtualMachine virtualMachine = computeManager.virtualMachines()
-                .define(vmName1)
+        final String explicitlyCreatedEmptyDiskName1 = generateRandomResourceName(vmName + "_mdisk_", 25);
+        final String explicitlyCreatedEmptyDiskName2 = generateRandomResourceName(vmName + "_mdisk_", 25);
+        final String explicitlyCreatedEmptyDiskName3 = generateRandomResourceName(vmName + "_mdisk_", 25);
+        ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
+
+        try {
+            resourceManager.resourceGroups().define(RG_NAME)
                     .withRegion(REGION)
-                    .withNewResourceGroup(RG_NAME)
-                    .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIPAddressDynamic()
-                    .withNewPrimaryPublicIPAddress(publicIpDnsLabel)
-                    .withLatestLinuxImage("RedHat", "RHEL", "7.2")
-                    .withRootUsername(uname)
-                    .withRootPassword(password)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D5_V2)
-                    .withOSDiskCaching(CachingTypes.READ_WRITE)
-                .create();
+                    .create();
 
-        DiskVolumeEncryptionMonitor monitor1 = virtualMachine.diskEncryption().getMonitor();
-        Assert.assertNotNull(monitor1);
-        Assert.assertNotNull(monitor1.osDiskStatus());
-        Assert.assertNotNull(monitor1.dataDiskStatus());
-        Assert.assertTrue(monitor1.osDiskStatus().equals(EncryptionStatus.NOT_ENCRYPTED));
-        Assert.assertTrue(monitor1.dataDiskStatus().equals(EncryptionStatus.NOT_ENCRYPTED));
-        DiskVolumeEncryptionMonitor monitor2 = virtualMachine
-                .diskEncryption()
-                .enable(keyVaultId, aadClientId, aadSecret);
-        Assert.assertNotNull(monitor2);
-        Assert.assertNotNull(monitor2.osDiskStatus());
-        Assert.assertNotNull(monitor2.dataDiskStatus());
-        monitor1.refresh();
-        Assert.assertTrue(monitor1.osDiskStatus().equals(monitor2.osDiskStatus()));
-        Assert.assertTrue(monitor1.dataDiskStatus().equals(monitor2.dataDiskStatus()));
-        monitor2.refresh();
-        Assert.assertTrue(monitor2.osDiskStatus().equals(EncryptionStatus.ENCRYPTION_INPROGRESS));
+            resourceManager.resourceGroups().define(rgName2)
+                    .withRegion(REGION)
+                    .create();
+
+            Creatable<Disk> creatableEmptyDisk1 = computeManager.disks()
+                    .define(explicitlyCreatedEmptyDiskName1)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(RG_NAME)
+                    .withData()
+                    .withSizeInGB(150);
+
+            Creatable<Disk> creatableEmptyDisk2 = computeManager.disks()
+                    .define(explicitlyCreatedEmptyDiskName2)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(RG_NAME)
+                    .withData()
+                    .withSizeInGB(150);
+
+            Creatable<Disk> creatableEmptyDisk3 = computeManager.disks()
+                    .define(explicitlyCreatedEmptyDiskName3)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(RG_NAME)
+                    .withData()
+                    .withSizeInGB(150);
+
+            Vault vault = keyVaultManager.vaults().define(vaultName)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(rgName2)
+                    .defineAccessPolicy()
+                        .forServicePrincipal(credentials.clientId())
+                        .allowCertificateAllPermissions()
+                        .allowKeyAllPermissions()
+                        .allowSecretAllPermissions()
+                        .attach()
+                    .withDiskEncryptionEnabled()
+                    .create();
+
+            VirtualMachine virtualMachine = computeManager.virtualMachines().define(vmName)
+                    .withRegion(REGION)
+                    .withExistingResourceGroup(RG_NAME)
+                    .withNewPrimaryNetwork("10.0.0.0/24")
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withNewPrimaryPublicIPAddress(pipName)
+                    .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2008_R2_SP1)
+                    .withAdminUsername("Foo12")
+                    .withAdminPassword("abc!@#F0orL")
+                    .withNewDataDisk(100, 1, CachingTypes.READ_ONLY)                  // CreateOption: EMPTY
+                    .withNewDataDisk(creatableEmptyDisk1)                             // CreateOption: ATTACH
+                    .withNewDataDisk(creatableEmptyDisk2, 2, CachingTypes.NONE)       // CreateOption: ATTACH
+                    .withNewDataDisk(creatableEmptyDisk3, 3, CachingTypes.READ_WRITE)       // CreateOption: ATTACH
+                    .withSize(VirtualMachineSizeTypes.STANDARD_D2_V3)
+                    .withOSDiskCaching(CachingTypes.READ_WRITE)
+                    .create();
+
+            DiskVolumeEncryptionMonitor monitor = virtualMachine.diskEncryption().getMonitor();
+            Assert.assertEquals(EncryptionStatus.NOT_ENCRYPTED, monitor.dataDiskStatus());
+            Assert.assertEquals(EncryptionStatus.NOT_ENCRYPTED, monitor.osDiskStatus());
+
+            WindowsVMDiskEncryptionConfiguration config = new WindowsVMDiskEncryptionConfiguration(vault.id());
+            virtualMachine.diskEncryption().enable(config);
+
+            monitor = virtualMachine.diskEncryption().getMonitor();
+            Assert.assertEquals(EncryptionStatus.NOT_ENCRYPTED, monitor.dataDiskStatus());
+            Assert.assertEquals(EncryptionStatus.ENCRYPTED, monitor.osDiskStatus());
+        } catch (Exception ex) {
+
+        } finally {
+            resourceManager.resourceGroups().deleteByName(rgName2);
+        }
     }
 }

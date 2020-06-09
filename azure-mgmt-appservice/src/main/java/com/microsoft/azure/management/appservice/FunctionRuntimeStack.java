@@ -20,7 +20,11 @@ public class FunctionRuntimeStack {
 
     /** JAVA 8. */
     public static final FunctionRuntimeStack JAVA_8 = new FunctionRuntimeStack("java", "~3",
-            "java|8", "DOCKER|mcr.microsoft.com/azure-functions/java:3.0-java8-appservice");
+            "java|8", "java|8");
+
+    /** JAVA 11. */
+    public static final FunctionRuntimeStack JAVA_11 = new FunctionRuntimeStack("java", "~3",
+            "java|11", "java|11");
 
     private final String runtime;
     private final String version;

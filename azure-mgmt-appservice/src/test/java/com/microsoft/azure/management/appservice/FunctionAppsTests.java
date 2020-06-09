@@ -18,10 +18,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -182,7 +179,7 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                 .create();
         Assert.assertNotNull(functionApp1);
-        assertLinuxJava8(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForConsumptionPlan());
+        assertLinuxJava(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForConsumptionPlan());
 
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(functionApp1.appServicePlanId());
         Assert.assertNotNull(plan1);
@@ -190,15 +187,6 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertEquals(new PricingTier(com.microsoft.azure.management.appservice.SkuName.DYNAMIC.toString(), "Y1"), plan1.pricingTier());
         Assert.assertTrue(plan1.inner().reserved());
         Assert.assertTrue(Arrays.asList(functionApp1.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
-
-        // deploy (zip deploy is not recommended for linux consumption plan)
-        functionApp1.update()
-                .withAppSetting("SCM_DO_BUILD_DURING_DEPLOYMENT", "false")
-                .apply();
-        if (!isPlaybackMode()) {
-            SdkContext.sleep(5000);
-            functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
-        }
 
         List<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
         Assert.assertEquals(1, functionApps.size());
@@ -213,7 +201,7 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                 .create();
         Assert.assertNotNull(functionApp2);
-        assertLinuxJava8(functionApp2, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
+        assertLinuxJava(functionApp2, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
         AppServicePlan plan2 = appServiceManager.appServicePlans().getById(functionApp2.appServicePlanId());
         Assert.assertNotNull(plan2);
@@ -229,7 +217,7 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                 .create();
         Assert.assertNotNull(functionApp3);
-        assertLinuxJava8(functionApp3, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
+        assertLinuxJava(functionApp3, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
         // wait for deploy
         if (!isPlaybackMode()) {
@@ -268,7 +256,7 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertNotNull(plan1);
         Assert.assertEquals(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"), plan1.pricingTier());
         Assert.assertTrue(plan1.inner().reserved());
-        assertLinuxJava8(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
+        assertLinuxJava(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
         // wait for deploy
         if (!isPlaybackMode()) {
@@ -314,10 +302,10 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                 .create();
         Assert.assertNotNull(functionApp1);
-        assertLinuxJava8(functionApp1, FunctionRuntimeStack.JAVA_11.getLinuxFxVersionForConsumptionPlan());
+        assertLinuxJava(functionApp1, FunctionRuntimeStack.JAVA_11.getLinuxFxVersionForConsumptionPlan());
     }
 
-    private static Map<String, AppSetting> assertLinuxJava8(FunctionApp functionApp, String linuxFxVersion) {
+    private static Map<String, AppSetting> assertLinuxJava(FunctionApp functionApp, String linuxFxVersion) {
         Assert.assertEquals(linuxFxVersion, functionApp.linuxFxVersion());
         Assert.assertTrue(Arrays.asList(functionApp.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
         Assert.assertTrue(functionApp.inner().reserved());

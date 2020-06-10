@@ -1420,7 +1420,7 @@ public final class Utils {
                 "-keystore", pfxPath, "-storepass", password, "-validity",
                 validityInDays, "-keyalg", keyAlg, "-sigalg", sigAlg, "-keysize", keySize,
                 "-storetype", storeType, "-dname", "CN=" + cnName, "-ext", "EKU=1.3.6.1.5.5.7.3.1"};
-        Utils.cmdInvocation(commandArgs, false);
+        Utils.cmdInvocation(commandArgs, true);
 
         // Create cer file i.e. extract public key from pfx
         File pfxFile = new File(pfxPath);

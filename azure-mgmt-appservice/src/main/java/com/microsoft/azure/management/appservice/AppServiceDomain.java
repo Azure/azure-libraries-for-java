@@ -11,6 +11,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.appservice.implementation.DomainInner;
+import com.microsoft.azure.management.dns.DnsZone;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -109,6 +110,16 @@ public interface AppServiceDomain extends
      * @return legal agreement consent.
      */
     DomainPurchaseConsent consent();
+
+    /**
+     * @return the type of DNS
+     */
+    DnsType dnsType();
+
+    /**
+     * @return Azure DNS zone id
+     */
+    String dnsZoneId();
 
     /**
      * Verifies the ownership of the domain for a certificate order bound to this domain.
@@ -242,6 +253,43 @@ public interface AppServiceDomain extends
         }
 
         /**
+         * A domain definition allowing DNS zone to be set.
+         */
+        interface WithDnsZone {
+            /**
+             * Creates a new DNS zone.
+             *
+             * @param dnsZoneName the name of DNS zone
+             * @return the next stage of domain definition
+             */
+            WithCreate withNewDnsZone(String dnsZoneName);
+
+            /**
+             * Creates a new DNS zone.
+             *
+             * @param dnsZone the creatable definition of DNS zone
+             * @return the next stage of domain definition
+             */
+            WithCreate withNewDnsZone(Creatable<DnsZone> dnsZone);
+
+            /**
+             * Specifies an existing DNS zone.
+             *
+             * @param dnsZoneId the id of DNS zone
+             * @return the next stage of domain definition
+             */
+            WithCreate withExistingDnsZone(String dnsZoneId);
+
+            /**
+             * Specifies an existing DNS zone.
+             *
+             * @param dnsZone the DNS zone
+             * @return the next stage of domain definition
+             */
+            WithCreate withExistingDnsZone(DnsZone dnsZone);
+        }
+
+        /**
          * A domain definition with sufficient inputs to create a new
          * domain in the cloud, but exposing additional optional inputs to
          * specify.
@@ -252,6 +300,7 @@ public interface AppServiceDomain extends
                 WithAdminContact,
                 WithBillingContact,
                 WithTechContact,
+                WithDnsZone,
                 Creatable<AppServiceDomain>,
                 DefinitionWithTags<WithCreate> {
         }
@@ -328,6 +377,43 @@ public interface AppServiceDomain extends
              */
             Update withAutoRenewEnabled(boolean autoRenew);
         }
+
+        /**
+         * A domain definition allowing DNS zone to be set.
+         */
+        interface WithDnsZone {
+            /**
+             * Creates a new DNS zone.
+             *
+             * @param dnsZoneName the name of DNS zone
+             * @return the next stage of domain definition
+             */
+            Update withNewDnsZone(String dnsZoneName);
+
+            /**
+             * Creates a new DNS zone.
+             *
+             * @param dnsZone the creatable definition of DNS zone
+             * @return the next stage of domain definition
+             */
+            Update withNewDnsZone(Creatable<DnsZone> dnsZone);
+
+            /**
+             * Specifies an existing DNS zone.
+             *
+             * @param dnsZoneId the id of DNS zone
+             * @return the next stage of domain definition
+             */
+            Update withExistingDnsZone(String dnsZoneId);
+
+            /**
+             * Specifies an existing DNS zone.
+             *
+             * @param dnsZone the DNS zone
+             * @return the next stage of domain definition
+             */
+            Update withExistingDnsZone(DnsZone dnsZone);
+        }
     }
 
     /**
@@ -340,6 +426,7 @@ public interface AppServiceDomain extends
             UpdateStages.WithTechContact,
             UpdateStages.WithAutoRenew,
             UpdateStages.WithDomainPrivacy,
+            UpdateStages.WithDnsZone,
             GroupableResource.UpdateWithTags<Update> {
     }
 }

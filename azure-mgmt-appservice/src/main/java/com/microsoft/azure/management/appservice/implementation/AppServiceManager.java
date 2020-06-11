@@ -16,6 +16,7 @@ import com.microsoft.azure.management.appservice.AppServiceDomains;
 import com.microsoft.azure.management.appservice.AppServicePlans;
 import com.microsoft.azure.management.appservice.FunctionApps;
 import com.microsoft.azure.management.appservice.WebApps;
+import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
@@ -33,9 +34,10 @@ import com.microsoft.rest.RestClient;
 @Beta
 public final class AppServiceManager extends Manager<AppServiceManager, WebSiteManagementClientImpl> {
     // Managers
-    private GraphRbacManager rbacManager;
-    private KeyVaultManager keyVaultManager;
-    private StorageManager storageManager;
+    private final GraphRbacManager rbacManager;
+    private final KeyVaultManager keyVaultManager;
+    private final StorageManager storageManager;
+    private final DnsZoneManager dnsZoneManager;
     // Collections
     private WebApps webApps;
     private AppServicePlans appServicePlans;
@@ -115,6 +117,7 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
         keyVaultManager = KeyVaultManager.authenticate(restClient, tenantId, subscriptionId);
         storageManager = StorageManager.authenticate(restClient, subscriptionId);
         rbacManager = GraphRbacManager.authenticate(restClient, tenantId);
+        dnsZoneManager = DnsZoneManager.authenticate(restClient, subscriptionId);
         this.restClient = restClient;
     }
 
@@ -130,6 +133,10 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
      */
     KeyVaultManager keyVaultManager() {
         return keyVaultManager;
+    }
+
+    DnsZoneManager dnsZoneManager() {
+        return dnsZoneManager;
     }
 
     /**

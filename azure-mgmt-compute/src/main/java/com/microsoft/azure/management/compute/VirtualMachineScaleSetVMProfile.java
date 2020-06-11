@@ -74,7 +74,7 @@ public class VirtualMachineScaleSetVMProfile {
     /**
      * Specifies the eviction policy for the Azure Spot virtual machine and
      * Azure Spot scale set. &lt;br&gt;&lt;br&gt;For Azure Spot virtual
-     * machines, the only supported value is 'Deallocate' and the minimum
+     * machines, both 'Deallocate' and 'Delete' are supported and the minimum
      * api-version is 2019-03-01. &lt;br&gt;&lt;br&gt;For Azure Spot scale
      * sets, both 'Deallocate' and 'Delete' are supported and the minimum
      * api-version is 2017-10-30-preview. Possible values include:
@@ -237,7 +237,7 @@ public class VirtualMachineScaleSetVMProfile {
     }
 
     /**
-     * Get specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. &lt;br&gt;&lt;br&gt;For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. &lt;br&gt;&lt;br&gt;For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
+     * Get specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. &lt;br&gt;&lt;br&gt;For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01. &lt;br&gt;&lt;br&gt;For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
      *
      * @return the evictionPolicy value
      */
@@ -246,7 +246,7 @@ public class VirtualMachineScaleSetVMProfile {
     }
 
     /**
-     * Set specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. &lt;br&gt;&lt;br&gt;For Azure Spot virtual machines, the only supported value is 'Deallocate' and the minimum api-version is 2019-03-01. &lt;br&gt;&lt;br&gt;For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
+     * Set specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. &lt;br&gt;&lt;br&gt;For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01. &lt;br&gt;&lt;br&gt;For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
      *
      * @param evictionPolicy the evictionPolicy value to set
      * @return the VirtualMachineScaleSetVMProfile object itself.

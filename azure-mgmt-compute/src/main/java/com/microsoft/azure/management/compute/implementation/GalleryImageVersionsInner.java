@@ -186,7 +186,7 @@ public class GalleryImageVersionsInner {
             throw new IllegalArgumentException("Parameter galleryImageVersion is required and cannot be null.");
         }
         Validator.validate(galleryImageVersion);
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, galleryImageVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<GalleryImageVersionInner>() { }.getType());
     }
@@ -275,7 +275,7 @@ public class GalleryImageVersionsInner {
             throw new IllegalArgumentException("Parameter galleryImageVersion is required and cannot be null.");
         }
         Validator.validate(galleryImageVersion);
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, galleryImageVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageVersionInner>>>() {
                 @Override
@@ -383,7 +383,7 @@ public class GalleryImageVersionsInner {
             throw new IllegalArgumentException("Parameter galleryImageVersion is required and cannot be null.");
         }
         Validator.validate(galleryImageVersion);
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         Observable<Response<ResponseBody>> observable = service.update(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, galleryImageVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<GalleryImageVersionInner>() { }.getType());
     }
@@ -472,7 +472,7 @@ public class GalleryImageVersionsInner {
             throw new IllegalArgumentException("Parameter galleryImageVersion is required and cannot be null.");
         }
         Validator.validate(galleryImageVersion);
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, galleryImageVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageVersionInner>>>() {
                 @Override
@@ -570,7 +570,7 @@ public class GalleryImageVersionsInner {
         if (galleryImageVersionName == null) {
             throw new IllegalArgumentException("Parameter galleryImageVersionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         final ReplicationStatusTypes expand = null;
         return service.get(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageVersionInner>>>() {
@@ -666,7 +666,7 @@ public class GalleryImageVersionsInner {
         if (galleryImageVersionName == null) {
             throw new IllegalArgumentException("Parameter galleryImageVersionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.get(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryImageVersionInner>>>() {
                 @Override
@@ -763,7 +763,7 @@ public class GalleryImageVersionsInner {
         if (galleryImageVersionName == null) {
             throw new IllegalArgumentException("Parameter galleryImageVersionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -843,7 +843,7 @@ public class GalleryImageVersionsInner {
         if (galleryImageVersionName == null) {
             throw new IllegalArgumentException("Parameter galleryImageVersionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, galleryImageVersionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -974,7 +974,7 @@ public class GalleryImageVersionsInner {
         if (galleryImageName == null) {
             throw new IllegalArgumentException("Parameter galleryImageName is required and cannot be null.");
         }
-        final String apiVersion = "2019-07-01";
+        final String apiVersion = "2019-12-01";
         return service.listByGalleryImage(this.client.subscriptionId(), resourceGroupName, galleryName, galleryImageName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<GalleryImageVersionInner>>>>() {
                 @Override

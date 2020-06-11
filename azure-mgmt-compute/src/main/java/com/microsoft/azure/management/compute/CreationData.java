@@ -23,8 +23,9 @@ public class CreationData {
     private DiskCreateOption createOption;
 
     /**
-     * Required if createOption is Import. The Azure Resource Manager identifier
-     * of the storage account containing the blob to import as a disk.
+     * Required if createOption is Import. The Azure Resource Manager
+     * identifier of the storage account containing the blob to import as a
+     * disk.
      */
     @JsonProperty(value = "storageAccountId")
     private String storageAccountId;
@@ -34,6 +35,14 @@ public class CreationData {
      */
     @JsonProperty(value = "imageReference")
     private ImageDiskReference imageReference;
+
+    /**
+     * Required if creating from a Gallery Image. The id of the
+     * ImageDiskReference will be the ARM id of the shared galley image version
+     * from which to create a disk.
+     */
+    @JsonProperty(value = "galleryImageReference")
+    private ImageDiskReference galleryImageReference;
 
     /**
      * If createOption is Import, this is the URI of a blob to be imported into
@@ -86,7 +95,7 @@ public class CreationData {
     }
 
     /**
-     * Get if createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription.
+     * Get required if createOption is Import. The Azure Resource Manager identifier of the storage account containing the blob to import as a disk.
      *
      * @return the storageAccountId value
      */
@@ -95,7 +104,7 @@ public class CreationData {
     }
 
     /**
-     * Set if createOption is Import, the Azure Resource Manager identifier of the storage account containing the blob to import as a disk. Required only if the blob is in a different subscription.
+     * Set required if createOption is Import. The Azure Resource Manager identifier of the storage account containing the blob to import as a disk.
      *
      * @param storageAccountId the storageAccountId value to set
      * @return the CreationData object itself.
@@ -122,6 +131,26 @@ public class CreationData {
      */
     public CreationData withImageReference(ImageDiskReference imageReference) {
         this.imageReference = imageReference;
+        return this;
+    }
+
+    /**
+     * Get required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of the shared galley image version from which to create a disk.
+     *
+     * @return the galleryImageReference value
+     */
+    public ImageDiskReference galleryImageReference() {
+        return this.galleryImageReference;
+    }
+
+    /**
+     * Set required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of the shared galley image version from which to create a disk.
+     *
+     * @param galleryImageReference the galleryImageReference value to set
+     * @return the CreationData object itself.
+     */
+    public CreationData withGalleryImageReference(ImageDiskReference galleryImageReference) {
+        this.galleryImageReference = galleryImageReference;
         return this;
     }
 

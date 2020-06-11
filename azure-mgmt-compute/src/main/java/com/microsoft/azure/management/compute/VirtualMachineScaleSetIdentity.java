@@ -47,8 +47,6 @@ public class VirtualMachineScaleSetIdentity {
      * set. The user identity dictionary key references will be ARM resource
      * ids in the form:
      * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-     * You need to include "@JsonInclude(content = JsonInclude.Include.ALWAYS)" otherwise the call does not work properly
-     * Autogeneration generally reverts this. Comment for git diff only
      */
     @JsonProperty(value = "userAssignedIdentities")
     @JsonInclude(content = JsonInclude.Include.ALWAYS)

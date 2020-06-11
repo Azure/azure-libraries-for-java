@@ -15,9 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class WinRMListener {
     /**
-     * Specifies the protocol of listener. &lt;br&gt;&lt;br&gt; Possible values
-     * are: &lt;br&gt;**http** &lt;br&gt;&lt;br&gt; **https**. Possible values
-     * include: 'Http', 'Https'.
+     * Specifies the protocol of WinRM listener. &lt;br&gt;&lt;br&gt; Possible
+     * values are: &lt;br&gt;**http** &lt;br&gt;&lt;br&gt; **https**. Possible
+     * values include: 'Http', 'Https'.
      */
     @JsonProperty(value = "protocol")
     private ProtocolTypes protocol;
@@ -38,7 +38,7 @@ public class WinRMListener {
     private String certificateUrl;
 
     /**
-     * Get specifies the protocol of listener. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;**http** &lt;br&gt;&lt;br&gt; **https**. Possible values include: 'Http', 'Https'.
+     * Get specifies the protocol of WinRM listener. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;**http** &lt;br&gt;&lt;br&gt; **https**. Possible values include: 'Http', 'Https'.
      *
      * @return the protocol value
      */
@@ -47,7 +47,7 @@ public class WinRMListener {
     }
 
     /**
-     * Set specifies the protocol of listener. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;**http** &lt;br&gt;&lt;br&gt; **https**. Possible values include: 'Http', 'Https'.
+     * Set specifies the protocol of WinRM listener. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;**http** &lt;br&gt;&lt;br&gt; **https**. Possible values include: 'Http', 'Https'.
      *
      * @param protocol the protocol value to set
      * @return the WinRMListener object itself.

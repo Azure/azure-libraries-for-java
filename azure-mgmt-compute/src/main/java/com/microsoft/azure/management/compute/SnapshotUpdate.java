@@ -41,6 +41,13 @@ public class SnapshotUpdate {
     private EncryptionSettingsCollection encryptionSettingsCollection;
 
     /**
+     * Encryption property can be used to encrypt data at rest with customer
+     * managed keys or platform managed keys.
+     */
+    @JsonProperty(value = "properties.encryption")
+    private Encryption encryption;
+
+    /**
      * Resource tags.
      */
     @JsonProperty(value = "tags")
@@ -109,6 +116,26 @@ public class SnapshotUpdate {
      */
     public SnapshotUpdate withEncryptionSettingsCollection(EncryptionSettingsCollection encryptionSettingsCollection) {
         this.encryptionSettingsCollection = encryptionSettingsCollection;
+        return this;
+    }
+
+    /**
+     * Get encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+     *
+     * @return the encryption value
+     */
+    public Encryption encryption() {
+        return this.encryption;
+    }
+
+    /**
+     * Set encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+     *
+     * @param encryption the encryption value to set
+     * @return the SnapshotUpdate object itself.
+     */
+    public SnapshotUpdate withEncryption(Encryption encryption) {
+        this.encryption = encryption;
         return this;
     }
 

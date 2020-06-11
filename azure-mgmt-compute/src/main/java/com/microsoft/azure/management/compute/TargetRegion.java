@@ -30,10 +30,16 @@ public class TargetRegion {
     /**
      * Specifies the storage account type to be used to store the image. This
      * property is not updatable. Possible values include: 'Standard_LRS',
-     * 'Standard_ZRS'.
+     * 'Standard_ZRS', 'Premium_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountType storageAccountType;
+
+    /**
+     * The encryption property.
+     */
+    @JsonProperty(value = "encryption")
+    private EncryptionImages encryption;
 
     /**
      * Get the name of the region.
@@ -76,7 +82,7 @@ public class TargetRegion {
     }
 
     /**
-     * Get specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'.
+     * Get specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'.
      *
      * @return the storageAccountType value
      */
@@ -85,13 +91,33 @@ public class TargetRegion {
     }
 
     /**
-     * Set specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'.
+     * Set specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'.
      *
      * @param storageAccountType the storageAccountType value to set
      * @return the TargetRegion object itself.
      */
     public TargetRegion withStorageAccountType(StorageAccountType storageAccountType) {
         this.storageAccountType = storageAccountType;
+        return this;
+    }
+
+    /**
+     * Get the encryption value.
+     *
+     * @return the encryption value
+     */
+    public EncryptionImages encryption() {
+        return this.encryption;
+    }
+
+    /**
+     * Set the encryption value.
+     *
+     * @param encryption the encryption value to set
+     * @return the TargetRegion object itself.
+     */
+    public TargetRegion withEncryption(EncryptionImages encryption) {
+        this.encryption = encryption;
         return this;
     }
 

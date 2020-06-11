@@ -34,7 +34,7 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
      * "CustomScriptExtension".
      */
     @JsonProperty(value = "properties.type")
-    private String virtualMachineExtensionUpdateType;
+    private String type;
 
     /**
      * Specifies the version of the script handler.
@@ -107,20 +107,20 @@ public class VirtualMachineExtensionUpdate extends UpdateResource {
     /**
      * Get specifies the type of the extension; an example is "CustomScriptExtension".
      *
-     * @return the virtualMachineExtensionUpdateType value
+     * @return the type value
      */
-    public String virtualMachineExtensionUpdateType() {
-        return this.virtualMachineExtensionUpdateType;
+    public String type() {
+        return this.type;
     }
 
     /**
      * Set specifies the type of the extension; an example is "CustomScriptExtension".
      *
-     * @param virtualMachineExtensionUpdateType the virtualMachineExtensionUpdateType value to set
+     * @param type the type value to set
      * @return the VirtualMachineExtensionUpdate object itself.
      */
-    public VirtualMachineExtensionUpdate withVirtualMachineExtensionUpdateType(String virtualMachineExtensionUpdateType) {
-        this.virtualMachineExtensionUpdateType = virtualMachineExtensionUpdateType;
+    public VirtualMachineExtensionUpdate withType(String type) {
+        this.type = type;
         return this;
     }
 

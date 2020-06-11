@@ -24,6 +24,22 @@ public class DiffDiskSettings {
     private DiffDiskOptions option;
 
     /**
+     * Specifies the ephemeral disk placement for operating system
+     * disk.&lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt;
+     * **CacheDisk** &lt;br&gt;&lt;br&gt; **ResourceDisk** &lt;br&gt;&lt;br&gt;
+     * Default: **CacheDisk** if one is configured for the VM size otherwise
+     * **ResourceDisk** is used.&lt;br&gt;&lt;br&gt; Refer to VM size
+     * documentation for Windows VM at
+     * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes
+     * and Linux VM at
+     * https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to
+     * check which VM sizes exposes a cache disk. Possible values include:
+     * 'CacheDisk', 'ResourceDisk'.
+     */
+    @JsonProperty(value = "placement")
+    private DiffDiskPlacement placement;
+
+    /**
      * Get specifies the ephemeral disk settings for operating system disk. Possible values include: 'Local'.
      *
      * @return the option value
@@ -40,6 +56,26 @@ public class DiffDiskSettings {
      */
     public DiffDiskSettings withOption(DiffDiskOptions option) {
         this.option = option;
+        return this;
+    }
+
+    /**
+     * Get specifies the ephemeral disk placement for operating system disk.&lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **CacheDisk** &lt;br&gt;&lt;br&gt; **ResourceDisk** &lt;br&gt;&lt;br&gt; Default: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** is used.&lt;br&gt;&lt;br&gt; Refer to VM size documentation for Windows VM at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk. Possible values include: 'CacheDisk', 'ResourceDisk'.
+     *
+     * @return the placement value
+     */
+    public DiffDiskPlacement placement() {
+        return this.placement;
+    }
+
+    /**
+     * Set specifies the ephemeral disk placement for operating system disk.&lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **CacheDisk** &lt;br&gt;&lt;br&gt; **ResourceDisk** &lt;br&gt;&lt;br&gt; Default: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** is used.&lt;br&gt;&lt;br&gt; Refer to VM size documentation for Windows VM at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk. Possible values include: 'CacheDisk', 'ResourceDisk'.
+     *
+     * @param placement the placement value to set
+     * @return the DiffDiskSettings object itself.
+     */
+    public DiffDiskSettings withPlacement(DiffDiskPlacement placement) {
+        this.placement = placement;
         return this;
     }
 

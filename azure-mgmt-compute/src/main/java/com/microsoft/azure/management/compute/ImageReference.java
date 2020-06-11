@@ -16,7 +16,8 @@ import com.microsoft.azure.SubResource;
  * about platform images, marketplace images, or virtual machine images. This
  * element is required when you want to use a platform image, marketplace
  * image, or virtual machine image, but is not used in other creation
- * operations.
+ * operations. NOTE: Image reference publisher and offer can only be set when
+ * you create the scale set.
  */
 public class ImageReference extends SubResource {
     /**
@@ -48,6 +49,15 @@ public class ImageReference extends SubResource {
      */
     @JsonProperty(value = "version")
     private String version;
+
+    /**
+     * Specifies in decimal numbers, the version of platform image or
+     * marketplace image used to create the virtual machine. This readonly
+     * field differs from 'version', only if the value specified in 'version'
+     * field is 'latest'.
+     */
+    @JsonProperty(value = "exactVersion", access = JsonProperty.Access.WRITE_ONLY)
+    private String exactVersion;
 
     /**
      * Get the image publisher.
@@ -127,6 +137,15 @@ public class ImageReference extends SubResource {
     public ImageReference withVersion(String version) {
         this.version = version;
         return this;
+    }
+
+    /**
+     * Get specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
+     *
+     * @return the exactVersion value
+     */
+    public String exactVersion() {
+        return this.exactVersion;
     }
 
 }

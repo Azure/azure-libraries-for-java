@@ -81,7 +81,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.ProximityPlacementGroups getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("proximityPlacementGroupName") String proximityPlacementGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("proximityPlacementGroupName") String proximityPlacementGroupName, @Path("subscriptionId") String subscriptionId, @Query("includeColocationStatus") String includeColocationStatus, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.ProximityPlacementGroups list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups")
@@ -171,7 +171,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-12-01";
         return service.createOrUpdate(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProximityPlacementGroupInner>>>() {
                 @Override
@@ -256,7 +256,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-12-01";
         final Map<String, String> tags = null;
         ProximityPlacementGroupUpdate parameters = new ProximityPlacementGroupUpdate();
         parameters.withTags(null);
@@ -341,7 +341,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-12-01";
         ProximityPlacementGroupUpdate parameters = new ProximityPlacementGroupUpdate();
         parameters.withTags(tags);
         return service.update(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -426,7 +426,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-12-01";
         return service.delete(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -510,8 +510,90 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
-        return service.getByResourceGroup(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-12-01";
+        final String includeColocationStatus = null;
+        return service.getByResourceGroup(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), includeColocationStatus, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProximityPlacementGroupInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ProximityPlacementGroupInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ProximityPlacementGroupInner> clientResponse = getByResourceGroupDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Retrieves information about a proximity placement group .
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param proximityPlacementGroupName The name of the proximity placement group.
+     * @param includeColocationStatus includeColocationStatus=true enables fetching the colocation status of all the resources in the proximity placement group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ProximityPlacementGroupInner object if successful.
+     */
+    public ProximityPlacementGroupInner getByResourceGroup(String resourceGroupName, String proximityPlacementGroupName, String includeColocationStatus) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, proximityPlacementGroupName, includeColocationStatus).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves information about a proximity placement group .
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param proximityPlacementGroupName The name of the proximity placement group.
+     * @param includeColocationStatus includeColocationStatus=true enables fetching the colocation status of all the resources in the proximity placement group.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ProximityPlacementGroupInner> getByResourceGroupAsync(String resourceGroupName, String proximityPlacementGroupName, String includeColocationStatus, final ServiceCallback<ProximityPlacementGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, proximityPlacementGroupName, includeColocationStatus), serviceCallback);
+    }
+
+    /**
+     * Retrieves information about a proximity placement group .
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param proximityPlacementGroupName The name of the proximity placement group.
+     * @param includeColocationStatus includeColocationStatus=true enables fetching the colocation status of all the resources in the proximity placement group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ProximityPlacementGroupInner object
+     */
+    public Observable<ProximityPlacementGroupInner> getByResourceGroupAsync(String resourceGroupName, String proximityPlacementGroupName, String includeColocationStatus) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, proximityPlacementGroupName, includeColocationStatus).map(new Func1<ServiceResponse<ProximityPlacementGroupInner>, ProximityPlacementGroupInner>() {
+            @Override
+            public ProximityPlacementGroupInner call(ServiceResponse<ProximityPlacementGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves information about a proximity placement group .
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param proximityPlacementGroupName The name of the proximity placement group.
+     * @param includeColocationStatus includeColocationStatus=true enables fetching the colocation status of all the resources in the proximity placement group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ProximityPlacementGroupInner object
+     */
+    public Observable<ServiceResponse<ProximityPlacementGroupInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String proximityPlacementGroupName, String includeColocationStatus) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (proximityPlacementGroupName == null) {
+            throw new IllegalArgumentException("Parameter proximityPlacementGroupName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-12-01";
+        return service.getByResourceGroup(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), includeColocationStatus, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProximityPlacementGroupInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ProximityPlacementGroupInner>> call(Response<ResponseBody> response) {
@@ -615,7 +697,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-12-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProximityPlacementGroupInner>>>>() {
                 @Override
@@ -728,7 +810,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-12-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProximityPlacementGroupInner>>>>() {
                 @Override

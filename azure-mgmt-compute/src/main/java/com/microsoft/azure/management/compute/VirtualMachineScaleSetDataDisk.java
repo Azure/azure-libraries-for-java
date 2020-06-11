@@ -67,6 +67,22 @@ public class VirtualMachineScaleSetDataDisk {
     private VirtualMachineScaleSetManagedDiskParameters managedDisk;
 
     /**
+     * Specifies the Read-Write IOPS for the managed disk. Should be used only
+     * when StorageAccountType is UltraSSD_LRS. If not specified, a default
+     * value would be assigned based on diskSizeGB.
+     */
+    @JsonProperty(value = "diskIOPSReadWrite")
+    private Long diskIOPSReadWrite;
+
+    /**
+     * Specifies the bandwidth in MB per second for the managed disk. Should be
+     * used only when StorageAccountType is UltraSSD_LRS. If not specified, a
+     * default value would be assigned based on diskSizeGB.
+     */
+    @JsonProperty(value = "diskMBpsReadWrite")
+    private Long diskMBpsReadWrite;
+
+    /**
      * Get the disk name.
      *
      * @return the name value
@@ -203,6 +219,46 @@ public class VirtualMachineScaleSetDataDisk {
      */
     public VirtualMachineScaleSetDataDisk withManagedDisk(VirtualMachineScaleSetManagedDiskParameters managedDisk) {
         this.managedDisk = managedDisk;
+        return this;
+    }
+
+    /**
+     * Get specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
+     *
+     * @return the diskIOPSReadWrite value
+     */
+    public Long diskIOPSReadWrite() {
+        return this.diskIOPSReadWrite;
+    }
+
+    /**
+     * Set specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
+     *
+     * @param diskIOPSReadWrite the diskIOPSReadWrite value to set
+     * @return the VirtualMachineScaleSetDataDisk object itself.
+     */
+    public VirtualMachineScaleSetDataDisk withDiskIOPSReadWrite(Long diskIOPSReadWrite) {
+        this.diskIOPSReadWrite = diskIOPSReadWrite;
+        return this;
+    }
+
+    /**
+     * Get specifies the bandwidth in MB per second for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
+     *
+     * @return the diskMBpsReadWrite value
+     */
+    public Long diskMBpsReadWrite() {
+        return this.diskMBpsReadWrite;
+    }
+
+    /**
+     * Set specifies the bandwidth in MB per second for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
+     *
+     * @param diskMBpsReadWrite the diskMBpsReadWrite value to set
+     * @return the VirtualMachineScaleSetDataDisk object itself.
+     */
+    public VirtualMachineScaleSetDataDisk withDiskMBpsReadWrite(Long diskMBpsReadWrite) {
+        this.diskMBpsReadWrite = diskMBpsReadWrite;
         return this;
     }
 

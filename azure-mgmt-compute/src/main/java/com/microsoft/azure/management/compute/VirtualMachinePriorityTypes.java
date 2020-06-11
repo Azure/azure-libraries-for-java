@@ -20,7 +20,6 @@ public final class VirtualMachinePriorityTypes extends ExpandableStringEnum<Virt
     public static final VirtualMachinePriorityTypes REGULAR = fromString("Regular");
 
     /** Static value Low for VirtualMachinePriorityTypes. */
-    @Deprecated
     public static final VirtualMachinePriorityTypes LOW = fromString("Low");
 
     /** Static value Spot for VirtualMachinePriorityTypes. */

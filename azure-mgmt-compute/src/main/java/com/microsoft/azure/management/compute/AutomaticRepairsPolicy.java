@@ -26,18 +26,12 @@ public class AutomaticRepairsPolicy {
      * The amount of time for which automatic repairs are suspended due to a
      * state change on VM. The grace time starts after the state change has
      * completed. This helps avoid premature or accidental repairs. The time
-     * duration should be specified in ISO 8601 format. The default value is 5
-     * minutes (PT5M).
+     * duration should be specified in ISO 8601 format. The minimum allowed
+     * grace period is 30 minutes (PT30M), which is also the default value. The
+     * maximum allowed grace period is 90 minutes (PT90M).
      */
     @JsonProperty(value = "gracePeriod")
     private String gracePeriod;
-
-    /**
-     * The percentage (capacity of scaleset) of virtual machines that will be
-     * simultaneously repaired. The default value is 20%.
-     */
-    @JsonProperty(value = "maxInstanceRepairsPercent")
-    private Integer maxInstanceRepairsPercent;
 
     /**
      * Get specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is false.
@@ -60,7 +54,7 @@ public class AutomaticRepairsPolicy {
     }
 
     /**
-     * Get the amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The default value is 5 minutes (PT5M).
+     * Get the amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 30 minutes (PT30M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M).
      *
      * @return the gracePeriod value
      */
@@ -69,33 +63,13 @@ public class AutomaticRepairsPolicy {
     }
 
     /**
-     * Set the amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The default value is 5 minutes (PT5M).
+     * Set the amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 30 minutes (PT30M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M).
      *
      * @param gracePeriod the gracePeriod value to set
      * @return the AutomaticRepairsPolicy object itself.
      */
     public AutomaticRepairsPolicy withGracePeriod(String gracePeriod) {
         this.gracePeriod = gracePeriod;
-        return this;
-    }
-
-    /**
-     * Get the percentage (capacity of scaleset) of virtual machines that will be simultaneously repaired. The default value is 20%.
-     *
-     * @return the maxInstanceRepairsPercent value
-     */
-    public Integer maxInstanceRepairsPercent() {
-        return this.maxInstanceRepairsPercent;
-    }
-
-    /**
-     * Set the percentage (capacity of scaleset) of virtual machines that will be simultaneously repaired. The default value is 20%.
-     *
-     * @param maxInstanceRepairsPercent the maxInstanceRepairsPercent value to set
-     * @return the AutomaticRepairsPolicy object itself.
-     */
-    public AutomaticRepairsPolicy withMaxInstanceRepairsPercent(Integer maxInstanceRepairsPercent) {
-        this.maxInstanceRepairsPercent = maxInstanceRepairsPercent;
         return this;
     }
 

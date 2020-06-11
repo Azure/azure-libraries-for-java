@@ -12,6 +12,7 @@ import com.microsoft.azure.management.compute.VirtualMachineScaleSetInstanceView
 import java.util.List;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMExtensionsSummary;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
+import com.microsoft.azure.management.compute.OrchestrationServiceSummary;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -35,6 +36,12 @@ public class VirtualMachineScaleSetInstanceViewInner {
      */
     @JsonProperty(value = "statuses")
     private List<InstanceViewStatus> statuses;
+
+    /**
+     * The orchestration services information.
+     */
+    @JsonProperty(value = "orchestrationServices", access = JsonProperty.Access.WRITE_ONLY)
+    private List<OrchestrationServiceSummary> orchestrationServices;
 
     /**
      * Get the instance view status summary for the virtual machine scale set.
@@ -72,6 +79,15 @@ public class VirtualMachineScaleSetInstanceViewInner {
     public VirtualMachineScaleSetInstanceViewInner withStatuses(List<InstanceViewStatus> statuses) {
         this.statuses = statuses;
         return this;
+    }
+
+    /**
+     * Get the orchestration services information.
+     *
+     * @return the orchestrationServices value
+     */
+    public List<OrchestrationServiceSummary> orchestrationServices() {
+        return this.orchestrationServices;
     }
 
 }

@@ -10,12 +10,11 @@ package com.microsoft.azure.management.compute;
 
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.ProxyResource;
 
 /**
  * The Update Resource model definition.
  */
-public class UpdateResource extends ProxyResource {
+public class UpdateResource {
     /**
      * Resource tags.
      */

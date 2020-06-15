@@ -172,6 +172,8 @@ class VirtualMachineImpl
     private String newProximityPlacementGroupName;
     // Type fo the new proximity placement group
     private ProximityPlacementGroupType newProximityPlacementGroupType;
+    // To manage OS profile
+    private boolean isSpecializedGalleryImageVersion;
 
     VirtualMachineImpl(String name,
                        VirtualMachineInner innerModel,
@@ -717,6 +719,16 @@ class VirtualMachineImpl
         this.inner().storageProfile().osDisk().withManagedDisk(diskParametersInner);
         this.inner().storageProfile().osDisk().withOsType(osType);
         this.inner().storageProfile().osDisk().withVhd(null);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withSpecializedGalleryImageVersion(String galleryImageVersionId) {
+        ImageReference imageReferenceInner = new ImageReference();
+        imageReferenceInner.withId(galleryImageVersionId);
+        this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
+        this.inner().storageProfile().withImageReference(imageReferenceInner);
+        this.isSpecializedGalleryImageVersion = true;
         return this;
     }
 
@@ -2060,7 +2072,7 @@ class VirtualMachineImpl
         }
         StorageProfile storageProfile = this.inner().storageProfile();
         OSDisk osDisk = storageProfile.osDisk();
-        if (isOSDiskFromImage(osDisk)) {
+        if (!isSpecializedGalleryImageVersion && isOSDiskFromImage(osDisk)) {
             // ODDisk CreateOption: FROM_IMAGE
             //
             if (osDisk.osType() == OperatingSystemTypes.LINUX || this.isMarketplaceLinuxImage) {

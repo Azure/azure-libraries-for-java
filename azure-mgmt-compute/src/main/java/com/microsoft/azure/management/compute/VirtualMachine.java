@@ -891,6 +891,15 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithManagedCreate withSpecializedOSDisk(Disk disk, OperatingSystemTypes osType);
+
+            /**
+             * Specifies the resource ID of a specialized gallery image version to be used as the virtual machine's OS.
+             * The information of OS profile are not required.
+             *
+             * @param galleryImageVersionId the resource ID of the gallery image version
+             * @return the next stage of the definition
+             */
+            WithManagedCreate withSpecializedGalleryImageVersion(String galleryImageVersionId);
         }
 
         /**

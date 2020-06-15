@@ -1,7 +1,7 @@
 ---
 name: Bug Bash report
-about: Create a report to help us improve
-title: "[BUG]"
+about: Create a report about bug bash
+title: "[BUG Bash]"
 labels: v2, Mgmt
 assignees: ''
 

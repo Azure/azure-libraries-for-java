@@ -809,7 +809,7 @@ public interface VirtualMachine extends
             WithWindowsAdminUsernameManaged withWindowsCustomImage(String customImageId);
 
             /**
-             * Specifies the resource ID of a Windows gallery image version to be used as the virtual machine's OS.
+             * Specifies the resource ID of a generalized Windows gallery image version to be used as the virtual machine's OS.
              *
              * @param galleryImageVersionId the resource ID of the gallery image version
              * @return the next stage of the definition
@@ -859,7 +859,7 @@ public interface VirtualMachine extends
             WithLinuxRootUsernameManaged withLinuxCustomImage(String customImageId);
 
             /**
-             * Specifies the resource ID of a Linux gallery image version to be used as the virtual machines' OS.
+             * Specifies the resource ID of a generalized Linux gallery image version to be used as the virtual machines' OS.
              *
              * @param galleryImageVersionId the resource ID of a gallery image version
              * @return the next stage of the definition

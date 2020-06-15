@@ -1,8 +1,8 @@
 ---
-name: Bug report
+name: Bug Bash report
 about: Create a report to help us improve
 title: "[BUG]"
-labels: ''
+labels: v2, Mgmt
 assignees: ''
 
 ---
@@ -27,7 +27,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Setup (please complete the following information):**
  - JRE Version: [e.g. Open JDK 8]
- - SDK Version: [e.g. 1.35.0]
+ - SDK Version: [e.g. 2.0.0-SNAPSHOT]
 
 **Additional context**
 Add any other context about the problem here.

@@ -14,9 +14,8 @@ A clear and concise ask/query.
 A clear explanation of why is this not a bug or a feature request?
 
 **Setup (please complete the following information if applicable):**
- - OS: [e.g. iOS]
- - IDE : [e.g. IntelliJ]
- - Version of the Library used
+ - JRE Version: [e.g. Open JDK 8]
+ - SDK Version: [e.g. 1.35.0]
  
  **Information Checklist**
  Kindly make sure that you have added all the following information above and checkoff the required fields otherwise we will treat the issuer as an incomplete report

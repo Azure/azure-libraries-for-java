@@ -162,7 +162,8 @@ public class VirtualMachineScaleSetImpl
     private String newProximityPlacementGroupName;
     // Type fo the new proximity placement group
     private ProximityPlacementGroupType newProximityPlacementGroupType;
-
+    // To manage OS profile
+    private boolean removeOsProfile;
 
     VirtualMachineScaleSetImpl(
             String name,
@@ -968,6 +969,18 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public VirtualMachineScaleSetImpl withoutAdminUsernameAndPassword() {
+        this.removeOsProfile = true;
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutRootUsernameAndPassword() {
+        this.removeOsProfile = true;
+        return this;
+    }
+
+    @Override
     public VirtualMachineScaleSetImpl withSsh(String publicKeyData) {
         VirtualMachineScaleSetOSProfile osProfile = this.inner()
                 .virtualMachineProfile()
@@ -1632,7 +1645,7 @@ public class VirtualMachineScaleSetImpl
                 .virtualMachineProfile()
                 .osProfile();
         VirtualMachineScaleSetOSDisk osDisk = this.inner().virtualMachineProfile().storageProfile().osDisk();
-        if (isOSDiskFromImage(osDisk)) {
+        if (!removeOsProfile && isOSDiskFromImage(osDisk)) {
             // ODDisk CreateOption: FROM_IMAGE
             //
             if (this.osType() == OperatingSystemTypes.LINUX || this.isMarketplaceLinuxImage) {

@@ -886,6 +886,14 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyManagedOrUnmanaged withRootUsername(String rootUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Linux virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithLinuxCreateManagedOrUnmanaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -899,6 +907,14 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyManaged withRootUsername(String rootUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Linux virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithLinuxCreateManaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -912,6 +928,14 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyUnmanaged withRootUsername(String rootUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Linux virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithLinuxCreateUnmanaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -991,9 +1015,17 @@ public interface VirtualMachineScaleSet extends
              * Specifies the administrator user name for the Windows virtual machine.
              *
              * @param adminUserName the Windows administrator user name. This must follow the required naming convention for Windows user name.
-             * @return the stage representing creatable Linux VM definition
+             * @return the next stage of the definition
              */
             WithWindowsAdminPasswordManagedOrUnmanaged withAdminUsername(String adminUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Windows virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithWindowsCreateManagedOrUnmanaged withoutAdminUsernameAndPassword();
         }
 
         /**
@@ -1004,9 +1036,17 @@ public interface VirtualMachineScaleSet extends
              * Specifies the administrator user name for the Windows virtual machine.
              *
              * @param adminUserName the Windows administrator user name. This must follow the required naming convention for Windows user name.
-             * @return the stage representing creatable Linux VM definition
+             * @return the next stage of the definition
              */
             WithWindowsAdminPasswordManaged withAdminUsername(String adminUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Windows virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithWindowsCreateManaged withoutAdminUsernameAndPassword();
         }
 
         /**
@@ -1017,9 +1057,17 @@ public interface VirtualMachineScaleSet extends
              * Specifies the administrator user name for the Windows virtual machine.
              *
              * @param adminUserName the Windows administrator user name. This must follow the required naming convention for Windows user name.
-             * @return the stage representing creatable Linux VM definition
+             * @return the next stage of the definition
              */
             WithWindowsAdminPasswordUnmanaged withAdminUsername(String adminUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Windows virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithWindowsCreateUnmanaged withoutAdminUsernameAndPassword();
         }
 
         /**

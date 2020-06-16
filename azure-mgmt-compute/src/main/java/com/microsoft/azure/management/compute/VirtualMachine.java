@@ -809,7 +809,7 @@ public interface VirtualMachine extends
             WithWindowsAdminUsernameManaged withWindowsCustomImage(String customImageId);
 
             /**
-             * Specifies the resource ID of a generalized Windows gallery image version to be used as the virtual machine's OS.
+             * Specifies the resource ID of a Windows gallery image version to be used as the virtual machine's OS.
              *
              * @param galleryImageVersionId the resource ID of the gallery image version
              * @return the next stage of the definition
@@ -859,7 +859,7 @@ public interface VirtualMachine extends
             WithLinuxRootUsernameManaged withLinuxCustomImage(String customImageId);
 
             /**
-             * Specifies the resource ID of a generalized Linux gallery image version to be used as the virtual machines' OS.
+             * Specifies the resource ID of a Linux gallery image version to be used as the virtual machines' OS.
              *
              * @param galleryImageVersionId the resource ID of a gallery image version
              * @return the next stage of the definition
@@ -891,15 +891,6 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithManagedCreate withSpecializedOSDisk(Disk disk, OperatingSystemTypes osType);
-
-            /**
-             * Specifies the resource ID of a specialized gallery image version to be used as the virtual machine's OS.
-             * The information of OS profile are not required.
-             *
-             * @param galleryImageVersionId the resource ID of the gallery image version
-             * @return the next stage of the definition
-             */
-            WithManagedCreate withSpecializedGalleryImageVersion(String galleryImageVersionId);
         }
 
         /**
@@ -913,6 +904,14 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyManagedOrUnmanaged withRootUsername(String rootUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Linux virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithLinuxCreateManagedOrUnmanaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -926,6 +925,14 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyManaged withRootUsername(String rootUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Linux virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithLinuxCreateManaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -939,6 +946,14 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyUnmanaged withRootUsername(String rootUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Linux virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithLinuxCreateUnmanaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -1012,6 +1027,14 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithWindowsAdminPasswordManagedOrUnmanaged withAdminUsername(String adminUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Windows virtual machine.
+             * It is required when creating from a specialized image
+             *
+             * @return the next stage of the definition
+             */
+            WithWindowsCreateManagedOrUnmanaged withoutAdminUsernameAndPassword();
         }
 
         /**
@@ -1025,6 +1048,14 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithWindowsAdminPasswordManaged withAdminUsername(String adminUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Windows virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithWindowsCreateManaged withoutAdminUsernameAndPassword();
         }
 
         /**
@@ -1038,6 +1069,14 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithWindowsAdminPasswordUnmanaged withAdminUsername(String adminUserName);
+
+            /**
+             * Specifies to remove the information of OS profile for the Windows virtual machine.
+             * It is required when creating from a specialized image.
+             *
+             * @return the next stage of the definition
+             */
+            WithWindowsCreateUnmanaged withoutAdminUsernameAndPassword();
         }
 
         /**
@@ -1928,10 +1967,8 @@ public interface VirtualMachine extends
         }
 
         /**
-
-        /**
-         * The stage of the virtual machine update allowing to specify billing profile.
-         */
+        * The stage of the virtual machine update allowing to specify billing profile.
+        */
         interface WithBillingProfile {
             /**
              * Set the billing related details of a low priority virtual machine.

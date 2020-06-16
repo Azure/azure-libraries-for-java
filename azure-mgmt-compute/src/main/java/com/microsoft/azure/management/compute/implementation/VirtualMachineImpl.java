@@ -173,7 +173,7 @@ class VirtualMachineImpl
     // Type fo the new proximity placement group
     private ProximityPlacementGroupType newProximityPlacementGroupType;
     // To manage OS profile
-    private boolean isSpecializedGalleryImageVersion;
+    private boolean removeOsProfile;
 
     VirtualMachineImpl(String name,
                        VirtualMachineInner innerModel,
@@ -722,16 +722,6 @@ class VirtualMachineImpl
         return this;
     }
 
-    @Override
-    public VirtualMachineImpl withSpecializedGalleryImageVersion(String galleryImageVersionId) {
-        ImageReference imageReferenceInner = new ImageReference();
-        imageReferenceInner.withId(galleryImageVersionId);
-        this.inner().storageProfile().osDisk().withCreateOption(DiskCreateOptionTypes.FROM_IMAGE);
-        this.inner().storageProfile().withImageReference(imageReferenceInner);
-        this.isSpecializedGalleryImageVersion = true;
-        return this;
-    }
-
     // Virtual machine user name fluent methods
     //
     @Override
@@ -743,6 +733,18 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withAdminUsername(String adminUserName) {
         this.inner().osProfile().withAdminUsername(adminUserName);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withoutRootUsernameAndPassword() {
+        this.removeOsProfile = true;
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withoutAdminUsernameAndPassword() {
+        this.removeOsProfile = true;
         return this;
     }
 
@@ -2072,7 +2074,7 @@ class VirtualMachineImpl
         }
         StorageProfile storageProfile = this.inner().storageProfile();
         OSDisk osDisk = storageProfile.osDisk();
-        if (!isSpecializedGalleryImageVersion && isOSDiskFromImage(osDisk)) {
+        if (!removeOsProfile && isOSDiskFromImage(osDisk)) {
             // ODDisk CreateOption: FROM_IMAGE
             //
             if (osDisk.osType() == OperatingSystemTypes.LINUX || this.isMarketplaceLinuxImage) {

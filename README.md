@@ -20,6 +20,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 * [Download](#download)
 * [Prerequisites](#prerequisites)
 * [Updgrading from older versions](#upgrading-from-older-versions)
+* [Try new generation SDK for Java](#try-new-generation-sdk-for-java)
 * [Help and issues](#help-and-issues)
 * [Contribute code](#contribute-code)
 * [More information](#more-information)
@@ -724,6 +725,9 @@ In general, Azure Libraries for Java follow [semantic versioning](http://semver.
 
 * the `*Inner` types and their methods may occasionally change their naming and structure between minor versions in breaking ways. User code should generally avoid making a reference to those types though, unless their functionality is not yet exposed by the "fluent" API.
 
+## Try new generation SDK for Java
+
+A new set of Azure Management Libraries for Java that follows the [Azure SDK Design Guidelines for Java](https://azure.github.io/azure-sdk/java_introduction.html) are now in public preview. If you are interested in the new generation SDK for Java, please find more details [here](https://github.com/Azure/azure-sdk-for-java/tree/master/sdk/management).
 
 ## Help and Issues
 

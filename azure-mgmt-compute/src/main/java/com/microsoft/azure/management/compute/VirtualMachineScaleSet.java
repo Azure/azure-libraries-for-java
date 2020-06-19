@@ -816,12 +816,20 @@ public interface VirtualMachineScaleSet extends
             WithWindowsAdminUsernameManagedOrUnmanaged withSpecificWindowsImageVersion(ImageReference imageReference);
 
             /**
-             * Specifies the ID of a Windows custom image to be used.
+             * Specifies the ID of a generalized Windows custom image to be used.
              *
              * @param customImageId the resource ID of the custom image
              * @return the next stage of the definition
              */
             WithWindowsAdminUsernameManaged withWindowsCustomImage(String customImageId);
+
+            /**
+             * Specifies the ID of a specialized Windows custom image to be used.
+             *
+             * @param customImageId the resource ID of the custom image
+             * @return the next stage of the definition
+             */
+            WithWindowsCreateManaged withSpecializedWindowsCustomImage(String customImageId);
 
             /**
              * Specifies the user (custom) Windows image to be used as the operating system for the virtual machines in the
@@ -859,12 +867,20 @@ public interface VirtualMachineScaleSet extends
             WithLinuxRootUsernameManagedOrUnmanaged withSpecificLinuxImageVersion(ImageReference imageReference);
 
             /**
-             * Specifies the ID of a Linux custom image to be used.
+             * Specifies the ID of a generalized Linux custom image to be used.
              *
              * @param customImageId the resource ID of the custom image
              * @return the next stage of the definition
              */
             WithLinuxRootUsernameManaged withLinuxCustomImage(String customImageId);
+
+            /**
+             * Specifies the ID of a specialized Linux custom image to be used.
+             *
+             * @param customImageId the resource ID of the custom image
+             * @return the next stage of the definition
+             */
+            WithLinuxCreateManaged withSpecializedLinuxCustomImage(String customImageId);
 
             /**
              * Specifies the user (custom) Linux image used as the virtual machine's operating system.
@@ -886,14 +902,6 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyManagedOrUnmanaged withRootUsername(String rootUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Linux virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithLinuxCreateManagedOrUnmanaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -907,14 +915,6 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyManaged withRootUsername(String rootUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Linux virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithLinuxCreateManaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -928,14 +928,6 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyUnmanaged withRootUsername(String rootUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Linux virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithLinuxCreateUnmanaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -1018,14 +1010,6 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithWindowsAdminPasswordManagedOrUnmanaged withAdminUsername(String adminUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Windows virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithWindowsCreateManagedOrUnmanaged withoutAdminUsernameAndPassword();
         }
 
         /**
@@ -1039,14 +1023,6 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithWindowsAdminPasswordManaged withAdminUsername(String adminUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Windows virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithWindowsCreateManaged withoutAdminUsernameAndPassword();
         }
 
         /**
@@ -1060,14 +1036,6 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the definition
              */
             WithWindowsAdminPasswordUnmanaged withAdminUsername(String adminUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Windows virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithWindowsCreateUnmanaged withoutAdminUsernameAndPassword();
         }
 
         /**

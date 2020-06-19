@@ -680,8 +680,22 @@ class VirtualMachineImpl
     }
 
     @Override
+    public VirtualMachineImpl withSpecializedWindowsCustomImage(String customImageId) {
+        this.withWindowsCustomImage(customImageId);
+        this.removeOsProfile = true;
+        return this;
+    }
+
+    @Override
     public VirtualMachineImpl withWindowsGalleryImageVersion(String galleryImageVersionId) {
         return this.withWindowsCustomImage(galleryImageVersionId);
+    }
+
+    @Override
+    public VirtualMachineImpl withSpecializedWindowsGalleryImageVersion(String galleryImageVersionId) {
+        this.withWindowsCustomImage(galleryImageVersionId);
+        this.removeOsProfile = true;
+        return this;
     }
 
     @Override
@@ -696,8 +710,22 @@ class VirtualMachineImpl
     }
 
     @Override
+    public VirtualMachineImpl withSpecializedLinuxCustomImage(String customImageId) {
+        this.withLinuxCustomImage(customImageId);
+        this.removeOsProfile = true;
+        return this;
+    }
+
+    @Override
     public VirtualMachineImpl withLinuxGalleryImageVersion(String galleryImageVersionId) {
         return this.withLinuxCustomImage(galleryImageVersionId);
+    }
+
+    @Override
+    public VirtualMachineImpl withSpecializedLinuxGalleryImageVersion(String galleryImageVersionId) {
+        this.withLinuxCustomImage(galleryImageVersionId);
+        this.removeOsProfile = true;
+        return this;
     }
 
     @Override
@@ -733,18 +761,6 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withAdminUsername(String adminUserName) {
         this.inner().osProfile().withAdminUsername(adminUserName);
-        return this;
-    }
-
-    @Override
-    public VirtualMachineImpl withoutRootUsernameAndPassword() {
-        this.removeOsProfile = true;
-        return this;
-    }
-
-    @Override
-    public VirtualMachineImpl withoutAdminUsernameAndPassword() {
-        this.removeOsProfile = true;
         return this;
     }
 

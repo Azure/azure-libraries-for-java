@@ -801,7 +801,7 @@ public interface VirtualMachine extends
             WithWindowsAdminUsernameManagedOrUnmanaged withSpecificWindowsImageVersion(ImageReference imageReference);
 
             /**
-             * Specifies the resource ID of a Windows custom image to be used as the virtual machine's OS.
+             * Specifies the resource ID of a generalized Windows custom image to be used as the virtual machine's OS.
              *
              * @param customImageId the resource ID of the custom image
              * @return the next stage of the definition
@@ -809,12 +809,28 @@ public interface VirtualMachine extends
             WithWindowsAdminUsernameManaged withWindowsCustomImage(String customImageId);
 
             /**
-             * Specifies the resource ID of a Windows gallery image version to be used as the virtual machine's OS.
+             * Specifies the resource ID of a specialized Windows custom image to be used as the virtual machine's OS.
+             *
+             * @param customImageId the resource ID of the custom image
+             * @return the next stage of the definition
+             */
+            WithWindowsCreateManaged withSpecializedWindowsCustomImage(String customImageId);
+
+            /**
+             * Specifies the resource ID of a generalized Windows gallery image version to be used as the virtual machine's OS.
              *
              * @param galleryImageVersionId the resource ID of the gallery image version
              * @return the next stage of the definition
              */
             WithWindowsAdminUsernameManaged withWindowsGalleryImageVersion(String galleryImageVersionId);
+
+            /**
+             * Specifies the resource ID of a specialized Windows gallery image version to be used as the virtual machine's OS.
+             *
+             * @param galleryImageVersionId the resource ID of the gallery image version
+             * @return the next stage of the definition
+             */
+            WithWindowsCreateManaged withSpecializedWindowsGalleryImageVersion(String galleryImageVersionId);
 
             /**
              * Specifies the user (generalized) Windows image to be used for the virtual machine's OS.
@@ -851,7 +867,7 @@ public interface VirtualMachine extends
             WithLinuxRootUsernameManagedOrUnmanaged withSpecificLinuxImageVersion(ImageReference imageReference);
 
             /**
-             * Specifies the resource ID of a Linux custom image to be used as the virtual machines' OS.
+             * Specifies the resource ID of a generalized Linux custom image to be used as the virtual machines' OS.
              *
              * @param customImageId the resource ID of a custom image
              * @return the next stage of the definition
@@ -859,12 +875,28 @@ public interface VirtualMachine extends
             WithLinuxRootUsernameManaged withLinuxCustomImage(String customImageId);
 
             /**
-             * Specifies the resource ID of a Linux gallery image version to be used as the virtual machines' OS.
+             * Specifies the resource ID of a specialized Linux custom image to be used as the virtual machines' OS.
+             *
+             * @param customImageId the resource ID of a custom image
+             * @return the next stage of the definition
+             */
+            WithLinuxRootUsernameManaged withSpecializedLinuxCustomImage(String customImageId);
+
+            /**
+             * Specifies the resource ID of a generalized Linux gallery image version to be used as the virtual machines' OS.
              *
              * @param galleryImageVersionId the resource ID of a gallery image version
              * @return the next stage of the definition
              */
             WithLinuxRootUsernameManaged withLinuxGalleryImageVersion(String galleryImageVersionId);
+
+            /**
+             * Specifies the resource ID of a specialized Linux gallery image version to be used as the virtual machines' OS.
+             *
+             * @param galleryImageVersionId the resource ID of a gallery image version
+             * @return the next stage of the definition
+             */
+            WithLinuxCreateManaged withSpecializedLinuxGalleryImageVersion(String galleryImageVersionId);
 
             /**
              * Specifies a user (generalized) Linux image to be used for the virtual machine's OS.
@@ -904,14 +936,6 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyManagedOrUnmanaged withRootUsername(String rootUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Linux virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithLinuxCreateManagedOrUnmanaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -925,14 +949,6 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyManaged withRootUsername(String rootUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Linux virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithLinuxCreateManaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -946,14 +962,6 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithLinuxRootPasswordOrPublicKeyUnmanaged withRootUsername(String rootUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Linux virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithLinuxCreateUnmanaged withoutRootUsernameAndPassword();
         }
 
         /**
@@ -1027,14 +1035,6 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithWindowsAdminPasswordManagedOrUnmanaged withAdminUsername(String adminUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Windows virtual machine.
-             * It is required when creating from a specialized image
-             *
-             * @return the next stage of the definition
-             */
-            WithWindowsCreateManagedOrUnmanaged withoutAdminUsernameAndPassword();
         }
 
         /**
@@ -1048,14 +1048,6 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithWindowsAdminPasswordManaged withAdminUsername(String adminUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Windows virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithWindowsCreateManaged withoutAdminUsernameAndPassword();
         }
 
         /**
@@ -1069,14 +1061,6 @@ public interface VirtualMachine extends
              * @return the next stage of the definition
              */
             WithWindowsAdminPasswordUnmanaged withAdminUsername(String adminUserName);
-
-            /**
-             * Specifies to remove the information of OS profile for the Windows virtual machine.
-             * It is required when creating from a specialized image.
-             *
-             * @return the next stage of the definition
-             */
-            WithWindowsCreateUnmanaged withoutAdminUsernameAndPassword();
         }
 
         /**

@@ -172,6 +172,8 @@ class VirtualMachineImpl
     private String newProximityPlacementGroupName;
     // Type fo the new proximity placement group
     private ProximityPlacementGroupType newProximityPlacementGroupType;
+    // To manage OS profile
+    private boolean removeOsProfile;
 
     VirtualMachineImpl(String name,
                        VirtualMachineInner innerModel,
@@ -678,8 +680,22 @@ class VirtualMachineImpl
     }
 
     @Override
+    public VirtualMachineImpl withSpecializedWindowsCustomImage(String customImageId) {
+        this.withWindowsCustomImage(customImageId);
+        this.removeOsProfile = true;
+        return this;
+    }
+
+    @Override
     public VirtualMachineImpl withWindowsGalleryImageVersion(String galleryImageVersionId) {
         return this.withWindowsCustomImage(galleryImageVersionId);
+    }
+
+    @Override
+    public VirtualMachineImpl withSpecializedWindowsGalleryImageVersion(String galleryImageVersionId) {
+        this.withWindowsCustomImage(galleryImageVersionId);
+        this.removeOsProfile = true;
+        return this;
     }
 
     @Override
@@ -694,8 +710,22 @@ class VirtualMachineImpl
     }
 
     @Override
+    public VirtualMachineImpl withSpecializedLinuxCustomImage(String customImageId) {
+        this.withLinuxCustomImage(customImageId);
+        this.removeOsProfile = true;
+        return this;
+    }
+
+    @Override
     public VirtualMachineImpl withLinuxGalleryImageVersion(String galleryImageVersionId) {
         return this.withLinuxCustomImage(galleryImageVersionId);
+    }
+
+    @Override
+    public VirtualMachineImpl withSpecializedLinuxGalleryImageVersion(String galleryImageVersionId) {
+        this.withLinuxCustomImage(galleryImageVersionId);
+        this.removeOsProfile = true;
+        return this;
     }
 
     @Override
@@ -2060,7 +2090,7 @@ class VirtualMachineImpl
         }
         StorageProfile storageProfile = this.inner().storageProfile();
         OSDisk osDisk = storageProfile.osDisk();
-        if (isOSDiskFromImage(osDisk)) {
+        if (!removeOsProfile && isOSDiskFromImage(osDisk)) {
             // ODDisk CreateOption: FROM_IMAGE
             //
             if (osDisk.osType() == OperatingSystemTypes.LINUX || this.isMarketplaceLinuxImage) {

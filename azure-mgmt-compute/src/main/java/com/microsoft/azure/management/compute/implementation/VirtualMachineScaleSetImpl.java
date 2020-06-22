@@ -162,7 +162,8 @@ public class VirtualMachineScaleSetImpl
     private String newProximityPlacementGroupName;
     // Type fo the new proximity placement group
     private ProximityPlacementGroupType newProximityPlacementGroupType;
-
+    // To manage OS profile
+    private boolean removeOsProfile;
 
     VirtualMachineScaleSetImpl(
             String name,
@@ -838,6 +839,13 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public VirtualMachineScaleSetImpl withSpecializedWindowsCustomImage(String customImageId) {
+        this.withWindowsCustomImage(customImageId);
+        this.removeOsProfile = true;
+        return this;
+    }
+
+    @Override
     public VirtualMachineScaleSetImpl withStoredWindowsImage(String imageUrl) {
         VirtualHardDisk userImageVhd = new VirtualHardDisk();
         userImageVhd.withUri(imageUrl);
@@ -908,6 +916,13 @@ public class VirtualMachineScaleSetImpl
                 .virtualMachineProfile()
                 .osProfile().withLinuxConfiguration(new LinuxConfiguration());
         this.isMarketplaceLinuxImage = true;
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withSpecializedLinuxCustomImage(String customImageId) {
+        this.withLinuxCustomImage(customImageId);
+        this.removeOsProfile = true;
         return this;
     }
 
@@ -1632,7 +1647,7 @@ public class VirtualMachineScaleSetImpl
                 .virtualMachineProfile()
                 .osProfile();
         VirtualMachineScaleSetOSDisk osDisk = this.inner().virtualMachineProfile().storageProfile().osDisk();
-        if (isOSDiskFromImage(osDisk)) {
+        if (!removeOsProfile && isOSDiskFromImage(osDisk)) {
             // ODDisk CreateOption: FROM_IMAGE
             //
             if (this.osType() == OperatingSystemTypes.LINUX || this.isMarketplaceLinuxImage) {

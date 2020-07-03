@@ -1,6 +1,10 @@
 [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/fluentJava/Azure.azure-libraries-for-java?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=608&branchName=master)
 [![Build Status](https://travis-ci.org/Azure/azure-libraries-for-java.svg?style=flat-square&label=build&branch=master)](https://travis-ci.org/Azure/azure-libraries-for-java)
 
+# Try the Next-Generation Azure Management SDK for Java now
+
+A new set of Azure Management Libraries for Java that follows the [Azure SDK Design Guidelines for Java](https://azure.github.io/azure-sdk/java_introduction.html) are now in public preview. If you are interested in the new generation SDK for Java, please find more details [here](https://github.com/Azure/azure-sdk-for-java/tree/master/sdk/management).
+
 # Azure Management Libraries for Java
 
 This README is based on the released stable version (1.35.1). If you are looking for other releases, see [More Information](#more-information).
@@ -20,7 +24,6 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 * [Download](#download)
 * [Prerequisites](#prerequisites)
 * [Updgrading from older versions](#upgrading-from-older-versions)
-* [Try new generation SDK for Java](#try-new-generation-sdk-for-java)
 * [Help and issues](#help-and-issues)
 * [Contribute code](#contribute-code)
 * [More information](#more-information)
@@ -724,10 +727,6 @@ In general, Azure Libraries for Java follow [semantic versioning](http://semver.
 * occasionally the naming and structure of "fluent" interface definitions (i.e. the ones whose names start with `With*`) may change between minor versions, as long as that change does not affect the fluent "flow" (the chaining of the methods in a definition or update chain).
 
 * the `*Inner` types and their methods may occasionally change their naming and structure between minor versions in breaking ways. User code should generally avoid making a reference to those types though, unless their functionality is not yet exposed by the "fluent" API.
-
-## Try new generation SDK for Java
-
-A new set of Azure Management Libraries for Java that follows the [Azure SDK Design Guidelines for Java](https://azure.github.io/azure-sdk/java_introduction.html) are now in public preview. If you are interested in the new generation SDK for Java, please find more details [here](https://github.com/Azure/azure-sdk-for-java/tree/master/sdk/management).
 
 ## Help and Issues
 

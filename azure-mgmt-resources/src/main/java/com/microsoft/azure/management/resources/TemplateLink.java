@@ -15,10 +15,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class TemplateLink {
     /**
-     * The URI of the template to deploy.
+     * The URI of the template to deploy. Use either the uri or id property,
+     * but not both.
      */
-    @JsonProperty(value = "uri", required = true)
+    @JsonProperty(value = "uri")
     private String uri;
+
+    /**
+     * The resource id of a Template Spec. Use either the id or uri property,
+     * but not both.
+     */
+    @JsonProperty(value = "id")
+    private String id;
+
+    /**
+     * Applicable only if this template link references a Template Spec. This
+     * relativePath property can optionally be used to reference a Template
+     * Spec artifact by path.
+     */
+    @JsonProperty(value = "relativePath")
+    private String relativePath;
 
     /**
      * If included, must match the ContentVersion in the template.
@@ -27,7 +43,7 @@ public class TemplateLink {
     private String contentVersion;
 
     /**
-     * Get the URI of the template to deploy.
+     * Get the URI of the template to deploy. Use either the uri or id property, but not both.
      *
      * @return the uri value
      */
@@ -36,13 +52,53 @@ public class TemplateLink {
     }
 
     /**
-     * Set the URI of the template to deploy.
+     * Set the URI of the template to deploy. Use either the uri or id property, but not both.
      *
      * @param uri the uri value to set
      * @return the TemplateLink object itself.
      */
     public TemplateLink withUri(String uri) {
         this.uri = uri;
+        return this;
+    }
+
+    /**
+     * Get the resource id of a Template Spec. Use either the id or uri property, but not both.
+     *
+     * @return the id value
+     */
+    public String id() {
+        return this.id;
+    }
+
+    /**
+     * Set the resource id of a Template Spec. Use either the id or uri property, but not both.
+     *
+     * @param id the id value to set
+     * @return the TemplateLink object itself.
+     */
+    public TemplateLink withId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * Get applicable only if this template link references a Template Spec. This relativePath property can optionally be used to reference a Template Spec artifact by path.
+     *
+     * @return the relativePath value
+     */
+    public String relativePath() {
+        return this.relativePath;
+    }
+
+    /**
+     * Set applicable only if this template link references a Template Spec. This relativePath property can optionally be used to reference a Template Spec artifact by path.
+     *
+     * @param relativePath the relativePath value to set
+     * @return the TemplateLink object itself.
+     */
+    public TemplateLink withRelativePath(String relativePath) {
+        this.relativePath = relativePath;
         return this;
     }
 

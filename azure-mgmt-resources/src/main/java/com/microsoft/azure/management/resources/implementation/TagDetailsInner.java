@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class TagDetailsInner {
     /**
-     * The tag ID.
+     * The tag name ID.
      */
     @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
@@ -42,7 +42,7 @@ public class TagDetailsInner {
     private List<TagValueInner> values;
 
     /**
-     * Get the tag ID.
+     * Get the tag name ID.
      *
      * @return the id value
      */

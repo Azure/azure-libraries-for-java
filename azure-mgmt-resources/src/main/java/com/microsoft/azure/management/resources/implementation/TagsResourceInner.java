@@ -8,36 +8,36 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.management.resources.DeploymentPropertiesExtended;
+import com.microsoft.azure.management.resources.Tags;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.ProxyResource;
 
 /**
- * Deployment information.
+ * Wrapper resource for tags API requests and responses.
  */
-public class DeploymentExtendedInner extends Resource {
+public class TagsResourceInner extends ProxyResource {
     /**
-     * Deployment properties.
+     * The set of tags.
      */
-    @JsonProperty(value = "properties")
-    private DeploymentPropertiesExtended properties;
+    @JsonProperty(value = "properties", required = true)
+    private Tags properties;
 
     /**
-     * Get deployment properties.
+     * Get the set of tags.
      *
      * @return the properties value
      */
-    public DeploymentPropertiesExtended properties() {
+    public Tags properties() {
         return this.properties;
     }
 
     /**
-     * Set deployment properties.
+     * Set the set of tags.
      *
      * @param properties the properties value to set
-     * @return the DeploymentExtendedInner object itself.
+     * @return the TagsResourceInner object itself.
      */
-    public DeploymentExtendedInner withProperties(DeploymentPropertiesExtended properties) {
+    public TagsResourceInner withProperties(Tags properties) {
         this.properties = properties;
         return this;
     }

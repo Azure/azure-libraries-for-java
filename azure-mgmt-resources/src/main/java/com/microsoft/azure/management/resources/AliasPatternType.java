@@ -12,35 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for AliasType.
+ * Defines values for AliasPatternType.
  */
-public enum AliasType {
-    /** Alias type is unknown (same as not providing alias type). */
+public enum AliasPatternType {
+    /** NotSpecified is not allowed. */
     NOT_SPECIFIED("NotSpecified"),
 
-    /** Alias value is not secret. */
-    PLAIN_TEXT("PlainText"),
+    /** Extract is the only allowed value. */
+    EXTRACT("Extract");
 
-    /** Alias value is secret. */
-    MASK("Mask");
-
-    /** The actual serialized value for a AliasType instance. */
+    /** The actual serialized value for a AliasPatternType instance. */
     private String value;
 
-    AliasType(String value) {
+    AliasPatternType(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a AliasType instance.
+     * Parses a serialized value to a AliasPatternType instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed AliasType object, or null if unable to parse.
+     * @return the parsed AliasPatternType object, or null if unable to parse.
      */
     @JsonCreator
-    public static AliasType fromString(String value) {
-        AliasType[] items = AliasType.values();
-        for (AliasType item : items) {
+    public static AliasPatternType fromString(String value) {
+        AliasPatternType[] items = AliasPatternType.values();
+        for (AliasPatternType item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

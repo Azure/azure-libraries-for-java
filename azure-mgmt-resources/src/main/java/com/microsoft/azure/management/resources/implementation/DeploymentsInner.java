@@ -16,9 +16,13 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.resources.DeploymentsWhatIfAtManagementGroupScopeHeaders;
 import com.microsoft.azure.management.resources.DeploymentsWhatIfAtSubscriptionScopeHeaders;
+import com.microsoft.azure.management.resources.DeploymentsWhatIfAtTenantScopeHeaders;
 import com.microsoft.azure.management.resources.DeploymentsWhatIfHeaders;
 import com.microsoft.azure.management.resources.DeploymentWhatIf;
+import com.microsoft.azure.management.resources.ScopedDeployment;
+import com.microsoft.azure.management.resources.ScopedDeploymentWhatIf;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -74,43 +78,47 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     interface DeploymentsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments deleteAtScope" })
         @HTTP(path = "{scope}/providers/Microsoft.Resources/deployments/{deploymentName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> deleteAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> deleteAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginDeleteAtScope" })
         @HTTP(path = "{scope}/providers/Microsoft.Resources/deployments/{deploymentName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> beginDeleteAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginDeleteAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments checkExistenceAtScope" })
         @HEAD("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Observable<Response<Void>> checkExistenceAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<Void>> checkExistenceAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments createOrUpdateAtScope" })
         @PUT("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Observable<Response<ResponseBody>> createOrUpdateAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdateAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginCreateOrUpdateAtScope" })
         @PUT("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdateAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreateOrUpdateAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments getAtScope" })
         @GET("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Observable<Response<ResponseBody>> getAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments cancelAtScope" })
         @POST("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel")
-        Observable<Response<ResponseBody>> cancelAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> cancelAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments validateAtScope" })
         @POST("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
-        Observable<Response<ResponseBody>> validateAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> validateAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginValidateAtScope" })
+        @POST("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
+        Observable<Response<ResponseBody>> beginValidateAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments exportTemplateAtScope" })
         @POST("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
-        Observable<Response<ResponseBody>> exportTemplateAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> exportTemplateAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtScope" })
         @GET("{scope}/providers/Microsoft.Resources/deployments/")
-        Observable<Response<ResponseBody>> listAtScope(@Path("scope") String scope, @Query("$filter") String filter, @Query("$top") Integer top, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listAtScope(@Path(value = "scope", encoded = true) String scope, @Query("$filter") String filter, @Query("$top") Integer top, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments deleteAtTenantScope" })
         @HTTP(path = "providers/Microsoft.Resources/deployments/{deploymentName}", method = "DELETE", hasBody = true)
@@ -126,11 +134,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments createOrUpdateAtTenantScope" })
         @PUT("providers/Microsoft.Resources/deployments/{deploymentName}")
-        Observable<Response<ResponseBody>> createOrUpdateAtTenantScope(@Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdateAtTenantScope(@Path("deploymentName") String deploymentName, @Body ScopedDeployment parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginCreateOrUpdateAtTenantScope" })
         @PUT("providers/Microsoft.Resources/deployments/{deploymentName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdateAtTenantScope(@Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreateOrUpdateAtTenantScope(@Path("deploymentName") String deploymentName, @Body ScopedDeployment parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments getAtTenantScope" })
         @GET("providers/Microsoft.Resources/deployments/{deploymentName}")
@@ -142,7 +150,19 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments validateAtTenantScope" })
         @POST("providers/Microsoft.Resources/deployments/{deploymentName}/validate")
-        Observable<Response<ResponseBody>> validateAtTenantScope(@Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> validateAtTenantScope(@Path("deploymentName") String deploymentName, @Body ScopedDeployment parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginValidateAtTenantScope" })
+        @POST("providers/Microsoft.Resources/deployments/{deploymentName}/validate")
+        Observable<Response<ResponseBody>> beginValidateAtTenantScope(@Path("deploymentName") String deploymentName, @Body ScopedDeployment parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments whatIfAtTenantScope" })
+        @POST("providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
+        Observable<Response<ResponseBody>> whatIfAtTenantScope(@Path("deploymentName") String deploymentName, @Body ScopedDeploymentWhatIf parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginWhatIfAtTenantScope" })
+        @POST("providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
+        Observable<Response<ResponseBody>> beginWhatIfAtTenantScope(@Path("deploymentName") String deploymentName, @Body ScopedDeploymentWhatIf parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments exportTemplateAtTenantScope" })
         @POST("providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
@@ -166,11 +186,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments createOrUpdateAtManagementGroupScope" })
         @PUT("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Observable<Response<ResponseBody>> createOrUpdateAtManagementGroupScope(@Path("groupId") String groupId, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdateAtManagementGroupScope(@Path("groupId") String groupId, @Path("deploymentName") String deploymentName, @Body ScopedDeployment parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginCreateOrUpdateAtManagementGroupScope" })
         @PUT("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdateAtManagementGroupScope(@Path("groupId") String groupId, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreateOrUpdateAtManagementGroupScope(@Path("groupId") String groupId, @Path("deploymentName") String deploymentName, @Body ScopedDeployment parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments getAtManagementGroupScope" })
         @GET("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
@@ -182,7 +202,19 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments validateAtManagementGroupScope" })
         @POST("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
-        Observable<Response<ResponseBody>> validateAtManagementGroupScope(@Path("groupId") String groupId, @Path("deploymentName") String deploymentName, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> validateAtManagementGroupScope(@Path("groupId") String groupId, @Path("deploymentName") String deploymentName, @Body ScopedDeployment parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginValidateAtManagementGroupScope" })
+        @POST("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
+        Observable<Response<ResponseBody>> beginValidateAtManagementGroupScope(@Path("groupId") String groupId, @Path("deploymentName") String deploymentName, @Body ScopedDeployment parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments whatIfAtManagementGroupScope" })
+        @POST("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
+        Observable<Response<ResponseBody>> whatIfAtManagementGroupScope(@Path("groupId") String groupId, @Path("deploymentName") String deploymentName, @Body ScopedDeploymentWhatIf parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginWhatIfAtManagementGroupScope" })
+        @POST("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
+        Observable<Response<ResponseBody>> beginWhatIfAtManagementGroupScope(@Path("groupId") String groupId, @Path("deploymentName") String deploymentName, @Body ScopedDeploymentWhatIf parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments exportTemplateAtManagementGroupScope" })
         @POST("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
@@ -223,6 +255,10 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments validateAtSubscriptionScope" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
         Observable<Response<ResponseBody>> validateAtSubscriptionScope(@Path("deploymentName") String deploymentName, @Path("subscriptionId") String subscriptionId, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginValidateAtSubscriptionScope" })
+        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
+        Observable<Response<ResponseBody>> beginValidateAtSubscriptionScope(@Path("deploymentName") String deploymentName, @Path("subscriptionId") String subscriptionId, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments whatIfAtSubscriptionScope" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
@@ -272,6 +308,10 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         @POST("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
         Observable<Response<ResponseBody>> validate(@Path("resourceGroupName") String resourceGroupName, @Path("deploymentName") String deploymentName, @Path("subscriptionId") String subscriptionId, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginValidate" })
+        @POST("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
+        Observable<Response<ResponseBody>> beginValidate(@Path("resourceGroupName") String resourceGroupName, @Path("deploymentName") String deploymentName, @Path("subscriptionId") String subscriptionId, @Body DeploymentInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments whatIf" })
         @POST("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
         Observable<Response<ResponseBody>> whatIf(@Path("resourceGroupName") String resourceGroupName, @Path("deploymentName") String deploymentName, @Path("subscriptionId") String subscriptionId, @Body DeploymentWhatIf parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -318,7 +358,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deletes a deployment from the deployment history.
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -332,7 +372,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deletes a deployment from the deployment history.
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -346,7 +386,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deletes a deployment from the deployment history.
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
@@ -364,7 +404,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deletes a deployment from the deployment history.
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
@@ -387,7 +427,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deletes a deployment from the deployment history.
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -401,7 +441,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deletes a deployment from the deployment history.
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -415,7 +455,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deletes a deployment from the deployment history.
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
@@ -433,7 +473,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deletes a deployment from the deployment history.
      * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
@@ -473,7 +513,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Checks whether the deployment exists.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -487,7 +527,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Checks whether the deployment exists.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -500,7 +540,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Checks whether the deployment exists.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the Boolean object
@@ -517,7 +557,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Checks whether the deployment exists.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the Boolean object
@@ -558,7 +598,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deploys resources at a given scope.
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Additional parameters supplied to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -574,7 +614,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deploys resources at a given scope.
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Additional parameters supplied to the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -589,7 +629,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deploys resources at a given scope.
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Additional parameters supplied to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -608,7 +648,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deploys resources at a given scope.
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Additional parameters supplied to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -636,7 +676,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deploys resources at a given scope.
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Additional parameters supplied to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -652,7 +692,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deploys resources at a given scope.
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Additional parameters supplied to the operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -667,7 +707,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deploys resources at a given scope.
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Additional parameters supplied to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -686,7 +726,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Deploys resources at a given scope.
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Additional parameters supplied to the operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -731,7 +771,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Gets a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -745,7 +785,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Gets a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -758,7 +798,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Gets a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentExtendedInner object
@@ -775,7 +815,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Gets a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentExtendedInner object
@@ -815,7 +855,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Cancels a currently running template deployment.
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -829,7 +869,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Cancels a currently running template deployment.
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -843,7 +883,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Cancels a currently running template deployment.
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
@@ -861,7 +901,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * Cancels a currently running template deployment.
      * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
@@ -900,7 +940,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Parameters to validate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -909,13 +949,13 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @return the DeploymentValidateResultInner object if successful.
      */
     public DeploymentValidateResultInner validateAtScope(String scope, String deploymentName, DeploymentInner parameters) {
-        return validateAtScopeWithServiceResponseAsync(scope, deploymentName, parameters).toBlocking().single().body();
+        return validateAtScopeWithServiceResponseAsync(scope, deploymentName, parameters).toBlocking().last().body();
     }
 
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Parameters to validate.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -929,11 +969,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Parameters to validate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DeploymentValidateResultInner object
+     * @return the observable for the request
      */
     public Observable<DeploymentValidateResultInner> validateAtScopeAsync(String scope, String deploymentName, DeploymentInner parameters) {
         return validateAtScopeWithServiceResponseAsync(scope, deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
@@ -947,11 +987,11 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param parameters Parameters to validate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DeploymentValidateResultInner object
+     * @return the observable for the request
      */
     public Observable<ServiceResponse<DeploymentValidateResultInner>> validateAtScopeWithServiceResponseAsync(String scope, String deploymentName, DeploymentInner parameters) {
         if (scope == null) {
@@ -967,12 +1007,86 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.validateAtScope(scope, deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        Observable<Response<ResponseBody>> observable = service.validateAtScope(scope, deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<DeploymentValidateResultInner>() { }.getType());
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param scope The resource scope.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DeploymentValidateResultInner object if successful.
+     */
+    public DeploymentValidateResultInner beginValidateAtScope(String scope, String deploymentName, DeploymentInner parameters) {
+        return beginValidateAtScopeWithServiceResponseAsync(scope, deploymentName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param scope The resource scope.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DeploymentValidateResultInner> beginValidateAtScopeAsync(String scope, String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginValidateAtScopeWithServiceResponseAsync(scope, deploymentName, parameters), serviceCallback);
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param scope The resource scope.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DeploymentValidateResultInner object
+     */
+    public Observable<DeploymentValidateResultInner> beginValidateAtScopeAsync(String scope, String deploymentName, DeploymentInner parameters) {
+        return beginValidateAtScopeWithServiceResponseAsync(scope, deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
+            @Override
+            public DeploymentValidateResultInner call(ServiceResponse<DeploymentValidateResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param scope The resource scope.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DeploymentValidateResultInner object
+     */
+    public Observable<ServiceResponse<DeploymentValidateResultInner>> beginValidateAtScopeWithServiceResponseAsync(String scope, String deploymentName, DeploymentInner parameters) {
+        if (scope == null) {
+            throw new IllegalArgumentException("Parameter scope is required and cannot be null.");
+        }
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.beginValidateAtScope(scope, deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentValidateResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DeploymentValidateResultInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DeploymentValidateResultInner> clientResponse = validateAtScopeDelegate(response);
+                        ServiceResponse<DeploymentValidateResultInner> clientResponse = beginValidateAtScopeDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -981,9 +1095,10 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             });
     }
 
-    private ServiceResponse<DeploymentValidateResultInner> validateAtScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<DeploymentValidateResultInner> beginValidateAtScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentValidateResultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DeploymentValidateResultInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(400, new TypeToken<DeploymentValidateResultInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -992,7 +1107,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Exports the template used for specified deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -1006,7 +1121,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Exports the template used for specified deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1019,7 +1134,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Exports the template used for specified deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentExportResultInner object
@@ -1036,7 +1151,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Exports the template used for specified deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentExportResultInner object
@@ -1075,7 +1190,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -1094,7 +1209,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -1114,7 +1229,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DeploymentExtendedInner&gt; object
      */
@@ -1131,7 +1246,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DeploymentExtendedInner&gt; object
      */
@@ -1152,7 +1267,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;DeploymentExtendedInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -1182,7 +1297,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
      * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1203,7 +1318,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
      * @param top The number of results to get. If null is passed, returns all deployments.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -1225,7 +1340,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
      * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1244,7 +1359,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
      * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1267,7 +1382,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
     /**
      * Get all the deployments at the given scope.
      *
-    ServiceResponse<PageImpl<DeploymentExtendedInner>> * @param scope The scope of a deployment.
+    ServiceResponse<PageImpl<DeploymentExtendedInner>> * @param scope The resource scope.
     ServiceResponse<PageImpl<DeploymentExtendedInner>> * @param filter The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'.
     ServiceResponse<PageImpl<DeploymentExtendedInner>> * @param top The number of results to get. If null is passed, returns all deployments.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1531,7 +1646,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DeploymentExtendedInner object if successful.
      */
-    public DeploymentExtendedInner createOrUpdateAtTenantScope(String deploymentName, DeploymentInner parameters) {
+    public DeploymentExtendedInner createOrUpdateAtTenantScope(String deploymentName, ScopedDeployment parameters) {
         return createOrUpdateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().last().body();
     }
 
@@ -1545,7 +1660,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DeploymentExtendedInner> createOrUpdateAtTenantScopeAsync(String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
+    public ServiceFuture<DeploymentExtendedInner> createOrUpdateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters), serviceCallback);
     }
 
@@ -1558,7 +1673,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<DeploymentExtendedInner> createOrUpdateAtTenantScopeAsync(String deploymentName, DeploymentInner parameters) {
+    public Observable<DeploymentExtendedInner> createOrUpdateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters) {
         return createOrUpdateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentExtendedInner>, DeploymentExtendedInner>() {
             @Override
             public DeploymentExtendedInner call(ServiceResponse<DeploymentExtendedInner> response) {
@@ -1576,7 +1691,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<DeploymentExtendedInner>> createOrUpdateAtTenantScopeWithServiceResponseAsync(String deploymentName, DeploymentInner parameters) {
+    public Observable<ServiceResponse<DeploymentExtendedInner>> createOrUpdateAtTenantScopeWithServiceResponseAsync(String deploymentName, ScopedDeployment parameters) {
         if (deploymentName == null) {
             throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
         }
@@ -1602,7 +1717,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DeploymentExtendedInner object if successful.
      */
-    public DeploymentExtendedInner beginCreateOrUpdateAtTenantScope(String deploymentName, DeploymentInner parameters) {
+    public DeploymentExtendedInner beginCreateOrUpdateAtTenantScope(String deploymentName, ScopedDeployment parameters) {
         return beginCreateOrUpdateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().single().body();
     }
 
@@ -1616,7 +1731,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DeploymentExtendedInner> beginCreateOrUpdateAtTenantScopeAsync(String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
+    public ServiceFuture<DeploymentExtendedInner> beginCreateOrUpdateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateOrUpdateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters), serviceCallback);
     }
 
@@ -1629,7 +1744,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentExtendedInner object
      */
-    public Observable<DeploymentExtendedInner> beginCreateOrUpdateAtTenantScopeAsync(String deploymentName, DeploymentInner parameters) {
+    public Observable<DeploymentExtendedInner> beginCreateOrUpdateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters) {
         return beginCreateOrUpdateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentExtendedInner>, DeploymentExtendedInner>() {
             @Override
             public DeploymentExtendedInner call(ServiceResponse<DeploymentExtendedInner> response) {
@@ -1647,7 +1762,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentExtendedInner object
      */
-    public Observable<ServiceResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtTenantScopeWithServiceResponseAsync(String deploymentName, DeploymentInner parameters) {
+    public Observable<ServiceResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtTenantScopeWithServiceResponseAsync(String deploymentName, ScopedDeployment parameters) {
         if (deploymentName == null) {
             throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
         }
@@ -1845,8 +1960,8 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DeploymentValidateResultInner object if successful.
      */
-    public DeploymentValidateResultInner validateAtTenantScope(String deploymentName, DeploymentInner parameters) {
-        return validateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().single().body();
+    public DeploymentValidateResultInner validateAtTenantScope(String deploymentName, ScopedDeployment parameters) {
+        return validateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().last().body();
     }
 
     /**
@@ -1858,8 +1973,75 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DeploymentValidateResultInner> validateAtTenantScopeAsync(String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
+    public ServiceFuture<DeploymentValidateResultInner> validateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
         return ServiceFuture.fromResponse(validateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters), serviceCallback);
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<DeploymentValidateResultInner> validateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters) {
+        return validateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
+            @Override
+            public DeploymentValidateResultInner call(ServiceResponse<DeploymentValidateResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<DeploymentValidateResultInner>> validateAtTenantScopeWithServiceResponseAsync(String deploymentName, ScopedDeployment parameters) {
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        Observable<Response<ResponseBody>> observable = service.validateAtTenantScope(deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<DeploymentValidateResultInner>() { }.getType());
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DeploymentValidateResultInner object if successful.
+     */
+    public DeploymentValidateResultInner beginValidateAtTenantScope(String deploymentName, ScopedDeployment parameters) {
+        return beginValidateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DeploymentValidateResultInner> beginValidateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginValidateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters), serviceCallback);
     }
 
     /**
@@ -1870,8 +2052,8 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentValidateResultInner object
      */
-    public Observable<DeploymentValidateResultInner> validateAtTenantScopeAsync(String deploymentName, DeploymentInner parameters) {
-        return validateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
+    public Observable<DeploymentValidateResultInner> beginValidateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters) {
+        return beginValidateAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
             @Override
             public DeploymentValidateResultInner call(ServiceResponse<DeploymentValidateResultInner> response) {
                 return response.body();
@@ -1887,7 +2069,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentValidateResultInner object
      */
-    public Observable<ServiceResponse<DeploymentValidateResultInner>> validateAtTenantScopeWithServiceResponseAsync(String deploymentName, DeploymentInner parameters) {
+    public Observable<ServiceResponse<DeploymentValidateResultInner>> beginValidateAtTenantScopeWithServiceResponseAsync(String deploymentName, ScopedDeployment parameters) {
         if (deploymentName == null) {
             throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
         }
@@ -1898,12 +2080,12 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.validateAtTenantScope(deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginValidateAtTenantScope(deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentValidateResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DeploymentValidateResultInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DeploymentValidateResultInner> clientResponse = validateAtTenantScopeDelegate(response);
+                        ServiceResponse<DeploymentValidateResultInner> clientResponse = beginValidateAtTenantScopeDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1912,12 +2094,165 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             });
     }
 
-    private ServiceResponse<DeploymentValidateResultInner> validateAtTenantScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<DeploymentValidateResultInner> beginValidateAtTenantScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentValidateResultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DeploymentValidateResultInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(400, new TypeToken<DeploymentValidateResultInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the tenant group.
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the WhatIfOperationResultInner object if successful.
+     */
+    public WhatIfOperationResultInner whatIfAtTenantScope(String deploymentName, ScopedDeploymentWhatIf parameters) {
+        return whatIfAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().last().body();
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the tenant group.
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<WhatIfOperationResultInner> whatIfAtTenantScopeAsync(String deploymentName, ScopedDeploymentWhatIf parameters, final ServiceCallback<WhatIfOperationResultInner> serviceCallback) {
+        return ServiceFuture.fromHeaderResponse(whatIfAtTenantScopeWithServiceResponseAsync(deploymentName, parameters), serviceCallback);
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the tenant group.
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<WhatIfOperationResultInner> whatIfAtTenantScopeAsync(String deploymentName, ScopedDeploymentWhatIf parameters) {
+        return whatIfAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).map(new Func1<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders>, WhatIfOperationResultInner>() {
+            @Override
+            public WhatIfOperationResultInner call(ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the tenant group.
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders>> whatIfAtTenantScopeWithServiceResponseAsync(String deploymentName, ScopedDeploymentWhatIf parameters) {
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        Observable<Response<ResponseBody>> observable = service.whatIfAtTenantScope(deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultWithHeadersAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<WhatIfOperationResultInner>() { }.getType(), DeploymentsWhatIfAtTenantScopeHeaders.class);
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the tenant group.
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the WhatIfOperationResultInner object if successful.
+     */
+    public WhatIfOperationResultInner beginWhatIfAtTenantScope(String deploymentName, ScopedDeploymentWhatIf parameters) {
+        return beginWhatIfAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the tenant group.
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<WhatIfOperationResultInner> beginWhatIfAtTenantScopeAsync(String deploymentName, ScopedDeploymentWhatIf parameters, final ServiceCallback<WhatIfOperationResultInner> serviceCallback) {
+        return ServiceFuture.fromHeaderResponse(beginWhatIfAtTenantScopeWithServiceResponseAsync(deploymentName, parameters), serviceCallback);
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the tenant group.
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the WhatIfOperationResultInner object
+     */
+    public Observable<WhatIfOperationResultInner> beginWhatIfAtTenantScopeAsync(String deploymentName, ScopedDeploymentWhatIf parameters) {
+        return beginWhatIfAtTenantScopeWithServiceResponseAsync(deploymentName, parameters).map(new Func1<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders>, WhatIfOperationResultInner>() {
+            @Override
+            public WhatIfOperationResultInner call(ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the tenant group.
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the WhatIfOperationResultInner object
+     */
+    public Observable<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders>> beginWhatIfAtTenantScopeWithServiceResponseAsync(String deploymentName, ScopedDeploymentWhatIf parameters) {
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.beginWhatIfAtTenantScope(deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders>>>() {
+                @Override
+                public Observable<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders> clientResponse = beginWhatIfAtTenantScopeDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtTenantScopeHeaders> beginWhatIfAtTenantScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<WhatIfOperationResultInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<WhatIfOperationResultInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .buildWithHeaders(response, DeploymentsWhatIfAtTenantScopeHeaders.class);
     }
 
     /**
@@ -2461,7 +2796,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DeploymentExtendedInner object if successful.
      */
-    public DeploymentExtendedInner createOrUpdateAtManagementGroupScope(String groupId, String deploymentName, DeploymentInner parameters) {
+    public DeploymentExtendedInner createOrUpdateAtManagementGroupScope(String groupId, String deploymentName, ScopedDeployment parameters) {
         return createOrUpdateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).toBlocking().last().body();
     }
 
@@ -2476,7 +2811,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DeploymentExtendedInner> createOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
+    public ServiceFuture<DeploymentExtendedInner> createOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters), serviceCallback);
     }
 
@@ -2490,7 +2825,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<DeploymentExtendedInner> createOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, DeploymentInner parameters) {
+    public Observable<DeploymentExtendedInner> createOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
         return createOrUpdateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentExtendedInner>, DeploymentExtendedInner>() {
             @Override
             public DeploymentExtendedInner call(ServiceResponse<DeploymentExtendedInner> response) {
@@ -2509,7 +2844,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<DeploymentExtendedInner>> createOrUpdateAtManagementGroupScopeWithServiceResponseAsync(String groupId, String deploymentName, DeploymentInner parameters) {
+    public Observable<ServiceResponse<DeploymentExtendedInner>> createOrUpdateAtManagementGroupScopeWithServiceResponseAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
         if (groupId == null) {
             throw new IllegalArgumentException("Parameter groupId is required and cannot be null.");
         }
@@ -2539,7 +2874,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DeploymentExtendedInner object if successful.
      */
-    public DeploymentExtendedInner beginCreateOrUpdateAtManagementGroupScope(String groupId, String deploymentName, DeploymentInner parameters) {
+    public DeploymentExtendedInner beginCreateOrUpdateAtManagementGroupScope(String groupId, String deploymentName, ScopedDeployment parameters) {
         return beginCreateOrUpdateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).toBlocking().single().body();
     }
 
@@ -2554,7 +2889,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DeploymentExtendedInner> beginCreateOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
+    public ServiceFuture<DeploymentExtendedInner> beginCreateOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateOrUpdateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters), serviceCallback);
     }
 
@@ -2568,7 +2903,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentExtendedInner object
      */
-    public Observable<DeploymentExtendedInner> beginCreateOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, DeploymentInner parameters) {
+    public Observable<DeploymentExtendedInner> beginCreateOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
         return beginCreateOrUpdateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentExtendedInner>, DeploymentExtendedInner>() {
             @Override
             public DeploymentExtendedInner call(ServiceResponse<DeploymentExtendedInner> response) {
@@ -2587,7 +2922,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentExtendedInner object
      */
-    public Observable<ServiceResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtManagementGroupScopeWithServiceResponseAsync(String groupId, String deploymentName, DeploymentInner parameters) {
+    public Observable<ServiceResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtManagementGroupScopeWithServiceResponseAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
         if (groupId == null) {
             throw new IllegalArgumentException("Parameter groupId is required and cannot be null.");
         }
@@ -2803,8 +3138,8 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DeploymentValidateResultInner object if successful.
      */
-    public DeploymentValidateResultInner validateAtManagementGroupScope(String groupId, String deploymentName, DeploymentInner parameters) {
-        return validateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).toBlocking().single().body();
+    public DeploymentValidateResultInner validateAtManagementGroupScope(String groupId, String deploymentName, ScopedDeployment parameters) {
+        return validateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).toBlocking().last().body();
     }
 
     /**
@@ -2817,8 +3152,82 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DeploymentValidateResultInner> validateAtManagementGroupScopeAsync(String groupId, String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
+    public ServiceFuture<DeploymentValidateResultInner> validateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
         return ServiceFuture.fromResponse(validateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters), serviceCallback);
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<DeploymentValidateResultInner> validateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
+        return validateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
+            @Override
+            public DeploymentValidateResultInner call(ServiceResponse<DeploymentValidateResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<DeploymentValidateResultInner>> validateAtManagementGroupScopeWithServiceResponseAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("Parameter groupId is required and cannot be null.");
+        }
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        Observable<Response<ResponseBody>> observable = service.validateAtManagementGroupScope(groupId, deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<DeploymentValidateResultInner>() { }.getType());
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DeploymentValidateResultInner object if successful.
+     */
+    public DeploymentValidateResultInner beginValidateAtManagementGroupScope(String groupId, String deploymentName, ScopedDeployment parameters) {
+        return beginValidateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DeploymentValidateResultInner> beginValidateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginValidateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters), serviceCallback);
     }
 
     /**
@@ -2830,8 +3239,8 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentValidateResultInner object
      */
-    public Observable<DeploymentValidateResultInner> validateAtManagementGroupScopeAsync(String groupId, String deploymentName, DeploymentInner parameters) {
-        return validateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
+    public Observable<DeploymentValidateResultInner> beginValidateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
+        return beginValidateAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
             @Override
             public DeploymentValidateResultInner call(ServiceResponse<DeploymentValidateResultInner> response) {
                 return response.body();
@@ -2848,7 +3257,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentValidateResultInner object
      */
-    public Observable<ServiceResponse<DeploymentValidateResultInner>> validateAtManagementGroupScopeWithServiceResponseAsync(String groupId, String deploymentName, DeploymentInner parameters) {
+    public Observable<ServiceResponse<DeploymentValidateResultInner>> beginValidateAtManagementGroupScopeWithServiceResponseAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
         if (groupId == null) {
             throw new IllegalArgumentException("Parameter groupId is required and cannot be null.");
         }
@@ -2862,12 +3271,12 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.validateAtManagementGroupScope(groupId, deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginValidateAtManagementGroupScope(groupId, deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentValidateResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DeploymentValidateResultInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DeploymentValidateResultInner> clientResponse = validateAtManagementGroupScopeDelegate(response);
+                        ServiceResponse<DeploymentValidateResultInner> clientResponse = beginValidateAtManagementGroupScopeDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2876,12 +3285,179 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             });
     }
 
-    private ServiceResponse<DeploymentValidateResultInner> validateAtManagementGroupScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<DeploymentValidateResultInner> beginValidateAtManagementGroupScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentValidateResultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DeploymentValidateResultInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(400, new TypeToken<DeploymentValidateResultInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the management group.
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the WhatIfOperationResultInner object if successful.
+     */
+    public WhatIfOperationResultInner whatIfAtManagementGroupScope(String groupId, String deploymentName, ScopedDeploymentWhatIf parameters) {
+        return whatIfAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).toBlocking().last().body();
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the management group.
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<WhatIfOperationResultInner> whatIfAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeploymentWhatIf parameters, final ServiceCallback<WhatIfOperationResultInner> serviceCallback) {
+        return ServiceFuture.fromHeaderResponse(whatIfAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters), serviceCallback);
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the management group.
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<WhatIfOperationResultInner> whatIfAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeploymentWhatIf parameters) {
+        return whatIfAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).map(new Func1<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders>, WhatIfOperationResultInner>() {
+            @Override
+            public WhatIfOperationResultInner call(ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the management group.
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders>> whatIfAtManagementGroupScopeWithServiceResponseAsync(String groupId, String deploymentName, ScopedDeploymentWhatIf parameters) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("Parameter groupId is required and cannot be null.");
+        }
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        Observable<Response<ResponseBody>> observable = service.whatIfAtManagementGroupScope(groupId, deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultWithHeadersAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<WhatIfOperationResultInner>() { }.getType(), DeploymentsWhatIfAtManagementGroupScopeHeaders.class);
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the management group.
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the WhatIfOperationResultInner object if successful.
+     */
+    public WhatIfOperationResultInner beginWhatIfAtManagementGroupScope(String groupId, String deploymentName, ScopedDeploymentWhatIf parameters) {
+        return beginWhatIfAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the management group.
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<WhatIfOperationResultInner> beginWhatIfAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeploymentWhatIf parameters, final ServiceCallback<WhatIfOperationResultInner> serviceCallback) {
+        return ServiceFuture.fromHeaderResponse(beginWhatIfAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters), serviceCallback);
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the management group.
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the WhatIfOperationResultInner object
+     */
+    public Observable<WhatIfOperationResultInner> beginWhatIfAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeploymentWhatIf parameters) {
+        return beginWhatIfAtManagementGroupScopeWithServiceResponseAsync(groupId, deploymentName, parameters).map(new Func1<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders>, WhatIfOperationResultInner>() {
+            @Override
+            public WhatIfOperationResultInner call(ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the management group.
+     *
+     * @param groupId The management group ID.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the WhatIfOperationResultInner object
+     */
+    public Observable<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders>> beginWhatIfAtManagementGroupScopeWithServiceResponseAsync(String groupId, String deploymentName, ScopedDeploymentWhatIf parameters) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("Parameter groupId is required and cannot be null.");
+        }
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.beginWhatIfAtManagementGroupScope(groupId, deploymentName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders>>>() {
+                @Override
+                public Observable<ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders> clientResponse = beginWhatIfAtManagementGroupScopeDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponseWithHeaders<WhatIfOperationResultInner, DeploymentsWhatIfAtManagementGroupScopeHeaders> beginWhatIfAtManagementGroupScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<WhatIfOperationResultInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<WhatIfOperationResultInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .buildWithHeaders(response, DeploymentsWhatIfAtManagementGroupScopeHeaders.class);
     }
 
     /**
@@ -3762,7 +4338,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @return the DeploymentValidateResultInner object if successful.
      */
     public DeploymentValidateResultInner validateAtSubscriptionScope(String deploymentName, DeploymentInner parameters) {
-        return validateAtSubscriptionScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().single().body();
+        return validateAtSubscriptionScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().last().body();
     }
 
     /**
@@ -3784,7 +4360,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment.
      * @param parameters Parameters to validate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DeploymentValidateResultInner object
+     * @return the observable for the request
      */
     public Observable<DeploymentValidateResultInner> validateAtSubscriptionScopeAsync(String deploymentName, DeploymentInner parameters) {
         return validateAtSubscriptionScopeWithServiceResponseAsync(deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
@@ -3801,7 +4377,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment.
      * @param parameters Parameters to validate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DeploymentValidateResultInner object
+     * @return the observable for the request
      */
     public Observable<ServiceResponse<DeploymentValidateResultInner>> validateAtSubscriptionScopeWithServiceResponseAsync(String deploymentName, DeploymentInner parameters) {
         if (deploymentName == null) {
@@ -3817,12 +4393,82 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.validateAtSubscriptionScope(deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        Observable<Response<ResponseBody>> observable = service.validateAtSubscriptionScope(deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<DeploymentValidateResultInner>() { }.getType());
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DeploymentValidateResultInner object if successful.
+     */
+    public DeploymentValidateResultInner beginValidateAtSubscriptionScope(String deploymentName, DeploymentInner parameters) {
+        return beginValidateAtSubscriptionScopeWithServiceResponseAsync(deploymentName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DeploymentValidateResultInner> beginValidateAtSubscriptionScopeAsync(String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginValidateAtSubscriptionScopeWithServiceResponseAsync(deploymentName, parameters), serviceCallback);
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DeploymentValidateResultInner object
+     */
+    public Observable<DeploymentValidateResultInner> beginValidateAtSubscriptionScopeAsync(String deploymentName, DeploymentInner parameters) {
+        return beginValidateAtSubscriptionScopeWithServiceResponseAsync(deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
+            @Override
+            public DeploymentValidateResultInner call(ServiceResponse<DeploymentValidateResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DeploymentValidateResultInner object
+     */
+    public Observable<ServiceResponse<DeploymentValidateResultInner>> beginValidateAtSubscriptionScopeWithServiceResponseAsync(String deploymentName, DeploymentInner parameters) {
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.beginValidateAtSubscriptionScope(deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentValidateResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DeploymentValidateResultInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DeploymentValidateResultInner> clientResponse = validateAtSubscriptionScopeDelegate(response);
+                        ServiceResponse<DeploymentValidateResultInner> clientResponse = beginValidateAtSubscriptionScopeDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -3831,9 +4477,10 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             });
     }
 
-    private ServiceResponse<DeploymentValidateResultInner> validateAtSubscriptionScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<DeploymentValidateResultInner> beginValidateAtSubscriptionScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentValidateResultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DeploymentValidateResultInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(400, new TypeToken<DeploymentValidateResultInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -4911,7 +5558,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @return the DeploymentValidateResultInner object if successful.
      */
     public DeploymentValidateResultInner validate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
-        return validateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters).toBlocking().single().body();
+        return validateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters).toBlocking().last().body();
     }
 
     /**
@@ -4935,7 +5582,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment.
      * @param parameters Parameters to validate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DeploymentValidateResultInner object
+     * @return the observable for the request
      */
     public Observable<DeploymentValidateResultInner> validateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
         return validateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
@@ -4953,7 +5600,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * @param deploymentName The name of the deployment.
      * @param parameters Parameters to validate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DeploymentValidateResultInner object
+     * @return the observable for the request
      */
     public Observable<ServiceResponse<DeploymentValidateResultInner>> validateWithServiceResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
         if (resourceGroupName == null) {
@@ -4972,12 +5619,89 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.validate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        Observable<Response<ResponseBody>> observable = service.validate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<DeploymentValidateResultInner>() { }.getType());
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DeploymentValidateResultInner object if successful.
+     */
+    public DeploymentValidateResultInner beginValidate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+        return beginValidateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DeploymentValidateResultInner> beginValidateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, final ServiceCallback<DeploymentValidateResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginValidateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters), serviceCallback);
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DeploymentValidateResultInner object
+     */
+    public Observable<DeploymentValidateResultInner> beginValidateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+        return beginValidateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters).map(new Func1<ServiceResponse<DeploymentValidateResultInner>, DeploymentValidateResultInner>() {
+            @Override
+            public DeploymentValidateResultInner call(ServiceResponse<DeploymentValidateResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     *
+     * @param resourceGroupName The name of the resource group the template will be deployed to. The name is case insensitive.
+     * @param deploymentName The name of the deployment.
+     * @param parameters Parameters to validate.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DeploymentValidateResultInner object
+     */
+    public Observable<ServiceResponse<DeploymentValidateResultInner>> beginValidateWithServiceResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.beginValidate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentValidateResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DeploymentValidateResultInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DeploymentValidateResultInner> clientResponse = validateDelegate(response);
+                        ServiceResponse<DeploymentValidateResultInner> clientResponse = beginValidateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -4986,9 +5710,10 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             });
     }
 
-    private ServiceResponse<DeploymentValidateResultInner> validateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<DeploymentValidateResultInner> beginValidateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentValidateResultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DeploymentValidateResultInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(400, new TypeToken<DeploymentValidateResultInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class TagValueInner {
     /**
-     * The tag ID.
+     * The tag value ID.
      */
     @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
@@ -34,7 +34,7 @@ public class TagValueInner {
     private TagCount count;
 
     /**
-     * Get the tag ID.
+     * Get the tag value ID.
      *
      * @return the id value
      */

@@ -1110,6 +1110,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
+    @Ignore("code: AddressPrefixStringCannotBeNullOrEmpty")
     public void testContainerService() throws Exception {
         new TestContainerService()
                 .runTest(azure.containerServices(), azure.resourceGroups());

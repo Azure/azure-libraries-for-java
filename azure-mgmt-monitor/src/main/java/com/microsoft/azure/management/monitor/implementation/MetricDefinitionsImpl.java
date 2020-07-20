@@ -41,10 +41,14 @@ class MetricDefinitionsImpl
 
     @Override
     public List<MetricDefinition> listByResource(String resourceId) {
-        return Lists.transform(this.inner().list(resourceId), new Function<MetricDefinitionInner, MetricDefinition>() {
+        List<MetricDefinitionInner> inners = this.inner().list(resourceId);
+        if (inners == null) {
+            return null;
+        }
+        return Lists.transform(inners, new Function<MetricDefinitionInner, MetricDefinition>() {
                     @Override
                     public MetricDefinition apply(MetricDefinitionInner metricDefinitionInner) {
-                        return  new MetricDefinitionImpl(metricDefinitionInner, myManager);
+                        return new MetricDefinitionImpl(metricDefinitionInner, myManager);
                     }
                 });
     }

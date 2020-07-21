@@ -8,63 +8,49 @@
 
 package com.microsoft.azure.management.resources;
 
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * The alias type.
+ * Defines values for AliasType.
  */
-public class AliasType {
-    /**
-     * The alias name.
-     */
-    @JsonProperty(value = "name")
-    private String name;
+public enum AliasType {
+    /** Alias type is unknown (same as not providing alias type). */
+    NOT_SPECIFIED("NotSpecified"),
 
-    /**
-     * The paths for an alias.
-     */
-    @JsonProperty(value = "paths")
-    private List<AliasPathType> paths;
+    /** Alias value is not secret. */
+    PLAIN_TEXT("PlainText"),
 
-    /**
-     * Get the alias name.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
+    /** Alias value is secret. */
+    MASK("Mask");
+
+    /** The actual serialized value for a AliasType instance. */
+    private String value;
+
+    AliasType(String value) {
+        this.value = value;
     }
 
     /**
-     * Set the alias name.
+     * Parses a serialized value to a AliasType instance.
      *
-     * @param name the name value to set
-     * @return the AliasType object itself.
+     * @param value the serialized value to parse.
+     * @return the parsed AliasType object, or null if unable to parse.
      */
-    public AliasType withName(String name) {
-        this.name = name;
-        return this;
+    @JsonCreator
+    public static AliasType fromString(String value) {
+        AliasType[] items = AliasType.values();
+        for (AliasType item : items) {
+            if (item.toString().equalsIgnoreCase(value)) {
+                return item;
+            }
+        }
+        return null;
     }
 
-    /**
-     * Get the paths for an alias.
-     *
-     * @return the paths value
-     */
-    public List<AliasPathType> paths() {
-        return this.paths;
+    @JsonValue
+    @Override
+    public String toString() {
+        return this.value;
     }
-
-    /**
-     * Set the paths for an alias.
-     *
-     * @param paths the paths value to set
-     * @return the AliasType object itself.
-     */
-    public AliasType withPaths(List<AliasPathType> paths) {
-        this.paths = paths;
-        return this;
-    }
-
 }

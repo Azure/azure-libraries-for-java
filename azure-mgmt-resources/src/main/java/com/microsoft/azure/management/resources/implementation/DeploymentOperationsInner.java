@@ -59,11 +59,11 @@ public class DeploymentOperationsInner {
     interface DeploymentOperationsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.DeploymentOperations getAtScope" })
         @GET("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}")
-        Observable<Response<ResponseBody>> getAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Path("operationId") String operationId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Path("operationId") String operationId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.DeploymentOperations listAtScope" })
         @GET("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations")
-        Observable<Response<ResponseBody>> listAtScope(@Path("scope") String scope, @Path("deploymentName") String deploymentName, @Query("$top") Integer top, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listAtScope(@Path(value = "scope", encoded = true) String scope, @Path("deploymentName") String deploymentName, @Query("$top") Integer top, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.DeploymentOperations getAtTenantScope" })
         @GET("providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}")
@@ -122,7 +122,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param operationId The ID of the operation to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -137,7 +137,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param operationId The ID of the operation to get.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -151,7 +151,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param operationId The ID of the operation to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -169,7 +169,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets a deployments operation.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param operationId The ID of the operation to get.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -212,7 +212,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -232,7 +232,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -253,7 +253,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DeploymentOperationInner&gt; object
@@ -271,7 +271,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DeploymentOperationInner&gt; object
@@ -293,7 +293,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;DeploymentOperationInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -326,7 +326,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param top The number of results to return.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -347,7 +347,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param top The number of results to return.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -369,7 +369,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param top The number of results to return.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -388,7 +388,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-     * @param scope The scope of a deployment.
+     * @param scope The resource scope.
      * @param deploymentName The name of the deployment.
      * @param top The number of results to return.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -411,7 +411,7 @@ public class DeploymentOperationsInner {
     /**
      * Gets all deployments operations for a deployment.
      *
-    ServiceResponse<PageImpl<DeploymentOperationInner>> * @param scope The scope of a deployment.
+    ServiceResponse<PageImpl<DeploymentOperationInner>> * @param scope The resource scope.
     ServiceResponse<PageImpl<DeploymentOperationInner>> * @param deploymentName The name of the deployment.
     ServiceResponse<PageImpl<DeploymentOperationInner>> * @param top The number of results to return.
      * @throws IllegalArgumentException thrown if parameters fail the validation

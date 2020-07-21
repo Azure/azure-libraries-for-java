@@ -198,16 +198,16 @@ public class ResourceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The TagsInner object to access its operations.
+     * The TagOperationsInner object to access its operations.
      */
-    private TagsInner tags;
+    private TagOperationsInner tagOperations;
 
     /**
-     * Gets the TagsInner object to access its operations.
-     * @return the TagsInner object.
+     * Gets the TagOperationsInner object to access its operations.
+     * @return the TagOperationsInner object.
      */
-    public TagsInner tags() {
-        return this.tags;
+    public TagOperationsInner tagOperations() {
+        return this.tagOperations;
     }
 
     /**
@@ -254,7 +254,7 @@ public class ResourceManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2019-08-01";
+        this.apiVersion = "2020-06-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -263,7 +263,7 @@ public class ResourceManagementClientImpl extends AzureServiceClient {
         this.providers = new ProvidersInner(restClient().retrofit(), this);
         this.resources = new ResourcesInner(restClient().retrofit(), this);
         this.resourceGroups = new ResourceGroupsInner(restClient().retrofit(), this);
-        this.tags = new TagsInner(restClient().retrofit(), this);
+        this.tagOperations = new TagOperationsInner(restClient().retrofit(), this);
         this.deploymentOperations = new DeploymentOperationsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
@@ -275,6 +275,6 @@ public class ResourceManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "ResourceManagementClient", "2019-08-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "ResourceManagementClient", "2020-06-01");
     }
 }

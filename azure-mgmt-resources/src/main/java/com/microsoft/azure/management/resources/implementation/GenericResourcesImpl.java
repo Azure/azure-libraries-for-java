@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.resources.GenericResource;
 import com.microsoft.azure.management.resources.GenericResources;
@@ -14,6 +15,7 @@ import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.ResourcesMoveInfo;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -35,29 +37,37 @@ final class GenericResourcesImpl
         ResourceManager>
     implements GenericResources {
 
-    GenericResourcesImpl(ResourceManager resourceManager) {
+    private PagedListConverter<GenericResourceExpandedInner, GenericResource> converter;
+
+    GenericResourcesImpl(final ResourceManager resourceManager) {
         super(resourceManager.inner().resources(), resourceManager);
+        converter = new PagedListConverter<GenericResourceExpandedInner, GenericResource>() {
+            @Override
+            public Observable<GenericResource> typeConvertAsync(GenericResourceExpandedInner inner) {
+                return Observable.just((GenericResource) new GenericResourceImpl(inner.name(), inner, manager()));
+            }
+        };
     }
 
     @Override
     public PagedList<GenericResource> list() {
-        return wrapList(this.manager().inner().resources().list());
+        return converter.convert(this.inner().list());
     }
 
     @Override
     public PagedList<GenericResource> listByResourceGroup(String groupName) {
-        return wrapList(this.manager().inner().resources().listByResourceGroup(groupName));
+        return converter.convert(this.manager().inner().resources().listByResourceGroup(groupName));
     }
 
     @Override
     public PagedList<GenericResource> listByTag(String resourceGroupName, String tagName, String tagValue) {
-        return wrapList(this.manager().inner().resources().listByResourceGroup(resourceGroupName,
+        return converter.convert(this.manager().inner().resources().listByResourceGroup(resourceGroupName,
                 Utils.createOdataFilterForTags(tagName, tagValue), null, null));
     }
 
     @Override
     public Observable<GenericResource> listByTagAsync(String resourceGroupName, String tagName, String tagValue) {
-        return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName,
+        return convert(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName,
                 Utils.createOdataFilterForTags(tagName, tagValue), null, null));
     }
 
@@ -240,11 +250,25 @@ final class GenericResourcesImpl
 
     @Override
     public Observable<GenericResource> listAsync() {
-        return wrapPageAsync(this.inner().listAsync());
+        return convert(this.inner().listAsync());
     }
 
     @Override
     public Observable<GenericResource> listByResourceGroupAsync(String resourceGroupName) {
-        return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName));
+        return convert(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName));
+    }
+
+    private Observable<GenericResource> convert(Observable<Page<GenericResourceExpandedInner>> inners) {
+        return inners.flatMap(new Func1<Page<GenericResourceExpandedInner>, Observable<GenericResourceExpandedInner>>() {
+            @Override
+            public Observable<GenericResourceExpandedInner> call(Page<GenericResourceExpandedInner> genericResourceExpandedInnerPage) {
+                return Observable.from(genericResourceExpandedInnerPage.items());
+            }
+        }).map(new Func1<GenericResourceExpandedInner, GenericResource>() {
+            @Override
+            public GenericResource call(GenericResourceExpandedInner inner) {
+                return wrapModel(inner);
+            }
+        });
     }
 }

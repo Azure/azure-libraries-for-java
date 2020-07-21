@@ -1,13 +1,13 @@
 {
   "networkCallRecords" : [ {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgjavatest43828-1?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgjavatest70707-1?api-version=2020-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Thu, 17 Oct 2019 13:05:13 GMT",
+      "date" : "Sat, 18 Jul 2020 04:48:03 GMT",
       "content-length" : "323",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1199",
@@ -15,48 +15,48 @@
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "15ad5a2c-454e-4b57-8f76-25a995b2f1b5",
+      "x-ms-correlation-request-id" : "3f2a49d2-1198-4c32-8d7d-b56245f0b66b",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T130513Z:15ad5a2c-454e-4b57-8f76-25a995b2f1b5",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044804Z:3f2a49d2-1198-4c32-8d7d-b56245f0b66b",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "15ad5a2c-454e-4b57-8f76-25a995b2f1b5",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgjavatest43828-1\",\"name\":\"rgjavatest43828-1\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"southcentralus\",\"tags\":{\"date\":\"2019-10-17T13:05:07.948Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "3f2a49d2-1198-4c32-8d7d-b56245f0b66b",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgjavatest70707-1\",\"name\":\"rgjavatest70707-1\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"southcentralus\",\"tags\":{\"date\":\"2020-07-18T04:48:01.784Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgjavatest43828-1/providers/Microsoft.Resources/deployments/javatest657566-1?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgjavatest70707-1/providers/Microsoft.Resources/deployments/javatest594561-1?api-version=2020-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Thu, 17 Oct 2019 13:05:13 GMT",
-      "content-length" : "549",
+      "date" : "Sat, 18 Jul 2020 04:48:04 GMT",
+      "content-length" : "544",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1198",
       "retry-after" : "0",
       "StatusCode" : "400",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "fd60af04-9c34-4a9f-ae54-8240c8f75b82",
+      "x-ms-correlation-request-id" : "e607a918-e1ff-4c99-b77b-8d30405b8683",
       "x-content-type-options" : "nosniff",
       "x-ms-failure-cause" : "gateway",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T130514Z:fd60af04-9c34-4a9f-ae54-8240c8f75b82",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044805Z:e607a918-e1ff-4c99-b77b-8d30405b8683",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "fd60af04-9c34-4a9f-ae54-8240c8f75b82",
-      "Body" : "{\"error\":{\"code\":\"InvalidTemplate\",\"message\":\"Deployment template validation failed: 'The template parameters 'sshKeyData' in the parameters file are not valid; they are not present in the original template and can therefore not be provided at deployment time. The only supported parameters for this template are 'projectName, location, adminUsername, adminPublicKey'. Please see https://aka.ms/arm-deploy/#parameter-file for usage details.'.\",\"additionalInfo\":[{\"type\":\"TemplateViolation\",\"info\":{\"lineNumber\":0,\"positionNumber\":0,\"snippet\":\"\"}}]}}"
+      "x-ms-request-id" : "e607a918-e1ff-4c99-b77b-8d30405b8683",
+      "Body" : "{\"error\":{\"code\":\"InvalidTemplate\",\"message\":\"Deployment template validation failed: 'The template parameters 'sshKeyData' in the parameters file are not valid; they are not present in the original template and can therefore not be provided at deployment time. The only supported parameters for this template are 'projectName, location, adminUsername, adminPublicKey'. Please see https://aka.ms/arm-deploy/#parameter-file for usage details.'.\",\"additionalInfo\":[{\"type\":\"TemplateViolation\",\"info\":{\"lineNumber\":0,\"linePosition\":0,\"path\":\"\"}}]}}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgjavatest43828-1?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgjavatest70707-1?api-version=2020-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Thu, 17 Oct 2019 13:05:18 GMT",
+      "date" : "Sat, 18 Jul 2020 04:48:08 GMT",
       "content-length" : "0",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
@@ -64,23 +64,23 @@
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "baba70df-5087-407f-b3a7-fe530cc07fba",
+      "x-ms-correlation-request-id" : "c0ca7a3b-e2bd-4653-a76b-74911b820dee",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T130519Z:baba70df-5087-407f-b3a7-fe530cc07fba",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR0pBVkFURVNUNDM4Mjg6MkQxLVNPVVRIQ0VOVFJBTFVTIiwiam9iTG9jYXRpb24iOiJzb3V0aGNlbnRyYWx1cyJ9?api-version=2019-08-01",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044809Z:c0ca7a3b-e2bd-4653-a76b-74911b820dee",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR0pBVkFURVNUNzA3MDc6MkQxLVNPVVRIQ0VOVFJBTFVTIiwiam9iTG9jYXRpb24iOiJzb3V0aGNlbnRyYWx1cyJ9?api-version=2020-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "baba70df-5087-407f-b3a7-fe530cc07fba",
+      "x-ms-request-id" : "c0ca7a3b-e2bd-4653-a76b-74911b820dee",
       "Body" : ""
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgjavatest43828-2?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgjavatest70707-2?api-version=2020-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Thu, 17 Oct 2019 13:05:18 GMT",
+      "date" : "Sat, 18 Jul 2020 04:48:08 GMT",
       "content-length" : "109",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-deletes" : "14998",
@@ -88,15 +88,15 @@
       "StatusCode" : "404",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "4a45da40-ac07-4c0e-8f26-c72aefbdc9c2",
+      "x-ms-correlation-request-id" : "d5eaf4fc-540d-44b5-970d-421b3c70bdd3",
       "x-content-type-options" : "nosniff",
       "x-ms-failure-cause" : "gateway",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T130519Z:4a45da40-ac07-4c0e-8f26-c72aefbdc9c2",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044809Z:d5eaf4fc-540d-44b5-970d-421b3c70bdd3",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "4a45da40-ac07-4c0e-8f26-c72aefbdc9c2",
-      "Body" : "{\"error\":{\"code\":\"ResourceGroupNotFound\",\"message\":\"Resource group 'rgjavatest43828-2' could not be found.\"}}"
+      "x-ms-request-id" : "d5eaf4fc-540d-44b5-970d-421b3c70bdd3",
+      "Body" : "{\"error\":{\"code\":\"ResourceGroupNotFound\",\"message\":\"Resource group 'rgjavatest70707-2' could not be found.\"}}"
     }
   } ],
-  "variables" : [ "rgjavatest43828", "javatest657566", "6fa6162a-70a4-4a94-8c9a-0fea7fee410a", "e23e571f-7756-4aa7-97b9-57700265475f" ]
+  "variables" : [ "rgjavatest70707", "javatest594561", "239e4fea-f6b1-4a18-8236-b438bb6c9078", "130ab1ea-e482-4e75-9bbe-0fcfe67fbe85" ]
 }

@@ -19,7 +19,7 @@ public class DeploymentValidateResultInner {
     /**
      * The deployment validation error.
      */
-    @JsonProperty(value = "error")
+    @JsonProperty(value = "error", access = JsonProperty.Access.WRITE_ONLY)
     private ErrorResponse error;
 
     /**
@@ -35,17 +35,6 @@ public class DeploymentValidateResultInner {
      */
     public ErrorResponse error() {
         return this.error;
-    }
-
-    /**
-     * Set the deployment validation error.
-     *
-     * @param error the error value to set
-     * @return the DeploymentValidateResultInner object itself.
-     */
-    public DeploymentValidateResultInner withError(ErrorResponse error) {
-        this.error = error;
-        return this;
     }
 
     /**

@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.DeploymentExportResult;
 import com.microsoft.azure.management.resources.DeploymentMode;
 import com.microsoft.azure.management.resources.DeploymentOperations;
 import com.microsoft.azure.management.resources.DeploymentProperties;
-import com.microsoft.azure.management.resources.DeploymentPropertiesExtended;
 import com.microsoft.azure.management.resources.DeploymentWhatIf;
 import com.microsoft.azure.management.resources.DeploymentWhatIfProperties;
 import com.microsoft.azure.management.resources.DeploymentWhatIfSettings;
@@ -23,6 +22,7 @@ import com.microsoft.azure.management.resources.OnErrorDeploymentType;
 import com.microsoft.azure.management.resources.ParametersLink;
 import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.ResourceReference;
 import com.microsoft.azure.management.resources.TemplateLink;
 import com.microsoft.azure.management.resources.WhatIfOperationResult;
 import com.microsoft.azure.management.resources.WhatIfResultFormat;
@@ -58,6 +58,7 @@ public final class DeploymentImpl extends
     private Creatable<ResourceGroup> creatableResourceGroup;
     private ObjectMapper objectMapper;
     private DeploymentWhatIf deploymentWhatIf;
+    private DeploymentInner deploymentCreateUpdateParameters;
 
     DeploymentImpl(DeploymentExtendedInner innerModel, String name, final ResourceManager resourceManager) {
         super(name, innerModel);
@@ -65,6 +66,7 @@ public final class DeploymentImpl extends
         this.resourceManager = resourceManager;
         this.objectMapper = new ObjectMapper();
         this.deploymentWhatIf = new DeploymentWhatIf();
+        this.deploymentCreateUpdateParameters = new DeploymentInner();
     }
 
     @Override
@@ -77,7 +79,7 @@ public final class DeploymentImpl extends
         if (this.inner().properties() == null) {
             return null;
         }
-        return this.inner().properties().provisioningState();
+        return this.inner().properties().provisioningState().toString();
     }
 
     @Override
@@ -125,11 +127,11 @@ public final class DeploymentImpl extends
     }
 
     @Override
-    public Object template() {
+    public String templateHash() {
         if (this.inner().properties() == null) {
             return null;
         }
-        return this.inner().properties().template();
+        return this.inner().properties().templateHash();
     }
 
     @Override
@@ -162,6 +164,14 @@ public final class DeploymentImpl extends
             return null;
         }
         return inner().properties().mode();
+    }
+
+    @Override
+    public List<ResourceReference> outputResources() {
+        if (this.inner().properties() == null) {
+            return null;
+        }
+        return inner().properties().outputResources();
     }
 
     @Override
@@ -243,11 +253,11 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withTemplate(Object template) {
-        if (this.inner().properties() == null) {
-            this.inner().withProperties(new DeploymentPropertiesExtended());
+        if (this.deploymentCreateUpdateParameters.properties() == null) {
+            this.deploymentCreateUpdateParameters.withProperties(new DeploymentProperties());
         }
-        this.inner().properties().withTemplate(template);
-        this.inner().properties().withTemplateLink(null);
+        this.deploymentCreateUpdateParameters.properties().withTemplate(template);
+        this.deploymentCreateUpdateParameters.properties().withTemplateLink(null);
         return this;
     }
 
@@ -258,30 +268,30 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withTemplateLink(String uri, String contentVersion) {
-        if (this.inner().properties() == null) {
-            this.inner().withProperties(new DeploymentPropertiesExtended());
+        if (this.deploymentCreateUpdateParameters.properties() == null) {
+            this.deploymentCreateUpdateParameters.withProperties(new DeploymentProperties());
         }
-        this.inner().properties().withTemplateLink(new TemplateLink().withUri(uri).withContentVersion(contentVersion));
-        this.inner().properties().withTemplate(null);
+        this.deploymentCreateUpdateParameters.properties().withTemplateLink(new TemplateLink().withUri(uri).withContentVersion(contentVersion));
+        this.deploymentCreateUpdateParameters.properties().withTemplate(null);
         return this;
     }
 
     @Override
     public DeploymentImpl withMode(DeploymentMode mode) {
-        if (this.inner().properties() == null) {
-            this.inner().withProperties(new DeploymentPropertiesExtended());
+        if (this.deploymentCreateUpdateParameters.properties() == null) {
+            this.deploymentCreateUpdateParameters.withProperties(new DeploymentProperties());
         }
-        this.inner().properties().withMode(mode);
+        this.deploymentCreateUpdateParameters.properties().withMode(mode);
         return this;
     }
 
     @Override
     public DeploymentImpl withParameters(Object parameters) {
-        if (this.inner().properties() == null) {
-            this.inner().withProperties(new DeploymentPropertiesExtended());
+        if (this.deploymentCreateUpdateParameters.properties() == null) {
+            this.deploymentCreateUpdateParameters.withProperties(new DeploymentProperties());
         }
-        this.inner().properties().withParameters(parameters);
-        this.inner().properties().withParametersLink(null);
+        this.deploymentCreateUpdateParameters.properties().withParameters(parameters);
+        this.deploymentCreateUpdateParameters.properties().withParametersLink(null);
         return this;
     }
 
@@ -292,23 +302,12 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withParametersLink(String uri, String contentVersion) {
-        if (this.inner().properties() == null) {
-            this.inner().withProperties(new DeploymentPropertiesExtended());
+        if (this.deploymentCreateUpdateParameters.properties() == null) {
+            this.deploymentCreateUpdateParameters.withProperties(new DeploymentProperties());
         }
-        this.inner().properties().withParametersLink(new ParametersLink().withUri(uri).withContentVersion(contentVersion));
-        this.inner().properties().withParameters(null);
+        this.deploymentCreateUpdateParameters.properties().withParametersLink(new ParametersLink().withUri(uri).withContentVersion(contentVersion));
+        this.deploymentCreateUpdateParameters.properties().withParameters(null);
         return this;
-    }
-
-    private DeploymentInner createRequestFromInner() {
-        DeploymentInner inner = new DeploymentInner()
-                .withProperties(new DeploymentProperties());
-        inner.properties().withMode(mode());
-        inner.properties().withTemplate(template());
-        inner.properties().withTemplateLink(templateLink());
-        inner.properties().withParameters(parameters());
-        inner.properties().withParametersLink(parametersLink());
-        return inner;
     }
 
     @Override
@@ -316,7 +315,8 @@ public final class DeploymentImpl extends
         if (this.creatableResourceGroup != null) {
             this.creatableResourceGroup.create();
         }
-        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), createRequestFromInner()));
+        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), deploymentCreateUpdateParameters));
+        prepareForUpdate(this.inner());
         return this;
     }
 
@@ -336,7 +336,14 @@ public final class DeploymentImpl extends
                 .flatMap(new Func1<Indexable, Observable<DeploymentExtendedInner>>() {
                     @Override
                     public Observable<DeploymentExtendedInner> call(Indexable indexable) {
-                        return manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner());
+                        return manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), deploymentCreateUpdateParameters);
+                    }
+                })
+                .map(new Func1<DeploymentExtendedInner, DeploymentExtendedInner>() {
+                    @Override
+                    public DeploymentExtendedInner call(DeploymentExtendedInner deploymentExtendedInner) {
+                        prepareForUpdate(deploymentExtendedInner);
+                        return deploymentExtendedInner;
                     }
                 })
                 .map(innerToFluentMap(this));
@@ -344,28 +351,39 @@ public final class DeploymentImpl extends
 
     @Override
     public Observable<Deployment> createResourceAsync() {
-        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner())
+        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), deploymentCreateUpdateParameters)
+                .map(new Func1<DeploymentExtendedInner, DeploymentExtendedInner>() {
+                    @Override
+                    public DeploymentExtendedInner call(DeploymentExtendedInner deploymentExtendedInner) {
+                        prepareForUpdate(deploymentExtendedInner);
+                        return deploymentExtendedInner;
+                    }
+                })
                 .map(innerToFluentMap(this));
+    }
+
+    private void prepareForUpdate(DeploymentExtendedInner inner) {
+        deploymentCreateUpdateParameters = new DeploymentInner();
+        deploymentCreateUpdateParameters.withLocation(inner.location());
+        deploymentCreateUpdateParameters.withTags(inner.getTags());
+        if (inner.properties() != null) {
+            deploymentCreateUpdateParameters.withProperties(new DeploymentProperties());
+            deploymentCreateUpdateParameters.properties().withDebugSetting(inner.properties().debugSetting());
+            deploymentCreateUpdateParameters.properties().withMode(inner.properties().mode());
+            deploymentCreateUpdateParameters.properties().withParameters(inner.properties().parameters());
+            deploymentCreateUpdateParameters.properties().withParametersLink(inner.properties().parametersLink());
+            deploymentCreateUpdateParameters.properties().withTemplateLink(inner.properties().templateLink());
+            if (inner.properties().onErrorDeployment() != null) {
+                deploymentCreateUpdateParameters.properties().withOnErrorDeployment(new OnErrorDeployment());
+                deploymentCreateUpdateParameters.properties().onErrorDeployment().withDeploymentName(inner.properties().onErrorDeployment().deploymentName());
+                deploymentCreateUpdateParameters.properties().onErrorDeployment().withType(inner.properties().onErrorDeployment().type());
+            }
+        }
     }
 
     @Override
     public Observable<Deployment> applyAsync() {
         return updateResourceAsync();
-    }
-
-    @Override
-    public Observable<Deployment> updateResourceAsync() {
-        try {
-            if (this.templateLink() != null && this.template() != null) {
-                this.withTemplate(null);
-            }
-            if (this.parametersLink() != null && this.parameters() != null) {
-                this.withParameters(null);
-            }
-        } catch (IOException e) {
-            return Observable.error(e);
-        }
-        return createResourceAsync();
     }
 
     @Override

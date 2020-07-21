@@ -1,102 +1,223 @@
 {
   "networkCallRecords" : [ {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatb52254889af32?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90?api-version=2020-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Thu, 17 Oct 2019 13:05:00 GMT",
+      "date" : "Sat, 18 Jul 2020 04:46:45 GMT",
       "content-length" : "320",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1193",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "6ef0bbc2-ac7f-4ef8-b458-c4fd00d39dc8",
+      "x-ms-correlation-request-id" : "f99cfc8b-f49e-4641-8834-e2901d301085",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T130501Z:6ef0bbc2-ac7f-4ef8-b458-c4fd00d39dc8",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044645Z:f99cfc8b-f49e-4641-8834-e2901d301085",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "6ef0bbc2-ac7f-4ef8-b458-c4fd00d39dc8",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsatb52254889af32\",\"name\":\"rgrsatb52254889af32\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"eastus2\",\"tags\":{\"date\":\"2019-10-17T13:04:56.171Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "f99cfc8b-f49e-4641-8834-e2901d301085",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90\",\"name\":\"rgrsat7b341590aad90\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"eastus2\",\"tags\":{\"date\":\"2020-07-18T04:46:42.028Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatb52254889af32/providers/Microsoft.Resources/deployments/dprsat9ff84220527cc?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb?api-version=2020-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Thu, 17 Oct 2019 13:05:01 GMT",
-      "content-length" : "197",
+      "date" : "Sat, 18 Jul 2020 04:46:52 GMT",
+      "content-length" : "1855",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1192",
       "retry-after" : "0",
-      "StatusCode" : "400",
+      "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "7eddd8d2-8190-461a-8653-54c61553c4fd",
+      "x-ms-correlation-request-id" : "8c9f556b-55be-4179-aabc-6665a24f0ff2",
       "x-content-type-options" : "nosniff",
-      "x-ms-failure-cause" : "gateway",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T130502Z:7eddd8d2-8190-461a-8653-54c61553c4fd",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044652Z:8c9f556b-55be-4179-aabc-6665a24f0ff2",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "7eddd8d2-8190-461a-8653-54c61553c4fd",
-      "Body" : "{\"error\":{\"code\":\"InvalidTemplate\",\"message\":\"Deployment template parse failed: 'Error reading string. Unexpected token: StartObject. Path '['[concat(\\\\'hidden-related:\\\\', resourceGroup()']'.'.\"}}"
+      "x-ms-request-id" : "8c9f556b-55be-4179-aabc-6665a24f0ff2",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb\",\"name\":\"dprsat546210144b1bb\",\"type\":\"Microsoft.Resources/deployments\",\"properties\":{\"templateHash\":\"15249727335690166403\",\"parameters\":{\"hostingPlanName\":{\"type\":\"String\",\"value\":\"hprsata7c8154886748\"},\"webSiteName\":{\"type\":\"String\",\"value\":\"wnrsat08103904891d3\"},\"skuName\":{\"type\":\"String\",\"value\":\"F1\"},\"skuCapacity\":{\"type\":\"Int\",\"value\":1}},\"mode\":\"Incremental\",\"provisioningState\":\"Accepted\",\"timestamp\":\"2020-07-18T04:46:49.9606322Z\",\"duration\":\"PT3.1974126S\",\"correlationId\":\"8c9f556b-55be-4179-aabc-6665a24f0ff2\",\"providers\":[{\"namespace\":\"Microsoft.Web\",\"resourceTypes\":[{\"resourceType\":\"serverfarms\",\"locations\":[\"eastus2\"]},{\"resourceType\":\"sites\",\"locations\":[\"eastus2\"]},{\"resourceType\":\"sites/config\",\"locations\":[null]}]}],\"dependencies\":[{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/serverfarms/hprsata7c8154886748\",\"resourceType\":\"Microsoft.Web/serverfarms\",\"resourceName\":\"hprsata7c8154886748\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat08103904891d3\"},{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat08103904891d3\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3/config/web\",\"resourceType\":\"Microsoft.Web/sites/config\",\"resourceName\":\"wnrsat08103904891d3/web\"}]}}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb/operationStatuses/08586065592787143988?api-version=2020-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatb52254889af32/providers/Microsoft.Resources/deployments/dprsat9ff84220527cc?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb/operationStatuses/08586065592787143988?api-version=2020-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)"
+    },
+    "Response" : {
+      "date" : "Sat, 18 Jul 2020 04:46:52 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "vary" : "Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11960",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "0be4a5af-ce29-4148-9507-48417d377206",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044652Z:0be4a5af-ce29-4148-9507-48417d377206",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "0be4a5af-ce29-4148-9507-48417d377206",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb/operationStatuses/08586065592787143988?api-version=2020-06-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)"
+    },
+    "Response" : {
+      "date" : "Sat, 18 Jul 2020 04:47:23 GMT",
+      "content-length" : "20",
+      "expires" : "-1",
+      "vary" : "Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11959",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "a1d839b9-d832-483d-8ab9-25fc25fd1264",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044723Z:a1d839b9-d832-483d-8ab9-25fc25fd1264",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "a1d839b9-d832-483d-8ab9-25fc25fd1264",
+      "Body" : "{\"status\":\"Running\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb/operationStatuses/08586065592787143988?api-version=2020-06-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)"
+    },
+    "Response" : {
+      "date" : "Sat, 18 Jul 2020 04:47:53 GMT",
+      "content-length" : "22",
+      "expires" : "-1",
+      "vary" : "Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11958",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "0ae38920-8b3c-441a-9ff3-81b2b2f6df6a",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044754Z:0ae38920-8b3c-441a-9ff3-81b2b2f6df6a",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "0ae38920-8b3c-441a-9ff3-81b2b2f6df6a",
+      "Body" : "{\"status\":\"Succeeded\"}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb?api-version=2020-06-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)"
+    },
+    "Response" : {
+      "date" : "Sat, 18 Jul 2020 04:47:53 GMT",
+      "content-length" : "2332",
+      "expires" : "-1",
+      "vary" : "Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11957",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "a93821b6-1328-41be-92d7-7a823ae1d940",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044754Z:a93821b6-1328-41be-92d7-7a823ae1d940",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "a93821b6-1328-41be-92d7-7a823ae1d940",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb\",\"name\":\"dprsat546210144b1bb\",\"type\":\"Microsoft.Resources/deployments\",\"properties\":{\"templateHash\":\"15249727335690166403\",\"parameters\":{\"hostingPlanName\":{\"type\":\"String\",\"value\":\"hprsata7c8154886748\"},\"webSiteName\":{\"type\":\"String\",\"value\":\"wnrsat08103904891d3\"},\"skuName\":{\"type\":\"String\",\"value\":\"F1\"},\"skuCapacity\":{\"type\":\"Int\",\"value\":1}},\"mode\":\"Incremental\",\"provisioningState\":\"Succeeded\",\"timestamp\":\"2020-07-18T04:47:28.4568517Z\",\"duration\":\"PT41.6936321S\",\"correlationId\":\"8c9f556b-55be-4179-aabc-6665a24f0ff2\",\"providers\":[{\"namespace\":\"Microsoft.Web\",\"resourceTypes\":[{\"resourceType\":\"serverfarms\",\"locations\":[\"eastus2\"]},{\"resourceType\":\"sites\",\"locations\":[\"eastus2\"]},{\"resourceType\":\"sites/config\",\"locations\":[null]}]}],\"dependencies\":[{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/serverfarms/hprsata7c8154886748\",\"resourceType\":\"Microsoft.Web/serverfarms\",\"resourceName\":\"hprsata7c8154886748\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat08103904891d3\"},{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat08103904891d3\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3/config/web\",\"resourceType\":\"Microsoft.Web/sites/config\",\"resourceName\":\"wnrsat08103904891d3/web\"}],\"outputResources\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/serverfarms/hprsata7c8154886748\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3/config/web\"}]}}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb?api-version=2020-06-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Thu, 17 Oct 2019 13:05:02 GMT",
-      "content-length" : "104",
+      "date" : "Sat, 18 Jul 2020 04:47:54 GMT",
+      "content-length" : "2332",
       "expires" : "-1",
+      "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11998",
-      "StatusCode" : "404",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11956",
+      "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "03163c76-75ab-4582-a1f8-3d2ed9e0019f",
+      "x-ms-correlation-request-id" : "40583d03-b997-4b6c-9189-b83e968304c2",
       "x-content-type-options" : "nosniff",
-      "x-ms-failure-cause" : "gateway",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T130502Z:03163c76-75ab-4582-a1f8-3d2ed9e0019f",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044755Z:40583d03-b997-4b6c-9189-b83e968304c2",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "03163c76-75ab-4582-a1f8-3d2ed9e0019f",
-      "Body" : "{\"error\":{\"code\":\"DeploymentNotFound\",\"message\":\"Deployment 'dprsat9ff84220527cc' could not be found.\"}}"
+      "x-ms-request-id" : "40583d03-b997-4b6c-9189-b83e968304c2",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb\",\"name\":\"dprsat546210144b1bb\",\"type\":\"Microsoft.Resources/deployments\",\"properties\":{\"templateHash\":\"15249727335690166403\",\"parameters\":{\"hostingPlanName\":{\"type\":\"String\",\"value\":\"hprsata7c8154886748\"},\"webSiteName\":{\"type\":\"String\",\"value\":\"wnrsat08103904891d3\"},\"skuName\":{\"type\":\"String\",\"value\":\"F1\"},\"skuCapacity\":{\"type\":\"Int\",\"value\":1}},\"mode\":\"Incremental\",\"provisioningState\":\"Succeeded\",\"timestamp\":\"2020-07-18T04:47:28.4568517Z\",\"duration\":\"PT41.6936321S\",\"correlationId\":\"8c9f556b-55be-4179-aabc-6665a24f0ff2\",\"providers\":[{\"namespace\":\"Microsoft.Web\",\"resourceTypes\":[{\"resourceType\":\"serverfarms\",\"locations\":[\"eastus2\"]},{\"resourceType\":\"sites\",\"locations\":[\"eastus2\"]},{\"resourceType\":\"sites/config\",\"locations\":[null]}]}],\"dependencies\":[{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/serverfarms/hprsata7c8154886748\",\"resourceType\":\"Microsoft.Web/serverfarms\",\"resourceName\":\"hprsata7c8154886748\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat08103904891d3\"},{\"dependsOn\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat08103904891d3\"}],\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3/config/web\",\"resourceType\":\"Microsoft.Web/sites/config\",\"resourceName\":\"wnrsat08103904891d3/web\"}],\"outputResources\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/serverfarms/hprsata7c8154886748\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3\"},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3/config/web\"}]}}"
+    }
+  }, {
+    "Method" : "GET",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90/deployments/dprsat546210144b1bb/operations?api-version=2020-06-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Sat, 18 Jul 2020 04:47:55 GMT",
+      "content-length" : "2709",
+      "expires" : "-1",
+      "vary" : "Accept-Encoding",
+      "retry-after" : "0",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11955",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "6d6b8889-fe10-4bd7-b583-52fa174797fe",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044756Z:6d6b8889-fe10-4bd7-b583-52fa174797fe",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "6d6b8889-fe10-4bd7-b583-52fa174797fe",
+      "Body" : "{\"value\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb/operations/DA16B8C02EF49982\",\"operationId\":\"DA16B8C02EF49982\",\"properties\":{\"provisioningOperation\":\"Create\",\"provisioningState\":\"Succeeded\",\"timestamp\":\"2020-07-18T04:47:28.3811592Z\",\"duration\":\"PT2.1586382S\",\"trackingId\":\"0d725981-cd42-408b-b0cd-dfa9c177409f\",\"serviceRequestId\":\"a0230e00-266b-462e-897f-9af663d25851\",\"statusCode\":\"OK\",\"targetResource\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3/config/web\",\"resourceType\":\"Microsoft.Web/sites/config\",\"resourceName\":\"wnrsat08103904891d3/web\"}}},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb/operations/5E073D23EE3C2B6E\",\"operationId\":\"5E073D23EE3C2B6E\",\"properties\":{\"provisioningOperation\":\"Create\",\"provisioningState\":\"Succeeded\",\"timestamp\":\"2020-07-18T04:47:26.0793566Z\",\"duration\":\"PT21.9856291S\",\"trackingId\":\"c9fcb012-330d-4941-9e3f-d2c0bda9d805\",\"serviceRequestId\":\"4544db1d-4b7d-41ae-8364-47f9b2c689b7\",\"statusCode\":\"OK\",\"targetResource\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/sites/wnrsat08103904891d3\",\"resourceType\":\"Microsoft.Web/sites\",\"resourceName\":\"wnrsat08103904891d3\"}}},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb/operations/09D04692EF5175B8\",\"operationId\":\"09D04692EF5175B8\",\"properties\":{\"provisioningOperation\":\"Create\",\"provisioningState\":\"Succeeded\",\"timestamp\":\"2020-07-18T04:47:04.0375118Z\",\"duration\":\"PT11.5437502S\",\"trackingId\":\"b9fcfb13-a34c-459f-b3c2-f289f7514484\",\"serviceRequestId\":\"e203649d-6d85-4cbe-96a1-e7fa70081bf9\",\"statusCode\":\"OK\",\"targetResource\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Web/serverfarms/hprsata7c8154886748\",\"resourceType\":\"Microsoft.Web/serverfarms\",\"resourceName\":\"hprsata7c8154886748\"}}},{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgrsat7b341590aad90/providers/Microsoft.Resources/deployments/dprsat546210144b1bb/operations/08586065592787143988\",\"operationId\":\"08586065592787143988\",\"properties\":{\"provisioningOperation\":\"EvaluateDeploymentOutput\",\"provisioningState\":\"Succeeded\",\"timestamp\":\"2020-07-18T04:47:28.4422189Z\",\"duration\":\"PT0.036201S\",\"trackingId\":\"65ba4422-5071-46bc-8566-288c484dd085\",\"statusCode\":\"OK\"}}]}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsatb52254889af32?api-version=2019-08-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgrsat7b341590aad90?api-version=2020-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2020-06-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Thu, 17 Oct 2019 13:05:06 GMT",
+      "date" : "Sat, 18 Jul 2020 04:47:59 GMT",
       "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14997",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "f389fb24-78e2-4ee2-bb64-2f0287435767",
+      "x-ms-correlation-request-id" : "654b6886-d762-4a9f-8c50-182f4191fd30",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T130507Z:f389fb24-78e2-4ee2-bb64-2f0287435767",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR1JTQVRCNTIyNTQ4ODlBRjMyLUVBU1RVUzIiLCJqb2JMb2NhdGlvbiI6ImVhc3R1czIifQ?api-version=2019-08-01",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20200718T044800Z:654b6886-d762-4a9f-8c50-182f4191fd30",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1SR1JTQVQ3QjM0MTU5MEFBRDkwLUVBU1RVUzIiLCJqb2JMb2NhdGlvbiI6ImVhc3R1czIifQ?api-version=2020-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "f389fb24-78e2-4ee2-bb64-2f0287435767",
+      "x-ms-request-id" : "654b6886-d762-4a9f-8c50-182f4191fd30",
       "Body" : ""
     }
   } ],
-  "variables" : [ "rgrsatb52254889af32", "dprsat9ff84220527cc", "hprsat9aa92131ff029", "wnrsat2126929416a59", "1edf83a3-2420-47ce-b169-ac5c62308a0f", "f7d7d510-b70a-4030-8c74-046a075feb30" ]
+  "variables" : [ "rgrsat7b341590aad90", "dprsat546210144b1bb", "hprsata7c8154886748", "wnrsat08103904891d3", "f5fcfe40-c01f-4ce7-8331-525fe7ae8512", "04d00a56-ac8a-47f3-9830-0f4afa3e62d5", "965612bf-b34d-404e-aac9-64b7db5fb958" ]
 }

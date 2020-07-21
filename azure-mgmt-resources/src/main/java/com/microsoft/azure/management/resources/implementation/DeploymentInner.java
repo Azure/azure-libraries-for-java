@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.management.resources.DeploymentProperties;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -26,6 +27,12 @@ public class DeploymentInner {
      */
     @JsonProperty(value = "properties", required = true)
     private DeploymentProperties properties;
+
+    /**
+     * Deployment tags.
+     */
+    @JsonProperty(value = "tags")
+    private Map<String, String> tags;
 
     /**
      * Get the location to store the deployment data.
@@ -64,6 +71,26 @@ public class DeploymentInner {
      */
     public DeploymentInner withProperties(DeploymentProperties properties) {
         this.properties = properties;
+        return this;
+    }
+
+    /**
+     * Get deployment tags.
+     *
+     * @return the tags value
+     */
+    public Map<String, String> tags() {
+        return this.tags;
+    }
+
+    /**
+     * Set deployment tags.
+     *
+     * @param tags the tags value to set
+     * @return the DeploymentInner object itself.
+     */
+    public DeploymentInner withTags(Map<String, String> tags) {
+        this.tags = tags;
         return this;
     }
 

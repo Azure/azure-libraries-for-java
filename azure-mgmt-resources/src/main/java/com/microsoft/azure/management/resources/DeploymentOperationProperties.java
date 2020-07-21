@@ -16,6 +16,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DeploymentOperationProperties {
     /**
+     * The name of the current provisioning operation. Possible values include:
+     * 'NotSpecified', 'Create', 'Delete', 'Waiting',
+     * 'AzureAsyncOperationWaiting', 'ResourceCacheWaiting', 'Action', 'Read',
+     * 'EvaluateDeploymentOutput', 'DeploymentCleanup'.
+     */
+    @JsonProperty(value = "provisioningOperation", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningOperation provisioningOperation;
+
+    /**
      * The state of the provisioning.
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
@@ -40,16 +49,19 @@ public class DeploymentOperationProperties {
     private String serviceRequestId;
 
     /**
-     * Operation status code.
+     * Operation status code from the resource provider. This property may not
+     * be set if a response has not yet been received.
      */
     @JsonProperty(value = "statusCode", access = JsonProperty.Access.WRITE_ONLY)
     private String statusCode;
 
     /**
-     * Operation status message.
+     * Operation status message from the resource provider. This property is
+     * optional.  It will only be provided if an error was received from the
+     * resource provider.
      */
     @JsonProperty(value = "statusMessage", access = JsonProperty.Access.WRITE_ONLY)
-    private Object statusMessage;
+    private StatusMessage statusMessage;
 
     /**
      * The target resource.
@@ -68,6 +80,15 @@ public class DeploymentOperationProperties {
      */
     @JsonProperty(value = "response", access = JsonProperty.Access.WRITE_ONLY)
     private HttpMessage response;
+
+    /**
+     * Get the name of the current provisioning operation. Possible values include: 'NotSpecified', 'Create', 'Delete', 'Waiting', 'AzureAsyncOperationWaiting', 'ResourceCacheWaiting', 'Action', 'Read', 'EvaluateDeploymentOutput', 'DeploymentCleanup'.
+     *
+     * @return the provisioningOperation value
+     */
+    public ProvisioningOperation provisioningOperation() {
+        return this.provisioningOperation;
+    }
 
     /**
      * Get the state of the provisioning.
@@ -106,7 +127,7 @@ public class DeploymentOperationProperties {
     }
 
     /**
-     * Get operation status code.
+     * Get operation status code from the resource provider. This property may not be set if a response has not yet been received.
      *
      * @return the statusCode value
      */
@@ -115,11 +136,11 @@ public class DeploymentOperationProperties {
     }
 
     /**
-     * Get operation status message.
+     * Get operation status message from the resource provider. This property is optional.  It will only be provided if an error was received from the resource provider.
      *
      * @return the statusMessage value
      */
-    public Object statusMessage() {
+    public StatusMessage statusMessage() {
         return this.statusMessage;
     }
 

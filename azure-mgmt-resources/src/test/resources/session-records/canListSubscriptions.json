@@ -1,28 +1,28 @@
 {
   "networkCallRecords" : [ {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions?api-version=2016-06-01",
+    "Uri" : "http://localhost:1234/subscriptions?api-version=2020-01-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:f82fa839f6b46fd84edc56e01cf7c8c6d4faaa2190534aff5c1d17095f0a3c13 Java:1.8.0_221 (SubscriptionClient, 2016-06-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (SubscriptionClient, 2020-01-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Sat, 19 Oct 2019 12:05:44 GMT",
-      "content-length" : "353",
+      "date" : "Tue, 21 Jul 2020 05:47:07 GMT",
+      "content-length" : "460",
       "expires" : "-1",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "e8568752-6f87-4b16-8ed6-cf909b65f09b",
-      "x-ms-ratelimit-remaining-tenant-reads" : "11999",
+      "x-ms-correlation-request-id" : "a99b6275-19a8-4218-a007-2af6cdc4d6e1",
+      "x-ms-ratelimit-remaining-tenant-reads" : "11998",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191019T120544Z:e8568752-6f87-4b16-8ed6-cf909b65f09b",
+      "x-ms-routing-request-id" : "KOREASOUTH:20200721T054708Z:a99b6275-19a8-4218-a007-2af6cdc4d6e1",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "e8568752-6f87-4b16-8ed6-cf909b65f09b",
-      "Body" : "{\"value\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000\",\"authorizationSource\":\"RoleBased\",\"subscriptionId\":\"00000000-0000-0000-0000-000000000000\",\"displayName\":\"Java Libs Tests with TTL = 2 Days\",\"state\":\"Enabled\",\"subscriptionPolicies\":{\"locationPlacementId\":\"Internal_2014-09-01\",\"quotaId\":\"Internal_2014-09-01\",\"spendingLimit\":\"Off\"}}]}"
+      "x-ms-request-id" : "a99b6275-19a8-4218-a007-2af6cdc4d6e1",
+      "Body" : "{\"value\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000\",\"authorizationSource\":\"RoleBased\",\"managedByTenants\":[],\"subscriptionId\":\"00000000-0000-0000-0000-000000000000\",\"tenantId\":\"00000000-0000-0000-0000-000000000000\",\"displayName\":\"Java Libs Tests with TTL = 7 Days\",\"state\":\"Enabled\",\"subscriptionPolicies\":{\"locationPlacementId\":\"Internal_2014-09-01\",\"quotaId\":\"Internal_2014-09-01\",\"spendingLimit\":\"Off\"}}],\"count\":{\"type\":\"Total\",\"value\":1}}"
     }
   } ],
   "variables" : [ ]

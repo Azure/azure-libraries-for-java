@@ -31,6 +31,8 @@ public class SubscriptionsTests extends TestBase {
     public void canListSubscriptions() throws Exception {
         PagedList<Subscription> subscriptions = resourceManager.subscriptions().list();
         Assert.assertTrue(subscriptions.size() > 0);
+        Subscription subscription = subscriptions.get(0);
+        Assert.assertNotNull(subscription.tenantId());
     }
 
     @Test

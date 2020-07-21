@@ -13,6 +13,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.implementation.SubscriptionInner;
 
+import java.util.List;
+
 /**
  * An immutable client-side representation of an Azure subscription.
  */
@@ -25,6 +27,11 @@ public interface Subscription extends
      * @return the UUID of the subscription
      */
     String subscriptionId();
+
+    /**
+     * @return the UUID of the subscription tenant
+     */
+    String tenantId();
 
     /**
      * @return the name of the subscription for humans to read
@@ -40,6 +47,11 @@ public interface Subscription extends
      * @return the policies defined in the subscription
      */
     SubscriptionPolicies subscriptionPolicies();
+
+    /**
+     * @return the array containing the tenants managing the subscription
+     */
+    List<ManagedByTenant> managedByTenants();
 
     /**
      * List the locations the subscription has access to.

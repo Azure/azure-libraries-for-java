@@ -9,6 +9,7 @@ package com.microsoft.azure.management.resources.implementation;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.resources.Location;
+import com.microsoft.azure.management.resources.ManagedByTenant;
 import com.microsoft.azure.management.resources.Subscription;
 import com.microsoft.azure.management.resources.SubscriptionPolicies;
 import com.microsoft.azure.management.resources.SubscriptionState;
@@ -40,6 +41,11 @@ final class SubscriptionImpl extends
     }
 
     @Override
+    public String tenantId() {
+        return this.inner().tenantId();
+    }
+
+    @Override
     public String displayName() {
         return this.inner().displayName();
     }
@@ -52,6 +58,11 @@ final class SubscriptionImpl extends
     @Override
     public SubscriptionPolicies subscriptionPolicies() {
         return this.inner().subscriptionPolicies();
+    }
+
+    @Override
+    public List<ManagedByTenant> managedByTenants() {
+        return this.inner().managedByTenants();
     }
 
     @Override

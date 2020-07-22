@@ -42,36 +42,21 @@ public final class AuxiliaryCredentialsInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
         if (!response.isSuccessful() && tokenCredentials != null && this.tokenCredentials.length > 0) {
-            String content = errorBody(response.body());
-            AzureJacksonAdapter jacksonAdapter = new AzureJacksonAdapter();
-            CloudError cloudError = jacksonAdapter.deserialize(content, CloudError.class);
-            if (cloudError != null && LINKED_AUTHORIZATION_FAILED.equals(cloudError.code())) {
-                StringBuffer buff = new StringBuffer();
-                for (int i = 0; i < tokenCredentials.length; i++) {
-                    buff.append(SCHEMA);
-                    buff.append(" ");
-                    buff.append(tokenCredentials[i].getToken(chain.request().url().scheme() + "://" + chain.request().url().host()));
-                    if (i < tokenCredentials.length - 1) {
-                        buff.append(",");
-                    }
+            StringBuffer buff = new StringBuffer();
+            for (int i = 0; i < tokenCredentials.length; i++) {
+                buff.append(SCHEMA);
+                buff.append(" ");
+                buff.append(tokenCredentials[i].getToken(chain.request().url().scheme() + "://" + chain.request().url().host()));
+                if (i < tokenCredentials.length - 1) {
+                    buff.append(",");
                 }
-                Request request = chain.request().newBuilder()
-                        .header(AUTHORIZATION_AUXILIARY_HEADER, buff.toString())
-                        .build();
-                // Retry
-                return chain.proceed(request);
             }
+            Request request = chain.request().newBuilder()
+                    .header(AUTHORIZATION_AUXILIARY_HEADER, buff.toString())
+                    .build();
+            // Retry
+            return chain.proceed(request);
         }
         return response;
-    }
-
-    private String errorBody(ResponseBody responseBody) throws IOException {
-        if (responseBody == null) {
-            return null;
-        }
-        BufferedSource source = responseBody.source();
-        source.request(Long.MAX_VALUE); // Buffer the entire body.
-        Buffer buffer = source.buffer();
-        return buffer.clone().readUtf8();
     }
 }

@@ -35,19 +35,22 @@ public final class AuxiliaryCredentialsInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        StringBuffer buff = new StringBuffer();
-        for (int i = 0; i < tokenCredentials.length; i++) {
-            buff.append(SCHEMA);
-            buff.append(" ");
-            buff.append(tokenCredentials[i].getToken(chain.request().url().scheme() + "://" + chain.request().url().host()));
-            if (i < tokenCredentials.length - 1) {
-                buff.append(",");
+        if (tokenCredentials != null && tokenCredentials.length > 0) {
+            StringBuffer buff = new StringBuffer();
+            for (int i = 0; i < tokenCredentials.length; i++) {
+                buff.append(SCHEMA);
+                buff.append(" ");
+                buff.append(tokenCredentials[i].getToken(chain.request().url().scheme() + "://" + chain.request().url().host()));
+                if (i < tokenCredentials.length - 1) {
+                    buff.append(",");
+                }
             }
+            Request request = chain.request().newBuilder()
+                    .header(AUTHORIZATION_AUXILIARY_HEADER, buff.toString())
+                    .build();
+            // Retry
+            return chain.proceed(request);
         }
-        Request request = chain.request().newBuilder()
-                .header(AUTHORIZATION_AUXILIARY_HEADER, buff.toString())
-                .build();
-        // Retry
-        return chain.proceed(request);
+        return chain.proceed(chain.request());
     }
 }

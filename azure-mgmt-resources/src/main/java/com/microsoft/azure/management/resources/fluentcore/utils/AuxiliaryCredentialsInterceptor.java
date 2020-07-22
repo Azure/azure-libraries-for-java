@@ -6,15 +6,10 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
-import com.microsoft.azure.CloudError;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
 
 import java.io.IOException;
 
@@ -40,23 +35,19 @@ public final class AuxiliaryCredentialsInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Response response = chain.proceed(chain.request());
-        if (!response.isSuccessful() && tokenCredentials != null && this.tokenCredentials.length > 0) {
-            StringBuffer buff = new StringBuffer();
-            for (int i = 0; i < tokenCredentials.length; i++) {
-                buff.append(SCHEMA);
-                buff.append(" ");
-                buff.append(tokenCredentials[i].getToken(chain.request().url().scheme() + "://" + chain.request().url().host()));
-                if (i < tokenCredentials.length - 1) {
-                    buff.append(",");
-                }
+        StringBuffer buff = new StringBuffer();
+        for (int i = 0; i < tokenCredentials.length; i++) {
+            buff.append(SCHEMA);
+            buff.append(" ");
+            buff.append(tokenCredentials[i].getToken(chain.request().url().scheme() + "://" + chain.request().url().host()));
+            if (i < tokenCredentials.length - 1) {
+                buff.append(",");
             }
-            Request request = chain.request().newBuilder()
-                    .header(AUTHORIZATION_AUXILIARY_HEADER, buff.toString())
-                    .build();
-            // Retry
-            return chain.proceed(request);
         }
-        return response;
+        Request request = chain.request().newBuilder()
+                .header(AUTHORIZATION_AUXILIARY_HEADER, buff.toString())
+                .build();
+        // Retry
+        return chain.proceed(request);
     }
 }

@@ -1699,13 +1699,17 @@ class VirtualMachineImpl
 
     @Override
     public ProximityPlacementGroup proximityPlacementGroup() {
-        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
-        ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
-       if (plgInner == null) {
-           return null;
-       } else {
-           return new ProximityPlacementGroupImpl(plgInner);
-       }
+        if (inner().proximityPlacementGroup() == null) {
+            return null;
+        } else {
+            ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
+            ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
+            if (plgInner == null) {
+                return null;
+            } else {
+                return new ProximityPlacementGroupImpl(plgInner);
+            }
+        }
     }
 
     @Override

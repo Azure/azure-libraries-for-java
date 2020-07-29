@@ -86,12 +86,16 @@ class AvailabilitySetImpl
 
     @Override
     public ProximityPlacementGroup proximityPlacementGroup() {
-        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
-        ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
-        if (plgInner == null) {
+        if (inner().proximityPlacementGroup() == null) {
             return null;
         } else {
-            return new ProximityPlacementGroupImpl(plgInner);
+            ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
+            ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
+            if (plgInner == null) {
+                return null;
+            } else {
+                return new ProximityPlacementGroupImpl(plgInner);
+            }
         }
     }
 

@@ -42,7 +42,7 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
         if (subscriptionId == null) {
             subscriptionId = "global";
         }
-        String subscriptionAndMethod = subscriptionId + "|" + chain.request().method().toLowerCase(Locale.ROOT);
+        final String subscriptionAndMethod = subscriptionId + "|" + chain.request().method().toLowerCase(Locale.ROOT);
         REENTRANT_LOCK_MAP.putIfAbsent(subscriptionAndMethod, new ReentrantLock());
         try {
             synchronized (REENTRANT_LOCK_MAP.get(subscriptionAndMethod)) {

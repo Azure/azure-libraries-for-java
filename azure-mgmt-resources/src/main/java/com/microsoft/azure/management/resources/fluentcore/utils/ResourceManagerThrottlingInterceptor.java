@@ -18,6 +18,7 @@ import org.joda.time.Duration;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -41,11 +42,12 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
         if (subscriptionId == null) {
             subscriptionId = "global";
         }
-        REENTRANT_LOCK_MAP.putIfAbsent(subscriptionId, new ReentrantLock());
+        final String subscriptionAndMethod = subscriptionId + "|" + chain.request().method().toLowerCase(Locale.ROOT);
+        REENTRANT_LOCK_MAP.putIfAbsent(subscriptionAndMethod, new ReentrantLock());
         try {
-            synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
-                if (REENTRANT_LOCK_MAP.get(subscriptionId).isLocked()) {
-                    REENTRANT_LOCK_MAP.get(subscriptionId).wait();
+            synchronized (REENTRANT_LOCK_MAP.get(subscriptionAndMethod)) {
+                if (REENTRANT_LOCK_MAP.get(subscriptionAndMethod).isLocked()) {
+                    REENTRANT_LOCK_MAP.get(subscriptionAndMethod).wait();
                 }
             }
         } catch (InterruptedException e) {
@@ -57,13 +59,13 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
         }
 
         try {
-            synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
-                if (REENTRANT_LOCK_MAP.get(subscriptionId).isLocked()) {
+            synchronized (REENTRANT_LOCK_MAP.get(subscriptionAndMethod)) {
+                if (REENTRANT_LOCK_MAP.get(subscriptionAndMethod).isLocked()) {
                     response.close();
-                    REENTRANT_LOCK_MAP.get(subscriptionId).wait();
+                    REENTRANT_LOCK_MAP.get(subscriptionAndMethod).wait();
                     return chain.proceed(chain.request());
                 } else {
-                    REENTRANT_LOCK_MAP.get(subscriptionId).lock();
+                    REENTRANT_LOCK_MAP.get(subscriptionAndMethod).lock();
                 }
             }
         } catch (InterruptedException e) {
@@ -112,9 +114,9 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
             throw new IOException(t);
         } finally {
             response.close();
-            synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
-                REENTRANT_LOCK_MAP.get(subscriptionId).unlock();
-                REENTRANT_LOCK_MAP.get(subscriptionId).notifyAll();
+            synchronized (REENTRANT_LOCK_MAP.get(subscriptionAndMethod)) {
+                REENTRANT_LOCK_MAP.get(subscriptionAndMethod).unlock();
+                REENTRANT_LOCK_MAP.get(subscriptionAndMethod).notifyAll();
             }
         }
     }

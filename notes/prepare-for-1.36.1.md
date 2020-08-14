@@ -26,14 +26,14 @@ The following methods and/or types have been changed in V1.36.1 compared to the 
     <td><code>.withPopularLunixImage(KnownLinuxVirtualMachineImage.DEBIAN_8)</code></td>
     <td><code>.withLatestLinuxImage("credativ", "Debian", "8")</code></td>
     <td>Similar to other removed linux images</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/1247">#1247</a></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/1249">#1249</a></td>
   </tr>
   <tr>
     <td><code>KnownWindowsVirtualMachineImage</code></td>
     <td><code>.withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2008_R2_SP1)</code></td>
     <td><code>.withLatestWindowsImage("MicrosoftWindowsServer", "WindowsServer", "2008-R2-SP1")</code></td>
     <td>Similar to other removed windows images</td>
-    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/1247">#1247</a></td>
+    <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/1249">#1249</a></td>
   </tr>  
 </table>
 

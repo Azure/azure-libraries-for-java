@@ -10,7 +10,9 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.FunctionApp;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlot;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlot.DefinitionStages.WithCreate;
+import com.microsoft.azure.management.appservice.SitePatchResource;
 import rx.Completable;
+import rx.Observable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -71,5 +73,16 @@ class FunctionDeploymentSlotImpl
         } catch (IOException e) {
             return Completable.error(e);
         }
+    }
+
+    @Override
+    Observable<SiteInner> submitSite(final SiteInner site) {
+        return submitSiteWithoutSiteConfig(site);
+    }
+
+    @Override
+    Observable<SiteInner> submitSite(final SitePatchResource siteUpdate) {
+        // PATCH does not work for function app slot
+        return submitSiteWithoutSiteConfig(this.inner());
     }
 }

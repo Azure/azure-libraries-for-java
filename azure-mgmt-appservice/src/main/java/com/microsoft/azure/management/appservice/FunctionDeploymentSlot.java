@@ -61,6 +61,7 @@ public interface FunctionDeploymentSlot extends
              *
              * @return the next stage of the definition
              */
+            @Deprecated
             WithCreate withBrandNewConfiguration();
 
             /**

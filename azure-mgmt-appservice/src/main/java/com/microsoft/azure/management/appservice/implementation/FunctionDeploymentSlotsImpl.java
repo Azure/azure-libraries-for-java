@@ -46,8 +46,8 @@ class FunctionDeploymentSlotsImpl
             @Override
             public Observable<FunctionDeploymentSlot> typeConvertAsync(final SiteInner siteInner) {
                 return Observable.zip(
-                        innerCollection.getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
-                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name()),
+                        innerCollection.getConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name().replaceAll(".*/", "")),
+                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(siteInner.resourceGroup(), parent.name(), siteInner.name().replaceAll(".*/", "")),
                         new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionDeploymentSlot>() {
                             @Override
                             public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
@@ -91,8 +91,8 @@ class FunctionDeploymentSlotsImpl
                     return null;
                 }
                 return Observable.zip(
-                        innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name),
-                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(resourceGroup, parentName, name),
+                        innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name.replaceAll(".*/", "")),
+                        innerCollection.getDiagnosticLogsConfigurationSlotAsync(resourceGroup, parentName, name.replaceAll(".*/", "")),
                         new Func2<SiteConfigResourceInner, SiteLogsConfigInner, FunctionDeploymentSlot>() {
                             @Override
                             public FunctionDeploymentSlot call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {

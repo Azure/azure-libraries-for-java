@@ -923,6 +923,10 @@ abstract class WebAppBaseImpl<
 
     Observable<SiteInner> submitSite(final SiteInner site) {
         site.withSiteConfig(new SiteConfig());
+        return submitSiteWithoutSiteConfig(site);
+    }
+
+    Observable<SiteInner> submitSiteWithoutSiteConfig(final SiteInner site) {
         // Construct web app observable
         return createOrUpdateInner(site)
                 .map(new Func1<SiteInner, SiteInner>() {

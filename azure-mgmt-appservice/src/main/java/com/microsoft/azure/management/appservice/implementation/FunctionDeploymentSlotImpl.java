@@ -11,6 +11,7 @@ import com.microsoft.azure.management.appservice.FunctionApp;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlot;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlot.DefinitionStages.WithCreate;
 import rx.Completable;
+import rx.Observable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -71,5 +72,10 @@ class FunctionDeploymentSlotImpl
         } catch (IOException e) {
             return Completable.error(e);
         }
+    }
+
+    @Override
+    Observable<SiteInner> submitSite(final SiteInner site) {
+        return submitSiteWithoutSiteConfig(site);
     }
 }

@@ -16,8 +16,10 @@ import com.microsoft.azure.management.appservice.AppSetting;
 import com.microsoft.azure.management.appservice.ConnectionString;
 import com.microsoft.azure.management.appservice.CsmPublishingProfileOptions;
 import com.microsoft.azure.management.appservice.CsmSlotEntity;
+import com.microsoft.azure.management.appservice.DeploymentSlotBase;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.MSDeploy;
+import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PublishingProfile;
 import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.WebAppBase;
@@ -45,10 +47,18 @@ abstract class DeploymentSlotBaseImpl<
         ParentImplT extends AppServiceBaseImpl<?, ?, ?, ?>,
         FluentWithCreateT,
         FluentUpdateT>
-        extends WebAppBaseImpl<FluentT, FluentImplT> {
+        extends WebAppBaseImpl<FluentT, FluentImplT>
+        implements DeploymentSlotBase<FluentT>, DeploymentSlotBase.Update<FluentT> {
     private final ParentImplT parent;
     private final String name;
     WebAppBase configurationSource;
+
+    private static final String SETTING_FUNCTIONS_WORKER_RUNTIME = "FUNCTIONS_WORKER_RUNTIME";
+    private static final String SETTING_FUNCTIONS_EXTENSION_VERSION = "FUNCTIONS_EXTENSION_VERSION";
+    protected static final String SETTING_DOCKER_IMAGE = "DOCKER_CUSTOM_IMAGE_NAME";
+    protected static final String SETTING_REGISTRY_SERVER = "DOCKER_REGISTRY_SERVER_URL";
+    protected static final String SETTING_REGISTRY_USERNAME = "DOCKER_REGISTRY_SERVER_USERNAME";
+    protected static final String SETTING_REGISTRY_PASSWORD = "DOCKER_REGISTRY_SERVER_PASSWORD";
 
     DeploymentSlotBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, final ParentImplT parent) {
         super(name.replaceAll(".*/", ""), innerObject, siteConfig, logConfig, parent.manager());
@@ -446,5 +456,65 @@ abstract class DeploymentSlotBaseImpl<
                         return null;
                     }
                 }).toCompletable();
+    }
+
+    @Override
+    public FluentImplT withRuntime(String runtime) {
+        return withAppSetting(SETTING_FUNCTIONS_WORKER_RUNTIME, runtime);
+    }
+
+    @Override
+    public FluentImplT withRuntimeVersion(String version) {
+        return withAppSetting(SETTING_FUNCTIONS_EXTENSION_VERSION, version.startsWith("~") ? version : "~" + version);
+    }
+
+    @Override
+    public FluentImplT withLatestRuntimeVersion() {
+        return withRuntimeVersion("latest");
+    }
+
+    @Override
+    public FluentImplT withPublicDockerHubImage(String imageAndTag) {
+        cleanUpContainerSettings();
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
+        return withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
+    }
+
+    @Override
+    public FluentImplT withPrivateDockerHubImage(String imageAndTag) {
+        return withPublicDockerHubImage(imageAndTag);
+    }
+
+    @Override
+    public FluentImplT withPrivateRegistryImage(String imageAndTag, String serverUrl) {
+        imageAndTag = Utils.smartCompletionPrivateRegistryImage(imageAndTag, serverUrl);
+
+        cleanUpContainerSettings();
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
+        withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
+        return withAppSetting(SETTING_REGISTRY_SERVER, serverUrl);
+    }
+
+    @Override
+    public FluentImplT withCredentials(String username, String password) {
+        withAppSetting(SETTING_REGISTRY_USERNAME, username);
+        return withAppSetting(SETTING_REGISTRY_PASSWORD, password);
+    }
+
+    protected void cleanUpContainerSettings() {
+        if (siteConfig != null && siteConfig.linuxFxVersion() != null) {
+            siteConfig.withLinuxFxVersion(null);
+        }
+        // Docker Hub
+        withoutAppSetting(SETTING_DOCKER_IMAGE);
+        withoutAppSetting(SETTING_REGISTRY_SERVER);
+        withoutAppSetting(SETTING_REGISTRY_USERNAME);
+        withoutAppSetting(SETTING_REGISTRY_PASSWORD);
     }
 }

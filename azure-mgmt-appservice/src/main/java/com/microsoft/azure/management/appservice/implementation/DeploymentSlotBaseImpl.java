@@ -19,7 +19,6 @@ import com.microsoft.azure.management.appservice.CsmSlotEntity;
 import com.microsoft.azure.management.appservice.DeploymentSlotBase;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.MSDeploy;
-import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PublishingProfile;
 import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.WebAppBase;

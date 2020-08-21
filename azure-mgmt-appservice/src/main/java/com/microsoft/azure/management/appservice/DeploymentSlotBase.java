@@ -12,6 +12,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 
 /**
  * An immutable client-side representation of an Azure Web App deployment slot.
+ *
+ * @param <FluentT> the type of the resource
  */
 @Beta
 public interface DeploymentSlotBase<FluentT> extends

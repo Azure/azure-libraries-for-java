@@ -10,6 +10,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Ignore;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
@@ -127,5 +128,29 @@ public class FunctionDeploymentSlotsTests extends AppServiceTest {
         Assert.assertEquals("slot2value", slot1AppSettings.get("slot2key").value());
         Assert.assertEquals("sticky2value", slot3AppSettings.get("sticky2key").value());
         Assert.assertEquals("stickyvalue", slot3AppSettings.get("stickykey").value());
+    }
+
+    private static final String FUNCTION_APP_PACKAGE_URL =
+            "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-mgmt-appservice/src/test/resources/java-functions.zip";
+
+    @Test
+    public void canCRUDFunctionSlots() {
+        FunctionApp functionApp1 = appServiceManager.functionApps().define(WEBAPP_NAME_1)
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(RG_NAME)
+                .withNewLinuxAppServicePlan(PricingTier.STANDARD_S1)
+                .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
+                .withHttpsOnly(true)
+                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
+                .create();
+        Assert.assertNotNull(functionApp1);
+
+        FunctionDeploymentSlot slot1 = functionApp1.deploymentSlots().define("slot1")
+                .withConfigurationFromParent()
+                .create();
+
+        slot1.update()
+                .withPublicDockerHubImage("wordpress")
+                .apply();
     }
 }

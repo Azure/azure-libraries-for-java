@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.appservice.DeploymentSlotBase;
 import com.microsoft.azure.management.appservice.FunctionApp;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlot;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlot.DefinitionStages.WithCreate;
@@ -29,11 +30,11 @@ class FunctionDeploymentSlotImpl
             FunctionDeploymentSlotImpl,
             FunctionAppImpl,
             FunctionDeploymentSlot.DefinitionStages.WithCreate,
-            FunctionDeploymentSlot.Update>
+            DeploymentSlotBase<FunctionDeploymentSlot>>
         implements
         FunctionDeploymentSlot,
         FunctionDeploymentSlot.Definition,
-        FunctionDeploymentSlot.Update {
+        DeploymentSlotBase.Update<FunctionDeploymentSlot> {
 
     FunctionDeploymentSlotImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, FunctionAppImpl parent) {
         super(name, innerObject, siteConfig, logConfig, parent);

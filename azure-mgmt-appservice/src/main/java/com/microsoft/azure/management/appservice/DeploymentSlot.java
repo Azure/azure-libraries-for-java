@@ -29,9 +29,9 @@ import java.io.InputStream;
 @Beta
 public interface DeploymentSlot extends
         IndependentChildResource<AppServiceManager, SiteInner>,
-        WebAppBase,
+        DeploymentSlotBase<DeploymentSlot>,
         Refreshable<DeploymentSlot>,
-        Updatable<DeploymentSlot.Update>,
+        Updatable<DeploymentSlotBase.Update<DeploymentSlot>>,
         HasParent<WebApp> {
 
     /**
@@ -167,7 +167,7 @@ public interface DeploymentSlot extends
      * The template for a web app update operation, containing all the settings that can be modified.
      */
     interface Update extends
-        Appliable<DeploymentSlot>,
-        WebAppBase.Update<DeploymentSlot> {
+            Appliable<DeploymentSlot>,
+            DeploymentSlotBase.Update<DeploymentSlot> {
     }
 }

@@ -60,14 +60,16 @@ class BlobContainerImpl extends CreatableUpdatableImpl<BlobContainer, BlobContai
     @Override
     public Observable<BlobContainer> createResourceAsync() {
         BlobContainersInner client = this.manager().inner().blobContainers();
-        return client.createAsync(this.resourceGroupName, this.accountName, this.containerName, this.cpublicAccess, this.cmetadata)
+        BlobContainerInner inner = new BlobContainerInner().withPublicAccess(this.cpublicAccess).withMetadata(this.cmetadata);
+        return client.createAsync(this.resourceGroupName, this.accountName, this.containerName, inner)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public Observable<BlobContainer> updateResourceAsync() {
         BlobContainersInner client = this.manager().inner().blobContainers();
-        return client.updateAsync(this.resourceGroupName, this.accountName, this.containerName, this.upublicAccess, this.umetadata)
+        BlobContainerInner inner = new BlobContainerInner().withPublicAccess(this.upublicAccess).withMetadata(this.umetadata);
+        return client.updateAsync(this.resourceGroupName, this.accountName, this.containerName, inner)
                 .map(innerToFluentMap(this));
     }
 

@@ -160,7 +160,7 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
     @Override
     public Observable<ImmutabilityPolicy> extendImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, int immutabilityPeriodSinceCreationInDays) {
         BlobContainersInner client = this.inner();
-        return client.extendImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch, immutabilityPeriodSinceCreationInDays)
+        return client.extendImmutabilityPolicyAsync(resourceGroupName, accountName, containerName, ifMatch, immutabilityPeriodSinceCreationInDays, null)
                 .map(new Func1<ImmutabilityPolicyInner, ImmutabilityPolicy>() {
                     @Override
                     public ImmutabilityPolicy call(ImmutabilityPolicyInner inner) {

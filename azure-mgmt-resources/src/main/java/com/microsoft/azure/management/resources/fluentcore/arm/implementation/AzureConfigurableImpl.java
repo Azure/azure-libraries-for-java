@@ -20,10 +20,8 @@ import okhttp3.Authenticator;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 
-import java.lang.reflect.Field;
 import java.net.Proxy;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -145,15 +143,7 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
     @SuppressWarnings("unchecked")
     @Override
     public T withProtocols(List<Protocol> protocols) {
-        try {
-            Field builderField = RestClient.Builder.class.getDeclaredField("httpClientBuilder");
-            builderField.setAccessible(true);
-            OkHttpClient.Builder builder = (OkHttpClient.Builder) builderField.get(restClientBuilder);
-            builder.protocols(protocols);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
+        this.restClientBuilder.withProtocols(protocols);
         return (T) this;
     }
 

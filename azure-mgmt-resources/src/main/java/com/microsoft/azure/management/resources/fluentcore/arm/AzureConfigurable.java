@@ -132,5 +132,10 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      */
     T withProxyAuthenticator(Authenticator proxyAuthenticator);
 
+    /**
+     * Sets the HTTP network protocols for HTTP client.
+     * @param protocols the HTTP network protocols to use
+     * @return the configurable object itself for chaining
+     */
     T withProtocols(List<Protocol> protocols);
 }

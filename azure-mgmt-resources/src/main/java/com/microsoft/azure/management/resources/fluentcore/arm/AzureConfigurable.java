@@ -12,8 +12,10 @@ import okhttp3.Authenticator;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
+import okhttp3.Protocol;
 
 import java.net.Proxy;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
@@ -129,4 +131,6 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      * @return the configurable object itself for chaining
      */
     T withProxyAuthenticator(Authenticator proxyAuthenticator);
+
+    T withProtocols(List<Protocol> protocols);
 }

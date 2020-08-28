@@ -70,18 +70,6 @@ public final class ManageWebAppSourceControl {
         final String rg7Name         = SdkContext.randomResourceName("rg7NEMV_", 24);
         try {
 
-            WebApp app0 = azure.webApps().define(app1Name)
-                    .withRegion(Region.US_WEST)
-                    .withNewResourceGroup(rgName)
-                    .withNewLinuxPlan(PricingTier.STANDARD_S1)
-                    .withBuiltInImage(RuntimeStack.JAVA_8_JRE8)
-                    .create();
-
-            app0.zipDeploy(new File("C:\\github_lab\\gateway.zip"));
-            //app0.zipDeploy(new File(ManageWebAppSourceControl.class.getResource("/app.zip").getPath()));
-
-            azure.webApps().deleteById(app0.id());
-
 
             //============================================================
             // Create a web app with a new app service plan

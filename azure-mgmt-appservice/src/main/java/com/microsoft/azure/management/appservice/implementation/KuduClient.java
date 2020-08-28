@@ -32,6 +32,7 @@ import rx.functions.Func2;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -189,11 +190,11 @@ class KuduClient {
                 .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
                     @Override
                     public Observable<?> call(Observable<? extends Throwable> observable) {
-                        return observable.zipWith(Observable.range(1, 30), new Func2<Throwable, Integer, Integer>() {
+                        return observable.zipWith(Observable.range(1, 6), new Func2<Throwable, Integer, Integer>() {
                             @Override
                             public Integer call(Throwable throwable, Integer integer) {
                                 if (throwable instanceof CloudException
-                                        && ((CloudException) throwable).response().code() == 502 || throwable instanceof JsonParseException) {
+                                        && ((CloudException) throwable).response().code() == 502 || throwable instanceof JsonParseException || throwable instanceof SocketTimeoutException) {
                                     return integer;
                                 } else {
                                     throw Exceptions.propagate(throwable);
@@ -202,7 +203,7 @@ class KuduClient {
                         }).flatMap(new Func1<Integer, Observable<?>>() {
                             @Override
                             public Observable<?> call(Integer i) {
-                                return Observable.timer(i, TimeUnit.SECONDS);
+                                return Observable.timer(i * 10, TimeUnit.SECONDS);
                             }
                         });
                     }

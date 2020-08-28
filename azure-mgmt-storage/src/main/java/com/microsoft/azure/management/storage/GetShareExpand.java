@@ -12,32 +12,29 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for StorageAccountExpand.
+ * Defines values for GetShareExpand.
  */
-public enum StorageAccountExpand {
-    /** Enum value geoReplicationStats. */
-    GEO_REPLICATION_STATS("geoReplicationStats"),
+public enum GetShareExpand {
+    /** Enum value stats. */
+    STATS("stats");
 
-    /** Enum value blobRestoreStatus. */
-    BLOB_RESTORE_STATUS("blobRestoreStatus");
-
-    /** The actual serialized value for a StorageAccountExpand instance. */
+    /** The actual serialized value for a GetShareExpand instance. */
     private String value;
 
-    StorageAccountExpand(String value) {
+    GetShareExpand(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a StorageAccountExpand instance.
+     * Parses a serialized value to a GetShareExpand instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed StorageAccountExpand object, or null if unable to parse.
+     * @return the parsed GetShareExpand object, or null if unable to parse.
      */
     @JsonCreator
-    public static StorageAccountExpand fromString(String value) {
-        StorageAccountExpand[] items = StorageAccountExpand.values();
-        for (StorageAccountExpand item : items) {
+    public static GetShareExpand fromString(String value) {
+        GetShareExpand[] items = GetShareExpand.values();
+        for (GetShareExpand item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

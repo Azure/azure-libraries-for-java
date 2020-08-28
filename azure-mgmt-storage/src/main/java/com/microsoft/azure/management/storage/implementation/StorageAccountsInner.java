@@ -17,6 +17,8 @@ import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.storage.AccountSasParameters;
+import com.microsoft.azure.management.storage.BlobRestoreParameters;
+import com.microsoft.azure.management.storage.BlobRestoreRange;
 import com.microsoft.azure.management.storage.ListKeyExpand;
 import com.microsoft.azure.management.storage.ServiceSasParameters;
 import com.microsoft.azure.management.storage.StorageAccountCheckNameAvailabilityParameters;
@@ -33,6 +35,7 @@ import com.microsoft.rest.Validator;
 import java.io.IOException;
 import java.util.List;
 import okhttp3.ResponseBody;
+import org.joda.time.DateTime;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -131,6 +134,14 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts beginFailover" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover")
         Observable<Response<ResponseBody>> beginFailover(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts restoreBlobRanges" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges")
+        Observable<Response<ResponseBody>> restoreBlobRanges(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body BlobRestoreParameters parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts beginRestoreBlobRanges" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges")
+        Observable<Response<ResponseBody>> beginRestoreBlobRanges(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body BlobRestoreParameters parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts revokeUserDelegationKeys" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/revokeUserDelegationKeys")
@@ -566,7 +577,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats. Possible values include: 'geoReplicationStats'
+     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats and blobRestoreStatus. Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -581,7 +592,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats. Possible values include: 'geoReplicationStats'
+     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats and blobRestoreStatus. Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -595,7 +606,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats. Possible values include: 'geoReplicationStats'
+     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats and blobRestoreStatus. Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountInner object
      */
@@ -613,7 +624,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats. Possible values include: 'geoReplicationStats'
+     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats and blobRestoreStatus. Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountInner object
      */
@@ -836,7 +847,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
                 @Override
                 public Observable<ServiceResponse<Page<StorageAccountInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<StorageAccountInner>> result = listDelegate(response);
+                        ServiceResponse<PageImpl1<StorageAccountInner>> result = listDelegate(response);
                         return Observable.just(new ServiceResponse<Page<StorageAccountInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -845,9 +856,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
             });
     }
 
-    private ServiceResponse<PageImpl<StorageAccountInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<StorageAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<StorageAccountInner>>() { }.getType())
+    private ServiceResponse<PageImpl1<StorageAccountInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<StorageAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<StorageAccountInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1548,6 +1559,198 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     }
 
     /**
+     * Restore blobs in the specified blob ranges.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the BlobRestoreStatusInner object if successful.
+     */
+    public BlobRestoreStatusInner restoreBlobRanges(String resourceGroupName, String accountName, DateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        return restoreBlobRangesWithServiceResponseAsync(resourceGroupName, accountName, timeToRestore, blobRanges).toBlocking().last().body();
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<BlobRestoreStatusInner> restoreBlobRangesAsync(String resourceGroupName, String accountName, DateTime timeToRestore, List<BlobRestoreRange> blobRanges, final ServiceCallback<BlobRestoreStatusInner> serviceCallback) {
+        return ServiceFuture.fromResponse(restoreBlobRangesWithServiceResponseAsync(resourceGroupName, accountName, timeToRestore, blobRanges), serviceCallback);
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<BlobRestoreStatusInner> restoreBlobRangesAsync(String resourceGroupName, String accountName, DateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        return restoreBlobRangesWithServiceResponseAsync(resourceGroupName, accountName, timeToRestore, blobRanges).map(new Func1<ServiceResponse<BlobRestoreStatusInner>, BlobRestoreStatusInner>() {
+            @Override
+            public BlobRestoreStatusInner call(ServiceResponse<BlobRestoreStatusInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<BlobRestoreStatusInner>> restoreBlobRangesWithServiceResponseAsync(String resourceGroupName, String accountName, DateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (timeToRestore == null) {
+            throw new IllegalArgumentException("Parameter timeToRestore is required and cannot be null.");
+        }
+        if (blobRanges == null) {
+            throw new IllegalArgumentException("Parameter blobRanges is required and cannot be null.");
+        }
+        Validator.validate(blobRanges);
+        BlobRestoreParameters parameters = new BlobRestoreParameters();
+        parameters.withTimeToRestore(timeToRestore);
+        parameters.withBlobRanges(blobRanges);
+        Observable<Response<ResponseBody>> observable = service.restoreBlobRanges(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<BlobRestoreStatusInner>() { }.getType());
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the BlobRestoreStatusInner object if successful.
+     */
+    public BlobRestoreStatusInner beginRestoreBlobRanges(String resourceGroupName, String accountName, DateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        return beginRestoreBlobRangesWithServiceResponseAsync(resourceGroupName, accountName, timeToRestore, blobRanges).toBlocking().single().body();
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<BlobRestoreStatusInner> beginRestoreBlobRangesAsync(String resourceGroupName, String accountName, DateTime timeToRestore, List<BlobRestoreRange> blobRanges, final ServiceCallback<BlobRestoreStatusInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginRestoreBlobRangesWithServiceResponseAsync(resourceGroupName, accountName, timeToRestore, blobRanges), serviceCallback);
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the BlobRestoreStatusInner object
+     */
+    public Observable<BlobRestoreStatusInner> beginRestoreBlobRangesAsync(String resourceGroupName, String accountName, DateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        return beginRestoreBlobRangesWithServiceResponseAsync(resourceGroupName, accountName, timeToRestore, blobRanges).map(new Func1<ServiceResponse<BlobRestoreStatusInner>, BlobRestoreStatusInner>() {
+            @Override
+            public BlobRestoreStatusInner call(ServiceResponse<BlobRestoreStatusInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Restore blobs in the specified blob ranges.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param timeToRestore Restore blob to the specified time.
+     * @param blobRanges Blob ranges to restore.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the BlobRestoreStatusInner object
+     */
+    public Observable<ServiceResponse<BlobRestoreStatusInner>> beginRestoreBlobRangesWithServiceResponseAsync(String resourceGroupName, String accountName, DateTime timeToRestore, List<BlobRestoreRange> blobRanges) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (timeToRestore == null) {
+            throw new IllegalArgumentException("Parameter timeToRestore is required and cannot be null.");
+        }
+        if (blobRanges == null) {
+            throw new IllegalArgumentException("Parameter blobRanges is required and cannot be null.");
+        }
+        Validator.validate(blobRanges);
+        BlobRestoreParameters parameters = new BlobRestoreParameters();
+        parameters.withTimeToRestore(timeToRestore);
+        parameters.withBlobRanges(blobRanges);
+        return service.beginRestoreBlobRanges(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BlobRestoreStatusInner>>>() {
+                @Override
+                public Observable<ServiceResponse<BlobRestoreStatusInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<BlobRestoreStatusInner> clientResponse = beginRestoreBlobRangesDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<BlobRestoreStatusInner> beginRestoreBlobRangesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<BlobRestoreStatusInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<BlobRestoreStatusInner>() { }.getType())
+                .register(202, new TypeToken<BlobRestoreStatusInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Revoke user delegation keys.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
@@ -1727,7 +1930,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
                 @Override
                 public Observable<ServiceResponse<Page<StorageAccountInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<StorageAccountInner>> result = listNextDelegate(response);
+                        ServiceResponse<PageImpl1<StorageAccountInner>> result = listNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<StorageAccountInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1736,9 +1939,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
             });
     }
 
-    private ServiceResponse<PageImpl<StorageAccountInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<StorageAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<StorageAccountInner>>() { }.getType())
+    private ServiceResponse<PageImpl1<StorageAccountInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<StorageAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<StorageAccountInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

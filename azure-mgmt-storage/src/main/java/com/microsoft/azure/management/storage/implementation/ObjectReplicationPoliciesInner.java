@@ -10,7 +10,6 @@ package com.microsoft.azure.management.storage.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.storage.ErrorResponseException;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -33,64 +32,64 @@ import rx.Observable;
 
 /**
  * An instance of this class provides access to all the operations defined
- * in PrivateEndpointConnections.
+ * in ObjectReplicationPolicies.
  */
-public class PrivateEndpointConnectionsInner {
+public class ObjectReplicationPoliciesInner {
     /** The Retrofit service to perform REST calls. */
-    private PrivateEndpointConnectionsService service;
+    private ObjectReplicationPoliciesService service;
     /** The service client containing this operation class. */
     private StorageManagementClientImpl client;
 
     /**
-     * Initializes an instance of PrivateEndpointConnectionsInner.
+     * Initializes an instance of ObjectReplicationPoliciesInner.
      *
      * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public PrivateEndpointConnectionsInner(Retrofit retrofit, StorageManagementClientImpl client) {
-        this.service = retrofit.create(PrivateEndpointConnectionsService.class);
+    public ObjectReplicationPoliciesInner(Retrofit retrofit, StorageManagementClientImpl client) {
+        this.service = retrofit.create(ObjectReplicationPoliciesService.class);
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for PrivateEndpointConnections to be
+     * The interface defining all the services for ObjectReplicationPolicies to be
      * used by Retrofit to perform actually REST calls.
      */
-    interface PrivateEndpointConnectionsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.PrivateEndpointConnections list" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections")
+    interface ObjectReplicationPoliciesService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.ObjectReplicationPolicies list" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies")
         Observable<Response<ResponseBody>> list(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.PrivateEndpointConnections get" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Path("privateEndpointConnectionName") String privateEndpointConnectionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.ObjectReplicationPolicies get" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}")
+        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Path("objectReplicationPolicyId") String objectReplicationPolicyId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.PrivateEndpointConnections put" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}")
-        Observable<Response<ResponseBody>> put(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Path("privateEndpointConnectionName") String privateEndpointConnectionName, @Query("api-version") String apiVersion, @Body PrivateEndpointConnectionInner properties, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.ObjectReplicationPolicies createOrUpdate" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}")
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Path("objectReplicationPolicyId") String objectReplicationPolicyId, @Query("api-version") String apiVersion, @Body ObjectReplicationPolicyInner properties, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.PrivateEndpointConnections delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Path("privateEndpointConnectionName") String privateEndpointConnectionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.ObjectReplicationPolicies delete" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Path("objectReplicationPolicyId") String objectReplicationPolicyId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
-     * List all the private endpoint connections associated with the storage account.
+     * List the object replication policies associated with the storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the List&lt;PrivateEndpointConnectionInner&gt; object if successful.
+     * @return the List&lt;ObjectReplicationPolicyInner&gt; object if successful.
      */
-    public List<PrivateEndpointConnectionInner> list(String resourceGroupName, String accountName) {
+    public List<ObjectReplicationPolicyInner> list(String resourceGroupName, String accountName) {
         return listWithServiceResponseAsync(resourceGroupName, accountName).toBlocking().single().body();
     }
 
     /**
-     * List all the private endpoint connections associated with the storage account.
+     * List the object replication policies associated with the storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
@@ -98,36 +97,36 @@ public class PrivateEndpointConnectionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<PrivateEndpointConnectionInner>> listAsync(String resourceGroupName, String accountName, final ServiceCallback<List<PrivateEndpointConnectionInner>> serviceCallback) {
+    public ServiceFuture<List<ObjectReplicationPolicyInner>> listAsync(String resourceGroupName, String accountName, final ServiceCallback<List<ObjectReplicationPolicyInner>> serviceCallback) {
         return ServiceFuture.fromResponse(listWithServiceResponseAsync(resourceGroupName, accountName), serviceCallback);
     }
 
     /**
-     * List all the private endpoint connections associated with the storage account.
+     * List the object replication policies associated with the storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;PrivateEndpointConnectionInner&gt; object
+     * @return the observable to the List&lt;ObjectReplicationPolicyInner&gt; object
      */
-    public Observable<List<PrivateEndpointConnectionInner>> listAsync(String resourceGroupName, String accountName) {
-        return listWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<List<PrivateEndpointConnectionInner>>, List<PrivateEndpointConnectionInner>>() {
+    public Observable<List<ObjectReplicationPolicyInner>> listAsync(String resourceGroupName, String accountName) {
+        return listWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<List<ObjectReplicationPolicyInner>>, List<ObjectReplicationPolicyInner>>() {
             @Override
-            public List<PrivateEndpointConnectionInner> call(ServiceResponse<List<PrivateEndpointConnectionInner>> response) {
+            public List<ObjectReplicationPolicyInner> call(ServiceResponse<List<ObjectReplicationPolicyInner>> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * List all the private endpoint connections associated with the storage account.
+     * List the object replication policies associated with the storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the List&lt;PrivateEndpointConnectionInner&gt; object
+     * @return the observable to the List&lt;ObjectReplicationPolicyInner&gt; object
      */
-    public Observable<ServiceResponse<List<PrivateEndpointConnectionInner>>> listWithServiceResponseAsync(String resourceGroupName, String accountName) {
+    public Observable<ServiceResponse<List<ObjectReplicationPolicyInner>>> listWithServiceResponseAsync(String resourceGroupName, String accountName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -141,16 +140,16 @@ public class PrivateEndpointConnectionsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.list(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<PrivateEndpointConnectionInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<ObjectReplicationPolicyInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<List<PrivateEndpointConnectionInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<List<ObjectReplicationPolicyInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<PrivateEndpointConnectionInner>> result = listDelegate(response);
-                        List<PrivateEndpointConnectionInner> items = null;
+                        ServiceResponse<PageImpl<ObjectReplicationPolicyInner>> result = listDelegate(response);
+                        List<ObjectReplicationPolicyInner> items = null;
                         if (result.body() != null) {
                             items = result.body().items();
                         }
-                        ServiceResponse<List<PrivateEndpointConnectionInner>> clientResponse = new ServiceResponse<List<PrivateEndpointConnectionInner>>(items, result.response());
+                        ServiceResponse<List<ObjectReplicationPolicyInner>> clientResponse = new ServiceResponse<List<ObjectReplicationPolicyInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -159,167 +158,70 @@ public class PrivateEndpointConnectionsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<PrivateEndpointConnectionInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<PrivateEndpointConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<PrivateEndpointConnectionInner>>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets the specified private endpoint connection associated with the storage account.
-     *
-     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
-     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PrivateEndpointConnectionInner object if successful.
-     */
-    public PrivateEndpointConnectionInner get(String resourceGroupName, String accountName, String privateEndpointConnectionName) {
-        return getWithServiceResponseAsync(resourceGroupName, accountName, privateEndpointConnectionName).toBlocking().single().body();
-    }
-
-    /**
-     * Gets the specified private endpoint connection associated with the storage account.
-     *
-     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
-     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<PrivateEndpointConnectionInner> getAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName, final ServiceCallback<PrivateEndpointConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, accountName, privateEndpointConnectionName), serviceCallback);
-    }
-
-    /**
-     * Gets the specified private endpoint connection associated with the storage account.
-     *
-     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
-     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PrivateEndpointConnectionInner object
-     */
-    public Observable<PrivateEndpointConnectionInner> getAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName) {
-        return getWithServiceResponseAsync(resourceGroupName, accountName, privateEndpointConnectionName).map(new Func1<ServiceResponse<PrivateEndpointConnectionInner>, PrivateEndpointConnectionInner>() {
-            @Override
-            public PrivateEndpointConnectionInner call(ServiceResponse<PrivateEndpointConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the specified private endpoint connection associated with the storage account.
-     *
-     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
-     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PrivateEndpointConnectionInner object
-     */
-    public Observable<ServiceResponse<PrivateEndpointConnectionInner>> getWithServiceResponseAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (privateEndpointConnectionName == null) {
-            throw new IllegalArgumentException("Parameter privateEndpointConnectionName is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.get(resourceGroupName, accountName, this.client.subscriptionId(), privateEndpointConnectionName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateEndpointConnectionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<PrivateEndpointConnectionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PrivateEndpointConnectionInner> clientResponse = getDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PrivateEndpointConnectionInner> getDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PrivateEndpointConnectionInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PrivateEndpointConnectionInner>() { }.getType())
+    private ServiceResponse<PageImpl<ObjectReplicationPolicyInner>> listDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ObjectReplicationPolicyInner>, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ObjectReplicationPolicyInner>>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
     /**
-     * Update the state of specified private endpoint connection associated with the storage account.
+     * Get the object replication policy of the storage account by policy ID.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
-     * @param properties The private endpoint connection properties.
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PrivateEndpointConnectionInner object if successful.
+     * @return the ObjectReplicationPolicyInner object if successful.
      */
-    public PrivateEndpointConnectionInner put(String resourceGroupName, String accountName, String privateEndpointConnectionName, PrivateEndpointConnectionInner properties) {
-        return putWithServiceResponseAsync(resourceGroupName, accountName, privateEndpointConnectionName, properties).toBlocking().single().body();
+    public ObjectReplicationPolicyInner get(String resourceGroupName, String accountName, String objectReplicationPolicyId) {
+        return getWithServiceResponseAsync(resourceGroupName, accountName, objectReplicationPolicyId).toBlocking().single().body();
     }
 
     /**
-     * Update the state of specified private endpoint connection associated with the storage account.
+     * Get the object replication policy of the storage account by policy ID.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
-     * @param properties The private endpoint connection properties.
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<PrivateEndpointConnectionInner> putAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName, PrivateEndpointConnectionInner properties, final ServiceCallback<PrivateEndpointConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(putWithServiceResponseAsync(resourceGroupName, accountName, privateEndpointConnectionName, properties), serviceCallback);
+    public ServiceFuture<ObjectReplicationPolicyInner> getAsync(String resourceGroupName, String accountName, String objectReplicationPolicyId, final ServiceCallback<ObjectReplicationPolicyInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, accountName, objectReplicationPolicyId), serviceCallback);
     }
 
     /**
-     * Update the state of specified private endpoint connection associated with the storage account.
+     * Get the object replication policy of the storage account by policy ID.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
-     * @param properties The private endpoint connection properties.
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PrivateEndpointConnectionInner object
+     * @return the observable to the ObjectReplicationPolicyInner object
      */
-    public Observable<PrivateEndpointConnectionInner> putAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName, PrivateEndpointConnectionInner properties) {
-        return putWithServiceResponseAsync(resourceGroupName, accountName, privateEndpointConnectionName, properties).map(new Func1<ServiceResponse<PrivateEndpointConnectionInner>, PrivateEndpointConnectionInner>() {
+    public Observable<ObjectReplicationPolicyInner> getAsync(String resourceGroupName, String accountName, String objectReplicationPolicyId) {
+        return getWithServiceResponseAsync(resourceGroupName, accountName, objectReplicationPolicyId).map(new Func1<ServiceResponse<ObjectReplicationPolicyInner>, ObjectReplicationPolicyInner>() {
             @Override
-            public PrivateEndpointConnectionInner call(ServiceResponse<PrivateEndpointConnectionInner> response) {
+            public ObjectReplicationPolicyInner call(ServiceResponse<ObjectReplicationPolicyInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Update the state of specified private endpoint connection associated with the storage account.
+     * Get the object replication policy of the storage account by policy ID.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
-     * @param properties The private endpoint connection properties.
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PrivateEndpointConnectionInner object
+     * @return the observable to the ObjectReplicationPolicyInner object
      */
-    public Observable<ServiceResponse<PrivateEndpointConnectionInner>> putWithServiceResponseAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName, PrivateEndpointConnectionInner properties) {
+    public Observable<ServiceResponse<ObjectReplicationPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String accountName, String objectReplicationPolicyId) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -329,8 +231,105 @@ public class PrivateEndpointConnectionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (privateEndpointConnectionName == null) {
-            throw new IllegalArgumentException("Parameter privateEndpointConnectionName is required and cannot be null.");
+        if (objectReplicationPolicyId == null) {
+            throw new IllegalArgumentException("Parameter objectReplicationPolicyId is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.get(resourceGroupName, accountName, this.client.subscriptionId(), objectReplicationPolicyId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ObjectReplicationPolicyInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ObjectReplicationPolicyInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ObjectReplicationPolicyInner> clientResponse = getDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<ObjectReplicationPolicyInner> getDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ObjectReplicationPolicyInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ObjectReplicationPolicyInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Create or update the object replication policy of the storage account.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
+     * @param properties The object replication policy set to a storage account. A unique policy ID will be created if absent.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ObjectReplicationPolicyInner object if successful.
+     */
+    public ObjectReplicationPolicyInner createOrUpdate(String resourceGroupName, String accountName, String objectReplicationPolicyId, ObjectReplicationPolicyInner properties) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, objectReplicationPolicyId, properties).toBlocking().single().body();
+    }
+
+    /**
+     * Create or update the object replication policy of the storage account.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
+     * @param properties The object replication policy set to a storage account. A unique policy ID will be created if absent.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ObjectReplicationPolicyInner> createOrUpdateAsync(String resourceGroupName, String accountName, String objectReplicationPolicyId, ObjectReplicationPolicyInner properties, final ServiceCallback<ObjectReplicationPolicyInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, objectReplicationPolicyId, properties), serviceCallback);
+    }
+
+    /**
+     * Create or update the object replication policy of the storage account.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
+     * @param properties The object replication policy set to a storage account. A unique policy ID will be created if absent.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ObjectReplicationPolicyInner object
+     */
+    public Observable<ObjectReplicationPolicyInner> createOrUpdateAsync(String resourceGroupName, String accountName, String objectReplicationPolicyId, ObjectReplicationPolicyInner properties) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, objectReplicationPolicyId, properties).map(new Func1<ServiceResponse<ObjectReplicationPolicyInner>, ObjectReplicationPolicyInner>() {
+            @Override
+            public ObjectReplicationPolicyInner call(ServiceResponse<ObjectReplicationPolicyInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Create or update the object replication policy of the storage account.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
+     * @param properties The object replication policy set to a storage account. A unique policy ID will be created if absent.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ObjectReplicationPolicyInner object
+     */
+    public Observable<ServiceResponse<ObjectReplicationPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, String objectReplicationPolicyId, ObjectReplicationPolicyInner properties) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (objectReplicationPolicyId == null) {
+            throw new IllegalArgumentException("Parameter objectReplicationPolicyId is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
@@ -339,12 +338,12 @@ public class PrivateEndpointConnectionsInner {
             throw new IllegalArgumentException("Parameter properties is required and cannot be null.");
         }
         Validator.validate(properties);
-        return service.put(resourceGroupName, accountName, this.client.subscriptionId(), privateEndpointConnectionName, this.client.apiVersion(), properties, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateEndpointConnectionInner>>>() {
+        return service.createOrUpdate(resourceGroupName, accountName, this.client.subscriptionId(), objectReplicationPolicyId, this.client.apiVersion(), properties, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ObjectReplicationPolicyInner>>>() {
                 @Override
-                public Observable<ServiceResponse<PrivateEndpointConnectionInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ObjectReplicationPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PrivateEndpointConnectionInner> clientResponse = putDelegate(response);
+                        ServiceResponse<ObjectReplicationPolicyInner> clientResponse = createOrUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -353,52 +352,52 @@ public class PrivateEndpointConnectionsInner {
             });
     }
 
-    private ServiceResponse<PrivateEndpointConnectionInner> putDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PrivateEndpointConnectionInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PrivateEndpointConnectionInner>() { }.getType())
+    private ServiceResponse<ObjectReplicationPolicyInner> createOrUpdateDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ObjectReplicationPolicyInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ObjectReplicationPolicyInner>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }
 
     /**
-     * Deletes the specified private endpoint connection associated with the storage account.
+     * Deletes the object replication policy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void delete(String resourceGroupName, String accountName, String privateEndpointConnectionName) {
-        deleteWithServiceResponseAsync(resourceGroupName, accountName, privateEndpointConnectionName).toBlocking().single().body();
+    public void delete(String resourceGroupName, String accountName, String objectReplicationPolicyId) {
+        deleteWithServiceResponseAsync(resourceGroupName, accountName, objectReplicationPolicyId).toBlocking().single().body();
     }
 
     /**
-     * Deletes the specified private endpoint connection associated with the storage account.
+     * Deletes the object replication policy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, accountName, privateEndpointConnectionName), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String objectReplicationPolicyId, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, accountName, objectReplicationPolicyId), serviceCallback);
     }
 
     /**
-     * Deletes the specified private endpoint connection associated with the storage account.
+     * Deletes the object replication policy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, accountName, privateEndpointConnectionName).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String accountName, String objectReplicationPolicyId) {
+        return deleteWithServiceResponseAsync(resourceGroupName, accountName, objectReplicationPolicyId).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -407,15 +406,15 @@ public class PrivateEndpointConnectionsInner {
     }
 
     /**
-     * Deletes the specified private endpoint connection associated with the storage account.
+     * Deletes the object replication policy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param privateEndpointConnectionName The name of the private endpoint connection associated with the Azure resource
+     * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy ID is unknown.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String accountName, String privateEndpointConnectionName) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String accountName, String objectReplicationPolicyId) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -425,13 +424,13 @@ public class PrivateEndpointConnectionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (privateEndpointConnectionName == null) {
-            throw new IllegalArgumentException("Parameter privateEndpointConnectionName is required and cannot be null.");
+        if (objectReplicationPolicyId == null) {
+            throw new IllegalArgumentException("Parameter objectReplicationPolicyId is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.delete(resourceGroupName, accountName, this.client.subscriptionId(), privateEndpointConnectionName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.delete(resourceGroupName, accountName, this.client.subscriptionId(), objectReplicationPolicyId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {

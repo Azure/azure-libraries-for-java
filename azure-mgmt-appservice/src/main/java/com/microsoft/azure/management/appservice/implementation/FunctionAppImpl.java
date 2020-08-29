@@ -104,12 +104,10 @@ class FunctionAppImpl
             functionService = manager().restClient().newBuilder()
                     .withBaseUrl(defaultHostName.toString())
                     .withCredentials(new FunctionCredentials(this))
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
                     .build()
                     .retrofit().create(FunctionService.class);
             functionServiceViaKey = manager().restClient().newBuilder()
                     .withBaseUrl(defaultHostName.toString())
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
                     .build()
                     .retrofit().create(FunctionServiceViaKey.class);
         }

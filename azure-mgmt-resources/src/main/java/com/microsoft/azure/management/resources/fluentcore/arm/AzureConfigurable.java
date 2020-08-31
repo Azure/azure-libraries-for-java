@@ -134,6 +134,10 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
 
     /**
      * Sets the HTTP network protocols for HTTP client.
+     * <p>
+     * HTTP2 multiplexing could result in a single TCP connection to ARM instance.
+     * It could cause an undesirable side-effect that ARM throttling happens earlier than with HTTP1.1 with a connection pool.
+     *
      * @param protocols the HTTP network protocols to use
      * @return the configurable object itself for chaining
      */

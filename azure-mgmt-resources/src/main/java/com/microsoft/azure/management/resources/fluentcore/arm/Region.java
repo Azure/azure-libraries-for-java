@@ -19,7 +19,7 @@ public final class Region {
     // This needs to be at the beginning for the initialization to happen correctly
     private static final ConcurrentMap<String, Region> VALUES_BY_NAME = new ConcurrentHashMap<>();
 
-    // CHECKSTYLE IGNORE Javadoc FOR NEXT 67 LINES
+    // CHECKSTYLE IGNORE Javadoc FOR NEXT 68 LINES
     /**************************************************
      * Azure Cloud - Americas
      **************************************************/
@@ -34,6 +34,7 @@ public final class Region {
     public static final Region CANADA_CENTRAL = new Region("canadacentral", "Canada Central");
     public static final Region CANADA_EAST = new Region("canadaeast", "Canada East");
     public static final Region BRAZIL_SOUTH = new Region("brazilsouth", "Brazil South");
+    public static final Region BRAZIL_SOUTHEAST = new Region("brazilsoutheast", "Brazil Southeast");
     /**************************************************
      * Azure Cloud - Europe
      **************************************************/

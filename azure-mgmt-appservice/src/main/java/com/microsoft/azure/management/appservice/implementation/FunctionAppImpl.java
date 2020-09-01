@@ -25,7 +25,6 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.management.storage.StorageAccountSkuType;
-import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.credentials.TokenCredentials;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
@@ -104,12 +103,10 @@ class FunctionAppImpl
             functionService = manager().restClient().newBuilder()
                     .withBaseUrl(defaultHostName.toString())
                     .withCredentials(new FunctionCredentials(this))
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
                     .build()
                     .retrofit().create(FunctionService.class);
             functionServiceViaKey = manager().restClient().newBuilder()
                     .withBaseUrl(defaultHostName.toString())
-                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
                     .build()
                     .retrofit().create(FunctionServiceViaKey.class);
         }

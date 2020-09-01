@@ -20,8 +20,10 @@ import okhttp3.Authenticator;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
+import okhttp3.Protocol;
 
 import java.net.Proxy;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
@@ -135,6 +137,13 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
     @Override
     public T withProxyAuthenticator(Authenticator proxyAuthenticator) {
         this.restClientBuilder = restClientBuilder.withProxyAuthenticator(proxyAuthenticator);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T withProtocols(List<Protocol> protocols) {
+        this.restClientBuilder.withProtocols(protocols);
         return (T) this;
     }
 

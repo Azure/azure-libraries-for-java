@@ -12,8 +12,10 @@ import okhttp3.Authenticator;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
+import okhttp3.Protocol;
 
 import java.net.Proxy;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
@@ -129,4 +131,15 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      * @return the configurable object itself for chaining
      */
     T withProxyAuthenticator(Authenticator proxyAuthenticator);
+
+    /**
+     * Sets the HTTP network protocols for HTTP client.
+     * <p>
+     * HTTP2 multiplexing could result in a single TCP connection to ARM instance.
+     * It could cause an undesirable side-effect that ARM throttling happens earlier than with HTTP1.1 with a connection pool.
+     *
+     * @param protocols the HTTP network protocols to use
+     * @return the configurable object itself for chaining
+     */
+    T withProtocols(List<Protocol> protocols);
 }

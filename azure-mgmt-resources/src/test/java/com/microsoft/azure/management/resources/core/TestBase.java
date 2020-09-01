@@ -204,9 +204,8 @@ public abstract class TestBase {
                             .withInterceptor(new ProviderRegistrationInterceptor(credentials))
                             .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
                             .withCredentials(credentials)
-                            .withLogLevel(LogLevel.NONE)
-                            .withReadTimeout(3, TimeUnit.MINUTES)
-                            .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS));
+                            .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                            .withReadTimeout(3, TimeUnit.MINUTES);
             if (!interceptorManager.isNoneMode()) {
                 builder.withNetworkInterceptor(interceptorManager.initInterceptor());
             }

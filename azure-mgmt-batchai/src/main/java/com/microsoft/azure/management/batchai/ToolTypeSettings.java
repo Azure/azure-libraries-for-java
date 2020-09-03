@@ -236,7 +236,9 @@ public interface ToolTypeSettings {
                 WithAttach<ParentT> withConfigFile(String configFilePath);
 
                 /**
-                 * @param pythonScriptFilePath
+                 * Specifies the path and file name of the python script to execute the job.
+                 *
+                 * @param pythonScriptFilePath the path of script
                  * @return the next stage of the definition
                  */
                 WithAttachAndPythonInterpreter<ParentT> withPythonScriptFile(String pythonScriptFilePath);

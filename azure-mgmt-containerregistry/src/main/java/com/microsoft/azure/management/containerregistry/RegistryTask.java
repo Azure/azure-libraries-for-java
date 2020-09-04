@@ -423,6 +423,7 @@ public interface RegistryTask extends
             /**
              * The function that begins the definition of a source trigger.
              *
+             * @param sourceTriggerName the name of source trigger
              * @return the next stage of the RegistrySourceTrigger update.
              */
             RegistrySourceTrigger.Update updateSourceTrigger(String sourceTriggerName);

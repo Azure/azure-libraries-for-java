@@ -844,6 +844,7 @@ public interface SqlDatabase
             /**
              * Sets a "Basic" edition and maximum storage capacity for the SQL Database.
              *
+             * @param maxStorageCapacity the max storage capacity
              * @return The next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)
@@ -1020,6 +1021,7 @@ public interface SqlDatabase
             /**
              * Sets a "Basic" edition and maximum storage capacity for the SQL Database.
              *
+             * @param maxStorageCapacity the max storage capacity
              * @return The next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_7_0)

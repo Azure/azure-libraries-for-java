@@ -219,7 +219,7 @@ public interface Vault extends
             
             /**
              * Specifies that access to the key vault from the specific ip range should be allowed.
-             * @param ipAddressCidr
+             * @param ipAddressCidr the access value
              * @return the next stage of key vault definition
              */
             WithCreate withAccessFromIpAddressRange(String ipAddressCidr);

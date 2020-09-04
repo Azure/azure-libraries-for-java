@@ -87,7 +87,11 @@ public interface ContainerImageSettings extends Indexable,
              * Specifies the location of the password, which is a Key Vault Secret.
              * Users can store their secrets in Azure KeyVault and pass it to the Batch
              * AI Service to integrate with KeyVault.
-             **/
+             *
+             * @param keyVaultId the key vault id
+             * @param secretUrl the secret ulr
+             * @return the next stage of the definition
+             */
             WithAttach<ParentT> withRegistrySecretReference(String keyVaultId, String secretUrl);
         }
 

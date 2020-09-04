@@ -91,6 +91,7 @@ public interface ManagementLock extends
             /**
              * Specifies the notes for the lock.
              *
+             * @param notes the notes
              * @return the next stage of the definition
              */
             WithCreate withNotes(String notes);
@@ -161,6 +162,7 @@ public interface ManagementLock extends
             /**
              * Specifies the notes for the lock.
              *
+             * @param notes the notes
              * @return the next stage of the definition
              */
             Update withNotes(String notes);

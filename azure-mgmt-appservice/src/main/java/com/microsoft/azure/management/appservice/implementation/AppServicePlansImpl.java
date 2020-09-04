@@ -6,10 +6,12 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
 import com.microsoft.azure.management.appservice.AppServicePlans;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import rx.Observable;
 
 /**
  * The implementation for AppServicePlans.
@@ -44,5 +46,15 @@ class AppServicePlansImpl
     @Override
     public AppServicePlanImpl define(String name) {
         return wrapModel(name);
+    }
+
+    @Override
+    public Observable<AppServicePlan> listAsync(boolean includeDetails) {
+        return wrapPageAsync(inner().listAsync(includeDetails));
+    }
+
+    @Override
+    public PagedList<AppServicePlan> list(boolean includeDetails) {
+        return wrapList(inner().list(includeDetails));
     }
 }

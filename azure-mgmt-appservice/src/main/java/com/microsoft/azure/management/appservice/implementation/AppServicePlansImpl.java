@@ -49,12 +49,12 @@ class AppServicePlansImpl
     }
 
     @Override
-    public Observable<AppServicePlan> listAsync() {
-        return wrapPageAsync(inner().listAsync(true));
+    public Observable<AppServicePlan> listAsync(boolean includeDetails) {
+        return wrapPageAsync(inner().listAsync(includeDetails));
     }
 
     @Override
-    public PagedList<AppServicePlan> list() {
-        return wrapList(inner().list(true));
+    public PagedList<AppServicePlan> list(boolean includeDetails) {
+        return wrapList(inner().list(includeDetails));
     }
 }

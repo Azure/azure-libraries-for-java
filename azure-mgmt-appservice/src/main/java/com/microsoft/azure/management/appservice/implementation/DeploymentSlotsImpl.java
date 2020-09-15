@@ -85,7 +85,7 @@ class DeploymentSlotsImpl
             @Override
             public Observable<DeploymentSlot> call(final SiteInner siteInner) {
                 if (siteInner == null) {
-                    return null;
+                    return Observable.just(null);
                 }
                 return Observable.zip(
                         innerCollection.getConfigurationSlotAsync(resourceGroup, parentName, name.replaceAll(".*/", "")),

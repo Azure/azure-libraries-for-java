@@ -39,6 +39,9 @@ class GalleryImagesImpl extends WrapperImpl<GalleryImagesInner> implements Galle
     }
 
     private GalleryImageImpl wrapModel(GalleryImageInner inner) {
+        if (inner == null) {
+            return null;
+        }
         return new GalleryImageImpl(inner, manager());
     }
 

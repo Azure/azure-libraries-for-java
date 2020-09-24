@@ -39,6 +39,9 @@ class GalleryImageVersionsImpl extends WrapperImpl<GalleryImageVersionsInner> im
     }
 
     private GalleryImageVersionImpl wrapModel(GalleryImageVersionInner inner) {
+        if (inner == null) {
+            return null;
+        }
         return new GalleryImageVersionImpl(inner, manager());
     }
 

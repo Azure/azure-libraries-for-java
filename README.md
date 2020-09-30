@@ -3,7 +3,7 @@
 
 # Try the Next-Generation Azure Management SDK for Java now
 
-A new set of Azure Management Libraries for Java that follows the [Azure SDK Design Guidelines for Java](https://azure.github.io/azure-sdk/java_introduction.html) are now in public preview. If you are interested in the new generation SDK for Java, please find more details [here](https://aka.ms/azure-sdk-java-mgmt).
+A new set of Azure Management Libraries for Java that follows the [Azure SDK Design Guidelines for Java](https://azure.github.io/azure-sdk/java_introduction.html) are now in public preview. If you are interested in the new generation SDK for Java, please find more details [here](https://aka.ms/azsdk/java/mgmt).
 
 # Azure Management Libraries for Java
 

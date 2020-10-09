@@ -17,6 +17,7 @@ import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.compute.DedicatedHostGroupUpdate;
+import com.microsoft.azure.management.compute.InstanceViewTypes;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -80,7 +81,7 @@ public class DedicatedHostGroupsInner implements InnerSupportsGet<DedicatedHostG
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DedicatedHostGroups getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("hostGroupName") String hostGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("hostGroupName") String hostGroupName, @Path("subscriptionId") String subscriptionId, @Query("$expand") InstanceViewTypes expand, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DedicatedHostGroups listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups")
@@ -170,7 +171,7 @@ public class DedicatedHostGroupsInner implements InnerSupportsGet<DedicatedHostG
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.createOrUpdate(resourceGroupName, hostGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DedicatedHostGroupInner>>>() {
                 @Override
@@ -263,7 +264,7 @@ public class DedicatedHostGroupsInner implements InnerSupportsGet<DedicatedHostG
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.update(resourceGroupName, hostGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DedicatedHostGroupInner>>>() {
                 @Override
@@ -346,7 +347,7 @@ public class DedicatedHostGroupsInner implements InnerSupportsGet<DedicatedHostG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.delete(resourceGroupName, hostGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -431,8 +432,90 @@ public class DedicatedHostGroupsInner implements InnerSupportsGet<DedicatedHostG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
-        return service.getByResourceGroup(resourceGroupName, hostGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2020-06-01";
+        final InstanceViewTypes expand = null;
+        return service.getByResourceGroup(resourceGroupName, hostGroupName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DedicatedHostGroupInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DedicatedHostGroupInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DedicatedHostGroupInner> clientResponse = getByResourceGroupDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Retrieves information about a dedicated host group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param hostGroupName The name of the dedicated host group.
+     * @param expand The expand expression to apply on the operation. The response shows the list of instance view of the dedicated hosts under the dedicated host group. Possible values include: 'instanceView'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DedicatedHostGroupInner object if successful.
+     */
+    public DedicatedHostGroupInner getByResourceGroup(String resourceGroupName, String hostGroupName, InstanceViewTypes expand) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, hostGroupName, expand).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves information about a dedicated host group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param hostGroupName The name of the dedicated host group.
+     * @param expand The expand expression to apply on the operation. The response shows the list of instance view of the dedicated hosts under the dedicated host group. Possible values include: 'instanceView'
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DedicatedHostGroupInner> getByResourceGroupAsync(String resourceGroupName, String hostGroupName, InstanceViewTypes expand, final ServiceCallback<DedicatedHostGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, hostGroupName, expand), serviceCallback);
+    }
+
+    /**
+     * Retrieves information about a dedicated host group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param hostGroupName The name of the dedicated host group.
+     * @param expand The expand expression to apply on the operation. The response shows the list of instance view of the dedicated hosts under the dedicated host group. Possible values include: 'instanceView'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DedicatedHostGroupInner object
+     */
+    public Observable<DedicatedHostGroupInner> getByResourceGroupAsync(String resourceGroupName, String hostGroupName, InstanceViewTypes expand) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, hostGroupName, expand).map(new Func1<ServiceResponse<DedicatedHostGroupInner>, DedicatedHostGroupInner>() {
+            @Override
+            public DedicatedHostGroupInner call(ServiceResponse<DedicatedHostGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves information about a dedicated host group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param hostGroupName The name of the dedicated host group.
+     * @param expand The expand expression to apply on the operation. The response shows the list of instance view of the dedicated hosts under the dedicated host group. Possible values include: 'instanceView'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DedicatedHostGroupInner object
+     */
+    public Observable<ServiceResponse<DedicatedHostGroupInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String hostGroupName, InstanceViewTypes expand) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (hostGroupName == null) {
+            throw new IllegalArgumentException("Parameter hostGroupName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2020-06-01";
+        return service.getByResourceGroup(resourceGroupName, hostGroupName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DedicatedHostGroupInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DedicatedHostGroupInner>> call(Response<ResponseBody> response) {
@@ -544,7 +627,7 @@ public class DedicatedHostGroupsInner implements InnerSupportsGet<DedicatedHostG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DedicatedHostGroupInner>>>>() {
                 @Override
@@ -649,7 +732,7 @@ public class DedicatedHostGroupsInner implements InnerSupportsGet<DedicatedHostG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DedicatedHostGroupInner>>>>() {
                 @Override

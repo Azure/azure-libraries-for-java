@@ -15,13 +15,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BootDiagnosticsInstanceView {
     /**
-     * The console screenshot blob URI.
+     * The console screenshot blob URI. &lt;br&gt;&lt;br&gt;NOTE: This will
+     * **not** be set if boot diagnostics is currently enabled with managed
+     * storage.
      */
     @JsonProperty(value = "consoleScreenshotBlobUri", access = JsonProperty.Access.WRITE_ONLY)
     private String consoleScreenshotBlobUri;
 
     /**
-     * The Linux serial console log blob Uri.
+     * The serial console log blob Uri. &lt;br&gt;&lt;br&gt;NOTE: This will
+     * **not** be set if boot diagnostics is currently enabled with managed
+     * storage.
      */
     @JsonProperty(value = "serialConsoleLogBlobUri", access = JsonProperty.Access.WRITE_ONLY)
     private String serialConsoleLogBlobUri;
@@ -35,7 +39,7 @@ public class BootDiagnosticsInstanceView {
     private InstanceViewStatus status;
 
     /**
-     * Get the console screenshot blob URI.
+     * Get the console screenshot blob URI. &lt;br&gt;&lt;br&gt;NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage.
      *
      * @return the consoleScreenshotBlobUri value
      */
@@ -44,7 +48,7 @@ public class BootDiagnosticsInstanceView {
     }
 
     /**
-     * Get the Linux serial console log blob Uri.
+     * Get the serial console log blob Uri. &lt;br&gt;&lt;br&gt;NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage.
      *
      * @return the serialConsoleLogBlobUri value
      */

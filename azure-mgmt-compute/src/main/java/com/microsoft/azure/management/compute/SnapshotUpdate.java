@@ -48,6 +48,18 @@ public class SnapshotUpdate {
     private Encryption encryption;
 
     /**
+     * Possible values include: 'AllowAll', 'AllowPrivate', 'DenyAll'.
+     */
+    @JsonProperty(value = "properties.networkAccessPolicy")
+    private NetworkAccessPolicy networkAccessPolicy;
+
+    /**
+     * ARM id of the DiskAccess resource for using private endpoints on disks.
+     */
+    @JsonProperty(value = "properties.diskAccessId")
+    private String diskAccessId;
+
+    /**
      * Resource tags.
      */
     @JsonProperty(value = "tags")
@@ -136,6 +148,46 @@ public class SnapshotUpdate {
      */
     public SnapshotUpdate withEncryption(Encryption encryption) {
         this.encryption = encryption;
+        return this;
+    }
+
+    /**
+     * Get possible values include: 'AllowAll', 'AllowPrivate', 'DenyAll'.
+     *
+     * @return the networkAccessPolicy value
+     */
+    public NetworkAccessPolicy networkAccessPolicy() {
+        return this.networkAccessPolicy;
+    }
+
+    /**
+     * Set possible values include: 'AllowAll', 'AllowPrivate', 'DenyAll'.
+     *
+     * @param networkAccessPolicy the networkAccessPolicy value to set
+     * @return the SnapshotUpdate object itself.
+     */
+    public SnapshotUpdate withNetworkAccessPolicy(NetworkAccessPolicy networkAccessPolicy) {
+        this.networkAccessPolicy = networkAccessPolicy;
+        return this;
+    }
+
+    /**
+     * Get aRM id of the DiskAccess resource for using private endpoints on disks.
+     *
+     * @return the diskAccessId value
+     */
+    public String diskAccessId() {
+        return this.diskAccessId;
+    }
+
+    /**
+     * Set aRM id of the DiskAccess resource for using private endpoints on disks.
+     *
+     * @param diskAccessId the diskAccessId value to set
+     * @return the SnapshotUpdate object itself.
+     */
+    public SnapshotUpdate withDiskAccessId(String diskAccessId) {
+        this.diskAccessId = diskAccessId;
         return this;
     }
 

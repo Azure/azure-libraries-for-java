@@ -305,7 +305,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineScaleSetInner>() { }.getType());
     }
@@ -380,7 +380,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.beginCreateOrUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInner>>>() {
                 @Override
@@ -473,7 +473,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineScaleSetInner>() { }.getType());
     }
@@ -548,7 +548,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.beginUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInner>>>() {
                 @Override
@@ -631,7 +631,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -697,7 +697,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.beginDelete(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -783,7 +783,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.getByResourceGroup(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInner>>>() {
                 @Override
@@ -866,7 +866,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -939,7 +939,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -1010,7 +1010,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -1094,7 +1094,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -1191,7 +1191,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter instanceIds is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
         Observable<Response<ResponseBody>> observable = service.deleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
@@ -1267,7 +1267,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter instanceIds is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
         return service.beginDeleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
@@ -1354,7 +1354,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.getInstanceView(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInstanceViewInner>>>() {
                 @Override
@@ -1467,7 +1467,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
                 @Override
@@ -1572,7 +1572,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
                 @Override
@@ -1693,7 +1693,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.listSkus(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>>>() {
                 @Override
@@ -1814,7 +1814,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.getOSUpgradeHistory(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>>>() {
                 @Override
@@ -1897,7 +1897,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final Boolean skipShutdown = null;
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -1975,7 +1975,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2046,7 +2046,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final Boolean skipShutdown = null;
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2135,7 +2135,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2224,7 +2224,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2297,7 +2297,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2368,7 +2368,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2452,7 +2452,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2541,7 +2541,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2614,7 +2614,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2685,7 +2685,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2769,7 +2769,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2858,7 +2858,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2931,7 +2931,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -3002,7 +3002,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -3086,7 +3086,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -3175,7 +3175,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -3248,7 +3248,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -3319,7 +3319,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -3403,7 +3403,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -3500,7 +3500,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter instanceIds is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
         Observable<Response<ResponseBody>> observable = service.updateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
@@ -3576,7 +3576,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter instanceIds is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
         return service.beginUpdateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
@@ -3662,7 +3662,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput = null;
         Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), vmScaleSetReimageInput, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
@@ -3733,7 +3733,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(vmScaleSetReimageInput);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), vmScaleSetReimageInput, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -3799,7 +3799,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput = null;
         return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), vmScaleSetReimageInput, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
@@ -3881,7 +3881,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(vmScaleSetReimageInput);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), vmScaleSetReimageInput, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -3965,7 +3965,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -4038,7 +4038,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -4109,7 +4109,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -4193,7 +4193,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -4287,7 +4287,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, platformUpdateDomain, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RecoveryWalkResponseInner>>>() {
                 @Override
@@ -4370,7 +4370,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         final String activePlacementGroupId = null;
         VMScaleSetConvertToSinglePlacementGroupInput parameters = new VMScaleSetConvertToSinglePlacementGroupInput();
         parameters.withActivePlacementGroupId(null);
@@ -4453,7 +4453,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         VMScaleSetConvertToSinglePlacementGroupInput parameters = new VMScaleSetConvertToSinglePlacementGroupInput();
         parameters.withActivePlacementGroupId(activePlacementGroupId);
         return service.convertToSinglePlacementGroup(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -4545,7 +4545,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (action == null) {
             throw new IllegalArgumentException("Parameter action is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         OrchestrationServiceStateInput parameters = new OrchestrationServiceStateInput();
         parameters.withAction(action);
         Observable<Response<ResponseBody>> observable = service.setOrchestrationServiceState(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -4620,7 +4620,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (action == null) {
             throw new IllegalArgumentException("Parameter action is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         OrchestrationServiceStateInput parameters = new OrchestrationServiceStateInput();
         parameters.withAction(action);
         return service.beginSetOrchestrationServiceState(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())

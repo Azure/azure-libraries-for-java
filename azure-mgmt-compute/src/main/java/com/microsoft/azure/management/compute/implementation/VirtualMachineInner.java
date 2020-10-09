@@ -14,6 +14,7 @@ import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.AdditionalCapabilities;
 import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.NetworkProfile;
+import com.microsoft.azure.management.compute.SecurityProfile;
 import com.microsoft.azure.management.compute.DiagnosticsProfile;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.VirtualMachinePriorityTypes;
@@ -73,6 +74,12 @@ public class VirtualMachineInner extends Resource {
      */
     @JsonProperty(value = "properties.networkProfile")
     private NetworkProfile networkProfile;
+
+    /**
+     * Specifies the Security related profile settings for the virtual machine.
+     */
+    @JsonProperty(value = "properties.securityProfile")
+    private SecurityProfile securityProfile;
 
     /**
      * Specifies the boot diagnostic settings state.
@@ -157,6 +164,15 @@ public class VirtualMachineInner extends Resource {
     private SubResource host;
 
     /**
+     * Specifies information about the dedicated host group that the virtual
+     * machine resides in. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     * &lt;br&gt;&lt;br&gt;NOTE: User cannot specify both host and hostGroup
+     * properties.
+     */
+    @JsonProperty(value = "properties.hostGroup")
+    private SubResource hostGroup;
+
+    /**
      * The provisioning state, which only appears in the response.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
@@ -190,6 +206,15 @@ public class VirtualMachineInner extends Resource {
      */
     @JsonProperty(value = "properties.vmId", access = JsonProperty.Access.WRITE_ONLY)
     private String vmId;
+
+    /**
+     * Specifies the time alloted for all extensions to start. The time
+     * duration should be between 15 minutes and 120 minutes (inclusive) and
+     * should be specified in ISO 8601 format. The default value is 90 minutes
+     * (PT1H30M). &lt;br&gt;&lt;br&gt; Minimum api-version: 2020-06-01.
+     */
+    @JsonProperty(value = "properties.extensionsTimeBudget")
+    private String extensionsTimeBudget;
 
     /**
      * The virtual machine child extension resources.
@@ -326,6 +351,26 @@ public class VirtualMachineInner extends Resource {
      */
     public VirtualMachineInner withNetworkProfile(NetworkProfile networkProfile) {
         this.networkProfile = networkProfile;
+        return this;
+    }
+
+    /**
+     * Get specifies the Security related profile settings for the virtual machine.
+     *
+     * @return the securityProfile value
+     */
+    public SecurityProfile securityProfile() {
+        return this.securityProfile;
+    }
+
+    /**
+     * Set specifies the Security related profile settings for the virtual machine.
+     *
+     * @param securityProfile the securityProfile value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withSecurityProfile(SecurityProfile securityProfile) {
+        this.securityProfile = securityProfile;
         return this;
     }
 
@@ -490,6 +535,26 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
+     * Get specifies information about the dedicated host group that the virtual machine resides in. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01. &lt;br&gt;&lt;br&gt;NOTE: User cannot specify both host and hostGroup properties.
+     *
+     * @return the hostGroup value
+     */
+    public SubResource hostGroup() {
+        return this.hostGroup;
+    }
+
+    /**
+     * Set specifies information about the dedicated host group that the virtual machine resides in. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01. &lt;br&gt;&lt;br&gt;NOTE: User cannot specify both host and hostGroup properties.
+     *
+     * @param hostGroup the hostGroup value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withHostGroup(SubResource hostGroup) {
+        this.hostGroup = hostGroup;
+        return this;
+    }
+
+    /**
      * Get the provisioning state, which only appears in the response.
      *
      * @return the provisioningState value
@@ -534,6 +599,26 @@ public class VirtualMachineInner extends Resource {
      */
     public String vmId() {
         return this.vmId;
+    }
+
+    /**
+     * Get specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). &lt;br&gt;&lt;br&gt; Minimum api-version: 2020-06-01.
+     *
+     * @return the extensionsTimeBudget value
+     */
+    public String extensionsTimeBudget() {
+        return this.extensionsTimeBudget;
+    }
+
+    /**
+     * Set specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). &lt;br&gt;&lt;br&gt; Minimum api-version: 2020-06-01.
+     *
+     * @param extensionsTimeBudget the extensionsTimeBudget value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withExtensionsTimeBudget(String extensionsTimeBudget) {
+        this.extensionsTimeBudget = extensionsTimeBudget;
+        return this;
     }
 
     /**

@@ -13,6 +13,7 @@ import com.microsoft.azure.management.compute.HardwareProfile;
 import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.AdditionalCapabilities;
 import com.microsoft.azure.management.compute.OSProfile;
+import com.microsoft.azure.management.compute.SecurityProfile;
 import com.microsoft.azure.management.compute.NetworkProfile;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMNetworkProfileConfiguration;
 import com.microsoft.azure.management.compute.DiagnosticsProfile;
@@ -86,6 +87,12 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     @JsonProperty(value = "properties.osProfile")
     private OSProfile osProfile;
+
+    /**
+     * Specifies the Security related profile settings for the virtual machine.
+     */
+    @JsonProperty(value = "properties.securityProfile")
+    private SecurityProfile securityProfile;
 
     /**
      * Specifies the network interfaces of the virtual machine.
@@ -304,6 +311,26 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     public VirtualMachineScaleSetVMInner withOsProfile(OSProfile osProfile) {
         this.osProfile = osProfile;
+        return this;
+    }
+
+    /**
+     * Get specifies the Security related profile settings for the virtual machine.
+     *
+     * @return the securityProfile value
+     */
+    public SecurityProfile securityProfile() {
+        return this.securityProfile;
+    }
+
+    /**
+     * Set specifies the Security related profile settings for the virtual machine.
+     *
+     * @param securityProfile the securityProfile value to set
+     * @return the VirtualMachineScaleSetVMInner object itself.
+     */
+    public VirtualMachineScaleSetVMInner withSecurityProfile(SecurityProfile securityProfile) {
+        this.securityProfile = securityProfile;
         return this;
     }
 

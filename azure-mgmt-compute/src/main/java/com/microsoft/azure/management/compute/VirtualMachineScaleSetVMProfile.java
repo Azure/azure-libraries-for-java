@@ -35,6 +35,13 @@ public class VirtualMachineScaleSetVMProfile {
     private VirtualMachineScaleSetNetworkProfile networkProfile;
 
     /**
+     * Specifies the Security related profile settings for the virtual machines
+     * in the scale set.
+     */
+    @JsonProperty(value = "securityProfile")
+    private SecurityProfile securityProfile;
+
+    /**
      * Specifies the boot diagnostic settings state.
      * &lt;br&gt;&lt;br&gt;Minimum api-version: 2015-06-15.
      */
@@ -153,6 +160,26 @@ public class VirtualMachineScaleSetVMProfile {
      */
     public VirtualMachineScaleSetVMProfile withNetworkProfile(VirtualMachineScaleSetNetworkProfile networkProfile) {
         this.networkProfile = networkProfile;
+        return this;
+    }
+
+    /**
+     * Get specifies the Security related profile settings for the virtual machines in the scale set.
+     *
+     * @return the securityProfile value
+     */
+    public SecurityProfile securityProfile() {
+        return this.securityProfile;
+    }
+
+    /**
+     * Set specifies the Security related profile settings for the virtual machines in the scale set.
+     *
+     * @param securityProfile the securityProfile value to set
+     * @return the VirtualMachineScaleSetVMProfile object itself.
+     */
+    public VirtualMachineScaleSetVMProfile withSecurityProfile(SecurityProfile securityProfile) {
+        this.securityProfile = securityProfile;
         return this;
     }
 

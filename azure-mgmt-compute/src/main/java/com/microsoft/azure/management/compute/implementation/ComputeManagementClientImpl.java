@@ -10,6 +10,8 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.AzureClient;
 import com.microsoft.azure.AzureServiceClient;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 import com.microsoft.rest.credentials.ServiceClientCredentials;
 import com.microsoft.rest.RestClient;
 
@@ -433,6 +435,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The DiskAccessesInner object to access its operations.
+     */
+    private DiskAccessesInner diskAccesses;
+
+    /**
+     * Gets the DiskAccessesInner object to access its operations.
+     * @return the DiskAccessesInner object.
+     */
+    public DiskAccessesInner diskAccesses() {
+        return this.diskAccesses;
+    }
+
+    /**
      * The GalleriesInner object to access its operations.
      */
     private GalleriesInner galleries;
@@ -568,6 +583,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.disks = new DisksInner(restClient().retrofit(), this);
         this.snapshots = new SnapshotsInner(restClient().retrofit(), this);
         this.diskEncryptionSets = new DiskEncryptionSetsInner(restClient().retrofit(), this);
+        this.diskAccesses = new DiskAccessesInner(restClient().retrofit(), this);
         this.galleries = new GalleriesInner(restClient().retrofit(), this);
         this.galleryImages = new GalleryImagesInner(restClient().retrofit(), this);
         this.galleryImageVersions = new GalleryImageVersionsInner(restClient().retrofit(), this);

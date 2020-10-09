@@ -29,6 +29,7 @@ public class OrchestrationServiceStateInput {
 
     /**
      * Creates an instance of OrchestrationServiceStateInput class.
+     * @param action the action to be performed. Possible values include: 'Resume', 'Suspend'.
      */
     public OrchestrationServiceStateInput() {
         serviceName = "AutomaticRepairs";

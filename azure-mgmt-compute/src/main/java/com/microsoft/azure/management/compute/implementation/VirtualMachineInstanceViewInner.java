@@ -14,8 +14,10 @@ import com.microsoft.azure.management.compute.MaintenanceRedeployStatus;
 import java.util.List;
 import com.microsoft.azure.management.compute.DiskInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionInstanceView;
+import com.microsoft.azure.management.compute.VirtualMachineHealthStatus;
 import com.microsoft.azure.management.compute.BootDiagnosticsInstanceView;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
+import com.microsoft.azure.management.compute.VirtualMachinePatchStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -90,6 +92,12 @@ public class VirtualMachineInstanceViewInner {
     private List<VirtualMachineExtensionInstanceView> extensions;
 
     /**
+     * The health status for the VM.
+     */
+    @JsonProperty(value = "vmHealth", access = JsonProperty.Access.WRITE_ONLY)
+    private VirtualMachineHealthStatus vmHealth;
+
+    /**
      * Boot Diagnostics is a debugging feature which allows you to view Console
      * Output and Screenshot to diagnose VM status. &lt;br&gt;&lt;br&gt; You
      * can easily view the output of your console log. &lt;br&gt;&lt;br&gt;
@@ -100,10 +108,25 @@ public class VirtualMachineInstanceViewInner {
     private BootDiagnosticsInstanceView bootDiagnostics;
 
     /**
+     * Resource id of the dedicated host, on which the virtual machine is
+     * allocated through automatic placement, when the virtual machine is
+     * associated with a dedicated host group that has automatic placement
+     * enabled. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     */
+    @JsonProperty(value = "assignedHost", access = JsonProperty.Access.WRITE_ONLY)
+    private String assignedHost;
+
+    /**
      * The resource status information.
      */
     @JsonProperty(value = "statuses")
     private List<InstanceViewStatus> statuses;
+
+    /**
+     * The status of virtual machine patch operations.
+     */
+    @JsonProperty(value = "patchStatus")
+    private VirtualMachinePatchStatus patchStatus;
 
     /**
      * Get specifies the update domain of the virtual machine.
@@ -326,6 +349,15 @@ public class VirtualMachineInstanceViewInner {
     }
 
     /**
+     * Get the health status for the VM.
+     *
+     * @return the vmHealth value
+     */
+    public VirtualMachineHealthStatus vmHealth() {
+        return this.vmHealth;
+    }
+
+    /**
      * Get boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. &lt;br&gt;&lt;br&gt; You can easily view the output of your console log. &lt;br&gt;&lt;br&gt; Azure also enables you to see a screenshot of the VM from the hypervisor.
      *
      * @return the bootDiagnostics value
@@ -346,6 +378,15 @@ public class VirtualMachineInstanceViewInner {
     }
 
     /**
+     * Get resource id of the dedicated host, on which the virtual machine is allocated through automatic placement, when the virtual machine is associated with a dedicated host group that has automatic placement enabled. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     *
+     * @return the assignedHost value
+     */
+    public String assignedHost() {
+        return this.assignedHost;
+    }
+
+    /**
      * Get the resource status information.
      *
      * @return the statuses value
@@ -362,6 +403,26 @@ public class VirtualMachineInstanceViewInner {
      */
     public VirtualMachineInstanceViewInner withStatuses(List<InstanceViewStatus> statuses) {
         this.statuses = statuses;
+        return this;
+    }
+
+    /**
+     * Get the status of virtual machine patch operations.
+     *
+     * @return the patchStatus value
+     */
+    public VirtualMachinePatchStatus patchStatus() {
+        return this.patchStatus;
+    }
+
+    /**
+     * Set the status of virtual machine patch operations.
+     *
+     * @param patchStatus the patchStatus value to set
+     * @return the VirtualMachineInstanceViewInner object itself.
+     */
+    public VirtualMachineInstanceViewInner withPatchStatus(VirtualMachinePatchStatus patchStatus) {
+        this.patchStatus = patchStatus;
         return this;
     }
 

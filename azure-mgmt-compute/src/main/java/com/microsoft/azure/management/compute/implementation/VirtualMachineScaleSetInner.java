@@ -121,6 +121,14 @@ public class VirtualMachineScaleSetInner extends Resource {
     private SubResource proximityPlacementGroup;
 
     /**
+     * Specifies information about the dedicated host group that the virtual
+     * machine scale set resides in. &lt;br&gt;&lt;br&gt;Minimum api-version:
+     * 2020-06-01.
+     */
+    @JsonProperty(value = "properties.hostGroup")
+    private SubResource hostGroup;
+
+    /**
      * Specifies additional capabilities enabled or disabled on the Virtual
      * Machines in the Virtual Machine Scale Set. For instance: whether the
      * Virtual Machines have the capability to support attaching managed data
@@ -384,6 +392,26 @@ public class VirtualMachineScaleSetInner extends Resource {
      */
     public VirtualMachineScaleSetInner withProximityPlacementGroup(SubResource proximityPlacementGroup) {
         this.proximityPlacementGroup = proximityPlacementGroup;
+        return this;
+    }
+
+    /**
+     * Get specifies information about the dedicated host group that the virtual machine scale set resides in. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     *
+     * @return the hostGroup value
+     */
+    public SubResource hostGroup() {
+        return this.hostGroup;
+    }
+
+    /**
+     * Set specifies information about the dedicated host group that the virtual machine scale set resides in. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     *
+     * @param hostGroup the hostGroup value to set
+     * @return the VirtualMachineScaleSetInner object itself.
+     */
+    public VirtualMachineScaleSetInner withHostGroup(SubResource hostGroup) {
+        this.hostGroup = hostGroup;
         return this;
     }
 

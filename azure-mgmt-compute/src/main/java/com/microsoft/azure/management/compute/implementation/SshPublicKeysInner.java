@@ -188,7 +188,7 @@ public class SshPublicKeysInner implements InnerSupportsGet<SshPublicKeyResource
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SshPublicKeyResourceInner>>>>() {
                 @Override
@@ -301,7 +301,7 @@ public class SshPublicKeysInner implements InnerSupportsGet<SshPublicKeyResource
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SshPublicKeyResourceInner>>>>() {
                 @Override
@@ -393,7 +393,7 @@ public class SshPublicKeysInner implements InnerSupportsGet<SshPublicKeyResource
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.create(resourceGroupName, sshPublicKeyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SshPublicKeyResourceInner>>>() {
                 @Override
@@ -486,7 +486,7 @@ public class SshPublicKeysInner implements InnerSupportsGet<SshPublicKeyResource
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.update(resourceGroupName, sshPublicKeyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SshPublicKeyResourceInner>>>() {
                 @Override
@@ -569,7 +569,7 @@ public class SshPublicKeysInner implements InnerSupportsGet<SshPublicKeyResource
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.delete(resourceGroupName, sshPublicKeyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -654,7 +654,7 @@ public class SshPublicKeysInner implements InnerSupportsGet<SshPublicKeyResource
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.getByResourceGroup(resourceGroupName, sshPublicKeyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SshPublicKeyResourceInner>>>() {
                 @Override
@@ -738,7 +738,7 @@ public class SshPublicKeysInner implements InnerSupportsGet<SshPublicKeyResource
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-12-01";
+        final String apiVersion = "2020-06-01";
         return service.generateKeyPair(resourceGroupName, sshPublicKeyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SshPublicKeyGenerateKeyPairResultInner>>>() {
                 @Override

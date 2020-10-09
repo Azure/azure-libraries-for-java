@@ -25,12 +25,6 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
     private String name;
 
     /**
-     * Resource type.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /**
      * If a value is provided and is different from the previous value, the
      * extension handler will be forced to update even if the extension
      * configuration has not changed.
@@ -49,7 +43,7 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
      * "CustomScriptExtension".
      */
     @JsonProperty(value = "properties.type")
-    private String type1;
+    private String type;
 
     /**
      * Specifies the version of the script handler.
@@ -120,15 +114,6 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
     }
 
     /**
-     * Get resource type.
-     *
-     * @return the type value
-     */
-    public String type() {
-        return this.type;
-    }
-
-    /**
      * Get if a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed.
      *
      * @return the forceUpdateTag value
@@ -171,20 +156,20 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
     /**
      * Get specifies the type of the extension; an example is "CustomScriptExtension".
      *
-     * @return the type1 value
+     * @return the type value
      */
-    public String type1() {
-        return this.type1;
+    public String type() {
+        return this.type;
     }
 
     /**
      * Set specifies the type of the extension; an example is "CustomScriptExtension".
      *
-     * @param type1 the type1 value to set
+     * @param type the type value to set
      * @return the VirtualMachineScaleSetExtensionInner object itself.
      */
-    public VirtualMachineScaleSetExtensionInner withType1(String type1) {
-        this.type1 = type1;
+    public VirtualMachineScaleSetExtensionInner withType(String type) {
+        this.type = type;
         return this;
     }
 

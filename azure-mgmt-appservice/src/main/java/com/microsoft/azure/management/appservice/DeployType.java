@@ -19,39 +19,39 @@ import java.util.Collection;
 public class DeployType extends ExpandableStringEnum<DeployType> {
 
     /**
-     * Deploy the war file to /home/site/wwwroot/app.war.
+     * Deploy the war file to {@code /home/site/wwwroot/app.war}.
      *
-     * If path is provided, path=webapps/<appname> will behave exactly like wardeploy by unzipping app to /home/site/wwwroot/webapps/<appname>.
+     * If path is provided, {@code path=webapps/<appname>} will behave exactly like wardeploy by unzipping app to {@code /home/site/wwwroot/webapps/<appname>}.
      */
     public static final DeployType WAR = fromString("war");
 
     /**
-     * Deploy the war file to /home/site/wwwroot/app.jar.
+     * Deploy the war file to {@code /home/site/wwwroot/app.jar}.
      */
     public static final DeployType JAR = fromString("jar");
 
     /**
-     * Deploy the war file to /home/site/wwwroot/app.ear.
+     * Deploy the war file to {@code /home/site/wwwroot/app.ear}.
      */
     public static final DeployType EAR = fromString("ear");
 
     /**
-     * Deploy the jar to /home/site/libs. path parameter needs to be specified.
+     * Deploy the jar to {@code /home/site/libs}. path parameter needs to be specified.
      */
     public static final DeployType LIB = fromString("lib");
 
     /**
-     * Deploy the script to /home/site/scripts. path parameter needs to be specified.
+     * Deploy the script to {@code /home/site/scripts}. path parameter needs to be specified.
      */
     public static final DeployType STATIC = fromString("static");
 
     /**
-     * Deploy the script as startup.sh (Linux) or startup.cmd (Windows) to /home/site/scripts/. path parameter is not supported.
+     * Deploy the script as startup.sh (Linux) or startup.cmd (Windows) to {@code /home/site/scripts/}. path parameter is not supported.
      */
     public static final DeployType STARTUP = fromString("startup");
 
     /**
-     * unzip the zip to /home/site/wwwroot. path parameter is optional.
+     * unzip the zip to {@code /home/site/wwwroot}. path parameter is optional.
      */
     public static final DeployType ZIP = fromString("zip");
 

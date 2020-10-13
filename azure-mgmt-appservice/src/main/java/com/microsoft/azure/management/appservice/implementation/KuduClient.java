@@ -87,17 +87,14 @@ class KuduClient {
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps warDeploy", "x-ms-body-logging: false" })
         @POST("api/wardeploy")
-        @Streaming
         Observable<Void> warDeploy(@Body RequestBody warFile, @Query("name") String appName);
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
         @POST("api/zipdeploy")
-        @Streaming
         Observable<Void> zipDeploy(@Body RequestBody zipFile);
 
-        @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps oneDeploy", "x-ms-body-logging: false" })
+        @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps publish", "x-ms-body-logging: false" })
         @POST("api/publish")
-        @Streaming
         Observable<Void> deploy(@Body RequestBody file, @Query("type") DeployType type, @Query("path") String path, @Query("restart") Boolean restart, @Query("clean") Boolean clean);
     }
 

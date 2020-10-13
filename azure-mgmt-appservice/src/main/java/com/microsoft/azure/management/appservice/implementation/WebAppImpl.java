@@ -247,7 +247,7 @@ class WebAppImpl
 
     @Override
     public void deploy(DeployType type, File file, DeployOptions deployOptions) {
-        deployAsync(type, file, deployOptions).await();;
+        deployAsync(type, file, deployOptions).await();
     }
 
     @Override

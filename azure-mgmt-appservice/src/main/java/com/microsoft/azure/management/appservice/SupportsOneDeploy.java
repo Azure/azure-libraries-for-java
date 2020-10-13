@@ -24,7 +24,6 @@ public interface SupportsOneDeploy {
      * @param type the deploy type
      * @param file the file to upload
      */
-    @Beta(Beta.SinceVersion.V1_36_0)
     void deploy(DeployType type, File file);
 
     /**
@@ -34,7 +33,6 @@ public interface SupportsOneDeploy {
      * @param file the file to upload
      * @return a completable of the operation
      */
-    @Beta(Beta.SinceVersion.V1_36_0)
     Completable deployAsync(DeployType type, File file);
 
     /**
@@ -44,7 +42,6 @@ public interface SupportsOneDeploy {
      * @param file the file to upload
      * @param deployOptions the deploy options
      */
-    @Beta(Beta.SinceVersion.V1_36_0)
     void deploy(DeployType type, File file, DeployOptions deployOptions);
 
     /**
@@ -55,7 +52,6 @@ public interface SupportsOneDeploy {
      * @param deployOptions the deploy options
      * @return a completable of the operation
      */
-    @Beta(Beta.SinceVersion.V1_36_0)
     Completable deployAsync(DeployType type, File file, DeployOptions deployOptions);
 
     /**
@@ -64,7 +60,6 @@ public interface SupportsOneDeploy {
      * @param type the deploy type
      * @param file the file to upload
      */
-    @Beta(Beta.SinceVersion.V1_36_0)
     void deploy(DeployType type, InputStream file);
 
     /**
@@ -74,7 +69,6 @@ public interface SupportsOneDeploy {
      * @param file the file to upload
      * @return a completable of the operation
      */
-    @Beta(Beta.SinceVersion.V1_36_0)
     Completable deployAsync(DeployType type, InputStream file);
 
     /**
@@ -84,7 +78,6 @@ public interface SupportsOneDeploy {
      * @param file the file to upload
      * @param deployOptions the deploy options
      */
-    @Beta(Beta.SinceVersion.V1_36_0)
     void deploy(DeployType type, InputStream file, DeployOptions deployOptions);
 
     /**
@@ -95,6 +88,5 @@ public interface SupportsOneDeploy {
      * @param deployOptions the deploy options
      * @return a completable of the operation
      */
-    @Beta(Beta.SinceVersion.V1_36_0)
     Completable deployAsync(DeployType type, InputStream file, DeployOptions deployOptions);
 }

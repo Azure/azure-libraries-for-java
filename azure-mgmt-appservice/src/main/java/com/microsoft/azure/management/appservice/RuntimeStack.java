@@ -142,7 +142,7 @@ public class RuntimeStack {
 
     /** PYTHON 3.8. */
     public static final RuntimeStack PYTHON_3_8 = COLLECTION.addValue(new RuntimeStack("PYTHON", "3.8"));
-    
+
     /** RUBY 2.3. */
     public static final RuntimeStack RUBY_2_3 = COLLECTION.addValue(new RuntimeStack("RUBY", "2.3"));
 

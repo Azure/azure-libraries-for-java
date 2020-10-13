@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteStreams;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.appservice.DeployType;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -93,6 +94,11 @@ class KuduClient {
         @POST("api/zipdeploy")
         @Streaming
         Observable<Void> zipDeploy(@Body RequestBody zipFile);
+
+        @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps oneDeploy", "x-ms-body-logging: false" })
+        @POST("api/publish")
+        @Streaming
+        Observable<Void> deploy(@Body RequestBody file, @Query("type") DeployType type, @Query("path") String path, @Query("restart") Boolean restart, @Query("clean") Boolean clean);
     }
 
     Observable<String> streamApplicationLogsAsync() {
@@ -179,6 +185,15 @@ class KuduClient {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
             return getCompletable(service.zipDeploy(body));
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
+
+    Completable deployAsync(DeployType type, InputStream file, String path, Boolean restart, Boolean clean) {
+        try {
+            RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(file));
+            return getCompletable(service.deploy(body, type, path, restart, clean));
         } catch (IOException e) {
             return Completable.error(e);
         }

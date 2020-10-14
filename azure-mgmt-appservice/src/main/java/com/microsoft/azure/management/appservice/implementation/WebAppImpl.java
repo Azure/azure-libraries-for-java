@@ -20,6 +20,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Completable;
 import rx.Observable;
+import rx.exceptions.Exceptions;
 import rx.functions.Action0;
 import rx.functions.Func1;
 
@@ -195,7 +196,7 @@ class WebAppImpl
                     try {
                         is.close();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Exceptions.propagate(e);
                     }
                 }
             });
@@ -228,7 +229,7 @@ class WebAppImpl
                     try {
                         is.close();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Exceptions.propagate(e);
                     }
                 }
             });
@@ -277,7 +278,7 @@ class WebAppImpl
                     try {
                         is.close();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Exceptions.propagate(e);
                     }
                 }
             });

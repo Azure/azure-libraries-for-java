@@ -40,6 +40,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Completable;
 import rx.Observable;
+import rx.exceptions.Exceptions;
 import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.functions.Func2;
@@ -618,7 +619,7 @@ class FunctionAppImpl
                     try {
                         is.close();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Exceptions.propagate(e);
                     }
                 }
             });

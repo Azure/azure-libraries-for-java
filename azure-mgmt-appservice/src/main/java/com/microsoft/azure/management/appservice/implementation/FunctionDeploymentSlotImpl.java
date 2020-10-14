@@ -14,6 +14,7 @@ import com.microsoft.azure.management.appservice.FunctionDeploymentSlot.Definiti
 import com.microsoft.azure.management.appservice.SitePatchResource;
 import rx.Completable;
 import rx.Observable;
+import rx.exceptions.Exceptions;
 import rx.functions.Action0;
 
 import java.io.File;
@@ -78,7 +79,7 @@ class FunctionDeploymentSlotImpl
                     try {
                         is.close();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Exceptions.propagate(e);
                     }
                 }
             });

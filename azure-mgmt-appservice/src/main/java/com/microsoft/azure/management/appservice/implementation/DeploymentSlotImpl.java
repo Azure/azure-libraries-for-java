@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.DeploymentSlot;
 import com.microsoft.azure.management.appservice.WebApp;
 import rx.Completable;
+import rx.exceptions.Exceptions;
 import rx.functions.Action0;
 
 import java.io.File;
@@ -79,7 +80,7 @@ class DeploymentSlotImpl
                     try {
                         is.close();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Exceptions.propagate(e);
                     }
                 }
             });
@@ -128,7 +129,7 @@ class DeploymentSlotImpl
                     try {
                         is.close();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Exceptions.propagate(e);
                     }
                 }
             });

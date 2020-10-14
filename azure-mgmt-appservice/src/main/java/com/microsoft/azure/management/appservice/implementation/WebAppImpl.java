@@ -20,6 +20,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Completable;
 import rx.Observable;
+import rx.functions.Action0;
 import rx.functions.Func1;
 
 import java.io.File;
@@ -187,7 +188,17 @@ class WebAppImpl
     @Override
     public Completable warDeployAsync(File warFile, String appName) {
         try {
-            return warDeployAsync(new FileInputStream(warFile), appName);
+            final InputStream is = new FileInputStream(warFile);
+            return warDeployAsync(new FileInputStream(warFile), appName).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
         } catch (IOException e) {
             return Completable.error(e);
         }
@@ -210,7 +221,17 @@ class WebAppImpl
     @Override
     public Completable zipDeployAsync(File zipFile) {
         try {
-            return zipDeployAsync(new FileInputStream(zipFile));
+            final InputStream is = new FileInputStream(zipFile);
+            return zipDeployAsync(new FileInputStream(zipFile)).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
         } catch (IOException e) {
             return Completable.error(e);
         }
@@ -238,11 +259,7 @@ class WebAppImpl
 
     @Override
     public Completable deployAsync(DeployType type, File file) {
-        try {
-            return deployAsync(type, new FileInputStream(file));
-        } catch (IOException e) {
-            return Completable.error(e);
-        }
+        return deployAsync(type, file, new DeployOptions());
     }
 
     @Override
@@ -253,7 +270,17 @@ class WebAppImpl
     @Override
     public Completable deployAsync(DeployType type, File file, DeployOptions deployOptions) {
         try {
-            return deployAsync(type, new FileInputStream(file), deployOptions);
+            final InputStream is = new FileInputStream(file);
+            return deployAsync(type, new FileInputStream(file), deployOptions).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
         } catch (IOException e) {
             return Completable.error(e);
         }

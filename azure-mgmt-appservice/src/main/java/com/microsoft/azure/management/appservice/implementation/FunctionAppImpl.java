@@ -611,7 +611,17 @@ class FunctionAppImpl
     @Override
     public Completable zipDeployAsync(File zipFile) {
         try {
-            return zipDeployAsync(new FileInputStream(zipFile));
+            final InputStream is = new FileInputStream(zipFile);
+            return zipDeployAsync(new FileInputStream(zipFile)).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
         } catch (IOException e) {
             return Completable.error(e);
         }

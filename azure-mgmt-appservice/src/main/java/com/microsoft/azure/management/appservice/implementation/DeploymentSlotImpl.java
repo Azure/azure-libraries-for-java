@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.DeploymentSlot;
 import com.microsoft.azure.management.appservice.WebApp;
 import rx.Completable;
+import rx.functions.Action0;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -71,7 +72,17 @@ class DeploymentSlotImpl
     @Override
     public Completable warDeployAsync(File warFile, String appName) {
         try {
-            return warDeployAsync(new FileInputStream(warFile), appName);
+            final InputStream is = new FileInputStream(warFile);
+            return warDeployAsync(new FileInputStream(warFile), appName).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
         } catch (IOException e) {
             return Completable.error(e);
         }
@@ -110,7 +121,17 @@ class DeploymentSlotImpl
     @Override
     public Completable zipDeployAsync(File zipFile) {
         try {
-            return zipDeployAsync(new FileInputStream(zipFile));
+            final InputStream is = new FileInputStream(zipFile);
+            return zipDeployAsync(new FileInputStream(zipFile)).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
         } catch (IOException e) {
             return Completable.error(e);
         }

@@ -16,7 +16,6 @@ public class DeployOptions {
     private String path;
     private Boolean restartSite;
     private Boolean cleanDeployment;
-    private Boolean ignoreStack;
 
     /**
      * @return the path for deploy

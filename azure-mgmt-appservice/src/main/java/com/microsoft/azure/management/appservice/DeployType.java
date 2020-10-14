@@ -26,29 +26,29 @@ public class DeployType extends ExpandableStringEnum<DeployType> {
     public static final DeployType WAR = fromString("war");
 
     /**
-     * Deploy the war file to {@code /home/site/wwwroot/app.jar}.
+     * Deploy the jar file to {@code /home/site/wwwroot/app.jar}.
      */
     public static final DeployType JAR = fromString("jar");
 
     /**
-     * Deploy the war file to {@code /home/site/wwwroot/app.ear}.
+     * Deploy the ear file to {@code /home/site/wwwroot/app.ear}.
      */
     public static final DeployType EAR = fromString("ear");
 
     /**
      * Deploy the jar to {@code /home/site/libs}. path parameter needs to be specified.
      */
-    public static final DeployType LIB = fromString("lib");
+    public static final DeployType JAR_LIB = fromString("lib");
 
     /**
      * Deploy the script to {@code /home/site/scripts}. path parameter needs to be specified.
      */
-    public static final DeployType STATIC = fromString("static");
+    public static final DeployType SCRIPT_STATIC = fromString("static");
 
     /**
      * Deploy the script as startup.sh (Linux) or startup.cmd (Windows) to {@code /home/site/scripts/}. path parameter is not supported.
      */
-    public static final DeployType STARTUP = fromString("startup");
+    public static final DeployType SCRIPT_STARTUP = fromString("startup");
 
     /**
      * unzip the zip to {@code /home/site/wwwroot}. path parameter is optional.

@@ -57,7 +57,7 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_14_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("BaR@12abc!")
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .withExistingStorageAccount(storageAccount)
                 .create();
 
@@ -114,7 +114,7 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_14_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("BaR@12abc!")
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .create();
 
         // Using VMAccess Linux extension to reset the password for the existing user 'Foo12'
@@ -166,7 +166,7 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_14_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("BaR@12abc!")
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .defineNewExtension("CustomScriptForLinux")
                     .withPublisher("Microsoft.OSTCExtensions")
                     .withType("CustomScriptForLinux")
@@ -212,7 +212,7 @@ public class VirtualMachineExtensionOperationsTests extends ComputeManagementTes
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_14_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("BaR@12abc!")
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .defineNewExtension("VMAccessForLinux")
                     .withPublisher("Microsoft.OSTCExtensions")
                     .withType("VMAccessForLinux")

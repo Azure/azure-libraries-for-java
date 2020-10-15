@@ -14,6 +14,8 @@ import com.microsoft.azure.management.appservice.FunctionDeploymentSlot.Definiti
 import com.microsoft.azure.management.appservice.SitePatchResource;
 import rx.Completable;
 import rx.Observable;
+import rx.exceptions.Exceptions;
+import rx.functions.Action0;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,7 +72,17 @@ class FunctionDeploymentSlotImpl
     @Override
     public Completable zipDeployAsync(File zipFile) {
         try {
-            return zipDeployAsync(new FileInputStream(zipFile));
+            final InputStream is = new FileInputStream(zipFile);
+            return zipDeployAsync(new FileInputStream(zipFile)).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        Exceptions.propagate(e);
+                    }
+                }
+            });
         } catch (IOException e) {
             return Completable.error(e);
         }

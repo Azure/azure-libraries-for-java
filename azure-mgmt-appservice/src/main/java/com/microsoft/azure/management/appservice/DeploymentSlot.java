@@ -30,6 +30,7 @@ import java.io.InputStream;
 public interface DeploymentSlot extends
         IndependentChildResource<AppServiceManager, SiteInner>,
         DeploymentSlotBase<DeploymentSlot>,
+        SupportsOneDeploy,
         Refreshable<DeploymentSlot>,
         Updatable<DeploymentSlotBase.Update<DeploymentSlot>>,
         HasParent<WebApp> {

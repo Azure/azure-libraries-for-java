@@ -8,6 +8,8 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
+import com.microsoft.azure.management.appservice.DeployType;
+import com.microsoft.azure.management.appservice.DeployOptions;
 import com.microsoft.azure.management.appservice.DeploymentSlots;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
@@ -18,6 +20,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Completable;
 import rx.Observable;
+import rx.exceptions.Exceptions;
+import rx.functions.Action0;
 import rx.functions.Func1;
 
 import java.io.File;
@@ -185,7 +189,17 @@ class WebAppImpl
     @Override
     public Completable warDeployAsync(File warFile, String appName) {
         try {
-            return warDeployAsync(new FileInputStream(warFile), appName);
+            final InputStream is = new FileInputStream(warFile);
+            return warDeployAsync(new FileInputStream(warFile), appName).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        Exceptions.propagate(e);
+                    }
+                }
+            });
         } catch (IOException e) {
             return Completable.error(e);
         }
@@ -208,7 +222,17 @@ class WebAppImpl
     @Override
     public Completable zipDeployAsync(File zipFile) {
         try {
-            return zipDeployAsync(new FileInputStream(zipFile));
+            final InputStream is = new FileInputStream(zipFile);
+            return zipDeployAsync(new FileInputStream(zipFile)).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        Exceptions.propagate(e);
+                    }
+                }
+            });
         } catch (IOException e) {
             return Completable.error(e);
         }
@@ -227,6 +251,60 @@ class WebAppImpl
     @Override
     public void zipDeploy(InputStream zipFile) {
         zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    public void deploy(DeployType type, File file) {
+        deployAsync(type, file).await();
+    }
+
+    @Override
+    public Completable deployAsync(DeployType type, File file) {
+        return deployAsync(type, file, new DeployOptions());
+    }
+
+    @Override
+    public void deploy(DeployType type, File file, DeployOptions deployOptions) {
+        deployAsync(type, file, deployOptions).await();
+    }
+
+    @Override
+    public Completable deployAsync(DeployType type, File file, DeployOptions deployOptions) {
+        try {
+            final InputStream is = new FileInputStream(file);
+            return deployAsync(type, new FileInputStream(file), deployOptions).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        Exceptions.propagate(e);
+                    }
+                }
+            });
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
+
+    @Override
+    public void deploy(DeployType type, InputStream file) {
+        deployAsync(type, file).await();
+    }
+
+    @Override
+    public Completable deployAsync(DeployType type, InputStream file) {
+        return kuduClient.deployAsync(type, file, null, null, null);
+    }
+
+    @Override
+    public void deploy(DeployType type, InputStream file, DeployOptions deployOptions) {
+        deployAsync(type, file, deployOptions).await();
+    }
+
+    @Override
+    public Completable deployAsync(DeployType type, InputStream file, DeployOptions deployOptions) {
+        return kuduClient.deployAsync(type, file, deployOptions.path(), deployOptions.restartSite(), deployOptions.cleanDeployment());
     }
 
     @Override

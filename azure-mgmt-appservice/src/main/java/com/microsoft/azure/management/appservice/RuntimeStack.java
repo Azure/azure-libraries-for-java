@@ -32,6 +32,9 @@ public class RuntimeStack {
     /** .NET Core v2.2. */
     public static final RuntimeStack NETCORE_V2_2 = COLLECTION.addValue(new RuntimeStack("DOTNETCORE", "2.2"));
 
+    /** .NET Core v3.1. */
+    public static final RuntimeStack NETCORE_V3_1 = COLLECTION.addValue(new RuntimeStack("DOTNETCORE", "3.1"));
+
     /** JAVA JRE 8. */
     public static final RuntimeStack JAVA_8_JRE8 = COLLECTION.addValue(new RuntimeStack("JAVA", "8-jre8"));
 
@@ -95,6 +98,9 @@ public class RuntimeStack {
     /** Node.JS 10.1. */
     public static final RuntimeStack NODEJS_10_1 = COLLECTION.addValue(new RuntimeStack("NODE", "10.1"));
 
+    /** Node.JS 10.6. */
+    public static final RuntimeStack NODEJS_10_6 = COLLECTION.addValue(new RuntimeStack("NODE", "10.6"));
+
     /** Node.JS 10.10. */
     public static final RuntimeStack NODEJS_10_10 = COLLECTION.addValue(new RuntimeStack("NODE", "10.10"));
 
@@ -106,6 +112,9 @@ public class RuntimeStack {
 
     /** Node.JS 10 LTS. */
     public static final RuntimeStack NODEJS_10_LTS = COLLECTION.addValue(new RuntimeStack("NODE", "10-lts"));
+
+    /** Node.JS 12 LTS. */
+    public static final RuntimeStack NODEJS_12_LTS = COLLECTION.addValue(new RuntimeStack("NODE", "12-lts"));
 
     /** Node.JS lts. */
     public static final RuntimeStack NODEJS_LTS = COLLECTION.addValue(new RuntimeStack("NODE", "lts"));
@@ -130,6 +139,9 @@ public class RuntimeStack {
 
     /** PYTHON 3.7. */
     public static final RuntimeStack PYTHON_3_7 = COLLECTION.addValue(new RuntimeStack("PYTHON", "3.7"));
+
+    /** PYTHON 3.8. */
+    public static final RuntimeStack PYTHON_3_8 = COLLECTION.addValue(new RuntimeStack("PYTHON", "3.8"));
 
     /** RUBY 2.3. */
     public static final RuntimeStack RUBY_2_3 = COLLECTION.addValue(new RuntimeStack("RUBY", "2.3"));

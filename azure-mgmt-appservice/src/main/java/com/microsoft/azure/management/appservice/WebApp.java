@@ -27,6 +27,7 @@ import java.io.InputStream;
 @Beta
 public interface WebApp extends
         WebAppBase,
+        SupportsOneDeploy,
         Refreshable<WebApp>,
         Updatable<WebApp.Update> {
     /**

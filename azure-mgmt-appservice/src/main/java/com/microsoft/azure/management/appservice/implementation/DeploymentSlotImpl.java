@@ -7,6 +7,8 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.appservice.DeployOptions;
+import com.microsoft.azure.management.appservice.DeployType;
 import com.microsoft.azure.management.appservice.DeploymentSlot;
 import com.microsoft.azure.management.appservice.WebApp;
 import rx.Completable;
@@ -136,5 +138,60 @@ class DeploymentSlotImpl
         } catch (IOException e) {
             return Completable.error(e);
         }
+    }
+
+
+    @Override
+    public void deploy(DeployType type, File file) {
+        deployAsync(type, file).await();
+    }
+
+    @Override
+    public Completable deployAsync(DeployType type, File file) {
+        return deployAsync(type, file, new DeployOptions());
+    }
+
+    @Override
+    public void deploy(DeployType type, File file, DeployOptions deployOptions) {
+        deployAsync(type, file, deployOptions).await();
+    }
+
+    @Override
+    public Completable deployAsync(DeployType type, File file, DeployOptions deployOptions) {
+        try {
+            final InputStream is = new FileInputStream(file);
+            return deployAsync(type, new FileInputStream(file), deployOptions).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        Exceptions.propagate(e);
+                    }
+                }
+            });
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
+
+    @Override
+    public void deploy(DeployType type, InputStream file) {
+        deployAsync(type, file).await();
+    }
+
+    @Override
+    public Completable deployAsync(DeployType type, InputStream file) {
+        return kuduClient.deployAsync(type, file, null, null, null);
+    }
+
+    @Override
+    public void deploy(DeployType type, InputStream file, DeployOptions deployOptions) {
+        deployAsync(type, file, deployOptions).await();
+    }
+
+    @Override
+    public Completable deployAsync(DeployType type, InputStream file, DeployOptions deployOptions) {
+        return kuduClient.deployAsync(type, file, deployOptions.path(), deployOptions.restartSite(), deployOptions.cleanDeployment());
     }
 }

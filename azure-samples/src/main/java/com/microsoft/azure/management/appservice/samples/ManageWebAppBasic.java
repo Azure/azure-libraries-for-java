@@ -8,10 +8,14 @@ package com.microsoft.azure.management.appservice.samples;
 
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.appservice.AppServicePlan;
+import com.microsoft.azure.management.appservice.DeployOptions;
+import com.microsoft.azure.management.appservice.DeployType;
+import com.microsoft.azure.management.appservice.DeploymentSlot;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.JavaVersion;
 import com.microsoft.azure.management.appservice.WebApp;
 import com.microsoft.azure.management.appservice.WebContainer;
+import com.microsoft.azure.management.resources.Deployments;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.samples.Utils;
@@ -44,7 +48,12 @@ public final class ManageWebAppBasic {
         final String rg2Name        = SdkContext.randomResourceName("rg2NEMV_", 24);
 
         try {
-
+            WebApp app = azure.webApps().getByResourceGroup("rg-weidxu", "wa1weidxu");
+            DeploymentSlot slot = app.deploymentSlots().getByName("wa1weidxu1");
+            //slot.deploy(DeployType.ZIP, new File(ManageWebAppBasic.class.getResource("/helloworld.zip").getPath()));
+            //slot.deploy(DeployType.JAR_LIB, new File("C:\\github_fork\\autorest.java\\preprocessor\\target\\preprocessor.jar"), new DeployOptions().withPath("preprocessor.jar"));
+            slot.deploy(DeployType.STATIC, new File("C:\\github_fork\\autorest.java\\generate.bat"), new DeployOptions().withPath("generate.bat"));
+            //slot.deploy(DeployType.SCRIPT_STARTUP, new File("C:\\github_fork\\autorest.java\\generate.bat"));
 
             //============================================================
             // Create a web app with a new app service plan

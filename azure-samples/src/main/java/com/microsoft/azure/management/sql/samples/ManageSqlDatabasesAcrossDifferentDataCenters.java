@@ -133,7 +133,7 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
             regions.add(Region.US_WEST);
             regions.add(Region.EUROPE_NORTH);
             regions.add(Region.ASIA_SOUTHEAST);
-            regions.add(Region.JAPAN_EAST);
+            regions.add(Region.US_WEST2);
 
             List<Creatable<Network>> creatableNetworks = new ArrayList<>();
 
@@ -167,7 +167,7 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
                         .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_R2_DATACENTER)
                         .withAdminUsername(administratorLogin)
                         .withAdminPassword(administratorPassword)
-                        .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2));
+                        .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4")));
             }
 
             HashMap<String, String> ipAddresses = new HashMap<>();

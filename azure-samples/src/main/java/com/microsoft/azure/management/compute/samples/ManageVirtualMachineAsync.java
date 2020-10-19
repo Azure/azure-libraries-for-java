@@ -46,7 +46,7 @@ public final class ManageVirtualMachineAsync {
      * @return true if sample runs successfully
      */
     public static boolean runSample(final Azure azure) {
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_WEST;
         final String windowsVMName = Utils.createRandomName("wVM");
         final String linuxVMName = Utils.createRandomName("lVM");
         final String rgName = Utils.createRandomName("rgCOMV");
@@ -100,7 +100,7 @@ public final class ManageVirtualMachineAsync {
                                         .withNewDataDisk(10)
                                         .withNewDataDisk(dataDiskCreatable)
                                         .withExistingDataDisk((Disk) createdResource)
-                                        .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                                        .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                                         .createAsync();
                             }
                             return Observable.just(createdResource);
@@ -125,7 +125,7 @@ public final class ManageVirtualMachineAsync {
                                         .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                                         .withRootUsername(userName)
                                         .withRootPassword(password)
-                                        .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                                        .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                                         .createAsync();
                             }
                             return Observable.just(createdResource);

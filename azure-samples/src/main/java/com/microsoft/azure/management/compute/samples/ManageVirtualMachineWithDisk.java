@@ -50,7 +50,7 @@ public final class ManageVirtualMachineWithDisk {
         final String userName = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_WEST;
 
         try {
             // Creates an empty data disk to attach to the virtual machine
@@ -106,7 +106,7 @@ public final class ManageVirtualMachineWithDisk {
                     .withExistingDataDisk(dataDisk1)
 
                     // End: Managed data disks
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D4a_v4"))
                     .create();
 
             System.out.println("Created a Linux VM with managed OS and data disks: " + linuxVM.id());

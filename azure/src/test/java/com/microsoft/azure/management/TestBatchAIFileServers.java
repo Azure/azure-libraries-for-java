@@ -48,7 +48,7 @@ public class TestBatchAIFileServers extends TestTemplate<BatchAIWorkspace, Batch
 
         BatchAIFileServer fileServer = workspace.fileServers().define(fsName)
                 .withDataDisks(10, 2, StorageAccountType.STANDARD_LRS, CachingType.READWRITE)
-                .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
+                .withVMSize("Standard_D2a_v4")
                 .withUserName(userName)
                 .withPassword("MyPassword!")
                 .withSubnet(network.id(), subnetName)

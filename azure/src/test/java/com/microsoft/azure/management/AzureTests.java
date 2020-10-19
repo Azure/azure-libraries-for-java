@@ -299,7 +299,7 @@ public class AzureTests extends TestBase {
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername("tester")
                     .withRootPassword(password)
-                    .withSize(VirtualMachineSizeTypes.BASIC_A1);
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"));
 
             // Define a managed disk for testing locks on that
             Creatable<Disk> diskDefinition = azure.disks().define(diskName)
@@ -581,7 +581,7 @@ public class AzureTests extends TestBase {
                 .withNewDataDisk(100)
                 .withNewDataDisk(100, 1, CachingTypes.READ_WRITE)
                 // End: Managed data disks
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .create();
 
         linuxVM2.deallocate();
@@ -1024,7 +1024,7 @@ public class AzureTests extends TestBase {
             BatchAIExperiment experiment = workspace.experiments().define(experimentName).create();
 
             BatchAICluster cluster = workspace.clusters().define(clusterName)
-                    .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
+                    .withVMSize("Standard_D2a_v4")
                     .withUserName(userName)
                     .withPassword("MyPassword")
                     .withAutoScale(1, 1)

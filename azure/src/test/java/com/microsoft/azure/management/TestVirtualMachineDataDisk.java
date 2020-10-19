@@ -34,10 +34,10 @@ public class TestVirtualMachineDataDisk extends TestTemplate<VirtualMachine, Vir
                     .withNewVhd(20)
                     .withCaching(CachingTypes.READ_ONLY)
                     .attach()
-                .withSize(VirtualMachineSizeTypes.STANDARD_A8)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .create();
 
-        Assert.assertTrue(virtualMachine.size().equals(VirtualMachineSizeTypes.STANDARD_A8));
+        Assert.assertTrue(virtualMachine.size().equals(VirtualMachineSizeTypes.fromString("Standard_D2a_v4")));
         Assert.assertTrue(virtualMachine.unmanagedDataDisks().size() == 2);
         VirtualMachineUnmanagedDataDisk disk2 = null;
         for (VirtualMachineUnmanagedDataDisk dataDisk : virtualMachine.unmanagedDataDisks().values()) {

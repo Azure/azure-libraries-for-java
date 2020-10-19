@@ -49,7 +49,7 @@ public final class ManageUserAssignedMSIEnabledVirtualMachine {
         final String userName = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPAwX0rd!";
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_WEST;
 
 
         try {
@@ -99,7 +99,7 @@ public final class ManageUserAssignedMSIEnabledVirtualMachine {
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername(userName)
                     .withRootPassword(password)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .withExistingUserAssignedManagedServiceIdentity(identity)
                     .defineNewExtension("CustomScriptForLinux")
                         .withPublisher("Microsoft.OSTCExtensions")

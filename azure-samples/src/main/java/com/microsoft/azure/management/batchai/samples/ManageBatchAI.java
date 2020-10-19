@@ -111,7 +111,7 @@ public final class ManageBatchAI {
             // Create Batch AI cluster that uses Azure file share to host the training data and scripts for the learning job
             System.out.println("Creating Batch AI cluster...");
             BatchAICluster cluster = workspace.clusters().define(clusterName)
-                    .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
+                    .withVMSize("Standard_D2a_v4")
                     .withUserName(userName)
                     .withPassword(password)
                     .withAutoScale(0, 2)

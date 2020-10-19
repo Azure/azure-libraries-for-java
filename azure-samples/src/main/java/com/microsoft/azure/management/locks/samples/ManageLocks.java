@@ -51,7 +51,7 @@ public final class ManageLocks {
         final String storageName = SdkContext.randomResourceName("st", 15);
         final String diskName = SdkContext.randomResourceName("dsk", 15);
         final String netName = SdkContext.randomResourceName("net", 15);
-        final Region region = Region.US_SOUTH_CENTRAL;
+        final Region region = Region.US_WEST;
 
         ResourceGroup resourceGroup = null;
         ManagementLock lockGroup = null,
@@ -98,7 +98,7 @@ public final class ManageLocks {
                         .withRootUsername("tester")
                         .withRootPassword(password)
                         .withNewDataDisk(diskDefinition, 1, CachingTypes.NONE)
-                        .withSize(VirtualMachineSizeTypes.BASIC_A1);
+                        .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"));
     
             // Define a storage account to apply a lock to
             Creatable<StorageAccount> storageDefinition = azure.storageAccounts().define(storageName)

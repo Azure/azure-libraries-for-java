@@ -70,7 +70,7 @@ public final class ManageManagedDisks {
                     .withRootUsername(userName)
                     .withSsh(sshkey)
                     .withNewDataDisk(50)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             System.out.println("Created VM [with an implicit Managed OS disk and explicit Managed data disk]");
@@ -136,7 +136,7 @@ public final class ManageManagedDisks {
                     .withNewDataDisk(50, 1, CachingTypes.READ_WRITE)
                     .withExistingDataDisk(dataDisk)
                     // End: Managed data disks
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             System.out.println("Created VM [with new managed data disks and disk attached]");
@@ -184,7 +184,7 @@ public final class ManageManagedDisks {
                     .withLinuxCustomImage(virtualMachineCustomImage.id())
                     .withRootUsername(userName)
                     .withSsh(sshkey)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             System.out.println("Created VM [from custom image]");
@@ -205,7 +205,7 @@ public final class ManageManagedDisks {
                     .withPrimaryPrivateIPAddressDynamic()
                     .withoutPrimaryPublicIPAddress()
                     .withSpecializedOSUnmanagedDisk(specializedVhd, OperatingSystemTypes.LINUX)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             System.out.println("Created VM [by attaching un-managed disk]");
@@ -290,7 +290,7 @@ public final class ManageManagedDisks {
                     .withoutPrimaryPublicIPAddress()
                     .withSpecializedOSDisk(newOSDisk, OperatingSystemTypes.LINUX)
                     .withExistingDataDisk(newDataDisk)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             System.out.println("Created VM [with specialized OS managed disk]");
@@ -312,7 +312,7 @@ public final class ManageManagedDisks {
                     .withSsh(sshkey)
                     .withUnmanagedDisks() // uses storage accounts
                     .withNewUnmanagedDataDisk(50)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             System.out.println("Created VM [with un-managed disk for migration]");
@@ -402,7 +402,7 @@ public final class ManageManagedDisks {
                     .withNewVhd(50)
                     .withLun(2)
                     .attach()
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .create();
 
         // De-provision the virtual machine
@@ -434,7 +434,7 @@ public final class ManageManagedDisks {
                 .withRootPassword(password)
                 .withNewDataDisk(100)
                 .withNewDataDisk(200)
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .create();
 
         // De-provision the virtual machine

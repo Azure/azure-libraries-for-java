@@ -51,7 +51,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
  */
 public class TestLoadBalancer {
     static String TEST_ID = "";
-    static Region REGION = Region.US_NORTH_CENTRAL;
+    static Region REGION = Region.US_EAST;
     static String GROUP_NAME = "";
     static String LB_NAME = "";
     static String[] PIP_NAMES = null;
@@ -1020,7 +1020,7 @@ public class TestLoadBalancer {
                     .withRootUsername(userName)
                     .withRootPassword("Abcdef.123456")
                     .withNewAvailabilitySet(availabilitySetDefinition)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_A1);
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"));
 
             vmDefinitions.add(vm);
         }

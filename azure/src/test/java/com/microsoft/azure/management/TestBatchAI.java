@@ -91,7 +91,7 @@ public class TestBatchAI {
                 .create();
 
             BatchAICluster cluster = workspace.clusters().define(clusterName)
-                    .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
+                    .withVMSize("Standard_D2a_v4")
                     .withUserName(userName)
                     .withPassword("MyPassword")
                     .withAutoScale(1, 1)

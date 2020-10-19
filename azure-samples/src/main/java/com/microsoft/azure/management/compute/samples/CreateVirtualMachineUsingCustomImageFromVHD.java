@@ -55,7 +55,7 @@ public final class CreateVirtualMachineUsingCustomImageFromVHD {
         final String userName = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_WEST;
 
         final String apacheInstallScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-samples/src/main/resources/install_apache.sh";
         final String apacheInstallCommand = "bash install_apache.sh";
@@ -99,7 +99,7 @@ public final class CreateVirtualMachineUsingCustomImageFromVHD {
                         .withPublicSetting("fileUris", apacheInstallScriptUris)
                         .withPublicSetting("commandToExecute", apacheInstallCommand)
                         .attach()
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             System.out.println("Created a Linux VM with un-managed OS and data disks: " + linuxVM.id());
@@ -167,7 +167,7 @@ public final class CreateVirtualMachineUsingCustomImageFromVHD {
                     .withLinuxCustomImage(virtualMachineCustomImage.id())
                     .withRootUsername(userName)
                     .withRootPassword(password)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             System.out.println("Created Linux VM");
@@ -190,7 +190,7 @@ public final class CreateVirtualMachineUsingCustomImageFromVHD {
                     .withNewDataDiskFromImage(2, 100, CachingTypes.READ_ONLY)
                     .withNewDataDiskFromImage(3, 100, CachingTypes.READ_WRITE)
                     .withNewDataDisk(50)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             Utils.print(linuxVM3);

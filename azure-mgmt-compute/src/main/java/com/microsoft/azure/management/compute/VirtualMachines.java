@@ -341,4 +341,55 @@ public interface VirtualMachines extends
      * @return handle to the asynchronous execution
      */
     Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand);
+
+    /**
+     * Force delete a resource from Azure, identifying it by its resource ID.
+     *
+     * @param id the resource ID of the resource to delete
+     */
+    void forceDeleteById(String id);
+
+    /**
+     * Asynchronously force delete a resource from Azure, identifying it by its resource ID.
+     *
+     * @param id the resource ID of the resource to delete
+     * @param callback the callback on success or failure
+     * @return a handle to cancel the request
+     */
+    ServiceFuture<Void> forceDeleteByIdAsync(String id, ServiceCallback<Void> callback);
+
+    /**
+     * Asynchronously force delete a resource from Azure, identifying it by its resource ID.
+     *
+     * @param id the resource ID of the resource to delete
+     * @return a representation of the deferred computation of this call
+     */
+    Completable forceDeleteByIdAsync(String id);
+
+    /**
+     * Force delete a resource from Azure, identifying it by its name and its resource group.
+     *
+     * @param resourceGroupName the resource group the resource is part of
+     * @param name the name of the resource
+     */
+    void forceDeleteByResourceGroup(String resourceGroupName, String name);
+
+    /**
+     * Asynchronously force delete a resource from Azure, identifying it by its name and its resource group.
+     *
+     * @param resourceGroupName the resource group the resource is part of
+     * @param name the name of the resource
+     * @param callback the callback to call on success or failure
+     * @return a handle to cancel the request
+     */
+    ServiceFuture<Void> forceDeleteByResourceGroupAsync(String resourceGroupName, String name, ServiceCallback<Void> callback);
+
+    /**
+     * Asynchronously force delete a resource from Azure, identifying it by its name and its resource group.
+     *
+     * @param resourceGroupName the resource group the resource is part of
+     * @param name the name of the resource
+     * @return a representation of the deferred computation of this call
+     */
+    Completable forceDeleteByResourceGroupAsync(String resourceGroupName, String name);
 }

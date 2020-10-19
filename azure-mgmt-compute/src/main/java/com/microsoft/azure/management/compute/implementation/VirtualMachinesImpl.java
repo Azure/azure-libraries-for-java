@@ -24,6 +24,7 @@ import com.microsoft.azure.management.compute.VirtualMachineSizes;
 import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.ServiceCallback;
@@ -257,6 +258,37 @@ class VirtualMachinesImpl
                     }
                 }
         );
+    }
+
+    @Override
+    public void forceDeleteById(String id) {
+        forceDeleteByResourceGroup(ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id));
+    }
+
+    @Override
+    public ServiceFuture<Void> forceDeleteByIdAsync(String id, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(forceDeleteByIdAsync(id), callback);
+    }
+
+    @Override
+    public Completable forceDeleteByIdAsync(String id) {
+        return forceDeleteByResourceGroupAsync(
+                ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id));
+    }
+
+    @Override
+    public void forceDeleteByResourceGroup(String resourceGroupName, String name) {
+        this.inner().delete(resourceGroupName, name, true);
+    }
+
+    @Override
+    public ServiceFuture<Void> forceDeleteByResourceGroupAsync(String resourceGroupName, String name, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(deleteByResourceGroupAsync(resourceGroupName, name), callback);
+    }
+
+    @Override
+    public Completable forceDeleteByResourceGroupAsync(String resourceGroupName, String name) {
+        return this.inner().deleteAsync(resourceGroupName, name, true).toCompletable();
     }
 
     // Getters

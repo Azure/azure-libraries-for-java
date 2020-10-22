@@ -736,6 +736,39 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assert.assertEquals(DiskState.RESERVED, disk.inner().diskState());
     }
 
+    @Test
+    public void canForceDeleteVirtualMachine() {
+        // Create
+        computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion("eastus2euap")
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_R2_DATACENTER)
+                .withAdminUsername("Foo12")
+                .withAdminPassword("abc!@#F0orL")
+                .create();
+
+        // Get
+        VirtualMachine virtualMachine = computeManager.virtualMachines().getByResourceGroup(RG_NAME, VMNAME);
+        Assert.assertNotNull(virtualMachine);
+        Assert.assertEquals(Region.fromName("eastus2euap"), virtualMachine.region());
+
+        String nicId = virtualMachine.primaryNetworkInterfaceId();
+
+        // Force delete
+        computeManager.virtualMachines().forceDeleteById(virtualMachine.id());
+
+        virtualMachine = computeManager.virtualMachines().getById(virtualMachine.id());
+        Assert.assertNull(virtualMachine);
+
+        // check if nic exists after force delete vm
+        NetworkInterface nic = networkManager.networkInterfaces().getById(nicId);
+        Assert.assertNotNull(nic);
+    }
+
     private CreatablesInfo prepareCreatableVirtualMachines(Region region,
                                                            String vmNamePrefix,
                                                            String networkNamePrefix,

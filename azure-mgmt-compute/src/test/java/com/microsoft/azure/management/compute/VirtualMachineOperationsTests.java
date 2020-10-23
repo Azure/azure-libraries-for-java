@@ -41,7 +41,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
     private static String RG_NAME2 = "";
     private static final Region REGION = Region.US_EAST;
-    private static final Region REGIONPROXPLACEMENTGROUP = Region.US_WEST_CENTRAL;
+    private static final Region REGIONPROXPLACEMENTGROUP = Region.US_EAST;
     private static final Region REGIONPROXPLACEMENTGROUP2 = Region.US_SOUTH_CENTRAL;
     private static final String VMNAME = "javavm";
     private static final String PROXGROUPNAME = "testproxgroup1";
@@ -134,7 +134,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withAdminUsername("Foo12")
                 .withAdminPassword("abc!@#F0orL")
                 .withUnmanagedDisks()
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .withOSDiskName("javatest")
                 .withLicenseType("Windows_Server")
@@ -181,7 +181,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withAdminUsername("Foo12")
                 .withAdminPassword("abc!@#F0orL")
                 .withUnmanagedDisks()
-                .withSize(VirtualMachineSizeTypes.STANDARD_A2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .withOSDiskName("javatest")
                 .withLowPriority(VirtualMachineEvictionPolicyTypes.DEALLOCATE)
@@ -296,7 +296,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withAdminUsername("Foo12")
                 .withAdminPassword("abc!@#F0orL")
                 .withUnmanagedDisks()
-                .withSize(VirtualMachineSizeTypes.STANDARD_DS3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .withOSDiskName("javatest")
                 .withLicenseType("Windows_Server")
@@ -378,7 +378,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withAdminUsername("Foo12")
                 .withAdminPassword("abc!@#F0orL")
                 .withUnmanagedDisks()
-                .withSize(VirtualMachineSizeTypes.STANDARD_DS3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .withOSDiskName("javatest")
                 .withLicenseType("Windows_Server")
@@ -579,7 +579,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     .withLun(3)
                     .storeAt(storageAccount.name(), "diskvhds", "datadisk2vhd.vhd")
                     .attach()
-                .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2as_v4"))
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
@@ -614,7 +614,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withRootPassword("abc!@#F0orL")
                 .withUnmanagedDisks()
                 .withExistingUnmanagedDataDisk(storageAccount.name(), "diskvhds", "datadisk1vhd.vhd")
-                .withSize(VirtualMachineSizeTypes.STANDARD_DS2_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2as_v4"))
                 .create();
         // Gets the vm
         //
@@ -660,7 +660,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("firstuser")
                 .withRootPassword("afh123RVS!")
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .create();
 
         //checking to see if withTag correctly update
@@ -715,7 +715,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withRootUsername("firstuser")
                 .withRootPassword("afh123RVS!")
                 .withSpotPriority(VirtualMachineEvictionPolicyTypes.DEALLOCATE)
-                .withSize(VirtualMachineSizeTypes.STANDARD_D2_V3)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .create();
 
         Assert.assertNotNull(virtualMachine.osDiskStorageAccountType());
@@ -734,6 +734,39 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assert.assertTrue(virtualMachine.osDiskSize() == 0);
         disk = computeManager.disks().getById(virtualMachine.osDiskId());
         Assert.assertEquals(DiskState.RESERVED, disk.inner().diskState());
+    }
+
+    @Test
+    public void canForceDeleteVirtualMachine() {
+        // Create
+        computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion("eastus2euap")
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_R2_DATACENTER)
+                .withAdminUsername("Foo12")
+                .withAdminPassword("abc!@#F0orL")
+                .create();
+
+        // Get
+        VirtualMachine virtualMachine = computeManager.virtualMachines().getByResourceGroup(RG_NAME, VMNAME);
+        Assert.assertNotNull(virtualMachine);
+        Assert.assertEquals(Region.fromName("eastus2euap"), virtualMachine.region());
+
+        String nicId = virtualMachine.primaryNetworkInterfaceId();
+
+        // Force delete
+        computeManager.virtualMachines().deleteById(virtualMachine.id(), true);
+
+        virtualMachine = computeManager.virtualMachines().getById(virtualMachine.id());
+        Assert.assertNull(virtualMachine);
+
+        // check if nic exists after force delete vm
+        NetworkInterface nic = networkManager.networkInterfaces().getById(nicId);
+        Assert.assertNotNull(nic);
     }
 
     private CreatablesInfo prepareCreatableVirtualMachines(Region region,

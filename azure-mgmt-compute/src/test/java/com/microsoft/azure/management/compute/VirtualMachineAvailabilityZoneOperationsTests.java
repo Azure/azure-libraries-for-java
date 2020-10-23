@@ -64,7 +64,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 .withRootPassword("abc!@#F0orL")
                 // Optionals
                 .withAvailabilityZone(AvailabilityZoneId.ZONE_1)
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 // Create VM
                 .create();
@@ -145,7 +145,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 // Optionals
                 .withAvailabilityZone(AvailabilityZoneId.ZONE_1)
                 .withExistingDataDisk(dataDisk)
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 // Create VM
                 .create();
         // Checks the zone assigned to the virtual machine
@@ -215,7 +215,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 .withRootPassword("abc!@#F0orL")
                 // Optionals
                 .withAvailabilityZone(AvailabilityZoneId.ZONE_1)
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 // Create VM
                 .create();
         // Checks the zone assigned to the virtual machine
@@ -261,7 +261,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")
                 // Optionals
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2);
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"));
 
         // Define second regional virtual machine
         //
@@ -277,7 +277,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")
                 // Optionals
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2);
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"));
 
         CreatedResources<VirtualMachine> createdVMs = computeManager.virtualMachines()
                 .create(creatableVM1, creatableVM2);
@@ -397,7 +397,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 .withRootPassword("abc!@#F0orL")
                 .withAvailabilityZone(AvailabilityZoneId.ZONE_1)
                 // Optionals
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2);
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"));
 
         // Define second regional virtual machine
         //
@@ -414,7 +414,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 .withRootPassword("abc!@#F0orL")
                 .withAvailabilityZone(AvailabilityZoneId.ZONE_1)
                 // Optionals
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2);
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"));
 
         CreatedResources<VirtualMachine> createdVMs = computeManager.virtualMachines()
                 .create(creatableVM1, creatableVM2);

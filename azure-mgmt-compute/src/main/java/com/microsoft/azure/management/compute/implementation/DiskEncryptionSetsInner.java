@@ -102,6 +102,10 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskEncryptionSets listAssociatedResources" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}/associatedResources")
+        Observable<Response<ResponseBody>> listAssociatedResources(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("diskEncryptionSetName") String diskEncryptionSetName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskEncryptionSets listByResourceGroupNext" })
         @GET
         Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -109,6 +113,10 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskEncryptionSets listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskEncryptionSets listAssociatedResourcesNext" })
+        @GET
+        Observable<Response<ResponseBody>> listAssociatedResourcesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -182,7 +190,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
             throw new IllegalArgumentException("Parameter diskEncryptionSet is required and cannot be null.");
         }
         Validator.validate(diskEncryptionSet);
-        final String apiVersion = "2019-11-01";
+        final String apiVersion = "2020-06-30";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, diskEncryptionSetName, apiVersion, diskEncryptionSet, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DiskEncryptionSetInner>() { }.getType());
     }
@@ -257,7 +265,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
             throw new IllegalArgumentException("Parameter diskEncryptionSet is required and cannot be null.");
         }
         Validator.validate(diskEncryptionSet);
-        final String apiVersion = "2019-11-01";
+        final String apiVersion = "2020-06-30";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, diskEncryptionSetName, apiVersion, diskEncryptionSet, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiskEncryptionSetInner>>>() {
                 @Override
@@ -275,7 +283,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
     private ServiceResponse<DiskEncryptionSetInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DiskEncryptionSetInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiskEncryptionSetInner>() { }.getType())
-                .register(201, new TypeToken<DiskEncryptionSetInner>() { }.getType())
+                .register(202, new TypeToken<DiskEncryptionSetInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -350,7 +358,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
             throw new IllegalArgumentException("Parameter diskEncryptionSet is required and cannot be null.");
         }
         Validator.validate(diskEncryptionSet);
-        final String apiVersion = "2019-11-01";
+        final String apiVersion = "2020-06-30";
         Observable<Response<ResponseBody>> observable = service.update(this.client.subscriptionId(), resourceGroupName, diskEncryptionSetName, apiVersion, diskEncryptionSet, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DiskEncryptionSetInner>() { }.getType());
     }
@@ -425,7 +433,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
             throw new IllegalArgumentException("Parameter diskEncryptionSet is required and cannot be null.");
         }
         Validator.validate(diskEncryptionSet);
-        final String apiVersion = "2019-11-01";
+        final String apiVersion = "2020-06-30";
         return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, diskEncryptionSetName, apiVersion, diskEncryptionSet, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiskEncryptionSetInner>>>() {
                 @Override
@@ -510,7 +518,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
         if (diskEncryptionSetName == null) {
             throw new IllegalArgumentException("Parameter diskEncryptionSetName is required and cannot be null.");
         }
-        final String apiVersion = "2019-11-01";
+        final String apiVersion = "2020-06-30";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, diskEncryptionSetName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiskEncryptionSetInner>>>() {
                 @Override
@@ -593,7 +601,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
         if (diskEncryptionSetName == null) {
             throw new IllegalArgumentException("Parameter diskEncryptionSetName is required and cannot be null.");
         }
-        final String apiVersion = "2019-11-01";
+        final String apiVersion = "2020-06-30";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, diskEncryptionSetName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -659,7 +667,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
         if (diskEncryptionSetName == null) {
             throw new IllegalArgumentException("Parameter diskEncryptionSetName is required and cannot be null.");
         }
-        final String apiVersion = "2019-11-01";
+        final String apiVersion = "2020-06-30";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, diskEncryptionSetName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -774,7 +782,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2019-11-01";
+        final String apiVersion = "2020-06-30";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiskEncryptionSetInner>>>>() {
                 @Override
@@ -879,7 +887,7 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-11-01";
+        final String apiVersion = "2020-06-30";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiskEncryptionSetInner>>>>() {
                 @Override
@@ -897,6 +905,127 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
     private ServiceResponse<PageImpl1<DiskEncryptionSetInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl1<DiskEncryptionSetInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl1<DiskEncryptionSetInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;String&gt; object if successful.
+     */
+    public PagedList<String> listAssociatedResources(final String resourceGroupName, final String diskEncryptionSetName) {
+        ServiceResponse<Page<String>> response = listAssociatedResourcesSinglePageAsync(resourceGroupName, diskEncryptionSetName).toBlocking().single();
+        return new PagedList<String>(response.body()) {
+            @Override
+            public Page<String> nextPage(String nextPageLink) {
+                return listAssociatedResourcesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<String>> listAssociatedResourcesAsync(final String resourceGroupName, final String diskEncryptionSetName, final ListOperationCallback<String> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAssociatedResourcesSinglePageAsync(resourceGroupName, diskEncryptionSetName),
+            new Func1<String, Observable<ServiceResponse<Page<String>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<String>>> call(String nextPageLink) {
+                    return listAssociatedResourcesNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;String&gt; object
+     */
+    public Observable<Page<String>> listAssociatedResourcesAsync(final String resourceGroupName, final String diskEncryptionSetName) {
+        return listAssociatedResourcesWithServiceResponseAsync(resourceGroupName, diskEncryptionSetName)
+            .map(new Func1<ServiceResponse<Page<String>>, Page<String>>() {
+                @Override
+                public Page<String> call(ServiceResponse<Page<String>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;String&gt; object
+     */
+    public Observable<ServiceResponse<Page<String>>> listAssociatedResourcesWithServiceResponseAsync(final String resourceGroupName, final String diskEncryptionSetName) {
+        return listAssociatedResourcesSinglePageAsync(resourceGroupName, diskEncryptionSetName)
+            .concatMap(new Func1<ServiceResponse<Page<String>>, Observable<ServiceResponse<Page<String>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<String>>> call(ServiceResponse<Page<String>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAssociatedResourcesNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+    ServiceResponse<PageImpl1<String>> * @param resourceGroupName The name of the resource group.
+    ServiceResponse<PageImpl1<String>> * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;String&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<String>>> listAssociatedResourcesSinglePageAsync(final String resourceGroupName, final String diskEncryptionSetName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (diskEncryptionSetName == null) {
+            throw new IllegalArgumentException("Parameter diskEncryptionSetName is required and cannot be null.");
+        }
+        final String apiVersion = "2020-06-30";
+        return service.listAssociatedResources(this.client.subscriptionId(), resourceGroupName, diskEncryptionSetName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<String>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<String>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl1<String>> result = listAssociatedResourcesDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<String>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl1<String>> listAssociatedResourcesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<String>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<String>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1119,6 +1248,117 @@ public class DiskEncryptionSetsInner implements InnerSupportsGet<DiskEncryptionS
     private ServiceResponse<PageImpl1<DiskEncryptionSetInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl1<DiskEncryptionSetInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl1<DiskEncryptionSetInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;String&gt; object if successful.
+     */
+    public PagedList<String> listAssociatedResourcesNext(final String nextPageLink) {
+        ServiceResponse<Page<String>> response = listAssociatedResourcesNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<String>(response.body()) {
+            @Override
+            public Page<String> nextPage(String nextPageLink) {
+                return listAssociatedResourcesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<String>> listAssociatedResourcesNextAsync(final String nextPageLink, final ServiceFuture<List<String>> serviceFuture, final ListOperationCallback<String> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAssociatedResourcesNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<String>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<String>>> call(String nextPageLink) {
+                    return listAssociatedResourcesNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;String&gt; object
+     */
+    public Observable<Page<String>> listAssociatedResourcesNextAsync(final String nextPageLink) {
+        return listAssociatedResourcesNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<String>>, Page<String>>() {
+                @Override
+                public Page<String> call(ServiceResponse<Page<String>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;String&gt; object
+     */
+    public Observable<ServiceResponse<Page<String>>> listAssociatedResourcesNextWithServiceResponseAsync(final String nextPageLink) {
+        return listAssociatedResourcesNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<String>>, Observable<ServiceResponse<Page<String>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<String>>> call(ServiceResponse<Page<String>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAssociatedResourcesNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists all resources that are encrypted with this disk encryption set.
+     *
+    ServiceResponse<PageImpl1<String>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;String&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<String>>> listAssociatedResourcesNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listAssociatedResourcesNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<String>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<String>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl1<String>> result = listAssociatedResourcesNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<String>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl1<String>> listAssociatedResourcesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<String>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<String>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

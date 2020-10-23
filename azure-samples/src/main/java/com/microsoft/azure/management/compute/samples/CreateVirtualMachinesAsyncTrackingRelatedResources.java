@@ -145,7 +145,7 @@ public final class CreateVirtualMachinesAsyncTrackingRelatedResources {
                         .withRootUsername(userName)
                         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
                         .withRootPassword("Abcdef.123456!")
-                        .withSize(VirtualMachineSizeTypes.STANDARD_DS1_V2)
+                        .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                         .withNewAvailabilitySet(availabilitySetDefinition);
 
                 // Keep track of all the related resource definitions based on the VM definition

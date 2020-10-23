@@ -22,9 +22,9 @@ public class Encryption {
     private String diskEncryptionSetId;
 
     /**
-     * The type of key used to encrypt the data of the disk. Possible values
-     * include: 'EncryptionAtRestWithPlatformKey',
-     * 'EncryptionAtRestWithCustomerKey'.
+     * Possible values include: 'EncryptionAtRestWithPlatformKey',
+     * 'EncryptionAtRestWithCustomerKey',
+     * 'EncryptionAtRestWithPlatformAndCustomerKeys'.
      */
     @JsonProperty(value = "type")
     private EncryptionType type;
@@ -50,7 +50,7 @@ public class Encryption {
     }
 
     /**
-     * Get the type of key used to encrypt the data of the disk. Possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey'.
+     * Get possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey', 'EncryptionAtRestWithPlatformAndCustomerKeys'.
      *
      * @return the type value
      */
@@ -59,7 +59,7 @@ public class Encryption {
     }
 
     /**
-     * Set the type of key used to encrypt the data of the disk. Possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey'.
+     * Set possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey', 'EncryptionAtRestWithPlatformAndCustomerKeys'.
      *
      * @param type the type value to set
      * @return the Encryption object itself.

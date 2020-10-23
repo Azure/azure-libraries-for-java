@@ -40,7 +40,7 @@ public final class ManageAvailabilitySet {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_WEST;
         final String rgName = Utils.createRandomName("rgCOMA");
         final String availSetName1 = Utils.createRandomName("av1");
         final String availSetName2 = Utils.createRandomName("av2");
@@ -95,7 +95,7 @@ public final class ManageAvailabilitySet {
                     .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_R2_DATACENTER)
                     .withAdminUsername(userName)
                     .withAdminPassword(password)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .withExistingAvailabilitySet(availSet1)
                     .create();
 
@@ -118,7 +118,7 @@ public final class ManageAvailabilitySet {
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername(userName)
                     .withRootPassword(password)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .withExistingAvailabilitySet(availSet1)
                     .create();
 

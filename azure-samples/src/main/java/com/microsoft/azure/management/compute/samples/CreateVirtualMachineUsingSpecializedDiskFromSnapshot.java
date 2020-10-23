@@ -51,7 +51,7 @@ public final class CreateVirtualMachineUsingSpecializedDiskFromSnapshot {
         final String userName = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_WEST;
 
         final String apacheInstallScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-samples/src/main/resources/install_apache.sh";
         final String apacheInstallCommand = "bash install_apache.sh";
@@ -84,7 +84,7 @@ public final class CreateVirtualMachineUsingSpecializedDiskFromSnapshot {
                         .withPublicSetting("fileUris", apacheInstallScriptUris)
                         .withPublicSetting("commandToExecute", apacheInstallCommand)
                         .attach()
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             System.out.println("Created a Linux VM with managed OS and data disks: " + linuxVM.id());
@@ -193,7 +193,7 @@ public final class CreateVirtualMachineUsingSpecializedDiskFromSnapshot {
                     .withSpecializedOSDisk(newOSDisk, OperatingSystemTypes.LINUX)
                     .withExistingDataDisk(newDataDisks.get(0))
                     .withExistingDataDisk(newDataDisks.get(1), 1, CachingTypes.READ_WRITE)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                     .create();
 
             Utils.print(linuxVM2);

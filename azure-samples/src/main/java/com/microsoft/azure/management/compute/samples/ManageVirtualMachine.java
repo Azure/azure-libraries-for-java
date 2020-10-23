@@ -42,7 +42,7 @@ public final class ManageVirtualMachine {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_WEST;
         final String windowsVMName = Utils.createRandomName("wVM");
         final String linuxVMName = Utils.createRandomName("lVM");
         final String rgName = Utils.createRandomName("rgCOMV");
@@ -90,7 +90,7 @@ public final class ManageVirtualMachine {
                         .withNewDataDisk(10)
                         .withNewDataDisk(dataDiskCreatable)
                         .withExistingDataDisk(dataDisk)
-                        .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                        .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                         .create();
 
             Date t2 = new Date();
@@ -171,7 +171,7 @@ public final class ManageVirtualMachine {
                         .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                         .withRootUsername(userName)
                         .withRootPassword(password)
-                        .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                        .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                         .create();
 
             System.out.println("Created a Linux VM (in the same virtual network): " + linuxVM.id());

@@ -87,6 +87,15 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     private List<InstanceViewStatus> statuses;
 
     /**
+     * Resource id of the dedicated host, on which the virtual machine is
+     * allocated through automatic placement, when the virtual machine is
+     * associated with a dedicated host group that has automatic placement
+     * enabled. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     */
+    @JsonProperty(value = "assignedHost", access = JsonProperty.Access.WRITE_ONLY)
+    private String assignedHost;
+
+    /**
      * The placement group in which the VM is running. If the VM is deallocated
      * it will not have a placementGroupId.
      */
@@ -280,6 +289,15 @@ public class VirtualMachineScaleSetVMInstanceViewInner {
     public VirtualMachineScaleSetVMInstanceViewInner withStatuses(List<InstanceViewStatus> statuses) {
         this.statuses = statuses;
         return this;
+    }
+
+    /**
+     * Get resource id of the dedicated host, on which the virtual machine is allocated through automatic placement, when the virtual machine is associated with a dedicated host group that has automatic placement enabled. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     *
+     * @return the assignedHost value
+     */
+    public String assignedHost() {
+        return this.assignedHost;
     }
 
     /**

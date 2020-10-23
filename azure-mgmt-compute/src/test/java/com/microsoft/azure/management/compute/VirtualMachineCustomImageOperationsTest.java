@@ -9,6 +9,7 @@ package com.microsoft.azure.management.compute;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTest {
     private static String RG_NAME = "";
-    private static Region region = Region.US_WEST_CENTRAL;
+    private static Region region = Region.US_EAST;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -102,7 +103,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .withLinuxCustomImage(image.id())
                 .withRootUsername("javauser")
                 .withRootPassword("12NewPA$$w0rd!")
-                .withSize(VirtualMachineSizeTypes.STANDARD_D5_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
@@ -206,7 +207,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                     .withCaching(CachingTypes.READ_ONLY)
                     .attach()
                 .withNewUnmanagedDataDisk(100)
-                .withSize(VirtualMachineSizeTypes.STANDARD_D5_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .withNewStorageAccount(storageAccountName)
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
@@ -334,14 +335,15 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                     .withNewVhd(60)
                     .withCaching(CachingTypes.READ_ONLY)
                     .attach()
-                .withSize(VirtualMachineSizeTypes.STANDARD_D5_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2as_v4"))
                 .withNewStorageAccount(generateRandomResourceName("stg", 17))
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
         //
-         deprovisionAgentInLinuxVM(virtualMachine.getPrimaryPublicIPAddress().fqdn(), 22, uname, password);
-         virtualMachine.deallocate();
-         virtualMachine.generalize();
+        SdkContext.sleep(60 * 1000);
+        deprovisionAgentInLinuxVM(virtualMachine.getPrimaryPublicIPAddress().fqdn(), 22, uname, password);
+        virtualMachine.deallocate();
+        virtualMachine.generalize();
         return virtualMachine;
     }
 }

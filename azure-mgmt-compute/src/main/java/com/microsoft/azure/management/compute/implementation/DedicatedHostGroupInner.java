@@ -10,6 +10,7 @@ package com.microsoft.azure.management.compute.implementation;
 
 import java.util.List;
 import com.microsoft.azure.management.compute.SubResourceReadOnly;
+import com.microsoft.azure.management.compute.DedicatedHostGroupInstanceView;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -33,6 +34,23 @@ public class DedicatedHostGroupInner extends Resource {
      */
     @JsonProperty(value = "properties.hosts", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResourceReadOnly> hosts;
+
+    /**
+     * The dedicated host group instance view, which has the list of instance
+     * view of the dedicated hosts under the dedicated host group.
+     */
+    @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
+    private DedicatedHostGroupInstanceView instanceView;
+
+    /**
+     * Specifies whether virtual machines or virtual machine scale sets can be
+     * placed automatically on the dedicated host group. Automatic placement
+     * means resources are allocated on dedicated hosts, that are chosen by
+     * Azure, under the dedicated host group. The value is defaulted to 'true'
+     * when not provided. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     */
+    @JsonProperty(value = "properties.supportAutomaticPlacement")
+    private Boolean supportAutomaticPlacement;
 
     /**
      * Availability Zone to use for this host group. Only single zone is
@@ -70,6 +88,35 @@ public class DedicatedHostGroupInner extends Resource {
      */
     public List<SubResourceReadOnly> hosts() {
         return this.hosts;
+    }
+
+    /**
+     * Get the dedicated host group instance view, which has the list of instance view of the dedicated hosts under the dedicated host group.
+     *
+     * @return the instanceView value
+     */
+    public DedicatedHostGroupInstanceView instanceView() {
+        return this.instanceView;
+    }
+
+    /**
+     * Get specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'true' when not provided. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     *
+     * @return the supportAutomaticPlacement value
+     */
+    public Boolean supportAutomaticPlacement() {
+        return this.supportAutomaticPlacement;
+    }
+
+    /**
+     * Set specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'true' when not provided. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     *
+     * @param supportAutomaticPlacement the supportAutomaticPlacement value to set
+     * @return the DedicatedHostGroupInner object itself.
+     */
+    public DedicatedHostGroupInner withSupportAutomaticPlacement(Boolean supportAutomaticPlacement) {
+        this.supportAutomaticPlacement = supportAutomaticPlacement;
+        return this;
     }
 
     /**

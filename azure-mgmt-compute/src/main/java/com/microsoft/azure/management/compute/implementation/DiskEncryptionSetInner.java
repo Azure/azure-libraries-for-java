@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.compute.EncryptionSetIdentity;
+import com.microsoft.azure.management.compute.DiskEncryptionSetType;
 import com.microsoft.azure.management.compute.KeyVaultAndKeyReference;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,6 +26,13 @@ public class DiskEncryptionSetInner extends Resource {
      */
     @JsonProperty(value = "identity")
     private EncryptionSetIdentity identity;
+
+    /**
+     * Possible values include: 'EncryptionAtRestWithCustomerKey',
+     * 'EncryptionAtRestWithPlatformAndCustomerKeys'.
+     */
+    @JsonProperty(value = "properties.encryptionType")
+    private DiskEncryptionSetType encryptionType;
 
     /**
      * The key vault key which is currently used by this disk encryption set.
@@ -63,6 +71,26 @@ public class DiskEncryptionSetInner extends Resource {
      */
     public DiskEncryptionSetInner withIdentity(EncryptionSetIdentity identity) {
         this.identity = identity;
+        return this;
+    }
+
+    /**
+     * Get possible values include: 'EncryptionAtRestWithCustomerKey', 'EncryptionAtRestWithPlatformAndCustomerKeys'.
+     *
+     * @return the encryptionType value
+     */
+    public DiskEncryptionSetType encryptionType() {
+        return this.encryptionType;
+    }
+
+    /**
+     * Set possible values include: 'EncryptionAtRestWithCustomerKey', 'EncryptionAtRestWithPlatformAndCustomerKeys'.
+     *
+     * @param encryptionType the encryptionType value to set
+     * @return the DiskEncryptionSetInner object itself.
+     */
+    public DiskEncryptionSetInner withEncryptionType(DiskEncryptionSetType encryptionType) {
+        this.encryptionType = encryptionType;
         return this;
     }
 

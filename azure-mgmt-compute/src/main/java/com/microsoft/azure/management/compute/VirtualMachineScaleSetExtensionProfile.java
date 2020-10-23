@@ -23,6 +23,15 @@ public class VirtualMachineScaleSetExtensionProfile {
     private List<VirtualMachineScaleSetExtensionInner> extensions;
 
     /**
+     * Specifies the time alloted for all extensions to start. The time
+     * duration should be between 15 minutes and 120 minutes (inclusive) and
+     * should be specified in ISO 8601 format. The default value is 90 minutes
+     * (PT1H30M). &lt;br&gt;&lt;br&gt; Minimum api-version: 2020-06-01.
+     */
+    @JsonProperty(value = "extensionsTimeBudget")
+    private String extensionsTimeBudget;
+
+    /**
      * Get the virtual machine scale set child extension resources.
      *
      * @return the extensions value
@@ -39,6 +48,26 @@ public class VirtualMachineScaleSetExtensionProfile {
      */
     public VirtualMachineScaleSetExtensionProfile withExtensions(List<VirtualMachineScaleSetExtensionInner> extensions) {
         this.extensions = extensions;
+        return this;
+    }
+
+    /**
+     * Get specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). &lt;br&gt;&lt;br&gt; Minimum api-version: 2020-06-01.
+     *
+     * @return the extensionsTimeBudget value
+     */
+    public String extensionsTimeBudget() {
+        return this.extensionsTimeBudget;
+    }
+
+    /**
+     * Set specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). &lt;br&gt;&lt;br&gt; Minimum api-version: 2020-06-01.
+     *
+     * @param extensionsTimeBudget the extensionsTimeBudget value to set
+     * @return the VirtualMachineScaleSetExtensionProfile object itself.
+     */
+    public VirtualMachineScaleSetExtensionProfile withExtensionsTimeBudget(String extensionsTimeBudget) {
+        this.extensionsTimeBudget = extensionsTimeBudget;
         return this;
     }
 

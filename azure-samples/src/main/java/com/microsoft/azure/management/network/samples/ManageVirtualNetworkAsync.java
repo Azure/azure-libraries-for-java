@@ -196,7 +196,7 @@ public final class ManageVirtualNetworkAsync {
                             .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                             .withRootUsername(userName)
                             .withSsh(sshKey)
-                            .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                            .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                             .createAsync(),
                     azure.virtualMachines().define(backEndVMName)
                             .withRegion(Region.US_EAST)
@@ -208,7 +208,7 @@ public final class ManageVirtualNetworkAsync {
                             .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                             .withRootUsername(userName)
                             .withSsh(sshKey)
-                            .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                            .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                             .createAsync(),
                     azure.networks().define(vnetName2)
                             .withRegion(Region.US_EAST)

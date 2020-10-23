@@ -75,6 +75,13 @@ public class CreationData {
     private Long uploadSizeBytes;
 
     /**
+     * Logical sector size in bytes for Ultra disks. Supported values are 512
+     * ad 4096. 4096 is the default.
+     */
+    @JsonProperty(value = "logicalSectorSize")
+    private Integer logicalSectorSize;
+
+    /**
      * Get this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload'.
      *
      * @return the createOption value
@@ -220,6 +227,26 @@ public class CreationData {
      */
     public CreationData withUploadSizeBytes(Long uploadSizeBytes) {
         this.uploadSizeBytes = uploadSizeBytes;
+        return this;
+    }
+
+    /**
+     * Get logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
+     *
+     * @return the logicalSectorSize value
+     */
+    public Integer logicalSectorSize() {
+        return this.logicalSectorSize;
+    }
+
+    /**
+     * Set logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
+     *
+     * @param logicalSectorSize the logicalSectorSize value to set
+     * @return the CreationData object itself.
+     */
+    public CreationData withLogicalSectorSize(Integer logicalSectorSize) {
+        this.logicalSectorSize = logicalSectorSize;
         return this;
     }
 

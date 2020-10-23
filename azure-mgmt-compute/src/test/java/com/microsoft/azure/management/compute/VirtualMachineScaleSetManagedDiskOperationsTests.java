@@ -205,7 +205,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
                     .withNewVhd(50)
                     .withLun(2)
                     .attach()
-                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
                 .create();
 
         Assert.assertNotNull(vm);

@@ -759,7 +759,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         String nicId = virtualMachine.primaryNetworkInterfaceId();
 
         // Force delete
-        computeManager.virtualMachines().forceDeleteById(virtualMachine.id());
+        computeManager.virtualMachines().deleteById(virtualMachine.id(), true);
 
         virtualMachine = computeManager.virtualMachines().getById(virtualMachine.id());
         Assert.assertNull(virtualMachine);

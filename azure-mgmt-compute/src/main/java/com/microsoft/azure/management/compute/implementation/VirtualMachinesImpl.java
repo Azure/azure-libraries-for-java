@@ -261,34 +261,35 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public void forceDeleteById(String id) {
-        forceDeleteByResourceGroup(ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id));
+    public void deleteById(String id, boolean forceDeletion) {
+        deleteByResourceGroup(
+                ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id), forceDeletion);
     }
 
     @Override
-    public ServiceFuture<Void> forceDeleteByIdAsync(String id, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(forceDeleteByIdAsync(id), callback);
+    public ServiceFuture<Void> deleteByIdAsync(String id, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(deleteByIdAsync(id, forceDeletion), callback);
     }
 
     @Override
-    public Completable forceDeleteByIdAsync(String id) {
-        return forceDeleteByResourceGroupAsync(
-                ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id));
+    public Completable deleteByIdAsync(String id, boolean forceDeletion) {
+        return deleteByResourceGroupAsync(
+                ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id), forceDeletion);
     }
 
     @Override
-    public void forceDeleteByResourceGroup(String resourceGroupName, String name) {
-        this.inner().delete(resourceGroupName, name, true);
+    public void deleteByResourceGroup(String resourceGroupName, String name, boolean forceDeletion) {
+        this.inner().delete(resourceGroupName, name, forceDeletion);
     }
 
     @Override
-    public ServiceFuture<Void> forceDeleteByResourceGroupAsync(String resourceGroupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(deleteByResourceGroupAsync(resourceGroupName, name), callback);
+    public ServiceFuture<Void> deleteByResourceGroupAsync(String resourceGroupName, String name, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(deleteByResourceGroupAsync(resourceGroupName, name, forceDeletion), callback);
     }
 
     @Override
-    public Completable forceDeleteByResourceGroupAsync(String resourceGroupName, String name) {
-        return this.inner().deleteAsync(resourceGroupName, name, true).toCompletable();
+    public Completable deleteByResourceGroupAsync(String resourceGroupName, String name, boolean forceDeletion) {
+        return this.inner().deleteAsync(resourceGroupName, name, forceDeletion).toCompletable();
     }
 
     // Getters

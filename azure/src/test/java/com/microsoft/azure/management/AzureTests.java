@@ -15,6 +15,7 @@ import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.PowerState;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineImage;
@@ -253,6 +254,52 @@ public class AzureTests extends TestBase {
                 firstResource.name());
         Assert.assertTrue(resourceById.id().equalsIgnoreCase(resourceByDetails.id()));
         azure.resourceGroups().beginDeleteByName(nsg.resourceGroupName());
+    }
+
+    /**
+     * Tests basic generic resources retrieval.
+     * @throws Exception
+     */
+    @Test
+    public void testForceDeleteGenericResources() {
+        final String rgName = SdkContext.randomResourceName("rg", 15);
+        final String vmName = SdkContext.randomResourceName("vm", 15);
+
+        // Create
+        VirtualMachine virtualMachine = azure.virtualMachines()
+                .define(vmName)
+                .withRegion("eastus2euap")
+                .withNewResourceGroup(rgName)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_R2_DATACENTER)
+                .withAdminUsername("Foo12")
+                .withAdminPassword("abc!@#F0orL")
+                .create();
+
+        GenericResource genericResource = azure.genericResources().getById(virtualMachine.id());
+        Assert.assertNotNull(genericResource);
+
+        // force delete
+        azure.genericResources().delete(
+                genericResource.resourceGroupName(),
+                genericResource.resourceProviderNamespace(),
+                genericResource.parentResourcePath(),
+                genericResource.resourceType(),
+                genericResource.name(),
+                "2020-06-01",
+                true);
+
+        // check if vm is deleted
+        genericResource = azure.genericResources().getById(virtualMachine.id());
+        Assert.assertNull(genericResource);
+
+        // check if nic still exists
+        genericResource = azure.genericResources().getById(virtualMachine.primaryNetworkInterfaceId());
+        Assert.assertNotNull(genericResource);
+
+        azure.resourceGroups().beginDeleteByName(rgName);
     }
 
     /**

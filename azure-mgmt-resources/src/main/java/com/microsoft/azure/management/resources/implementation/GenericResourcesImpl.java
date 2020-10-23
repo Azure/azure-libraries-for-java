@@ -194,6 +194,21 @@ final class GenericResourcesImpl
     }
 
     @Override
+    public void delete(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, boolean forceDeletion) {
+        deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, forceDeletion).await();
+    }
+
+    @Override
+    public Completable deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, boolean forceDeletion) {
+        return this.inner().deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, forceDeletion).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion, forceDeletion), callback);
+    }
+
+    @Override
     protected GenericResourceImpl wrapModel(String id) {
         return new GenericResourceImpl(id, new GenericResourceInner(), this.manager())
                 .withExistingResourceGroup(ResourceUtils.groupFromResourceId(id))

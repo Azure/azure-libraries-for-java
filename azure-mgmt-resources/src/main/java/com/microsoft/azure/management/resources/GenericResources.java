@@ -166,4 +166,52 @@ public interface GenericResources extends
      * @return a handle to cancel the request
      */
     ServiceFuture<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, ServiceCallback<Void> callback);
+
+    /**
+     * Force delete resource and all of its child resources.
+     * This is only available to limited resource types.
+     *
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param resourceProviderNamespace Resource identity.
+     * @param parentResourcePath Resource identity.
+     * @param resourceType Resource identity.
+     * @param resourceName Resource identity.
+     * @param apiVersion the String value
+     * @param forceDeletion the force delete parameter
+     */
+    void delete(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, boolean forceDeletion);
+
+
+    /**
+     * Force delete resource and all of its child resources asynchronously.
+     * This is only available to limited resource types.
+     *
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param resourceProviderNamespace Resource identity.
+     * @param parentResourcePath Resource identity.
+     * @param resourceType Resource identity.
+     * @param resourceName Resource identity.
+     * @param apiVersion the String value
+     * @param forceDeletion the force delete parameter
+     * @return a representation of the deferred computation of this call
+     */
+    Completable deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, boolean forceDeletion);
+
+
+    /**
+     * Force delete resource and all of its child resources asynchronously.
+     * This is only available to limited resource types.
+     *
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param resourceProviderNamespace Resource identity.
+     * @param parentResourcePath Resource identity.
+     * @param resourceType Resource identity.
+     * @param resourceName Resource identity.
+     * @param apiVersion the String value
+     * @param forceDeletion the force delete parameter
+     * @param callback the callback to call on success or failure
+     *
+     * @return a handle to cancel the request
+     */
+    ServiceFuture<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, boolean forceDeletion, ServiceCallback<Void> callback);
 }

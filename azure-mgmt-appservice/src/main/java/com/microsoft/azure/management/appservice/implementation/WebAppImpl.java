@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * The implementation for WebApp.
@@ -270,6 +271,7 @@ class WebAppImpl
 
     @Override
     public Completable deployAsync(DeployType type, File file, DeployOptions deployOptions) {
+        Objects.requireNonNull(file);
         try {
             final InputStream is = new FileInputStream(file);
             return deployAsync(type, new FileInputStream(file), deployOptions).doAfterTerminate(new Action0() {
@@ -304,6 +306,11 @@ class WebAppImpl
 
     @Override
     public Completable deployAsync(DeployType type, InputStream file, DeployOptions deployOptions) {
+        Objects.requireNonNull(type);
+        Objects.requireNonNull(file);
+        if (deployOptions == null) {
+            deployOptions = new DeployOptions();
+        }
         return kuduClient.deployAsync(type, file, deployOptions.path(), deployOptions.restartSite(), deployOptions.cleanDeployment());
     }
 

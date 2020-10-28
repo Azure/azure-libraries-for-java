@@ -6,10 +6,8 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteStreams;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.appservice.DeployType;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.rest.RestException;
@@ -91,11 +89,11 @@ class KuduClient {
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps warDeploy", "x-ms-body-logging: false" })
         @POST("api/wardeploy")
-        Observable<Void> warDeploy(@Body RequestBody warFile, @Query("name") String appName);
+        Observable<Response<ResponseBody>> warDeploy(@Body RequestBody warFile, @Query("name") String appName);
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
         @POST("api/zipdeploy")
-        Observable<Void> zipDeploy(@Body RequestBody zipFile);
+        Observable<Response<ResponseBody>> zipDeploy(@Body RequestBody zipFile);
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps publish", "x-ms-body-logging: false" })
         @POST("api/publish")
@@ -176,7 +174,9 @@ class KuduClient {
     Completable warDeployAsync(InputStream warFile, String appName) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(warFile));
-            return getCompletable(service.warDeploy(body, appName));
+            Observable<ServiceResponse<Void>> response = retryOnError(handleResponse(
+                    service.warDeploy(body, appName)));
+            return response.toCompletable();
         } catch (IOException e) {
             return Completable.error(e);
         }
@@ -185,7 +185,9 @@ class KuduClient {
     Completable zipDeployAsync(InputStream zipFile) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
-            return getCompletable(service.zipDeploy(body));
+            Observable<ServiceResponse<Void>> response = retryOnError(handleResponse(
+                    service.zipDeploy(body)));
+            return response.toCompletable();
         } catch (IOException e) {
             return Completable.error(e);
         }
@@ -194,44 +196,49 @@ class KuduClient {
     Completable deployAsync(DeployType type, InputStream file, String path, Boolean restart, Boolean clean) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(file));
-            Observable<Response<ResponseBody>> observable = retryOnSocketTimeout(service.deploy(body, type, path, restart, clean));
-            Observable<ServiceResponse<Void>> response = observable.flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                   try {
-                       if (response.isSuccessful()) {
-                           return Observable.just(new ServiceResponse<Void>(null, response));
-                       } else {
-                           String errorMessage = "Status code " + response.code();
-                           if (response.errorBody() != null
-                                   && response.errorBody().contentType() != null
-                                   && Objects.equals("text", response.errorBody().contentType().type())) {
-                               String errorBody = response.errorBody().string();
-                               if (!errorBody.isEmpty()) {
-                                   errorMessage = errorBody;
-                               }
-                           }
-                           return Observable.error(new RestException(errorMessage, response));
-                       }
-                   } catch (Throwable t) {
-                       return Observable.error(t);
-                   }
-                }
-            });
+            Observable<ServiceResponse<Void>> response = retryOnError(handleResponse(
+                    service.deploy(body, type, path, restart, clean)));
             return response.toCompletable();
         } catch (IOException e) {
             return Completable.error(e);
         }
     }
 
-    private <T> Observable<T> retryOnSocketTimeout(Observable<T> observable) {
+    private Observable<ServiceResponse<Void>> handleResponse(Observable<Response<ResponseBody>> observable) {
+        return observable.flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+            @Override
+            public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        return Observable.just(new ServiceResponse<Void>(null, response));
+                    } else {
+                        String errorMessage = "Status code " + response.code();
+                        if (response.errorBody() != null
+                                && response.errorBody().contentType() != null
+                                && Objects.equals("text", response.errorBody().contentType().type())) {
+                            String errorBody = response.errorBody().string();
+                            if (!errorBody.isEmpty()) {
+                                errorMessage = errorBody;
+                            }
+                        }
+                        return Observable.error(new RestException(errorMessage, response));
+                    }
+                } catch (Throwable t) {
+                    return Observable.error(t);
+                }
+            }
+        });
+    }
+
+    private <T> Observable<T> retryOnError(Observable<T> observable) {
         return observable.retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
             @Override
             public Observable<?> call(Observable<? extends Throwable> observable) {
                 return observable.zipWith(Observable.range(1, 6), new Func2<Throwable, Integer, Integer>() {
                     @Override
                     public Integer call(Throwable throwable, Integer integer) {
-                        if (throwable instanceof SocketTimeoutException) {
+                        if (throwable instanceof SocketTimeoutException
+                                || (throwable instanceof RestException && ((RestException) throwable).response().code() == 502)) {
                             return integer;
                         } else {
                             throw Exceptions.propagate(throwable);
@@ -245,31 +252,5 @@ class KuduClient {
                 });
             }
         });
-    }
-
-    private Completable getCompletable(Observable<Void> observable) {
-        return observable
-                .toCompletable()
-                .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Observable<? extends Throwable> observable) {
-                        return observable.zipWith(Observable.range(1, 6), new Func2<Throwable, Integer, Integer>() {
-                            @Override
-                            public Integer call(Throwable throwable, Integer integer) {
-                                if (throwable instanceof CloudException
-                                        && ((CloudException) throwable).response().code() == 502 || throwable instanceof JsonParseException || throwable instanceof SocketTimeoutException) {
-                                    return integer;
-                                } else {
-                                    throw Exceptions.propagate(throwable);
-                                }
-                            }
-                        }).flatMap(new Func1<Integer, Observable<?>>() {
-                            @Override
-                            public Observable<?> call(Integer i) {
-                                return Observable.timer(i * 10, TimeUnit.SECONDS);
-                            }
-                        });
-                    }
-                });
     }
 }

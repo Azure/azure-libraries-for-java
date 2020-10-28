@@ -238,9 +238,10 @@ class KuduClient {
                 return observable.zipWith(Observable.range(1, retryCount), new Func2<Throwable, Integer, Integer>() {
                     @Override
                     public Integer call(Throwable throwable, Integer integer) {
-                        if (integer < retryCount &&
-                                (throwable instanceof SocketTimeoutException
-                                        || (throwable instanceof RestException && ((RestException) throwable).response().code() == 502))) {
+                        if (integer < retryCount
+                                && (throwable instanceof SocketTimeoutException
+                                || (throwable instanceof RestException
+                                && ((RestException) throwable).response().code() == 502))) {
                             return integer;
                         } else {
                             throw Exceptions.propagate(throwable);

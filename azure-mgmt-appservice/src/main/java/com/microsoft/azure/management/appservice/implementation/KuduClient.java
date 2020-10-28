@@ -231,14 +231,16 @@ class KuduClient {
     }
 
     private <T> Observable<T> retryOnError(Observable<T> observable) {
+        final int retryCount = 5 + 1;   // retryCount is 5, last 1 is guard
         return observable.retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
             @Override
             public Observable<?> call(Observable<? extends Throwable> observable) {
-                return observable.zipWith(Observable.range(1, 6), new Func2<Throwable, Integer, Integer>() {
+                return observable.zipWith(Observable.range(1, retryCount), new Func2<Throwable, Integer, Integer>() {
                     @Override
                     public Integer call(Throwable throwable, Integer integer) {
-                        if (throwable instanceof SocketTimeoutException
-                                || (throwable instanceof RestException && ((RestException) throwable).response().code() == 502)) {
+                        if (integer < retryCount &&
+                                (throwable instanceof SocketTimeoutException
+                                        || (throwable instanceof RestException && ((RestException) throwable).response().code() == 502))) {
                             return integer;
                         } else {
                             throw Exceptions.propagate(throwable);

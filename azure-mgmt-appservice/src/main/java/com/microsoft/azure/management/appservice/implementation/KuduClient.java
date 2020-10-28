@@ -174,8 +174,8 @@ class KuduClient {
     Completable warDeployAsync(InputStream warFile, String appName) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(warFile));
-            Observable<ServiceResponse<Void>> response = retryOnError(handleResponse(
-                    service.warDeploy(body, appName)));
+            Observable<ServiceResponse<Void>> response =
+                    retryOnError(handleResponse(service.warDeploy(body, appName)));
             return response.toCompletable();
         } catch (IOException e) {
             return Completable.error(e);
@@ -185,8 +185,8 @@ class KuduClient {
     Completable zipDeployAsync(InputStream zipFile) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
-            Observable<ServiceResponse<Void>> response = retryOnError(handleResponse(
-                    service.zipDeploy(body)));
+            Observable<ServiceResponse<Void>> response =
+                    retryOnError(handleResponse(service.zipDeploy(body)));
             return response.toCompletable();
         } catch (IOException e) {
             return Completable.error(e);
@@ -196,8 +196,8 @@ class KuduClient {
     Completable deployAsync(DeployType type, InputStream file, String path, Boolean restart, Boolean clean) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(file));
-            Observable<ServiceResponse<Void>> response = retryOnError(handleResponse(
-                    service.deploy(body, type, path, restart, clean)));
+            Observable<ServiceResponse<Void>> response =
+                    retryOnError(handleResponse(service.deploy(body, type, path, restart, clean)));
             return response.toCompletable();
         } catch (IOException e) {
             return Completable.error(e);

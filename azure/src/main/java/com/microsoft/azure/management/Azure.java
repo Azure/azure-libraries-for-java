@@ -131,6 +131,8 @@ import java.io.IOException;
 
 /**
  * The entry point for accessing resource management APIs in Azure.
+ *
+ * A new set of management libraries are now Generally Available. For documentation on how to use the new libraries, please see https://aka.ms/azsdk/java/mgmt
  */
 public final class Azure {
     private final ResourceManager resourceManager;

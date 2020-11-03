@@ -650,7 +650,7 @@ class FunctionAppImpl
                 withNewConsumptionPlan();
             }
             if (currentStorageAccount == null && storageAccountToSet == null && storageAccountCreatable == null) {
-                withNewStorageAccount(SdkContext.randomResourceName(name(), 20), com.microsoft.azure.management.storage.SkuName.STANDARD_GRS);
+                withNewStorageAccount(SdkContext.randomResourceName(getStorageAccountName(), 20), com.microsoft.azure.management.storage.SkuName.STANDARD_GRS);
             }
         }
         return super.createAsync();
@@ -662,6 +662,10 @@ class FunctionAppImpl
             initializeFunctionService();
         }
         return super.afterPostRunAsync(isGroupFaulted);
+    }
+
+    private String getStorageAccountName() {
+        return name().replaceAll("[^a-zA-Z0-9]", "");
     }
 
     private static class ListKeysResult {

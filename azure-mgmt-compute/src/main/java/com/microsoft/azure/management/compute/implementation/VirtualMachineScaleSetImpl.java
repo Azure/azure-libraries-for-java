@@ -192,7 +192,7 @@ public class VirtualMachineScaleSetImpl
     @Override
     protected void initializeChildrenFromInner() {
         this.extensions = new HashMap<>();
-        if (this.inner().virtualMachineProfile().extensionProfile() != null) {
+        if (this.inner().virtualMachineProfile() != null && this.inner().virtualMachineProfile().extensionProfile() != null) {
             if (this.inner().virtualMachineProfile().extensionProfile().extensions() != null) {
                 for (VirtualMachineScaleSetExtensionInner inner : this.inner().virtualMachineProfile().extensionProfile().extensions()) {
                     this.extensions.put(inner.name(), new VirtualMachineScaleSetExtensionImpl(inner, this));

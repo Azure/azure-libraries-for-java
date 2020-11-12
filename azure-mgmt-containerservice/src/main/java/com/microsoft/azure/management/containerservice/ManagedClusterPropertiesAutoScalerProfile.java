@@ -21,6 +21,42 @@ public class ManagedClusterPropertiesAutoScalerProfile {
     private String balanceSimilarNodeGroups;
 
     /**
+     * Possible values include: 'least-waste', 'most-pods', 'random'.
+     */
+    @JsonProperty(value = "expander")
+    private Expander expander;
+
+    /**
+     * The maxEmptyBulkDelete property.
+     */
+    @JsonProperty(value = "max-empty-bulk-delete")
+    private String maxEmptyBulkDelete;
+
+    /**
+     * The maxGracefulTerminationSec property.
+     */
+    @JsonProperty(value = "max-graceful-termination-sec")
+    private String maxGracefulTerminationSec;
+
+    /**
+     * The maxTotalUnreadyPercentage property.
+     */
+    @JsonProperty(value = "max-total-unready-percentage")
+    private String maxTotalUnreadyPercentage;
+
+    /**
+     * The newPodScaleUpDelay property.
+     */
+    @JsonProperty(value = "new-pod-scale-up-delay")
+    private String newPodScaleUpDelay;
+
+    /**
+     * The okTotalUnreadyCount property.
+     */
+    @JsonProperty(value = "ok-total-unready-count")
+    private String okTotalUnreadyCount;
+
+    /**
      * The scanInterval property.
      */
     @JsonProperty(value = "scan-interval")
@@ -63,10 +99,16 @@ public class ManagedClusterPropertiesAutoScalerProfile {
     private String scaleDownUtilizationThreshold;
 
     /**
-     * The maxGracefulTerminationSec property.
+     * The skipNodesWithLocalStorage property.
      */
-    @JsonProperty(value = "max-graceful-termination-sec")
-    private String maxGracefulTerminationSec;
+    @JsonProperty(value = "skip-nodes-with-local-storage")
+    private String skipNodesWithLocalStorage;
+
+    /**
+     * The skipNodesWithSystemPods property.
+     */
+    @JsonProperty(value = "skip-nodes-with-system-pods")
+    private String skipNodesWithSystemPods;
 
     /**
      * Get the balanceSimilarNodeGroups value.
@@ -85,6 +127,126 @@ public class ManagedClusterPropertiesAutoScalerProfile {
      */
     public ManagedClusterPropertiesAutoScalerProfile withBalanceSimilarNodeGroups(String balanceSimilarNodeGroups) {
         this.balanceSimilarNodeGroups = balanceSimilarNodeGroups;
+        return this;
+    }
+
+    /**
+     * Get possible values include: 'least-waste', 'most-pods', 'random'.
+     *
+     * @return the expander value
+     */
+    public Expander expander() {
+        return this.expander;
+    }
+
+    /**
+     * Set possible values include: 'least-waste', 'most-pods', 'random'.
+     *
+     * @param expander the expander value to set
+     * @return the ManagedClusterPropertiesAutoScalerProfile object itself.
+     */
+    public ManagedClusterPropertiesAutoScalerProfile withExpander(Expander expander) {
+        this.expander = expander;
+        return this;
+    }
+
+    /**
+     * Get the maxEmptyBulkDelete value.
+     *
+     * @return the maxEmptyBulkDelete value
+     */
+    public String maxEmptyBulkDelete() {
+        return this.maxEmptyBulkDelete;
+    }
+
+    /**
+     * Set the maxEmptyBulkDelete value.
+     *
+     * @param maxEmptyBulkDelete the maxEmptyBulkDelete value to set
+     * @return the ManagedClusterPropertiesAutoScalerProfile object itself.
+     */
+    public ManagedClusterPropertiesAutoScalerProfile withMaxEmptyBulkDelete(String maxEmptyBulkDelete) {
+        this.maxEmptyBulkDelete = maxEmptyBulkDelete;
+        return this;
+    }
+
+    /**
+     * Get the maxGracefulTerminationSec value.
+     *
+     * @return the maxGracefulTerminationSec value
+     */
+    public String maxGracefulTerminationSec() {
+        return this.maxGracefulTerminationSec;
+    }
+
+    /**
+     * Set the maxGracefulTerminationSec value.
+     *
+     * @param maxGracefulTerminationSec the maxGracefulTerminationSec value to set
+     * @return the ManagedClusterPropertiesAutoScalerProfile object itself.
+     */
+    public ManagedClusterPropertiesAutoScalerProfile withMaxGracefulTerminationSec(String maxGracefulTerminationSec) {
+        this.maxGracefulTerminationSec = maxGracefulTerminationSec;
+        return this;
+    }
+
+    /**
+     * Get the maxTotalUnreadyPercentage value.
+     *
+     * @return the maxTotalUnreadyPercentage value
+     */
+    public String maxTotalUnreadyPercentage() {
+        return this.maxTotalUnreadyPercentage;
+    }
+
+    /**
+     * Set the maxTotalUnreadyPercentage value.
+     *
+     * @param maxTotalUnreadyPercentage the maxTotalUnreadyPercentage value to set
+     * @return the ManagedClusterPropertiesAutoScalerProfile object itself.
+     */
+    public ManagedClusterPropertiesAutoScalerProfile withMaxTotalUnreadyPercentage(String maxTotalUnreadyPercentage) {
+        this.maxTotalUnreadyPercentage = maxTotalUnreadyPercentage;
+        return this;
+    }
+
+    /**
+     * Get the newPodScaleUpDelay value.
+     *
+     * @return the newPodScaleUpDelay value
+     */
+    public String newPodScaleUpDelay() {
+        return this.newPodScaleUpDelay;
+    }
+
+    /**
+     * Set the newPodScaleUpDelay value.
+     *
+     * @param newPodScaleUpDelay the newPodScaleUpDelay value to set
+     * @return the ManagedClusterPropertiesAutoScalerProfile object itself.
+     */
+    public ManagedClusterPropertiesAutoScalerProfile withNewPodScaleUpDelay(String newPodScaleUpDelay) {
+        this.newPodScaleUpDelay = newPodScaleUpDelay;
+        return this;
+    }
+
+    /**
+     * Get the okTotalUnreadyCount value.
+     *
+     * @return the okTotalUnreadyCount value
+     */
+    public String okTotalUnreadyCount() {
+        return this.okTotalUnreadyCount;
+    }
+
+    /**
+     * Set the okTotalUnreadyCount value.
+     *
+     * @param okTotalUnreadyCount the okTotalUnreadyCount value to set
+     * @return the ManagedClusterPropertiesAutoScalerProfile object itself.
+     */
+    public ManagedClusterPropertiesAutoScalerProfile withOkTotalUnreadyCount(String okTotalUnreadyCount) {
+        this.okTotalUnreadyCount = okTotalUnreadyCount;
         return this;
     }
 
@@ -229,22 +391,42 @@ public class ManagedClusterPropertiesAutoScalerProfile {
     }
 
     /**
-     * Get the maxGracefulTerminationSec value.
+     * Get the skipNodesWithLocalStorage value.
      *
-     * @return the maxGracefulTerminationSec value
+     * @return the skipNodesWithLocalStorage value
      */
-    public String maxGracefulTerminationSec() {
-        return this.maxGracefulTerminationSec;
+    public String skipNodesWithLocalStorage() {
+        return this.skipNodesWithLocalStorage;
     }
 
     /**
-     * Set the maxGracefulTerminationSec value.
+     * Set the skipNodesWithLocalStorage value.
      *
-     * @param maxGracefulTerminationSec the maxGracefulTerminationSec value to set
+     * @param skipNodesWithLocalStorage the skipNodesWithLocalStorage value to set
      * @return the ManagedClusterPropertiesAutoScalerProfile object itself.
      */
-    public ManagedClusterPropertiesAutoScalerProfile withMaxGracefulTerminationSec(String maxGracefulTerminationSec) {
-        this.maxGracefulTerminationSec = maxGracefulTerminationSec;
+    public ManagedClusterPropertiesAutoScalerProfile withSkipNodesWithLocalStorage(String skipNodesWithLocalStorage) {
+        this.skipNodesWithLocalStorage = skipNodesWithLocalStorage;
+        return this;
+    }
+
+    /**
+     * Get the skipNodesWithSystemPods value.
+     *
+     * @return the skipNodesWithSystemPods value
+     */
+    public String skipNodesWithSystemPods() {
+        return this.skipNodesWithSystemPods;
+    }
+
+    /**
+     * Set the skipNodesWithSystemPods value.
+     *
+     * @param skipNodesWithSystemPods the skipNodesWithSystemPods value to set
+     * @return the ManagedClusterPropertiesAutoScalerProfile object itself.
+     */
+    public ManagedClusterPropertiesAutoScalerProfile withSkipNodesWithSystemPods(String skipNodesWithSystemPods) {
+        this.skipNodesWithSystemPods = skipNodesWithSystemPods;
         return this;
     }
 

@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.containerservice.implementation;
 
+import com.microsoft.azure.management.containerservice.PowerState;
 import java.util.List;
 import com.microsoft.azure.management.containerservice.ManagedClusterAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceLinuxProfile;
@@ -37,6 +38,12 @@ public class ManagedClusterInner extends Resource {
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
+
+    /**
+     * Represents the Power State of the cluster.
+     */
+    @JsonProperty(value = "properties.powerState", access = JsonProperty.Access.WRITE_ONLY)
+    private PowerState powerState;
 
     /**
      * The max number of agent pools for the managed cluster.
@@ -112,7 +119,9 @@ public class ManagedClusterInner extends Resource {
     private Boolean enableRBAC;
 
     /**
-     * (PREVIEW) Whether to enable Kubernetes Pod security policy.
+     * (DEPRECATING) Whether to enable Kubernetes pod security policy
+     * (preview). This feature is set for removal on October 15th, 2020. Learn
+     * more at aka.ms/aks/azpodpolicy.
      */
     @JsonProperty(value = "properties.enablePodSecurityPolicy")
     private Boolean enablePodSecurityPolicy;
@@ -173,6 +182,15 @@ public class ManagedClusterInner extends Resource {
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get represents the Power State of the cluster.
+     *
+     * @return the powerState value
+     */
+    public PowerState powerState() {
+        return this.powerState;
     }
 
     /**
@@ -383,7 +401,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get (PREVIEW) Whether to enable Kubernetes Pod security policy.
+     * Get (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy.
      *
      * @return the enablePodSecurityPolicy value
      */
@@ -392,7 +410,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set (PREVIEW) Whether to enable Kubernetes Pod security policy.
+     * Set (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy.
      *
      * @param enablePodSecurityPolicy the enablePodSecurityPolicy value to set
      * @return the ManagedClusterInner object itself.

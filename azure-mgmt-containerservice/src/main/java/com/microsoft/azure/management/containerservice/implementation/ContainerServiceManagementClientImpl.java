@@ -186,6 +186,45 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The PrivateEndpointConnectionsInner object to access its operations.
+     */
+    private PrivateEndpointConnectionsInner privateEndpointConnections;
+
+    /**
+     * Gets the PrivateEndpointConnectionsInner object to access its operations.
+     * @return the PrivateEndpointConnectionsInner object.
+     */
+    public PrivateEndpointConnectionsInner privateEndpointConnections() {
+        return this.privateEndpointConnections;
+    }
+
+    /**
+     * The PrivateLinkResourcesInner object to access its operations.
+     */
+    private PrivateLinkResourcesInner privateLinkResources;
+
+    /**
+     * Gets the PrivateLinkResourcesInner object to access its operations.
+     * @return the PrivateLinkResourcesInner object.
+     */
+    public PrivateLinkResourcesInner privateLinkResources() {
+        return this.privateLinkResources;
+    }
+
+    /**
+     * The ResolvePrivateLinkServiceIdsInner object to access its operations.
+     */
+    private ResolvePrivateLinkServiceIdsInner resolvePrivateLinkServiceIds;
+
+    /**
+     * Gets the ResolvePrivateLinkServiceIdsInner object to access its operations.
+     * @return the ResolvePrivateLinkServiceIdsInner object.
+     */
+    public ResolvePrivateLinkServiceIdsInner resolvePrivateLinkServiceIds() {
+        return this.resolvePrivateLinkServiceIds;
+    }
+
+    /**
      * Initializes an instance of ContainerServiceManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -224,6 +263,9 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.managedClusters = new ManagedClustersInner(restClient().retrofit(), this);
         this.agentPools = new AgentPoolsInner(restClient().retrofit(), this);
+        this.privateEndpointConnections = new PrivateEndpointConnectionsInner(restClient().retrofit(), this);
+        this.privateLinkResources = new PrivateLinkResourcesInner(restClient().retrofit(), this);
+        this.resolvePrivateLinkServiceIds = new ResolvePrivateLinkServiceIdsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

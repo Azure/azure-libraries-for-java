@@ -12,25 +12,19 @@ variables:
   LoggingOptions: '-Dorg.slf4j.simpleLogger.defaultLogLevel=error -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
 
 jobs:
-  - job: 'Build'
-
+  - job: 'CredentialScan'
+    timeoutInMinutes: 120
     strategy:
       matrix:
-
         Windows - Java 8:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
           JavaVersion: '1.8'
           ProfileFlag: ''
-#        Windows - Java 7:
-#          OSName: 'Windows'
-#          OSVmImage: 'vs2017-win2016'
-#          JavaVersion: '1.7'
-#          ProfileFlag: ''
     
     pool:
       vmImage: $(OSVmImage)
-      
+    
     steps:
       - task: ms-codeanalysis.vss-microsoft-security-code-analysis-devops.build-task-credscan.CredScan@2
         displayName: 'Run Credential Scanner'
@@ -47,7 +41,27 @@ jobs:
           RoslynAnalyzers: false
           TSLint: false
           ToolLogsNotFoundAction: 'Standard'
-          
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          mergeTestResults: true
+          testRunTitle: 'on Credential Scan'
+
+  - job: 'StyleCheck'
+    timeoutInMinutes: 120
+    strategy:
+      matrix:
+        Windows - Java 8:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          JavaVersion: '1.8'
+          ProfileFlag: ''
+    
+    pool:
+      vmImage: $(OSVmImage)
+    
+    steps:
       - task: Maven@3
         displayName: 'install'
         inputs:
@@ -59,17 +73,7 @@ jobs:
           jdkArchitectureOption: 'x64'
           publishJUnitResults: false
           goals: 'install'
-          
-      - task: JavaToolInstaller@0
-        displayName: 'Install Azul JDK 1.7'
-        inputs:
-          versionSpec: '7'
-          jdkArchitectureOption: 'x64'
-          jdkSourceOption: LocalDirectory
-          jdkFile: "ci/zulu-7-azure-jdk_7.29.0.5-7.0.222-win_x64.zip"
-          jdkDestinationDirectory: '$(Agent.ToolsDirectory)/jdk7'
-          cleanDestinationDirectory: true
-          
+
       - task: Maven@3
         displayName: 'Run StyleCheck'
         inputs:
@@ -81,6 +85,45 @@ jobs:
           jdkArchitectureOption: 'x64'
           publishJUnitResults: false
           goals: 'checkstyle:check'
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          mergeTestResults: true
+          testRunTitle: 'on Style Check'
+
+  - job: 'Test'
+    timeoutInMinutes: 120
+
+    strategy:
+      matrix:
+
+        Windows - Java 8:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          JavaVersion: '1.8'
+          ProfileFlag: ''
+        Windows - Java 7:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          JavaVersion: '1.7'
+          ProfileFlag: ''
+    
+    pool:
+      vmImage: $(OSVmImage)
+      
+    steps:
+      - task: Maven@3
+        displayName: 'install'
+        inputs:
+          mavenPomFile: pom.xml
+          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -pl !azure-samples javadoc:aggregate -DskipTests=true -DpackageOutputDirectory=$(Build.ArtifactStagingDirectory)" -am'
+          mavenOptions: '$(LoggingOptions)'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: $(JavaVersion)
+          jdkArchitectureOption: 'x64'
+          publishJUnitResults: false
+          goals: 'install'
 
       - task: Maven@3
         displayName: 'Start Jetty'
@@ -95,7 +138,7 @@ jobs:
           goals: 'jetty:run-forked'
           
       - task: Maven@3
-        displayName: 'Run Tests on Java 8'
+        displayName: 'Run Tests on Java $(JavaVersion)'
         inputs:
           mavenPomFile: pom.xml
           options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
@@ -106,24 +149,8 @@ jobs:
           publishJUnitResults: false
           goals: 'test'
           
-      - task: Maven@3
-        displayName: 'Run Tests on Java 7'
-        inputs:
-          mavenPomFile: pom.xml
-          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
-          mavenOptions: '$(LoggingOptions)'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.7'
-          jdkArchitectureOption: 'x64'
-          publishJUnitResults: false
-          goals: 'test'
-          
-
       - task: PublishTestResults@2
         condition: succeededOrFailed()
         inputs:
           mergeTestResults: true
           testRunTitle: 'On Java $(JavaVersion)'
-          
-
-        

@@ -15,6 +15,7 @@ jobs:
   - job: 'Credential Scan'
     timeoutInMinutes: 120
     strategy:
+      matrix:
         Windows - Java 8:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'
@@ -50,6 +51,7 @@ jobs:
   - job: 'Style Check'
     timeoutInMinutes: 120
     strategy:
+      matrix:
         Windows - Java 8:
           OSName: 'Windows'
           OSVmImage: 'vs2017-win2016'

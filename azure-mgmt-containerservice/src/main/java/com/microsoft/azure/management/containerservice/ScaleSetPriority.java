@@ -19,9 +19,6 @@ public final class ScaleSetPriority extends ExpandableStringEnum<ScaleSetPriorit
     /** Static value Spot for ScaleSetPriority. */
     public static final ScaleSetPriority SPOT = fromString("Spot");
 
-    /** Static value Low for ScaleSetPriority. */
-    public static final ScaleSetPriority LOW = fromString("Low");
-
     /** Static value Regular for ScaleSetPriority. */
     public static final ScaleSetPriority REGULAR = fromString("Regular");
 

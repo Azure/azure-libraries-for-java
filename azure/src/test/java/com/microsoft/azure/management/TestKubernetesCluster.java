@@ -7,6 +7,7 @@ package com.microsoft.azure.management;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.microsoft.azure.management.containerservice.AgentPoolMode;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
@@ -63,6 +64,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
             .defineAgentPool(agentPoolName)
                 .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2)
                 .withAgentPoolVirtualMachineCount(1)
+                .withMode(AgentPoolMode.SYSTEM)
                 .attach()
             .withDnsPrefix(dnsPrefix)
             .withTag("tag1", "value1")

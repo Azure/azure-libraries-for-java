@@ -22,6 +22,12 @@ public class ManagedClusterAADProfile {
     private Boolean managed;
 
     /**
+     * Whether to enable Azure RBAC for Kubernetes authorization.
+     */
+    @JsonProperty(value = "enableAzureRBAC")
+    private Boolean enableAzureRBAC;
+
+    /**
      * AAD group object IDs that will have admin role of the cluster.
      */
     @JsonProperty(value = "adminGroupObjectIDs")
@@ -69,6 +75,26 @@ public class ManagedClusterAADProfile {
      */
     public ManagedClusterAADProfile withManaged(Boolean managed) {
         this.managed = managed;
+        return this;
+    }
+
+    /**
+     * Get whether to enable Azure RBAC for Kubernetes authorization.
+     *
+     * @return the enableAzureRBAC value
+     */
+    public Boolean enableAzureRBAC() {
+        return this.enableAzureRBAC;
+    }
+
+    /**
+     * Set whether to enable Azure RBAC for Kubernetes authorization.
+     *
+     * @param enableAzureRBAC the enableAzureRBAC value to set
+     * @return the ManagedClusterAADProfile object itself.
+     */
+    public ManagedClusterAADProfile withEnableAzureRBAC(Boolean enableAzureRBAC) {
+        this.enableAzureRBAC = enableAzureRBAC;
         return this;
     }
 

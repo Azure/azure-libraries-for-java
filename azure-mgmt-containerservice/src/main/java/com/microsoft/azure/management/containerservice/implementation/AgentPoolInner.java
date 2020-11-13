@@ -9,9 +9,12 @@
 package com.microsoft.azure.management.containerservice.implementation;
 
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
+import com.microsoft.azure.management.containerservice.OSDiskType;
 import com.microsoft.azure.management.containerservice.OSType;
 import com.microsoft.azure.management.containerservice.AgentPoolType;
 import com.microsoft.azure.management.containerservice.AgentPoolMode;
+import com.microsoft.azure.management.containerservice.AgentPoolUpgradeSettings;
+import com.microsoft.azure.management.containerservice.PowerState;
 import java.util.List;
 import com.microsoft.azure.management.containerservice.ScaleSetPriority;
 import com.microsoft.azure.management.containerservice.ScaleSetEvictionPolicy;
@@ -27,10 +30,11 @@ import com.microsoft.azure.SubResource;
 public class AgentPoolInner extends SubResource {
     /**
      * Number of agents (VMs) to host docker containers. Allowed values must be
-     * in the range of 0 to 100 (inclusive). The default value is 1.
+     * in the range of 0 to 100 (inclusive) for user pools and in the range of
+     * 1 to 100 (inclusive) for system pools. The default value is 1.
      */
-    @JsonProperty(value = "properties.count", required = true)
-    private int count;
+    @JsonProperty(value = "properties.count")
+    private Integer count;
 
     /**
      * Size of agent VMs. Possible values include: 'Standard_A1',
@@ -86,7 +90,7 @@ public class AgentPoolInner extends SubResource {
      * 'Standard_ND24s', 'Standard_ND6s', 'Standard_NV12', 'Standard_NV24',
      * 'Standard_NV6'.
      */
-    @JsonProperty(value = "properties.vmSize", required = true)
+    @JsonProperty(value = "properties.vmSize")
     private ContainerServiceVMSizeTypes vmSize;
 
     /**
@@ -96,6 +100,14 @@ public class AgentPoolInner extends SubResource {
      */
     @JsonProperty(value = "properties.osDiskSizeGB")
     private Integer osDiskSizeGB;
+
+    /**
+     * OS disk type to be used for machines in a given agent pool. Allowed
+     * values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be
+     * changed after creation. Possible values include: 'Managed', 'Ephemeral'.
+     */
+    @JsonProperty(value = "properties.osDiskType")
+    private OSDiskType osDiskType;
 
     /**
      * VNet SubnetID specifies the VNet's subnet identifier.
@@ -155,11 +167,29 @@ public class AgentPoolInner extends SubResource {
     private String orchestratorVersion;
 
     /**
+     * Version of node image.
+     */
+    @JsonProperty(value = "properties.nodeImageVersion", access = JsonProperty.Access.WRITE_ONLY)
+    private String nodeImageVersion;
+
+    /**
+     * Settings for upgrading the agentpool.
+     */
+    @JsonProperty(value = "properties.upgradeSettings")
+    private AgentPoolUpgradeSettings upgradeSettings;
+
+    /**
      * The current deployment or provisioning state, which only appears in the
      * response.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
+
+    /**
+     * Describes whether the Agent Pool is Running or Stopped.
+     */
+    @JsonProperty(value = "properties.powerState", access = JsonProperty.Access.WRITE_ONLY)
+    private PowerState powerState;
 
     /**
      * Availability zones for nodes. Must use VirtualMachineScaleSets
@@ -176,16 +206,16 @@ public class AgentPoolInner extends SubResource {
 
     /**
      * ScaleSetPriority to be used to specify virtual machine scale set
-     * priority. Default to regular. Possible values include: 'Spot', 'Low',
+     * priority. Default to regular. Possible values include: 'Spot',
      * 'Regular'.
      */
     @JsonProperty(value = "properties.scaleSetPriority")
     private ScaleSetPriority scaleSetPriority;
 
     /**
-     * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or
-     * low priority virtual machine scale set. Default to Delete. Possible
-     * values include: 'Delete', 'Deallocate'.
+     * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot
+     * virtual machine scale set. Default to Delete. Possible values include:
+     * 'Delete', 'Deallocate'.
      */
     @JsonProperty(value = "properties.scaleSetEvictionPolicy")
     private ScaleSetEvictionPolicy scaleSetEvictionPolicy;
@@ -219,6 +249,12 @@ public class AgentPoolInner extends SubResource {
     private List<String> nodeTaints;
 
     /**
+     * The ID for Proximity Placement Group.
+     */
+    @JsonProperty(value = "properties.proximityPlacementGroupID")
+    private String proximityPlacementGroupID;
+
+    /**
      * The name of the resource that is unique within a resource group. This
      * name can be used to access the resource.
      */
@@ -232,21 +268,21 @@ public class AgentPoolInner extends SubResource {
     private String type;
 
     /**
-     * Get number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1.
+     * Get number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools. The default value is 1.
      *
      * @return the count value
      */
-    public int count() {
+    public Integer count() {
         return this.count;
     }
 
     /**
-     * Set number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1.
+     * Set number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools. The default value is 1.
      *
      * @param count the count value to set
      * @return the AgentPoolInner object itself.
      */
-    public AgentPoolInner withCount(int count) {
+    public AgentPoolInner withCount(Integer count) {
         this.count = count;
         return this;
     }
@@ -288,6 +324,26 @@ public class AgentPoolInner extends SubResource {
      */
     public AgentPoolInner withOsDiskSizeGB(Integer osDiskSizeGB) {
         this.osDiskSizeGB = osDiskSizeGB;
+        return this;
+    }
+
+    /**
+     * Get oS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be changed after creation. Possible values include: 'Managed', 'Ephemeral'.
+     *
+     * @return the osDiskType value
+     */
+    public OSDiskType osDiskType() {
+        return this.osDiskType;
+    }
+
+    /**
+     * Set oS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be changed after creation. Possible values include: 'Managed', 'Ephemeral'.
+     *
+     * @param osDiskType the osDiskType value to set
+     * @return the AgentPoolInner object itself.
+     */
+    public AgentPoolInner withOsDiskType(OSDiskType osDiskType) {
+        this.osDiskType = osDiskType;
         return this;
     }
 
@@ -472,12 +528,50 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
+     * Get version of node image.
+     *
+     * @return the nodeImageVersion value
+     */
+    public String nodeImageVersion() {
+        return this.nodeImageVersion;
+    }
+
+    /**
+     * Get settings for upgrading the agentpool.
+     *
+     * @return the upgradeSettings value
+     */
+    public AgentPoolUpgradeSettings upgradeSettings() {
+        return this.upgradeSettings;
+    }
+
+    /**
+     * Set settings for upgrading the agentpool.
+     *
+     * @param upgradeSettings the upgradeSettings value to set
+     * @return the AgentPoolInner object itself.
+     */
+    public AgentPoolInner withUpgradeSettings(AgentPoolUpgradeSettings upgradeSettings) {
+        this.upgradeSettings = upgradeSettings;
+        return this;
+    }
+
+    /**
      * Get the current deployment or provisioning state, which only appears in the response.
      *
      * @return the provisioningState value
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get describes whether the Agent Pool is Running or Stopped.
+     *
+     * @return the powerState value
+     */
+    public PowerState powerState() {
+        return this.powerState;
     }
 
     /**
@@ -521,7 +615,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Get scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Low', 'Regular'.
+     * Get scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Regular'.
      *
      * @return the scaleSetPriority value
      */
@@ -530,7 +624,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Set scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Low', 'Regular'.
+     * Set scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Regular'.
      *
      * @param scaleSetPriority the scaleSetPriority value to set
      * @return the AgentPoolInner object itself.
@@ -541,7 +635,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Get scaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
+     * Get scaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
      *
      * @return the scaleSetEvictionPolicy value
      */
@@ -550,7 +644,7 @@ public class AgentPoolInner extends SubResource {
     }
 
     /**
-     * Set scaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
+     * Set scaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
      *
      * @param scaleSetEvictionPolicy the scaleSetEvictionPolicy value to set
      * @return the AgentPoolInner object itself.
@@ -637,6 +731,26 @@ public class AgentPoolInner extends SubResource {
      */
     public AgentPoolInner withNodeTaints(List<String> nodeTaints) {
         this.nodeTaints = nodeTaints;
+        return this;
+    }
+
+    /**
+     * Get the ID for Proximity Placement Group.
+     *
+     * @return the proximityPlacementGroupID value
+     */
+    public String proximityPlacementGroupID() {
+        return this.proximityPlacementGroupID;
+    }
+
+    /**
+     * Set the ID for Proximity Placement Group.
+     *
+     * @param proximityPlacementGroupID the proximityPlacementGroupID value to set
+     * @return the AgentPoolInner object itself.
+     */
+    public AgentPoolInner withProximityPlacementGroupID(String proximityPlacementGroupID) {
+        this.proximityPlacementGroupID = proximityPlacementGroupID;
         return this;
     }
 

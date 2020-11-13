@@ -57,6 +57,12 @@ public class AgentPoolUpgradeProfileInner {
     private List<AgentPoolUpgradeProfilePropertiesUpgradesItem> upgrades;
 
     /**
+     * LatestNodeImageVersion is the latest AKS supported node image version.
+     */
+    @JsonProperty(value = "properties.latestNodeImageVersion")
+    private String latestNodeImageVersion;
+
+    /**
      * Get id of the agent pool upgrade profile.
      *
      * @return the id value
@@ -140,6 +146,26 @@ public class AgentPoolUpgradeProfileInner {
      */
     public AgentPoolUpgradeProfileInner withUpgrades(List<AgentPoolUpgradeProfilePropertiesUpgradesItem> upgrades) {
         this.upgrades = upgrades;
+        return this;
+    }
+
+    /**
+     * Get latestNodeImageVersion is the latest AKS supported node image version.
+     *
+     * @return the latestNodeImageVersion value
+     */
+    public String latestNodeImageVersion() {
+        return this.latestNodeImageVersion;
+    }
+
+    /**
+     * Set latestNodeImageVersion is the latest AKS supported node image version.
+     *
+     * @param latestNodeImageVersion the latestNodeImageVersion value to set
+     * @return the AgentPoolUpgradeProfileInner object itself.
+     */
+    public AgentPoolUpgradeProfileInner withLatestNodeImageVersion(String latestNodeImageVersion) {
+        this.latestNodeImageVersion = latestNodeImageVersion;
         return this;
     }
 

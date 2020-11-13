@@ -18,10 +18,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ManagedClusterAgentPoolProfileProperties {
     /**
      * Number of agents (VMs) to host docker containers. Allowed values must be
-     * in the range of 0 to 100 (inclusive). The default value is 1.
+     * in the range of 0 to 100 (inclusive) for user pools and in the range of
+     * 1 to 100 (inclusive) for system pools. The default value is 1.
      */
-    @JsonProperty(value = "count", required = true)
-    private int count;
+    @JsonProperty(value = "count")
+    private Integer count;
 
     /**
      * Size of agent VMs. Possible values include: 'Standard_A1',
@@ -77,7 +78,7 @@ public class ManagedClusterAgentPoolProfileProperties {
      * 'Standard_ND24s', 'Standard_ND6s', 'Standard_NV12', 'Standard_NV24',
      * 'Standard_NV6'.
      */
-    @JsonProperty(value = "vmSize", required = true)
+    @JsonProperty(value = "vmSize")
     private ContainerServiceVMSizeTypes vmSize;
 
     /**
@@ -87,6 +88,14 @@ public class ManagedClusterAgentPoolProfileProperties {
      */
     @JsonProperty(value = "osDiskSizeGB")
     private Integer osDiskSizeGB;
+
+    /**
+     * OS disk type to be used for machines in a given agent pool. Allowed
+     * values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be
+     * changed after creation. Possible values include: 'Managed', 'Ephemeral'.
+     */
+    @JsonProperty(value = "osDiskType")
+    private OSDiskType osDiskType;
 
     /**
      * VNet SubnetID specifies the VNet's subnet identifier.
@@ -146,11 +155,29 @@ public class ManagedClusterAgentPoolProfileProperties {
     private String orchestratorVersion;
 
     /**
+     * Version of node image.
+     */
+    @JsonProperty(value = "nodeImageVersion", access = JsonProperty.Access.WRITE_ONLY)
+    private String nodeImageVersion;
+
+    /**
+     * Settings for upgrading the agentpool.
+     */
+    @JsonProperty(value = "upgradeSettings")
+    private AgentPoolUpgradeSettings upgradeSettings;
+
+    /**
      * The current deployment or provisioning state, which only appears in the
      * response.
      */
     @JsonProperty(value = "provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
+
+    /**
+     * Describes whether the Agent Pool is Running or Stopped.
+     */
+    @JsonProperty(value = "powerState", access = JsonProperty.Access.WRITE_ONLY)
+    private PowerState powerState;
 
     /**
      * Availability zones for nodes. Must use VirtualMachineScaleSets
@@ -167,16 +194,16 @@ public class ManagedClusterAgentPoolProfileProperties {
 
     /**
      * ScaleSetPriority to be used to specify virtual machine scale set
-     * priority. Default to regular. Possible values include: 'Spot', 'Low',
+     * priority. Default to regular. Possible values include: 'Spot',
      * 'Regular'.
      */
     @JsonProperty(value = "scaleSetPriority")
     private ScaleSetPriority scaleSetPriority;
 
     /**
-     * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or
-     * low priority virtual machine scale set. Default to Delete. Possible
-     * values include: 'Delete', 'Deallocate'.
+     * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot
+     * virtual machine scale set. Default to Delete. Possible values include:
+     * 'Delete', 'Deallocate'.
      */
     @JsonProperty(value = "scaleSetEvictionPolicy")
     private ScaleSetEvictionPolicy scaleSetEvictionPolicy;
@@ -210,21 +237,27 @@ public class ManagedClusterAgentPoolProfileProperties {
     private List<String> nodeTaints;
 
     /**
-     * Get number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1.
+     * The ID for Proximity Placement Group.
+     */
+    @JsonProperty(value = "proximityPlacementGroupID")
+    private String proximityPlacementGroupID;
+
+    /**
+     * Get number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools. The default value is 1.
      *
      * @return the count value
      */
-    public int count() {
+    public Integer count() {
         return this.count;
     }
 
     /**
-     * Set number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive). The default value is 1.
+     * Set number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools. The default value is 1.
      *
      * @param count the count value to set
      * @return the ManagedClusterAgentPoolProfileProperties object itself.
      */
-    public ManagedClusterAgentPoolProfileProperties withCount(int count) {
+    public ManagedClusterAgentPoolProfileProperties withCount(Integer count) {
         this.count = count;
         return this;
     }
@@ -266,6 +299,26 @@ public class ManagedClusterAgentPoolProfileProperties {
      */
     public ManagedClusterAgentPoolProfileProperties withOsDiskSizeGB(Integer osDiskSizeGB) {
         this.osDiskSizeGB = osDiskSizeGB;
+        return this;
+    }
+
+    /**
+     * Get oS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be changed after creation. Possible values include: 'Managed', 'Ephemeral'.
+     *
+     * @return the osDiskType value
+     */
+    public OSDiskType osDiskType() {
+        return this.osDiskType;
+    }
+
+    /**
+     * Set oS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be changed after creation. Possible values include: 'Managed', 'Ephemeral'.
+     *
+     * @param osDiskType the osDiskType value to set
+     * @return the ManagedClusterAgentPoolProfileProperties object itself.
+     */
+    public ManagedClusterAgentPoolProfileProperties withOsDiskType(OSDiskType osDiskType) {
+        this.osDiskType = osDiskType;
         return this;
     }
 
@@ -450,12 +503,50 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
+     * Get version of node image.
+     *
+     * @return the nodeImageVersion value
+     */
+    public String nodeImageVersion() {
+        return this.nodeImageVersion;
+    }
+
+    /**
+     * Get settings for upgrading the agentpool.
+     *
+     * @return the upgradeSettings value
+     */
+    public AgentPoolUpgradeSettings upgradeSettings() {
+        return this.upgradeSettings;
+    }
+
+    /**
+     * Set settings for upgrading the agentpool.
+     *
+     * @param upgradeSettings the upgradeSettings value to set
+     * @return the ManagedClusterAgentPoolProfileProperties object itself.
+     */
+    public ManagedClusterAgentPoolProfileProperties withUpgradeSettings(AgentPoolUpgradeSettings upgradeSettings) {
+        this.upgradeSettings = upgradeSettings;
+        return this;
+    }
+
+    /**
      * Get the current deployment or provisioning state, which only appears in the response.
      *
      * @return the provisioningState value
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get describes whether the Agent Pool is Running or Stopped.
+     *
+     * @return the powerState value
+     */
+    public PowerState powerState() {
+        return this.powerState;
     }
 
     /**
@@ -499,7 +590,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Get scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Low', 'Regular'.
+     * Get scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Regular'.
      *
      * @return the scaleSetPriority value
      */
@@ -508,7 +599,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Set scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Low', 'Regular'.
+     * Set scaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Possible values include: 'Spot', 'Regular'.
      *
      * @param scaleSetPriority the scaleSetPriority value to set
      * @return the ManagedClusterAgentPoolProfileProperties object itself.
@@ -519,7 +610,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Get scaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
+     * Get scaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
      *
      * @return the scaleSetEvictionPolicy value
      */
@@ -528,7 +619,7 @@ public class ManagedClusterAgentPoolProfileProperties {
     }
 
     /**
-     * Set scaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
+     * Set scaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'.
      *
      * @param scaleSetEvictionPolicy the scaleSetEvictionPolicy value to set
      * @return the ManagedClusterAgentPoolProfileProperties object itself.
@@ -615,6 +706,26 @@ public class ManagedClusterAgentPoolProfileProperties {
      */
     public ManagedClusterAgentPoolProfileProperties withNodeTaints(List<String> nodeTaints) {
         this.nodeTaints = nodeTaints;
+        return this;
+    }
+
+    /**
+     * Get the ID for Proximity Placement Group.
+     *
+     * @return the proximityPlacementGroupID value
+     */
+    public String proximityPlacementGroupID() {
+        return this.proximityPlacementGroupID;
+    }
+
+    /**
+     * Set the ID for Proximity Placement Group.
+     *
+     * @param proximityPlacementGroupID the proximityPlacementGroupID value to set
+     * @return the ManagedClusterAgentPoolProfileProperties object itself.
+     */
+    public ManagedClusterAgentPoolProfileProperties withProximityPlacementGroupID(String proximityPlacementGroupID) {
+        this.proximityPlacementGroupID = proximityPlacementGroupID;
         return this;
     }
 

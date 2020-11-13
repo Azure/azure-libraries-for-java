@@ -12,7 +12,85 @@ variables:
   LoggingOptions: '-Dorg.slf4j.simpleLogger.defaultLogLevel=error -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
 
 jobs:
-  - job: 'Build'
+  - job: 'Credential Scan'
+    timeoutInMinutes: 120
+    strategy:
+        Windows - Java 8:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          JavaVersion: '1.8'
+          ProfileFlag: ''
+    
+    pool:
+      vmImage: $(OSVmImage)
+    
+    steps:
+      - task: ms-codeanalysis.vss-microsoft-security-code-analysis-devops.build-task-credscan.CredScan@2
+        displayName: 'Run Credential Scanner'
+        inputs:
+          toolMajorVersion: V2
+          suppressionsFile: './tools/credscan/CredScanSuppressions.json'
+
+      - task: ms-codeanalysis.vss-microsoft-security-code-analysis-devops.build-task-postanalysis.PostAnalysis@1
+        displayName: 'PostAnalysis'
+        inputs:
+          AllTools: false
+          BinSkim: false
+          CredScan: true
+          RoslynAnalyzers: false
+          TSLint: false
+          ToolLogsNotFoundAction: 'Standard'
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          mergeTestResults: true
+          testRunTitle: 'on Credential Scan'
+
+  - job: 'Style Check'
+    timeoutInMinutes: 120
+    strategy:
+        Windows - Java 8:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
+          JavaVersion: '1.8'
+          ProfileFlag: ''
+    
+    pool:
+      vmImage: $(OSVmImage)
+    
+    steps:
+      - task: Maven@3
+        displayName: 'install'
+        inputs:
+          mavenPomFile: pom.xml
+          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -pl !azure-samples javadoc:aggregate -DskipTests=true -DpackageOutputDirectory=$(Build.ArtifactStagingDirectory)" -am'
+          mavenOptions: '$(LoggingOptions)'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: $(JavaVersion)
+          jdkArchitectureOption: 'x64'
+          publishJUnitResults: false
+          goals: 'install'
+
+      - task: Maven@3
+        displayName: 'Run StyleCheck'
+        inputs:
+          mavenPomFile: pom.xml
+          options: '$(DefaultOptions) $(ProfileFlag)'
+          mavenOptions: '$(LoggingOptions)'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: $(JavaVersion)
+          jdkArchitectureOption: 'x64'
+          publishJUnitResults: false
+          goals: 'checkstyle:check'
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          mergeTestResults: true
+          testRunTitle: 'on Style Check'
+
+  - job: 'Test'
     timeoutInMinutes: 120
 
     strategy:
@@ -33,22 +111,6 @@ jobs:
       vmImage: $(OSVmImage)
       
     steps:
-      - task: ms-codeanalysis.vss-microsoft-security-code-analysis-devops.build-task-credscan.CredScan@2
-        displayName: 'Run Credential Scanner'
-        inputs:
-          toolMajorVersion: V2
-          suppressionsFile: './tools/credscan/CredScanSuppressions.json'
-
-      - task: ms-codeanalysis.vss-microsoft-security-code-analysis-devops.build-task-postanalysis.PostAnalysis@1
-        displayName: 'PostAnalysis'
-        inputs:
-          AllTools: false
-          BinSkim: false
-          CredScan: true
-          RoslynAnalyzers: false
-          TSLint: false
-          ToolLogsNotFoundAction: 'Standard'
-          
       - task: Maven@3
         displayName: 'install'
         inputs:
@@ -60,18 +122,6 @@ jobs:
           jdkArchitectureOption: 'x64'
           publishJUnitResults: false
           goals: 'install'
-          
-      - task: Maven@3
-        displayName: 'Run StyleCheck'
-        inputs:
-          mavenPomFile: pom.xml
-          options: '$(DefaultOptions) $(ProfileFlag)'
-          mavenOptions: '$(LoggingOptions)'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: $(JavaVersion)
-          jdkArchitectureOption: 'x64'
-          publishJUnitResults: false
-          goals: 'checkstyle:check'
 
       - task: Maven@3
         displayName: 'Start Jetty'

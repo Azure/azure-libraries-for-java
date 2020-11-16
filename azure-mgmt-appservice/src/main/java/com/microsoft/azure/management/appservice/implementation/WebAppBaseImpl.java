@@ -1785,6 +1785,14 @@ abstract class WebAppBaseImpl<
         return defineDiagnosticLogsConfiguration();
     }
 
+    public Map<String, String> getSiteAppSettings() {
+        return getSiteAppSettingsAsync().toBlocking().single();
+    }
+
+    public Observable<Map<String, String>> getSiteAppSettingsAsync() {
+        return kuduClient.settings();
+    }
+
     private static class PipedInputStreamWithCallback extends PipedInputStream {
         private Action0 callback;
 

@@ -8,10 +8,15 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteStreams;
+import com.google.common.reflect.TypeToken;
+import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.management.appservice.DeployType;
 import com.microsoft.azure.management.appservice.WebAppBase;
+import com.microsoft.rest.RestClient;
 import com.microsoft.rest.RestException;
 import com.microsoft.rest.ServiceResponse;
+import com.microsoft.rest.ServiceResponseBuilder;
+import com.microsoft.rest.protocol.ResponseBuilder;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -35,6 +40,7 @@ import rx.functions.Func2;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +48,7 @@ import java.util.concurrent.TimeUnit;
  * A client which interacts with Kudu service.
  */
 class KuduClient {
+    private final RestClient restClient;
     private final KuduService service;
 
     KuduClient(WebAppBase webAppBase) {
@@ -53,11 +60,12 @@ class KuduClient {
                 .replace("https://", "");
         String[] parts = host.split("\\.", 2);
         host = Joiner.on('.').join(parts[0], "scm", parts[1]);
-        service = webAppBase.manager().restClient().newBuilder()
+        restClient = webAppBase.manager().restClient().newBuilder()
                 .withBaseUrl("https://" + host)
                 .withConnectionTimeout(3, TimeUnit.MINUTES)
                 .withReadTimeout(3, TimeUnit.MINUTES)
-                .build()
+                .build();
+        service = restClient
                 .retrofit().create(KuduService.class);
     }
 
@@ -98,6 +106,10 @@ class KuduClient {
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps publish", "x-ms-body-logging: false" })
         @POST("api/publish")
         Observable<Response<ResponseBody>> deploy(@Body RequestBody file, @Query("type") DeployType type, @Query("path") String path, @Query("restart") Boolean restart, @Query("clean") Boolean clean);
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps settings" })
+        @GET("api/settings")
+        Observable<Response<ResponseBody>> settings();
     }
 
     Observable<String> streamApplicationLogsAsync() {
@@ -202,6 +214,37 @@ class KuduClient {
         } catch (IOException e) {
             return Completable.error(e);
         }
+    }
+
+    Observable<Map<String, String>> settings() {
+        return retryOnError(service.settings().flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Map<String, String>>>>() {
+            @Override
+            public Observable<ServiceResponse<Map<String, String>>> call(Response<ResponseBody> response) {
+                try {
+                    ResponseBuilder<Map<String, String>, RestException> responseBuilder = restClient
+                            .responseBuilderFactory().newInstance(restClient.serializerAdapter());
+                    // set throwOnGet404 to true
+                    if (responseBuilder instanceof AzureResponseBuilder) {
+                        ((AzureResponseBuilder<Map<String, String>, RestException>) responseBuilder).withThrowOnGet404(true);
+                    } else if (responseBuilder instanceof ServiceResponseBuilder) {
+                        ((ServiceResponseBuilder<Map<String, String>, RestException>) responseBuilder).withThrowOnGet404(true);
+                    }
+
+                    ServiceResponse<Map<String, String>> clientResponse = responseBuilder
+                            .register(200, new TypeToken<Map<String, String>>() { }.getType())
+                            .registerError(RestException.class)
+                            .build(response);
+                    return Observable.just(clientResponse);
+                } catch (Throwable t) {
+                    return Observable.error(t);
+                }
+            }
+        }).map(new Func1<ServiceResponse<Map<String, String>>, Map<String, String>>() {
+            @Override
+            public Map<String, String> call(ServiceResponse<Map<String, String>> response) {
+                return response.body();
+            }
+        }));
     }
 
     private Observable<ServiceResponse<Void>> handleResponse(Observable<Response<ResponseBody>> observable) {

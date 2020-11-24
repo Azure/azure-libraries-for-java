@@ -599,6 +599,20 @@ public interface WebAppBase extends
     @Beta(SinceVersion.V1_14_0)
     Completable zipDeployAsync(InputStream zipFile);
 
+    /**
+     * Gets the App Settings on site from Kudu client. It might lag after App Setting update to the site.
+     * @return the App Settings on site from Kudu client
+     */
+    @Beta(SinceVersion.V1_37_0)
+    Map<String, String> getSiteAppSettings();
+
+    /**
+     * Gets the App Settings on site from Kudu client. It might lag after App Setting update to the site.
+     * @return the App Settings on site from Kudu client
+     */
+    @Beta(SinceVersion.V1_37_0)
+    Observable<Map<String, String>> getSiteAppSettingsAsync();
+
     /**************************************************************
      * Fluent interfaces to provision a Web App or deployment slot.
      **************************************************************/

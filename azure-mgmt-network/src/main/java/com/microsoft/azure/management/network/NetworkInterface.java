@@ -261,6 +261,7 @@ public interface NetworkInterface extends
              * <p>
              * Note that additional steps need to be taken in the virtual machine itself for the virtual machine associated with this network interface to be able to
              * take advantage of accelerated networking. This feature might not be available in some regions, virtual machine sizes, or operating system versions.
+             * It can be enabled only during the creation of a network interface, not during an update.
              * @return the next stage of the definition
              */
             WithCreate withAcceleratedNetworking();
@@ -514,11 +515,15 @@ public interface NetworkInterface extends
         }
 
         /**
-         * The stage of the network interface definition allowing to disable accelerated networking.
+         * The stage of the network interface definition allowing to specifies accelerated networking.
          */
         interface WithAcceleratedNetworking {
             /**
              * Enables accelerated networking.
+             * <p>
+             * Note that additional steps need to be taken in the virtual machine itself for the virtual machine associated with this network interface to be able to
+             * take advantage of accelerated networking. This feature might not be available in some regions, virtual machine sizes, or operating system versions.
+             * It cannot be enabled if it has already been attached to a virtual machine.
              * @return the next stage of the update
              */
             Update withAcceleratedNetworking();

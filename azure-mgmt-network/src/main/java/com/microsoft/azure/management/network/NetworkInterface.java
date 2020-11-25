@@ -515,7 +515,7 @@ public interface NetworkInterface extends
         }
 
         /**
-         * The stage of the network interface definition allowing to specifies accelerated networking.
+         * The stage of the network interface definition allowing to specify accelerated networking.
          */
         interface WithAcceleratedNetworking {
             /**

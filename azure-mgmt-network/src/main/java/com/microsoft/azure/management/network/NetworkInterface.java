@@ -519,10 +519,21 @@ public interface NetworkInterface extends
          */
         interface WithAcceleratedNetworking {
             /**
+             * Enables accelerated networking.
+             * <p>
+             * Note that additional steps need to be taken in the virtual machine itself for the virtual machine associated with this network interface to be able to
+             * take advantage of accelerated networking. This feature might not be available in some regions, virtual machine sizes, or operating system versions.
+             * It can be enabled only during the creation of a network interface, not during an update.
+             * @return the next stage of the definition
+             */
+            DefinitionStages.WithCreate withAcceleratedNetworking();
+
+            /**
              * Disables accelerated networking.
              * @return the next stage of the update
              */
-            Update withoutAcceleratedNetworking();        }
+            Update withoutAcceleratedNetworking();
+        }
 
         /**
          * The stage of the network interface update allowing to associate it with a load balancer.

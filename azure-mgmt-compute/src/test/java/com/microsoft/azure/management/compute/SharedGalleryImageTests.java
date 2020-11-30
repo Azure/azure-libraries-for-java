@@ -8,6 +8,7 @@ package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
+import com.microsoft.azure.management.resources.core.TestUtilities;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
@@ -280,7 +281,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                                                                    Region region,
                                                                    ComputeManager computeManager) {
         final String uname = "javauser";
-        final String password = "12NewPA$$w0rd!";
+        final String password = TestUtilities.createPassword();
         final KnownLinuxVirtualMachineImage linuxImage = KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS;
         final String publicIpDnsLabel = generateRandomResourceName("pip", 20);
 

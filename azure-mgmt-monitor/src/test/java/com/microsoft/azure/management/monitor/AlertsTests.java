@@ -9,6 +9,7 @@ package com.microsoft.azure.management.monitor;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
+import com.microsoft.azure.management.resources.core.TestUtilities;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
@@ -296,7 +297,7 @@ public class AlertsTests extends MonitorManagementTest {
     public void canCRUDMultipleResourceMetricAlerts() throws Exception {
         try {
             final String userName = "tirekicker";
-            final String password = "12NewPA$$w0rd!";
+            final String password = TestUtilities.createPassword();
 
             String alertName = generateRandomResourceName("jMonitorMA", 18);
             String vmName1 = generateRandomResourceName("jMonitorVM1", 18);

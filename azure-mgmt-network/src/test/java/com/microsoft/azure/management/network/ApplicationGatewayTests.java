@@ -31,6 +31,9 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
 
     @Test
     public void canCRUDApplicationGatewayWithWAF() throws Exception {
+        if (isPlaybackMode()) {
+            return;
+        }
         String appGatewayName = SdkContext.randomResourceName("agwaf", 15);
         String appPublicIp = SdkContext.randomResourceName("pip", 15);
         PublicIPAddress pip =

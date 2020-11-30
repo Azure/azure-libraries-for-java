@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management;
 
+import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.search.*;
 import org.junit.Assert;
@@ -71,8 +72,10 @@ public class TestSearchService {
             resource.regenerateAdminKeys(AdminKeyKind.PRIMARY);
             resource.regenerateAdminKeys(AdminKeyKind.SECONDARY);
             Assert.assertEquals(1, resource.listQueryKeys().size());
-            Assert.assertNotEquals(adminKeyPrimary, resource.getAdminKeys().primaryKey());
-            Assert.assertNotEquals(adminKeySecondary, resource.getAdminKeys().secondaryKey());
+            if (TestBase.isRecordMode()) {
+                Assert.assertNotEquals(adminKeyPrimary, resource.getAdminKeys().primaryKey());
+                Assert.assertNotEquals(adminKeySecondary, resource.getAdminKeys().secondaryKey());
+            }
 
             return resource;
         }

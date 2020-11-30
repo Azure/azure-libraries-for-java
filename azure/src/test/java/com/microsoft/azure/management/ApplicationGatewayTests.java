@@ -214,6 +214,9 @@ public class ApplicationGatewayTests extends TestBase {
      */
     @Test
     public void testAppGatewaysInternalMinimal() throws Exception {
+        if (isPlaybackMode()) {
+            return;
+        }
         new TestApplicationGateway.PrivateMinimal()
                 .runTest(azure.applicationGateways(),  azure.resourceGroups());
     }

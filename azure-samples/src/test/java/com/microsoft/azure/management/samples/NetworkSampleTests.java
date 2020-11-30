@@ -26,6 +26,9 @@ public class NetworkSampleTests extends SamplesTestBase {
 
     @Test
     public void testManageApplicationGateway() {
+        if (isPlaybackMode()) {
+            return;
+        }
         Assert.assertTrue(ManageApplicationGateway.runSample(azure));
     }
 
@@ -61,6 +64,9 @@ public class NetworkSampleTests extends SamplesTestBase {
 
     @Test
     public void testManageSimpleApplicationGateway() {
+        if (isPlaybackMode()) {
+            return;
+        }
         Assert.assertTrue(ManageSimpleApplicationGateway.runSample(azure));
     }
 

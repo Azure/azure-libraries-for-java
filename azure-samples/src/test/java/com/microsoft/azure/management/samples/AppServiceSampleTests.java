@@ -48,11 +48,17 @@ public class AppServiceSampleTests extends SamplesTestBase {
 
     @Test
     public void testManageWebAppWithDomainSsl() {
+        if (isPlaybackMode()) {
+            return;
+        }
         Assert.assertTrue(ManageWebAppWithDomainSsl.runSample(azure));
     }
 
     @Test
     public void testManageWebAppWithTrafficManager() {
+        if (isPlaybackMode()) {
+            return;
+        }
         Assert.assertTrue(ManageWebAppWithTrafficManager.runSample(azure));
     }
 
@@ -69,11 +75,17 @@ public class AppServiceSampleTests extends SamplesTestBase {
 
     @Test
     public void testManageLinuxWebAppWithDomainSsl() {
+        if (isPlaybackMode()) {
+            return;
+        }
         Assert.assertTrue(ManageLinuxWebAppWithDomainSsl.runSample(azure));
     }
 
     @Test
     public void testManageLinuxWebAppWithTrafficManager() {
+        if (isPlaybackMode()) {
+            return;
+        }
         Assert.assertTrue(ManageLinuxWebAppWithTrafficManager.runSample(azure));
     }
 
@@ -84,6 +96,9 @@ public class AppServiceSampleTests extends SamplesTestBase {
 
     @Test
     public void testManageFunctionAppWithDomainSsl() {
+        if (isPlaybackMode()) {
+            return;
+        }
         Assert.assertTrue(ManageFunctionAppWithDomainSsl.runSample(azure));
     }
 }

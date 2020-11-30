@@ -16,6 +16,7 @@ import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.PublicIPAddresses;
 import com.microsoft.azure.management.resources.core.TestBase;
+import com.microsoft.azure.management.resources.core.TestUtilities;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.apache.commons.codec.binary.Base64;
@@ -76,7 +77,7 @@ public class TestVirtualMachineCustomData extends TestTemplate<VirtualMachine, V
                 java.util.Properties config = new java.util.Properties();
                 config.put("StrictHostKeyChecking", "no");
                 session = jsch.getSession("testuser", publicIpDnsLabel + "." + "eastus.cloudapp.azure.com", 22);
-                session.setPassword("12NewPA$$w0rd!");
+                session.setPassword(TestUtilities.createPassword());
                 session.setConfig(config);
                 session.connect();
 

@@ -24,4 +24,7 @@ public class TestUtilities {
         }
     }
 
+    public static String createPassword() {
+        return "12NewPA$$w0rd!";
+    }
 }

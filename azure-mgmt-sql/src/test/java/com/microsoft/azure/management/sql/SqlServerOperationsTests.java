@@ -41,7 +41,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         final String syncGroupName = "groupName";
         final String syncMemberName = "memberName";
         final String administratorLogin = "sqladmin";
-        final String administratorPassword = "N0t@P@ssw0rd!";
+        final String administratorPassword = TestUtilities.createPassword();
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlServerName)
@@ -109,7 +109,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         final String dbSyncName = "dbSync";
         final String syncGroupName = "groupName";
         final String administratorLogin = "sqladmin";
-        final String administratorPassword = "N0t@P@ssw0rd!";
+        final String administratorPassword = TestUtilities.createPassword();
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlServerName)
@@ -162,7 +162,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         final String epName = "epSample";
         final String dbName = "dbSample";
         final String administratorLogin = "sqladmin";
-        final String administratorPassword = "N0t@P@ssw0rd!";
+        final String administratorPassword = TestUtilities.createPassword();
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlPrimaryServerName)
@@ -209,7 +209,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         final String failoverGroupName2 = SdkContext.randomResourceName("fg2", 22);
         final String dbName = "dbSample";
         final String administratorLogin = "sqladmin";
-        final String administratorPassword = "N0t@P@ssw0rd!";
+        final String administratorPassword = TestUtilities.createPassword();
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlPrimaryServerName)
@@ -321,7 +321,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
         String sqlServerAdminName = "sqladmin";
-        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String sqlServerAdminPassword = TestUtilities.createPassword();
         String databaseName = "db-from-sample";
         String id = SdkContext.randomUuid();
         String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
@@ -391,7 +391,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String sqlServerName1 = SQL_SERVER_NAME + "1";
         String sqlServerName2 = SQL_SERVER_NAME + "2";
         String sqlServerAdminName = "sqladmin";
-        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String sqlServerAdminPassword = TestUtilities.createPassword();
 
         // Create
         SqlServer sqlServer1 = sqlServerManager.sqlServers().define(sqlServerName1)
@@ -446,7 +446,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
         String sqlServerAdminName = "sqladmin";
-        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String sqlServerAdminPassword = TestUtilities.createPassword();
         String databaseName = "db-from-sample";
 
         RegionCapabilities regionCapabilities = sqlServerManager.sqlServers().getCapabilitiesByRegion(Region.US_EAST);
@@ -501,7 +501,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
         String sqlServerAdminName = "sqladmin";
-        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String sqlServerAdminPassword = TestUtilities.createPassword();
         String id = SdkContext.randomUuid();
         String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
 
@@ -573,7 +573,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                     .withRegion(Region.US_EAST)
                     .withNewResourceGroup(RG_NAME)
                     .withAdministratorLogin(sqlServerAdminName)
-                    .withAdministratorPassword("N0t@P@ssw0rd!")
+                    .withAdministratorPassword(TestUtilities.createPassword())
                     .withActiveDirectoryAdministrator("DSEng", id)
                     .withoutAccessFromAzureServices()
                     .defineFirewallRule("somefirewallrule1")

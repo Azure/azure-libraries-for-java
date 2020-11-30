@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.batch;
 
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.resources.core.TestUtilities;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
@@ -304,7 +305,7 @@ public class BatchAccountOperationsTests extends BatchManagementTest {
 
         //create user accounts
         String userAccountName = "username1";
-        String userAccountPassword = "examplepassword";
+        String userAccountPassword = TestUtilities.createPassword();
         String sshPrivateKey = "sshprivatekeyvalue";
         int uid = 1234;
         int gid = 4567;

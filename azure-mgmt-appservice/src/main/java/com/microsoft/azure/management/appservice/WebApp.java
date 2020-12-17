@@ -16,6 +16,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import rx.Completable;
+import rx.Observable;
 
 import java.io.File;
 import java.io.InputStream;
@@ -525,4 +526,8 @@ public interface WebApp extends
             WebAppBase.Update<WebApp>,
             UpdateStages.WithDockerContainerImage {
     }
+
+    Observable<AsyncDeploymentResult> zipDeployAsync(File zipFile, boolean isAsync);
+
+    Observable<DeploymentStatus> getDeploymentStatusAsync(String deploymentId);
 }

@@ -16,6 +16,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipInputStream;
 
@@ -45,6 +46,12 @@ public class LinuxWebAppsTests extends AppServiceTest {
     @Test
 //    @Ignore("Pending ICM 39157077 & https://github.com/Azure-App-Service/kudu/issues/30")
     public void canCRUDLinuxWebApp() throws Exception {
+
+        WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu", "wa1weidxu");
+//        DeploymentStatus status = wa.getDeploymentStatusAsync("2f2a3b85de424670bbe19904c52cf048").toBlocking().last();
+        AsyncDeploymentResult result = wa.zipDeployAsync(new File("C:/github/app.zip"), true).toBlocking().last();
+        DeploymentStatus status = wa.getDeploymentStatusAsync(result.getDeploymentId()).toBlocking().last();
+
         // Create with new app service plan
         WebApp webApp1 = appServiceManager.webApps().define(WEBAPP_NAME_1)
                 .withRegion(Region.US_WEST)

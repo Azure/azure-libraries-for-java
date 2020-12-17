@@ -6,10 +6,12 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteStreams;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureResponseBuilder;
+import com.microsoft.azure.management.appservice.AsyncDeploymentResult;
 import com.microsoft.azure.management.appservice.DeployType;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.rest.RestClient;
@@ -28,6 +30,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 import rx.Completable;
 import rx.Emitter;
 import rx.Emitter.BackpressureMode;
@@ -103,6 +106,10 @@ class KuduClient {
         @POST("api/zipdeploy")
         Observable<Response<ResponseBody>> zipDeploy(@Body RequestBody zipFile);
 
+        @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
+        @POST("api/zipdeploy")
+        Observable<Response<ResponseBody>> zipDeploy(@Body RequestBody zipFile, @Query("isAsync") Boolean isAsync);
+
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps publish", "x-ms-body-logging: false" })
         @POST("api/publish")
         Observable<Response<ResponseBody>> deploy(@Body RequestBody file, @Query("type") DeployType type, @Query("path") String path, @Query("restart") Boolean restart, @Query("clean") Boolean clean);
@@ -110,6 +117,10 @@ class KuduClient {
         @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps settings" })
         @GET("api/settings")
         Observable<Response<ResponseBody>> settings();
+
+        @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getDeployment" })
+        @GET
+        Observable<Response<ResponseBody>> getDeployment(@Url String deploymentUrl);
     }
 
     Observable<String> streamApplicationLogsAsync() {
@@ -205,6 +216,91 @@ class KuduClient {
         }
     }
 
+    private static class DeploymentIntermediateResult {
+        private String deploymentUrl;
+        private String deploymentId;
+    }
+
+    private static class DeploymentResponse {
+        @JsonProperty(value = "id")
+        private String id;
+
+        @JsonProperty(value = "is_temp")
+        private Boolean isTemp;
+    }
+
+    Observable<AsyncDeploymentResult> zipDeployAsync(InputStream zipFile, Boolean isAsync) {
+        final long pollIntervalInSeconds = 15;
+        final long pollCount = 3 * 60 / pollIntervalInSeconds;  // 3 minutes
+
+        try {
+            RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
+            Observable<ServiceResponse<DeploymentIntermediateResult>> responseDeployment =
+                    retryOnError(handleResponse(service.zipDeploy(body, isAsync), new Func1<Response<ResponseBody>, DeploymentIntermediateResult>() {
+                        @Override
+                        public DeploymentIntermediateResult call(Response<ResponseBody> responseBodyResponse) {
+                            DeploymentIntermediateResult result = new DeploymentIntermediateResult();
+                            result.deploymentUrl = responseBodyResponse.headers().get("Location");
+                            return result;
+                        }
+                    }));
+
+            Observable<AsyncDeploymentResult> result = responseDeployment.flatMap(new Func1<ServiceResponse<DeploymentIntermediateResult>, Observable<AsyncDeploymentResult>>() {
+                @Override
+                public Observable<AsyncDeploymentResult> call(ServiceResponse<DeploymentIntermediateResult> responseDeployment) {
+                    DeploymentIntermediateResult result = responseDeployment.body();
+                    if (result.deploymentUrl == null || result.deploymentUrl.isEmpty()) {
+                        // error if URL not available
+                        return Observable.error(new RestException("Deployment URL not found in response", responseDeployment.response()));
+                    } else {
+                        // delay for poll
+                        Observable<DeploymentIntermediateResult> delayedResult = Observable.just(result).delaySubscription(pollIntervalInSeconds, TimeUnit.SECONDS);
+                        return delayedResult.flatMap(new Func1<DeploymentIntermediateResult, Observable<ServiceResponse<DeploymentIntermediateResult>>>() {
+                            @Override
+                            public Observable<ServiceResponse<DeploymentIntermediateResult>> call(DeploymentIntermediateResult deployment) {
+                                return handleResponse(service.getDeployment(deployment.deploymentUrl), new Func1<Response<ResponseBody>, DeploymentIntermediateResult>() {
+                                    @Override
+                                    public DeploymentIntermediateResult call(Response<ResponseBody> response) {
+                                        DeploymentIntermediateResult result = new DeploymentIntermediateResult();
+                                        try {
+                                            DeploymentResponse deployment = restClient.serializerAdapter().deserialize(response.body().string(), DeploymentResponse.class);
+                                            if (deployment.id != null && !deployment.id.isEmpty() && deployment.isTemp != null && !deployment.isTemp) {
+                                                result.deploymentId = deployment.id;
+                                            }
+                                        } catch (IOException e) {
+                                            //
+                                        }
+                                        return result;
+                                    }
+                                });
+                            }
+                        }).repeat(pollCount).takeUntil(new Func1<ServiceResponse<DeploymentIntermediateResult>, Boolean>() {
+                            @Override
+                            public Boolean call(ServiceResponse<DeploymentIntermediateResult> response) {
+                                return response.body().deploymentId != null;
+                            }
+                        }).last().flatMap(new Func1<ServiceResponse<DeploymentIntermediateResult>, Observable<AsyncDeploymentResult>>() {
+                            @Override
+                            public Observable<AsyncDeploymentResult> call(ServiceResponse<DeploymentIntermediateResult> response) {
+                                DeploymentIntermediateResult result = response.body();
+                                if (result.deploymentId != null) {
+                                    return Observable.just(new AsyncDeploymentResult(result.deploymentId));
+                                } else {
+                                    // error if ID not available
+                                    return Observable.error(new RestException("Timeout while polling deployment ID", response.response()));
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+            return result;
+        } catch (IOException e) {
+            return Observable.error(e);
+        }
+    }
+
     Completable deployAsync(DeployType type, InputStream file, String path, Boolean restart, Boolean clean) {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(file));
@@ -248,12 +344,21 @@ class KuduClient {
     }
 
     private Observable<ServiceResponse<Void>> handleResponse(Observable<Response<ResponseBody>> observable) {
-        return observable.flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+        return this.handleResponse(observable, new Func1<Response<ResponseBody>, Void>() {
             @Override
-            public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+            public Void call(Response<ResponseBody> responseBodyResponse) {
+                return null;
+            }
+        });
+    }
+
+    private <T> Observable<ServiceResponse<T>> handleResponse(Observable<Response<ResponseBody>> observable, final Func1<Response<ResponseBody>, T> responseFunc) {
+        return observable.flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<T>>>() {
+            @Override
+            public Observable<ServiceResponse<T>> call(Response<ResponseBody> response) {
                 try {
                     if (response.isSuccessful()) {
-                        return Observable.just(new ServiceResponse<Void>(null, response));
+                        return Observable.just(new ServiceResponse<T>(responseFunc.call(response), response));
                     } else {
                         String errorMessage = "Status code " + response.code();
                         if (response.errorBody() != null

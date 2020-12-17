@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
+import com.microsoft.azure.management.appservice.DeploymentStatus;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
@@ -79,6 +80,10 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * used by Retrofit to perform actually REST calls.
      */
     interface WebAppsService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getDeploymentStatus" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deploymentStatus/{deploymentId}")
+        Observable<Response<ResponseBody>> getDeploymentStatus(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("deploymentId") String deploymentId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Web/sites")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -49820,4 +49825,54 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
                 .build(response);
     }
 
+    public DeploymentStatus getDeploymentStatus(String resourceGroupName, String name, String deploymentId) {
+        return getDeploymentStatusWithServiceResponseAsync(resourceGroupName, name, deploymentId).toBlocking().single().body();
+    }
+
+    public ServiceFuture<DeploymentStatus> getDeploymentStatusAsync(String resourceGroupName, String name, String deploymentId, final ServiceCallback<DeploymentStatus> serviceCallback) {
+        return ServiceFuture.fromResponse(getDeploymentStatusWithServiceResponseAsync(resourceGroupName, name, deploymentId), serviceCallback);
+    }
+
+    public Observable<DeploymentStatus> getDeploymentStatusAsync(String resourceGroupName, String name, String deploymentId) {
+        return getDeploymentStatusWithServiceResponseAsync(resourceGroupName, name, deploymentId).map(new Func1<ServiceResponse<DeploymentStatus>, DeploymentStatus>() {
+            @Override
+            public DeploymentStatus call(ServiceResponse<DeploymentStatus> response) {
+                return response.body();
+            }
+        });
+    }
+
+    public Observable<ServiceResponse<DeploymentStatus>> getDeploymentStatusWithServiceResponseAsync(String resourceGroupName, String name, String deploymentId) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getDeploymentStatus(resourceGroupName, name, deploymentId, this.client.subscriptionId(), "2019-08-01", this.client.acceptLanguage(), this.client.userAgent())
+                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentStatus>>>() {
+                    @Override
+                    public Observable<ServiceResponse<DeploymentStatus>> call(Response<ResponseBody> response) {
+                        try {
+                            ServiceResponse<DeploymentStatus> clientResponse = getDeploymentStatusDelegate(response);
+                            return Observable.just(clientResponse);
+                        } catch (Throwable t) {
+                            return Observable.error(t);
+                        }
+                    }
+                });
+    }
+
+    private ServiceResponse<DeploymentStatus> getDeploymentStatusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DeploymentStatus, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DeploymentStatus>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
 }

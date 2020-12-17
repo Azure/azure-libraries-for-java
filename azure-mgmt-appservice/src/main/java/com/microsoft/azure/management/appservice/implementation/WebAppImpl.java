@@ -8,9 +8,11 @@ package com.microsoft.azure.management.appservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
+import com.microsoft.azure.management.appservice.AsyncDeploymentResult;
 import com.microsoft.azure.management.appservice.DeployType;
 import com.microsoft.azure.management.appservice.DeployOptions;
 import com.microsoft.azure.management.appservice.DeploymentSlots;
+import com.microsoft.azure.management.appservice.DeploymentStatus;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.RuntimeStack;
@@ -252,6 +254,35 @@ class WebAppImpl
     @Override
     public void zipDeploy(InputStream zipFile) {
         zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    public Observable<AsyncDeploymentResult> zipDeployAsync(File zipFile, boolean isAsync) {
+        try {
+            final InputStream is = new FileInputStream(zipFile);
+            return zipDeployAsync(new FileInputStream(zipFile), isAsync).doAfterTerminate(new Action0() {
+                @Override
+                public void call() {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        Exceptions.propagate(e);
+                    }
+                }
+            });
+        } catch (IOException e) {
+            return Observable.error(e);
+        }
+    }
+
+    //@Override
+    public Observable<AsyncDeploymentResult> zipDeployAsync(InputStream zipFile, boolean isAsync) {
+        return kuduClient.zipDeployAsync(zipFile, isAsync);
+    }
+
+    @Override
+    public Observable<DeploymentStatus> getDeploymentStatusAsync(String deploymentId) {
+        return this.manager().inner().webApps().getDeploymentStatusAsync(this.resourceGroupName(), this.name(), deploymentId);
     }
 
     @Override

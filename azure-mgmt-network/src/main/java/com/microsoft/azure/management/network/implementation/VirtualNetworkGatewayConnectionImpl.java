@@ -39,6 +39,7 @@ public class VirtualNetworkGatewayConnectionImpl
             VirtualNetworkGatewayConnection.Update,
             AppliableWithTags<VirtualNetworkGatewayConnection> {
     private final VirtualNetworkGateway parent;
+    private String updateSharedKey;
 
     VirtualNetworkGatewayConnectionImpl(String name,
                                 VirtualNetworkGatewayImpl parent,
@@ -179,7 +180,11 @@ public class VirtualNetworkGatewayConnectionImpl
 
     @Override
     public VirtualNetworkGatewayConnectionImpl withSharedKey(String sharedKey) {
-        inner().withSharedKey(sharedKey);
+        if (isInCreateMode()) {
+            inner().withSharedKey(sharedKey);
+        } else {
+            updateSharedKey = sharedKey;
+        }
         return this;
     }
 
@@ -211,7 +216,25 @@ public class VirtualNetworkGatewayConnectionImpl
         beforeCreating();
         return myManager.inner().virtualNetworkGatewayConnections().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner())
-                .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this))
+                .flatMap(new Func1<VirtualNetworkGatewayConnection, Observable<VirtualNetworkGatewayConnection>>() {
+                    @Override
+                    public Observable<VirtualNetworkGatewayConnection> call(VirtualNetworkGatewayConnection virtualNetworkGatewayConnection) {
+                        if (updateSharedKey == null) {
+                            return Observable.just(virtualNetworkGatewayConnection);
+                        }
+                        return myManager.inner().virtualNetworkGatewayConnections()
+                                .setSharedKeyAsync(resourceGroupName(), name(), new ConnectionSharedKeyInner().withValue(updateSharedKey))
+                                .flatMap(new Func1<ConnectionSharedKeyInner, Observable<VirtualNetworkGatewayConnection>>() {
+                                    @Override
+                                    public Observable<VirtualNetworkGatewayConnection> call(ConnectionSharedKeyInner connectionSharedKeyInner) {
+                                        updateSharedKey = null;
+                                        return myManager.inner().virtualNetworkGatewayConnections().getByResourceGroupAsync(resourceGroupName(), name())
+                                                .map(innerToFluentMap(VirtualNetworkGatewayConnectionImpl.this));
+                                    }
+                                });
+                    }
+                });
     }
 
     private void beforeCreating() {

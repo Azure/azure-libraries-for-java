@@ -13,11 +13,35 @@ import java.util.Collection;
 
 public final class BuildStatus extends ExpandableStringEnum<BuildStatus> {
 
-    /** Enum value RuntimeSuccessful. */
-    public static final BuildStatus RUNTIME_SUCCESSFUL = fromString("RuntimeSuccessful");
-
     /** Enum value RuntimeFailed. */
     public static final BuildStatus RUNTIME_FAILED = fromString("RuntimeFailed");
+
+    /** Enum value BuildAborted. */
+    public static final BuildStatus BUILD_ABORTED = fromString("BuildAborted");
+
+    /** Enum value BuildFailed. */
+    public static final BuildStatus BUILD_FAILED = fromString("BuildFailed");
+
+    /** Enum value BuildRequestReceived. */
+    public static final BuildStatus BUILD_REQUEST_RECEIVED = fromString("BuildRequestReceived");
+
+    /** Enum value BuildPending. */
+    public static final BuildStatus BUILD_PENDING = fromString("BuildPending");
+
+    /** Enum value BuildInProgress. */
+    public static final BuildStatus BUILD_IN_PROGRESS = fromString("BuildInProgress");
+
+    /** Enum value BuildSuccessful. */
+    public static final BuildStatus BUILD_SUCCESSFUL = fromString("BuildSuccessful");
+
+    /** Enum value PostBuildRestartRequired. */
+    public static final BuildStatus POST_BUILD_RESTART_REQUIRED = fromString("PostBuildRestartRequired");
+
+    /** Enum value RuntimeStarting. */
+    public static final BuildStatus RUNTIME_STARTING = fromString("RuntimeStarting");
+
+    /** Enum value RuntimeSuccessful. */
+    public static final BuildStatus RUNTIME_SUCCESSFUL = fromString("RuntimeSuccessful");
 
     /**
      * Creates or finds a BuildStatus from its string representation.

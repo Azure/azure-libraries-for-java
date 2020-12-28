@@ -13,6 +13,7 @@ import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -44,6 +45,7 @@ public class LinuxWebAppsTests extends AppServiceTest {
     }
 
     @Test
+    @Ignore
     public void canGetDeploymentStatus() {
         WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu", "wa1weidxu");
 //        DeploymentStatus status = wa.getDeploymentStatusAsync("2f2a3b85de424670bbe19904c52cf048").toBlocking().last();

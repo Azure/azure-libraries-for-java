@@ -527,7 +527,55 @@ public interface WebApp extends
             UpdateStages.WithDockerContainerImage {
     }
 
+    /**
+     * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     *
+     * @see #getDeploymentStatusAsync(String)
+     * @param zipFile the ZIP file to upload
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
     Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(File zipFile);
 
+    /**
+     * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     *
+     * @see #getDeploymentStatusAsync(String)
+     * @param zipFile the ZIP file to upload
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(InputStream zipFile);
+
+    /**
+     * Gets the deployment status of the web app.
+     *
+     * @param deploymentId the deployment ID of the web app.
+     * @return the deployment status.
+     */
     Observable<DeploymentStatus> getDeploymentStatusAsync(String deploymentId);
+
+    /**
+     * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     *
+     * @see #getDeploymentStatusAsync(String)
+     * @param zipFile the ZIP file to upload
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    AsyncDeploymentResult zipDeployWithResponse(File zipFile);
+
+    /**
+     * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     *
+     * @see #getDeploymentStatus(String)
+     * @param zipFile the ZIP file to upload
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    AsyncDeploymentResult zipDeployWithResponse(InputStream zipFile);
+
+    /**
+     * Gets the deployment status of the web app.
+     *
+     * @param deploymentId the deployment ID of the web app.
+     * @return the deployment status.
+     */
+    DeploymentStatus getDeploymentStatus(String deploymentId);
 }

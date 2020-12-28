@@ -275,7 +275,7 @@ class WebAppImpl
         }
     }
 
-    //@Override
+    @Override
     public Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(InputStream zipFile) {
         return kuduClient.zipDeployWithResponseAsync(zipFile);
     }
@@ -283,6 +283,21 @@ class WebAppImpl
     @Override
     public Observable<DeploymentStatus> getDeploymentStatusAsync(String deploymentId) {
         return this.manager().inner().webApps().getDeploymentStatusAsync(this.resourceGroupName(), this.name(), deploymentId);
+    }
+
+    @Override
+    public AsyncDeploymentResult zipDeployWithResponse(File zipFile) {
+        return zipDeployWithResponseAsync(zipFile).toBlocking().last();
+    }
+
+    @Override
+    public AsyncDeploymentResult zipDeployWithResponse(InputStream zipFile) {
+        return zipDeployWithResponseAsync(zipFile).toBlocking().last();
+    }
+
+    @Override
+    public DeploymentStatus getDeploymentStatus(String deploymentId) {
+        return this.manager().inner().webApps().getDeploymentStatus(this.resourceGroupName(), this.name(), deploymentId);
     }
 
     @Override

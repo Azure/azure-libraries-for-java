@@ -49,7 +49,7 @@ public class LinuxWebAppsTests extends AppServiceTest {
 
         WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu", "wa1weidxu");
 //        DeploymentStatus status = wa.getDeploymentStatusAsync("2f2a3b85de424670bbe19904c52cf048").toBlocking().last();
-        AsyncDeploymentResult result = wa.zipDeployAsync(new File("C:/github/app.zip"), true).toBlocking().last();
+        AsyncDeploymentResult result = wa.zipDeployWithResponseAsync(new File("C:/github/app.zip")).toBlocking().last();
         DeploymentStatus status = wa.getDeploymentStatusAsync(result.getDeploymentId()).toBlocking().last();
 
         // Create with new app service plan

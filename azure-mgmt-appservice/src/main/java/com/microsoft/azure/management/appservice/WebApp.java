@@ -527,7 +527,7 @@ public interface WebApp extends
             UpdateStages.WithDockerContainerImage {
     }
 
-    Observable<AsyncDeploymentResult> zipDeployAsync(File zipFile, boolean isAsync);
+    Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(File zipFile);
 
     Observable<DeploymentStatus> getDeploymentStatusAsync(String deploymentId);
 }

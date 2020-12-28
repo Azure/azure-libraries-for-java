@@ -229,14 +229,14 @@ class KuduClient {
         private Boolean isTemp;
     }
 
-    Observable<AsyncDeploymentResult> zipDeployAsync(InputStream zipFile, Boolean isAsync) {
-        final long pollIntervalInSeconds = 15;
+    Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(InputStream zipFile) {
+        final long pollIntervalInSeconds = 5;
         final long pollCount = 3 * 60 / pollIntervalInSeconds;  // 3 minutes
 
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
             Observable<ServiceResponse<DeploymentIntermediateResult>> responseDeployment =
-                    retryOnError(handleResponse(service.zipDeploy(body, isAsync), new Func1<Response<ResponseBody>, DeploymentIntermediateResult>() {
+                    retryOnError(handleResponse(service.zipDeploy(body, true), new Func1<Response<ResponseBody>, DeploymentIntermediateResult>() {
                         @Override
                         public DeploymentIntermediateResult call(Response<ResponseBody> responseBodyResponse) {
                             DeploymentIntermediateResult result = new DeploymentIntermediateResult();

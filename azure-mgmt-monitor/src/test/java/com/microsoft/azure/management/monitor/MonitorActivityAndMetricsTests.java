@@ -11,12 +11,14 @@ import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
 public class MonitorActivityAndMetricsTests extends MonitorManagementTest {
     @Test
+    @Ignore("Playback fails on Linux, Unexpected request: GET /subscriptions/00000000-0000-0000-0000-000000000000/providers/microsoft.insights/eventtypes/management/values?api-version=2015-04-01&...")
     public void canListEventsAndMetrics() throws Exception {
         DateTime recordDateTime = SdkContext.dateTimeNow().minusDays(40);
         VirtualMachine vm = computeManager.virtualMachines().list().get(0);

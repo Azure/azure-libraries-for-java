@@ -152,7 +152,7 @@ jobs:
         displayName: 'Run Tests on Java $(JavaVersion)'
         inputs:
           mavenPomFile: pom.xml
-          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
+          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3'
           mavenOptions: '$(LoggingOptions)'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: $(JavaVersion)

@@ -119,11 +119,6 @@ jobs:
           OSVmImage: 'ubuntu-18.04'
           JavaVersion: '1.7'
           ProfileFlag: ''
-        MacOS - Java 8:
-          OSName: 'MacOS'
-          OSVmImage: 'macOS-10.15'
-          JavaVersion: '1.8'
-          ProfileFlag: ''
 
     pool:
       vmImage: $(OSVmImage)

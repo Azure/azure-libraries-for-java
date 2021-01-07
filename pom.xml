@@ -14,13 +14,6 @@
   <description>This package contains the parent module of Microsoft Azure SDK. A new set of management libraries are now Generally Available. For documentation on how to use the new libraries, please see https://aka.ms/azsdk/java/mgmt</description>
   <url>https://github.com/Azure/azure-sdk-for-java</url>
 
-  <repositories>
-    <repository>
-      <id>azuresdkmaven</id>
-      <url>https://azuresdkmaven.blob.core.windows.net/maven2</url>
-    </repository>
-  </repositories>
-
   <licenses>
     <license>
       <name>The MIT License (MIT)</name>
@@ -89,12 +82,12 @@
       <dependency>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-client-runtime</artifactId>
-        <version>1.7.12-SNAPSHOT</version>
+        <version>1.7.12</version>
       </dependency>
       <dependency>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-client-authentication</artifactId>
-        <version>1.7.12-SNAPSHOT</version>
+        <version>1.7.12</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>

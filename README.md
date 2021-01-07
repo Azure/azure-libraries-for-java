@@ -1,5 +1,4 @@
 [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/fluentJava/Azure.azure-libraries-for-java?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=608&branchName=master)
-[![Build Status](https://travis-ci.org/Azure/azure-libraries-for-java.svg?style=flat-square&label=build&branch=master)](https://travis-ci.org/Azure/azure-libraries-for-java)
 
 # Try the Next-Generation Azure Management SDK for Java now
 

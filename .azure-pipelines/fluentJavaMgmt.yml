@@ -111,7 +111,7 @@ jobs:
           ProfileFlag: ''
         Linux - Java 8:
           OSName: 'Linux'
-          OSVmImage: 'ubuntu-18.04'
+          OSVmImage: 'ubuntu-20.04'
           JavaVersion: '1.8'
           ProfileFlag: ''
         Linux - Java 7:
@@ -152,7 +152,7 @@ jobs:
         displayName: 'Run Tests on Java $(JavaVersion)'
         inputs:
           mavenPomFile: pom.xml
-          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
+          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3'
           mavenOptions: '$(LoggingOptions)'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: $(JavaVersion)

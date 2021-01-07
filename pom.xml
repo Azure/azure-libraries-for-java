@@ -14,6 +14,13 @@
   <description>This package contains the parent module of Microsoft Azure SDK. A new set of management libraries are now Generally Available. For documentation on how to use the new libraries, please see https://aka.ms/azsdk/java/mgmt</description>
   <url>https://github.com/Azure/azure-sdk-for-java</url>
 
+  <repositories>
+    <repository>
+      <id>azuresdkmaven</id>
+      <url>https://azuresdkmaven.blob.core.windows.net/maven2</url>
+    </repository>
+  </repositories>
+
   <licenses>
     <license>
       <name>The MIT License (MIT)</name>
@@ -43,23 +50,13 @@
   </developers>
 
   <distributionManagement>
-<!--    <snapshotRepository>-->
-<!--      <id>ossrh</id>-->
-<!--      <name>Sonatype Snapshots</name>-->
-<!--      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
-<!--      <uniqueVersion>true</uniqueVersion>-->
-<!--      <layout>default</layout>-->
-<!--    </snapshotRepository>-->
-
     <snapshotRepository>
-      <id>azuresdkmaven</id>
-      <url>https://azuresdkmaven.blob.core.windows.net/maven2</url>
+      <id>ossrh</id>
+      <name>Sonatype Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <uniqueVersion>true</uniqueVersion>
+      <layout>default</layout>
     </snapshotRepository>
-
-    <repository>
-      <id>azuresdkmaven</id>
-      <url>https://azuresdkmaven.blob.core.windows.net/maven2</url>
-    </repository>
   </distributionManagement>
 
   <dependencyManagement>

@@ -43,12 +43,17 @@
   </developers>
 
   <distributionManagement>
+<!--    <snapshotRepository>-->
+<!--      <id>ossrh</id>-->
+<!--      <name>Sonatype Snapshots</name>-->
+<!--      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
+<!--      <uniqueVersion>true</uniqueVersion>-->
+<!--      <layout>default</layout>-->
+<!--    </snapshotRepository>-->
+
     <snapshotRepository>
-      <id>ossrh</id>
-      <name>Sonatype Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-      <uniqueVersion>true</uniqueVersion>
-      <layout>default</layout>
+      <id>azuresdkmaven</id>
+      <url>https://azuresdkmaven.blob.core.windows.net/maven2</url>
     </snapshotRepository>
   </distributionManagement>
 
@@ -82,12 +87,12 @@
       <dependency>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-client-runtime</artifactId>
-        <version>1.7.11</version>
+        <version>1.7.12-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>com.microsoft.azure</groupId>
         <artifactId>azure-client-authentication</artifactId>
-        <version>1.7.11</version>
+        <version>1.7.12-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>

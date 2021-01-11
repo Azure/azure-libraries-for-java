@@ -18,21 +18,4 @@
             </New>
         </Arg>
     </Call>
-    <Call name="addConnector">
-        <Arg>
-            <New class="org.eclipse.jetty.server.ServerConnector">
-                <Arg name="server">
-                    <Ref refid="Server" />
-                </Arg>
-                <Arg name="factories">
-                    <Array type="org.eclipse.jetty.server.ConnectionFactory">
-                        <Item>
-                            <New class="org.eclipse.jetty.server.HttpConnectionFactory"/>
-                        </Item>
-                    </Array>
-                </Arg>
-                <Set name="port">11081</Set>
-            </New>
-        </Arg>
-    </Call>
 </Configure>

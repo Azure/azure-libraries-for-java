@@ -49,7 +49,7 @@ public class LinuxWebAppsTests extends AppServiceTest {
     public void canGetDeploymentStatus() {
         WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu", "wa1weidxu");
 //        DeploymentStatus status = wa.getDeploymentStatusAsync("2f2a3b85de424670bbe19904c52cf048").toBlocking().last();
-        AsyncDeploymentResult result = wa.zipDeployWithResponse(new File("C:/github/app.zip"));
+        AsyncDeploymentResult result = wa.pushZipDeploy(new File("C:/github/app.zip"));
         DeploymentStatus status = wa.getDeploymentStatus(result.getDeploymentId());
         BuildStatus buildStatus = status.buildStatus();
     }

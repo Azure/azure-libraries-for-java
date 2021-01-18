@@ -286,12 +286,12 @@ class WebAppImpl
     }
 
     @Override
-    public AsyncDeploymentResult zipDeployWithResponse(File zipFile) {
+    public AsyncDeploymentResult pushZipDeploy(File zipFile) {
         return zipDeployWithResponseAsync(zipFile).toBlocking().last();
     }
 
     @Override
-    public AsyncDeploymentResult zipDeployWithResponse(InputStream zipFile) {
+    public AsyncDeploymentResult pushZipDeploy(InputStream zipFile) {
         return zipDeployWithResponseAsync(zipFile).toBlocking().last();
     }
 

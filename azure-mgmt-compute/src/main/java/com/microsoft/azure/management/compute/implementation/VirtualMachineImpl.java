@@ -213,7 +213,7 @@ class VirtualMachineImpl
 
     @Override
     public VirtualMachineImpl update() {
-        updateParameterSnapshotOnUpdate = this.copyInnerToUpdateParameter();
+        updateParameterSnapshotOnUpdate = this.deepCopyInnerToUpdateParameter();
         return this;
     };
 
@@ -1957,21 +1957,21 @@ class VirtualMachineImpl
         }
     }
 
-    private boolean isVirtualMachineModifiedDuringUpdate(VirtualMachineUpdate updateParameter) {
-        if (updateParameterSnapshotOnUpdate == null || updateParameter == null) {
+    boolean isVirtualMachineModifiedDuringUpdate(VirtualMachineUpdate updateParameter) {
+        if (updateParameterSnapshotOnUpdate != null && updateParameter != null) {
             try {
                 String jsonStrSnapshot = this.manager().inner().serializerAdapter().serialize(updateParameterSnapshotOnUpdate);
                 String jsonStr = this.manager().inner().serializerAdapter().serialize(updateParameter);
-                return jsonStr.equals(jsonStrSnapshot);
+                return !jsonStr.equals(jsonStrSnapshot);
             } catch (IOException e) {
-                // ignored, take as modified
-                return false;
+                // ignored, treat as modified
+                return true;
             }
         }
-        return false;
+        return true;
     }
 
-    private VirtualMachineUpdate copyInnerToUpdateParameter() {
+    VirtualMachineUpdate deepCopyInnerToUpdateParameter() {
         VirtualMachineUpdate updateParameter = new VirtualMachineUpdate();
         copyInnerToUpdateParameter(updateParameter);
         try {

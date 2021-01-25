@@ -6,6 +6,18 @@
 
 package com.microsoft.azure.management.resources.core;
 
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
+
 /**
  * Common utility functions for the tests.
  */
@@ -26,5 +38,33 @@ public class TestUtilities {
 
     public static String createPassword() {
         return "12NewPA$$w0rd!";
+    }
+
+    private static String sshPublicKey;
+
+    public static String createSshPublicKey() {
+        if (sshPublicKey == null) {
+            try {
+                KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+                keyGen.initialize(1024);
+                KeyPair pair = keyGen.generateKeyPair();
+                PublicKey publicKey = pair.getPublic();
+
+                RSAPublicKey rsaPublicKey = (RSAPublicKey) publicKey;
+                ByteArrayOutputStream byteOs = new ByteArrayOutputStream();
+                DataOutputStream dos = new DataOutputStream(byteOs);
+                dos.writeInt("ssh-rsa".getBytes().length);
+                dos.write("ssh-rsa".getBytes());
+                dos.writeInt(rsaPublicKey.getPublicExponent().toByteArray().length);
+                dos.write(rsaPublicKey.getPublicExponent().toByteArray());
+                dos.writeInt(rsaPublicKey.getModulus().toByteArray().length);
+                dos.write(rsaPublicKey.getModulus().toByteArray());
+                String publicKeyEncoded = new String(Base64.encodeBase64(byteOs.toByteArray()), StandardCharsets.US_ASCII);
+                sshPublicKey = "ssh-rsa " + publicKeyEncoded;
+            } catch (NoSuchAlgorithmException | IOException e) {
+                throw new IllegalStateException("failed to generate ssh key", e);
+            }
+        }
+        return sshPublicKey;
     }
 }

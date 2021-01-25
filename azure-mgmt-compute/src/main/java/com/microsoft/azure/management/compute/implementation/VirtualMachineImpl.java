@@ -1958,7 +1958,9 @@ class VirtualMachineImpl
     }
 
     boolean isVirtualMachineModifiedDuringUpdate(VirtualMachineUpdate updateParameter) {
-        if (updateParameterSnapshotOnUpdate != null && updateParameter != null) {
+        if (updateParameterSnapshotOnUpdate == null || updateParameter == null) {
+            return true;
+        } else {
             try {
                 String jsonStrSnapshot = this.manager().inner().serializerAdapter().serialize(updateParameterSnapshotOnUpdate);
                 String jsonStr = this.manager().inner().serializerAdapter().serialize(updateParameter);
@@ -1968,7 +1970,6 @@ class VirtualMachineImpl
                 return true;
             }
         }
-        return true;
     }
 
     VirtualMachineUpdate deepCopyInnerToUpdateParameter() {

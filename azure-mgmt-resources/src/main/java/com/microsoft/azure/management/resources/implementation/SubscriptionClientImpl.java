@@ -128,18 +128,18 @@ public class SubscriptionClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /**
-     * The OperationsInner object to access its operations.
-     */
-    private OperationsInner operations;
-
-    /**
-     * Gets the OperationsInner object to access its operations.
-     * @return the OperationsInner object.
-     */
-    public OperationsInner operations() {
-        return this.operations;
-    }
+//    /**
+//     * The OperationsInner object to access its operations.
+//     */
+//    private OperationsInner operations;
+//
+//    /**
+//     * Gets the OperationsInner object to access its operations.
+//     * @return the OperationsInner object.
+//     */
+//    public OperationsInner operations() {
+//        return this.operations;
+//    }
 
     /**
      * The SubscriptionsInner object to access its operations.
@@ -202,7 +202,7 @@ public class SubscriptionClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
-        this.operations = new OperationsInner(restClient().retrofit(), this);
+        //this.operations = new OperationsInner(restClient().retrofit(), this);
         this.subscriptions = new SubscriptionsInner(restClient().retrofit(), this);
         this.tenants = new TenantsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);

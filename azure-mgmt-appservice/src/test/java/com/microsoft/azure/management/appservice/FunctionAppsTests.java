@@ -129,7 +129,7 @@ public class FunctionAppsTests extends AppServiceTest {
 
         // Update
         functionApp2.update()
-                .withNewStorageAccount(STORAGE_ACCOUNT_NAME_1, StorageAccountSkuType.STANDARD_GRS)
+                .withNewStorageAccount(STORAGE_ACCOUNT_NAME_1, StorageAccountSkuType.STANDARD_LRS)
                 .apply();
         Assert.assertEquals(STORAGE_ACCOUNT_NAME_1, functionApp2.storageAccount().name());
 

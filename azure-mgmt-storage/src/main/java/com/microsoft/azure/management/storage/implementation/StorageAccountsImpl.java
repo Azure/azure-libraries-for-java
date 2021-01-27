@@ -10,8 +10,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.storage.CheckNameAvailabilityResult;
 import com.microsoft.azure.management.storage.ServiceSasParameters;
-import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.management.storage.StorageAccountSkuType;
 import com.microsoft.azure.management.storage.StorageAccounts;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -59,8 +59,8 @@ class StorageAccountsImpl
     @Override
     public StorageAccountImpl define(String name) {
         return wrapModel(name)
-                .withSku(SkuName.STANDARD_GRS)
-                .withGeneralPurposeAccountKind();
+                .withSku(StorageAccountSkuType.STANDARD_RAGRS)
+                .withGeneralPurposeAccountKindV2();
     }
 
     @Override

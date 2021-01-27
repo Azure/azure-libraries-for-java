@@ -52,6 +52,7 @@ import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineEncryption;
 import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineEvictionPolicyTypes;
+import com.microsoft.azure.management.compute.VirtualMachineIdentity;
 import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachinePriorityTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
@@ -89,6 +90,7 @@ import rx.Observable;
 import rx.functions.Func0;
 import rx.functions.Func1;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -174,6 +176,8 @@ class VirtualMachineImpl
     private ProximityPlacementGroupType newProximityPlacementGroupType;
     // To manage OS profile
     private boolean removeOsProfile;
+    // Snapshot of the updateParameter when update() is called, used to compare whether there is modification to VM during updateResourceAsync
+    VirtualMachineUpdate updateParameterSnapshotOnUpdate;
 
     VirtualMachineImpl(String name,
                        VirtualMachineInner innerModel,
@@ -206,6 +210,12 @@ class VirtualMachineImpl
     }
 
     // Verbs
+
+    @Override
+    public VirtualMachineImpl update() {
+        updateParameterSnapshotOnUpdate = this.deepCopyInnerToUpdateParameter();
+        return this;
+    };
 
     @Override
     public Observable<VirtualMachine> refreshAsync() {
@@ -1913,7 +1923,77 @@ class VirtualMachineImpl
         this.virtualMachineMsiHandler.processCreatedExternalIdentities();
         //
         VirtualMachineUpdate updateParameter = new VirtualMachineUpdate();
+        this.copyInnerToUpdateParameter(updateParameter);
         //
+        this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
+        //
+        boolean vmModified = this.isVirtualMachineModifiedDuringUpdate(updateParameter);
+        final VirtualMachine self = this;
+        if (vmModified) {
+            return this.manager().inner().virtualMachines()
+                    .updateAsync(resourceGroupName(), vmName, updateParameter)
+                    .map(new Func1<VirtualMachineInner, VirtualMachine>() {
+                        @Override
+                        public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
+                            reset(virtualMachineInner);
+                            return self;
+                        }
+
+                    });
+        } else {
+            return Observable.just(self);
+        }
+    }
+
+    // CreateUpdateTaskGroup.ResourceCreator.afterPostRunAsync implementation
+    //
+    @Override
+    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+        this.virtualMachineExtensions.clear();
+        if (isGroupFaulted) {
+            return Completable.complete();
+        } else {
+            return this.refreshAsync().toCompletable();
+        }
+    }
+
+    boolean isVirtualMachineModifiedDuringUpdate(VirtualMachineUpdate updateParameter) {
+        if (updateParameterSnapshotOnUpdate == null || updateParameter == null) {
+            return true;
+        } else {
+            try {
+                String jsonStrSnapshot = this.manager().inner().serializerAdapter().serialize(updateParameterSnapshotOnUpdate);
+                String jsonStr = this.manager().inner().serializerAdapter().serialize(updateParameter);
+                return !jsonStr.equals(jsonStrSnapshot);
+            } catch (IOException e) {
+                // ignored, treat as modified
+                return true;
+            }
+        }
+    }
+
+    VirtualMachineUpdate deepCopyInnerToUpdateParameter() {
+        VirtualMachineUpdate updateParameter = new VirtualMachineUpdate();
+        copyInnerToUpdateParameter(updateParameter);
+        try {
+            // deep copy via json
+            String jsonStr = this.manager().inner().serializerAdapter().serialize(updateParameter);
+            updateParameter = this.manager().inner().serializerAdapter().deserialize(jsonStr, VirtualMachineUpdate.class);
+        } catch (IOException e) {
+            // ignored, null to signify not available
+            return null;
+        }
+        // deep copy identity, with userAssignedIdentities==null to signify no change
+        if (this.inner().identity() != null) {
+            VirtualMachineIdentity identity = new VirtualMachineIdentity();
+            identity.withType(this.inner().identity().type());
+            updateParameter.withIdentity(identity);
+        }
+
+        return updateParameter;
+    }
+
+    private void copyInnerToUpdateParameter(VirtualMachineUpdate updateParameter) {
         updateParameter.withPlan(this.inner().plan());
         updateParameter.withHardwareProfile(this.inner().hardwareProfile());
         updateParameter.withStorageProfile(this.inner().storageProfile());
@@ -1927,32 +2007,6 @@ class VirtualMachineImpl
         updateParameter.withTags(this.inner().getTags());
         updateParameter.withProximityPlacementGroup(this.inner().proximityPlacementGroup());
         updateParameter.withPriority(this.inner().priority());
-        //
-        this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
-        //
-        final VirtualMachineImpl self = this;
-        return this.manager().inner().virtualMachines()
-                .updateAsync(resourceGroupName(), vmName, updateParameter)
-                .map(new Func1<VirtualMachineInner, VirtualMachine>() {
-                    @Override
-                    public VirtualMachine call(VirtualMachineInner virtualMachineInner) {
-                        reset(virtualMachineInner);
-                        return self;
-                    }
-
-                });
-    }
-
-    // CreateUpdateTaskGroup.ResourceCreator.afterPostRunAsync implementation
-    //
-    @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
-        this.virtualMachineExtensions.clear();
-        if (isGroupFaulted) {
-            return Completable.complete();
-        } else {
-            return this.refreshAsync().toCompletable();
-        }
     }
 
     // Helpers

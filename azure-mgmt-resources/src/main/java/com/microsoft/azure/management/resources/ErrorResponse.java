@@ -8,86 +8,36 @@
 
 package com.microsoft.azure.management.resources;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The resource management error response.
+ * Error response.
  */
 public class ErrorResponse {
     /**
-     * The error code.
-     */
-    @JsonProperty(value = "code", access = JsonProperty.Access.WRITE_ONLY)
-    private String code;
-
-    /**
-     * The error message.
-     */
-    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
-    private String message;
-
-    /**
-     * The error target.
-     */
-    @JsonProperty(value = "target", access = JsonProperty.Access.WRITE_ONLY)
-    private String target;
-
-    /**
      * The error details.
      */
-    @JsonProperty(value = "details", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ErrorResponse> details;
-
-    /**
-     * The error additional info.
-     */
-    @JsonProperty(value = "additionalInfo", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ErrorAdditionalInfo> additionalInfo;
-
-    /**
-     * Get the error code.
-     *
-     * @return the code value
-     */
-    public String code() {
-        return this.code;
-    }
-
-    /**
-     * Get the error message.
-     *
-     * @return the message value
-     */
-    public String message() {
-        return this.message;
-    }
-
-    /**
-     * Get the error target.
-     *
-     * @return the target value
-     */
-    public String target() {
-        return this.target;
-    }
+    @JsonProperty(value = "error")
+    private ErrorDefinition error;
 
     /**
      * Get the error details.
      *
-     * @return the details value
+     * @return the error value
      */
-    public List<ErrorResponse> details() {
-        return this.details;
+    public ErrorDefinition error() {
+        return this.error;
     }
 
     /**
-     * Get the error additional info.
+     * Set the error details.
      *
-     * @return the additionalInfo value
+     * @param error the error value to set
+     * @return the ErrorResponse object itself.
      */
-    public List<ErrorAdditionalInfo> additionalInfo() {
-        return this.additionalInfo;
+    public ErrorResponse withError(ErrorDefinition error) {
+        this.error = error;
+        return this;
     }
 
 }

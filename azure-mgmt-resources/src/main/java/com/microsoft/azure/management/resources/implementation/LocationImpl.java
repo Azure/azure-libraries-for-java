@@ -7,6 +7,8 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.management.resources.Location;
+import com.microsoft.azure.management.resources.RegionCategory;
+import com.microsoft.azure.management.resources.RegionType;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
@@ -38,12 +40,32 @@ final class LocationImpl extends
 
     @Override
     public String latitude() {
-        return this.inner().latitude();
+        return this.inner().metadata() == null ? null : this.inner().metadata().latitude();
     }
 
     @Override
     public String longitude() {
-        return this.inner().longitude();
+        return this.inner().metadata() == null ? null : this.inner().metadata().longitude();
+    }
+
+    @Override
+    public RegionType regionType() {
+        return this.inner().metadata() == null ? null : this.inner().metadata().regionType();
+    }
+
+    @Override
+    public RegionCategory regionCategory() {
+        return this.inner().metadata() == null ? null : this.inner().metadata().regionCategory();
+    }
+
+    @Override
+    public String geographyGroup() {
+        return this.inner().metadata() == null ? null : this.inner().metadata().geographyGroup();
+    }
+
+    @Override
+    public String physicalLocation() {
+        return this.inner().metadata() == null ? null : this.inner().metadata().physicalLocation();
     }
 
     @Override

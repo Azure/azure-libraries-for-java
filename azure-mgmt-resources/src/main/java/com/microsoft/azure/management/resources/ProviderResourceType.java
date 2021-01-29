@@ -41,6 +41,18 @@ public class ProviderResourceType {
     private List<String> apiVersions;
 
     /**
+     * The default API version.
+     */
+    @JsonProperty(value = "defaultApiVersion", access = JsonProperty.Access.WRITE_ONLY)
+    private String defaultApiVersion;
+
+    /**
+     * The API profiles for the resource provider.
+     */
+    @JsonProperty(value = "apiProfiles", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ApiProfile> apiProfiles;
+
+    /**
      * The additional capabilities offered by this resource type.
      */
     @JsonProperty(value = "capabilities")
@@ -130,6 +142,24 @@ public class ProviderResourceType {
     public ProviderResourceType withApiVersions(List<String> apiVersions) {
         this.apiVersions = apiVersions;
         return this;
+    }
+
+    /**
+     * Get the default API version.
+     *
+     * @return the defaultApiVersion value
+     */
+    public String defaultApiVersion() {
+        return this.defaultApiVersion;
+    }
+
+    /**
+     * Get the API profiles for the resource provider.
+     *
+     * @return the apiProfiles value
+     */
+    public List<ApiProfile> apiProfiles() {
+        return this.apiProfiles;
     }
 
     /**

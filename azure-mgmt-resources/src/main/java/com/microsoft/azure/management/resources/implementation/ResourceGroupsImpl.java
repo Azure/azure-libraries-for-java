@@ -6,7 +6,9 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.google.common.base.Joiner;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.resources.ForceDeletionResourceType;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.ResourceGroups;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -16,6 +18,9 @@ import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
 import rx.Completable;
 import rx.Observable;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * The implementation for ResourceGroups.
@@ -84,6 +89,29 @@ final class ResourceGroupsImpl
     @Override
     public boolean contain(String name) {
         return client.checkExistence(name);
+    }
+
+    @Override
+    public void deleteByName(String name, Collection<ForceDeletionResourceType> forceDeletionResourceTypes) {
+        deleteByNameAsync(name, forceDeletionResourceTypes).await();
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteByNameAsync(String name, Collection<ForceDeletionResourceType> forceDeletionResourceTypes, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromResponse(client.deleteWithServiceResponseAsync(name, forceDeletionTypes(forceDeletionResourceTypes)), callback);
+    }
+
+    @Override
+    public Completable deleteByNameAsync(String name, Collection<ForceDeletionResourceType> forceDeletionResourceTypes) {
+        return client.deleteAsync(name, forceDeletionTypes(forceDeletionResourceTypes)).toCompletable();
+    }
+
+    private static String forceDeletionTypes(Collection<ForceDeletionResourceType> forceDeletionResourceTypes) {
+        String typesInStr = null;
+        if (forceDeletionResourceTypes != null && !forceDeletionResourceTypes.isEmpty()) {
+            typesInStr = Joiner.on(",").join(forceDeletionResourceTypes);
+        }
+        return typesInStr;
     }
 
     @Override

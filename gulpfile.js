@@ -56,11 +56,11 @@ async function defaultInfo() {
 const maxParallelism = parseInt(args['parallel'], 10) || os.cpus().length;
 var specRoot = args['spec-root'] || defaultSpecRoot;
 var projects = args['projects'];
-var autoRestVersion = 'latest'; // default
+var autoRestVersion = '2.0.4417'; // default
 if (args['autorest'] !== undefined) {
     autoRestVersion = args['autorest'];
 }
-autorestJava = '@microsoft.azure/autorest.java@2.1.95';
+autorestJava = '@microsoft.azure/autorest.java@2.1.95'; // default
 if (args['autorest-java'] !== undefined) {
     autorestJava = args['autorest-java'];
 }

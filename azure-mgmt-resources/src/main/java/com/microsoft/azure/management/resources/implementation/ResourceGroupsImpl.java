@@ -20,7 +20,6 @@ import rx.Completable;
 import rx.Observable;
 
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * The implementation for ResourceGroups.

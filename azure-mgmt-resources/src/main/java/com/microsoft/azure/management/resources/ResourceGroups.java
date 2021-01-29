@@ -21,7 +21,6 @@ import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * Entry point to resource group management API.

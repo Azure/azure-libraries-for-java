@@ -30,7 +30,7 @@ public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTe
     @Test
     @Ignore("Requires manually creating service principal and setting SP credentials in the test")
     public void canEncryptVirtualMachine() {
-        // https://docs.microsoft.com/en-us/azure/security/azure-security-disk-encryption
+        // https://docs.microsoft.com/azure/virtual-machines/linux/disk-encryption-overview
         //
         // KeyVault Resource ID
         String keyVaultId = "KEY_VAULT_ID_HERE";
@@ -50,10 +50,10 @@ public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTe
                     .withNewPrimaryNetwork("10.0.0.0/28")
                     .withPrimaryPrivateIPAddressDynamic()
                     .withNewPrimaryPublicIPAddress(publicIpDnsLabel)
-                    .withLatestLinuxImage("RedHat", "RHEL", "7.2")
+                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_18_04_LTS)
                     .withRootUsername(uname)
                     .withRootPassword(password)
-                    .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))
+                    .withSize(VirtualMachineSizeTypes.STANDARD_DS3_V2)  // ADE need 8GB
                     .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
@@ -61,8 +61,8 @@ public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTe
         Assert.assertNotNull(monitor1);
         Assert.assertNotNull(monitor1.osDiskStatus());
         Assert.assertNotNull(monitor1.dataDiskStatus());
-        Assert.assertTrue(monitor1.osDiskStatus().equals(EncryptionStatus.NOT_ENCRYPTED));
-        Assert.assertTrue(monitor1.dataDiskStatus().equals(EncryptionStatus.NOT_ENCRYPTED));
+        Assert.assertEquals(EncryptionStatus.NOT_ENCRYPTED, monitor1.osDiskStatus());
+        Assert.assertEquals(EncryptionStatus.NOT_ENCRYPTED, monitor1.dataDiskStatus());
         DiskVolumeEncryptionMonitor monitor2 = virtualMachine
                 .diskEncryption()
                 .enable(keyVaultId, aadClientId, aadSecret);
@@ -73,6 +73,6 @@ public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTe
         Assert.assertTrue(monitor1.osDiskStatus().equals(monitor2.osDiskStatus()));
         Assert.assertTrue(monitor1.dataDiskStatus().equals(monitor2.dataDiskStatus()));
         monitor2.refresh();
-        Assert.assertTrue(monitor2.osDiskStatus().equals(EncryptionStatus.ENCRYPTION_INPROGRESS));
+        Assert.assertEquals(EncryptionStatus.ENCRYPTION_INPROGRESS, monitor2.osDiskStatus());
     }
 }

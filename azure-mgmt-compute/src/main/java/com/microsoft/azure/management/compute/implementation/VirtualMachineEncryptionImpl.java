@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
+import com.microsoft.azure.AzureEnvironment;
+import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.compute.DiskVolumeEncryptionMonitor;
 import com.microsoft.azure.management.compute.DiskVolumeType;
 import com.microsoft.azure.management.compute.LinuxVMDiskEncryptionConfiguration;
@@ -13,6 +15,7 @@ import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineEncryption;
 import com.microsoft.azure.management.compute.WindowsVMDiskEncryptionConfiguration;
+import com.microsoft.rest.credentials.ServiceClientCredentials;
 import rx.Observable;
 
 /**
@@ -35,19 +38,30 @@ class VirtualMachineEncryptionImpl implements VirtualMachineEncryption {
     @Override
     public Observable<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId, String aadClientId, String aadSecret) {
         if (this.virtualMachine.osType() == OperatingSystemTypes.LINUX) {
-            return enableAsync(new LinuxVMDiskEncryptionConfiguration(keyVaultId, aadClientId, aadSecret));
+            return enableAsync(new LinuxVMDiskEncryptionConfiguration(keyVaultId, aadClientId, aadSecret, getAzureEnvironment()));
         } else {
-            return enableAsync(new WindowsVMDiskEncryptionConfiguration(keyVaultId, aadClientId, aadSecret));
+            return enableAsync(new WindowsVMDiskEncryptionConfiguration(keyVaultId, aadClientId, aadSecret, getAzureEnvironment()));
         }
     }
 
     @Override
     public Observable<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId) {
         if (this.virtualMachine.osType() == OperatingSystemTypes.LINUX) {
-            return enableAsync(new LinuxVMDiskEncryptionConfiguration(keyVaultId));
+            return enableAsync(new LinuxVMDiskEncryptionConfiguration(keyVaultId, getAzureEnvironment()));
         } else {
-            return enableAsync(new WindowsVMDiskEncryptionConfiguration(keyVaultId));
+            return enableAsync(new WindowsVMDiskEncryptionConfiguration(keyVaultId, getAzureEnvironment()));
         }
+    }
+
+    private AzureEnvironment getAzureEnvironment() {
+        AzureEnvironment azureEnvironment = null;
+        if (virtualMachine.manager().inner().restClient() != null) {
+            ServiceClientCredentials credentials = virtualMachine.manager().inner().restClient().credentials();
+            if (credentials instanceof AzureTokenCredentials) {
+                azureEnvironment = ((AzureTokenCredentials) credentials).environment();
+            }
+        }
+        return azureEnvironment;
     }
 
     @Override
@@ -73,6 +87,11 @@ class VirtualMachineEncryptionImpl implements VirtualMachineEncryption {
     @Override
     public DiskVolumeEncryptionMonitor enable(String keyVaultId, String aadClientId, String aadSecret) {
         return enableAsync(keyVaultId, aadClientId, aadSecret).toBlocking().last();
+    }
+
+    @Override
+    public DiskVolumeEncryptionMonitor enable(String keyVaultId) {
+        return enableAsync(keyVaultId).toBlocking().last();
     }
 
     @Override

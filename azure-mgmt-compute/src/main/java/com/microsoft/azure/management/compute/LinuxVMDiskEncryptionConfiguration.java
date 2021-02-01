@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 /**
@@ -24,7 +25,22 @@ public class LinuxVMDiskEncryptionConfiguration
     public LinuxVMDiskEncryptionConfiguration(String keyVaultId,
                                               String aadClientId,
                                               String aadSecret) {
-        super(keyVaultId, aadClientId, aadSecret);
+        super(keyVaultId, aadClientId, aadSecret, null);
+    }
+
+    /**
+     * Creates LinuxVMDiskEncryptionSettings.
+     *
+     * @param keyVaultId the resource ID of the KeyVault to store the disk encryption key
+     * @param aadClientId  client ID of an AAD application which has permission to the KeyVault
+     * @param aadSecret client secret corresponding to the client ID
+     * @param azureEnvironment Azure environment
+     */
+    public LinuxVMDiskEncryptionConfiguration(String keyVaultId,
+                                              String aadClientId,
+                                              String aadSecret,
+                                              AzureEnvironment azureEnvironment) {
+        super(keyVaultId, aadClientId, aadSecret, azureEnvironment);
     }
 
     /**
@@ -34,6 +50,16 @@ public class LinuxVMDiskEncryptionConfiguration
      */
     public LinuxVMDiskEncryptionConfiguration(String keyVaultId) {
         super(keyVaultId);
+    }
+
+    /**
+     * Creates LinuxVMDiskEncryptionSettings.
+     *
+     * @param keyVaultId the resource ID of the KeyVault to store the disk encryption key
+     * @param azureEnvironment Azure environment
+     */
+    public LinuxVMDiskEncryptionConfiguration(String keyVaultId, AzureEnvironment azureEnvironment) {
+        super(keyVaultId, azureEnvironment);
     }
 
     @Override

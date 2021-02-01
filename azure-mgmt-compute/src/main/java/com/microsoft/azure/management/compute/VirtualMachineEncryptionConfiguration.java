@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 
 import java.util.Objects;
@@ -24,6 +25,7 @@ public abstract class VirtualMachineEncryptionConfiguration<T extends VirtualMac
     protected String keyEncryptionKeyVaultId;
     protected String encryptionAlgorithm = "RSA-OAEP";
     protected String passPhrase;
+    protected AzureEnvironment azureEnvironment;
 
     /**
      * Creates VirtualMachineEncryptionConfiguration.
@@ -31,13 +33,16 @@ public abstract class VirtualMachineEncryptionConfiguration<T extends VirtualMac
      * @param keyVaultId resource ID of the KeyVault to store the disk encryption key
      * @param aadClientId AAD application client ID to access the KeyVault
      * @param aadSecret AAD application client secret to access the KeyVault
+     * @param azureEnvironment Azure environment
      */
     protected VirtualMachineEncryptionConfiguration(String keyVaultId,
                                                     String aadClientId,
-                                                    String aadSecret) {
+                                                    String aadSecret,
+                                                    AzureEnvironment azureEnvironment) {
         this.keyVaultId = Objects.requireNonNull(keyVaultId, "KeyVaultId parameter holding resource id of the KeyVault to store disk encryption key is required.");
         this.aadClientId = Objects.requireNonNull(aadClientId, "aadClientId parameter holding AAD client id to access the KeyVault is required.");
         this.aadSecret = Objects.requireNonNull(aadSecret, "aadSecret parameter holding AAD secret to access the KeyVault is required.");
+        this.azureEnvironment = azureEnvironment;
     }
 
     /**
@@ -50,6 +55,21 @@ public abstract class VirtualMachineEncryptionConfiguration<T extends VirtualMac
         this.keyVaultId = keyVaultId;
         this.aadClientId = null;
         this.aadSecret = null;
+    }
+
+    /**
+     * Creates VirtualMachineEncryptionConfiguration.
+     *
+     * @param keyVaultId resource ID of the KeyVault to store the disk encryption key
+     * @param azureEnvironment Azure environment
+     */
+    protected VirtualMachineEncryptionConfiguration(String keyVaultId,
+                                                    AzureEnvironment azureEnvironment) {
+        Objects.requireNonNull(keyVaultId, "KeyVaultId parameter holding resource id of the keyVault to store disk encryption key is required.");
+        this.keyVaultId = keyVaultId;
+        this.aadClientId = null;
+        this.aadSecret = null;
+        this.azureEnvironment = azureEnvironment;
     }
 
     /**
@@ -92,8 +112,27 @@ public abstract class VirtualMachineEncryptionConfiguration<T extends VirtualMac
      * @return URL to the key vault to store the disk encryption key
      */
     public String keyVaultUrl() {
+        String keyVaultDnsSuffix;
+        if (azureEnvironment != null) {
+            keyVaultDnsSuffix = azureEnvironment.keyVaultDnsSuffix();
+
+            if (azureEnvironment != AzureEnvironment.AZURE && azureEnvironment.managementEndpoint() != null
+                    && !AzureEnvironment.AZURE.managementEndpoint().equals(azureEnvironment.managementEndpoint())
+                    && AzureEnvironment.AZURE.keyVaultDnsSuffix().equals(azureEnvironment.keyVaultDnsSuffix())) {
+                // correction for "ApplicationTokenCredentials.fromFile", as auth file typically does not have "keyVaultDnsSuffix" configure
+                if (AzureEnvironment.AZURE_CHINA.managementEndpoint().equals(azureEnvironment.managementEndpoint())) {
+                    keyVaultDnsSuffix = AzureEnvironment.AZURE_CHINA.keyVaultDnsSuffix();
+                } else if (AzureEnvironment.AZURE_GERMANY.managementEndpoint().equals(azureEnvironment.managementEndpoint())) {
+                    keyVaultDnsSuffix = AzureEnvironment.AZURE_GERMANY.keyVaultDnsSuffix();
+                } else if (AzureEnvironment.AZURE_US_GOVERNMENT.managementEndpoint().equals(azureEnvironment.managementEndpoint())) {
+                    keyVaultDnsSuffix = AzureEnvironment.AZURE_US_GOVERNMENT.keyVaultDnsSuffix();
+                }
+            }
+        } else {
+            keyVaultDnsSuffix = AzureEnvironment.AZURE.keyVaultDnsSuffix();
+        }
         String keyVaultName = ResourceUtils.nameFromResourceId(this.keyVaultId);
-        return String.format("https://%s.vault.azure.net/", keyVaultName.toLowerCase());
+        return String.format("https://%1$s%2$s", keyVaultName.toLowerCase(), keyVaultDnsSuffix);
     }
 
     /**

@@ -77,6 +77,15 @@ public interface VirtualMachineEncryption {
     DiskVolumeEncryptionMonitor enable(String keyVaultId, String aadClientId, String aadSecret);
 
     /**
+     * Enable encryption for virtual machine disks.
+     *
+     * @param keyVaultId resource ID of the key vault to store the disk encryption key
+     *
+     * @return current volume decryption status
+     */
+    DiskVolumeEncryptionMonitor enable(String keyVaultId);
+
+    /**
      * Enable encryption for Windows virtual machine disks.
      *
      * @param encryptionSettings encryption settings for windows virtual machine

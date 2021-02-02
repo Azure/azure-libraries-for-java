@@ -211,6 +211,32 @@ public class BatchManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The PrivateLinkResourcesInner object to access its operations.
+     */
+    private PrivateLinkResourcesInner privateLinkResources;
+
+    /**
+     * Gets the PrivateLinkResourcesInner object to access its operations.
+     * @return the PrivateLinkResourcesInner object.
+     */
+    public PrivateLinkResourcesInner privateLinkResources() {
+        return this.privateLinkResources;
+    }
+
+    /**
+     * The PrivateEndpointConnectionsInner object to access its operations.
+     */
+    private PrivateEndpointConnectionsInner privateEndpointConnections;
+
+    /**
+     * Gets the PrivateEndpointConnectionsInner object to access its operations.
+     * @return the PrivateEndpointConnectionsInner object.
+     */
+    public PrivateEndpointConnectionsInner privateEndpointConnections() {
+        return this.privateEndpointConnections;
+    }
+
+    /**
      * The PoolsInner object to access its operations.
      */
     private PoolsInner pools;
@@ -254,7 +280,7 @@ public class BatchManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2019-08-01";
+        this.apiVersion = "2021-01-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -264,6 +290,8 @@ public class BatchManagementClientImpl extends AzureServiceClient {
         this.locations = new LocationsInner(restClient().retrofit(), this);
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.certificates = new CertificatesInner(restClient().retrofit(), this);
+        this.privateLinkResources = new PrivateLinkResourcesInner(restClient().retrofit(), this);
+        this.privateEndpointConnections = new PrivateEndpointConnectionsInner(restClient().retrofit(), this);
         this.pools = new PoolsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
@@ -275,6 +303,6 @@ public class BatchManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "BatchManagementClient", "2019-08-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "BatchManagementClient", "2021-01-01");
     }
 }

@@ -11,9 +11,12 @@ package com.microsoft.azure.management.batch.implementation;
 import com.microsoft.azure.management.batch.ProvisioningState;
 import com.microsoft.azure.management.batch.PoolAllocationMode;
 import com.microsoft.azure.management.batch.KeyVaultReference;
-import com.microsoft.azure.management.batch.AutoStorageProperties;
+import com.microsoft.azure.management.batch.PublicNetworkAccessType;
 import java.util.List;
+import com.microsoft.azure.management.batch.AutoStorageProperties;
+import com.microsoft.azure.management.batch.EncryptionProperties;
 import com.microsoft.azure.management.batch.VirtualMachineFamilyCoreQuota;
+import com.microsoft.azure.management.batch.BatchAccountIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -52,11 +55,35 @@ public class BatchAccountInner extends Resource {
     private KeyVaultReference keyVaultReference;
 
     /**
+     * The network interface type for accessing Azure Batch service and Batch
+     * account operations.
+     * If not specified, the default value is 'enabled'. Possible values
+     * include: 'Enabled', 'Disabled'.
+     */
+    @JsonProperty(value = "properties.publicNetworkAccess", access = JsonProperty.Access.WRITE_ONLY)
+    private PublicNetworkAccessType publicNetworkAccess;
+
+    /**
+     * List of private endpoint connections associated with the Batch account.
+     */
+    @JsonProperty(value = "properties.privateEndpointConnections", access = JsonProperty.Access.WRITE_ONLY)
+    private List<PrivateEndpointConnectionInner> privateEndpointConnections;
+
+    /**
      * The properties and status of any auto-storage account associated with
      * the Batch account.
      */
     @JsonProperty(value = "properties.autoStorage", access = JsonProperty.Access.WRITE_ONLY)
     private AutoStorageProperties autoStorage;
+
+    /**
+     * The encryption configuration for the Batch account.
+     * Configures how customer data is encrypted inside the Batch account. By
+     * default, accounts are encrypted using a Microsoft managed key. For
+     * additional control, a customer-managed key can be used instead.
+     */
+    @JsonProperty(value = "properties.encryption", access = JsonProperty.Access.WRITE_ONLY)
+    private EncryptionProperties encryption;
 
     /**
      * The dedicated core quota for the Batch account.
@@ -67,7 +94,7 @@ public class BatchAccountInner extends Resource {
     private Integer dedicatedCoreQuota;
 
     /**
-     * The low-priority core quota for the Batch account.
+     * The low priority core quota for the Batch account.
      * For accounts with PoolAllocationMode set to UserSubscription, quota is
      * managed on the subscription so this value is not returned.
      */
@@ -84,8 +111,8 @@ public class BatchAccountInner extends Resource {
     private List<VirtualMachineFamilyCoreQuota> dedicatedCoreQuotaPerVMFamily;
 
     /**
-     * A value indicating whether the core quota for the Batch Account is
-     * enforced per Virtual Machine family or not.
+     * A value indicating whether core quotas per Virtual Machine family are
+     * enforced for this account.
      * Batch is transitioning its core quota system for dedicated cores to be
      * enforced per Virtual Machine family. During this transitional phase, the
      * dedicated core quota per Virtual Machine family may not yet be enforced.
@@ -109,6 +136,12 @@ public class BatchAccountInner extends Resource {
      */
     @JsonProperty(value = "properties.activeJobAndJobScheduleQuota", access = JsonProperty.Access.WRITE_ONLY)
     private int activeJobAndJobScheduleQuota;
+
+    /**
+     * The identity of the Batch account.
+     */
+    @JsonProperty(value = "identity")
+    private BatchAccountIdentity identity;
 
     /**
      * Get the account endpoint used to interact with the Batch service.
@@ -147,12 +180,39 @@ public class BatchAccountInner extends Resource {
     }
 
     /**
+     * Get if not specified, the default value is 'enabled'. Possible values include: 'Enabled', 'Disabled'.
+     *
+     * @return the publicNetworkAccess value
+     */
+    public PublicNetworkAccessType publicNetworkAccess() {
+        return this.publicNetworkAccess;
+    }
+
+    /**
+     * Get list of private endpoint connections associated with the Batch account.
+     *
+     * @return the privateEndpointConnections value
+     */
+    public List<PrivateEndpointConnectionInner> privateEndpointConnections() {
+        return this.privateEndpointConnections;
+    }
+
+    /**
      * Get the autoStorage value.
      *
      * @return the autoStorage value
      */
     public AutoStorageProperties autoStorage() {
         return this.autoStorage;
+    }
+
+    /**
+     * Get configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.
+     *
+     * @return the encryption value
+     */
+    public EncryptionProperties encryption() {
+        return this.encryption;
     }
 
     /**
@@ -207,6 +267,26 @@ public class BatchAccountInner extends Resource {
      */
     public int activeJobAndJobScheduleQuota() {
         return this.activeJobAndJobScheduleQuota;
+    }
+
+    /**
+     * Get the identity of the Batch account.
+     *
+     * @return the identity value
+     */
+    public BatchAccountIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity of the Batch account.
+     *
+     * @param identity the identity value to set
+     * @return the BatchAccountInner object itself.
+     */
+    public BatchAccountInner withIdentity(BatchAccountIdentity identity) {
+        this.identity = identity;
+        return this;
     }
 
 }

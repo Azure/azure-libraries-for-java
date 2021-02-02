@@ -47,19 +47,14 @@ public class ImageReference {
     private String version;
 
     /**
-     * The ARM resource identifier of the Virtual Machine Image or Shared Image
-     * Gallery Image. Compute Nodes of the Pool will be created using this
-     * Image Id. This is of either the form
-     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}
-     * for Virtual Machine Image or
-     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionId}
-     * for SIG image.
-     * This property is mutually exclusive with other properties. For Virtual
-     * Machine Image it must be in the same region and subscription as the
-     * Azure Batch account. For SIG image it must have replicas in the same
-     * region as the Azure Batch account. For information about the firewall
-     * settings for the Batch node agent to communicate with the Batch service
-     * see
+     * The ARM resource identifier of the Shared Image Gallery Image. Compute
+     * Nodes in the Pool will be created using this Image Id. This is of the
+     * form
+     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionId}.
+     * This property is mutually exclusive with other properties. The Shared
+     * Image Gallery image must have replicas in the same region as the Azure
+     * Batch account. For information about the firewall settings for the Batch
+     * node agent to communicate with the Batch service see
      * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
      */
     @JsonProperty(value = "id")
@@ -146,7 +141,7 @@ public class ImageReference {
     }
 
     /**
-     * Get this property is mutually exclusive with other properties. For Virtual Machine Image it must be in the same region and subscription as the Azure Batch account. For SIG image it must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+     * Get this property is mutually exclusive with other properties. The Shared Image Gallery image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
      *
      * @return the id value
      */
@@ -155,7 +150,7 @@ public class ImageReference {
     }
 
     /**
-     * Set this property is mutually exclusive with other properties. For Virtual Machine Image it must be in the same region and subscription as the Azure Batch account. For SIG image it must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+     * Set this property is mutually exclusive with other properties. The Shared Image Gallery image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
      *
      * @param id the id value to set
      * @return the ImageReference object itself.

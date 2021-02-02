@@ -80,6 +80,7 @@ public interface Pool extends
     /**
      * @return the maxTasksPerNode value
      */
+    @Deprecated
     Integer maxTasksPerNode();
 
     /**
@@ -220,6 +221,7 @@ public interface Pool extends
              * @param maxTasksPerNode maxTasksPerNode value
              * @return the next stage of the definition
              */
+            @Deprecated
             DefinitionStages.WithAttach<ParentT> withMaxTasksPerNode(Integer maxTasksPerNode);
 
             /**
@@ -371,6 +373,7 @@ public interface Pool extends
              * @param maxTasksPerNode maxTasksPerNode value
              * @return the next stage of the definition
              */
+            @Deprecated
             UpdateDefinitionStages.WithAttach<ParentT> withMaxTasksPerNode(Integer maxTasksPerNode);
 
             /**
@@ -501,6 +504,7 @@ public interface Pool extends
              * @param maxTasksPerNode maxTasksPerNode value
              * @return the next stage of the update
              */
+            @Deprecated
             Update withMaxTasksPerNode(Integer maxTasksPerNode);
 
             /**

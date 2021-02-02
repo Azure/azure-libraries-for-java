@@ -19,7 +19,7 @@ public class TagsPatchResource {
      * 'Replace', 'Merge', 'Delete'.
      */
     @JsonProperty(value = "operation")
-    private TagOperation operation;
+    private TagsPatchOperation operation;
 
     /**
      * The set of tags.
@@ -32,7 +32,7 @@ public class TagsPatchResource {
      *
      * @return the operation value
      */
-    public TagOperation operation() {
+    public TagsPatchOperation operation() {
         return this.operation;
     }
 
@@ -42,7 +42,7 @@ public class TagsPatchResource {
      * @param operation the operation value to set
      * @return the TagsPatchResource object itself.
      */
-    public TagsPatchResource withOperation(TagOperation operation) {
+    public TagsPatchResource withOperation(TagsPatchOperation operation) {
         this.operation = operation;
         return this;
     }

@@ -25,7 +25,22 @@ public class LinuxVMDiskEncryptionConfiguration
     public LinuxVMDiskEncryptionConfiguration(String keyVaultId,
                                               String aadClientId,
                                               String aadSecret) {
-        super(keyVaultId, aadClientId, aadSecret, null);
+        super(keyVaultId, aadClientId, aadSecret, null, null);
+    }
+
+    /**
+     * Creates LinuxVMDiskEncryptionSettings.
+     *
+     * @param keyVaultId the resource ID of the KeyVault to store the disk encryption key
+     * @param vaultUri URI of the key vault data-plane endpoint
+     * @param aadClientId  client ID of an AAD application which has permission to the KeyVault
+     * @param aadSecret client secret corresponding to the client ID
+     */
+    public LinuxVMDiskEncryptionConfiguration(String keyVaultId,
+                                              String vaultUri,
+                                              String aadClientId,
+                                              String aadSecret) {
+        super(keyVaultId, aadClientId, aadSecret, vaultUri, null);
     }
 
     /**
@@ -40,7 +55,7 @@ public class LinuxVMDiskEncryptionConfiguration
                                               String aadClientId,
                                               String aadSecret,
                                               AzureEnvironment azureEnvironment) {
-        super(keyVaultId, aadClientId, aadSecret, azureEnvironment);
+        super(keyVaultId, aadClientId, aadSecret, null, azureEnvironment);
     }
 
     /**
@@ -49,7 +64,17 @@ public class LinuxVMDiskEncryptionConfiguration
      * @param keyVaultId the resource ID of the KeyVault to store the disk encryption key
      */
     public LinuxVMDiskEncryptionConfiguration(String keyVaultId) {
-        super(keyVaultId);
+        super(keyVaultId, null, null);
+    }
+
+    /**
+     * Creates LinuxVMDiskEncryptionSettings.
+     *
+     * @param keyVaultId the resource ID of the KeyVault to store the disk encryption key
+     * @param vaultUri URI of the key vault data-plane endpoint
+     */
+    public LinuxVMDiskEncryptionConfiguration(String keyVaultId, String vaultUri) {
+        super(keyVaultId, vaultUri, null);
     }
 
     /**
@@ -59,7 +84,7 @@ public class LinuxVMDiskEncryptionConfiguration
      * @param azureEnvironment Azure environment
      */
     public LinuxVMDiskEncryptionConfiguration(String keyVaultId, AzureEnvironment azureEnvironment) {
-        super(keyVaultId, azureEnvironment);
+        super(keyVaultId, null, azureEnvironment);
     }
 
     @Override

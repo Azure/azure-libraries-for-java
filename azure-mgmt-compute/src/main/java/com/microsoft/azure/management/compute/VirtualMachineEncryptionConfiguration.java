@@ -25,23 +25,27 @@ public abstract class VirtualMachineEncryptionConfiguration<T extends VirtualMac
     protected String keyEncryptionKeyVaultId;
     protected String encryptionAlgorithm = "RSA-OAEP";
     protected String passPhrase;
-    protected AzureEnvironment azureEnvironment;
+    protected final AzureEnvironment azureEnvironment;
+    protected final String vaultUri;
 
     /**
      * Creates VirtualMachineEncryptionConfiguration.
      *
      * @param keyVaultId resource ID of the KeyVault to store the disk encryption key
+     * @param vaultUri URI of the key vault data-plane endpoint
      * @param aadClientId AAD application client ID to access the KeyVault
      * @param aadSecret AAD application client secret to access the KeyVault
      * @param azureEnvironment Azure environment
      */
     protected VirtualMachineEncryptionConfiguration(String keyVaultId,
+                                                    String vaultUri,
                                                     String aadClientId,
                                                     String aadSecret,
                                                     AzureEnvironment azureEnvironment) {
         this.keyVaultId = Objects.requireNonNull(keyVaultId, "KeyVaultId parameter holding resource id of the KeyVault to store disk encryption key is required.");
         this.aadClientId = Objects.requireNonNull(aadClientId, "aadClientId parameter holding AAD client id to access the KeyVault is required.");
         this.aadSecret = Objects.requireNonNull(aadSecret, "aadSecret parameter holding AAD secret to access the KeyVault is required.");
+        this.vaultUri = vaultUri;
         this.azureEnvironment = azureEnvironment;
     }
 
@@ -49,26 +53,16 @@ public abstract class VirtualMachineEncryptionConfiguration<T extends VirtualMac
      * Creates VirtualMachineEncryptionConfiguration.
      *
      * @param keyVaultId resource ID of the KeyVault to store the disk encryption key
-     */
-    protected VirtualMachineEncryptionConfiguration(String keyVaultId) {
-        Objects.requireNonNull(keyVaultId, "KeyVaultId parameter holding resource id of the keyVault to store disk encryption key is required.");
-        this.keyVaultId = keyVaultId;
-        this.aadClientId = null;
-        this.aadSecret = null;
-    }
-
-    /**
-     * Creates VirtualMachineEncryptionConfiguration.
-     *
-     * @param keyVaultId resource ID of the KeyVault to store the disk encryption key
+     * @param vaultUri URI of the key vault data-plane endpoint
      * @param azureEnvironment Azure environment
      */
     protected VirtualMachineEncryptionConfiguration(String keyVaultId,
+                                                    String vaultUri,
                                                     AzureEnvironment azureEnvironment) {
-        Objects.requireNonNull(keyVaultId, "KeyVaultId parameter holding resource id of the keyVault to store disk encryption key is required.");
-        this.keyVaultId = keyVaultId;
+        this.keyVaultId = Objects.requireNonNull(keyVaultId, "KeyVaultId parameter holding resource id of the keyVault to store disk encryption key is required.");
         this.aadClientId = null;
         this.aadSecret = null;
+        this.vaultUri = vaultUri;
         this.azureEnvironment = azureEnvironment;
     }
 
@@ -112,11 +106,15 @@ public abstract class VirtualMachineEncryptionConfiguration<T extends VirtualMac
      * @return URL to the key vault to store the disk encryption key
      */
     public String keyVaultUrl() {
+        if (vaultUri != null) {
+            return vaultUri;
+        }
+
         String keyVaultDnsSuffix;
         if (azureEnvironment != null) {
             keyVaultDnsSuffix = azureEnvironment.keyVaultDnsSuffix();
 
-            if (azureEnvironment != AzureEnvironment.AZURE && azureEnvironment.managementEndpoint() != null
+            if (azureEnvironment.managementEndpoint() != null
                     && !AzureEnvironment.AZURE.managementEndpoint().equals(azureEnvironment.managementEndpoint())
                     && AzureEnvironment.AZURE.keyVaultDnsSuffix().equals(azureEnvironment.keyVaultDnsSuffix())) {
                 // correction for "ApplicationTokenCredentials.fromFile", as auth file typically does not have "keyVaultDnsSuffix" configure

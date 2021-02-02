@@ -48,16 +48,16 @@ public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTe
         final String password = TestUtilities.createPassword();
         VirtualMachine virtualMachine = computeManager.virtualMachines()
                 .define(vmName1)
-                    .withRegion(REGION)
-                    .withNewResourceGroup(RG_NAME)
-                    .withNewPrimaryNetwork("10.0.0.0/28")
-                    .withPrimaryPrivateIPAddressDynamic()
-                    .withNewPrimaryPublicIPAddress(publicIpDnsLabel)
-                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_18_04_LTS)
-                    .withRootUsername(uname)
-                    .withRootPassword(password)
-                    .withSize(VirtualMachineSizeTypes.STANDARD_DS3_V2)  // ADE need 8GB
-                    .withOSDiskCaching(CachingTypes.READ_WRITE)
+                .withRegion(REGION)
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withNewPrimaryPublicIPAddress(publicIpDnsLabel)
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_18_04_LTS)
+                .withRootUsername(uname)
+                .withRootPassword(password)
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))    // ADE need 8GB
+                .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
         DiskVolumeEncryptionMonitor monitor1 = virtualMachine.diskEncryption().getMonitor();
@@ -95,7 +95,7 @@ public class VirtualMachineEncryptionOperationsTests extends ComputeManagementTe
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_18_04_LTS)
                 .withRootUsername(uname)
                 .withSsh(TestUtilities.createSshPublicKey())
-                .withSize(VirtualMachineSizeTypes.STANDARD_DS3_V2)  // ADE need 8GB
+                .withSize(VirtualMachineSizeTypes.fromString("Standard_D2a_v4"))    // ADE need 8GB
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 

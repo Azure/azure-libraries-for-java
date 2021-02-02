@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 /**
@@ -24,7 +25,37 @@ public class WindowsVMDiskEncryptionConfiguration
     public WindowsVMDiskEncryptionConfiguration(String keyVaultId,
                                                 String aadClientId,
                                                 String aadSecret) {
-        super(keyVaultId, aadClientId, aadSecret);
+        super(keyVaultId, aadClientId, aadSecret, null, null);
+    }
+
+    /**
+     * Creates WindowsVMDiskEncryptionConfiguration.
+     *
+     * @param keyVaultId the resource ID of the key vault to store the disk encryption key
+     * @param vaultUri URI of the key vault data-plane endpoint
+     * @param aadClientId  client ID of an AAD application which has permission to the key vault
+     * @param aadSecret client secret corresponding to the aadClientId
+     */
+    public WindowsVMDiskEncryptionConfiguration(String keyVaultId,
+                                                String vaultUri,
+                                                String aadClientId,
+                                                String aadSecret) {
+        super(keyVaultId, aadClientId, aadSecret, vaultUri, null);
+    }
+
+    /**
+     * Creates WindowsVMDiskEncryptionConfiguration.
+     *
+     * @param keyVaultId the resource ID of the key vault to store the disk encryption key
+     * @param aadClientId  client ID of an AAD application which has permission to the key vault
+     * @param aadSecret client secret corresponding to the aadClientId
+     * @param azureEnvironment Azure environment
+     */
+    public WindowsVMDiskEncryptionConfiguration(String keyVaultId,
+                                                String aadClientId,
+                                                String aadSecret,
+                                                AzureEnvironment azureEnvironment) {
+        super(keyVaultId, aadClientId, aadSecret, null, azureEnvironment);
     }
 
     /**
@@ -33,7 +64,29 @@ public class WindowsVMDiskEncryptionConfiguration
      * @param keyVaultId the resource ID of the key vault to store the disk encryption key
      */
     public WindowsVMDiskEncryptionConfiguration(String keyVaultId) {
-        super(keyVaultId);
+        super(keyVaultId, null, null);
+    }
+
+    /**
+     * Creates WindowsVMDiskEncryptionConfiguration.
+     *
+     * @param keyVaultId the resource ID of the key vault to store the disk encryption key
+     * @param vaultUri URI of the key vault data-plane endpoint
+     */
+    public WindowsVMDiskEncryptionConfiguration(String keyVaultId,
+                                                String vaultUri) {
+        super(keyVaultId, vaultUri, null);
+    }
+
+    /**
+     * Creates WindowsVMDiskEncryptionConfiguration.
+     *
+     * @param keyVaultId the resource ID of the key vault to store the disk encryption key
+     * @param azureEnvironment Azure environment
+     */
+    public WindowsVMDiskEncryptionConfiguration(String keyVaultId,
+                                                AzureEnvironment azureEnvironment) {
+        super(keyVaultId, null, azureEnvironment);
     }
 
     @Override

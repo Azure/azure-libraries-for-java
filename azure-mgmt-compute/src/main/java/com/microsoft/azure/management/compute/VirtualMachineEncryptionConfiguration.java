@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.google.common.base.Strings;
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 
@@ -111,7 +112,7 @@ public abstract class VirtualMachineEncryptionConfiguration<T extends VirtualMac
         }
 
         String keyVaultDnsSuffix;
-        if (azureEnvironment != null) {
+        if (azureEnvironment != null && !Strings.isNullOrEmpty(azureEnvironment.keyVaultDnsSuffix())) {
             keyVaultDnsSuffix = azureEnvironment.keyVaultDnsSuffix();
 
             if (azureEnvironment.managementEndpoint() != null

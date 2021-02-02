@@ -84,6 +84,11 @@ public interface Pool extends
     Integer maxTasksPerNode();
 
     /**
+     * @return the number of task slots that can be used to run concurrent tasks on a single compute node in the pool
+     */
+    Integer taskSlotsPerNode();
+
+    /**
      * @return the taskSchedulingPolicy value
      */
     TaskSchedulingPolicy taskSchedulingPolicy();
@@ -223,6 +228,17 @@ public interface Pool extends
              */
             @Deprecated
             DefinitionStages.WithAttach<ParentT> withMaxTasksPerNode(Integer maxTasksPerNode);
+
+            /**
+             * Specifies the number of task slots that can be used to run
+             * concurrent tasks on a single compute node in the pool.
+             * The default value is 1. The maximum value is the smaller
+             * of 4 times the number of cores of the vmSize of the pool or 256.
+             *
+             * @param taskSlotsPerNode the number of task slots
+             * @return the next stage of the definition
+             */
+            DefinitionStages.WithAttach<ParentT> withTaskSlotsPerNode(Integer taskSlotsPerNode);
 
             /**
              * Specifies the task scheduling policy.
@@ -377,6 +393,17 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withMaxTasksPerNode(Integer maxTasksPerNode);
 
             /**
+             * Specifies the number of task slots that can be used to run
+             * concurrent tasks on a single compute node in the pool.
+             * The default value is 1. The maximum value is the smaller
+             * of 4 times the number of cores of the vmSize of the pool or 256.
+             *
+             * @param taskSlotsPerNode the number of task slots
+             * @return the next stage of the definition
+             */
+            UpdateDefinitionStages.WithAttach<ParentT> withTaskSlotsPerNode(Integer taskSlotsPerNode);
+
+            /**
              * Specifies the task scheduling policy.
              *
              * @param taskSchedulingPolicy taskSchedulingPolicy value
@@ -506,6 +533,17 @@ public interface Pool extends
              */
             @Deprecated
             Update withMaxTasksPerNode(Integer maxTasksPerNode);
+
+            /**
+             * Specifies the number of task slots that can be used to run
+             * concurrent tasks on a single compute node in the pool.
+             * The default value is 1. The maximum value is the smaller
+             * of 4 times the number of cores of the vmSize of the pool or 256.
+             *
+             * @param taskSlotsPerNode the number of task slots
+             * @return the next stage of the update
+             */
+            Update withTaskSlotsPerNode(Integer taskSlotsPerNode);
 
             /**
              * Specifies the task scheduling policy.

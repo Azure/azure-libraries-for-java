@@ -17,21 +17,21 @@ public class ApplicationGatewayFirewallExclusion {
     /**
      * The variable to be excluded.
      */
-    @JsonProperty(value = "matchVariable", required = true)
+    @JsonProperty(value = "matchVariable")
     private String matchVariable;
 
     /**
      * When matchVariable is a collection, operate on the selector to specify
      * which elements in the collection this exclusion applies to.
      */
-    @JsonProperty(value = "selectorMatchOperator", required = true)
+    @JsonProperty(value = "selectorMatchOperator")
     private String selectorMatchOperator;
 
     /**
      * When matchVariable is a collection, operator used to specify which
      * elements in the collection this exclusion applies to.
      */
-    @JsonProperty(value = "selector", required = true)
+    @JsonProperty(value = "selector")
     private String selector;
 
     /**

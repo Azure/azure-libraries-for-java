@@ -21,7 +21,7 @@ public class CheckNameAvailabilityParameters {
     private String name;
 
     /**
-     * The resource type. Must be set to Microsoft.Batch/batchAccounts.
+     * The resource type.
      */
     @JsonProperty(value = "type", required = true)
     private String type;
@@ -54,7 +54,7 @@ public class CheckNameAvailabilityParameters {
     }
 
     /**
-     * Get the resource type. Must be set to Microsoft.Batch/batchAccounts.
+     * Get the resource type.
      *
      * @return the type value
      */
@@ -63,7 +63,7 @@ public class CheckNameAvailabilityParameters {
     }
 
     /**
-     * Set the resource type. Must be set to Microsoft.Batch/batchAccounts.
+     * Set the resource type.
      *
      * @param type the type value to set
      * @return the CheckNameAvailabilityParameters object itself.

@@ -54,6 +54,29 @@ public class BatchAccountCreateParameters {
     private KeyVaultReference keyVaultReference;
 
     /**
+     * The network access type for accessing Azure Batch account.
+     * If not specified, the default value is 'enabled'. Possible values
+     * include: 'Enabled', 'Disabled'.
+     */
+    @JsonProperty(value = "properties.publicNetworkAccess")
+    private PublicNetworkAccessType publicNetworkAccess;
+
+    /**
+     * The encryption configuration for the Batch account.
+     * Configures how customer data is encrypted inside the Batch account. By
+     * default, accounts are encrypted using a Microsoft managed key. For
+     * additional control, a customer-managed key can be used instead.
+     */
+    @JsonProperty(value = "properties.encryption")
+    private EncryptionProperties encryption;
+
+    /**
+     * The identity of the Batch account.
+     */
+    @JsonProperty(value = "identity")
+    private BatchAccountIdentity identity;
+
+    /**
      * Get the region in which to create the account.
      *
      * @return the location value
@@ -150,6 +173,66 @@ public class BatchAccountCreateParameters {
      */
     public BatchAccountCreateParameters withKeyVaultReference(KeyVaultReference keyVaultReference) {
         this.keyVaultReference = keyVaultReference;
+        return this;
+    }
+
+    /**
+     * Get if not specified, the default value is 'enabled'. Possible values include: 'Enabled', 'Disabled'.
+     *
+     * @return the publicNetworkAccess value
+     */
+    public PublicNetworkAccessType publicNetworkAccess() {
+        return this.publicNetworkAccess;
+    }
+
+    /**
+     * Set if not specified, the default value is 'enabled'. Possible values include: 'Enabled', 'Disabled'.
+     *
+     * @param publicNetworkAccess the publicNetworkAccess value to set
+     * @return the BatchAccountCreateParameters object itself.
+     */
+    public BatchAccountCreateParameters withPublicNetworkAccess(PublicNetworkAccessType publicNetworkAccess) {
+        this.publicNetworkAccess = publicNetworkAccess;
+        return this;
+    }
+
+    /**
+     * Get configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.
+     *
+     * @return the encryption value
+     */
+    public EncryptionProperties encryption() {
+        return this.encryption;
+    }
+
+    /**
+     * Set configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.
+     *
+     * @param encryption the encryption value to set
+     * @return the BatchAccountCreateParameters object itself.
+     */
+    public BatchAccountCreateParameters withEncryption(EncryptionProperties encryption) {
+        this.encryption = encryption;
+        return this;
+    }
+
+    /**
+     * Get the identity of the Batch account.
+     *
+     * @return the identity value
+     */
+    public BatchAccountIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity of the Batch account.
+     *
+     * @param identity the identity value to set
+     * @return the BatchAccountCreateParameters object itself.
+     */
+    public BatchAccountCreateParameters withIdentity(BatchAccountIdentity identity) {
+        this.identity = identity;
         return this;
     }
 

@@ -24,6 +24,7 @@ function credcheck(dir) {
     redactDict.set(/\\"adminPassword\\":{\\"type\\":\\"String\\",\\"value\\":\\"(.*?)\\"}/g, '\\"adminPassword\\":{\\"type\\":\\"String\\",\\"value\\":\\"MGMT_PLACEHOLDER\\"}');
     redactDict.set(/\\"DOCKER_REGISTRY_SERVER_PASSWORD\\":\\"(.*?)\\"/g, '\\"DOCKER_REGISTRY_SERVER_PASSWORD\\":\\"MGMT_PLACEHOLDER\\"');
     redactDict.set(/\\"connectionString\\":\\"(.*?)\\"/g, '\\"connectionString\\":\\"MGMT_PLACEHOLDER\\"');
+    redactDict.set(/&sig=(.*?)(&|\\")/g, '&sig=MGMT_PLACEHOLDER&');
 
     credcheckRecursive(dir, redactDict);
 }

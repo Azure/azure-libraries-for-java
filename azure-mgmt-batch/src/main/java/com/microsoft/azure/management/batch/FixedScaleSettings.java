@@ -28,15 +28,15 @@ public class FixedScaleSettings {
 
     /**
      * The desired number of dedicated compute nodes in the pool.
-     * At least one of targetDedicatedNodes, targetLowPriority nodes must be
+     * At least one of targetDedicatedNodes, targetLowPriorityNodes must be
      * set.
      */
     @JsonProperty(value = "targetDedicatedNodes")
     private Integer targetDedicatedNodes;
 
     /**
-     * The desired number of low-priority compute nodes in the pool.
-     * At least one of targetDedicatedNodes, targetLowPriority nodes must be
+     * The desired number of low priority compute nodes in the pool.
+     * At least one of targetDedicatedNodes, targetLowPriorityNodes must be
      * set.
      */
     @JsonProperty(value = "targetLowPriorityNodes")
@@ -72,7 +72,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Get at least one of targetDedicatedNodes, targetLowPriority nodes must be set.
+     * Get at least one of targetDedicatedNodes, targetLowPriorityNodes must be set.
      *
      * @return the targetDedicatedNodes value
      */
@@ -81,7 +81,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Set at least one of targetDedicatedNodes, targetLowPriority nodes must be set.
+     * Set at least one of targetDedicatedNodes, targetLowPriorityNodes must be set.
      *
      * @param targetDedicatedNodes the targetDedicatedNodes value to set
      * @return the FixedScaleSettings object itself.
@@ -92,7 +92,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Get at least one of targetDedicatedNodes, targetLowPriority nodes must be set.
+     * Get at least one of targetDedicatedNodes, targetLowPriorityNodes must be set.
      *
      * @return the targetLowPriorityNodes value
      */
@@ -101,7 +101,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Set at least one of targetDedicatedNodes, targetLowPriority nodes must be set.
+     * Set at least one of targetDedicatedNodes, targetLowPriorityNodes must be set.
      *
      * @param targetLowPriorityNodes the targetLowPriorityNodes value to set
      * @return the FixedScaleSettings object itself.

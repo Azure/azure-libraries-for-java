@@ -25,7 +25,7 @@ public class LinuxVMDiskEncryptionConfiguration
     public LinuxVMDiskEncryptionConfiguration(String keyVaultId,
                                               String aadClientId,
                                               String aadSecret) {
-        super(keyVaultId, aadClientId, aadSecret, null, null);
+        super(keyVaultId, null, aadClientId, aadSecret, null);
     }
 
     /**
@@ -40,7 +40,7 @@ public class LinuxVMDiskEncryptionConfiguration
                                               String vaultUri,
                                               String aadClientId,
                                               String aadSecret) {
-        super(keyVaultId, aadClientId, aadSecret, vaultUri, null);
+        super(keyVaultId, vaultUri, aadClientId, aadSecret, null);
     }
 
     /**
@@ -55,7 +55,7 @@ public class LinuxVMDiskEncryptionConfiguration
                                               String aadClientId,
                                               String aadSecret,
                                               AzureEnvironment azureEnvironment) {
-        super(keyVaultId, aadClientId, aadSecret, null, azureEnvironment);
+        super(keyVaultId, null, aadClientId, aadSecret, azureEnvironment);
     }
 
     /**

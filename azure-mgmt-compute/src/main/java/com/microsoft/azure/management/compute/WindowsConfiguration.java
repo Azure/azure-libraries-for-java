@@ -52,7 +52,8 @@ public class WindowsConfiguration {
     private List<AdditionalUnattendContent> additionalUnattendContent;
 
     /**
-     * Specifies settings related to in-guest patching (KBs).
+     * [Preview Feature] Specifies settings related to VM Guest Patching on
+     * Windows.
      */
     @JsonProperty(value = "patchSettings")
     private PatchSettings patchSettings;
@@ -145,7 +146,7 @@ public class WindowsConfiguration {
     }
 
     /**
-     * Get specifies settings related to in-guest patching (KBs).
+     * Get [Preview Feature] Specifies settings related to VM Guest Patching on Windows.
      *
      * @return the patchSettings value
      */
@@ -154,7 +155,7 @@ public class WindowsConfiguration {
     }
 
     /**
-     * Set specifies settings related to in-guest patching (KBs).
+     * Set [Preview Feature] Specifies settings related to VM Guest Patching on Windows.
      *
      * @param patchSettings the patchSettings value to set
      * @return the WindowsConfiguration object itself.

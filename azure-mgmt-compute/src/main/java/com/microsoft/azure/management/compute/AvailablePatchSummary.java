@@ -19,8 +19,9 @@ public class AvailablePatchSummary {
     /**
      * The overall success or failure status of the operation. It remains
      * "InProgress" until the operation completes. At that point it will become
-     * "Failed", "Succeeded", or "CompletedWithWarnings.". Possible values
-     * include: 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'.
+     * "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings.". Possible
+     * values include: 'Unknown', 'InProgress', 'Failed', 'Succeeded',
+     * 'CompletedWithWarnings'.
      */
     @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
     private PatchOperationStatus status;
@@ -73,7 +74,7 @@ public class AvailablePatchSummary {
     private ApiError error;
 
     /**
-     * Get the overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", or "CompletedWithWarnings.". Possible values include: 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'.
+     * Get the overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings.". Possible values include: 'Unknown', 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'.
      *
      * @return the status value
      */

@@ -16,6 +16,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SecurityProfile {
     /**
+     * Specifies the security settings like secure boot and vTPM used while
+     * creating the virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version:
+     * 2020-12-01.
+     */
+    @JsonProperty(value = "uefiSettings")
+    private UefiSettings uefiSettings;
+
+    /**
      * This property can be used by user in the request to enable or disable
      * the Host Encryption for the virtual machine or virtual machine scale
      * set. This will enable the encryption for all the disks including
@@ -25,6 +33,35 @@ public class SecurityProfile {
      */
     @JsonProperty(value = "encryptionAtHost")
     private Boolean encryptionAtHost;
+
+    /**
+     * Specifies the SecurityType of the virtual machine. It is set as
+     * TrustedLaunch to enable UefiSettings. &lt;br&gt;&lt;br&gt; Default:
+     * UefiSettings will not be enabled unless this property is set as
+     * TrustedLaunch. Possible values include: 'TrustedLaunch'.
+     */
+    @JsonProperty(value = "securityType")
+    private SecurityTypes securityType;
+
+    /**
+     * Get specifies the security settings like secure boot and vTPM used while creating the virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-12-01.
+     *
+     * @return the uefiSettings value
+     */
+    public UefiSettings uefiSettings() {
+        return this.uefiSettings;
+    }
+
+    /**
+     * Set specifies the security settings like secure boot and vTPM used while creating the virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-12-01.
+     *
+     * @param uefiSettings the uefiSettings value to set
+     * @return the SecurityProfile object itself.
+     */
+    public SecurityProfile withUefiSettings(UefiSettings uefiSettings) {
+        this.uefiSettings = uefiSettings;
+        return this;
+    }
 
     /**
      * Get this property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. &lt;br&gt;&lt;br&gt; Default: The Encryption at host will be disabled unless this property is set to true for the resource.
@@ -43,6 +80,26 @@ public class SecurityProfile {
      */
     public SecurityProfile withEncryptionAtHost(Boolean encryptionAtHost) {
         this.encryptionAtHost = encryptionAtHost;
+        return this;
+    }
+
+    /**
+     * Get specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. &lt;br&gt;&lt;br&gt; Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch. Possible values include: 'TrustedLaunch'.
+     *
+     * @return the securityType value
+     */
+    public SecurityTypes securityType() {
+        return this.securityType;
+    }
+
+    /**
+     * Set specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. &lt;br&gt;&lt;br&gt; Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch. Possible values include: 'TrustedLaunch'.
+     *
+     * @param securityType the securityType value to set
+     * @return the SecurityProfile object itself.
+     */
+    public SecurityProfile withSecurityType(SecurityTypes securityType) {
+        this.securityType = securityType;
         return this;
     }
 

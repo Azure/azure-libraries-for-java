@@ -22,8 +22,9 @@ public class VirtualMachineAssessPatchesResultInner {
     /**
      * The overall success or failure status of the operation. It remains
      * "InProgress" until the operation completes. At that point it will become
-     * "Failed", "Succeeded", or "CompletedWithWarnings.". Possible values
-     * include: 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'.
+     * "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings.". Possible
+     * values include: 'Unknown', 'InProgress', 'Failed', 'Succeeded',
+     * 'CompletedWithWarnings'.
      */
     @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
     private PatchOperationStatus status;
@@ -66,8 +67,8 @@ public class VirtualMachineAssessPatchesResultInner {
      * The list of patches that have been detected as available for
      * installation.
      */
-    @JsonProperty(value = "patches", access = JsonProperty.Access.WRITE_ONLY)
-    private List<VirtualMachineSoftwarePatchProperties> patches;
+    @JsonProperty(value = "availablePatches", access = JsonProperty.Access.WRITE_ONLY)
+    private List<VirtualMachineSoftwarePatchProperties> availablePatches;
 
     /**
      * The errors that were encountered during execution of the operation. The
@@ -77,7 +78,7 @@ public class VirtualMachineAssessPatchesResultInner {
     private ApiError error;
 
     /**
-     * Get the overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", or "CompletedWithWarnings.". Possible values include: 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'.
+     * Get the overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings.". Possible values include: 'Unknown', 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'.
      *
      * @return the status value
      */
@@ -133,10 +134,10 @@ public class VirtualMachineAssessPatchesResultInner {
     /**
      * Get the list of patches that have been detected as available for installation.
      *
-     * @return the patches value
+     * @return the availablePatches value
      */
-    public List<VirtualMachineSoftwarePatchProperties> patches() {
-        return this.patches;
+    public List<VirtualMachineSoftwarePatchProperties> availablePatches() {
+        return this.availablePatches;
     }
 
     /**

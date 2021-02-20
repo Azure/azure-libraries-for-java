@@ -107,6 +107,20 @@ public class DiskUpdate {
     private String tier;
 
     /**
+     * Set to true to enable bursting beyond the provisioned performance target
+     * of the disk. Bursting is disabled by default. Does not apply to Ultra
+     * disks.
+     */
+    @JsonProperty(value = "properties.burstingEnabled")
+    private Boolean burstingEnabled;
+
+    /**
+     * Purchase plan information to be added on the OS disk.
+     */
+    @JsonProperty(value = "properties.purchasePlan")
+    private PurchasePlan purchasePlan;
+
+    /**
      * Resource tags.
      */
     @JsonProperty(value = "tags")
@@ -355,6 +369,46 @@ public class DiskUpdate {
      */
     public DiskUpdate withTier(String tier) {
         this.tier = tier;
+        return this;
+    }
+
+    /**
+     * Get set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks.
+     *
+     * @return the burstingEnabled value
+     */
+    public Boolean burstingEnabled() {
+        return this.burstingEnabled;
+    }
+
+    /**
+     * Set set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks.
+     *
+     * @param burstingEnabled the burstingEnabled value to set
+     * @return the DiskUpdate object itself.
+     */
+    public DiskUpdate withBurstingEnabled(Boolean burstingEnabled) {
+        this.burstingEnabled = burstingEnabled;
+        return this;
+    }
+
+    /**
+     * Get purchase plan information to be added on the OS disk.
+     *
+     * @return the purchasePlan value
+     */
+    public PurchasePlan purchasePlan() {
+        return this.purchasePlan;
+    }
+
+    /**
+     * Set purchase plan information to be added on the OS disk.
+     *
+     * @param purchasePlan the purchasePlan value to set
+     * @return the DiskUpdate object itself.
+     */
+    public DiskUpdate withPurchasePlan(PurchasePlan purchasePlan) {
+        this.purchasePlan = purchasePlan;
         return this;
     }
 

@@ -28,7 +28,7 @@ public class DiskEncryptionSetUpdate {
      * The activeKey property.
      */
     @JsonProperty(value = "properties.activeKey")
-    private KeyVaultAndKeyReference activeKey;
+    private KeyForDiskEncryptionSet activeKey;
 
     /**
      * Resource tags.
@@ -61,7 +61,7 @@ public class DiskEncryptionSetUpdate {
      *
      * @return the activeKey value
      */
-    public KeyVaultAndKeyReference activeKey() {
+    public KeyForDiskEncryptionSet activeKey() {
         return this.activeKey;
     }
 
@@ -71,7 +71,7 @@ public class DiskEncryptionSetUpdate {
      * @param activeKey the activeKey value to set
      * @return the DiskEncryptionSetUpdate object itself.
      */
-    public DiskEncryptionSetUpdate withActiveKey(KeyVaultAndKeyReference activeKey) {
+    public DiskEncryptionSetUpdate withActiveKey(KeyForDiskEncryptionSet activeKey) {
         this.activeKey = activeKey;
         return this;
     }

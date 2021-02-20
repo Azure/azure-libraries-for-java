@@ -43,6 +43,13 @@ public class LinuxConfiguration {
     private Boolean provisionVMAgent;
 
     /**
+     * [Preview Feature] Specifies settings related to VM Guest Patching on
+     * Linux.
+     */
+    @JsonProperty(value = "patchSettings")
+    private LinuxPatchSettings patchSettings;
+
+    /**
      * Get specifies whether password authentication should be disabled.
      *
      * @return the disablePasswordAuthentication value
@@ -99,6 +106,26 @@ public class LinuxConfiguration {
      */
     public LinuxConfiguration withProvisionVMAgent(Boolean provisionVMAgent) {
         this.provisionVMAgent = provisionVMAgent;
+        return this;
+    }
+
+    /**
+     * Get [Preview Feature] Specifies settings related to VM Guest Patching on Linux.
+     *
+     * @return the patchSettings value
+     */
+    public LinuxPatchSettings patchSettings() {
+        return this.patchSettings;
+    }
+
+    /**
+     * Set [Preview Feature] Specifies settings related to VM Guest Patching on Linux.
+     *
+     * @param patchSettings the patchSettings value to set
+     * @return the LinuxConfiguration object itself.
+     */
+    public LinuxConfiguration withPatchSettings(LinuxPatchSettings patchSettings) {
+        this.patchSettings = patchSettings;
         return this;
     }
 

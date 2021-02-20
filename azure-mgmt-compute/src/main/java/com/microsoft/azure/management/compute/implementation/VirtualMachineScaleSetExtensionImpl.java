@@ -49,7 +49,7 @@ public class VirtualMachineScaleSetExtensionImpl
 
     @Override
     public String typeName() {
-        return this.inner().type();
+        return this.inner().type1();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class VirtualMachineScaleSetExtensionImpl
     @Override
     public VirtualMachineScaleSetExtensionImpl withImage(VirtualMachineExtensionImage image) {
         this.inner().withPublisher(image.publisherName())
-                .withType(image.typeName())
+                .withType1(image.typeName())
                 .withTypeHandlerVersion(image.versionName());
         return this;
     }
@@ -142,7 +142,7 @@ public class VirtualMachineScaleSetExtensionImpl
 
     @Override
     public VirtualMachineScaleSetExtensionImpl withType(String extensionImageTypeName) {
-        this.inner().withType(extensionImageTypeName);
+        this.inner().withType1(extensionImageTypeName);
         return this;
     }
 

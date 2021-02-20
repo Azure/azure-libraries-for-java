@@ -267,4 +267,61 @@ public interface VirtualMachineScaleSets extends
      * @return handle to the asynchronous execution
      */
     Observable<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand);
+
+    /**
+     * Force delete a resource from Azure, identifying it by its resource ID.
+     *
+     * @param id the resource ID of the resource to delete
+     * @param forceDeletion force delete parameter
+     */
+    void deleteById(String id, boolean forceDeletion);
+
+    /**
+     * Asynchronously force delete a resource from Azure, identifying it by its resource ID.
+     *
+     * @param id the resource ID of the resource to delete
+     * @param forceDeletion  force delete parameter
+     * @param callback the callback on success or failure
+     * @return a handle to cancel the request
+     */
+    ServiceFuture<Void> deleteByIdAsync(String id, boolean forceDeletion, ServiceCallback<Void> callback);
+
+    /**
+     * Asynchronously force delete a resource from Azure, identifying it by its resource ID.
+     *
+     * @param id the resource ID of the resource to delete
+     * @param forceDeletion force delete parameter
+     * @return a representation of the deferred computation of this call
+     */
+    Completable deleteByIdAsync(String id, boolean forceDeletion);
+
+    /**
+     * Force delete a resource from Azure, identifying it by its name and its resource group.
+     *
+     * @param resourceGroupName the resource group the resource is part of
+     * @param name the name of the resource
+     * @param forceDeletion force delete parameter
+     */
+    void deleteByResourceGroup(String resourceGroupName, String name, boolean forceDeletion);
+
+    /**
+     * Asynchronously force delete a resource from Azure, identifying it by its name and its resource group.
+     *
+     * @param resourceGroupName the resource group the resource is part of
+     * @param name the name of the resource
+     * @param forceDeletion force delete parameter
+     * @param callback the callback to call on success or failure
+     * @return a handle to cancel the request
+     */
+    ServiceFuture<Void> deleteByResourceGroupAsync(String resourceGroupName, String name, boolean forceDeletion, ServiceCallback<Void> callback);
+
+    /**
+     * Asynchronously force delete a resource from Azure, identifying it by its name and its resource group.
+     *
+     * @param resourceGroupName the resource group the resource is part of
+     * @param name the name of the resource
+     * @param forceDeletion force delete parameter
+     * @return a representation of the deferred computation of this call
+     */
+    Completable deleteByResourceGroupAsync(String resourceGroupName, String name, boolean forceDeletion);
 }

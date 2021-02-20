@@ -9,9 +9,11 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.compute.SnapshotSku;
+import com.microsoft.azure.management.compute.ExtendedLocation;
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.HyperVGeneration;
+import com.microsoft.azure.management.compute.PurchasePlan;
 import com.microsoft.azure.management.compute.CreationData;
 import com.microsoft.azure.management.compute.DiskState;
 import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
@@ -39,6 +41,13 @@ public class SnapshotInner extends Resource {
     private SnapshotSku sku;
 
     /**
+     * The extended location where the snapshot will be created. Extended
+     * location cannot be changed.
+     */
+    @JsonProperty(value = "extendedLocation")
+    private ExtendedLocation extendedLocation;
+
+    /**
      * The time when the snapshot was created.
      */
     @JsonProperty(value = "properties.timeCreated", access = JsonProperty.Access.WRITE_ONLY)
@@ -56,6 +65,13 @@ public class SnapshotInner extends Resource {
      */
     @JsonProperty(value = "properties.hyperVGeneration")
     private HyperVGeneration hyperVGeneration;
+
+    /**
+     * Purchase plan information for the image from which the source disk for
+     * the snapshot was originally created.
+     */
+    @JsonProperty(value = "properties.purchasePlan")
+    private PurchasePlan purchasePlan;
 
     /**
      * Disk source information. CreationData information cannot be changed
@@ -162,6 +178,26 @@ public class SnapshotInner extends Resource {
     }
 
     /**
+     * Get the extended location where the snapshot will be created. Extended location cannot be changed.
+     *
+     * @return the extendedLocation value
+     */
+    public ExtendedLocation extendedLocation() {
+        return this.extendedLocation;
+    }
+
+    /**
+     * Set the extended location where the snapshot will be created. Extended location cannot be changed.
+     *
+     * @param extendedLocation the extendedLocation value to set
+     * @return the SnapshotInner object itself.
+     */
+    public SnapshotInner withExtendedLocation(ExtendedLocation extendedLocation) {
+        this.extendedLocation = extendedLocation;
+        return this;
+    }
+
+    /**
      * Get the time when the snapshot was created.
      *
      * @return the timeCreated value
@@ -207,6 +243,26 @@ public class SnapshotInner extends Resource {
      */
     public SnapshotInner withHyperVGeneration(HyperVGeneration hyperVGeneration) {
         this.hyperVGeneration = hyperVGeneration;
+        return this;
+    }
+
+    /**
+     * Get purchase plan information for the image from which the source disk for the snapshot was originally created.
+     *
+     * @return the purchasePlan value
+     */
+    public PurchasePlan purchasePlan() {
+        return this.purchasePlan;
+    }
+
+    /**
+     * Set purchase plan information for the image from which the source disk for the snapshot was originally created.
+     *
+     * @param purchasePlan the purchasePlan value to set
+     * @return the SnapshotInner object itself.
+     */
+    public SnapshotInner withPurchasePlan(PurchasePlan purchasePlan) {
+        this.purchasePlan = purchasePlan;
         return this;
     }
 

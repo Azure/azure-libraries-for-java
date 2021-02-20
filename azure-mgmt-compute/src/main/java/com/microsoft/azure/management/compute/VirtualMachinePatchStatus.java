@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -27,6 +28,12 @@ public class VirtualMachinePatchStatus {
      */
     @JsonProperty(value = "lastPatchInstallationSummary")
     private LastPatchInstallationSummary lastPatchInstallationSummary;
+
+    /**
+     * The enablement status of the specified patchMode.
+     */
+    @JsonProperty(value = "configurationStatuses", access = JsonProperty.Access.WRITE_ONLY)
+    private List<InstanceViewStatus> configurationStatuses;
 
     /**
      * Get the available patch summary of the latest assessment operation for the virtual machine.
@@ -66,6 +73,15 @@ public class VirtualMachinePatchStatus {
     public VirtualMachinePatchStatus withLastPatchInstallationSummary(LastPatchInstallationSummary lastPatchInstallationSummary) {
         this.lastPatchInstallationSummary = lastPatchInstallationSummary;
         return this;
+    }
+
+    /**
+     * Get the enablement status of the specified patchMode.
+     *
+     * @return the configurationStatuses value
+     */
+    public List<InstanceViewStatus> configurationStatuses() {
+        return this.configurationStatuses;
     }
 
 }

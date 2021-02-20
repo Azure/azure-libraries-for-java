@@ -11,7 +11,7 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The publishing profile of a gallery Image Version.
+ * The publishing profile of a gallery image version.
  */
 public class GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
     /**
@@ -21,11 +21,10 @@ public class GalleryApplicationVersionPublishingProfile extends GalleryArtifactP
     private UserArtifactSource source;
 
     /**
-     * Optional. May be used to help process this file. The type of file
-     * contained in the source, e.g. zip, json, etc.
+     * The manageActions property.
      */
-    @JsonProperty(value = "contentType")
-    private String contentType;
+    @JsonProperty(value = "manageActions")
+    private UserArtifactManage manageActions;
 
     /**
      * Optional. Whether or not this application reports health.
@@ -54,22 +53,22 @@ public class GalleryApplicationVersionPublishingProfile extends GalleryArtifactP
     }
 
     /**
-     * Get optional. May be used to help process this file. The type of file contained in the source, e.g. zip, json, etc.
+     * Get the manageActions value.
      *
-     * @return the contentType value
+     * @return the manageActions value
      */
-    public String contentType() {
-        return this.contentType;
+    public UserArtifactManage manageActions() {
+        return this.manageActions;
     }
 
     /**
-     * Set optional. May be used to help process this file. The type of file contained in the source, e.g. zip, json, etc.
+     * Set the manageActions value.
      *
-     * @param contentType the contentType value to set
+     * @param manageActions the manageActions value to set
      * @return the GalleryApplicationVersionPublishingProfile object itself.
      */
-    public GalleryApplicationVersionPublishingProfile withContentType(String contentType) {
-        this.contentType = contentType;
+    public GalleryApplicationVersionPublishingProfile withManageActions(UserArtifactManage manageActions) {
+        this.manageActions = manageActions;
         return this;
     }
 

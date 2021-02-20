@@ -15,40 +15,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class UserArtifactSource {
     /**
-     * Required. The fileName of the artifact.
-     */
-    @JsonProperty(value = "fileName", required = true)
-    private String fileName;
-
-    /**
-     * Required. The mediaLink of the artifact, must be a readable storage
+     * Required. The mediaLink of the artifact, must be a readable storage page
      * blob.
      */
     @JsonProperty(value = "mediaLink", required = true)
     private String mediaLink;
 
     /**
-     * Get required. The fileName of the artifact.
-     *
-     * @return the fileName value
+     * Optional. The defaultConfigurationLink of the artifact, must be a
+     * readable storage page blob.
      */
-    public String fileName() {
-        return this.fileName;
-    }
+    @JsonProperty(value = "defaultConfigurationLink")
+    private String defaultConfigurationLink;
 
     /**
-     * Set required. The fileName of the artifact.
-     *
-     * @param fileName the fileName value to set
-     * @return the UserArtifactSource object itself.
-     */
-    public UserArtifactSource withFileName(String fileName) {
-        this.fileName = fileName;
-        return this;
-    }
-
-    /**
-     * Get required. The mediaLink of the artifact, must be a readable storage blob.
+     * Get required. The mediaLink of the artifact, must be a readable storage page blob.
      *
      * @return the mediaLink value
      */
@@ -57,13 +38,33 @@ public class UserArtifactSource {
     }
 
     /**
-     * Set required. The mediaLink of the artifact, must be a readable storage blob.
+     * Set required. The mediaLink of the artifact, must be a readable storage page blob.
      *
      * @param mediaLink the mediaLink value to set
      * @return the UserArtifactSource object itself.
      */
     public UserArtifactSource withMediaLink(String mediaLink) {
         this.mediaLink = mediaLink;
+        return this;
+    }
+
+    /**
+     * Get optional. The defaultConfigurationLink of the artifact, must be a readable storage page blob.
+     *
+     * @return the defaultConfigurationLink value
+     */
+    public String defaultConfigurationLink() {
+        return this.defaultConfigurationLink;
+    }
+
+    /**
+     * Set optional. The defaultConfigurationLink of the artifact, must be a readable storage page blob.
+     *
+     * @param defaultConfigurationLink the defaultConfigurationLink value to set
+     * @return the UserArtifactSource object itself.
+     */
+    public UserArtifactSource withDefaultConfigurationLink(String defaultConfigurationLink) {
+        this.defaultConfigurationLink = defaultConfigurationLink;
         return this;
     }
 

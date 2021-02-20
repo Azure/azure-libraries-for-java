@@ -17,7 +17,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class EncryptionSetIdentity {
     /**
      * The type of Managed Identity used by the DiskEncryptionSet. Only
-     * SystemAssigned is supported. Possible values include: 'SystemAssigned'.
+     * SystemAssigned is supported for new creations. Disk Encryption Sets can
+     * be updated with Identity type None during migration of subscription to a
+     * new Azure Active Directory tenant; it will cause the encrypted resources
+     * to lose access to the keys. Possible values include: 'SystemAssigned',
+     * 'None'.
      */
     @JsonProperty(value = "type")
     private DiskEncryptionSetIdentityType type;
@@ -39,7 +43,7 @@ public class EncryptionSetIdentity {
     private String tenantId;
 
     /**
-     * Get the type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported. Possible values include: 'SystemAssigned'.
+     * Get the type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys. Possible values include: 'SystemAssigned', 'None'.
      *
      * @return the type value
      */
@@ -48,7 +52,7 @@ public class EncryptionSetIdentity {
     }
 
     /**
-     * Set the type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported. Possible values include: 'SystemAssigned'.
+     * Set the type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys. Possible values include: 'SystemAssigned', 'None'.
      *
      * @param type the type value to set
      * @return the EncryptionSetIdentity object itself.

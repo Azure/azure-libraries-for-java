@@ -46,7 +46,7 @@ public class DedicatedHostGroupInner extends Resource {
      * Specifies whether virtual machines or virtual machine scale sets can be
      * placed automatically on the dedicated host group. Automatic placement
      * means resources are allocated on dedicated hosts, that are chosen by
-     * Azure, under the dedicated host group. The value is defaulted to 'true'
+     * Azure, under the dedicated host group. The value is defaulted to 'false'
      * when not provided. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
      */
     @JsonProperty(value = "properties.supportAutomaticPlacement")
@@ -100,7 +100,7 @@ public class DedicatedHostGroupInner extends Resource {
     }
 
     /**
-     * Get specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'true' when not provided. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     * Get specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
      *
      * @return the supportAutomaticPlacement value
      */
@@ -109,7 +109,7 @@ public class DedicatedHostGroupInner extends Resource {
     }
 
     /**
-     * Set specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'true' when not provided. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
+     * Set specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. &lt;br&gt;&lt;br&gt;Minimum api-version: 2020-06-01.
      *
      * @param supportAutomaticPlacement the supportAutomaticPlacement value to set
      * @return the DedicatedHostGroupInner object itself.

@@ -35,6 +35,12 @@ public class PurchasePlan {
     private String product;
 
     /**
+     * The Offer Promotion Code.
+     */
+    @JsonProperty(value = "promotionCode")
+    private String promotionCode;
+
+    /**
      * Get the publisher ID.
      *
      * @return the publisher value
@@ -91,6 +97,26 @@ public class PurchasePlan {
      */
     public PurchasePlan withProduct(String product) {
         this.product = product;
+        return this;
+    }
+
+    /**
+     * Get the Offer Promotion Code.
+     *
+     * @return the promotionCode value
+     */
+    public String promotionCode() {
+        return this.promotionCode;
+    }
+
+    /**
+     * Set the Offer Promotion Code.
+     *
+     * @param promotionCode the promotionCode value to set
+     * @return the PurchasePlan object itself.
+     */
+    public PurchasePlan withPromotionCode(String promotionCode) {
+        this.promotionCode = promotionCode;
         return this;
     }
 

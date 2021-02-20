@@ -20,6 +20,7 @@ import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMProfile;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSets;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.ServiceCallback;
@@ -236,5 +237,37 @@ public class VirtualMachineScaleSetsImpl
                 this.storageManager,
                 this.networkManager,
                 this.rbacManager);
+    }
+
+    @Override
+    public void deleteById(String id, boolean forceDeletion) {
+        deleteByResourceGroup(
+                ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id), forceDeletion);
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteByIdAsync(String id, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(deleteByIdAsync(id, forceDeletion), callback);
+    }
+
+    @Override
+    public Completable deleteByIdAsync(String id, boolean forceDeletion) {
+        return deleteByResourceGroupAsync(
+                ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id), forceDeletion);
+    }
+
+    @Override
+    public void deleteByResourceGroup(String resourceGroupName, String name, boolean forceDeletion) {
+        this.inner().delete(resourceGroupName, name, forceDeletion);
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteByResourceGroupAsync(String resourceGroupName, String name, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(deleteByResourceGroupAsync(resourceGroupName, name, forceDeletion), callback);
+    }
+
+    @Override
+    public Completable deleteByResourceGroupAsync(String resourceGroupName, String name, boolean forceDeletion) {
+        return this.inner().deleteAsync(resourceGroupName, name, forceDeletion).toCompletable();
     }
 }

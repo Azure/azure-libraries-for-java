@@ -288,7 +288,7 @@ public class AzureTests extends TestBase {
                 genericResource.parentResourcePath(),
                 genericResource.resourceType(),
                 genericResource.name(),
-                "2020-06-01",
+                "2020-12-01",
                 true);
 
         // check if vm is deleted

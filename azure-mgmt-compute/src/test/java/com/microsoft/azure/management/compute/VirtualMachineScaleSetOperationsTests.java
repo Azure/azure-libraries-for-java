@@ -1207,7 +1207,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         Assert.assertEquals(original.extensions().size(), fetched.extensions().size());
         Assert.assertEquals(original.instanceId(), fetched.instanceId());
         Assert.assertEquals(original.isLatestScaleSetUpdateApplied(), fetched.isLatestScaleSetUpdateApplied());
-        Assert.assertEquals(original.isLinuxPasswordAuthenticationEnabled(), fetched.isLatestScaleSetUpdateApplied());
+        Assert.assertEquals(original.isLinuxPasswordAuthenticationEnabled(), fetched.isLinuxPasswordAuthenticationEnabled());
         Assert.assertEquals(original.isManagedDiskEnabled(), fetched.isManagedDiskEnabled());
         Assert.assertEquals(original.isOSBasedOnCustomImage(), fetched.isOSBasedOnCustomImage());
         Assert.assertEquals(original.isOSBasedOnPlatformImage(), fetched.isOSBasedOnPlatformImage());

@@ -66,26 +66,29 @@ class VirtualMachineScaleSetVMsImpl
 
     @Override
     public Completable deleteInstancesAsync(Collection<String> instanceIds) {
-        if (instanceIds == null || instanceIds.size() == 0) {
-            return Completable.complete();
-        }
-        List<String> instanceIdList = new ArrayList<>();
-        for (String instanceId : instanceIds) {
-            instanceIdList.add(instanceId);
-        }
-        VirtualMachineScaleSetsInner scaleSetInnerManager = this.scaleSet.manager().virtualMachineScaleSets().inner();
-        return scaleSetInnerManager.deleteInstancesAsync(this.scaleSet.resourceGroupName(),
-                this.scaleSet.name(), instanceIdList).toCompletable();
+        return this.scaleSet.manager().virtualMachineScaleSets().deleteInstancesAsync(this.scaleSet.resourceGroupName(),
+                this.scaleSet.name(), instanceIds, false);
     }
 
     @Override
     public Completable deleteInstancesAsync(String... instanceIds) {
-        return this.deleteInstancesAsync(new ArrayList<String>(Arrays.asList(instanceIds)));
+        return this.deleteInstancesAsync(new ArrayList<>(Arrays.asList(instanceIds)));
     }
 
     @Override
     public void deleteInstances(String... instanceIds) {
         this.deleteInstancesAsync(instanceIds).await();
+    }
+
+    @Override
+    public Completable deleteInstancesAsync(Collection<String> instanceIds, boolean forceDeletion) {
+        return this.scaleSet.manager().virtualMachineScaleSets().deleteInstancesAsync(this.scaleSet.resourceGroupName(),
+                this.scaleSet.name(), instanceIds, forceDeletion);
+    }
+
+    @Override
+    public void deleteInstances(Collection<String> instanceIds, boolean forceDeletion) {
+        this.deleteInstancesAsync(instanceIds, forceDeletion).await();
     }
 
     @Override

@@ -46,6 +46,23 @@ public interface VirtualMachineScaleSetVMs extends
     void deleteInstances(String... instanceIds);
 
     /**
+     * Deletes the specified virtual machine instances from the scale set.
+     *
+     * @param instanceIds instance IDs of the virtual machine scale set instances to be deleted
+     * @param forceDeletion force delete without graceful shutdown
+     * @return a representation of the deferred computation of this call.
+     */
+    Completable deleteInstancesAsync(Collection<String> instanceIds, boolean forceDeletion);
+
+    /**
+     * Deletes the specified virtual machine instances from the scale set.
+     *
+     * @param instanceIds instance IDs of the virtual machine scale set instances to be deleted
+     * @param forceDeletion force delete without graceful shutdown
+     */
+    void deleteInstances(Collection<String> instanceIds, boolean forceDeletion);
+
+    /**
      * Get the specified virtual machine instance from the scale set.
      * @param instanceId instance ID of the virtual machine scale set instance to be fetched
      * @return the virtual machine scale set instance.

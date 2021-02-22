@@ -183,12 +183,14 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public void deleteInstances(String groupName, String scaleSetName, Collection<String> instanceIds, boolean forceDeletion) {
-        this.manager().inner().virtualMachineScaleSets().deleteInstances(groupName, scaleSetName,
-                new ArrayList<>(instanceIds), forceDeletion);
+        this.deleteInstancesAsync(groupName, scaleSetName, instanceIds, forceDeletion).await();
     }
 
     @Override
     public Completable deleteInstancesAsync(String groupName, String scaleSetName, Collection<String> instanceIds, boolean forceDeletion) {
+        if (instanceIds == null || instanceIds.isEmpty()) {
+            return Completable.complete();
+        }
         return this.manager().inner().virtualMachineScaleSets().deleteInstancesAsync(groupName, scaleSetName,
                 new ArrayList<>(instanceIds), forceDeletion).toCompletable();
     }

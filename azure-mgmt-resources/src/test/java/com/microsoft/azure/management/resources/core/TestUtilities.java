@@ -53,8 +53,8 @@ public class TestUtilities {
                 RSAPublicKey rsaPublicKey = (RSAPublicKey) publicKey;
                 ByteArrayOutputStream byteOs = new ByteArrayOutputStream();
                 DataOutputStream dos = new DataOutputStream(byteOs);
-                dos.writeInt("ssh-rsa".getBytes().length);
-                dos.write("ssh-rsa".getBytes());
+                dos.writeInt("ssh-rsa".getBytes(StandardCharsets.US_ASCII).length);
+                dos.write("ssh-rsa".getBytes(StandardCharsets.US_ASCII));
                 dos.writeInt(rsaPublicKey.getPublicExponent().toByteArray().length);
                 dos.write(rsaPublicKey.getPublicExponent().toByteArray());
                 dos.writeInt(rsaPublicKey.getModulus().toByteArray().length);

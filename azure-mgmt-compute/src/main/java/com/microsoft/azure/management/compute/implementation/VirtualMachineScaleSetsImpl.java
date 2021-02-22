@@ -30,6 +30,7 @@ import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -178,6 +179,25 @@ public class VirtualMachineScaleSetsImpl
                     }
                 }
         );
+    }
+
+    @Override
+    public void deleteInstances(String groupName, String scaleSetName, Collection<String> instanceIds, boolean forceDeletion) {
+        this.manager().inner().virtualMachineScaleSets().deleteInstances(groupName, scaleSetName,
+                new ArrayList<>(instanceIds), forceDeletion);
+    }
+
+    @Override
+    public Completable deleteInstancesAsync(String groupName, String scaleSetName, Collection<String> instanceIds, boolean forceDeletion) {
+        return this.manager().inner().virtualMachineScaleSets().deleteInstancesAsync(groupName, scaleSetName,
+                new ArrayList<>(instanceIds), forceDeletion).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteInstancesAsync(String groupName, String scaleSetName, Collection<String> instanceIds, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return this.manager().inner().virtualMachineScaleSets().deleteInstancesAsync(groupName, scaleSetName,
+                new ArrayList<>(instanceIds), forceDeletion,
+                callback);
     }
 
     @Override

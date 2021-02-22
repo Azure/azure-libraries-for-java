@@ -319,6 +319,25 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public void deleteInstances(Collection<String> instanceIds, boolean forceDeletion) {
+        this.manager().virtualMachineScaleSets().deleteInstances(this.resourceGroupName(), this.name(),
+                new ArrayList<>(instanceIds), forceDeletion);
+    }
+
+    @Override
+    public Completable deleteInstancesAsync(Collection<String> instanceIds, boolean forceDeletion) {
+        return this.manager().virtualMachineScaleSets().deleteInstancesAsync(this.resourceGroupName(), this.name(),
+                new ArrayList<>(instanceIds), forceDeletion);
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteInstancesAsync(Collection<String> instanceIds, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return this.manager().virtualMachineScaleSets().deleteInstancesAsync(this.resourceGroupName(), this.name(),
+                new ArrayList<>(instanceIds), forceDeletion,
+                callback);
+    }
+
+    @Override
     public String computerNamePrefix() {
         return this.inner().virtualMachineProfile().osProfile().computerNamePrefix();
     }

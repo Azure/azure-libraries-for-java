@@ -33,6 +33,7 @@ import rx.Completable;
 import rx.Observable;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -216,6 +217,33 @@ public interface VirtualMachineScaleSet extends
      * @return handle to the asynchronous execution
      */
     Observable<RunCommandResult> runCommandVMInstanceAsync(String vmId, RunCommandInput inputCommand);
+
+    /**
+     * Delete virtual machine instances.
+     *
+     * @param instanceIds instance IDs
+     * @param forceDeletion force delete without graceful shutdown
+     */
+    void deleteInstances(Collection<String> instanceIds, boolean forceDeletion);
+
+    /**
+     * Delete virtual machine instances.
+     *
+     * @param instanceIds instance IDs
+     * @param forceDeletion force delete without graceful shutdown
+     * @return a representation of the deferred computation of this call
+     */
+    Completable deleteInstancesAsync(Collection<String> instanceIds, boolean forceDeletion);
+
+    /**
+     * Delete virtual machine instances.
+     *
+     * @param instanceIds instance IDs
+     * @param forceDeletion force delete without graceful shutdown
+     * @param callback the callback to call on success or failure
+     * @return a handle to cancel the request
+     */
+    ServiceFuture<Void> deleteInstancesAsync(Collection<String> instanceIds, boolean forceDeletion, ServiceCallback<Void> callback);
 
     // Getters
     //

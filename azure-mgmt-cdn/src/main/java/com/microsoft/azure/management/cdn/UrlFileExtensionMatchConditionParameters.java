@@ -49,7 +49,6 @@ public class UrlFileExtensionMatchConditionParameters {
 
     /**
      * Creates an instance of UrlFileExtensionMatchConditionParameters class.
-     * @param operator describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'RegEx'.
      */
     public UrlFileExtensionMatchConditionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionMatchConditionParameters";

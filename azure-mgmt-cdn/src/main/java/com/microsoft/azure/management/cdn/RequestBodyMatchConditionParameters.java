@@ -49,7 +49,6 @@ public class RequestBodyMatchConditionParameters {
 
     /**
      * Creates an instance of RequestBodyMatchConditionParameters class.
-     * @param operator describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'RegEx'.
      */
     public RequestBodyMatchConditionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestBodyConditionParameters";

@@ -30,7 +30,6 @@ public class CdnCertificateSourceParameters {
 
     /**
      * Creates an instance of CdnCertificateSourceParameters class.
-     * @param certificateType type of certificate used. Possible values include: 'Shared', 'Dedicated'.
      */
     public CdnCertificateSourceParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.CdnCertificateSourceParameters";

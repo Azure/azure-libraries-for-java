@@ -35,7 +35,6 @@ public class CacheKeyQueryStringActionParameters {
 
     /**
      * Creates an instance of CacheKeyQueryStringActionParameters class.
-     * @param queryStringBehavior caching behavior for the requests. Possible values include: 'Include', 'IncludeAll', 'Exclude', 'ExcludeAll'.
      */
     public CacheKeyQueryStringActionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleCacheKeyQueryStringBehaviorActionParameters";

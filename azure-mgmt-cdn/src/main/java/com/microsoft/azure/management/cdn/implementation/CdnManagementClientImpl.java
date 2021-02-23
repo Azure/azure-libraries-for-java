@@ -11,8 +11,6 @@ package com.microsoft.azure.management.cdn.implementation;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureClient;
 import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.azure.LongRunningFinalState;
-import com.microsoft.azure.LongRunningOperationOptions;
 import com.microsoft.azure.management.cdn.CheckNameAvailabilityInput;
 import com.microsoft.azure.management.cdn.ErrorResponseException;
 import com.microsoft.azure.management.cdn.ValidateProbeInput;

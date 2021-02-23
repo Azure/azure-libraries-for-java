@@ -28,7 +28,6 @@ public class CheckNameAvailabilityInput {
 
     /**
      * Creates an instance of CheckNameAvailabilityInput class.
-     * @param name the resource name to validate.
      */
     public CheckNameAvailabilityInput() {
         type = "Microsoft.Cdn/Profiles/Endpoints";

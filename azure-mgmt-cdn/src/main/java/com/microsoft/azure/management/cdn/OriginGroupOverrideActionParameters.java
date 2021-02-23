@@ -28,7 +28,6 @@ public class OriginGroupOverrideActionParameters {
 
     /**
      * Creates an instance of OriginGroupOverrideActionParameters class.
-     * @param originGroup defines the OriginGroup that would override the DefaultOriginGroup.
      */
     public OriginGroupOverrideActionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleOriginGroupOverrideActionParameters";

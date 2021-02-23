@@ -49,7 +49,6 @@ public class RequestUriMatchConditionParameters {
 
     /**
      * Creates an instance of RequestUriMatchConditionParameters class.
-     * @param operator describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'RegEx'.
      */
     public RequestUriMatchConditionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestUriConditionParameters";

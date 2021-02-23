@@ -55,7 +55,6 @@ public class CookiesMatchConditionParameters {
 
     /**
      * Creates an instance of CookiesMatchConditionParameters class.
-     * @param operator describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'RegEx'.
      */
     public CookiesMatchConditionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleCookiesConditionParameters";

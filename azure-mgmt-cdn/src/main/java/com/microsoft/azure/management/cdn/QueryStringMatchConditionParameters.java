@@ -49,7 +49,6 @@ public class QueryStringMatchConditionParameters {
 
     /**
      * Creates an instance of QueryStringMatchConditionParameters class.
-     * @param operator describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'RegEx'.
      */
     public QueryStringMatchConditionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleQueryStringConditionParameters";

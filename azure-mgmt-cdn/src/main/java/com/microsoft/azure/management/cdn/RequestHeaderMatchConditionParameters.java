@@ -55,7 +55,6 @@ public class RequestHeaderMatchConditionParameters {
 
     /**
      * Creates an instance of RequestHeaderMatchConditionParameters class.
-     * @param operator describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'RegEx'.
      */
     public RequestHeaderMatchConditionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestHeaderConditionParameters";

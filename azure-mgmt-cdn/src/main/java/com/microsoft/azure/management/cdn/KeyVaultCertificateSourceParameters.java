@@ -68,10 +68,6 @@ public class KeyVaultCertificateSourceParameters {
 
     /**
      * Creates an instance of KeyVaultCertificateSourceParameters class.
-     * @param subscriptionId subscription Id of the user's Key Vault containing the SSL certificate.
-     * @param resourceGroupName resource group of the user's Key Vault containing the SSL certificate.
-     * @param vaultName the name of the user's Key Vault containing the SSL certificate.
-     * @param secretName the name of Key Vault Secret (representing the full certificate PFX) in Key Vault.
      */
     public KeyVaultCertificateSourceParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.KeyVaultCertificateSourceParameters";

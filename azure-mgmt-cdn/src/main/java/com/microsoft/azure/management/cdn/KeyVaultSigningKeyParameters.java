@@ -52,12 +52,6 @@ public class KeyVaultSigningKeyParameters {
 
     /**
      * Creates an instance of KeyVaultSigningKeyParameters class.
-     * @param subscriptionId subscription Id of the user's Key Vault containing the secret.
-     * @param resourceGroupName resource group of the user's Key Vault containing the secret.
-     * @param vaultName the name of the user's Key Vault containing the secret.
-     * @param secretName the name of secret in Key Vault.
-     * @param secretVersion the version(GUID) of secret in Key Vault.
-     */
     public KeyVaultSigningKeyParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.KeyVaultSigningKeyParameters";
     }

@@ -55,7 +55,6 @@ public class PostArgsMatchConditionParameters {
 
     /**
      * Creates an instance of PostArgsMatchConditionParameters class.
-     * @param operator describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'RegEx'.
      */
     public PostArgsMatchConditionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRulePostArgsConditionParameters";

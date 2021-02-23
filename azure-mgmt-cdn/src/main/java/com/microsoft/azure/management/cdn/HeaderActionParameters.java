@@ -41,8 +41,6 @@ public class HeaderActionParameters {
 
     /**
      * Creates an instance of HeaderActionParameters class.
-     * @param headerAction action to perform. Possible values include: 'Append', 'Overwrite', 'Delete'.
-     * @param headerName name of the header to modify.
      */
     public HeaderActionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleHeaderActionParameters";

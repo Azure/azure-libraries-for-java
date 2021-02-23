@@ -205,7 +205,12 @@ public class LogAnalyticsInner {
         final List<LogMetricsGroupBy> groupBy = null;
         final List<String> continents = null;
         final List<String> countryOrRegions = null;
-        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);String groupByConverted = this.client.serializerAdapter().serializeList(groupBy, CollectionFormat.MULTI);String continentsConverted = this.client.serializerAdapter().serializeList(continents, CollectionFormat.MULTI);String countryOrRegionsConverted = this.client.serializerAdapter().serializeList(countryOrRegions, CollectionFormat.MULTI);String customDomainsConverted = this.client.serializerAdapter().serializeList(customDomains, CollectionFormat.MULTI);String protocolsConverted = this.client.serializerAdapter().serializeList(protocols, CollectionFormat.MULTI);
+        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);
+        String groupByConverted = this.client.serializerAdapter().serializeList(groupBy, CollectionFormat.MULTI);
+        String continentsConverted = this.client.serializerAdapter().serializeList(continents, CollectionFormat.MULTI);
+        String countryOrRegionsConverted = this.client.serializerAdapter().serializeList(countryOrRegions, CollectionFormat.MULTI);
+        String customDomainsConverted = this.client.serializerAdapter().serializeList(customDomains, CollectionFormat.MULTI);
+        String protocolsConverted = this.client.serializerAdapter().serializeList(protocols, CollectionFormat.MULTI);
         return service.getLogAnalyticsMetrics(this.client.subscriptionId(), resourceGroupName, profileName, this.client.apiVersion(), metricsConverted, dateTimeBegin, dateTimeEnd, granularity, groupByConverted, continentsConverted, countryOrRegionsConverted, customDomainsConverted, protocolsConverted, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<MetricsResponseInner>>>() {
                 @Override
@@ -345,7 +350,12 @@ public class LogAnalyticsInner {
         Validator.validate(countryOrRegions);
         Validator.validate(customDomains);
         Validator.validate(protocols);
-        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);String groupByConverted = this.client.serializerAdapter().serializeList(groupBy, CollectionFormat.MULTI);String continentsConverted = this.client.serializerAdapter().serializeList(continents, CollectionFormat.MULTI);String countryOrRegionsConverted = this.client.serializerAdapter().serializeList(countryOrRegions, CollectionFormat.MULTI);String customDomainsConverted = this.client.serializerAdapter().serializeList(customDomains, CollectionFormat.MULTI);String protocolsConverted = this.client.serializerAdapter().serializeList(protocols, CollectionFormat.MULTI);
+        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);
+        String groupByConverted = this.client.serializerAdapter().serializeList(groupBy, CollectionFormat.MULTI);
+        String continentsConverted = this.client.serializerAdapter().serializeList(continents, CollectionFormat.MULTI);
+        String countryOrRegionsConverted = this.client.serializerAdapter().serializeList(countryOrRegions, CollectionFormat.MULTI);
+        String customDomainsConverted = this.client.serializerAdapter().serializeList(customDomains, CollectionFormat.MULTI);
+        String protocolsConverted = this.client.serializerAdapter().serializeList(protocols, CollectionFormat.MULTI);
         return service.getLogAnalyticsMetrics(this.client.subscriptionId(), resourceGroupName, profileName, this.client.apiVersion(), metricsConverted, dateTimeBegin, dateTimeEnd, granularity, groupByConverted, continentsConverted, countryOrRegionsConverted, customDomainsConverted, protocolsConverted, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<MetricsResponseInner>>>() {
                 @Override
@@ -467,7 +477,9 @@ public class LogAnalyticsInner {
         Validator.validate(rankings);
         Validator.validate(metrics);
         final List<String> customDomains = null;
-        String rankingsConverted = this.client.serializerAdapter().serializeList(rankings, CollectionFormat.MULTI);String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);String customDomainsConverted = this.client.serializerAdapter().serializeList(customDomains, CollectionFormat.MULTI);
+        String rankingsConverted = this.client.serializerAdapter().serializeList(rankings, CollectionFormat.MULTI);
+        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);
+        String customDomainsConverted = this.client.serializerAdapter().serializeList(customDomains, CollectionFormat.MULTI);
         return service.getLogAnalyticsRankings(this.client.subscriptionId(), resourceGroupName, profileName, this.client.apiVersion(), rankingsConverted, metricsConverted, maxRanking, dateTimeBegin, dateTimeEnd, customDomainsConverted, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RankingsResponseInner>>>() {
                 @Override
@@ -586,7 +598,9 @@ public class LogAnalyticsInner {
         Validator.validate(rankings);
         Validator.validate(metrics);
         Validator.validate(customDomains);
-        String rankingsConverted = this.client.serializerAdapter().serializeList(rankings, CollectionFormat.MULTI);String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);String customDomainsConverted = this.client.serializerAdapter().serializeList(customDomains, CollectionFormat.MULTI);
+        String rankingsConverted = this.client.serializerAdapter().serializeList(rankings, CollectionFormat.MULTI);
+        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);
+        String customDomainsConverted = this.client.serializerAdapter().serializeList(customDomains, CollectionFormat.MULTI);
         return service.getLogAnalyticsRankings(this.client.subscriptionId(), resourceGroupName, profileName, this.client.apiVersion(), rankingsConverted, metricsConverted, maxRanking, dateTimeBegin, dateTimeEnd, customDomainsConverted, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RankingsResponseInner>>>() {
                 @Override
@@ -877,7 +891,10 @@ public class LogAnalyticsInner {
         final List<WafAction> actions = null;
         final List<WafRankingGroupBy> groupBy = null;
         final List<WafRuleType> ruleTypes = null;
-        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);String actionsConverted = this.client.serializerAdapter().serializeList(actions, CollectionFormat.MULTI);String groupByConverted = this.client.serializerAdapter().serializeList(groupBy, CollectionFormat.MULTI);String ruleTypesConverted = this.client.serializerAdapter().serializeList(ruleTypes, CollectionFormat.MULTI);
+        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);
+        String actionsConverted = this.client.serializerAdapter().serializeList(actions, CollectionFormat.MULTI);
+        String groupByConverted = this.client.serializerAdapter().serializeList(groupBy, CollectionFormat.MULTI);
+        String ruleTypesConverted = this.client.serializerAdapter().serializeList(ruleTypes, CollectionFormat.MULTI);
         return service.getWafLogAnalyticsMetrics(this.client.subscriptionId(), resourceGroupName, profileName, this.client.apiVersion(), metricsConverted, dateTimeBegin, dateTimeEnd, granularity, actionsConverted, groupByConverted, ruleTypesConverted, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WafMetricsResponseInner>>>() {
                 @Override
@@ -1001,7 +1018,10 @@ public class LogAnalyticsInner {
         Validator.validate(actions);
         Validator.validate(groupBy);
         Validator.validate(ruleTypes);
-        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);String actionsConverted = this.client.serializerAdapter().serializeList(actions, CollectionFormat.MULTI);String groupByConverted = this.client.serializerAdapter().serializeList(groupBy, CollectionFormat.MULTI);String ruleTypesConverted = this.client.serializerAdapter().serializeList(ruleTypes, CollectionFormat.MULTI);
+        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);
+        String actionsConverted = this.client.serializerAdapter().serializeList(actions, CollectionFormat.MULTI);
+        String groupByConverted = this.client.serializerAdapter().serializeList(groupBy, CollectionFormat.MULTI);
+        String ruleTypesConverted = this.client.serializerAdapter().serializeList(ruleTypes, CollectionFormat.MULTI);
         return service.getWafLogAnalyticsMetrics(this.client.subscriptionId(), resourceGroupName, profileName, this.client.apiVersion(), metricsConverted, dateTimeBegin, dateTimeEnd, granularity, actionsConverted, groupByConverted, ruleTypesConverted, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WafMetricsResponseInner>>>() {
                 @Override
@@ -1124,7 +1144,10 @@ public class LogAnalyticsInner {
         Validator.validate(rankings);
         final List<WafAction> actions = null;
         final List<WafRuleType> ruleTypes = null;
-        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);String rankingsConverted = this.client.serializerAdapter().serializeList(rankings, CollectionFormat.MULTI);String actionsConverted = this.client.serializerAdapter().serializeList(actions, CollectionFormat.MULTI);String ruleTypesConverted = this.client.serializerAdapter().serializeList(ruleTypes, CollectionFormat.MULTI);
+        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);
+        String rankingsConverted = this.client.serializerAdapter().serializeList(rankings, CollectionFormat.MULTI);
+        String actionsConverted = this.client.serializerAdapter().serializeList(actions, CollectionFormat.MULTI);
+        String ruleTypesConverted = this.client.serializerAdapter().serializeList(ruleTypes, CollectionFormat.MULTI);
         return service.getWafLogAnalyticsRankings(this.client.subscriptionId(), resourceGroupName, profileName, this.client.apiVersion(), metricsConverted, dateTimeBegin, dateTimeEnd, maxRanking, rankingsConverted, actionsConverted, ruleTypesConverted, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WafRankingsResponseInner>>>() {
                 @Override
@@ -1248,7 +1271,10 @@ public class LogAnalyticsInner {
         Validator.validate(rankings);
         Validator.validate(actions);
         Validator.validate(ruleTypes);
-        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);String rankingsConverted = this.client.serializerAdapter().serializeList(rankings, CollectionFormat.MULTI);String actionsConverted = this.client.serializerAdapter().serializeList(actions, CollectionFormat.MULTI);String ruleTypesConverted = this.client.serializerAdapter().serializeList(ruleTypes, CollectionFormat.MULTI);
+        String metricsConverted = this.client.serializerAdapter().serializeList(metrics, CollectionFormat.MULTI);
+        String rankingsConverted = this.client.serializerAdapter().serializeList(rankings, CollectionFormat.MULTI);
+        String actionsConverted = this.client.serializerAdapter().serializeList(actions, CollectionFormat.MULTI);
+        String ruleTypesConverted = this.client.serializerAdapter().serializeList(ruleTypes, CollectionFormat.MULTI);
         return service.getWafLogAnalyticsRankings(this.client.subscriptionId(), resourceGroupName, profileName, this.client.apiVersion(), metricsConverted, dateTimeBegin, dateTimeEnd, maxRanking, rankingsConverted, actionsConverted, ruleTypesConverted, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<WafRankingsResponseInner>>>() {
                 @Override

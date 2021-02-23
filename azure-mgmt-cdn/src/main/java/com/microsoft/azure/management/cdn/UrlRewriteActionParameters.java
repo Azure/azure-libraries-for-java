@@ -42,8 +42,6 @@ public class UrlRewriteActionParameters {
 
     /**
      * Creates an instance of UrlRewriteActionParameters class.
-     * @param sourcePattern define a request URI pattern that identifies the type of requests that may be rewritten. If value is blank, all strings are matched.
-     * @param destination define the relative URL to which the above requests will be rewritten by.
      */
     public UrlRewriteActionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlRewriteActionParameters";

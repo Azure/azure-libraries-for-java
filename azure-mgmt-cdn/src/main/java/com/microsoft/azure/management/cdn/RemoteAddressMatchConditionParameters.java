@@ -50,7 +50,6 @@ public class RemoteAddressMatchConditionParameters {
 
     /**
      * Creates an instance of RemoteAddressMatchConditionParameters class.
-     * @param operator describes operator to be matched. Possible values include: 'Any', 'IPMatch', 'GeoMatch'.
      */
     public RemoteAddressMatchConditionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleRemoteAddressConditionParameters";

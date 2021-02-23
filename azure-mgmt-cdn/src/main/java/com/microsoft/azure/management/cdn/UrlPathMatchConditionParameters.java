@@ -50,7 +50,6 @@ public class UrlPathMatchConditionParameters {
 
     /**
      * Creates an instance of UrlPathMatchConditionParameters class.
-     * @param operator describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'Wildcard', 'RegEx'.
      */
     public UrlPathMatchConditionParameters() {
         odatatype = "#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathMatchConditionParameters";

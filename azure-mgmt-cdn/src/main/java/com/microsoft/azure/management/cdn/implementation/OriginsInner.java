@@ -13,6 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.cdn.ErrorResponseException;
+import com.microsoft.azure.management.cdn.OriginUpdateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -26,8 +27,10 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.HTTP;
 import retrofit2.http.PATCH;
 import retrofit2.http.Path;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import retrofit2.Response;
@@ -68,13 +71,29 @@ public class OriginsInner {
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}")
         Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins create" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}")
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginInner origin, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins beginCreate" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}")
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginInner origin, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginUpdateParametersInner originUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginUpdateParameters originUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginUpdateParametersInner originUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginUpdateParameters originUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins delete" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins beginDelete" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> beginDelete(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins listByEndpointNext" })
         @GET
@@ -314,6 +333,207 @@ public class OriginsInner {
     }
 
     /**
+     * Creates a new origin within the specified endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin that is unique within the endpoint.
+     * @param origin Origin properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the OriginInner object if successful.
+     */
+    public OriginInner create(String resourceGroupName, String profileName, String endpointName, String originName, OriginInner origin) {
+        return createWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, origin).toBlocking().last().body();
+    }
+
+    /**
+     * Creates a new origin within the specified endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin that is unique within the endpoint.
+     * @param origin Origin properties
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<OriginInner> createAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginInner origin, final ServiceCallback<OriginInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, origin), serviceCallback);
+    }
+
+    /**
+     * Creates a new origin within the specified endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin that is unique within the endpoint.
+     * @param origin Origin properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<OriginInner> createAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginInner origin) {
+        return createWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, origin).map(new Func1<ServiceResponse<OriginInner>, OriginInner>() {
+            @Override
+            public OriginInner call(ServiceResponse<OriginInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Creates a new origin within the specified endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin that is unique within the endpoint.
+     * @param origin Origin properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<OriginInner>> createWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginInner origin) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (profileName == null) {
+            throw new IllegalArgumentException("Parameter profileName is required and cannot be null.");
+        }
+        if (endpointName == null) {
+            throw new IllegalArgumentException("Parameter endpointName is required and cannot be null.");
+        }
+        if (originName == null) {
+            throw new IllegalArgumentException("Parameter originName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (origin == null) {
+            throw new IllegalArgumentException("Parameter origin is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(origin);
+        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, profileName, endpointName, originName, this.client.subscriptionId(), origin, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<OriginInner>() { }.getType());
+    }
+
+    /**
+     * Creates a new origin within the specified endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin that is unique within the endpoint.
+     * @param origin Origin properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the OriginInner object if successful.
+     */
+    public OriginInner beginCreate(String resourceGroupName, String profileName, String endpointName, String originName, OriginInner origin) {
+        return beginCreateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, origin).toBlocking().single().body();
+    }
+
+    /**
+     * Creates a new origin within the specified endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin that is unique within the endpoint.
+     * @param origin Origin properties
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<OriginInner> beginCreateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginInner origin, final ServiceCallback<OriginInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, origin), serviceCallback);
+    }
+
+    /**
+     * Creates a new origin within the specified endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin that is unique within the endpoint.
+     * @param origin Origin properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the OriginInner object
+     */
+    public Observable<OriginInner> beginCreateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginInner origin) {
+        return beginCreateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, origin).map(new Func1<ServiceResponse<OriginInner>, OriginInner>() {
+            @Override
+            public OriginInner call(ServiceResponse<OriginInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Creates a new origin within the specified endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin that is unique within the endpoint.
+     * @param origin Origin properties
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the OriginInner object
+     */
+    public Observable<ServiceResponse<OriginInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginInner origin) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (profileName == null) {
+            throw new IllegalArgumentException("Parameter profileName is required and cannot be null.");
+        }
+        if (endpointName == null) {
+            throw new IllegalArgumentException("Parameter endpointName is required and cannot be null.");
+        }
+        if (originName == null) {
+            throw new IllegalArgumentException("Parameter originName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (origin == null) {
+            throw new IllegalArgumentException("Parameter origin is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(origin);
+        return service.beginCreate(resourceGroupName, profileName, endpointName, originName, this.client.subscriptionId(), origin, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<OriginInner>>>() {
+                @Override
+                public Observable<ServiceResponse<OriginInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<OriginInner> clientResponse = beginCreateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<OriginInner> beginCreateDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<OriginInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<OriginInner>() { }.getType())
+                .register(201, new TypeToken<OriginInner>() { }.getType())
+                .register(202, new TypeToken<OriginInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
      * Updates an existing origin within an endpoint.
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -326,7 +546,7 @@ public class OriginsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OriginInner object if successful.
      */
-    public OriginInner update(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public OriginInner update(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         return updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties).toBlocking().last().body();
     }
 
@@ -342,7 +562,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OriginInner> updateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties, final ServiceCallback<OriginInner> serviceCallback) {
+    public ServiceFuture<OriginInner> updateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties, final ServiceCallback<OriginInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties), serviceCallback);
     }
 
@@ -357,7 +577,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<OriginInner> updateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public Observable<OriginInner> updateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         return updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties).map(new Func1<ServiceResponse<OriginInner>, OriginInner>() {
             @Override
             public OriginInner call(ServiceResponse<OriginInner> response) {
@@ -377,7 +597,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<OriginInner>> updateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public Observable<ServiceResponse<OriginInner>> updateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -417,7 +637,7 @@ public class OriginsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OriginInner object if successful.
      */
-    public OriginInner beginUpdate(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public OriginInner beginUpdate(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties).toBlocking().single().body();
     }
 
@@ -433,7 +653,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OriginInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties, final ServiceCallback<OriginInner> serviceCallback) {
+    public ServiceFuture<OriginInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties, final ServiceCallback<OriginInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties), serviceCallback);
     }
 
@@ -448,7 +668,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OriginInner object
      */
-    public Observable<OriginInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public Observable<OriginInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties).map(new Func1<ServiceResponse<OriginInner>, OriginInner>() {
             @Override
             public OriginInner call(ServiceResponse<OriginInner> response) {
@@ -468,7 +688,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OriginInner object
      */
-    public Observable<ServiceResponse<OriginInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public Observable<ServiceResponse<OriginInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -509,6 +729,188 @@ public class OriginsInner {
         return this.client.restClient().responseBuilderFactory().<OriginInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<OriginInner>() { }.getType())
                 .register(202, new TypeToken<OriginInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Deletes an existing origin within an endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin which is unique within the endpoint.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void delete(String resourceGroupName, String profileName, String endpointName, String originName) {
+        deleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName).toBlocking().last().body();
+    }
+
+    /**
+     * Deletes an existing origin within an endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin which is unique within the endpoint.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String profileName, String endpointName, String originName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName), serviceCallback);
+    }
+
+    /**
+     * Deletes an existing origin within an endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin which is unique within the endpoint.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> deleteAsync(String resourceGroupName, String profileName, String endpointName, String originName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Deletes an existing origin within an endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin which is unique within the endpoint.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (profileName == null) {
+            throw new IllegalArgumentException("Parameter profileName is required and cannot be null.");
+        }
+        if (endpointName == null) {
+            throw new IllegalArgumentException("Parameter endpointName is required and cannot be null.");
+        }
+        if (originName == null) {
+            throw new IllegalArgumentException("Parameter originName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, profileName, endpointName, originName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Deletes an existing origin within an endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin which is unique within the endpoint.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginDelete(String resourceGroupName, String profileName, String endpointName, String originName) {
+        beginDeleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName).toBlocking().single().body();
+    }
+
+    /**
+     * Deletes an existing origin within an endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin which is unique within the endpoint.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String profileName, String endpointName, String originName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName), serviceCallback);
+    }
+
+    /**
+     * Deletes an existing origin within an endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin which is unique within the endpoint.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginDeleteAsync(String resourceGroupName, String profileName, String endpointName, String originName) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Deletes an existing origin within an endpoint.
+     *
+     * @param resourceGroupName Name of the Resource group within the Azure subscription.
+     * @param profileName Name of the CDN profile which is unique within the resource group.
+     * @param endpointName Name of the endpoint under the profile which is unique globally.
+     * @param originName Name of the origin which is unique within the endpoint.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (profileName == null) {
+            throw new IllegalArgumentException("Parameter profileName is required and cannot be null.");
+        }
+        if (endpointName == null) {
+            throw new IllegalArgumentException("Parameter endpointName is required and cannot be null.");
+        }
+        if (originName == null) {
+            throw new IllegalArgumentException("Parameter originName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.beginDelete(resourceGroupName, profileName, endpointName, originName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginDeleteDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }

@@ -34,7 +34,7 @@ public class IpAddressGroup {
     private List<CidrIpAddress> ipv6Addresses;
 
     /**
-     * Get the deliveryRegion value.
+     * Get the delivery region of the ip address group.
      *
      * @return the deliveryRegion value
      */
@@ -43,7 +43,7 @@ public class IpAddressGroup {
     }
 
     /**
-     * Set the deliveryRegion value.
+     * Set the delivery region of the ip address group.
      *
      * @param deliveryRegion the deliveryRegion value to set
      * @return the IpAddressGroup object itself.
@@ -54,7 +54,7 @@ public class IpAddressGroup {
     }
 
     /**
-     * Get the ipv4Addresses value.
+     * Get the list of ip v4 addresses.
      *
      * @return the ipv4Addresses value
      */
@@ -63,7 +63,7 @@ public class IpAddressGroup {
     }
 
     /**
-     * Set the ipv4Addresses value.
+     * Set the list of ip v4 addresses.
      *
      * @param ipv4Addresses the ipv4Addresses value to set
      * @return the IpAddressGroup object itself.
@@ -74,7 +74,7 @@ public class IpAddressGroup {
     }
 
     /**
-     * Get the ipv6Addresses value.
+     * Get the list of ip v6 addresses.
      *
      * @return the ipv6Addresses value
      */
@@ -83,7 +83,7 @@ public class IpAddressGroup {
     }
 
     /**
-     * Set the ipv6Addresses value.
+     * Set the list of ip v6 addresses.
      *
      * @param ipv6Addresses the ipv6Addresses value to set
      * @return the IpAddressGroup object itself.

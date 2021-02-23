@@ -80,11 +80,12 @@ public class TestCdn extends TestTemplate<CdnProfile, CdnProfiles> {
             Assert.assertEquals("endpoint", usage.resourceType());
         }
 
-        for( CdnEndpoint ep : cdnProfile.endpoints().values()) {
+        for (CdnEndpoint ep : cdnProfile.endpoints().values()) {
             for (ResourceUsage usage : ep.listResourceUsage()) {
                 Assert.assertNotNull(usage);
                 Assert.assertTrue("customdomain".equals(usage.resourceType())
-                                    || "geofilter".equals(usage.resourceType()));
+                        || "geofilter".equals(usage.resourceType())
+                        || "deliveryrule".equals(usage.resourceType()));
             }
         }
         return cdnProfile;

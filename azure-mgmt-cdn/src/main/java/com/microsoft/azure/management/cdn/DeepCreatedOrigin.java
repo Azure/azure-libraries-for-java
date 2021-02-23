@@ -17,14 +17,14 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class DeepCreatedOrigin {
     /**
-     * Origin name.
+     * Origin name which must be unique within the endpoint.
      */
     @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
      * The address of the origin. It can be a domain name, IPv4 address, or
-     * IPv6 address.
+     * IPv6 address. This should be unique across all origins in an endpoint.
      */
     @JsonProperty(value = "properties.hostName", required = true)
     private String hostName;
@@ -42,7 +42,66 @@ public class DeepCreatedOrigin {
     private Integer httpsPort;
 
     /**
-     * Get the name value.
+     * The host header value sent to the origin with each request. If you leave
+     * this blank, the request hostname determines this value. Azure CDN
+     * origins, such as Web Apps, Blob Storage, and Cloud Services require this
+     * host header value to match the origin hostname by default.
+     */
+    @JsonProperty(value = "properties.originHostHeader")
+    private String originHostHeader;
+
+    /**
+     * Priority of origin in given origin group for load balancing. Higher
+     * priorities will not be used for load balancing if any lower priority
+     * origin is healthy.Must be between 1 and 5.
+     */
+    @JsonProperty(value = "properties.priority")
+    private Integer priority;
+
+    /**
+     * Weight of the origin in given origin group for load balancing. Must be
+     * between 1 and 1000.
+     */
+    @JsonProperty(value = "properties.weight")
+    private Integer weight;
+
+    /**
+     * Origin is enabled for load balancing or not. By default, origin is
+     * always enabled.
+     */
+    @JsonProperty(value = "properties.enabled")
+    private Boolean enabled;
+
+    /**
+     * The Alias of the Private Link resource. Populating this optional field
+     * indicates that this origin is 'Private'.
+     */
+    @JsonProperty(value = "properties.privateLinkAlias")
+    private String privateLinkAlias;
+
+    /**
+     * The Resource Id of the Private Link resource. Populating this optional
+     * field indicates that this backend is 'Private'.
+     */
+    @JsonProperty(value = "properties.privateLinkResourceId")
+    private String privateLinkResourceId;
+
+    /**
+     * The location of the Private Link resource. Required only if
+     * 'privateLinkResourceId' is populated.
+     */
+    @JsonProperty(value = "properties.privateLinkLocation")
+    private String privateLinkLocation;
+
+    /**
+     * A custom message to be included in the approval request to connect to
+     * the Private Link.
+     */
+    @JsonProperty(value = "properties.privateLinkApprovalMessage")
+    private String privateLinkApprovalMessage;
+
+    /**
+     * Get origin name which must be unique within the endpoint.
      *
      * @return the name value
      */
@@ -51,7 +110,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Set the name value.
+     * Set origin name which must be unique within the endpoint.
      *
      * @param name the name value to set
      * @return the DeepCreatedOrigin object itself.
@@ -62,7 +121,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Get the hostName value.
+     * Get the address of the origin. It can be a domain name, IPv4 address, or IPv6 address. This should be unique across all origins in an endpoint.
      *
      * @return the hostName value
      */
@@ -71,7 +130,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Set the hostName value.
+     * Set the address of the origin. It can be a domain name, IPv4 address, or IPv6 address. This should be unique across all origins in an endpoint.
      *
      * @param hostName the hostName value to set
      * @return the DeepCreatedOrigin object itself.
@@ -82,7 +141,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Get the httpPort value.
+     * Get the value of the HTTP port. Must be between 1 and 65535.
      *
      * @return the httpPort value
      */
@@ -91,7 +150,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Set the httpPort value.
+     * Set the value of the HTTP port. Must be between 1 and 65535.
      *
      * @param httpPort the httpPort value to set
      * @return the DeepCreatedOrigin object itself.
@@ -102,7 +161,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Get the httpsPort value.
+     * Get the value of the HTTPS port. Must be between 1 and 65535.
      *
      * @return the httpsPort value
      */
@@ -111,13 +170,173 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Set the httpsPort value.
+     * Set the value of the HTTPS port. Must be between 1 and 65535.
      *
      * @param httpsPort the httpsPort value to set
      * @return the DeepCreatedOrigin object itself.
      */
     public DeepCreatedOrigin withHttpsPort(Integer httpsPort) {
         this.httpsPort = httpsPort;
+        return this;
+    }
+
+    /**
+     * Get the host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
+     *
+     * @return the originHostHeader value
+     */
+    public String originHostHeader() {
+        return this.originHostHeader;
+    }
+
+    /**
+     * Set the host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
+     *
+     * @param originHostHeader the originHostHeader value to set
+     * @return the DeepCreatedOrigin object itself.
+     */
+    public DeepCreatedOrigin withOriginHostHeader(String originHostHeader) {
+        this.originHostHeader = originHostHeader;
+        return this;
+    }
+
+    /**
+     * Get priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5.
+     *
+     * @return the priority value
+     */
+    public Integer priority() {
+        return this.priority;
+    }
+
+    /**
+     * Set priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5.
+     *
+     * @param priority the priority value to set
+     * @return the DeepCreatedOrigin object itself.
+     */
+    public DeepCreatedOrigin withPriority(Integer priority) {
+        this.priority = priority;
+        return this;
+    }
+
+    /**
+     * Get weight of the origin in given origin group for load balancing. Must be between 1 and 1000.
+     *
+     * @return the weight value
+     */
+    public Integer weight() {
+        return this.weight;
+    }
+
+    /**
+     * Set weight of the origin in given origin group for load balancing. Must be between 1 and 1000.
+     *
+     * @param weight the weight value to set
+     * @return the DeepCreatedOrigin object itself.
+     */
+    public DeepCreatedOrigin withWeight(Integer weight) {
+        this.weight = weight;
+        return this;
+    }
+
+    /**
+     * Get origin is enabled for load balancing or not. By default, origin is always enabled.
+     *
+     * @return the enabled value
+     */
+    public Boolean enabled() {
+        return this.enabled;
+    }
+
+    /**
+     * Set origin is enabled for load balancing or not. By default, origin is always enabled.
+     *
+     * @param enabled the enabled value to set
+     * @return the DeepCreatedOrigin object itself.
+     */
+    public DeepCreatedOrigin withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    /**
+     * Get the Alias of the Private Link resource. Populating this optional field indicates that this origin is 'Private'.
+     *
+     * @return the privateLinkAlias value
+     */
+    public String privateLinkAlias() {
+        return this.privateLinkAlias;
+    }
+
+    /**
+     * Set the Alias of the Private Link resource. Populating this optional field indicates that this origin is 'Private'.
+     *
+     * @param privateLinkAlias the privateLinkAlias value to set
+     * @return the DeepCreatedOrigin object itself.
+     */
+    public DeepCreatedOrigin withPrivateLinkAlias(String privateLinkAlias) {
+        this.privateLinkAlias = privateLinkAlias;
+        return this;
+    }
+
+    /**
+     * Get the Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private'.
+     *
+     * @return the privateLinkResourceId value
+     */
+    public String privateLinkResourceId() {
+        return this.privateLinkResourceId;
+    }
+
+    /**
+     * Set the Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private'.
+     *
+     * @param privateLinkResourceId the privateLinkResourceId value to set
+     * @return the DeepCreatedOrigin object itself.
+     */
+    public DeepCreatedOrigin withPrivateLinkResourceId(String privateLinkResourceId) {
+        this.privateLinkResourceId = privateLinkResourceId;
+        return this;
+    }
+
+    /**
+     * Get the location of the Private Link resource. Required only if 'privateLinkResourceId' is populated.
+     *
+     * @return the privateLinkLocation value
+     */
+    public String privateLinkLocation() {
+        return this.privateLinkLocation;
+    }
+
+    /**
+     * Set the location of the Private Link resource. Required only if 'privateLinkResourceId' is populated.
+     *
+     * @param privateLinkLocation the privateLinkLocation value to set
+     * @return the DeepCreatedOrigin object itself.
+     */
+    public DeepCreatedOrigin withPrivateLinkLocation(String privateLinkLocation) {
+        this.privateLinkLocation = privateLinkLocation;
+        return this;
+    }
+
+    /**
+     * Get a custom message to be included in the approval request to connect to the Private Link.
+     *
+     * @return the privateLinkApprovalMessage value
+     */
+    public String privateLinkApprovalMessage() {
+        return this.privateLinkApprovalMessage;
+    }
+
+    /**
+     * Set a custom message to be included in the approval request to connect to the Private Link.
+     *
+     * @param privateLinkApprovalMessage the privateLinkApprovalMessage value to set
+     * @return the DeepCreatedOrigin object itself.
+     */
+    public DeepCreatedOrigin withPrivateLinkApprovalMessage(String privateLinkApprovalMessage) {
+        this.privateLinkApprovalMessage = privateLinkApprovalMessage;
         return this;
     }
 

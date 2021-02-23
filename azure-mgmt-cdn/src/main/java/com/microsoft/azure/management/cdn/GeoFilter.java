@@ -37,7 +37,7 @@ public class GeoFilter {
     private List<String> countryCodes;
 
     /**
-     * Get the relativePath value.
+     * Get relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.).
      *
      * @return the relativePath value
      */
@@ -46,7 +46,7 @@ public class GeoFilter {
     }
 
     /**
-     * Set the relativePath value.
+     * Set relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.).
      *
      * @param relativePath the relativePath value to set
      * @return the GeoFilter object itself.
@@ -57,7 +57,7 @@ public class GeoFilter {
     }
 
     /**
-     * Get the action value.
+     * Get action of the geo filter, i.e. allow or block access. Possible values include: 'Block', 'Allow'.
      *
      * @return the action value
      */
@@ -66,7 +66,7 @@ public class GeoFilter {
     }
 
     /**
-     * Set the action value.
+     * Set action of the geo filter, i.e. allow or block access. Possible values include: 'Block', 'Allow'.
      *
      * @param action the action value to set
      * @return the GeoFilter object itself.
@@ -77,7 +77,7 @@ public class GeoFilter {
     }
 
     /**
-     * Get the countryCodes value.
+     * Get two letter country codes defining user country access in a geo filter, e.g. AU, MX, US.
      *
      * @return the countryCodes value
      */
@@ -86,7 +86,7 @@ public class GeoFilter {
     }
 
     /**
-     * Set the countryCodes value.
+     * Set two letter country codes defining user country access in a geo filter, e.g. AU, MX, US.
      *
      * @param countryCodes the countryCodes value to set
      * @return the GeoFilter object itself.

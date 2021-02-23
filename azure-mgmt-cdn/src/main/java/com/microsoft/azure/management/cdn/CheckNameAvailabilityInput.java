@@ -34,7 +34,7 @@ public class CheckNameAvailabilityInput {
     }
 
     /**
-     * Get the name value.
+     * Get the resource name to validate.
      *
      * @return the name value
      */
@@ -43,7 +43,7 @@ public class CheckNameAvailabilityInput {
     }
 
     /**
-     * Set the name value.
+     * Set the resource name to validate.
      *
      * @param name the name value to set
      * @return the CheckNameAvailabilityInput object itself.
@@ -54,7 +54,7 @@ public class CheckNameAvailabilityInput {
     }
 
     /**
-     * Get the type value.
+     * Get the type of the resource whose name is to be validated.
      *
      * @return the type value
      */
@@ -63,7 +63,7 @@ public class CheckNameAvailabilityInput {
     }
 
     /**
-     * Set the type value.
+     * Set the type of the resource whose name is to be validated.
      *
      * @param type the type value to set
      * @return the CheckNameAvailabilityInput object itself.

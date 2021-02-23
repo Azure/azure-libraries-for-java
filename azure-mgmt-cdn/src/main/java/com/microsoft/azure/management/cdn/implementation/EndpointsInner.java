@@ -12,6 +12,7 @@ import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.cdn.EndpointUpdateParameters;
 import com.microsoft.azure.management.cdn.ErrorResponseException;
 import com.microsoft.azure.management.cdn.LoadParameters;
 import com.microsoft.azure.management.cdn.PurgeParameters;
@@ -84,11 +85,11 @@ public class EndpointsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Endpoints update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("subscriptionId") String subscriptionId, @Body EndpointUpdateParametersInner endpointUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("subscriptionId") String subscriptionId, @Body EndpointUpdateParameters endpointUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Endpoints beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("subscriptionId") String subscriptionId, @Body EndpointUpdateParametersInner endpointUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("subscriptionId") String subscriptionId, @Body EndpointUpdateParameters endpointUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Endpoints delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}", method = "DELETE", hasBody = true)
@@ -552,7 +553,7 @@ public class EndpointsInner {
     }
 
     /**
-     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags and Origin HostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.
+     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -563,12 +564,12 @@ public class EndpointsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
-    public EndpointInner update(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
+    public EndpointInner update(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParameters endpointUpdateProperties) {
         return updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties).toBlocking().last().body();
     }
 
     /**
-     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags and Origin HostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.
+     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -578,12 +579,12 @@ public class EndpointsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<EndpointInner> updateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties, final ServiceCallback<EndpointInner> serviceCallback) {
+    public ServiceFuture<EndpointInner> updateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParameters endpointUpdateProperties, final ServiceCallback<EndpointInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties), serviceCallback);
     }
 
     /**
-     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags and Origin HostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.
+     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -592,7 +593,7 @@ public class EndpointsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<EndpointInner> updateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
+    public Observable<EndpointInner> updateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParameters endpointUpdateProperties) {
         return updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties).map(new Func1<ServiceResponse<EndpointInner>, EndpointInner>() {
             @Override
             public EndpointInner call(ServiceResponse<EndpointInner> response) {
@@ -602,7 +603,7 @@ public class EndpointsInner {
     }
 
     /**
-     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags and Origin HostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.
+     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -611,7 +612,7 @@ public class EndpointsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<EndpointInner>> updateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
+    public Observable<ServiceResponse<EndpointInner>> updateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParameters endpointUpdateProperties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -636,7 +637,7 @@ public class EndpointsInner {
     }
 
     /**
-     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags and Origin HostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.
+     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -647,12 +648,12 @@ public class EndpointsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the EndpointInner object if successful.
      */
-    public EndpointInner beginUpdate(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
+    public EndpointInner beginUpdate(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParameters endpointUpdateProperties) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties).toBlocking().single().body();
     }
 
     /**
-     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags and Origin HostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.
+     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -662,12 +663,12 @@ public class EndpointsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<EndpointInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties, final ServiceCallback<EndpointInner> serviceCallback) {
+    public ServiceFuture<EndpointInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParameters endpointUpdateProperties, final ServiceCallback<EndpointInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties), serviceCallback);
     }
 
     /**
-     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags and Origin HostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.
+     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -676,7 +677,7 @@ public class EndpointsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
-    public Observable<EndpointInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
+    public Observable<EndpointInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParameters endpointUpdateProperties) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, endpointUpdateProperties).map(new Func1<ServiceResponse<EndpointInner>, EndpointInner>() {
             @Override
             public EndpointInner call(ServiceResponse<EndpointInner> response) {
@@ -686,7 +687,7 @@ public class EndpointsInner {
     }
 
     /**
-     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags and Origin HostHeader can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update custom domains, use the Update Custom Domain operation.
+     * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
      *
      * @param resourceGroupName Name of the Resource group within the Azure subscription.
      * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -695,7 +696,7 @@ public class EndpointsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the EndpointInner object
      */
-    public Observable<ServiceResponse<EndpointInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParametersInner endpointUpdateProperties) {
+    public Observable<ServiceResponse<EndpointInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, EndpointUpdateParameters endpointUpdateProperties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

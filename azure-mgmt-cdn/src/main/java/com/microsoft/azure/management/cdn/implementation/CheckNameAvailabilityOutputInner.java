@@ -33,7 +33,7 @@ public class CheckNameAvailabilityOutputInner {
     private String message;
 
     /**
-     * Get the nameAvailable value.
+     * Get indicates whether the name is available.
      *
      * @return the nameAvailable value
      */
@@ -42,7 +42,7 @@ public class CheckNameAvailabilityOutputInner {
     }
 
     /**
-     * Get the reason value.
+     * Get the reason why the name is not available.
      *
      * @return the reason value
      */
@@ -51,7 +51,7 @@ public class CheckNameAvailabilityOutputInner {
     }
 
     /**
-     * Get the message value.
+     * Get the detailed error message describing why the name is not available.
      *
      * @return the message value
      */

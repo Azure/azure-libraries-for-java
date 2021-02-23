@@ -21,7 +21,7 @@ public class ValidateProbeInput {
     private String probeURL;
 
     /**
-     * Get the probeURL value.
+     * Get the probe URL to validate.
      *
      * @return the probeURL value
      */
@@ -30,7 +30,7 @@ public class ValidateProbeInput {
     }
 
     /**
-     * Set the probeURL value.
+     * Set the probe URL to validate.
      *
      * @param probeURL the probeURL value to set
      * @return the ValidateProbeInput object itself.

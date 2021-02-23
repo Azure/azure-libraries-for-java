@@ -23,7 +23,7 @@ public class LoadParameters {
     private List<String> contentPaths;
 
     /**
-     * Get the contentPaths value.
+     * Get the path to the content to be loaded. Path should be a relative file URL of the origin.
      *
      * @return the contentPaths value
      */
@@ -32,7 +32,7 @@ public class LoadParameters {
     }
 
     /**
-     * Set the contentPaths value.
+     * Set the path to the content to be loaded. Path should be a relative file URL of the origin.
      *
      * @param contentPaths the contentPaths value to set
      * @return the LoadParameters object itself.

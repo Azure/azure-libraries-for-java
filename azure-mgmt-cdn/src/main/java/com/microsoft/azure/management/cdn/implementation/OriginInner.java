@@ -9,8 +9,10 @@
 package com.microsoft.azure.management.cdn.implementation;
 
 import com.microsoft.azure.management.cdn.OriginResourceState;
+import com.microsoft.azure.management.cdn.PrivateEndpointStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * CDN origin is the source of the content being delivered via CDN. When the
@@ -18,12 +20,13 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * cached, they attempt to fetch it from one or more of the configured origins.
  */
 @JsonFlatten
-public class OriginInner extends TrackedResourceInner {
+public class OriginInner extends ProxyResource {
     /**
      * The address of the origin. Domain names, IPv4 addresses, and IPv6
-     * addresses are supported.
+     * addresses are supported.This should be unique across all origins in an
+     * endpoint.
      */
-    @JsonProperty(value = "properties.hostName", required = true)
+    @JsonProperty(value = "properties.hostName")
     private String hostName;
 
     /**
@@ -33,10 +36,69 @@ public class OriginInner extends TrackedResourceInner {
     private Integer httpPort;
 
     /**
-     * The value of the https port. Must be between 1 and 65535.
+     * The value of the HTTPS port. Must be between 1 and 65535.
      */
     @JsonProperty(value = "properties.httpsPort")
     private Integer httpsPort;
+
+    /**
+     * The host header value sent to the origin with each request. If you leave
+     * this blank, the request hostname determines this value. Azure CDN
+     * origins, such as Web Apps, Blob Storage, and Cloud Services require this
+     * host header value to match the origin hostname by default. This
+     * overrides the host header defined at Endpoint.
+     */
+    @JsonProperty(value = "properties.originHostHeader")
+    private String originHostHeader;
+
+    /**
+     * Priority of origin in given origin group for load balancing. Higher
+     * priorities will not be used for load balancing if any lower priority
+     * origin is healthy.Must be between 1 and 5.
+     */
+    @JsonProperty(value = "properties.priority")
+    private Integer priority;
+
+    /**
+     * Weight of the origin in given origin group for load balancing. Must be
+     * between 1 and 1000.
+     */
+    @JsonProperty(value = "properties.weight")
+    private Integer weight;
+
+    /**
+     * Origin is enabled for load balancing or not.
+     */
+    @JsonProperty(value = "properties.enabled")
+    private Boolean enabled;
+
+    /**
+     * The Alias of the Private Link resource. Populating this optional field
+     * indicates that this origin is 'Private'.
+     */
+    @JsonProperty(value = "properties.privateLinkAlias")
+    private String privateLinkAlias;
+
+    /**
+     * The Resource Id of the Private Link resource. Populating this optional
+     * field indicates that this backend is 'Private'.
+     */
+    @JsonProperty(value = "properties.privateLinkResourceId")
+    private String privateLinkResourceId;
+
+    /**
+     * The location of the Private Link resource. Required only if
+     * 'privateLinkResourceId' is populated.
+     */
+    @JsonProperty(value = "properties.privateLinkLocation")
+    private String privateLinkLocation;
+
+    /**
+     * A custom message to be included in the approval request to connect to
+     * the Private Link.
+     */
+    @JsonProperty(value = "properties.privateLinkApprovalMessage")
+    private String privateLinkApprovalMessage;
 
     /**
      * Resource status of the origin. Possible values include: 'Creating',
@@ -52,7 +114,15 @@ public class OriginInner extends TrackedResourceInner {
     private String provisioningState;
 
     /**
-     * Get the hostName value.
+     * The approval status for the connection to the Private Link. Possible
+     * values include: 'Pending', 'Approved', 'Rejected', 'Disconnected',
+     * 'Timeout'.
+     */
+    @JsonProperty(value = "properties.privateEndpointStatus", access = JsonProperty.Access.WRITE_ONLY)
+    private PrivateEndpointStatus privateEndpointStatus;
+
+    /**
+     * Get the address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint.
      *
      * @return the hostName value
      */
@@ -61,7 +131,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the hostName value.
+     * Set the address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint.
      *
      * @param hostName the hostName value to set
      * @return the OriginInner object itself.
@@ -72,7 +142,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the httpPort value.
+     * Get the value of the HTTP port. Must be between 1 and 65535.
      *
      * @return the httpPort value
      */
@@ -81,7 +151,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the httpPort value.
+     * Set the value of the HTTP port. Must be between 1 and 65535.
      *
      * @param httpPort the httpPort value to set
      * @return the OriginInner object itself.
@@ -92,7 +162,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the httpsPort value.
+     * Get the value of the HTTPS port. Must be between 1 and 65535.
      *
      * @return the httpsPort value
      */
@@ -101,7 +171,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the httpsPort value.
+     * Set the value of the HTTPS port. Must be between 1 and 65535.
      *
      * @param httpsPort the httpsPort value to set
      * @return the OriginInner object itself.
@@ -112,7 +182,167 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the resourceState value.
+     * Get the host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint.
+     *
+     * @return the originHostHeader value
+     */
+    public String originHostHeader() {
+        return this.originHostHeader;
+    }
+
+    /**
+     * Set the host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint.
+     *
+     * @param originHostHeader the originHostHeader value to set
+     * @return the OriginInner object itself.
+     */
+    public OriginInner withOriginHostHeader(String originHostHeader) {
+        this.originHostHeader = originHostHeader;
+        return this;
+    }
+
+    /**
+     * Get priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5.
+     *
+     * @return the priority value
+     */
+    public Integer priority() {
+        return this.priority;
+    }
+
+    /**
+     * Set priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5.
+     *
+     * @param priority the priority value to set
+     * @return the OriginInner object itself.
+     */
+    public OriginInner withPriority(Integer priority) {
+        this.priority = priority;
+        return this;
+    }
+
+    /**
+     * Get weight of the origin in given origin group for load balancing. Must be between 1 and 1000.
+     *
+     * @return the weight value
+     */
+    public Integer weight() {
+        return this.weight;
+    }
+
+    /**
+     * Set weight of the origin in given origin group for load balancing. Must be between 1 and 1000.
+     *
+     * @param weight the weight value to set
+     * @return the OriginInner object itself.
+     */
+    public OriginInner withWeight(Integer weight) {
+        this.weight = weight;
+        return this;
+    }
+
+    /**
+     * Get origin is enabled for load balancing or not.
+     *
+     * @return the enabled value
+     */
+    public Boolean enabled() {
+        return this.enabled;
+    }
+
+    /**
+     * Set origin is enabled for load balancing or not.
+     *
+     * @param enabled the enabled value to set
+     * @return the OriginInner object itself.
+     */
+    public OriginInner withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    /**
+     * Get the Alias of the Private Link resource. Populating this optional field indicates that this origin is 'Private'.
+     *
+     * @return the privateLinkAlias value
+     */
+    public String privateLinkAlias() {
+        return this.privateLinkAlias;
+    }
+
+    /**
+     * Set the Alias of the Private Link resource. Populating this optional field indicates that this origin is 'Private'.
+     *
+     * @param privateLinkAlias the privateLinkAlias value to set
+     * @return the OriginInner object itself.
+     */
+    public OriginInner withPrivateLinkAlias(String privateLinkAlias) {
+        this.privateLinkAlias = privateLinkAlias;
+        return this;
+    }
+
+    /**
+     * Get the Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private'.
+     *
+     * @return the privateLinkResourceId value
+     */
+    public String privateLinkResourceId() {
+        return this.privateLinkResourceId;
+    }
+
+    /**
+     * Set the Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private'.
+     *
+     * @param privateLinkResourceId the privateLinkResourceId value to set
+     * @return the OriginInner object itself.
+     */
+    public OriginInner withPrivateLinkResourceId(String privateLinkResourceId) {
+        this.privateLinkResourceId = privateLinkResourceId;
+        return this;
+    }
+
+    /**
+     * Get the location of the Private Link resource. Required only if 'privateLinkResourceId' is populated.
+     *
+     * @return the privateLinkLocation value
+     */
+    public String privateLinkLocation() {
+        return this.privateLinkLocation;
+    }
+
+    /**
+     * Set the location of the Private Link resource. Required only if 'privateLinkResourceId' is populated.
+     *
+     * @param privateLinkLocation the privateLinkLocation value to set
+     * @return the OriginInner object itself.
+     */
+    public OriginInner withPrivateLinkLocation(String privateLinkLocation) {
+        this.privateLinkLocation = privateLinkLocation;
+        return this;
+    }
+
+    /**
+     * Get a custom message to be included in the approval request to connect to the Private Link.
+     *
+     * @return the privateLinkApprovalMessage value
+     */
+    public String privateLinkApprovalMessage() {
+        return this.privateLinkApprovalMessage;
+    }
+
+    /**
+     * Set a custom message to be included in the approval request to connect to the Private Link.
+     *
+     * @param privateLinkApprovalMessage the privateLinkApprovalMessage value to set
+     * @return the OriginInner object itself.
+     */
+    public OriginInner withPrivateLinkApprovalMessage(String privateLinkApprovalMessage) {
+        this.privateLinkApprovalMessage = privateLinkApprovalMessage;
+        return this;
+    }
+
+    /**
+     * Get resource status of the origin. Possible values include: 'Creating', 'Active', 'Deleting'.
      *
      * @return the resourceState value
      */
@@ -121,12 +351,21 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get provisioning status of the origin.
      *
      * @return the provisioningState value
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get the approval status for the connection to the Private Link. Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected', 'Timeout'.
+     *
+     * @return the privateEndpointStatus value
+     */
+    public PrivateEndpointStatus privateEndpointStatus() {
+        return this.privateEndpointStatus;
     }
 
 }

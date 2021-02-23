@@ -11,6 +11,8 @@ package com.microsoft.azure.management.cdn.implementation;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureClient;
 import com.microsoft.azure.AzureServiceClient;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 import com.microsoft.azure.management.cdn.CheckNameAvailabilityInput;
 import com.microsoft.azure.management.cdn.ErrorResponseException;
 import com.microsoft.azure.management.cdn.ValidateProbeInput;
@@ -71,11 +73,11 @@ public class CdnManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Version of the API to be used with the client request. Current version is 2017-04-02. */
+    /** Version of the API to be used with the client request. Current version is 2020-09-01. */
     private String apiVersion;
 
     /**
-     * Gets Version of the API to be used with the client request. Current version is 2017-04-02.
+     * Gets Version of the API to be used with the client request. Current version is 2020-09-01.
      *
      * @return the apiVersion value.
      */
@@ -83,11 +85,11 @@ public class CdnManagementClientImpl extends AzureServiceClient {
         return this.apiVersion;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /** The preferred language for the response. */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -96,7 +98,7 @@ public class CdnManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -106,11 +108,11 @@ public class CdnManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -119,7 +121,7 @@ public class CdnManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -129,11 +131,11 @@ public class CdnManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -142,7 +144,7 @@ public class CdnManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
@@ -189,6 +191,19 @@ public class CdnManagementClientImpl extends AzureServiceClient {
      */
     public OriginsInner origins() {
         return this.origins;
+    }
+
+    /**
+     * The OriginGroupsInner object to access its operations.
+     */
+    private OriginGroupsInner originGroups;
+
+    /**
+     * Gets the OriginGroupsInner object to access its operations.
+     * @return the OriginGroupsInner object.
+     */
+    public OriginGroupsInner originGroups() {
+        return this.originGroups;
     }
 
     /**
@@ -244,6 +259,188 @@ public class CdnManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The AFDProfilesInner object to access its operations.
+     */
+    private AFDProfilesInner aFDProfiles;
+
+    /**
+     * Gets the AFDProfilesInner object to access its operations.
+     * @return the AFDProfilesInner object.
+     */
+    public AFDProfilesInner aFDProfiles() {
+        return this.aFDProfiles;
+    }
+
+    /**
+     * The AFDCustomDomainsInner object to access its operations.
+     */
+    private AFDCustomDomainsInner aFDCustomDomains;
+
+    /**
+     * Gets the AFDCustomDomainsInner object to access its operations.
+     * @return the AFDCustomDomainsInner object.
+     */
+    public AFDCustomDomainsInner aFDCustomDomains() {
+        return this.aFDCustomDomains;
+    }
+
+    /**
+     * The AFDEndpointsInner object to access its operations.
+     */
+    private AFDEndpointsInner aFDEndpoints;
+
+    /**
+     * Gets the AFDEndpointsInner object to access its operations.
+     * @return the AFDEndpointsInner object.
+     */
+    public AFDEndpointsInner aFDEndpoints() {
+        return this.aFDEndpoints;
+    }
+
+    /**
+     * The AFDOriginGroupsInner object to access its operations.
+     */
+    private AFDOriginGroupsInner aFDOriginGroups;
+
+    /**
+     * Gets the AFDOriginGroupsInner object to access its operations.
+     * @return the AFDOriginGroupsInner object.
+     */
+    public AFDOriginGroupsInner aFDOriginGroups() {
+        return this.aFDOriginGroups;
+    }
+
+    /**
+     * The AFDOriginsInner object to access its operations.
+     */
+    private AFDOriginsInner aFDOrigins;
+
+    /**
+     * Gets the AFDOriginsInner object to access its operations.
+     * @return the AFDOriginsInner object.
+     */
+    public AFDOriginsInner aFDOrigins() {
+        return this.aFDOrigins;
+    }
+
+    /**
+     * The RoutesInner object to access its operations.
+     */
+    private RoutesInner routes;
+
+    /**
+     * Gets the RoutesInner object to access its operations.
+     * @return the RoutesInner object.
+     */
+    public RoutesInner routes() {
+        return this.routes;
+    }
+
+    /**
+     * The RuleSetsInner object to access its operations.
+     */
+    private RuleSetsInner ruleSets;
+
+    /**
+     * Gets the RuleSetsInner object to access its operations.
+     * @return the RuleSetsInner object.
+     */
+    public RuleSetsInner ruleSets() {
+        return this.ruleSets;
+    }
+
+    /**
+     * The RulesInner object to access its operations.
+     */
+    private RulesInner rules;
+
+    /**
+     * Gets the RulesInner object to access its operations.
+     * @return the RulesInner object.
+     */
+    public RulesInner rules() {
+        return this.rules;
+    }
+
+    /**
+     * The SecurityPoliciesInner object to access its operations.
+     */
+    private SecurityPoliciesInner securityPolicies;
+
+    /**
+     * Gets the SecurityPoliciesInner object to access its operations.
+     * @return the SecurityPoliciesInner object.
+     */
+    public SecurityPoliciesInner securityPolicies() {
+        return this.securityPolicies;
+    }
+
+    /**
+     * The SecretsInner object to access its operations.
+     */
+    private SecretsInner secrets;
+
+    /**
+     * Gets the SecretsInner object to access its operations.
+     * @return the SecretsInner object.
+     */
+    public SecretsInner secrets() {
+        return this.secrets;
+    }
+
+    /**
+     * The ValidatesInner object to access its operations.
+     */
+    private ValidatesInner validates;
+
+    /**
+     * Gets the ValidatesInner object to access its operations.
+     * @return the ValidatesInner object.
+     */
+    public ValidatesInner validates() {
+        return this.validates;
+    }
+
+    /**
+     * The LogAnalyticsInner object to access its operations.
+     */
+    private LogAnalyticsInner logAnalytics;
+
+    /**
+     * Gets the LogAnalyticsInner object to access its operations.
+     * @return the LogAnalyticsInner object.
+     */
+    public LogAnalyticsInner logAnalytics() {
+        return this.logAnalytics;
+    }
+
+    /**
+     * The PoliciesInner object to access its operations.
+     */
+    private PoliciesInner policies;
+
+    /**
+     * Gets the PoliciesInner object to access its operations.
+     * @return the PoliciesInner object.
+     */
+    public PoliciesInner policies() {
+        return this.policies;
+    }
+
+    /**
+     * The ManagedRuleSetsInner object to access its operations.
+     */
+    private ManagedRuleSetsInner managedRuleSets;
+
+    /**
+     * Gets the ManagedRuleSetsInner object to access its operations.
+     * @return the ManagedRuleSetsInner object.
+     */
+    public ManagedRuleSetsInner managedRuleSets() {
+        return this.managedRuleSets;
+    }
+
+    /**
      * Initializes an instance of CdnManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -274,17 +471,32 @@ public class CdnManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2017-10-12";
+        this.apiVersion = "2020-09-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
         this.profiles = new ProfilesInner(restClient().retrofit(), this);
         this.endpoints = new EndpointsInner(restClient().retrofit(), this);
         this.origins = new OriginsInner(restClient().retrofit(), this);
+        this.originGroups = new OriginGroupsInner(restClient().retrofit(), this);
         this.customDomains = new CustomDomainsInner(restClient().retrofit(), this);
         this.resourceUsages = new ResourceUsagesInner(restClient().retrofit(), this);
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.edgeNodes = new EdgeNodesInner(restClient().retrofit(), this);
+        this.aFDProfiles = new AFDProfilesInner(restClient().retrofit(), this);
+        this.aFDCustomDomains = new AFDCustomDomainsInner(restClient().retrofit(), this);
+        this.aFDEndpoints = new AFDEndpointsInner(restClient().retrofit(), this);
+        this.aFDOriginGroups = new AFDOriginGroupsInner(restClient().retrofit(), this);
+        this.aFDOrigins = new AFDOriginsInner(restClient().retrofit(), this);
+        this.routes = new RoutesInner(restClient().retrofit(), this);
+        this.ruleSets = new RuleSetsInner(restClient().retrofit(), this);
+        this.rules = new RulesInner(restClient().retrofit(), this);
+        this.securityPolicies = new SecurityPoliciesInner(restClient().retrofit(), this);
+        this.secrets = new SecretsInner(restClient().retrofit(), this);
+        this.validates = new ValidatesInner(restClient().retrofit(), this);
+        this.logAnalytics = new LogAnalyticsInner(restClient().retrofit(), this);
+        this.policies = new PoliciesInner(restClient().retrofit(), this);
+        this.managedRuleSets = new ManagedRuleSetsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
         initializeService();
     }
@@ -296,7 +508,7 @@ public class CdnManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "CdnManagementClient", "2017-10-12");
+        return String.format("%s (%s, %s)", super.userAgent(), "CdnManagementClient", "2020-09-01");
     }
 
     private void initializeService() {

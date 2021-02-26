@@ -48,8 +48,7 @@ public class CertificateCreateOrUpdateParameters extends ProxyResource {
 
     /**
      * The password to access the certificate's private key.
-     * This is required if the certificate format is pfx and must be omitted if
-     * the certificate format is cer.
+     * This must not be specified if the certificate format is Cer.
      */
     @JsonProperty(value = "properties.password")
     private String password;
@@ -141,7 +140,7 @@ public class CertificateCreateOrUpdateParameters extends ProxyResource {
     }
 
     /**
-     * Get this is required if the certificate format is pfx and must be omitted if the certificate format is cer.
+     * Get this must not be specified if the certificate format is Cer.
      *
      * @return the password value
      */
@@ -150,7 +149,7 @@ public class CertificateCreateOrUpdateParameters extends ProxyResource {
     }
 
     /**
-     * Set this is required if the certificate format is pfx and must be omitted if the certificate format is cer.
+     * Set this must not be specified if the certificate format is Cer.
      *
      * @param password the password value to set
      * @return the CertificateCreateOrUpdateParameters object itself.

@@ -16,8 +16,10 @@ import com.microsoft.azure.management.cdn.CdnProfile;
 import com.microsoft.azure.management.cdn.CustomDomainValidationResult;
 import com.microsoft.azure.management.cdn.DeepCreatedOrigin;
 import com.microsoft.azure.management.cdn.EndpointResourceState;
+import com.microsoft.azure.management.cdn.EndpointUpdateParameters;
 import com.microsoft.azure.management.cdn.GeoFilter;
 import com.microsoft.azure.management.cdn.GeoFilterActions;
+import com.microsoft.azure.management.cdn.OriginUpdateParameters;
 import com.microsoft.azure.management.cdn.QueryStringCachingBehavior;
 import com.microsoft.azure.management.cdn.ResourceUsage;
 import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
@@ -110,7 +112,7 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
     @Override
     public Observable<CdnEndpoint> updateResourceAsync() {
         final CdnEndpointImpl self = this;
-        EndpointUpdateParametersInner updateInner = new EndpointUpdateParametersInner();
+        EndpointUpdateParameters updateInner = new EndpointUpdateParameters();
         updateInner.withIsHttpAllowed(this.inner().isHttpAllowed())
                 .withIsHttpsAllowed(this.inner().isHttpsAllowed())
                 .withOriginPath(this.inner().originPath())
@@ -123,7 +125,7 @@ class CdnEndpointImpl extends ExternalChildResourceImpl<CdnEndpoint,
                 .withTags(this.inner().getTags());
 
         DeepCreatedOrigin originInner = this.inner().origins().get(0);
-        OriginUpdateParametersInner originParameters = new OriginUpdateParametersInner()
+        OriginUpdateParameters originParameters = new OriginUpdateParameters()
                 .withHostName(originInner.hostName())
                 .withHttpPort(originInner.httpPort())
                 .withHttpsPort(originInner.httpsPort());

@@ -20,6 +20,7 @@ import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMProfile;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSets;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.ServiceCallback;
@@ -29,6 +30,7 @@ import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -180,6 +182,27 @@ public class VirtualMachineScaleSetsImpl
     }
 
     @Override
+    public void deleteInstances(String groupName, String scaleSetName, Collection<String> instanceIds, boolean forceDeletion) {
+        this.deleteInstancesAsync(groupName, scaleSetName, instanceIds, forceDeletion).await();
+    }
+
+    @Override
+    public Completable deleteInstancesAsync(String groupName, String scaleSetName, Collection<String> instanceIds, boolean forceDeletion) {
+        if (instanceIds == null || instanceIds.isEmpty()) {
+            return Completable.complete();
+        }
+        return this.manager().inner().virtualMachineScaleSets().deleteInstancesAsync(groupName, scaleSetName,
+                new ArrayList<>(instanceIds), forceDeletion).toCompletable();
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteInstancesAsync(String groupName, String scaleSetName, Collection<String> instanceIds, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return this.manager().inner().virtualMachineScaleSets().deleteInstancesAsync(groupName, scaleSetName,
+                new ArrayList<>(instanceIds), forceDeletion,
+                callback);
+    }
+
+    @Override
     public VirtualMachineScaleSetImpl define(String name) {
         return wrapModel(name);
     }
@@ -236,5 +259,37 @@ public class VirtualMachineScaleSetsImpl
                 this.storageManager,
                 this.networkManager,
                 this.rbacManager);
+    }
+
+    @Override
+    public void deleteById(String id, boolean forceDeletion) {
+        deleteByResourceGroup(
+                ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id), forceDeletion);
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteByIdAsync(String id, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(deleteByIdAsync(id, forceDeletion), callback);
+    }
+
+    @Override
+    public Completable deleteByIdAsync(String id, boolean forceDeletion) {
+        return deleteByResourceGroupAsync(
+                ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id), forceDeletion);
+    }
+
+    @Override
+    public void deleteByResourceGroup(String resourceGroupName, String name, boolean forceDeletion) {
+        this.inner().delete(resourceGroupName, name, forceDeletion);
+    }
+
+    @Override
+    public ServiceFuture<Void> deleteByResourceGroupAsync(String resourceGroupName, String name, boolean forceDeletion, ServiceCallback<Void> callback) {
+        return ServiceFuture.fromBody(deleteByResourceGroupAsync(resourceGroupName, name, forceDeletion), callback);
+    }
+
+    @Override
+    public Completable deleteByResourceGroupAsync(String resourceGroupName, String name, boolean forceDeletion) {
+        return this.inner().deleteAsync(resourceGroupName, name, forceDeletion).toCompletable();
     }
 }

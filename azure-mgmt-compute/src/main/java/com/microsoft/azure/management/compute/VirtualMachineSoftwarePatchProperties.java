@@ -38,8 +38,8 @@ public class VirtualMachineSoftwarePatchProperties {
     /**
      * The KBID of the patch. Only applies to Windows patches.
      */
-    @JsonProperty(value = "kbid", access = JsonProperty.Access.WRITE_ONLY)
-    private String kbid;
+    @JsonProperty(value = "kbId", access = JsonProperty.Access.WRITE_ONLY)
+    private String kbId;
 
     /**
      * The classification(s) of the patch as provided by the patch publisher.
@@ -49,10 +49,10 @@ public class VirtualMachineSoftwarePatchProperties {
 
     /**
      * Describes the reboot requirements of the patch. Possible values include:
-     * 'NeverReboots', 'AlwaysRequiresReboot', 'CanRequestReboot'.
+     * 'Unknown', 'NeverReboots', 'AlwaysRequiresReboot', 'CanRequestReboot'.
      */
     @JsonProperty(value = "rebootBehavior", access = JsonProperty.Access.WRITE_ONLY)
-    private SoftwareUpdateRebootBehavior rebootBehavior;
+    private VMGuestPatchRebootBehavior rebootBehavior;
 
     /**
      * The activity ID of the operation that produced this result. It is used
@@ -74,9 +74,8 @@ public class VirtualMachineSoftwarePatchProperties {
     private DateTime lastModifiedDateTime;
 
     /**
-     * Describes the outcome of an install operation for a given patch.
-     * Possible values include: 'Installed', 'Failed', 'Excluded',
-     * 'NotSelected', 'Pending', 'Available'.
+     * Describes the availability of a given patch. Possible values include:
+     * 'Unknown', 'Available'.
      */
     @JsonProperty(value = "assessmentState", access = JsonProperty.Access.WRITE_ONLY)
     private PatchAssessmentState assessmentState;
@@ -111,10 +110,10 @@ public class VirtualMachineSoftwarePatchProperties {
     /**
      * Get the KBID of the patch. Only applies to Windows patches.
      *
-     * @return the kbid value
+     * @return the kbId value
      */
-    public String kbid() {
-        return this.kbid;
+    public String kbId() {
+        return this.kbId;
     }
 
     /**
@@ -127,11 +126,11 @@ public class VirtualMachineSoftwarePatchProperties {
     }
 
     /**
-     * Get describes the reboot requirements of the patch. Possible values include: 'NeverReboots', 'AlwaysRequiresReboot', 'CanRequestReboot'.
+     * Get describes the reboot requirements of the patch. Possible values include: 'Unknown', 'NeverReboots', 'AlwaysRequiresReboot', 'CanRequestReboot'.
      *
      * @return the rebootBehavior value
      */
-    public SoftwareUpdateRebootBehavior rebootBehavior() {
+    public VMGuestPatchRebootBehavior rebootBehavior() {
         return this.rebootBehavior;
     }
 
@@ -163,7 +162,7 @@ public class VirtualMachineSoftwarePatchProperties {
     }
 
     /**
-     * Get describes the outcome of an install operation for a given patch. Possible values include: 'Installed', 'Failed', 'Excluded', 'NotSelected', 'Pending', 'Available'.
+     * Get describes the availability of a given patch. Possible values include: 'Unknown', 'Available'.
      *
      * @return the assessmentState value
      */

@@ -78,10 +78,6 @@ public class PoolsInner {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}")
         Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("poolName") String poolName, @Path("subscriptionId") String subscriptionId, @Body PoolInner parameters, @Header("If-Match") String ifMatch, @Header("If-None-Match") String ifNoneMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Pools beginCreate" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("poolName") String poolName, @Path("subscriptionId") String subscriptionId, @Body PoolInner parameters, @Header("If-Match") String ifMatch, @Header("If-None-Match") String ifNoneMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Pools update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}")
         Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("poolName") String poolName, @Path("subscriptionId") String subscriptionId, @Body PoolInner parameters, @Header("If-Match") String ifMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -437,7 +433,7 @@ public class PoolsInner {
      * @return the PoolInner object if successful.
      */
     public PoolInner create(String resourceGroupName, String accountName, String poolName, PoolInner parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters).toBlocking().last().body();
+        return createWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters).toBlocking().single().body();
     }
 
     /**
@@ -463,7 +459,7 @@ public class PoolsInner {
      * @param poolName The pool name. This must be unique within the account.
      * @param parameters Additional parameters for pool creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the PoolInner object
      */
     public Observable<PoolInner> createAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters).map(new Func1<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>, PoolInner>() {
@@ -482,7 +478,7 @@ public class PoolsInner {
      * @param poolName The pool name. This must be unique within the account.
      * @param parameters Additional parameters for pool creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the PoolInner object
      */
     public Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters) {
         if (resourceGroupName == null) {
@@ -506,9 +502,20 @@ public class PoolsInner {
         Validator.validate(parameters);
         final String ifMatch = null;
         final String ifNoneMatch = null;
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, accountName, poolName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultWithHeadersAsync(observable, new TypeToken<PoolInner>() { }.getType(), PoolCreateHeaders.class);
+        return service.create(resourceGroupName, accountName, poolName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>>>() {
+                @Override
+                public Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders> clientResponse = createDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Creates a new pool inside the specified account.
      *
@@ -524,7 +531,7 @@ public class PoolsInner {
      * @return the PoolInner object if successful.
      */
     public PoolInner create(String resourceGroupName, String accountName, String poolName, PoolInner parameters, String ifMatch, String ifNoneMatch) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters, ifMatch, ifNoneMatch).toBlocking().last().body();
+        return createWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters, ifMatch, ifNoneMatch).toBlocking().single().body();
     }
 
     /**
@@ -554,7 +561,7 @@ public class PoolsInner {
      * @param ifMatch The entity state (ETag) version of the pool to update. A value of "*" can be used to apply the operation only if the pool already exists. If omitted, this operation will always be applied.
      * @param ifNoneMatch Set to '*' to allow a new pool to be created, but to prevent updating an existing pool. Other values will be ignored.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the PoolInner object
      */
     public Observable<PoolInner> createAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters, String ifMatch, String ifNoneMatch) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters, ifMatch, ifNoneMatch).map(new Func1<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>, PoolInner>() {
@@ -575,7 +582,7 @@ public class PoolsInner {
      * @param ifMatch The entity state (ETag) version of the pool to update. A value of "*" can be used to apply the operation only if the pool already exists. If omitted, this operation will always be applied.
      * @param ifNoneMatch Set to '*' to allow a new pool to be created, but to prevent updating an existing pool. Other values will be ignored.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the PoolInner object
      */
     public Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters, String ifMatch, String ifNoneMatch) {
         if (resourceGroupName == null) {
@@ -597,98 +604,12 @@ public class PoolsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, accountName, poolName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultWithHeadersAsync(observable, new TypeToken<PoolInner>() { }.getType(), PoolCreateHeaders.class);
-    }
-
-    /**
-     * Creates a new pool inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param poolName The pool name. This must be unique within the account.
-     * @param parameters Additional parameters for pool creation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PoolInner object if successful.
-     */
-    public PoolInner beginCreate(String resourceGroupName, String accountName, String poolName, PoolInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters).toBlocking().single().body();
-    }
-
-    /**
-     * Creates a new pool inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param poolName The pool name. This must be unique within the account.
-     * @param parameters Additional parameters for pool creation.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<PoolInner> beginCreateAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters, final ServiceCallback<PoolInner> serviceCallback) {
-        return ServiceFuture.fromHeaderResponse(beginCreateWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters), serviceCallback);
-    }
-
-    /**
-     * Creates a new pool inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param poolName The pool name. This must be unique within the account.
-     * @param parameters Additional parameters for pool creation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PoolInner object
-     */
-    public Observable<PoolInner> beginCreateAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters).map(new Func1<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>, PoolInner>() {
-            @Override
-            public PoolInner call(ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a new pool inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param poolName The pool name. This must be unique within the account.
-     * @param parameters Additional parameters for pool creation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PoolInner object
-     */
-    public Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (poolName == null) {
-            throw new IllegalArgumentException("Parameter poolName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(parameters);
-        final String ifMatch = null;
-        final String ifNoneMatch = null;
-        return service.beginCreate(resourceGroupName, accountName, poolName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.create(resourceGroupName, accountName, poolName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>>>() {
                 @Override
                 public Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders> clientResponse = beginCreateDelegate(response);
+                        ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders> clientResponse = createDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -697,109 +618,7 @@ public class PoolsInner {
             });
     }
 
-    /**
-     * Creates a new pool inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param poolName The pool name. This must be unique within the account.
-     * @param parameters Additional parameters for pool creation.
-     * @param ifMatch The entity state (ETag) version of the pool to update. A value of "*" can be used to apply the operation only if the pool already exists. If omitted, this operation will always be applied.
-     * @param ifNoneMatch Set to '*' to allow a new pool to be created, but to prevent updating an existing pool. Other values will be ignored.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PoolInner object if successful.
-     */
-    public PoolInner beginCreate(String resourceGroupName, String accountName, String poolName, PoolInner parameters, String ifMatch, String ifNoneMatch) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters, ifMatch, ifNoneMatch).toBlocking().single().body();
-    }
-
-    /**
-     * Creates a new pool inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param poolName The pool name. This must be unique within the account.
-     * @param parameters Additional parameters for pool creation.
-     * @param ifMatch The entity state (ETag) version of the pool to update. A value of "*" can be used to apply the operation only if the pool already exists. If omitted, this operation will always be applied.
-     * @param ifNoneMatch Set to '*' to allow a new pool to be created, but to prevent updating an existing pool. Other values will be ignored.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<PoolInner> beginCreateAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters, String ifMatch, String ifNoneMatch, final ServiceCallback<PoolInner> serviceCallback) {
-        return ServiceFuture.fromHeaderResponse(beginCreateWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters, ifMatch, ifNoneMatch), serviceCallback);
-    }
-
-    /**
-     * Creates a new pool inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param poolName The pool name. This must be unique within the account.
-     * @param parameters Additional parameters for pool creation.
-     * @param ifMatch The entity state (ETag) version of the pool to update. A value of "*" can be used to apply the operation only if the pool already exists. If omitted, this operation will always be applied.
-     * @param ifNoneMatch Set to '*' to allow a new pool to be created, but to prevent updating an existing pool. Other values will be ignored.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PoolInner object
-     */
-    public Observable<PoolInner> beginCreateAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters, String ifMatch, String ifNoneMatch) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, poolName, parameters, ifMatch, ifNoneMatch).map(new Func1<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>, PoolInner>() {
-            @Override
-            public PoolInner call(ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a new pool inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param poolName The pool name. This must be unique within the account.
-     * @param parameters Additional parameters for pool creation.
-     * @param ifMatch The entity state (ETag) version of the pool to update. A value of "*" can be used to apply the operation only if the pool already exists. If omitted, this operation will always be applied.
-     * @param ifNoneMatch Set to '*' to allow a new pool to be created, but to prevent updating an existing pool. Other values will be ignored.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PoolInner object
-     */
-    public Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, String poolName, PoolInner parameters, String ifMatch, String ifNoneMatch) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (poolName == null) {
-            throw new IllegalArgumentException("Parameter poolName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(parameters);
-        return service.beginCreate(resourceGroupName, accountName, poolName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>>>() {
-                @Override
-                public Observable<ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders> clientResponse = beginCreateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders> beginCreateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponseWithHeaders<PoolInner, PoolCreateHeaders> createDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PoolInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PoolInner>() { }.getType())
                 .registerError(CloudException.class)

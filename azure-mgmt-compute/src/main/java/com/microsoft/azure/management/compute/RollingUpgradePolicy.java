@@ -53,6 +53,21 @@ public class RollingUpgradePolicy {
     private String pauseTimeBetweenBatches;
 
     /**
+     * Allow VMSS to ignore AZ boundaries when constructing upgrade batches.
+     * Take into consideration the Update Domain and maxBatchInstancePercent to
+     * determine the batch size.
+     */
+    @JsonProperty(value = "enableCrossZoneUpgrade")
+    private Boolean enableCrossZoneUpgrade;
+
+    /**
+     * Upgrade all unhealthy instances in a scale set before any healthy
+     * instances.
+     */
+    @JsonProperty(value = "prioritizeUnhealthyInstances")
+    private Boolean prioritizeUnhealthyInstances;
+
+    /**
      * Get the maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The default value for this parameter is 20%.
      *
      * @return the maxBatchInstancePercent value
@@ -129,6 +144,46 @@ public class RollingUpgradePolicy {
      */
     public RollingUpgradePolicy withPauseTimeBetweenBatches(String pauseTimeBetweenBatches) {
         this.pauseTimeBetweenBatches = pauseTimeBetweenBatches;
+        return this;
+    }
+
+    /**
+     * Get allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size.
+     *
+     * @return the enableCrossZoneUpgrade value
+     */
+    public Boolean enableCrossZoneUpgrade() {
+        return this.enableCrossZoneUpgrade;
+    }
+
+    /**
+     * Set allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size.
+     *
+     * @param enableCrossZoneUpgrade the enableCrossZoneUpgrade value to set
+     * @return the RollingUpgradePolicy object itself.
+     */
+    public RollingUpgradePolicy withEnableCrossZoneUpgrade(Boolean enableCrossZoneUpgrade) {
+        this.enableCrossZoneUpgrade = enableCrossZoneUpgrade;
+        return this;
+    }
+
+    /**
+     * Get upgrade all unhealthy instances in a scale set before any healthy instances.
+     *
+     * @return the prioritizeUnhealthyInstances value
+     */
+    public Boolean prioritizeUnhealthyInstances() {
+        return this.prioritizeUnhealthyInstances;
+    }
+
+    /**
+     * Set upgrade all unhealthy instances in a scale set before any healthy instances.
+     *
+     * @param prioritizeUnhealthyInstances the prioritizeUnhealthyInstances value to set
+     * @return the RollingUpgradePolicy object itself.
+     */
+    public RollingUpgradePolicy withPrioritizeUnhealthyInstances(Boolean prioritizeUnhealthyInstances) {
+        this.prioritizeUnhealthyInstances = prioritizeUnhealthyInstances;
         return this;
     }
 

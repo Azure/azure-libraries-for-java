@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.microsoft.azure.management.resources.LocationMetadata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -40,19 +41,19 @@ public class LocationInner {
     private String displayName;
 
     /**
-     * The latitude of the location.
+     * The display name of the location and its region.
      */
-    @JsonProperty(value = "latitude", access = JsonProperty.Access.WRITE_ONLY)
-    private String latitude;
+    @JsonProperty(value = "regionalDisplayName", access = JsonProperty.Access.WRITE_ONLY)
+    private String regionalDisplayName;
 
     /**
-     * The longitude of the location.
+     * Metadata of the location, such as lat/long, paired region, and others.
      */
-    @JsonProperty(value = "longitude", access = JsonProperty.Access.WRITE_ONLY)
-    private String longitude;
+    @JsonProperty(value = "metadata")
+    private LocationMetadata metadata;
 
     /**
-     * Get the id value.
+     * Get the fully qualified ID of the location. For example, /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus.
      *
      * @return the id value
      */
@@ -61,7 +62,7 @@ public class LocationInner {
     }
 
     /**
-     * Get the subscriptionId value.
+     * Get the subscription ID.
      *
      * @return the subscriptionId value
      */
@@ -70,7 +71,7 @@ public class LocationInner {
     }
 
     /**
-     * Get the name value.
+     * Get the location name.
      *
      * @return the name value
      */
@@ -79,7 +80,7 @@ public class LocationInner {
     }
 
     /**
-     * Get the displayName value.
+     * Get the display name of the location.
      *
      * @return the displayName value
      */
@@ -88,21 +89,32 @@ public class LocationInner {
     }
 
     /**
-     * Get the latitude value.
+     * Get the display name of the location and its region.
      *
-     * @return the latitude value
+     * @return the regionalDisplayName value
      */
-    public String latitude() {
-        return this.latitude;
+    public String regionalDisplayName() {
+        return this.regionalDisplayName;
     }
 
     /**
-     * Get the longitude value.
+     * Get metadata of the location, such as lat/long, paired region, and others.
      *
-     * @return the longitude value
+     * @return the metadata value
      */
-    public String longitude() {
-        return this.longitude;
+    public LocationMetadata metadata() {
+        return this.metadata;
+    }
+
+    /**
+     * Set metadata of the location, such as lat/long, paired region, and others.
+     *
+     * @param metadata the metadata value to set
+     * @return the LocationInner object itself.
+     */
+    public LocationInner withMetadata(LocationMetadata metadata) {
+        this.metadata = metadata;
+        return this;
     }
 
 }

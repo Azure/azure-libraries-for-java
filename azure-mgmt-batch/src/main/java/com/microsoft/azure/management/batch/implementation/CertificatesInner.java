@@ -78,10 +78,6 @@ public class CertificatesInner {
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}")
         Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("certificateName") String certificateName, @Path("subscriptionId") String subscriptionId, @Body CertificateCreateOrUpdateParameters parameters, @Header("If-Match") String ifMatch, @Header("If-None-Match") String ifNoneMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Certificates beginCreate" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("certificateName") String certificateName, @Path("subscriptionId") String subscriptionId, @Body CertificateCreateOrUpdateParameters parameters, @Header("If-Match") String ifMatch, @Header("If-None-Match") String ifNoneMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Certificates update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}")
         Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("certificateName") String certificateName, @Path("subscriptionId") String subscriptionId, @Body CertificateCreateOrUpdateParameters parameters, @Header("If-Match") String ifMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -378,7 +374,7 @@ public class CertificatesInner {
      * @return the CertificateInner object if successful.
      */
     public CertificateInner create(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).toBlocking().last().body();
+        return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).toBlocking().single().body();
     }
 
     /**
@@ -404,7 +400,7 @@ public class CertificatesInner {
      * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
      * @param parameters Additional parameters for certificate creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the CertificateInner object
      */
     public Observable<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>, CertificateInner>() {
@@ -423,7 +419,7 @@ public class CertificatesInner {
      * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
      * @param parameters Additional parameters for certificate creation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the CertificateInner object
      */
     public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         if (resourceGroupName == null) {
@@ -447,9 +443,20 @@ public class CertificatesInner {
         Validator.validate(parameters);
         final String ifMatch = null;
         final String ifNoneMatch = null;
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, accountName, certificateName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultWithHeadersAsync(observable, new TypeToken<CertificateInner>() { }.getType(), CertificateCreateHeaders.class);
+        return service.create(resourceGroupName, accountName, certificateName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>>>() {
+                @Override
+                public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> clientResponse = createDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Creates a new certificate inside the specified account.
      *
@@ -465,7 +472,7 @@ public class CertificatesInner {
      * @return the CertificateInner object if successful.
      */
     public CertificateInner create(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch).toBlocking().last().body();
+        return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch).toBlocking().single().body();
     }
 
     /**
@@ -495,7 +502,7 @@ public class CertificatesInner {
      * @param ifMatch The entity state (ETag) version of the certificate to update. A value of "*" can be used to apply the operation only if the certificate already exists. If omitted, this operation will always be applied.
      * @param ifNoneMatch Set to '*' to allow a new certificate to be created, but to prevent updating an existing certificate. Other values will be ignored.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the CertificateInner object
      */
     public Observable<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>, CertificateInner>() {
@@ -516,7 +523,7 @@ public class CertificatesInner {
      * @param ifMatch The entity state (ETag) version of the certificate to update. A value of "*" can be used to apply the operation only if the certificate already exists. If omitted, this operation will always be applied.
      * @param ifNoneMatch Set to '*' to allow a new certificate to be created, but to prevent updating an existing certificate. Other values will be ignored.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the CertificateInner object
      */
     public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
         if (resourceGroupName == null) {
@@ -538,98 +545,12 @@ public class CertificatesInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, accountName, certificateName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultWithHeadersAsync(observable, new TypeToken<CertificateInner>() { }.getType(), CertificateCreateHeaders.class);
-    }
-
-    /**
-     * Creates a new certificate inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
-     * @param parameters Additional parameters for certificate creation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the CertificateInner object if successful.
-     */
-    public CertificateInner beginCreate(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).toBlocking().single().body();
-    }
-
-    /**
-     * Creates a new certificate inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
-     * @param parameters Additional parameters for certificate creation.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, final ServiceCallback<CertificateInner> serviceCallback) {
-        return ServiceFuture.fromHeaderResponse(beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters), serviceCallback);
-    }
-
-    /**
-     * Creates a new certificate inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
-     * @param parameters Additional parameters for certificate creation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the CertificateInner object
-     */
-    public Observable<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>, CertificateInner>() {
-            @Override
-            public CertificateInner call(ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a new certificate inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
-     * @param parameters Additional parameters for certificate creation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the CertificateInner object
-     */
-    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (certificateName == null) {
-            throw new IllegalArgumentException("Parameter certificateName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(parameters);
-        final String ifMatch = null;
-        final String ifNoneMatch = null;
-        return service.beginCreate(resourceGroupName, accountName, certificateName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.create(resourceGroupName, accountName, certificateName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>>>() {
                 @Override
                 public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> clientResponse = beginCreateDelegate(response);
+                        ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> clientResponse = createDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -638,109 +559,7 @@ public class CertificatesInner {
             });
     }
 
-    /**
-     * Creates a new certificate inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
-     * @param parameters Additional parameters for certificate creation.
-     * @param ifMatch The entity state (ETag) version of the certificate to update. A value of "*" can be used to apply the operation only if the certificate already exists. If omitted, this operation will always be applied.
-     * @param ifNoneMatch Set to '*' to allow a new certificate to be created, but to prevent updating an existing certificate. Other values will be ignored.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the CertificateInner object if successful.
-     */
-    public CertificateInner beginCreate(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch).toBlocking().single().body();
-    }
-
-    /**
-     * Creates a new certificate inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
-     * @param parameters Additional parameters for certificate creation.
-     * @param ifMatch The entity state (ETag) version of the certificate to update. A value of "*" can be used to apply the operation only if the certificate already exists. If omitted, this operation will always be applied.
-     * @param ifNoneMatch Set to '*' to allow a new certificate to be created, but to prevent updating an existing certificate. Other values will be ignored.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch, final ServiceCallback<CertificateInner> serviceCallback) {
-        return ServiceFuture.fromHeaderResponse(beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch), serviceCallback);
-    }
-
-    /**
-     * Creates a new certificate inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
-     * @param parameters Additional parameters for certificate creation.
-     * @param ifMatch The entity state (ETag) version of the certificate to update. A value of "*" can be used to apply the operation only if the certificate already exists. If omitted, this operation will always be applied.
-     * @param ifNoneMatch Set to '*' to allow a new certificate to be created, but to prevent updating an existing certificate. Other values will be ignored.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the CertificateInner object
-     */
-    public Observable<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
-        return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>, CertificateInner>() {
-            @Override
-            public CertificateInner call(ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates a new certificate inside the specified account.
-     *
-     * @param resourceGroupName The name of the resource group that contains the Batch account.
-     * @param accountName The name of the Batch account.
-     * @param certificateName The identifier for the certificate. This must be made up of algorithm and thumbprint separated by a dash, and must match the certificate data in the request. For example SHA1-a3d1c5.
-     * @param parameters Additional parameters for certificate creation.
-     * @param ifMatch The entity state (ETag) version of the certificate to update. A value of "*" can be used to apply the operation only if the certificate already exists. If omitted, this operation will always be applied.
-     * @param ifNoneMatch Set to '*' to allow a new certificate to be created, but to prevent updating an existing certificate. Other values will be ignored.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the CertificateInner object
-     */
-    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (certificateName == null) {
-            throw new IllegalArgumentException("Parameter certificateName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(parameters);
-        return service.beginCreate(resourceGroupName, accountName, certificateName, this.client.subscriptionId(), parameters, ifMatch, ifNoneMatch, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>>>() {
-                @Override
-                public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> clientResponse = beginCreateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> beginCreateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> createDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<CertificateInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<CertificateInner>() { }.getType())
                 .registerError(CloudException.class)

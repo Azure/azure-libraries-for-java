@@ -171,7 +171,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.createOrUpdate(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProximityPlacementGroupInner>>>() {
                 @Override
@@ -256,7 +256,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         final Map<String, String> tags = null;
         ProximityPlacementGroupUpdate parameters = new ProximityPlacementGroupUpdate();
         parameters.withTags(null);
@@ -341,7 +341,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         ProximityPlacementGroupUpdate parameters = new ProximityPlacementGroupUpdate();
         parameters.withTags(tags);
         return service.update(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -426,7 +426,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.delete(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -510,7 +510,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         final String includeColocationStatus = null;
         return service.getByResourceGroup(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), includeColocationStatus, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProximityPlacementGroupInner>>>() {
@@ -592,7 +592,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.getByResourceGroup(resourceGroupName, proximityPlacementGroupName, this.client.subscriptionId(), includeColocationStatus, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProximityPlacementGroupInner>>>() {
                 @Override
@@ -697,7 +697,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProximityPlacementGroupInner>>>>() {
                 @Override
@@ -810,7 +810,7 @@ public class ProximityPlacementGroupsInner implements InnerSupportsGet<Proximity
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProximityPlacementGroupInner>>>>() {
                 @Override

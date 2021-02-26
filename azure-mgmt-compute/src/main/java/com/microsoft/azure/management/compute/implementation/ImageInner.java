@@ -11,6 +11,7 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.ImageStorageProfile;
 import com.microsoft.azure.management.compute.HyperVGenerationTypes;
+import com.microsoft.azure.management.compute.ExtendedLocation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -46,6 +47,12 @@ public class ImageInner extends Resource {
      */
     @JsonProperty(value = "properties.hyperVGeneration")
     private HyperVGenerationTypes hyperVGeneration;
+
+    /**
+     * The extended location of the Image.
+     */
+    @JsonProperty(value = "extendedLocation")
+    private ExtendedLocation extendedLocation;
 
     /**
      * Get the source virtual machine from which Image is created.
@@ -113,6 +120,26 @@ public class ImageInner extends Resource {
      */
     public ImageInner withHyperVGeneration(HyperVGenerationTypes hyperVGeneration) {
         this.hyperVGeneration = hyperVGeneration;
+        return this;
+    }
+
+    /**
+     * Get the extended location of the Image.
+     *
+     * @return the extendedLocation value
+     */
+    public ExtendedLocation extendedLocation() {
+        return this.extendedLocation;
+    }
+
+    /**
+     * Set the extended location of the Image.
+     *
+     * @param extendedLocation the extendedLocation value to set
+     * @return the ImageInner object itself.
+     */
+    public ImageInner withExtendedLocation(ExtendedLocation extendedLocation) {
+        this.extendedLocation = extendedLocation;
         return this;
     }
 

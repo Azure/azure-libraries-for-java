@@ -22,15 +22,15 @@ public class ComputeSkuTetsts extends ComputeManagementTest {
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         super.initializeClients(restClient, defaultSubscription, domain);
     }
-    @Test
-    public void Foo() {
-        HashSet<EncryptionStatus> s = new HashSet<>();
-        s.add(EncryptionStatus.NOT_ENCRYPTED);
-        s.add(EncryptionStatus.NOT_ENCRYPTED);
-
-
-        System.out.println(s.contains(EncryptionStatus.fromString("notEncrypted")));
-    }
+//    @Test
+//    public void Foo() {
+//        HashSet<EncryptionStatus> s = new HashSet<>();
+//        s.add(EncryptionStatus.NOT_ENCRYPTED);
+//        s.add(EncryptionStatus.NOT_ENCRYPTED);
+//
+//
+//        System.out.println(s.contains(EncryptionStatus.fromString("notEncrypted")));
+//    }
 
     @Test
     public void canListSkus() throws Exception {

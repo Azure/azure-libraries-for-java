@@ -18,8 +18,9 @@ public class LastPatchInstallationSummary {
     /**
      * The overall success or failure status of the operation. It remains
      * "InProgress" until the operation completes. At that point it will become
-     * "Failed", "Succeeded", or "CompletedWithWarnings.". Possible values
-     * include: 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'.
+     * "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings.". Possible
+     * values include: 'Unknown', 'InProgress', 'Failed', 'Succeeded',
+     * 'CompletedWithWarnings'.
      */
     @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
     private PatchOperationStatus status;
@@ -37,19 +38,6 @@ public class LastPatchInstallationSummary {
      */
     @JsonProperty(value = "maintenanceWindowExceeded", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean maintenanceWindowExceeded;
-
-    /**
-     * The reboot status of the machine after the patch operation. It will be
-     * in "NotNeeded" status if reboot is not needed after the patch operation.
-     * "Required" will be the status once the patch is applied and machine is
-     * required to reboot. "Started" will be the reboot status when the machine
-     * has started to reboot. "Failed" will be the status if the machine is
-     * failed to reboot. "Completed" will be the status once the machine is
-     * rebooted successfully. Possible values include: 'NotNeeded', 'Required',
-     * 'Started', 'Failed', 'Completed'.
-     */
-    @JsonProperty(value = "rebootStatus", access = JsonProperty.Access.WRITE_ONLY)
-    private RebootStatus rebootStatus;
 
     /**
      * The number of all available patches but not going to be installed
@@ -97,12 +85,6 @@ public class LastPatchInstallationSummary {
     private DateTime lastModifiedTime;
 
     /**
-     * The person or system account that started the operation.
-     */
-    @JsonProperty(value = "startedBy", access = JsonProperty.Access.WRITE_ONLY)
-    private String startedBy;
-
-    /**
      * The errors that were encountered during execution of the operation. The
      * details array contains the list of them.
      */
@@ -110,7 +92,7 @@ public class LastPatchInstallationSummary {
     private ApiError error;
 
     /**
-     * Get the overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", or "CompletedWithWarnings.". Possible values include: 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'.
+     * Get the overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings.". Possible values include: 'Unknown', 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'.
      *
      * @return the status value
      */
@@ -134,15 +116,6 @@ public class LastPatchInstallationSummary {
      */
     public Boolean maintenanceWindowExceeded() {
         return this.maintenanceWindowExceeded;
-    }
-
-    /**
-     * Get the reboot status of the machine after the patch operation. It will be in "NotNeeded" status if reboot is not needed after the patch operation. "Required" will be the status once the patch is applied and machine is required to reboot. "Started" will be the reboot status when the machine has started to reboot. "Failed" will be the status if the machine is failed to reboot. "Completed" will be the status once the machine is rebooted successfully. Possible values include: 'NotNeeded', 'Required', 'Started', 'Failed', 'Completed'.
-     *
-     * @return the rebootStatus value
-     */
-    public RebootStatus rebootStatus() {
-        return this.rebootStatus;
     }
 
     /**
@@ -206,15 +179,6 @@ public class LastPatchInstallationSummary {
      */
     public DateTime lastModifiedTime() {
         return this.lastModifiedTime;
-    }
-
-    /**
-     * Get the person or system account that started the operation.
-     *
-     * @return the startedBy value
-     */
-    public String startedBy() {
-        return this.startedBy;
     }
 
     /**

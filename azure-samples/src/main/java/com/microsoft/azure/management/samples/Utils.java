@@ -2042,8 +2042,9 @@ public final class Utils {
         }
         try {
             ftpClient.connect(server);
+            ftpClient.enterLocalPassiveMode();
             ftpClient.login(profile.ftpUsername(), profile.ftpPassword());
-            ftpClient.setFileType(FTP.ASCII_FILE_TYPE);
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             for (String segment : path.split("/")) {
                 if (!ftpClient.changeWorkingDirectory(segment)) {
                     ftpClient.makeDirectory(segment);

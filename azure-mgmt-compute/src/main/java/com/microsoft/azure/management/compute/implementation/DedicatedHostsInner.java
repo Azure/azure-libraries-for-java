@@ -179,7 +179,7 @@ public class DedicatedHostsInner {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, hostGroupName, hostName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DedicatedHostInner>() { }.getType());
     }
@@ -261,7 +261,7 @@ public class DedicatedHostsInner {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.beginCreateOrUpdate(resourceGroupName, hostGroupName, hostName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DedicatedHostInner>>>() {
                 @Override
@@ -361,7 +361,7 @@ public class DedicatedHostsInner {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, hostGroupName, hostName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DedicatedHostInner>() { }.getType());
     }
@@ -443,7 +443,7 @@ public class DedicatedHostsInner {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.beginUpdate(resourceGroupName, hostGroupName, hostName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DedicatedHostInner>>>() {
                 @Override
@@ -533,7 +533,7 @@ public class DedicatedHostsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, hostGroupName, hostName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -606,7 +606,7 @@ public class DedicatedHostsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.beginDelete(resourceGroupName, hostGroupName, hostName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -699,7 +699,7 @@ public class DedicatedHostsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         final InstanceViewTypes expand = null;
         return service.get(resourceGroupName, hostGroupName, hostName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DedicatedHostInner>>>() {
@@ -788,7 +788,7 @@ public class DedicatedHostsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.get(resourceGroupName, hostGroupName, hostName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DedicatedHostInner>>>() {
                 @Override
@@ -909,7 +909,7 @@ public class DedicatedHostsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.listByHostGroup(resourceGroupName, hostGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DedicatedHostInner>>>>() {
                 @Override

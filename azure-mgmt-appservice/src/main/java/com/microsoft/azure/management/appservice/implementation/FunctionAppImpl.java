@@ -280,11 +280,11 @@ class FunctionAppImpl
             .withRegion(regionName());
         if (super.creatableGroup != null && isInCreateMode()) {
             storageAccountCreatable = storageDefine.withNewResourceGroup(super.creatableGroup)
-                .withGeneralPurposeAccountKind()
+                .withGeneralPurposeAccountKindV2()
                 .withSku(sku);
         } else {
             storageAccountCreatable = storageDefine.withExistingResourceGroup(resourceGroupName())
-                .withGeneralPurposeAccountKind()
+                .withGeneralPurposeAccountKindV2()
                 .withSku(sku);
         }
         this.addDependency(storageAccountCreatable);
@@ -298,11 +298,11 @@ class FunctionAppImpl
                 .withRegion(regionName());
         if (super.creatableGroup != null && isInCreateMode()) {
             storageAccountCreatable = storageDefine.withNewResourceGroup(super.creatableGroup)
-                    .withGeneralPurposeAccountKind()
+                    .withGeneralPurposeAccountKindV2()
                     .withSku(sku);
         } else {
             storageAccountCreatable = storageDefine.withExistingResourceGroup(resourceGroupName())
-                    .withGeneralPurposeAccountKind()
+                    .withGeneralPurposeAccountKindV2()
                     .withSku(sku);
         }
         this.addDependency(storageAccountCreatable);
@@ -650,7 +650,7 @@ class FunctionAppImpl
                 withNewConsumptionPlan();
             }
             if (currentStorageAccount == null && storageAccountToSet == null && storageAccountCreatable == null) {
-                withNewStorageAccount(SdkContext.randomResourceName(getStorageAccountName(), 20), com.microsoft.azure.management.storage.SkuName.STANDARD_GRS);
+                withNewStorageAccount(SdkContext.randomResourceName(getStorageAccountName(), 20), StorageAccountSkuType.STANDARD_LRS);
             }
         }
         return super.createAsync();

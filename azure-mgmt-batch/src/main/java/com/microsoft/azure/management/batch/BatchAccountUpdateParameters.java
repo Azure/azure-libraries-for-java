@@ -30,6 +30,21 @@ public class BatchAccountUpdateParameters {
     private AutoStorageBaseProperties autoStorage;
 
     /**
+     * The encryption configuration for the Batch account.
+     * Configures how customer data is encrypted inside the Batch account. By
+     * default, accounts are encrypted using a Microsoft managed key. For
+     * additional control, a customer-managed key can be used instead.
+     */
+    @JsonProperty(value = "properties.encryption")
+    private EncryptionProperties encryption;
+
+    /**
+     * The identity of the Batch account.
+     */
+    @JsonProperty(value = "identity")
+    private BatchAccountIdentity identity;
+
+    /**
      * Get the user-specified tags associated with the account.
      *
      * @return the tags value
@@ -66,6 +81,46 @@ public class BatchAccountUpdateParameters {
      */
     public BatchAccountUpdateParameters withAutoStorage(AutoStorageBaseProperties autoStorage) {
         this.autoStorage = autoStorage;
+        return this;
+    }
+
+    /**
+     * Get configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.
+     *
+     * @return the encryption value
+     */
+    public EncryptionProperties encryption() {
+        return this.encryption;
+    }
+
+    /**
+     * Set configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.
+     *
+     * @param encryption the encryption value to set
+     * @return the BatchAccountUpdateParameters object itself.
+     */
+    public BatchAccountUpdateParameters withEncryption(EncryptionProperties encryption) {
+        this.encryption = encryption;
+        return this;
+    }
+
+    /**
+     * Get the identity of the Batch account.
+     *
+     * @return the identity value
+     */
+    public BatchAccountIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity of the Batch account.
+     *
+     * @param identity the identity value to set
+     * @return the BatchAccountUpdateParameters object itself.
+     */
+    public BatchAccountUpdateParameters withIdentity(BatchAccountIdentity identity) {
+        this.identity = identity;
         return this;
     }
 

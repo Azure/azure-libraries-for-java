@@ -16,6 +16,11 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCr
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingByName;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListingByTag;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
+import rx.Completable;
+
+import java.util.Collection;
 
 /**
  * Entry point to resource group management API.
@@ -47,4 +52,34 @@ public interface ResourceGroups extends
      */
     @Beta(SinceVersion.V1_4_0)
     boolean contain(String name);
+
+    /**
+     * Deletes a resource from Azure, identifying it by its resource name.
+     *
+     * @param name the name of the resource to delete
+     * @param forceDeletionResourceTypes resource types for force deletion
+     */
+    @Beta(SinceVersion.V1_38_0)
+    void deleteByName(String name, Collection<ForceDeletionResourceType> forceDeletionResourceTypes);
+
+    /**
+     * Asynchronously delete a resource from Azure, identifying it by its resource name.
+     *
+     * @param name the name of the resource to delete
+     * @param forceDeletionResourceTypes resource types for force deletion
+     * @param callback the callback on success or failure
+     * @return a handle to cancel the request
+     */
+    @Beta(SinceVersion.V1_38_0)
+    ServiceFuture<Void> deleteByNameAsync(String name, Collection<ForceDeletionResourceType> forceDeletionResourceTypes, ServiceCallback<Void> callback);
+
+    /**
+     * Asynchronously delete a resource from Azure, identifying it by its resource name.
+     *
+     * @param name the name of the resource to delete
+     * @param forceDeletionResourceTypes resource types for force deletion
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(SinceVersion.V1_38_0)
+    Completable deleteByNameAsync(String name, Collection<ForceDeletionResourceType> forceDeletionResourceTypes);
 }

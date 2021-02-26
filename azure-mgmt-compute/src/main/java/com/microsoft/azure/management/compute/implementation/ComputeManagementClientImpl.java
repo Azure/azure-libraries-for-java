@@ -238,6 +238,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The VirtualMachineImagesEdgeZonesInner object to access its operations.
+     */
+    private VirtualMachineImagesEdgeZonesInner virtualMachineImagesEdgeZones;
+
+    /**
+     * Gets the VirtualMachineImagesEdgeZonesInner object to access its operations.
+     * @return the VirtualMachineImagesEdgeZonesInner object.
+     */
+    public VirtualMachineImagesEdgeZonesInner virtualMachineImagesEdgeZones() {
+        return this.virtualMachineImagesEdgeZones;
+    }
+
+    /**
      * The UsagesInner object to access its operations.
      */
     private UsagesInner usages;
@@ -264,6 +277,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The VirtualMachineScaleSetsInner object to access its operations.
+     */
+    private VirtualMachineScaleSetsInner virtualMachineScaleSets;
+
+    /**
+     * Gets the VirtualMachineScaleSetsInner object to access its operations.
+     * @return the VirtualMachineScaleSetsInner object.
+     */
+    public VirtualMachineScaleSetsInner virtualMachineScaleSets() {
+        return this.virtualMachineScaleSets;
+    }
+
+    /**
      * The VirtualMachineSizesInner object to access its operations.
      */
     private VirtualMachineSizesInner virtualMachineSizes;
@@ -287,19 +313,6 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      */
     public ImagesInner images() {
         return this.images;
-    }
-
-    /**
-     * The VirtualMachineScaleSetsInner object to access its operations.
-     */
-    private VirtualMachineScaleSetsInner virtualMachineScaleSets;
-
-    /**
-     * Gets the VirtualMachineScaleSetsInner object to access its operations.
-     * @return the VirtualMachineScaleSetsInner object.
-     */
-    public VirtualMachineScaleSetsInner virtualMachineScaleSets() {
-        return this.virtualMachineScaleSets;
     }
 
     /**
@@ -381,6 +394,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The VirtualMachineScaleSetVMRunCommandsInner object to access its operations.
+     */
+    private VirtualMachineScaleSetVMRunCommandsInner virtualMachineScaleSetVMRunCommands;
+
+    /**
+     * Gets the VirtualMachineScaleSetVMRunCommandsInner object to access its operations.
+     * @return the VirtualMachineScaleSetVMRunCommandsInner object.
+     */
+    public VirtualMachineScaleSetVMRunCommandsInner virtualMachineScaleSetVMRunCommands() {
+        return this.virtualMachineScaleSetVMRunCommands;
+    }
+
+    /**
      * The ResourceSkusInner object to access its operations.
      */
     private ResourceSkusInner resourceSkus;
@@ -443,6 +469,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      */
     public DiskAccessesInner diskAccesses() {
         return this.diskAccesses;
+    }
+
+    /**
+     * The DiskRestorePointsInner object to access its operations.
+     */
+    private DiskRestorePointsInner diskRestorePoints;
+
+    /**
+     * Gets the DiskRestorePointsInner object to access its operations.
+     * @return the DiskRestorePointsInner object.
+     */
+    public DiskRestorePointsInner diskRestorePoints() {
+        return this.diskRestorePoints;
     }
 
     /**
@@ -511,19 +550,6 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The ContainerServicesInner object to access its operations.
-     */
-    private ContainerServicesInner containerServices;
-
-    /**
-     * Gets the ContainerServicesInner object to access its operations.
-     * @return the ContainerServicesInner object.
-     */
-    public ContainerServicesInner containerServices() {
-        return this.containerServices;
-    }
-
-    /**
      * Initializes an instance of ComputeManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -566,28 +592,30 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesInner(restClient().retrofit(), this);
         this.virtualMachineExtensions = new VirtualMachineExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineImages = new VirtualMachineImagesInner(restClient().retrofit(), this);
+        this.virtualMachineImagesEdgeZones = new VirtualMachineImagesEdgeZonesInner(restClient().retrofit(), this);
         this.usages = new UsagesInner(restClient().retrofit(), this);
         this.virtualMachines = new VirtualMachinesInner(restClient().retrofit(), this);
+        this.virtualMachineScaleSets = new VirtualMachineScaleSetsInner(restClient().retrofit(), this);
         this.virtualMachineSizes = new VirtualMachineSizesInner(restClient().retrofit(), this);
         this.images = new ImagesInner(restClient().retrofit(), this);
-        this.virtualMachineScaleSets = new VirtualMachineScaleSetsInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetRollingUpgrades = new VirtualMachineScaleSetRollingUpgradesInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetVMExtensions = new VirtualMachineScaleSetVMExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsInner(restClient().retrofit(), this);
         this.logAnalytics = new LogAnalyticsInner(restClient().retrofit(), this);
         this.virtualMachineRunCommands = new VirtualMachineRunCommandsInner(restClient().retrofit(), this);
+        this.virtualMachineScaleSetVMRunCommands = new VirtualMachineScaleSetVMRunCommandsInner(restClient().retrofit(), this);
         this.resourceSkus = new ResourceSkusInner(restClient().retrofit(), this);
         this.disks = new DisksInner(restClient().retrofit(), this);
         this.snapshots = new SnapshotsInner(restClient().retrofit(), this);
         this.diskEncryptionSets = new DiskEncryptionSetsInner(restClient().retrofit(), this);
         this.diskAccesses = new DiskAccessesInner(restClient().retrofit(), this);
+        this.diskRestorePoints = new DiskRestorePointsInner(restClient().retrofit(), this);
         this.galleries = new GalleriesInner(restClient().retrofit(), this);
         this.galleryImages = new GalleryImagesInner(restClient().retrofit(), this);
         this.galleryImageVersions = new GalleryImageVersionsInner(restClient().retrofit(), this);
         this.galleryApplications = new GalleryApplicationsInner(restClient().retrofit(), this);
         this.galleryApplicationVersions = new GalleryApplicationVersionsInner(restClient().retrofit(), this);
-        this.containerServices = new ContainerServicesInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

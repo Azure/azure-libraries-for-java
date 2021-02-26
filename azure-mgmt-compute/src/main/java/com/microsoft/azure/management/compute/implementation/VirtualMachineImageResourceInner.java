@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import java.util.Map;
+import com.microsoft.azure.management.compute.ExtendedLocation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.SubResource;
 
@@ -35,6 +36,12 @@ public class VirtualMachineImageResourceInner extends SubResource {
      */
     @JsonProperty(value = "tags")
     private Map<String, String> tags;
+
+    /**
+     * The extended location of the Virtual Machine.
+     */
+    @JsonProperty(value = "extendedLocation")
+    private ExtendedLocation extendedLocation;
 
     /**
      * Get the name of the resource.
@@ -93,6 +100,26 @@ public class VirtualMachineImageResourceInner extends SubResource {
      */
     public VirtualMachineImageResourceInner withTags(Map<String, String> tags) {
         this.tags = tags;
+        return this;
+    }
+
+    /**
+     * Get the extended location of the Virtual Machine.
+     *
+     * @return the extendedLocation value
+     */
+    public ExtendedLocation extendedLocation() {
+        return this.extendedLocation;
+    }
+
+    /**
+     * Set the extended location of the Virtual Machine.
+     *
+     * @param extendedLocation the extendedLocation value to set
+     * @return the VirtualMachineImageResourceInner object itself.
+     */
+    public VirtualMachineImageResourceInner withExtendedLocation(ExtendedLocation extendedLocation) {
+        this.extendedLocation = extendedLocation;
         return this;
     }
 

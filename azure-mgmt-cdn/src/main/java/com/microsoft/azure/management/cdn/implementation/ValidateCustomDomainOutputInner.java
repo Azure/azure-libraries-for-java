@@ -33,7 +33,7 @@ public class ValidateCustomDomainOutputInner {
     private String message;
 
     /**
-     * Get the customDomainValidated value.
+     * Get indicates whether the custom domain is valid or not.
      *
      * @return the customDomainValidated value
      */
@@ -42,7 +42,7 @@ public class ValidateCustomDomainOutputInner {
     }
 
     /**
-     * Get the reason value.
+     * Get the reason why the custom domain is not valid.
      *
      * @return the reason value
      */
@@ -51,7 +51,7 @@ public class ValidateCustomDomainOutputInner {
     }
 
     /**
-     * Get the message value.
+     * Get error message describing why the custom domain is not valid.
      *
      * @return the message value
      */

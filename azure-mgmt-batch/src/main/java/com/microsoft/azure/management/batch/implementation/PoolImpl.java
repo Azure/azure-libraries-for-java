@@ -181,7 +181,12 @@ public class PoolImpl
 
     @Override
     public Integer maxTasksPerNode() {
-        return this.inner().maxTasksPerNode();
+        return this.inner().taskSlotsPerNode();
+    }
+
+    @Override
+    public Integer taskSlotsPerNode() {
+        return this.inner().taskSlotsPerNode();
     }
 
     @Override
@@ -267,7 +272,13 @@ public class PoolImpl
 
     @Override
     public PoolImpl withMaxTasksPerNode(Integer maxTasksPerNode) {
-        this.inner().withMaxTasksPerNode(maxTasksPerNode);
+        this.inner().withTaskSlotsPerNode(maxTasksPerNode);
+        return this;
+    }
+
+    @Override
+    public PoolImpl withTaskSlotsPerNode(Integer taskSlotsPerNode) {
+        this.inner().withTaskSlotsPerNode(taskSlotsPerNode);
         return this;
     }
 

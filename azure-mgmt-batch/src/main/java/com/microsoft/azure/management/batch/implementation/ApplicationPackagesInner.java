@@ -89,7 +89,7 @@ public class ApplicationPackagesInner {
     }
 
     /**
-     * Activates the specified application package.
+     * Activates the specified application package. This should be done after the `ApplicationPackage` was created and uploaded. This needs to be done before an `ApplicationPackage` can be used on Pools or Tasks.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -106,7 +106,7 @@ public class ApplicationPackagesInner {
     }
 
     /**
-     * Activates the specified application package.
+     * Activates the specified application package. This should be done after the `ApplicationPackage` was created and uploaded. This needs to be done before an `ApplicationPackage` can be used on Pools or Tasks.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -122,7 +122,7 @@ public class ApplicationPackagesInner {
     }
 
     /**
-     * Activates the specified application package.
+     * Activates the specified application package. This should be done after the `ApplicationPackage` was created and uploaded. This needs to be done before an `ApplicationPackage` can be used on Pools or Tasks.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -142,7 +142,7 @@ public class ApplicationPackagesInner {
     }
 
     /**
-     * Activates the specified application package.
+     * Activates the specified application package. This should be done after the `ApplicationPackage` was created and uploaded. This needs to be done before an `ApplicationPackage` can be used on Pools or Tasks.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -198,7 +198,7 @@ public class ApplicationPackagesInner {
     }
 
     /**
-     * Creates an application package record.
+     * Creates an application package record. The record contains the SAS where the package should be uploaded to.  Once it is uploaded the `ApplicationPackage` needs to be activated using `ApplicationPackageActive` before it can be used.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -214,7 +214,7 @@ public class ApplicationPackagesInner {
     }
 
     /**
-     * Creates an application package record.
+     * Creates an application package record. The record contains the SAS where the package should be uploaded to.  Once it is uploaded the `ApplicationPackage` needs to be activated using `ApplicationPackageActive` before it can be used.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -229,7 +229,7 @@ public class ApplicationPackagesInner {
     }
 
     /**
-     * Creates an application package record.
+     * Creates an application package record. The record contains the SAS where the package should be uploaded to.  Once it is uploaded the `ApplicationPackage` needs to be activated using `ApplicationPackageActive` before it can be used.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -248,7 +248,7 @@ public class ApplicationPackagesInner {
     }
 
     /**
-     * Creates an application package record.
+     * Creates an application package record. The record contains the SAS where the package should be uploaded to.  Once it is uploaded the `ApplicationPackage` needs to be activated using `ApplicationPackageActive` before it can be used.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -276,8 +276,7 @@ public class ApplicationPackagesInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        ApplicationPackageInner paramters = new ApplicationPackageInner();
-        return service.create(resourceGroupName, accountName, applicationName, versionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), paramters, this.client.userAgent())
+        return service.create(resourceGroupName, accountName, applicationName, versionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), new ApplicationPackageInner(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationPackageInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ApplicationPackageInner>> call(Response<ResponseBody> response) {

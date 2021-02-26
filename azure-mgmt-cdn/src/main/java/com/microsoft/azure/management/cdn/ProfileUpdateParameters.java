@@ -22,7 +22,7 @@ public class ProfileUpdateParameters {
     private Map<String, String> tags;
 
     /**
-     * Get the tags value.
+     * Get profile tags.
      *
      * @return the tags value
      */
@@ -31,7 +31,7 @@ public class ProfileUpdateParameters {
     }
 
     /**
-     * Set the tags value.
+     * Set profile tags.
      *
      * @param tags the tags value to set
      * @return the ProfileUpdateParameters object itself.

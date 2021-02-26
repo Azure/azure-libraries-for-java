@@ -18,13 +18,17 @@ public class Sku {
     /**
      * Name of the pricing tier. Possible values include: 'Standard_Verizon',
      * 'Premium_Verizon', 'Custom_Verizon', 'Standard_Akamai',
-     * 'Standard_ChinaCdn'.
+     * 'Standard_ChinaCdn', 'Standard_Microsoft', 'Premium_ChinaCdn',
+     * 'Standard_AzureFrontDoor', 'Premium_AzureFrontDoor',
+     * 'Standard_955BandWidth_ChinaCdn', 'Standard_AvgBandWidth_ChinaCdn',
+     * 'StandardPlus_ChinaCdn', 'StandardPlus_955BandWidth_ChinaCdn',
+     * 'StandardPlus_AvgBandWidth_ChinaCdn'.
      */
     @JsonProperty(value = "name")
     private SkuName name;
 
     /**
-     * Get the name value.
+     * Get name of the pricing tier. Possible values include: 'Standard_Verizon', 'Premium_Verizon', 'Custom_Verizon', 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft', 'Premium_ChinaCdn', 'Standard_AzureFrontDoor', 'Premium_AzureFrontDoor', 'Standard_955BandWidth_ChinaCdn', 'Standard_AvgBandWidth_ChinaCdn', 'StandardPlus_ChinaCdn', 'StandardPlus_955BandWidth_ChinaCdn', 'StandardPlus_AvgBandWidth_ChinaCdn'.
      *
      * @return the name value
      */
@@ -33,7 +37,7 @@ public class Sku {
     }
 
     /**
-     * Set the name value.
+     * Set name of the pricing tier. Possible values include: 'Standard_Verizon', 'Premium_Verizon', 'Custom_Verizon', 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft', 'Premium_ChinaCdn', 'Standard_AzureFrontDoor', 'Premium_AzureFrontDoor', 'Standard_955BandWidth_ChinaCdn', 'Standard_AvgBandWidth_ChinaCdn', 'StandardPlus_ChinaCdn', 'StandardPlus_955BandWidth_ChinaCdn', 'StandardPlus_AvgBandWidth_ChinaCdn'.
      *
      * @param name the name value to set
      * @return the Sku object itself.

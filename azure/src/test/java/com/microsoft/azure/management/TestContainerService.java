@@ -10,22 +10,17 @@ import com.microsoft.azure.management.containerservice.ContainerServiceMasterPro
 import com.microsoft.azure.management.containerservice.ContainerServiceOrchestratorTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.ContainerServices;
+import com.microsoft.azure.management.resources.core.TestUtilities;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
 
 public class TestContainerService extends TestTemplate<ContainerService, ContainerServices> {
 
     @Override
     public ContainerService createResource(ContainerServices containerServices) throws Exception {
-        final String sshKeyData =  this.getSshKey();
+        final String sshKeyData = TestUtilities.createSshPublicKey();
 
         final String newName = "as" + this.testId;
         final String dnsPrefix = "dns" + newName;
@@ -87,23 +82,5 @@ public class TestContainerService extends TestTemplate<ContainerService, Contain
                 .append("\n\tRegion: ").append(resource.region())
                 .append("\n\tTags: ").append(resource.tags())
                 .toString());
-    }
-
-    private String getSshKey() throws Exception {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048);
-        KeyPair keyPair=keyPairGenerator.generateKeyPair();
-        RSAPublicKey publicKey=(RSAPublicKey)keyPair.getPublic();
-        ByteArrayOutputStream byteOs = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(byteOs);
-        dos.writeInt("ssh-rsa".getBytes().length);
-        dos.write("ssh-rsa".getBytes());
-        dos.writeInt(publicKey.getPublicExponent().toByteArray().length);
-        dos.write(publicKey.getPublicExponent().toByteArray());
-        dos.writeInt(publicKey.getModulus().toByteArray().length);
-        dos.write(publicKey.getModulus().toByteArray());
-        String publicKeyEncoded = new String(
-                Base64.encodeBase64(byteOs.toByteArray()));
-        return "ssh-rsa " + publicKeyEncoded + " ";
     }
 }

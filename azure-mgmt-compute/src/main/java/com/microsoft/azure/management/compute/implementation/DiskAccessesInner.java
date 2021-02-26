@@ -107,6 +107,30 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateLinkResources")
         Observable<Response<ResponseBody>> getPrivateLinkResources(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("diskAccessName") String diskAccessName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskAccesses updateAPrivateEndpointConnection" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}")
+        Observable<Response<ResponseBody>> updateAPrivateEndpointConnection(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("diskAccessName") String diskAccessName, @Path("privateEndpointConnectionName") String privateEndpointConnectionName, @Query("api-version") String apiVersion, @Body PrivateEndpointConnectionInner privateEndpointConnection, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskAccesses beginUpdateAPrivateEndpointConnection" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}")
+        Observable<Response<ResponseBody>> beginUpdateAPrivateEndpointConnection(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("diskAccessName") String diskAccessName, @Path("privateEndpointConnectionName") String privateEndpointConnectionName, @Query("api-version") String apiVersion, @Body PrivateEndpointConnectionInner privateEndpointConnection, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskAccesses getAPrivateEndpointConnection" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}")
+        Observable<Response<ResponseBody>> getAPrivateEndpointConnection(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("diskAccessName") String diskAccessName, @Path("privateEndpointConnectionName") String privateEndpointConnectionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskAccesses deleteAPrivateEndpointConnection" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> deleteAPrivateEndpointConnection(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("diskAccessName") String diskAccessName, @Path("privateEndpointConnectionName") String privateEndpointConnectionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskAccesses beginDeleteAPrivateEndpointConnection" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> beginDeleteAPrivateEndpointConnection(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("diskAccessName") String diskAccessName, @Path("privateEndpointConnectionName") String privateEndpointConnectionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskAccesses listPrivateEndpointConnections" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections")
+        Observable<Response<ResponseBody>> listPrivateEndpointConnections(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("diskAccessName") String diskAccessName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskAccesses listByResourceGroupNext" })
         @GET
         Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -114,6 +138,10 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskAccesses listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.DiskAccesses listPrivateEndpointConnectionsNext" })
+        @GET
+        Observable<Response<ResponseBody>> listPrivateEndpointConnectionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -187,7 +215,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
             throw new IllegalArgumentException("Parameter diskAccess is required and cannot be null.");
         }
         Validator.validate(diskAccess);
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, diskAccessName, apiVersion, diskAccess, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DiskAccessInner>() { }.getType());
     }
@@ -262,7 +290,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
             throw new IllegalArgumentException("Parameter diskAccess is required and cannot be null.");
         }
         Validator.validate(diskAccess);
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, diskAccessName, apiVersion, diskAccess, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiskAccessInner>>>() {
                 @Override
@@ -347,7 +375,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         if (diskAccessName == null) {
             throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         final Map<String, String> tags = null;
         DiskAccessUpdate diskAccess = new DiskAccessUpdate();
         diskAccess.withTags(null);
@@ -421,7 +449,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
             throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         DiskAccessUpdate diskAccess = new DiskAccessUpdate();
         diskAccess.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.update(this.client.subscriptionId(), resourceGroupName, diskAccessName, apiVersion, this.client.acceptLanguage(), diskAccess, this.client.userAgent());
@@ -490,7 +518,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         if (diskAccessName == null) {
             throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         final Map<String, String> tags = null;
         DiskAccessUpdate diskAccess = new DiskAccessUpdate();
         diskAccess.withTags(null);
@@ -575,7 +603,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
             throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         DiskAccessUpdate diskAccess = new DiskAccessUpdate();
         diskAccess.withTags(tags);
         return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, diskAccessName, apiVersion, this.client.acceptLanguage(), diskAccess, this.client.userAgent())
@@ -662,7 +690,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         if (diskAccessName == null) {
             throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, diskAccessName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiskAccessInner>>>() {
                 @Override
@@ -745,7 +773,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         if (diskAccessName == null) {
             throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, diskAccessName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -811,7 +839,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         if (diskAccessName == null) {
             throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, diskAccessName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -926,7 +954,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiskAccessInner>>>>() {
                 @Override
@@ -1031,7 +1059,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiskAccessInner>>>>() {
                 @Override
@@ -1115,7 +1143,7 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
         if (diskAccessName == null) {
             throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-30";
+        final String apiVersion = "2020-09-30";
         return service.getPrivateLinkResources(this.client.subscriptionId(), resourceGroupName, diskAccessName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateLinkResourceListResultInner>>>() {
                 @Override
@@ -1133,6 +1161,565 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
     private ServiceResponse<PrivateLinkResourceListResultInner> getPrivateLinkResourcesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PrivateLinkResourceListResultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PrivateLinkResourceListResultInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put private endpoint connection operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PrivateEndpointConnectionInner object if successful.
+     */
+    public PrivateEndpointConnectionInner updateAPrivateEndpointConnection(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, PrivateEndpointConnectionInner privateEndpointConnection) {
+        return updateAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName, privateEndpointConnection).toBlocking().last().body();
+    }
+
+    /**
+     * Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put private endpoint connection operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<PrivateEndpointConnectionInner> updateAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, PrivateEndpointConnectionInner privateEndpointConnection, final ServiceCallback<PrivateEndpointConnectionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName, privateEndpointConnection), serviceCallback);
+    }
+
+    /**
+     * Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put private endpoint connection operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<PrivateEndpointConnectionInner> updateAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, PrivateEndpointConnectionInner privateEndpointConnection) {
+        return updateAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName, privateEndpointConnection).map(new Func1<ServiceResponse<PrivateEndpointConnectionInner>, PrivateEndpointConnectionInner>() {
+            @Override
+            public PrivateEndpointConnectionInner call(ServiceResponse<PrivateEndpointConnectionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put private endpoint connection operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<PrivateEndpointConnectionInner>> updateAPrivateEndpointConnectionWithServiceResponseAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, PrivateEndpointConnectionInner privateEndpointConnection) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (diskAccessName == null) {
+            throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
+        }
+        if (privateEndpointConnectionName == null) {
+            throw new IllegalArgumentException("Parameter privateEndpointConnectionName is required and cannot be null.");
+        }
+        if (privateEndpointConnection == null) {
+            throw new IllegalArgumentException("Parameter privateEndpointConnection is required and cannot be null.");
+        }
+        Validator.validate(privateEndpointConnection);
+        final String apiVersion = "2020-09-30";
+        Observable<Response<ResponseBody>> observable = service.updateAPrivateEndpointConnection(this.client.subscriptionId(), resourceGroupName, diskAccessName, privateEndpointConnectionName, apiVersion, privateEndpointConnection, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<PrivateEndpointConnectionInner>() { }.getType());
+    }
+
+    /**
+     * Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put private endpoint connection operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PrivateEndpointConnectionInner object if successful.
+     */
+    public PrivateEndpointConnectionInner beginUpdateAPrivateEndpointConnection(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, PrivateEndpointConnectionInner privateEndpointConnection) {
+        return beginUpdateAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName, privateEndpointConnection).toBlocking().single().body();
+    }
+
+    /**
+     * Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put private endpoint connection operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<PrivateEndpointConnectionInner> beginUpdateAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, PrivateEndpointConnectionInner privateEndpointConnection, final ServiceCallback<PrivateEndpointConnectionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName, privateEndpointConnection), serviceCallback);
+    }
+
+    /**
+     * Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put private endpoint connection operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PrivateEndpointConnectionInner object
+     */
+    public Observable<PrivateEndpointConnectionInner> beginUpdateAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, PrivateEndpointConnectionInner privateEndpointConnection) {
+        return beginUpdateAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName, privateEndpointConnection).map(new Func1<ServiceResponse<PrivateEndpointConnectionInner>, PrivateEndpointConnectionInner>() {
+            @Override
+            public PrivateEndpointConnectionInner call(ServiceResponse<PrivateEndpointConnectionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param privateEndpointConnection private endpoint connection object supplied in the body of the Put private endpoint connection operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PrivateEndpointConnectionInner object
+     */
+    public Observable<ServiceResponse<PrivateEndpointConnectionInner>> beginUpdateAPrivateEndpointConnectionWithServiceResponseAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, PrivateEndpointConnectionInner privateEndpointConnection) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (diskAccessName == null) {
+            throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
+        }
+        if (privateEndpointConnectionName == null) {
+            throw new IllegalArgumentException("Parameter privateEndpointConnectionName is required and cannot be null.");
+        }
+        if (privateEndpointConnection == null) {
+            throw new IllegalArgumentException("Parameter privateEndpointConnection is required and cannot be null.");
+        }
+        Validator.validate(privateEndpointConnection);
+        final String apiVersion = "2020-09-30";
+        return service.beginUpdateAPrivateEndpointConnection(this.client.subscriptionId(), resourceGroupName, diskAccessName, privateEndpointConnectionName, apiVersion, privateEndpointConnection, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateEndpointConnectionInner>>>() {
+                @Override
+                public Observable<ServiceResponse<PrivateEndpointConnectionInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PrivateEndpointConnectionInner> clientResponse = beginUpdateAPrivateEndpointConnectionDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PrivateEndpointConnectionInner> beginUpdateAPrivateEndpointConnectionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PrivateEndpointConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PrivateEndpointConnectionInner>() { }.getType())
+                .register(202, new TypeToken<PrivateEndpointConnectionInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets information about a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PrivateEndpointConnectionInner object if successful.
+     */
+    public PrivateEndpointConnectionInner getAPrivateEndpointConnection(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName) {
+        return getAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName).toBlocking().single().body();
+    }
+
+    /**
+     * Gets information about a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<PrivateEndpointConnectionInner> getAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, final ServiceCallback<PrivateEndpointConnectionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName), serviceCallback);
+    }
+
+    /**
+     * Gets information about a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PrivateEndpointConnectionInner object
+     */
+    public Observable<PrivateEndpointConnectionInner> getAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName) {
+        return getAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName).map(new Func1<ServiceResponse<PrivateEndpointConnectionInner>, PrivateEndpointConnectionInner>() {
+            @Override
+            public PrivateEndpointConnectionInner call(ServiceResponse<PrivateEndpointConnectionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets information about a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PrivateEndpointConnectionInner object
+     */
+    public Observable<ServiceResponse<PrivateEndpointConnectionInner>> getAPrivateEndpointConnectionWithServiceResponseAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (diskAccessName == null) {
+            throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
+        }
+        if (privateEndpointConnectionName == null) {
+            throw new IllegalArgumentException("Parameter privateEndpointConnectionName is required and cannot be null.");
+        }
+        final String apiVersion = "2020-09-30";
+        return service.getAPrivateEndpointConnection(this.client.subscriptionId(), resourceGroupName, diskAccessName, privateEndpointConnectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<PrivateEndpointConnectionInner>>>() {
+                @Override
+                public Observable<ServiceResponse<PrivateEndpointConnectionInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PrivateEndpointConnectionInner> clientResponse = getAPrivateEndpointConnectionDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PrivateEndpointConnectionInner> getAPrivateEndpointConnectionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PrivateEndpointConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PrivateEndpointConnectionInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Deletes a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void deleteAPrivateEndpointConnection(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName) {
+        deleteAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName).toBlocking().last().body();
+    }
+
+    /**
+     * Deletes a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> deleteAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName), serviceCallback);
+    }
+
+    /**
+     * Deletes a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> deleteAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName) {
+        return deleteAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Deletes a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> deleteAPrivateEndpointConnectionWithServiceResponseAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (diskAccessName == null) {
+            throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
+        }
+        if (privateEndpointConnectionName == null) {
+            throw new IllegalArgumentException("Parameter privateEndpointConnectionName is required and cannot be null.");
+        }
+        final String apiVersion = "2020-09-30";
+        Observable<Response<ResponseBody>> observable = service.deleteAPrivateEndpointConnection(this.client.subscriptionId(), resourceGroupName, diskAccessName, privateEndpointConnectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Deletes a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginDeleteAPrivateEndpointConnection(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName) {
+        beginDeleteAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName).toBlocking().single().body();
+    }
+
+    /**
+     * Deletes a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginDeleteAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName), serviceCallback);
+    }
+
+    /**
+     * Deletes a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginDeleteAPrivateEndpointConnectionAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName) {
+        return beginDeleteAPrivateEndpointConnectionWithServiceResponseAsync(resourceGroupName, diskAccessName, privateEndpointConnectionName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Deletes a private endpoint connection under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param privateEndpointConnectionName The name of the private endpoint connection
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginDeleteAPrivateEndpointConnectionWithServiceResponseAsync(String resourceGroupName, String diskAccessName, String privateEndpointConnectionName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (diskAccessName == null) {
+            throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
+        }
+        if (privateEndpointConnectionName == null) {
+            throw new IllegalArgumentException("Parameter privateEndpointConnectionName is required and cannot be null.");
+        }
+        final String apiVersion = "2020-09-30";
+        return service.beginDeleteAPrivateEndpointConnection(this.client.subscriptionId(), resourceGroupName, diskAccessName, privateEndpointConnectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginDeleteAPrivateEndpointConnectionDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginDeleteAPrivateEndpointConnectionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;PrivateEndpointConnectionInner&gt; object if successful.
+     */
+    public PagedList<PrivateEndpointConnectionInner> listPrivateEndpointConnections(final String resourceGroupName, final String diskAccessName) {
+        ServiceResponse<Page<PrivateEndpointConnectionInner>> response = listPrivateEndpointConnectionsSinglePageAsync(resourceGroupName, diskAccessName).toBlocking().single();
+        return new PagedList<PrivateEndpointConnectionInner>(response.body()) {
+            @Override
+            public Page<PrivateEndpointConnectionInner> nextPage(String nextPageLink) {
+                return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsAsync(final String resourceGroupName, final String diskAccessName, final ListOperationCallback<PrivateEndpointConnectionInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listPrivateEndpointConnectionsSinglePageAsync(resourceGroupName, diskAccessName),
+            new Func1<String, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(String nextPageLink) {
+                    return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;PrivateEndpointConnectionInner&gt; object
+     */
+    public Observable<Page<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsAsync(final String resourceGroupName, final String diskAccessName) {
+        return listPrivateEndpointConnectionsWithServiceResponseAsync(resourceGroupName, diskAccessName)
+            .map(new Func1<ServiceResponse<Page<PrivateEndpointConnectionInner>>, Page<PrivateEndpointConnectionInner>>() {
+                @Override
+                public Page<PrivateEndpointConnectionInner> call(ServiceResponse<Page<PrivateEndpointConnectionInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;PrivateEndpointConnectionInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> listPrivateEndpointConnectionsWithServiceResponseAsync(final String resourceGroupName, final String diskAccessName) {
+        return listPrivateEndpointConnectionsSinglePageAsync(resourceGroupName, diskAccessName)
+            .concatMap(new Func1<ServiceResponse<Page<PrivateEndpointConnectionInner>>, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(ServiceResponse<Page<PrivateEndpointConnectionInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listPrivateEndpointConnectionsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+    ServiceResponse<PageImpl1<PrivateEndpointConnectionInner>> * @param resourceGroupName The name of the resource group.
+    ServiceResponse<PageImpl1<PrivateEndpointConnectionInner>> * @param diskAccessName The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;PrivateEndpointConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> listPrivateEndpointConnectionsSinglePageAsync(final String resourceGroupName, final String diskAccessName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (diskAccessName == null) {
+            throw new IllegalArgumentException("Parameter diskAccessName is required and cannot be null.");
+        }
+        final String apiVersion = "2020-09-30";
+        return service.listPrivateEndpointConnections(this.client.subscriptionId(), resourceGroupName, diskAccessName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl1<PrivateEndpointConnectionInner>> result = listPrivateEndpointConnectionsDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<PrivateEndpointConnectionInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl1<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<PrivateEndpointConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<PrivateEndpointConnectionInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1355,6 +1942,117 @@ public class DiskAccessesInner implements InnerSupportsGet<DiskAccessInner>, Inn
     private ServiceResponse<PageImpl1<DiskAccessInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl1<DiskAccessInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl1<DiskAccessInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;PrivateEndpointConnectionInner&gt; object if successful.
+     */
+    public PagedList<PrivateEndpointConnectionInner> listPrivateEndpointConnectionsNext(final String nextPageLink) {
+        ServiceResponse<Page<PrivateEndpointConnectionInner>> response = listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<PrivateEndpointConnectionInner>(response.body()) {
+            @Override
+            public Page<PrivateEndpointConnectionInner> nextPage(String nextPageLink) {
+                return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsNextAsync(final String nextPageLink, final ServiceFuture<List<PrivateEndpointConnectionInner>> serviceFuture, final ListOperationCallback<PrivateEndpointConnectionInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(String nextPageLink) {
+                    return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;PrivateEndpointConnectionInner&gt; object
+     */
+    public Observable<Page<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsNextAsync(final String nextPageLink) {
+        return listPrivateEndpointConnectionsNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<PrivateEndpointConnectionInner>>, Page<PrivateEndpointConnectionInner>>() {
+                @Override
+                public Page<PrivateEndpointConnectionInner> call(ServiceResponse<Page<PrivateEndpointConnectionInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;PrivateEndpointConnectionInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> listPrivateEndpointConnectionsNextWithServiceResponseAsync(final String nextPageLink) {
+        return listPrivateEndpointConnectionsNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<PrivateEndpointConnectionInner>>, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(ServiceResponse<Page<PrivateEndpointConnectionInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listPrivateEndpointConnectionsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * List information about private endpoint connections under a disk access resource.
+     *
+    ServiceResponse<PageImpl1<PrivateEndpointConnectionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;PrivateEndpointConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> listPrivateEndpointConnectionsNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listPrivateEndpointConnectionsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<PrivateEndpointConnectionInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl1<PrivateEndpointConnectionInner>> result = listPrivateEndpointConnectionsNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<PrivateEndpointConnectionInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl1<PrivateEndpointConnectionInner>> listPrivateEndpointConnectionsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<PrivateEndpointConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<PrivateEndpointConnectionInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

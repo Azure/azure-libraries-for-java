@@ -123,7 +123,7 @@ public class VirtualMachineInstanceViewInner {
     private List<InstanceViewStatus> statuses;
 
     /**
-     * The status of virtual machine patch operations.
+     * [Preview Feature] The status of virtual machine patch operations.
      */
     @JsonProperty(value = "patchStatus")
     private VirtualMachinePatchStatus patchStatus;
@@ -407,7 +407,7 @@ public class VirtualMachineInstanceViewInner {
     }
 
     /**
-     * Get the status of virtual machine patch operations.
+     * Get [Preview Feature] The status of virtual machine patch operations.
      *
      * @return the patchStatus value
      */
@@ -416,7 +416,7 @@ public class VirtualMachineInstanceViewInner {
     }
 
     /**
-     * Set the status of virtual machine patch operations.
+     * Set [Preview Feature] The status of virtual machine patch operations.
      *
      * @param patchStatus the patchStatus value to set
      * @return the VirtualMachineInstanceViewInner object itself.

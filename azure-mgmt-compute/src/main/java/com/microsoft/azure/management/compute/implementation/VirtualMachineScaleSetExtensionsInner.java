@@ -178,7 +178,7 @@ public class VirtualMachineScaleSetExtensionsInner {
             throw new IllegalArgumentException("Parameter extensionParameters is required and cannot be null.");
         }
         Validator.validate(extensionParameters);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineScaleSetExtensionInner>() { }.getType());
     }
@@ -260,7 +260,7 @@ public class VirtualMachineScaleSetExtensionsInner {
             throw new IllegalArgumentException("Parameter extensionParameters is required and cannot be null.");
         }
         Validator.validate(extensionParameters);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.beginCreateOrUpdate(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>>>() {
                 @Override
@@ -360,7 +360,7 @@ public class VirtualMachineScaleSetExtensionsInner {
             throw new IllegalArgumentException("Parameter extensionParameters is required and cannot be null.");
         }
         Validator.validate(extensionParameters);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineScaleSetExtensionInner>() { }.getType());
     }
@@ -442,7 +442,7 @@ public class VirtualMachineScaleSetExtensionsInner {
             throw new IllegalArgumentException("Parameter extensionParameters is required and cannot be null.");
         }
         Validator.validate(extensionParameters);
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.beginUpdate(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), extensionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>>>() {
                 @Override
@@ -533,7 +533,7 @@ public class VirtualMachineScaleSetExtensionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -606,7 +606,7 @@ public class VirtualMachineScaleSetExtensionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.beginDelete(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -699,7 +699,7 @@ public class VirtualMachineScaleSetExtensionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         final String expand = null;
         return service.get(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>>>() {
@@ -788,7 +788,7 @@ public class VirtualMachineScaleSetExtensionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.get(resourceGroupName, vmScaleSetName, vmssExtensionName, this.client.subscriptionId(), expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetExtensionInner>>>() {
                 @Override
@@ -909,7 +909,7 @@ public class VirtualMachineScaleSetExtensionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2020-06-01";
+        final String apiVersion = "2020-12-01";
         return service.list(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetExtensionInner>>>>() {
                 @Override

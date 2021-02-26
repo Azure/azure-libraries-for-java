@@ -39,7 +39,7 @@ public class ResourceUsageInner {
     private Integer limit;
 
     /**
-     * Get the resourceType value.
+     * Get resource type for which the usage is provided.
      *
      * @return the resourceType value
      */
@@ -48,7 +48,7 @@ public class ResourceUsageInner {
     }
 
     /**
-     * Get the unit value.
+     * Get unit of the usage. e.g. Count.
      *
      * @return the unit value
      */
@@ -57,7 +57,7 @@ public class ResourceUsageInner {
     }
 
     /**
-     * Get the currentValue value.
+     * Get actual value of usage on the specified resource type.
      *
      * @return the currentValue value
      */
@@ -66,7 +66,7 @@ public class ResourceUsageInner {
     }
 
     /**
-     * Get the limit value.
+     * Get quota of the specified resource type.
      *
      * @return the limit value
      */

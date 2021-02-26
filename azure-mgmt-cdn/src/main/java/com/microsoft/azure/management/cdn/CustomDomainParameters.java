@@ -23,7 +23,7 @@ public class CustomDomainParameters {
     private String hostName;
 
     /**
-     * Get the hostName value.
+     * Get the host name of the custom domain. Must be a domain name.
      *
      * @return the hostName value
      */
@@ -32,7 +32,7 @@ public class CustomDomainParameters {
     }
 
     /**
-     * Set the hostName value.
+     * Set the host name of the custom domain. Must be a domain name.
      *
      * @param hostName the hostName value to set
      * @return the CustomDomainParameters object itself.

@@ -25,6 +25,7 @@ import com.microsoft.azure.management.batch.CertificateReference;
 import com.microsoft.azure.management.batch.ApplicationPackageReference;
 import com.microsoft.azure.management.batch.ResizeOperationStatus;
 import com.microsoft.azure.management.batch.MountConfiguration;
+import com.microsoft.azure.management.batch.BatchPoolIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.ProxyResource;
@@ -89,7 +90,7 @@ public class PoolInner extends ProxyResource {
      * For information about available sizes of virtual machines for Cloud
      * Services pools (pools created with cloudServiceConfiguration), see Sizes
      * for Cloud Services
-     * (http://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/).
+     * (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/).
      * Batch supports all Cloud Services VM sizes except ExtraSmall. For
      * information about available VM sizes for pools using images from the
      * Virtual Machines Marketplace (pools created with
@@ -156,13 +157,13 @@ public class PoolInner extends ProxyResource {
     private NetworkConfiguration networkConfiguration;
 
     /**
-     * The maximum number of tasks that can run concurrently on a single
-     * compute node in the pool.
+     * The number of task slots that can be used to run concurrent tasks on a
+     * single compute node in the pool.
      * The default value is 1. The maximum value is the smaller of 4 times the
      * number of cores of the vmSize of the pool or 256.
      */
-    @JsonProperty(value = "properties.maxTasksPerNode")
-    private Integer maxTasksPerNode;
+    @JsonProperty(value = "properties.taskSlotsPerNode")
+    private Integer taskSlotsPerNode;
 
     /**
      * How tasks are distributed across compute nodes in a pool.
@@ -241,6 +242,13 @@ public class PoolInner extends ProxyResource {
      */
     @JsonProperty(value = "properties.mountConfiguration")
     private List<MountConfiguration> mountConfiguration;
+
+    /**
+     * The type of identity used for the Batch Pool.
+     * The type of identity used for the Batch Pool.
+     */
+    @JsonProperty(value = "identity")
+    private BatchPoolIdentity identity;
 
     /**
      * The ETag of the resource, used for concurrency statements.
@@ -323,7 +331,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get for information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (http://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series).
+     * Get for information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series).
      *
      * @return the vmSize value
      */
@@ -332,7 +340,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set for information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (http://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series).
+     * Set for information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series).
      *
      * @param vmSize the vmSize value to set
      * @return the PoolInner object itself.
@@ -452,20 +460,20 @@ public class PoolInner extends ProxyResource {
     /**
      * Get the default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256.
      *
-     * @return the maxTasksPerNode value
+     * @return the taskSlotsPerNode value
      */
-    public Integer maxTasksPerNode() {
-        return this.maxTasksPerNode;
+    public Integer taskSlotsPerNode() {
+        return this.taskSlotsPerNode;
     }
 
     /**
      * Set the default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256.
      *
-     * @param maxTasksPerNode the maxTasksPerNode value to set
+     * @param taskSlotsPerNode the taskSlotsPerNode value to set
      * @return the PoolInner object itself.
      */
-    public PoolInner withMaxTasksPerNode(Integer maxTasksPerNode) {
-        this.maxTasksPerNode = maxTasksPerNode;
+    public PoolInner withTaskSlotsPerNode(Integer taskSlotsPerNode) {
+        this.taskSlotsPerNode = taskSlotsPerNode;
         return this;
     }
 
@@ -635,6 +643,26 @@ public class PoolInner extends ProxyResource {
      */
     public PoolInner withMountConfiguration(List<MountConfiguration> mountConfiguration) {
         this.mountConfiguration = mountConfiguration;
+        return this;
+    }
+
+    /**
+     * Get the type of identity used for the Batch Pool.
+     *
+     * @return the identity value
+     */
+    public BatchPoolIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the type of identity used for the Batch Pool.
+     *
+     * @param identity the identity value to set
+     * @return the PoolInner object itself.
+     */
+    public PoolInner withIdentity(BatchPoolIdentity identity) {
+        this.identity = identity;
         return this;
     }
 

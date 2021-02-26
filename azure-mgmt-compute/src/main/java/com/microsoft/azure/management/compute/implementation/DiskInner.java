@@ -10,9 +10,11 @@ package com.microsoft.azure.management.compute.implementation;
 
 import java.util.List;
 import com.microsoft.azure.management.compute.DiskSku;
+import com.microsoft.azure.management.compute.ExtendedLocation;
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.HyperVGeneration;
+import com.microsoft.azure.management.compute.PurchasePlan;
 import com.microsoft.azure.management.compute.CreationData;
 import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
 import com.microsoft.azure.management.compute.DiskState;
@@ -55,6 +57,13 @@ public class DiskInner extends Resource {
     private List<String> zones;
 
     /**
+     * The extended location where the disk will be created. Extended location
+     * cannot be changed.
+     */
+    @JsonProperty(value = "extendedLocation")
+    private ExtendedLocation extendedLocation;
+
+    /**
      * The time when the disk was created.
      */
     @JsonProperty(value = "properties.timeCreated", access = JsonProperty.Access.WRITE_ONLY)
@@ -72,6 +81,14 @@ public class DiskInner extends Resource {
      */
     @JsonProperty(value = "properties.hyperVGeneration")
     private HyperVGeneration hyperVGeneration;
+
+    /**
+     * Purchase plan information for the the image from which the OS disk was
+     * created. E.g. - {name: 2019-Datacenter, publisher:
+     * MicrosoftWindowsServer, product: WindowsServer}.
+     */
+    @JsonProperty(value = "properties.purchasePlan")
+    private PurchasePlan purchasePlan;
 
     /**
      * Disk source information. CreationData information cannot be changed
@@ -197,6 +214,14 @@ public class DiskInner extends Resource {
     private String tier;
 
     /**
+     * Set to true to enable bursting beyond the provisioned performance target
+     * of the disk. Bursting is disabled by default. Does not apply to Ultra
+     * disks.
+     */
+    @JsonProperty(value = "properties.burstingEnabled")
+    private Boolean burstingEnabled;
+
+    /**
      * Get a relative URI containing the ID of the VM that has the disk attached.
      *
      * @return the managedBy value
@@ -255,6 +280,26 @@ public class DiskInner extends Resource {
     }
 
     /**
+     * Get the extended location where the disk will be created. Extended location cannot be changed.
+     *
+     * @return the extendedLocation value
+     */
+    public ExtendedLocation extendedLocation() {
+        return this.extendedLocation;
+    }
+
+    /**
+     * Set the extended location where the disk will be created. Extended location cannot be changed.
+     *
+     * @param extendedLocation the extendedLocation value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withExtendedLocation(ExtendedLocation extendedLocation) {
+        this.extendedLocation = extendedLocation;
+        return this;
+    }
+
+    /**
      * Get the time when the disk was created.
      *
      * @return the timeCreated value
@@ -300,6 +345,26 @@ public class DiskInner extends Resource {
      */
     public DiskInner withHyperVGeneration(HyperVGeneration hyperVGeneration) {
         this.hyperVGeneration = hyperVGeneration;
+        return this;
+    }
+
+    /**
+     * Get purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}.
+     *
+     * @return the purchasePlan value
+     */
+    public PurchasePlan purchasePlan() {
+        return this.purchasePlan;
+    }
+
+    /**
+     * Set purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}.
+     *
+     * @param purchasePlan the purchasePlan value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withPurchasePlan(PurchasePlan purchasePlan) {
+        this.purchasePlan = purchasePlan;
         return this;
     }
 
@@ -596,6 +661,26 @@ public class DiskInner extends Resource {
      */
     public DiskInner withTier(String tier) {
         this.tier = tier;
+        return this;
+    }
+
+    /**
+     * Get set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks.
+     *
+     * @return the burstingEnabled value
+     */
+    public Boolean burstingEnabled() {
+        return this.burstingEnabled;
+    }
+
+    /**
+     * Set set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks.
+     *
+     * @param burstingEnabled the burstingEnabled value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withBurstingEnabled(Boolean burstingEnabled) {
+        this.burstingEnabled = burstingEnabled;
         return this;
     }
 

@@ -159,10 +159,15 @@ public class SqlDatabaseOperationsImpl
     @Override
     public List<SqlDatabase> listBySqlServer(String resourceGroupName, String sqlServerName) {
         List<SqlDatabase> databasesSet = new ArrayList<>();
-        for (DatabaseInner inner : this.manager.inner().databases().listByServer(resourceGroupName, sqlServerName)) {
-            databasesSet.add(new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager));
+        List<DatabaseInner> databases = this.manager.inner().databases().listByServer(resourceGroupName, sqlServerName);
+        if (databases != null) {
+            for (DatabaseInner inner : databases) {
+                databasesSet.add(new SqlDatabaseImpl(resourceGroupName, sqlServerName, inner.location(), inner.name(), inner, manager));
+            }
+            return Collections.unmodifiableList(databasesSet);
+        } else {
+            return Collections.emptyList();
         }
-        return Collections.unmodifiableList(databasesSet);
     }
 
     @Override

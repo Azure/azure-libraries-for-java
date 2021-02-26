@@ -554,6 +554,14 @@ public interface WebApp extends
     Observable<DeploymentStatus> getDeploymentStatusAsync(String deploymentId);
 
     /**
+     * Gets the deployment status of the web app.
+     *
+     * @param deploymentId the deployment ID of the web app.
+     * @return the deployment status.
+     */
+    DeploymentStatus getDeploymentStatus(String deploymentId);
+
+    /**
      * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
      *
      * @see #getDeploymentStatusAsync(String)
@@ -570,12 +578,4 @@ public interface WebApp extends
      * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
      */
     AsyncDeploymentResult pushZipDeploy(InputStream zipFile);
-
-    /**
-     * Gets the deployment status of the web app.
-     *
-     * @param deploymentId the deployment ID of the web app.
-     * @return the deployment status.
-     */
-    DeploymentStatus getDeploymentStatus(String deploymentId);
 }

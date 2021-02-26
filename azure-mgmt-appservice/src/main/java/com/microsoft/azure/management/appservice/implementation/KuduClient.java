@@ -235,6 +235,28 @@ class KuduClient {
 
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
+
+            // service returns 404 on deploymentStatus, if deployment ID is get from SCM-DEPLOYMENT-ID
+            /*
+            Observable<AsyncDeploymentResult> result =
+                    retryOnError(handleResponse(service.zipDeploy(body, true), new Func1<Response<ResponseBody>, AsyncDeploymentResult>() {
+                        @Override
+                        public AsyncDeploymentResult call(Response<ResponseBody> responseBodyResponse) {
+                            String deploymentId = responseBodyResponse.headers().get("SCM-DEPLOYMENT-ID");
+                            if (deploymentId == null || deploymentId.isEmpty()) {
+                                // error if deployment ID not available
+                                throw new RestException("Deployment ID not found in response", responseBodyResponse);
+                            }
+                            return new AsyncDeploymentResult(deploymentId);
+                        }
+                    })).map(new Func1<ServiceResponse<AsyncDeploymentResult>, AsyncDeploymentResult>() {
+                        @Override
+                        public AsyncDeploymentResult call(ServiceResponse<AsyncDeploymentResult> result) {
+                            return result.body();
+                        }
+                    });
+             */
+
             Observable<ServiceResponse<DeploymentIntermediateResult>> responseDeployment =
                     retryOnError(handleResponse(service.zipDeploy(body, true), new Func1<Response<ResponseBody>, DeploymentIntermediateResult>() {
                         @Override

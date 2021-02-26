@@ -49872,6 +49872,8 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
     private ServiceResponse<DeploymentStatus> getDeploymentStatusDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DeploymentStatus, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DeploymentStatus>() { }.getType())
+                .register(201, new TypeToken<DeploymentStatus>() { }.getType())
+                .register(202, new TypeToken<DeploymentStatus>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }

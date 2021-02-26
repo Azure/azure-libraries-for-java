@@ -534,7 +534,7 @@ public interface WebApp extends
      * @param zipFile the ZIP file to upload
      * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
      */
-    Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(File zipFile);
+    Observable<AsyncDeploymentResult> pushZipDeployAsync(File zipFile);
 
     /**
      * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
@@ -543,7 +543,7 @@ public interface WebApp extends
      * @param zipFile the ZIP file to upload
      * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
      */
-    Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(InputStream zipFile);
+    Observable<AsyncDeploymentResult> pushZipDeployAsync(InputStream zipFile);
 
     /**
      * Gets the deployment status of the web app.

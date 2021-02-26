@@ -257,10 +257,10 @@ class WebAppImpl
     }
 
     @Override
-    public Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(File zipFile) {
+    public Observable<AsyncDeploymentResult> pushZipDeployAsync(File zipFile) {
         try {
             final InputStream is = new FileInputStream(zipFile);
-            return zipDeployWithResponseAsync(new FileInputStream(zipFile)).doAfterTerminate(new Action0() {
+            return pushZipDeployAsync(new FileInputStream(zipFile)).doAfterTerminate(new Action0() {
                 @Override
                 public void call() {
                     try {
@@ -276,8 +276,8 @@ class WebAppImpl
     }
 
     @Override
-    public Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(InputStream zipFile) {
-        return kuduClient.zipDeployWithResponseAsync(zipFile);
+    public Observable<AsyncDeploymentResult> pushZipDeployAsync(InputStream zipFile) {
+        return kuduClient.pushZipDeployAsync(zipFile);
     }
 
     @Override
@@ -287,12 +287,12 @@ class WebAppImpl
 
     @Override
     public AsyncDeploymentResult pushZipDeploy(File zipFile) {
-        return zipDeployWithResponseAsync(zipFile).toBlocking().last();
+        return pushZipDeployAsync(zipFile).toBlocking().last();
     }
 
     @Override
     public AsyncDeploymentResult pushZipDeploy(InputStream zipFile) {
-        return zipDeployWithResponseAsync(zipFile).toBlocking().last();
+        return pushZipDeployAsync(zipFile).toBlocking().last();
     }
 
     @Override

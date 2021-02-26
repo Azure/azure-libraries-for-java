@@ -229,7 +229,7 @@ class KuduClient {
         private Boolean isTemp;
     }
 
-    Observable<AsyncDeploymentResult> zipDeployWithResponseAsync(InputStream zipFile) {
+    Observable<AsyncDeploymentResult> pushZipDeployAsync(InputStream zipFile) {
         final long pollIntervalInSeconds = 5;
         final long pollCount = 3 * 60 / pollIntervalInSeconds;  // 3 minutes
 

@@ -237,7 +237,6 @@ class KuduClient {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
 
             // service returns 404 on deploymentStatus, if deployment ID is get from SCM-DEPLOYMENT-ID
-            /*
             Observable<AsyncDeploymentResult> result =
                     retryOnError(handleResponse(service.zipDeploy(body, true), new Func1<Response<ResponseBody>, AsyncDeploymentResult>() {
                         @Override
@@ -255,67 +254,66 @@ class KuduClient {
                             return result.body();
                         }
                     });
-             */
 
-            Observable<ServiceResponse<DeploymentIntermediateResult>> responseDeployment =
-                    retryOnError(handleResponse(service.zipDeploy(body, true), new Func1<Response<ResponseBody>, DeploymentIntermediateResult>() {
-                        @Override
-                        public DeploymentIntermediateResult call(Response<ResponseBody> responseBodyResponse) {
-                            DeploymentIntermediateResult result = new DeploymentIntermediateResult();
-                            result.deploymentUrl = responseBodyResponse.headers().get("Location");
-                            return result;
-                        }
-                    }));
-
-            Observable<AsyncDeploymentResult> result = responseDeployment.flatMap(new Func1<ServiceResponse<DeploymentIntermediateResult>, Observable<AsyncDeploymentResult>>() {
-                @Override
-                public Observable<AsyncDeploymentResult> call(ServiceResponse<DeploymentIntermediateResult> responseDeployment) {
-                    DeploymentIntermediateResult result = responseDeployment.body();
-                    if (result.deploymentUrl == null || result.deploymentUrl.isEmpty()) {
-                        // error if URL not available
-                        return Observable.error(new RestException("Deployment URL not found in response", responseDeployment.response()));
-                    } else {
-                        // delay for poll
-                        Observable<DeploymentIntermediateResult> delayedResult = Observable.just(result).delaySubscription(pollIntervalInSeconds, TimeUnit.SECONDS);
-                        return delayedResult.flatMap(new Func1<DeploymentIntermediateResult, Observable<ServiceResponse<DeploymentIntermediateResult>>>() {
-                            @Override
-                            public Observable<ServiceResponse<DeploymentIntermediateResult>> call(DeploymentIntermediateResult deployment) {
-                                return handleResponse(service.getDeployment(deployment.deploymentUrl), new Func1<Response<ResponseBody>, DeploymentIntermediateResult>() {
-                                    @Override
-                                    public DeploymentIntermediateResult call(Response<ResponseBody> response) {
-                                        DeploymentIntermediateResult result = new DeploymentIntermediateResult();
-                                        try {
-                                            DeploymentResponse deployment = restClient.serializerAdapter().deserialize(response.body().string(), DeploymentResponse.class);
-                                            if (deployment.id != null && !deployment.id.isEmpty() && deployment.isTemp != null && !deployment.isTemp) {
-                                                result.deploymentId = deployment.id;
-                                            }
-                                        } catch (IOException e) {
-                                            //
-                                        }
-                                        return result;
-                                    }
-                                });
-                            }
-                        }).repeat(pollCount).takeUntil(new Func1<ServiceResponse<DeploymentIntermediateResult>, Boolean>() {
-                            @Override
-                            public Boolean call(ServiceResponse<DeploymentIntermediateResult> response) {
-                                return response.body().deploymentId != null;
-                            }
-                        }).last().flatMap(new Func1<ServiceResponse<DeploymentIntermediateResult>, Observable<AsyncDeploymentResult>>() {
-                            @Override
-                            public Observable<AsyncDeploymentResult> call(ServiceResponse<DeploymentIntermediateResult> response) {
-                                DeploymentIntermediateResult result = response.body();
-                                if (result.deploymentId != null) {
-                                    return Observable.just(new AsyncDeploymentResult(result.deploymentId));
-                                } else {
-                                    // error if ID not available
-                                    return Observable.error(new RestException("Timeout while polling deployment ID", response.response()));
-                                }
-                            }
-                        });
-                    }
-                }
-            });
+//            Observable<ServiceResponse<DeploymentIntermediateResult>> responseDeployment =
+//                    retryOnError(handleResponse(service.zipDeploy(body, true), new Func1<Response<ResponseBody>, DeploymentIntermediateResult>() {
+//                        @Override
+//                        public DeploymentIntermediateResult call(Response<ResponseBody> responseBodyResponse) {
+//                            DeploymentIntermediateResult result = new DeploymentIntermediateResult();
+//                            result.deploymentUrl = responseBodyResponse.headers().get("Location");
+//                            return result;
+//                        }
+//                    }));
+//
+//            Observable<AsyncDeploymentResult> result = responseDeployment.flatMap(new Func1<ServiceResponse<DeploymentIntermediateResult>, Observable<AsyncDeploymentResult>>() {
+//                @Override
+//                public Observable<AsyncDeploymentResult> call(ServiceResponse<DeploymentIntermediateResult> responseDeployment) {
+//                    DeploymentIntermediateResult result = responseDeployment.body();
+//                    if (result.deploymentUrl == null || result.deploymentUrl.isEmpty()) {
+//                        // error if URL not available
+//                        return Observable.error(new RestException("Deployment URL not found in response", responseDeployment.response()));
+//                    } else {
+//                        // delay for poll
+//                        Observable<DeploymentIntermediateResult> delayedResult = Observable.just(result).delaySubscription(pollIntervalInSeconds, TimeUnit.SECONDS);
+//                        return delayedResult.flatMap(new Func1<DeploymentIntermediateResult, Observable<ServiceResponse<DeploymentIntermediateResult>>>() {
+//                            @Override
+//                            public Observable<ServiceResponse<DeploymentIntermediateResult>> call(DeploymentIntermediateResult deployment) {
+//                                return handleResponse(service.getDeployment(deployment.deploymentUrl), new Func1<Response<ResponseBody>, DeploymentIntermediateResult>() {
+//                                    @Override
+//                                    public DeploymentIntermediateResult call(Response<ResponseBody> response) {
+//                                        DeploymentIntermediateResult result = new DeploymentIntermediateResult();
+//                                        try {
+//                                            DeploymentResponse deployment = restClient.serializerAdapter().deserialize(response.body().string(), DeploymentResponse.class);
+//                                            if (deployment.id != null && !deployment.id.isEmpty() && deployment.isTemp != null && !deployment.isTemp) {
+//                                                result.deploymentId = deployment.id;
+//                                            }
+//                                        } catch (IOException e) {
+//                                            //
+//                                        }
+//                                        return result;
+//                                    }
+//                                });
+//                            }
+//                        }).repeat(pollCount).takeUntil(new Func1<ServiceResponse<DeploymentIntermediateResult>, Boolean>() {
+//                            @Override
+//                            public Boolean call(ServiceResponse<DeploymentIntermediateResult> response) {
+//                                return response.body().deploymentId != null;
+//                            }
+//                        }).last().flatMap(new Func1<ServiceResponse<DeploymentIntermediateResult>, Observable<AsyncDeploymentResult>>() {
+//                            @Override
+//                            public Observable<AsyncDeploymentResult> call(ServiceResponse<DeploymentIntermediateResult> response) {
+//                                DeploymentIntermediateResult result = response.body();
+//                                if (result.deploymentId != null) {
+//                                    return Observable.just(new AsyncDeploymentResult(result.deploymentId));
+//                                } else {
+//                                    // error if ID not available
+//                                    return Observable.error(new RestException("Timeout while polling deployment ID", response.response()));
+//                                }
+//                            }
+//                        });
+//                    }
+//                }
+//            });
 
             return result;
         } catch (IOException e) {

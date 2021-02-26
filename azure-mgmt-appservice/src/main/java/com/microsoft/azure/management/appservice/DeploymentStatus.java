@@ -15,7 +15,7 @@ public class DeploymentStatus extends ProxyResource {
     @JsonProperty(value = "properties.id")
     private BuildStatus deploymentId;
 
-    @JsonProperty(value = "properties.buildStatus")
+    @JsonProperty(value = "properties.status")
     private BuildStatus buildStatus;
 
     @JsonProperty(value = "properties.numberOfInstancesInProgress")

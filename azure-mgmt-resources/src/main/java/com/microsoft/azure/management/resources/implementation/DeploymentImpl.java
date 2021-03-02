@@ -29,6 +29,7 @@ import com.microsoft.azure.management.resources.WhatIfResultFormat;
 import com.microsoft.azure.management.resources.fluentcore.arm.Context;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
@@ -368,32 +369,26 @@ public final class DeploymentImpl extends
     }
 
     @Override
-    public Observable<Indexable> createAsync() {
-        this.context = Context.NONE;
-        return super.createAsync();
-    }
-
-    @Override
     public Deployment create(final Context context) {
         if (context == null) {
             throw new IllegalArgumentException("'context' cannot be null.");
         }
-        this.context = context;
-        return super.create();
+        return Utils.<Deployment>rootResource(createAsync(context)).toBlocking().single();
     }
 
     @Override
-    public Observable<Deployment> createAsync(final Context context) {
+    public Observable<Indexable> createAsync(final Context context) {
         if (context == null) {
             return Observable.error(new IllegalArgumentException("'context' cannot be null."));
         }
-        this.context = context;
-        return Utils.rootResource(super.createAsync());
+        TaskGroup.InvocationContext invocationContext = this.taskGroup().newInvocationContext();
+        invocationContext.put(TaskGroup.InvocationContext.KEY_CONTEXT, context);
+        return taskGroup().invokeAsync(this.taskGroup().newInvocationContext());
     }
 
     @Override
-    public Observable<Deployment> createResourceAsync() {
-        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), deploymentCreateUpdateParameters, this.context)
+    public Observable<Deployment> createResourceAsync(Context context) {
+        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), deploymentCreateUpdateParameters, context)
                 .map(new Func1<DeploymentExtendedInner, DeploymentExtendedInner>() {
                     @Override
                     public DeploymentExtendedInner call(DeploymentExtendedInner deploymentExtendedInner) {
@@ -402,6 +397,11 @@ public final class DeploymentImpl extends
                     }
                 })
                 .map(innerToFluentMap(this));
+    }
+
+    @Override
+    public Observable<Deployment> createResourceAsync() {
+        return this.createResourceAsync(Context.NONE);
     }
 
     private void prepareForUpdate(DeploymentExtendedInner inner) {

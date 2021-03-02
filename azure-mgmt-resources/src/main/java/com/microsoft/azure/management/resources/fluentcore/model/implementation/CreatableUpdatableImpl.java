@@ -20,7 +20,6 @@ import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
 import rx.Completable;
 import rx.Observable;
-import rx.functions.Action0;
 import rx.functions.Func1;
 
 import java.util.Objects;
@@ -50,8 +49,6 @@ public abstract class CreatableUpdatableImpl<
      * The group of tasks to create or update this model and it's dependencies.
      */
     private final TaskGroup taskGroup;
-
-    protected Context context = Context.NONE;
 
     /**
      * Creates CreatableUpdatableImpl.
@@ -218,31 +215,17 @@ public abstract class CreatableUpdatableImpl<
 
     @Override
     public Observable<Indexable> createAsync() {
-        final CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT> self = this;
-        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext())
-                .doOnUnsubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        self.context = Context.NONE;
-                    }
-                });
+        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext());
     }
 
     @Override
     public Observable<FluentModelT> applyAsync() {
-        final CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT> self = this;
         return taskGroup.invokeAsync(this.taskGroup.newInvocationContext())
                 .last()
                 .map(new Func1<Indexable, FluentModelT>() {
                     @Override
                     public FluentModelT call(Indexable indexable) {
                         return (FluentModelT) indexable;
-                    }
-                })
-                .doOnUnsubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        self.context = Context.NONE;
                     }
                 });
     }
@@ -286,6 +269,16 @@ public abstract class CreatableUpdatableImpl<
 
     @Override
     public Observable<FluentModelT> updateResourceAsync() {
+        return this.createResourceAsync();
+    }
+
+    @Override
+    public Observable<FluentModelT> updateResourceAsync(Context context) {
+        return this.updateResourceAsync();
+    }
+
+    @Override
+    public Observable<FluentModelT> createResourceAsync(Context context) {
         return this.createResourceAsync();
     }
 

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.arm.Context;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
@@ -53,35 +54,69 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
 
     @Override
     public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
-        if (this.resourceCreatorUpdater.isInCreateMode()) {
-            return this.resourceCreatorUpdater.createResourceAsync()
-                    .subscribeOn(SdkContext.getRxScheduler())
-                    .doOnNext(new Action1<ResourceT>() {
-                        @Override
-                        public void call(ResourceT resourceT) {
-                            resource = resourceT;
-                        }
-                    }).map(new Func1<ResourceT, Indexable>() {
-                        @Override
-                        public Indexable call(ResourceT resourceT) {
-                            return resourceT;
-                        }
-                    });
+        Context context1 = (Context) context.get(TaskGroup.InvocationContext.KEY_CONTEXT);
+        if (context1 == null) {
+            if (this.resourceCreatorUpdater.isInCreateMode()) {
+                return this.resourceCreatorUpdater.createResourceAsync()
+                        .subscribeOn(SdkContext.getRxScheduler())
+                        .doOnNext(new Action1<ResourceT>() {
+                            @Override
+                            public void call(ResourceT resourceT) {
+                                resource = resourceT;
+                            }
+                        }).map(new Func1<ResourceT, Indexable>() {
+                            @Override
+                            public Indexable call(ResourceT resourceT) {
+                                return resourceT;
+                            }
+                        });
+            } else {
+                return this.resourceCreatorUpdater.updateResourceAsync()
+                        .subscribeOn(SdkContext.getRxScheduler())
+                        .doOnNext(new Action1<ResourceT>() {
+                            @Override
+                            public void call(ResourceT resourceT) {
+                                resource = resourceT;
+                            }
+                        })
+                        .map(new Func1<ResourceT, Indexable>() {
+                            @Override
+                            public Indexable call(ResourceT resourceT) {
+                                return resourceT;
+                            }
+                        });
+            }
         } else {
-            return this.resourceCreatorUpdater.updateResourceAsync()
-                    .subscribeOn(SdkContext.getRxScheduler())
-                    .doOnNext(new Action1<ResourceT>() {
-                        @Override
-                        public void call(ResourceT resourceT) {
-                            resource = resourceT;
-                        }
-                    })
-                    .map(new Func1<ResourceT, Indexable>() {
-                        @Override
-                        public Indexable call(ResourceT resourceT) {
-                            return resourceT;
-                        }
-                    });
+            if (this.resourceCreatorUpdater.isInCreateMode()) {
+                return this.resourceCreatorUpdater.createResourceAsync(context1)
+                        .subscribeOn(SdkContext.getRxScheduler())
+                        .doOnNext(new Action1<ResourceT>() {
+                            @Override
+                            public void call(ResourceT resourceT) {
+                                resource = resourceT;
+                            }
+                        }).map(new Func1<ResourceT, Indexable>() {
+                            @Override
+                            public Indexable call(ResourceT resourceT) {
+                                return resourceT;
+                            }
+                        });
+            } else {
+                return this.resourceCreatorUpdater.updateResourceAsync(context1)
+                        .subscribeOn(SdkContext.getRxScheduler())
+                        .doOnNext(new Action1<ResourceT>() {
+                            @Override
+                            public void call(ResourceT resourceT) {
+                                resource = resourceT;
+                            }
+                        })
+                        .map(new Func1<ResourceT, Indexable>() {
+                            @Override
+                            public Indexable call(ResourceT resourceT) {
+                                return resourceT;
+                            }
+                        });
+            }
         }
     }
 
@@ -129,6 +164,22 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
          * @return an observable that update the resource when subscribed
          */
         Observable<T> updateResourceAsync();
+
+        /**
+         * Creates the resource asynchronously.
+         *
+         * @param context the context for request
+         * @return an observable that create the resource when subscribed
+         */
+        Observable<T> createResourceAsync(Context context);
+
+        /**
+         * Update the resource asynchronously.
+         *
+         * @param context the context for request
+         * @return an observable that update the resource when subscribed
+         */
+        Observable<T> updateResourceAsync(Context context);
 
         /**
          * @return true if the observable returned by {@link this#createResourceAsync()} and

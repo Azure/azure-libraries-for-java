@@ -350,7 +350,7 @@ public interface Deployment extends
              * @return an observable of the request
              */
             @Method
-            Observable<Deployment> createAsync(Context context);
+            Observable<Indexable> createAsync(Context context);
         }
     }
 

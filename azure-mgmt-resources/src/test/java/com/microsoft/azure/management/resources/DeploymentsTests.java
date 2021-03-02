@@ -7,12 +7,15 @@
 package com.microsoft.azure.management.resources;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.resources.fluentcore.arm.Context;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.RestClient;
 import org.junit.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DeploymentsTests extends ResourceManagerTestBase {
     private static ResourceGroups resourceGroups;
@@ -217,5 +220,60 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         GenericResource genericVnet = resourceClient.genericResources().get(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet2", "2015-06-15");
         Assert.assertNotNull(genericVnet);
         resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet2", "2015-06-15");
+    }
+
+    @Test
+    public void canDeployVirtualNetworkWithContext() throws Exception {
+        final String dpName = "dpA" + testId;
+        final String rgName1 = SdkContext.randomResourceName("rg", 9);
+        final String rgName2 = SdkContext.randomResourceName("rg", 9);
+
+        try {
+            String uuid = SdkContext.randomUuid();
+            Context context = new Context.Builder().withCorrelationRequestId(uuid).build();
+
+            // with context
+            Deployment deployment1 = resourceClient.deployments()
+                    .define(dpName)
+                    .withNewResourceGroup(rgName1, Region.US_SOUTH_CENTRAL)
+                    .withTemplateLink(templateUri, contentVersion)
+                    .withParametersLink(parametersUri, contentVersion)
+                    .withMode(DeploymentMode.COMPLETE)
+                    .beginCreate(context);
+
+            // with context
+            Deployment deployment2 = resourceClient.deployments()
+                    .define(dpName)
+                    .withNewResourceGroup(rgName2, Region.US_SOUTH_CENTRAL)
+                    .withTemplateLink(templateUri, contentVersion)
+                    .withParametersLink(parametersUri, contentVersion)
+                    .withMode(DeploymentMode.COMPLETE)
+                    .beginCreate(context);
+
+            // without context
+            Deployment deployment3 = resourceClient.deployments()
+                    .define(dpName)
+                    .withExistingResourceGroup(rgName)
+                    .withTemplateLink(templateUri, contentVersion)
+                    .withParametersLink(parametersUri, contentVersion)
+                    .withMode(DeploymentMode.COMPLETE)
+                    .beginCreate();
+
+            Assert.assertEquals(context.correlationRequestId(), deployment1.inner().properties().correlationId());
+            Assert.assertEquals(context.correlationRequestId(), deployment2.inner().properties().correlationId());
+            Assert.assertNotEquals(context.correlationRequestId(), deployment3.inner().properties().correlationId());
+
+            // wait for completion
+            SdkContext.sleep(60 * 1000);
+        } finally {
+            try {
+                resourceGroups.beginDeleteByName(rgName1);
+            } catch (Exception e) {
+            }
+            try {
+                resourceGroups.beginDeleteByName(rgName2);
+            } catch (Exception e) {
+            }
+        }
     }
 }

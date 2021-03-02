@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.arm.Context;
 import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -19,6 +20,7 @@ import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
 import rx.Completable;
 import rx.Observable;
+import rx.functions.Action0;
 import rx.functions.Func1;
 
 import java.util.Objects;
@@ -48,6 +50,8 @@ public abstract class CreatableUpdatableImpl<
      * The group of tasks to create or update this model and it's dependencies.
      */
     private final TaskGroup taskGroup;
+
+    protected Context context = Context.NONE;
 
     /**
      * Creates CreatableUpdatableImpl.
@@ -214,17 +218,31 @@ public abstract class CreatableUpdatableImpl<
 
     @Override
     public Observable<Indexable> createAsync() {
-        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext());
+        final CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT> self = this;
+        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext())
+                .doOnUnsubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        self.context = Context.NONE;
+                    }
+                });
     }
 
     @Override
     public Observable<FluentModelT> applyAsync() {
+        final CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT> self = this;
         return taskGroup.invokeAsync(this.taskGroup.newInvocationContext())
                 .last()
                 .map(new Func1<Indexable, FluentModelT>() {
                     @Override
                     public FluentModelT call(Indexable indexable) {
                         return (FluentModelT) indexable;
+                    }
+                })
+                .doOnUnsubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        self.context = Context.NONE;
                     }
                 });
     }

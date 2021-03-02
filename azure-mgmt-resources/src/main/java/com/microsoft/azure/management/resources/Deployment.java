@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition.LangMethodType;
 import com.microsoft.azure.management.apigeneration.Method;
+import com.microsoft.azure.management.resources.fluentcore.arm.Context;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
@@ -295,11 +296,61 @@ public interface Deployment extends
          * deployment in the cloud, but exposing additional optional inputs to specify.
          */
         interface WithCreate extends Creatable<Deployment> {
+
+            /**
+             * Begin executing the create request.
+             *
+             * @return the resource in creating
+             */
             @Method
             Deployment beginCreate();
 
+            /**
+             * Puts the request into the queue and allow the HTTP client to begin execute
+             * it when system resources are available.
+             *
+             * @return an observable of the request
+             */
             @Method
             Observable<Deployment> beginCreateAsync();
+
+            /**
+             * Begin executing the create request.
+             *
+             * @param context the context for the request
+             * @return the resource in creating
+             */
+            @Method
+            Deployment beginCreate(Context context);
+
+            /**
+             * Puts the request into the queue and allow the HTTP client to begin execute
+             * it when system resources are available.
+             *
+             * @param context the context for the request
+             * @return an observable of the request
+             */
+            @Method
+            Observable<Deployment> beginCreateAsync(Context context);
+
+            /**
+             * Execute the create request.
+             *
+             * @param context the context for the request
+             * @return the create resource
+             */
+            @Method
+            Deployment create(Context context);
+
+            /**
+             * Puts the request into the queue and allow the HTTP client to execute
+             * it when system resources are available.
+             *
+             * @param context the context for the request
+             * @return an observable of the request
+             */
+            @Method
+            Observable<Deployment> createAsync(Context context);
         }
     }
 

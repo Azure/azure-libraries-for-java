@@ -54,10 +54,10 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
 
     @Override
     public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
-        Context context1 = (Context) context.get(TaskGroup.InvocationContext.KEY_CONTEXT);
-        if (context1 == null) {
+        Object context1 = context.get(TaskGroup.InvocationContext.KEY_CONTEXT);
+        if (context1 instanceof Context) {
             if (this.resourceCreatorUpdater.isInCreateMode()) {
-                return this.resourceCreatorUpdater.createResourceAsync()
+                return this.resourceCreatorUpdater.createResourceAsync((Context) context1)
                         .subscribeOn(SdkContext.getRxScheduler())
                         .doOnNext(new Action1<ResourceT>() {
                             @Override
@@ -71,7 +71,7 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
                             }
                         });
             } else {
-                return this.resourceCreatorUpdater.updateResourceAsync()
+                return this.resourceCreatorUpdater.updateResourceAsync((Context) context1)
                         .subscribeOn(SdkContext.getRxScheduler())
                         .doOnNext(new Action1<ResourceT>() {
                             @Override
@@ -88,7 +88,7 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
             }
         } else {
             if (this.resourceCreatorUpdater.isInCreateMode()) {
-                return this.resourceCreatorUpdater.createResourceAsync(context1)
+                return this.resourceCreatorUpdater.createResourceAsync()
                         .subscribeOn(SdkContext.getRxScheduler())
                         .doOnNext(new Action1<ResourceT>() {
                             @Override
@@ -102,7 +102,7 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
                             }
                         });
             } else {
-                return this.resourceCreatorUpdater.updateResourceAsync(context1)
+                return this.resourceCreatorUpdater.updateResourceAsync()
                         .subscribeOn(SdkContext.getRxScheduler())
                         .doOnNext(new Action1<ResourceT>() {
                             @Override

@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.arm.Context;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
@@ -6851,4 +6852,89 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
                 .build(response);
     }
 
+    public DeploymentExtendedInner createOrUpdate(String resourceGroupName, String deploymentName, DeploymentInner parameters, Context context) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters, context).toBlocking().last().body();
+    }
+
+    public ServiceFuture<DeploymentExtendedInner> createOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, Context context, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters, context), serviceCallback);
+    }
+
+    public Observable<DeploymentExtendedInner> createOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, Context context) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters, context).map(new Func1<ServiceResponse<DeploymentExtendedInner>, DeploymentExtendedInner>() {
+            @Override
+            public DeploymentExtendedInner call(ServiceResponse<DeploymentExtendedInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    public Observable<ServiceResponse<DeploymentExtendedInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, Context context) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent(), context == null ? null : context.correlationRequestId());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DeploymentExtendedInner>() { }.getType());
+    }
+
+    public DeploymentExtendedInner beginCreateOrUpdate(String resourceGroupName, String deploymentName, DeploymentInner parameters, Context context) {
+        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters, context).toBlocking().single().body();
+    }
+
+    public ServiceFuture<DeploymentExtendedInner> beginCreateOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, Context context, final ServiceCallback<DeploymentExtendedInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters, context), serviceCallback);
+    }
+
+    public Observable<DeploymentExtendedInner> beginCreateOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, Context context) {
+        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, deploymentName, parameters, context).map(new Func1<ServiceResponse<DeploymentExtendedInner>, DeploymentExtendedInner>() {
+            @Override
+            public DeploymentExtendedInner call(ServiceResponse<DeploymentExtendedInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    public Observable<ServiceResponse<DeploymentExtendedInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters, Context context) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.beginCreateOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent(), context == null ? null : context.correlationRequestId())
+                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentExtendedInner>>>() {
+                    @Override
+                    public Observable<ServiceResponse<DeploymentExtendedInner>> call(Response<ResponseBody> response) {
+                        try {
+                            ServiceResponse<DeploymentExtendedInner> clientResponse = beginCreateOrUpdateDelegate(response);
+                            return Observable.just(clientResponse);
+                        } catch (Throwable t) {
+                            return Observable.error(t);
+                        }
+                    }
+                });
+    }
 }

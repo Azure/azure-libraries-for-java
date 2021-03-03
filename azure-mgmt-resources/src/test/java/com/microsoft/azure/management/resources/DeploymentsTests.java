@@ -248,7 +248,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                     .withTemplateLink(templateUri, contentVersion)
                     .withParametersLink(parametersUri, contentVersion)
                     .withMode(DeploymentMode.COMPLETE)
-                    .beginCreate(context);
+                    .create(context);
 
             // without context
             Deployment deployment3 = resourceClient.deployments()
@@ -257,14 +257,11 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                     .withTemplateLink(templateUri, contentVersion)
                     .withParametersLink(parametersUri, contentVersion)
                     .withMode(DeploymentMode.COMPLETE)
-                    .beginCreate();
+                    .create();
 
             Assert.assertEquals(context.correlationRequestId(), deployment1.inner().properties().correlationId());
             Assert.assertEquals(context.correlationRequestId(), deployment2.inner().properties().correlationId());
             Assert.assertNotEquals(context.correlationRequestId(), deployment3.inner().properties().correlationId());
-
-            // wait for completion
-            SdkContext.sleep(60 * 1000);
         } finally {
             try {
                 resourceGroups.beginDeleteByName(rgName1);

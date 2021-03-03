@@ -383,7 +383,7 @@ public final class DeploymentImpl extends
         }
         TaskGroup.InvocationContext invocationContext = this.taskGroup().newInvocationContext();
         invocationContext.put(TaskGroup.InvocationContext.KEY_CONTEXT, context);
-        return taskGroup().invokeAsync(this.taskGroup().newInvocationContext());
+        return taskGroup().invokeAsync(invocationContext);
     }
 
     @Override

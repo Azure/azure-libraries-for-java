@@ -1652,6 +1652,14 @@ public interface VirtualMachine extends
         interface WithBootDiagnostics {
             /**
              * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             * Managed storage account is used.
+             *
+             * @return the next stage of the definition
+             */
+            WithCreate withBootDiagnosticsOnManagedStorageAccount();
+
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
              *
              * @return the next stage of the definition
              */
@@ -2221,6 +2229,14 @@ public interface VirtualMachine extends
          * The stage of the virtual machine definition allowing to enable boot diagnostics.
          */
         interface WithBootDiagnostics {
+            /**
+             * Specifies that boot diagnostics needs to be enabled in the virtual machine.
+             * Managed storage account is used.
+             *
+             * @return the next stage of the update
+             */
+            Update withBootDiagnosticsOnManagedStorageAccount();
+
             /**
              * Specifies that boot diagnostics needs to be enabled in the virtual machine.
              *

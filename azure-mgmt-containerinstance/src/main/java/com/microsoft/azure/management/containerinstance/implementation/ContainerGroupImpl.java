@@ -75,6 +75,8 @@ public class ContainerGroupImpl
                 ContainerInstanceManager>
         implements ContainerGroup,
         ContainerGroup.Definition,
+        ContainerGroup.DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate,
+        ContainerGroup.UpdateStages.WithSystemAssignedIdentityBasedAccessOrUpdate,
         ContainerGroup.Update {
 
     private final StorageManager storageManager;
@@ -118,7 +120,13 @@ public class ContainerGroupImpl
                         }
                     });
         } else if (newFileShares == null || creatableStorageAccountKey == null) {
-            return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner());
+            return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner()).map(new Func1<ContainerGroupInner, ContainerGroupInner>() {
+                @Override
+                public ContainerGroupInner call(ContainerGroupInner containerGroupInner) {
+                    self.containerGroupMsiHandler.reset(containerGroupInner);
+                    return containerGroupInner;
+                }
+            });
         } else {
             final StorageAccount storageAccount = this.<StorageAccount>taskResult(this.creatableStorageAccountKey);
             return createFileShareAsync(storageAccount)
@@ -143,7 +151,13 @@ public class ContainerGroupImpl
                                         .withStorageAccountKey(fileShareEntry.getRight())
                                         .attach();
                             }
-                            return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner());
+                            return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner()).map(new Func1<ContainerGroupInner, ContainerGroupInner>() {
+                                @Override
+                                public ContainerGroupInner call(ContainerGroupInner containerGroupInner) {
+                                    self.containerGroupMsiHandler.reset(containerGroupInner);
+                                    return containerGroupInner;
+                                }
+                            });
                         }
                     });
         }
@@ -291,6 +305,12 @@ public class ContainerGroupImpl
     }
 
     @Override
+    public ContainerGroupImpl withoutSystemAssignedManagedServiceIdentity() {
+        this.containerGroupMsiHandler.withoutLocalManagedServiceIdentity();
+        return this;
+    }
+
+    @Override
     public ContainerGroupImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
         this.containerGroupMsiHandler.withAccessTo(resourceId, role);
         return this;
@@ -323,6 +343,12 @@ public class ContainerGroupImpl
     @Override
     public ContainerGroupImpl withExistingUserAssignedManagedServiceIdentity(Identity identity) {
         this.containerGroupMsiHandler.withExistingExternalManagedServiceIdentity(identity);
+        return this;
+    }
+
+    @Override
+    public ContainerGroupImpl withoutUserAssignedManagedServiceIdentity(String identityId) {
+        this.containerGroupMsiHandler.withoutExternalManagedServiceIdentity(identityId);
         return this;
     }
 

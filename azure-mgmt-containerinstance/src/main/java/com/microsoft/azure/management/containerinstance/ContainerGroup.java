@@ -1189,10 +1189,125 @@ public interface ContainerGroup extends
     }
 
     /**
+     * Grouping of container group update stages.
+     */
+    interface UpdateStages {
+        /**
+         * The stage of the container group update allowing to enable System Assigned (Local) Managed Service Identity.
+         */
+        @Beta(Beta.SinceVersion.V1_23_0)
+        interface WithSystemAssignedManagedServiceIdentity {
+            /**
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be enabled in the
+             * virtual machine.
+             *
+             * @return the next stage of the update
+             */
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedManagedServiceIdentity();
+
+            /**
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be disabled.
+             *
+             * @return the next stage of the update
+             */
+            Update withoutSystemAssignedManagedServiceIdentity();
+        }
+
+        /**
+         * The stage of the System Assigned (Local) Managed Service Identity enabled container group allowing to
+         * set access role for the identity.
+         */
+        @Beta(Beta.SinceVersion.V1_23_0)
+        interface WithSystemAssignedIdentityBasedAccessOrUpdate extends Update {
+            /**
+             * Specifies that container group's system assigned (local) identity should have the given
+             * access (described by the role) on an ARM resource identified by the resource ID.
+             * Applications running on the container group will have the same permission (role) on
+             * the ARM resource.
+             *
+             * @param resourceId the ARM identifier of the resource
+             * @param role access role to assigned to the container group's local identity
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
+
+            /**
+             * Specifies that container group's system assigned (local) identity should have the given access
+             * (described by the role) on the resource group that virtual machine resides. Applications running
+             * on the container group will have the same permission (role) on the resource group.
+             *
+             * @param role access role to assigned to the container group's local identity
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
+
+            /**
+             * Specifies that container group's system assigned (local) identity should have the access
+             * (described by the role definition) on an ARM resource identified by the resource ID.
+             * Applications running on the container group will have the same permission (role) on
+             * the ARM resource.
+             *
+             * @param resourceId scope of the access represented in ARM resource ID format
+             * @param roleDefinitionId access role definition to assigned to the container group's local identity
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
+
+            /**
+             * Specifies that container group's system assigned (local) identity should have the access (described by the
+             * role definition) on the resource group that container group resides. Applications running
+             * on the virtual machine will have the same permission (role) on the resource group.
+             *
+             * @param roleDefinitionId access role definition to assigned to the container group's local identity
+             * @return the next stage of the update
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithSystemAssignedIdentityBasedAccessOrUpdate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
+
+        /**
+         * The stage of the container group update allowing to add or remove User Assigned (External) Managed Service Identities.
+         */
+        @Beta(Beta.SinceVersion.V1_5_1)
+        interface WithUserAssignedManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the container group.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the container group update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            Update withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the container group.
+             * @param identity the identity
+             * @return the next stage of the container group update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            Update withExistingUserAssignedManagedServiceIdentity(Identity identity);
+
+            /**
+             * Specifies that an user assigned identity associated with the container group should be removed.
+             *
+             * @param identityId ARM resource id of the identity
+             * @return the next stage of the container group update
+             */
+            @Beta(Beta.SinceVersion.V1_5_1)
+            Update withoutUserAssignedManagedServiceIdentity(String identityId);
+        }
+    }
+
+    /**
      * The template for an update operation, containing all the settings that can be modified.
      */
     interface Update extends
             Resource.UpdateWithTags<Update>,
+            UpdateStages.WithSystemAssignedManagedServiceIdentity,
+            UpdateStages.WithUserAssignedManagedServiceIdentity,
             Appliable<ContainerGroup> {
     }
 

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 @LangDefinition
 class ContainerGroupMsiHandler extends RoleAssignmentHelper {
@@ -45,8 +46,14 @@ class ContainerGroupMsiHandler extends RoleAssignmentHelper {
     }
 
     void handleExternalIdentities() {
-        if (!this.userAssignedIdentities.isEmpty()) {
-            this.containerGroup.inner().identity().withUserAssignedIdentities(this.userAssignedIdentities);
+        this.containerGroup.inner().identity().withUserAssignedIdentities(this.userAssignedIdentities);
+        if (this.containerGroup.inner().identity().userAssignedIdentities() == null || this.containerGroup.inner().identity().userAssignedIdentities().size() == 0) {
+            if (this.containerGroup.inner().identity().type() == ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED) {
+                this.containerGroup.inner().identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED);
+            }
+            if (this.containerGroup.inner().identity().type() == ResourceIdentityType.USER_ASSIGNED) {
+                this.containerGroup.inner().identity().withType(ResourceIdentityType.NONE);
+            }
         }
     }
 
@@ -59,6 +66,25 @@ class ContainerGroupMsiHandler extends RoleAssignmentHelper {
      */
     ContainerGroupMsiHandler withLocalManagedServiceIdentity() {
         this.initContainerInstanceIdentity(ResourceIdentityType.SYSTEM_ASSIGNED);
+        return this;
+    }
+
+    /**
+     * Specifies that Local Managed Service Identity needs to be disabled in the container group.
+     *
+     * @return ContainerGroupMsiHandler
+     */
+    ContainerGroupMsiHandler withoutLocalManagedServiceIdentity() {
+        if (this.containerGroup.inner().identity() == null
+            || this.containerGroup.inner().identity().type() == null
+            || this.containerGroup.inner().identity().type().equals(ResourceIdentityType.NONE)
+            || this.containerGroup.inner().identity().type().equals(ResourceIdentityType.USER_ASSIGNED)) {
+            return this;
+        } else if (this.containerGroup.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED)) {
+            this.containerGroup.inner().identity().withType(ResourceIdentityType.NONE);
+        } else if (this.containerGroup.inner().identity().type().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)) {
+            this.containerGroup.inner().identity().withType(ResourceIdentityType.USER_ASSIGNED);
+        }
         return this;
     }
 
@@ -81,6 +107,13 @@ class ContainerGroupMsiHandler extends RoleAssignmentHelper {
         return this;
     }
 
+    void reset(ContainerGroupInner containerGroupInner) {
+        this.userAssignedIdentities.clear();
+        for (String key : containerGroupInner.identity().userAssignedIdentities().keySet()) {
+            this.userAssignedIdentities.put(key, containerGroupInner.identity().userAssignedIdentities().get(key));
+        }
+    }
+
     /**
      * Specifies that given identity should be set as one of the External Managed Service Identity
      * of the container instance.
@@ -91,6 +124,18 @@ class ContainerGroupMsiHandler extends RoleAssignmentHelper {
     ContainerGroupMsiHandler withExistingExternalManagedServiceIdentity(Identity identity) {
         this.initContainerInstanceIdentity(ResourceIdentityType.USER_ASSIGNED);
         this.userAssignedIdentities.put(identity.id(), new ContainerGroupIdentityUserAssignedIdentitiesValue());
+        return this;
+    }
+
+    /**
+     * Specifies that given identity should be removed from the list of External Managed Service Identity
+     * associated with the container group.
+     *
+     * @param identityId resource id of the identity
+     * @return ContainerGroupMsiHandler
+     */
+    ContainerGroupMsiHandler withoutExternalManagedServiceIdentity(String identityId) {
+        this.userAssignedIdentities.remove(identityId);
         return this;
     }
 

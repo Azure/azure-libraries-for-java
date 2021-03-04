@@ -579,6 +579,9 @@ public class TaskGroup
      * of the TaskGroup.
      */
     public static final class InvocationContext {
+        /** Key of context for request. */
+        public static final String KEY_CONTEXT = "CONTEXT";
+
         private final Map<String, Object> properties;
         private final TaskGroup taskGroup;
         private TaskGroupTerminateOnErrorStrategy terminateOnErrorStrategy;

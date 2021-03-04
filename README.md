@@ -696,21 +696,6 @@ If you are using snapshots builds for this repo, add the following repository an
     <artifactId>azure</artifactId>
     <version>1.40.1-SNAPSHOT</version>
 </dependency>
-<dependency>
-    <groupId>com.microsoft.azure</groupId>
-    <artifactId>azure-client-runtime</artifactId>
-    <version>1.6.5-SNAPSHOT</version>
-</dependency>
-<dependency>
-    <groupId>com.microsoft.azure</groupId>
-    <artifactId>azure-client-authentication</artifactId>
-    <version>1.6.5-SNAPSHOT</version>
-</dependency>
-<dependency>
-    <groupId>com.microsoft.rest</groupId>
-    <artifactId>client-runtime</artifactId>
-    <version>1.6.5-SNAPSHOT</version>
-</dependency>
 ```
 
 ## Prerequisites

@@ -104,15 +104,11 @@ class KuduClient {
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
         @POST("api/zipdeploy")
-        Observable<Response<ResponseBody>> zipDeploy(@Body RequestBody zipFile);
-
-        @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
-        @POST("api/zipdeploy")
         Observable<Response<ResponseBody>> zipDeploy(@Body RequestBody zipFile, @Query("isAsync") Boolean isAsync);
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps publish", "x-ms-body-logging: false" })
         @POST("api/publish")
-        Observable<Response<ResponseBody>> deploy(@Body RequestBody file, @Query("type") DeployType type, @Query("path") String path, @Query("restart") Boolean restart, @Query("clean") Boolean clean);
+        Observable<Response<ResponseBody>> deploy(@Body RequestBody file, @Query("type") DeployType type, @Query("path") String path, @Query("restart") Boolean restart, @Query("clean") Boolean clean, @Query("isAsync") Boolean isAsync);
 
         @Headers({ "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps settings" })
         @GET("api/settings")
@@ -209,7 +205,7 @@ class KuduClient {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
             Observable<ServiceResponse<Void>> response =
-                    retryOnError(handleResponse(service.zipDeploy(body)));
+                    retryOnError(handleResponse(service.zipDeploy(body, false)));
             return response.toCompletable();
         } catch (IOException e) {
             return Completable.error(e);
@@ -230,8 +226,8 @@ class KuduClient {
     }
 
     Observable<AsyncDeploymentResult> pushZipDeployAsync(InputStream zipFile) {
-        final long pollIntervalInSeconds = 5;
-        final long pollCount = 3 * 60 / pollIntervalInSeconds;  // 3 minutes
+//        final long pollIntervalInSeconds = 5;
+//        final long pollCount = 3 * 60 / pollIntervalInSeconds;  // 3 minutes
 
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
@@ -325,10 +321,38 @@ class KuduClient {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(file));
             Observable<ServiceResponse<Void>> response =
-                    retryOnError(handleResponse(service.deploy(body, type, path, restart, clean)));
+                    retryOnError(handleResponse(service.deploy(body, type, path, restart, clean, false)));
             return response.toCompletable();
         } catch (IOException e) {
             return Completable.error(e);
+        }
+    }
+
+    Observable<AsyncDeploymentResult> pushDeployAsync(DeployType type, InputStream file, String path, Boolean restart, Boolean clean) {
+        try {
+            RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(file));
+
+            // service returns 404 on deploymentStatus, if deployment ID is get from SCM-DEPLOYMENT-ID
+            Observable<AsyncDeploymentResult> result =
+                    retryOnError(handleResponse(service.deploy(body, type, path, restart, clean, true), new Func1<Response<ResponseBody>, AsyncDeploymentResult>() {
+                        @Override
+                        public AsyncDeploymentResult call(Response<ResponseBody> responseBodyResponse) {
+                            String deploymentId = responseBodyResponse.headers().get("SCM-DEPLOYMENT-ID");
+                            if (deploymentId == null || deploymentId.isEmpty()) {
+                                // error if deployment ID not available
+                                throw new RestException("Deployment ID not found in response", responseBodyResponse);
+                            }
+                            return new AsyncDeploymentResult(deploymentId);
+                        }
+                    })).map(new Func1<ServiceResponse<AsyncDeploymentResult>, AsyncDeploymentResult>() {
+                        @Override
+                        public AsyncDeploymentResult call(ServiceResponse<AsyncDeploymentResult> result) {
+                            return result.body();
+                        }
+                    });
+            return result;
+        } catch (IOException e) {
+            return Observable.error(e);
         }
     }
 

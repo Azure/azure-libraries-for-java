@@ -8,6 +8,7 @@ package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import rx.Completable;
+import rx.Observable;
 
 import java.io.File;
 import java.io.InputStream;
@@ -89,4 +90,60 @@ public interface SupportsOneDeploy {
      * @return a completable of the operation
      */
     Completable deployAsync(DeployType type, InputStream file, DeployOptions deployOptions);
+
+    /**
+     * Deploy a file to Azure site.
+     *
+     * @param type the deploy type
+     * @param file the file to upload
+     * @param deployOptions the deploy options
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    AsyncDeploymentResult pushDeploy(DeployType type, File file, DeployOptions deployOptions);
+
+    /**
+     * Deploy a file to Azure site.
+     *
+     * @param type the deploy type
+     * @param file the file to upload
+     * @param deployOptions the deploy options
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    Observable<AsyncDeploymentResult> pushDeployAsync(DeployType type, File file, DeployOptions deployOptions);
+
+    /**
+     * Deploy a file to Azure site.
+     *
+     * @param type the deploy type
+     * @param file the file to upload
+     * @param deployOptions the deploy options
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    AsyncDeploymentResult pushDeploy(DeployType type, InputStream file, DeployOptions deployOptions);
+
+    /**
+     * Deploy a file to Azure site.
+     *
+     * @param type the deploy type
+     * @param file the file to upload
+     * @param deployOptions the deploy options
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    Observable<AsyncDeploymentResult> pushDeployAsync(DeployType type, InputStream file, DeployOptions deployOptions);
+
+    /**
+     * Gets the deployment status of the web app.
+     *
+     * @param deploymentId the deployment ID of the web app.
+     * @return the deployment status.
+     */
+    Observable<DeploymentStatus> getDeploymentStatusAsync(String deploymentId);
+
+    /**
+     * Gets the deployment status of the web app.
+     *
+     * @param deploymentId the deployment ID of the web app.
+     * @return the deployment status.
+     */
+    DeploymentStatus getDeploymentStatus(String deploymentId);
 }

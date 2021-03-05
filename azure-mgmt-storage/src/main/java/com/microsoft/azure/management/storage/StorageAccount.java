@@ -208,6 +208,18 @@ public interface StorageAccount extends
     boolean isLargeFileSharesEnabled();
 
     /**
+     * @return the minimal TLS version for HTTPS traffic.
+     */
+    MinimumTlsVersion minimalTlsVersion();
+
+    /**
+     * Checks whether storage account only allow HTTPS traffic.
+     *
+     * @return true if only allow HTTPS traffic, false otherwise
+     */
+    boolean isHttpsTrafficOnly();
+
+    /**
      * Fetch the up-to-date access keys from Azure for this storage account.
      *
      * @return the access keys for this storage account
@@ -485,9 +497,21 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withOnlyHttpsTraffic();
+
+            /**
+             * Specifies that both http and https traffic should be allowed to storage account.
+             *
+             * @return the next stage of storage account definition
+             */
+            WithCreate withHttpAndHttpsTraffic();
+
+            /**
+             * Specifies the minimal TLS version for HTTPS traffic.
+             *
+             * @return the next stage of storage account definition
+             */
+            WithCreate withMinimalTlsVersion(MinimumTlsVersion minimalTlsVersion);
         }
 
         /**
@@ -832,8 +856,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withOnlyHttpsTraffic();
 
             /**
@@ -841,9 +863,14 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withHttpAndHttpsTraffic();
+
+            /**
+             * Specifies the minimal TLS version for HTTPS traffic.
+             *
+             * @return the next stage of storage account update
+             */
+            Update withMinimalTlsVersion(MinimumTlsVersion minimalTlsVersion);
         }
 
 

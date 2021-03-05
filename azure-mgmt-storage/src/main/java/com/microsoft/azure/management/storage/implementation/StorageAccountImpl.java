@@ -17,6 +17,7 @@ import com.microsoft.azure.management.storage.Encryption;
 import com.microsoft.azure.management.storage.Identity;
 import com.microsoft.azure.management.storage.Kind;
 import com.microsoft.azure.management.storage.LargeFileSharesState;
+import com.microsoft.azure.management.storage.MinimumTlsVersion;
 import com.microsoft.azure.management.storage.ProvisioningState;
 import com.microsoft.azure.management.storage.PublicEndpoints;
 import com.microsoft.azure.management.storage.Sku;
@@ -213,6 +214,16 @@ class StorageAccountImpl
     @Override
     public boolean isLargeFileSharesEnabled() {
         return this.inner().largeFileSharesState() == LargeFileSharesState.ENABLED;
+    }
+
+    @Override
+    public MinimumTlsVersion minimalTlsVersion() {
+        return this.inner().minimumTlsVersion();
+    }
+
+    @Override
+    public boolean isHttpsTrafficOnly() {
+        return Utils.toPrimitiveBoolean(this.inner().enableHttpsTrafficOnly());
     }
 
     @Override
@@ -433,10 +444,23 @@ class StorageAccountImpl
 
     @Override
     public StorageAccountImpl withHttpAndHttpsTraffic() {
-        updateParameters.withEnableHttpsTrafficOnly(false);
+        if (isInCreateMode()) {
+            createParameters.withEnableHttpsTrafficOnly(false);
+        } else {
+            updateParameters.withEnableHttpsTrafficOnly(false);
+        }
         return this;
     }
 
+    @Override
+    public StorageAccountImpl withMinimalTlsVersion(MinimumTlsVersion minimalTlsVersion) {
+        if (isInCreateMode()) {
+            createParameters.withMinimumTlsVersion(minimalTlsVersion);
+        } else {
+            updateParameters.withMinimumTlsVersion(minimalTlsVersion);
+        }
+        return this;
+    }
 
     @Override
     public StorageAccountImpl withAccessFromAllNetworks() {

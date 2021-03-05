@@ -217,7 +217,7 @@ class StorageAccountImpl
     }
 
     @Override
-    public MinimumTlsVersion minimalTlsVersion() {
+    public MinimumTlsVersion minimumTlsVersion() {
         return this.inner().minimumTlsVersion();
     }
 
@@ -453,11 +453,11 @@ class StorageAccountImpl
     }
 
     @Override
-    public StorageAccountImpl withMinimalTlsVersion(MinimumTlsVersion minimalTlsVersion) {
+    public StorageAccountImpl withMinimumTlsVersion(MinimumTlsVersion minimumTlsVersion) {
         if (isInCreateMode()) {
-            createParameters.withMinimumTlsVersion(minimalTlsVersion);
+            createParameters.withMinimumTlsVersion(minimumTlsVersion);
         } else {
-            updateParameters.withMinimumTlsVersion(minimalTlsVersion);
+            updateParameters.withMinimumTlsVersion(minimumTlsVersion);
         }
         return this;
     }

@@ -48,8 +48,8 @@ public class LinuxWebAppsTests extends AppServiceTest {
     @Ignore
     public void canGetDeploymentStatus() throws InterruptedException {
         WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu", "wa1weidxu");
-        AsyncDeploymentResult result = wa.pushDeploy(DeployType.ZIP, new File("C:/github/app.zip"),
-                new DeployOptions().withCleanDeployment(true).withRestartSite(true));
+        AsyncDeploymentResult result = wa.pushDeploy(DeployType.ZIP, new File("C:/github/app.zip"), null);
+//        AsyncDeploymentResult result = wa.pushZipDeploy(new File("C:/github/app.zip"));
         DeploymentStatus status = wa.getDeploymentStatus(result.getDeploymentId());
         while (status == null) {
             System.out.println("status not ready");

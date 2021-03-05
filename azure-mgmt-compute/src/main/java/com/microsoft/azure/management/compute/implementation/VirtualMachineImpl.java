@@ -1392,8 +1392,14 @@ class VirtualMachineImpl
     }
 
     @Override
+    public VirtualMachineImpl withBootDiagnosticsOnManagedStorageAccount() {
+        this.bootDiagnosticsHandler.withBootDiagnostics(true);
+        return this;
+    }
+
+    @Override
     public VirtualMachineImpl withBootDiagnostics() {
-        this.bootDiagnosticsHandler.withBootDiagnostics();
+        this.bootDiagnosticsHandler.withBootDiagnostics(false);
         return this;
     }
 
@@ -2733,6 +2739,7 @@ class VirtualMachineImpl
     private class BootDiagnosticsHandler {
         private final VirtualMachineImpl vmImpl;
         private String creatableDiagnosticsStorageAccountKey;
+        private boolean useManagedStorageAccount = false;
 
         BootDiagnosticsHandler(VirtualMachineImpl vmImpl) {
             this.vmImpl = vmImpl;
@@ -2756,10 +2763,11 @@ class VirtualMachineImpl
             return null;
         }
 
-        BootDiagnosticsHandler withBootDiagnostics() {
+        BootDiagnosticsHandler withBootDiagnostics(boolean useManagedStorageAccount) {
             // Diagnostics storage uri will be set later by this.handleDiagnosticsSettings(..)
             //
             this.enableDisable(true);
+            this.useManagedStorageAccount = useManagedStorageAccount;
             return this;
         }
 
@@ -2773,6 +2781,7 @@ class VirtualMachineImpl
 
         BootDiagnosticsHandler withBootDiagnostics(String storageAccountBlobEndpointUri) {
             this.enableDisable(true);
+            this.useManagedStorageAccount = false;
             this.vmInner()
                     .diagnosticsProfile()
                     .bootDiagnostics()
@@ -2786,10 +2795,14 @@ class VirtualMachineImpl
 
         BootDiagnosticsHandler withoutBootDiagnostics() {
             this.enableDisable(false);
+            this.useManagedStorageAccount = false;
             return this;
         }
 
         void prepare() {
+            if (useManagedStorageAccount) {
+                return;
+            }
             DiagnosticsProfile diagnosticsProfile = this.vmInner().diagnosticsProfile();
             if (diagnosticsProfile == null
                     || diagnosticsProfile.bootDiagnostics() == null
@@ -2822,6 +2835,9 @@ class VirtualMachineImpl
         }
 
         void handleDiagnosticsSettings() {
+            if (useManagedStorageAccount) {
+                return;
+            }
             DiagnosticsProfile diagnosticsProfile = this.vmInner().diagnosticsProfile();
             if (diagnosticsProfile == null
                     || diagnosticsProfile.bootDiagnostics() == null

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
+import com.microsoft.azure.management.resources.fluentcore.arm.Context;
 import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -268,6 +269,16 @@ public abstract class CreatableUpdatableImpl<
 
     @Override
     public Observable<FluentModelT> updateResourceAsync() {
+        return this.createResourceAsync();
+    }
+
+    @Override
+    public Observable<FluentModelT> updateResourceAsync(Context context) {
+        return this.updateResourceAsync();
+    }
+
+    @Override
+    public Observable<FluentModelT> createResourceAsync(Context context) {
         return this.createResourceAsync();
     }
 

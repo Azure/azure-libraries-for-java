@@ -9,6 +9,7 @@ package com.microsoft.azure.management.storage.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.storage.CheckNameAvailabilityResult;
+import com.microsoft.azure.management.storage.MinimumTlsVersion;
 import com.microsoft.azure.management.storage.ServiceSasParameters;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountSkuType;
@@ -60,7 +61,9 @@ class StorageAccountsImpl
     public StorageAccountImpl define(String name) {
         return wrapModel(name)
                 .withSku(StorageAccountSkuType.STANDARD_RAGRS)
-                .withGeneralPurposeAccountKindV2();
+                .withGeneralPurposeAccountKindV2()
+                .withOnlyHttpsTraffic()
+                .withMinimumTlsVersion(MinimumTlsVersion.TLS1_2);
     }
 
     @Override

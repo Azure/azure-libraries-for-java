@@ -17,6 +17,7 @@ import com.microsoft.azure.management.storage.Encryption;
 import com.microsoft.azure.management.storage.Identity;
 import com.microsoft.azure.management.storage.Kind;
 import com.microsoft.azure.management.storage.LargeFileSharesState;
+import com.microsoft.azure.management.storage.MinimumTlsVersion;
 import com.microsoft.azure.management.storage.ProvisioningState;
 import com.microsoft.azure.management.storage.PublicEndpoints;
 import com.microsoft.azure.management.storage.Sku;
@@ -214,6 +215,36 @@ class StorageAccountImpl
     public boolean isLargeFileSharesEnabled() {
         return this.inner().largeFileSharesState() == LargeFileSharesState.ENABLED;
     }
+
+    @Override
+    public MinimumTlsVersion minimumTlsVersion() {
+        return this.inner().minimumTlsVersion();
+    }
+
+
+    @Override
+    public boolean isHttpsTrafficOnly() {
+        if (this.inner().enableHttpsTrafficOnly() == null) {
+            return true;
+        }
+        return this.inner().enableHttpsTrafficOnly();
+    }
+
+    @Override
+    public boolean isBlobPublicAccessAllowed() {
+        if (this.inner().allowBlobPublicAccess() == null) {
+            return true;
+        }
+        return this.inner().allowBlobPublicAccess();
+    }
+
+//    @Override
+//    public boolean isSharedKeyAccessAllowed() {
+//        if (this.inner().allowSharedKeyAccess() == null) {
+//            return true;
+//        }
+//        return this.inner().allowSharedKeyAccess();
+//    }
 
     @Override
     public List<StorageAccountKey> getKeys() {
@@ -433,10 +464,63 @@ class StorageAccountImpl
 
     @Override
     public StorageAccountImpl withHttpAndHttpsTraffic() {
-        updateParameters.withEnableHttpsTrafficOnly(false);
+        if (isInCreateMode()) {
+            createParameters.withEnableHttpsTrafficOnly(false);
+        } else {
+            updateParameters.withEnableHttpsTrafficOnly(false);
+        }
         return this;
     }
 
+    @Override
+    public StorageAccountImpl withMinimumTlsVersion(MinimumTlsVersion minimumTlsVersion) {
+        if (isInCreateMode()) {
+            createParameters.withMinimumTlsVersion(minimumTlsVersion);
+        } else {
+            updateParameters.withMinimumTlsVersion(minimumTlsVersion);
+        }
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl enableBlobPublicAccess() {
+        if (isInCreateMode()) {
+            createParameters.withAllowBlobPublicAccess(true);
+        } else {
+            updateParameters.withAllowBlobPublicAccess(true);
+        }
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl disableBlobPublicAccess() {
+        if (isInCreateMode()) {
+            createParameters.withAllowBlobPublicAccess(false);
+        } else {
+            updateParameters.withAllowBlobPublicAccess(false);
+        }
+        return this;
+    }
+
+//    @Override
+//    public StorageAccountImpl enableSharedKeyAccess() {
+//        if (isInCreateMode()) {
+//            createParameters.withAllowSharedKeyAccess(true);
+//        } else {
+//            updateParameters.withAllowSharedKeyAccess(true);
+//        }
+//        return this;
+//    }
+//
+//    @Override
+//    public StorageAccountImpl disableSharedKeyAccess() {
+//        if (isInCreateMode()) {
+//            createParameters.withAllowSharedKeyAccess(false);
+//        } else {
+//            updateParameters.withAllowSharedKeyAccess(false);
+//        }
+//        return this;
+//    }
 
     @Override
     public StorageAccountImpl withAccessFromAllNetworks() {

@@ -70,7 +70,7 @@ public abstract class GroupableResourcesImpl<
     }
 
     @Override
-    public final Observable<T> getByIdAsync(String id) {
+    public Observable<T> getByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
 
         if (resourceId == null) {

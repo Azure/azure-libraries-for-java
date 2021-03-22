@@ -9,6 +9,7 @@ package com.microsoft.azure.management.resources.fluentcore.arm;
 import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.ProviderResourceType;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -159,10 +160,23 @@ public final class ResourceUtils {
         // Exact match
         for (ProviderResourceType prt : provider.resourceTypes()) {
             if (prt.resourceType().equalsIgnoreCase(resourceType)) {
-                return prt.apiVersions().get(0);
+                return prt.defaultApiVersion() == null ? prt.apiVersions().get(0) : prt.defaultApiVersion();
             }
         }
-        return defaultApiVersion(parentResourceIdFromResourceId(id), provider);
+        // child resource, e.g. sites/config
+        for (ProviderResourceType prt : provider.resourceTypes()) {
+            if (prt.resourceType().toLowerCase(Locale.ROOT).contains("/" + resourceType)) {
+                return prt.defaultApiVersion() == null ? prt.apiVersions().get(0) : prt.defaultApiVersion();
+            }
+        }
+        // look for parent
+        String parentId = parentResourceIdFromResourceId(id);
+        if (parentId != null) {
+            return defaultApiVersion(parentId, provider);
+        } else {
+            // Fallback: use a random one, not guaranteed to work
+            return provider.resourceTypes().get(0).apiVersions().get(0);
+        }
     }
 
     /**

@@ -92,16 +92,67 @@ final class GenericResourcesImpl
 
     @Override
     public boolean checkExistenceById(String id) {
-        String apiVersion = getApiVersionFromId(id).toBlocking().single();
+        String apiVersion = getApiVersionFromIdAsync(id).toBlocking().single();
+        return this.checkExistenceById(id, apiVersion);
+    }
+
+    @Override
+    public boolean checkExistenceById(String id, String apiVersion) {
         return this.inner().checkExistenceById(id, apiVersion);
     }
 
     @Override
-    public GenericResource getById(String id) {
-        Provider provider = this.manager().providers().getByName(ResourceUtils.resourceProviderFromResourceId(id));
-        String apiVersion = ResourceUtils.defaultApiVersion(id, provider);
-        GenericResourceImpl genericResource = wrapModel(this.inner().getById(id, apiVersion));
-        return genericResource == null ? null : genericResource.withApiVersion(apiVersion);
+    public Observable<GenericResource> getByIdAsync(final String id) {
+        final GenericResourcesImpl self = this;
+        return this.getApiVersionFromIdAsync(id)
+                .flatMap(new Func1<String, Observable<GenericResource>>() {
+                    @Override
+                    public Observable<GenericResource> call(String s) {
+                        return self.getByIdAsync(id, s);
+                    }
+                });
+    }
+
+    @Override
+    public Completable deleteByIdAsync(final String id) {
+        final ResourcesInner inner = this.inner();
+        return this.getApiVersionFromIdAsync(id)
+                .flatMap(new Func1<String, Observable<Void>>() {
+                    @Override
+                    public Observable<Void> call(String apiVersion) {
+                        return inner.deleteByIdAsync(id, apiVersion);
+                    }
+                }).toCompletable();
+    }
+
+    @Override
+    public void deleteById(String id, String apiVersion) {
+        this.deleteByIdAsync(id, apiVersion).await();
+    }
+
+    @Override
+    public Completable deleteByIdAsync(String id, String apiVersion) {
+        return this.inner().deleteByIdAsync(id, apiVersion).toCompletable();
+    }
+
+    @Override
+    public GenericResource getById(String id, String apiVersion) {
+        return this.getByIdAsync(id, apiVersion).toBlocking().last();
+    }
+
+    @Override
+    public Observable<GenericResource> getByIdAsync(String id, final String apiVersion) {
+        return this.inner().getByIdAsync(id, apiVersion)
+                .map(new Func1<GenericResourceInner, GenericResource>() {
+                    @Override
+                    public GenericResource call(GenericResourceInner genericResourceInner) {
+                        GenericResourceImpl genericResource = wrapModel(genericResourceInner);
+                        if (genericResource != null) {
+                            genericResource.withApiVersion(apiVersion);
+                        }
+                        return genericResource;
+                    }
+                });
     }
 
     @Override
@@ -241,19 +292,7 @@ final class GenericResourcesImpl
         throw new UnsupportedOperationException("Delete just by resource group and name is not supported. Please use other overloads.");
     }
 
-    @Override
-    public Completable deleteByIdAsync(final String id) {
-       final ResourcesInner inner = this.inner();
-        return getApiVersionFromId(id)
-                .flatMap(new Func1<String, Observable<Void>>() {
-                    @Override
-                    public Observable<Void> call(String apiVersion) {
-                        return inner.deleteByIdAsync(id, apiVersion);
-                    }
-                }).toCompletable();
-    }
-
-    private Observable<String> getApiVersionFromId(final String id) {
+    private Observable<String> getApiVersionFromIdAsync(final String id) {
         return this.manager().providers().getByNameAsync(ResourceUtils.resourceProviderFromResourceId(id))
                 .map(new Func1<Provider, String>() {
                     @Override

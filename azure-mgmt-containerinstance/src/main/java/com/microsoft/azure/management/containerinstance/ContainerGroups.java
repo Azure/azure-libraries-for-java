@@ -5,6 +5,8 @@
  */
 package com.microsoft.azure.management.containerinstance;
 
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerGroupsInner;
@@ -100,7 +102,7 @@ public interface ContainerGroups extends
      * @return all operations for Azure Container Instance service
      */
     @Beta(Beta.SinceVersion.V1_5_0)
-    Set<Operation> listOperations();
+    PagedList<Operation> listOperations();
 
     /**
      * Lists all operations for Azure Container Instance service.
@@ -108,7 +110,7 @@ public interface ContainerGroups extends
      * @return a representation of the future computation of this call
      */
     @Beta(Beta.SinceVersion.V1_23_0)
-    Observable<Set<Operation>> listOperationsAsync();
+    Observable<Page<Operation>> listOperationsAsync();
 
     /**
      * Lists cached images for a subscription in a region.
@@ -117,7 +119,7 @@ public interface ContainerGroups extends
      * @return all cached images from the specified location
      */
     @Beta(Beta.SinceVersion.V1_23_0)
-    List<CachedImages> listCachedImages(String location);
+    PagedList<CachedImages> listCachedImages(String location);
 
     /**
      * Lists cached images for a subscription in a region.
@@ -126,7 +128,7 @@ public interface ContainerGroups extends
      * @return a representation of the future computation of this call
      */
     @Beta(Beta.SinceVersion.V1_23_0)
-    Observable<CachedImages> listCachedImagesAsync(String location);
+    Observable<Page<CachedImages>> listCachedImagesAsync(String location);
 
     /**
      * Lists the capabilities of a location.
@@ -135,7 +137,7 @@ public interface ContainerGroups extends
      * @return a list of all of the capabilities of the given location
      */
     @Beta(Beta.SinceVersion.V1_23_0)
-    List<Capabilities> listCapabilities(String location);
+    PagedList<Capabilities> listCapabilities(String location);
 
     /**
      * Lists the capabilities of a location.
@@ -144,7 +146,7 @@ public interface ContainerGroups extends
      * @return a representation of the future computation of this call
      */
     @Beta(Beta.SinceVersion.V1_23_0)
-    Observable<Capabilities> listCapabilitiesAsync(String location);
+    Observable<Page<Capabilities>> listCapabilitiesAsync(String location);
 
     /**
      * Starts all containers in a container group.

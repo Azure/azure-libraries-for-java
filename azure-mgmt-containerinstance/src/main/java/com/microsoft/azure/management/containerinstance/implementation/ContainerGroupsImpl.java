@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.containerinstance.implementation;
 
 
+import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.CachedImages;
@@ -82,7 +83,7 @@ public class ContainerGroupsImpl
 
     @Override
     public String getLogContent(String resourceGroupName, String containerGroupName, String containerName, int tailLineCount) {
-        LogsInner logsInner = this.manager().inner().containers().listLogs(resourceGroupName, containerGroupName, containerName, tailLineCount);
+        LogsInner logsInner = this.manager().inner().containers().listLogs(resourceGroupName, containerGroupName, containerName, tailLineCount, null);
 
         return logsInner != null ? logsInner.content() : null;
     }
@@ -100,7 +101,7 @@ public class ContainerGroupsImpl
 
     @Override
     public Observable<String> getLogContentAsync(String resourceGroupName, String containerGroupName, String containerName, int tailLineCount) {
-        return this.manager().inner().containers().listLogsAsync(resourceGroupName, containerGroupName, containerName, tailLineCount)
+        return this.manager().inner().containers().listLogsAsync(resourceGroupName, containerGroupName, containerName, tailLineCount, null)
                 .map(new Func1<LogsInner, String>() {
                     @Override
                     public String call(LogsInner logsInner) {
@@ -110,57 +111,33 @@ public class ContainerGroupsImpl
     }
 
     @Override
-    public Set<Operation> listOperations() {
-        OperationListResultInner operationListResultInner = this.manager().inner().operations().list();
-
-        return Collections.unmodifiableSet(operationListResultInner != null && operationListResultInner.value() != null
-                ? new HashSet<Operation>(operationListResultInner.value())
-                : new HashSet<Operation>());
+    public PagedList<Operation> listOperations() {
+        return this.manager().inner().operations().list();
     }
 
     @Override
-    public Observable<Set<Operation>> listOperationsAsync() {
-        return this.manager().inner().operations().listAsync()
-                .map(new Func1<OperationListResultInner, Set<Operation>>() {
-                    @Override
-                    public Set<Operation> call(OperationListResultInner operationListResultInner) {
-                        return Collections.unmodifiableSet(operationListResultInner != null && operationListResultInner.value() != null
-                                ? new HashSet<Operation>(operationListResultInner.value())
-                                : new HashSet<Operation>());
-                    }
-                });
+    public Observable<Page<Operation>> listOperationsAsync() {
+        return this.manager().inner().operations().listAsync();
     }
 
     @Override
-    public List<CachedImages> listCachedImages(String location) {
-        return this.manager().inner().listCachedImages(location).value();
+    public PagedList<CachedImages> listCachedImages(String location) {
+        return this.manager().inner().locations().listCachedImages(location);
     }
 
     @Override
-    public Observable<CachedImages> listCachedImagesAsync(String location) {
-        return this.manager().inner().listCachedImagesAsync(location)
-                .flatMap(new Func1<CachedImagesListResultInner, Observable<CachedImages>>() {
-                    @Override
-                    public Observable<CachedImages> call(CachedImagesListResultInner cachedImagesListResultInner) {
-                        return Observable.from(cachedImagesListResultInner.value());
-                    }
-                });
+    public Observable<Page<CachedImages>> listCachedImagesAsync(String location) {
+        return this.manager().inner().locations().listCachedImagesAsync(location);
     }
 
     @Override
-    public List<Capabilities> listCapabilities(String location) {
-        return this.manager().inner().listCapabilities(location).value();
+    public PagedList<Capabilities> listCapabilities(String location) {
+        return this.manager().inner().locations().listCapabilities(location);
     }
 
     @Override
-    public Observable<Capabilities> listCapabilitiesAsync(String location) {
-        return this.manager().inner().listCapabilitiesAsync(location)
-                .flatMap(new Func1<CapabilitiesListResultInner, Observable<Capabilities>>() {
-                    @Override
-                    public Observable<Capabilities> call(CapabilitiesListResultInner capabilitiesListResultInner) {
-                        return Observable.from(capabilitiesListResultInner.value());
-                    }
-                });
+    public Observable<Page<Capabilities>> listCapabilitiesAsync(String location) {
+        return this.manager().inner().locations().listCapabilitiesAsync(location);
     }
 
     @Override

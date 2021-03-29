@@ -10,6 +10,7 @@ package com.microsoft.azure.management.containerinstance.implementation;
 
 import com.microsoft.azure.management.containerinstance.ContainerGroupIdentity;
 import java.util.List;
+import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ImageRegistryCredential;
 import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
 import com.microsoft.azure.management.containerinstance.IpAddress;
@@ -50,7 +51,7 @@ public class ContainerGroupInner extends Resource {
      * The containers within the container group.
      */
     @JsonProperty(value = "properties.containers", required = true)
-    private List<ContainerInner> containers;
+    private List<Container> containers;
 
     /**
      * The image registry credentials by which the container group is created
@@ -166,7 +167,7 @@ public class ContainerGroupInner extends Resource {
      *
      * @return the containers value
      */
-    public List<ContainerInner> containers() {
+    public List<Container> containers() {
         return this.containers;
     }
 
@@ -176,7 +177,7 @@ public class ContainerGroupInner extends Resource {
      * @param containers the containers value to set
      * @return the ContainerGroupInner object itself.
      */
-    public ContainerGroupInner withContainers(List<ContainerInner> containers) {
+    public ContainerGroupInner withContainers(List<Container> containers) {
         this.containers = containers;
         return this;
     }

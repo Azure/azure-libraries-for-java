@@ -81,7 +81,7 @@ public class ContainerGroupImpl
     private String creatableStorageAccountKey;
     private Map<String, String> newFileShares;
 
-    private Map<String, ContainerInner> containers;
+    private Map<String, Container> containers;
     private Map<String, Volume> volumes;
     private List<String> imageRegistryServers;
     private int[] externalTcpPorts;
@@ -205,7 +205,7 @@ public class ContainerGroupImpl
         // Getting the container instances
         this.containers = new HashMap<>();
         if (this.inner().containers() != null && this.inner().containers().size() > 0) {
-            for (ContainerInner containerInstance : this.inner().containers()) {
+            for (Container containerInstance : this.inner().containers()) {
                 this.containers.put(containerInstance.name(), containerInstance);
             }
         }

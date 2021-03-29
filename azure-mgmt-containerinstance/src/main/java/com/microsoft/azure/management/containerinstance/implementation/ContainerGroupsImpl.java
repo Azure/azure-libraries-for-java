@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.containerinstance.implementation;
 
-
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.CachedImages;

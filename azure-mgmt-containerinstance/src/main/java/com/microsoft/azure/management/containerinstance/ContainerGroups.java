@@ -25,9 +25,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import rx.Completable;
 import rx.Observable;
 
-import java.util.List;
-import java.util.Set;
-
 /**
  * Entry point to the container instance management API.
  */

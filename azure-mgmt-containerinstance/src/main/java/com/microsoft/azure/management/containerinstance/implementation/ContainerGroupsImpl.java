@@ -23,11 +23,6 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Implementation for ContainerGroups.
  */

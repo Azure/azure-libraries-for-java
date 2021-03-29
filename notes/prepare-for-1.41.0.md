@@ -11,13 +11,13 @@ Some breaking changes were introduced in APIs because update of the API service 
 
 ## Breaking changes
 
-The following methods and/or types have been changed in V1.41.0 compared to the previous release (V1.40.0):
+The following methods and/or types have been changed in V1.41 compared to the previous release (V1.40):
 
 <table>
   <tr>
     <th align=left>Area/Model</th>
-    <th align=left>In V1.40.0</th>
-    <th align=left>In V1.41.0</th>
+    <th align=left>In V1.40</th>
+    <th align=left>In V1.41</th>
     <th align=left>Remarks</th>
     <th align=left>Ref</th>
   </tr>

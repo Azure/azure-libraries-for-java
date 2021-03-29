@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.containerinstance.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
 import com.microsoft.azure.management.containerinstance.ContainerGroupIpAddressType;
 import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkProtocol;
@@ -29,12 +30,12 @@ import java.util.Map;
 @LangDefinition
 class ContainerImpl implements
         ContainerGroup.DefinitionStages.ContainerInstanceDefinitionStages.ContainerInstanceDefinition<ContainerGroup.DefinitionStages.WithNextContainerInstance> {
-    private ContainerInner innerContainer;
+    private Container innerContainer;
     private ContainerGroupImpl parent;
 
     ContainerImpl(ContainerGroupImpl parent, String containerName) {
         this.parent = parent;
-        this.innerContainer = new ContainerInner()
+        this.innerContainer = new Container()
                 .withName(containerName)
                 .withResources(new ResourceRequirements()
                         .withRequests(new ResourceRequests()
@@ -45,7 +46,7 @@ class ContainerImpl implements
     @Override
     public ContainerGroupImpl attach() {
         if (parent.inner().containers() == null) {
-            parent.inner().withContainers(new ArrayList<ContainerInner>());
+            parent.inner().withContainers(new ArrayList<Container>());
         }
         parent.inner().containers().add(innerContainer);
 

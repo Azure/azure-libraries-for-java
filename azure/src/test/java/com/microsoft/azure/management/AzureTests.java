@@ -1281,7 +1281,7 @@ public class AzureTests extends TestBase {
 
         containerGroup.refresh();
 
-        Set<Operation> containerGroupOperations = azure.containerGroups().listOperations();
+        PagedList<Operation> containerGroupOperations = azure.containerGroups().listOperations();
         // Number of supported operation can change hence don't assert with a predefined number.
         Assert.assertTrue(containerGroupOperations.size() > 0);
     }

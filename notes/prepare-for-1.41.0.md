@@ -22,9 +22,23 @@ The following methods and/or types have been changed in V1.41 compared to the pr
     <th align=left>Ref</th>
   </tr>
     <tr>
-      <td><code>Container Instance</code></td>
       <td><code>com.microsoft.azure.management.containerinstance.ContainerGroups</code></td>
-      <td>Return type of method <code>listOperations</code> changed to <code>PagedList&lt;Operation&gt;</code>. Return type of method <code>listCachedImages</code> changed to <code>PagedList&lt;CachedImages&gt;</code>. Return type of method <code>listCapabilities</code> changed to <code>PagedList&lt;Capabilities&gt;</code>.</td>
+      <td><code>.listOperations()</code></td>
+      <td>Return type changed to <code>PagedList&lt;Operation&gt;</code></td>
+      <td></td>
+      <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/1381">#1381</a></td>
+    </tr>
+    <tr>
+      <td><code>com.microsoft.azure.management.containerinstance.ContainerGroups</code></td>
+      <td><code>.listCachedImages()</code></td>
+      <td>Return type changed to <code>PagedList&lt;CachedImages&gt;</code></td>
+      <td></td>
+      <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/1381">#1381</a></td>
+    </tr>
+    <tr>
+      <td><code>com.microsoft.azure.management.containerinstance.ContainerGroups</code></td>
+      <td><code>.listCapabilities()</code></td>
+      <td>Return type changed to <code>PagedList&lt;Capabilities&gt;</code></td>
       <td></td>
       <td><a href="https://github.com/Azure/azure-libraries-for-java/pull/1381">#1381</a></td>
     </tr>

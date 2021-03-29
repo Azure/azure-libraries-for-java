@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.management.resources.TagOperations;
+import com.microsoft.azure.management.resources.TagResource;
 import com.microsoft.azure.management.resources.Tags;
 import com.microsoft.azure.management.resources.TagsPatchOperation;
 import com.microsoft.azure.management.resources.TagsPatchResource;
@@ -27,31 +28,31 @@ class TagOperationsImpl implements TagOperations {
     }
 
     @Override
-    public Map<String, String> updateTags(Resource resource, Map<String, String> tags) {
+    public TagResource updateTags(Resource resource, Map<String, String> tags) {
         return this.updateTagsAsync(resource, tags).toBlocking().last();
     }
 
     @Override
-    public Map<String, String> updateTags(String resourceId, Map<String, String> tags) {
+    public TagResource updateTags(String resourceId, Map<String, String> tags) {
         return this.updateTagsAsync(resourceId, tags).toBlocking().last();
     }
 
     @Override
-    public Observable<Map<String, String>> updateTagsAsync(Resource resource, Map<String, String> tags) {
+    public Observable<TagResource> updateTagsAsync(Resource resource, Map<String, String> tags) {
         return this.updateTagsAsync(Objects.requireNonNull(resource).id(), tags);
     }
 
     @Override
-    public Observable<Map<String, String>> updateTagsAsync(String resourceId, Map<String, String> tags) {
+    public Observable<TagResource> updateTagsAsync(String resourceId, Map<String, String> tags) {
         TagsPatchResource parameters = new TagsPatchResource()
             .withOperation(TagsPatchOperation.REPLACE)
             .withProperties(new Tags().withTags(new TreeMap<>(tags)));
         return this.manager().inner().tagOperations()
             .updateAtScopeAsync(resourceId, parameters)
-            .map(new Func1<TagsResourceInner, Map<String, String>>() {
+            .map(new Func1<TagsResourceInner, TagResource>() {
                 @Override
-                public Map<String, String> call(TagsResourceInner inner) {
-                    return inner.properties() == null ? null : inner.properties().tags();
+                public TagResource call(TagsResourceInner inner) {
+                    return new TagResourceImpl(inner);
                 }
             });
     }

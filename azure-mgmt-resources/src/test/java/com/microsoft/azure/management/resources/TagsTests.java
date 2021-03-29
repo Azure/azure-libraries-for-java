@@ -25,15 +25,15 @@ public class TagsTests extends ResourceManagerTestBase {
             originalTags = new HashMap<>();
         }
 
-        Map<String, String> updatedTags = resourceClient.tagOperations().updateTags(resource, new TypeSerializationTests.Map1<>("tag.1", "value.1"));
-        Assert.assertEquals(1, updatedTags.size());
-        Assert.assertTrue(updatedTags.containsKey("tag.1"));
-        Assert.assertEquals("value.1", updatedTags.get("tag.1"));
+        TagResource updatedTags = resourceClient.tagOperations().updateTags(resource, new TypeSerializationTests.Map1<>("tag.1", "value.1"));
+        Assert.assertEquals(1, updatedTags.tags().size());
+        Assert.assertTrue(updatedTags.tags().containsKey("tag.1"));
+        Assert.assertEquals("value.1", updatedTags.tags().get("tag.1"));
 
         updatedTags = resourceClient.tagOperations().updateTags(resource, new HashMap<String, String>());
-        Assert.assertEquals(0, updatedTags.size());
+        Assert.assertEquals(0, updatedTags.tags().size());
 
         updatedTags = resourceClient.tagOperations().updateTags(resource, originalTags);
-        Assert.assertEquals(originalTags, updatedTags);
+        Assert.assertEquals(originalTags, updatedTags.tags());
     }
 }

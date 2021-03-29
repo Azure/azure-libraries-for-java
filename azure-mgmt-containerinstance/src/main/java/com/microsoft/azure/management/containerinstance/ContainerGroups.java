@@ -107,7 +107,7 @@ public interface ContainerGroups extends
      * @return a representation of the future computation of this call
      */
     @Beta(Beta.SinceVersion.V1_23_0)
-    Observable<Page<Operation>> listOperationsAsync();
+    Observable<Operation> listOperationsAsync();
 
     /**
      * Lists cached images for a subscription in a region.
@@ -125,7 +125,7 @@ public interface ContainerGroups extends
      * @return a representation of the future computation of this call
      */
     @Beta(Beta.SinceVersion.V1_23_0)
-    Observable<Page<CachedImages>> listCachedImagesAsync(String location);
+    Observable<CachedImages> listCachedImagesAsync(String location);
 
     /**
      * Lists the capabilities of a location.
@@ -143,7 +143,7 @@ public interface ContainerGroups extends
      * @return a representation of the future computation of this call
      */
     @Beta(Beta.SinceVersion.V1_23_0)
-    Observable<Page<Capabilities>> listCapabilitiesAsync(String location);
+    Observable<Capabilities> listCapabilitiesAsync(String location);
 
     /**
      * Starts all containers in a container group.

@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.containerinstance.implementation;
 
 
-import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.CachedImages;
@@ -111,8 +110,8 @@ public class ContainerGroupsImpl
     }
 
     @Override
-    public Observable<Page<Operation>> listOperationsAsync() {
-        return this.manager().inner().operations().listAsync();
+    public Observable<Operation> listOperationsAsync() {
+        return convertPageToInnerAsync(this.manager().inner().operations().listAsync());
     }
 
     @Override
@@ -121,8 +120,8 @@ public class ContainerGroupsImpl
     }
 
     @Override
-    public Observable<Page<CachedImages>> listCachedImagesAsync(String location) {
-        return this.manager().inner().locations().listCachedImagesAsync(location);
+    public Observable<CachedImages> listCachedImagesAsync(String location) {
+        return convertPageToInnerAsync(this.manager().inner().locations().listCachedImagesAsync(location));
     }
 
     @Override
@@ -131,8 +130,8 @@ public class ContainerGroupsImpl
     }
 
     @Override
-    public Observable<Page<Capabilities>> listCapabilitiesAsync(String location) {
-        return this.manager().inner().locations().listCapabilitiesAsync(location);
+    public Observable<Capabilities> listCapabilitiesAsync(String location) {
+        return convertPageToInnerAsync(this.manager().inner().locations().listCapabilitiesAsync(location));
     }
 
     @Override

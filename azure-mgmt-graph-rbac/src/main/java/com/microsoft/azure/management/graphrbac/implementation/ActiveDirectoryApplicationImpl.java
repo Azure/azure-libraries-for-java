@@ -244,6 +244,9 @@ class ActiveDirectoryApplicationImpl
 
     @Override
     public ActiveDirectoryApplicationImpl withoutReplyUrl(String replyUrl) {
+        if (updateParameters.replyUrls() == null) {
+            updateParameters.withReplyUrls(new ArrayList<>(replyUrls()));
+        }
         if (updateParameters.replyUrls() != null) {
             updateParameters.replyUrls().remove(replyUrl);
         }
@@ -268,6 +271,9 @@ class ActiveDirectoryApplicationImpl
 
     @Override
     public Update withoutIdentifierUrl(String identifierUrl) {
+        if (updateParameters.identifierUris() == null) {
+            updateParameters.withIdentifierUris(new ArrayList<>(identifierUris()));
+        }
         if (updateParameters.identifierUris() != null) {
             updateParameters.identifierUris().remove(identifierUrl);
         }

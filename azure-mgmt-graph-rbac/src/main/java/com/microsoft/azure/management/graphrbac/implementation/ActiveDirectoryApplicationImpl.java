@@ -270,7 +270,7 @@ class ActiveDirectoryApplicationImpl
     }
 
     @Override
-    public Update withoutIdentifierUrl(String identifierUrl) {
+    public ActiveDirectoryApplicationImpl withoutIdentifierUrl(String identifierUrl) {
         if (updateParameters.identifierUris() == null) {
             updateParameters.withIdentifierUris(new ArrayList<>(identifierUris()));
         }

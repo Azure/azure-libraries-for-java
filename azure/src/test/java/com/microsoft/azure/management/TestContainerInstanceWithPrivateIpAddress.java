@@ -1,5 +1,6 @@
 package com.microsoft.azure.management;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
 import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
@@ -119,7 +120,7 @@ public class TestContainerInstanceWithPrivateIpAddress extends TestTemplate<Cont
 
         containerGroup.refresh();
 
-        Set<Operation> containerGroupOperations = containerGroups.listOperations();
+        PagedList<Operation> containerGroupOperations = containerGroups.listOperations();
         // Number of supported operation can change hence don't assert with a predefined number.
         Assert.assertTrue(containerGroupOperations.size() > 0);
 

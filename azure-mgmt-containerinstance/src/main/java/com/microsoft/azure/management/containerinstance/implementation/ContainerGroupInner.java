@@ -8,9 +8,9 @@
 
 package com.microsoft.azure.management.containerinstance.implementation;
 
-import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroupIdentity;
 import java.util.List;
+import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ImageRegistryCredential;
 import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
 import com.microsoft.azure.management.containerinstance.IpAddress;
@@ -20,6 +20,9 @@ import com.microsoft.azure.management.containerinstance.ContainerGroupProperties
 import com.microsoft.azure.management.containerinstance.ContainerGroupDiagnostics;
 import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkProfile;
 import com.microsoft.azure.management.containerinstance.DnsConfiguration;
+import com.microsoft.azure.management.containerinstance.ContainerGroupSku;
+import com.microsoft.azure.management.containerinstance.EncryptionProperties;
+import com.microsoft.azure.management.containerinstance.InitContainerDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -110,6 +113,25 @@ public class ContainerGroupInner extends Resource {
      */
     @JsonProperty(value = "properties.dnsConfig")
     private DnsConfiguration dnsConfig;
+
+    /**
+     * The SKU for a container group. Possible values include: 'Standard',
+     * 'Dedicated'.
+     */
+    @JsonProperty(value = "properties.sku")
+    private ContainerGroupSku sku;
+
+    /**
+     * The encryption properties for a container group.
+     */
+    @JsonProperty(value = "properties.encryptionProperties")
+    private EncryptionProperties encryptionProperties;
+
+    /**
+     * The init containers for a container group.
+     */
+    @JsonProperty(value = "properties.initContainers")
+    private List<InitContainerDefinition> initContainers;
 
     /**
      * Get the identity of the container group, if configured.
@@ -334,6 +356,66 @@ public class ContainerGroupInner extends Resource {
      */
     public ContainerGroupInner withDnsConfig(DnsConfiguration dnsConfig) {
         this.dnsConfig = dnsConfig;
+        return this;
+    }
+
+    /**
+     * Get the SKU for a container group. Possible values include: 'Standard', 'Dedicated'.
+     *
+     * @return the sku value
+     */
+    public ContainerGroupSku sku() {
+        return this.sku;
+    }
+
+    /**
+     * Set the SKU for a container group. Possible values include: 'Standard', 'Dedicated'.
+     *
+     * @param sku the sku value to set
+     * @return the ContainerGroupInner object itself.
+     */
+    public ContainerGroupInner withSku(ContainerGroupSku sku) {
+        this.sku = sku;
+        return this;
+    }
+
+    /**
+     * Get the encryption properties for a container group.
+     *
+     * @return the encryptionProperties value
+     */
+    public EncryptionProperties encryptionProperties() {
+        return this.encryptionProperties;
+    }
+
+    /**
+     * Set the encryption properties for a container group.
+     *
+     * @param encryptionProperties the encryptionProperties value to set
+     * @return the ContainerGroupInner object itself.
+     */
+    public ContainerGroupInner withEncryptionProperties(EncryptionProperties encryptionProperties) {
+        this.encryptionProperties = encryptionProperties;
+        return this;
+    }
+
+    /**
+     * Get the init containers for a container group.
+     *
+     * @return the initContainers value
+     */
+    public List<InitContainerDefinition> initContainers() {
+        return this.initContainers;
+    }
+
+    /**
+     * Set the init containers for a container group.
+     *
+     * @param initContainers the initContainers value to set
+     * @return the ContainerGroupInner object itself.
+     */
+    public ContainerGroupInner withInitContainers(List<InitContainerDefinition> initContainers) {
+        this.initContainers = initContainers;
         return this;
     }
 

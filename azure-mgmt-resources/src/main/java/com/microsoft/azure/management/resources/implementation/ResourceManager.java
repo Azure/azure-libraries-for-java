@@ -17,6 +17,7 @@ import com.microsoft.azure.management.resources.PolicyDefinitions;
 import com.microsoft.azure.management.resources.Providers;
 import com.microsoft.azure.management.resources.ResourceGroups;
 import com.microsoft.azure.management.resources.Subscriptions;
+import com.microsoft.azure.management.resources.TagOperations;
 import com.microsoft.azure.management.resources.Tenants;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
@@ -46,6 +47,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     private PolicyAssignments policyAssignments;
     private Subscriptions subscriptions;
     private Tenants tenants;
+    private TagOperations tagOperations;
 
     /**
      * Creates an instance of ResourceManager that exposes resource management API entry points.
@@ -263,6 +265,16 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
             policyAssignments = new PolicyAssignmentsImpl(policyClient.policyAssignments());
         }
         return policyAssignments;
+    }
+
+    /**
+     * @return the tag management API entry point
+     */
+    public TagOperations tagOperations() {
+        if (tagOperations == null) {
+            tagOperations = new TagOperationsImpl(this);
+        }
+        return tagOperations;
     }
 
     @Override

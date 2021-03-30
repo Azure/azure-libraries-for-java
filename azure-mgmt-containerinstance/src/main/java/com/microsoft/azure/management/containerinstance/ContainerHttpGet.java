@@ -30,7 +30,13 @@ public class ContainerHttpGet {
      * The scheme. Possible values include: 'http', 'https'.
      */
     @JsonProperty(value = "scheme")
-    private String scheme;
+    private Scheme scheme;
+
+    /**
+     * The HTTP headers.
+     */
+    @JsonProperty(value = "httpHeaders")
+    private HttpHeaders httpHeaders;
 
     /**
      * Get the path to probe.
@@ -77,7 +83,7 @@ public class ContainerHttpGet {
      *
      * @return the scheme value
      */
-    public String scheme() {
+    public Scheme scheme() {
         return this.scheme;
     }
 
@@ -87,8 +93,28 @@ public class ContainerHttpGet {
      * @param scheme the scheme value to set
      * @return the ContainerHttpGet object itself.
      */
-    public ContainerHttpGet withScheme(String scheme) {
+    public ContainerHttpGet withScheme(Scheme scheme) {
         this.scheme = scheme;
+        return this;
+    }
+
+    /**
+     * Get the HTTP headers.
+     *
+     * @return the httpHeaders value
+     */
+    public HttpHeaders httpHeaders() {
+        return this.httpHeaders;
+    }
+
+    /**
+     * Set the HTTP headers.
+     *
+     * @param httpHeaders the httpHeaders value to set
+     * @return the ContainerHttpGet object itself.
+     */
+    public ContainerHttpGet withHttpHeaders(HttpHeaders httpHeaders) {
+        this.httpHeaders = httpHeaders;
         return this;
     }
 

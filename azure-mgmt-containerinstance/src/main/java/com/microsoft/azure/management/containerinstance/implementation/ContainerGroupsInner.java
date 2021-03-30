@@ -95,6 +95,10 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("containerGroupName") String containerGroupName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerinstance.ContainerGroups beginDelete" })
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> beginDelete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("containerGroupName") String containerGroupName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerinstance.ContainerGroups restart" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/restart")
         Observable<Response<ResponseBody>> restart(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("containerGroupName") String containerGroupName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -737,7 +741,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
      * @return the ContainerGroupInner object if successful.
      */
     public ContainerGroupInner delete(String resourceGroupName, String containerGroupName) {
-        return deleteWithServiceResponseAsync(resourceGroupName, containerGroupName).toBlocking().single().body();
+        return deleteWithServiceResponseAsync(resourceGroupName, containerGroupName).toBlocking().last().body();
     }
 
     /**
@@ -761,7 +765,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ContainerGroupInner object
+     * @return the observable for the request
      */
     public Observable<ContainerGroupInner> deleteAsync(String resourceGroupName, String containerGroupName) {
         return deleteWithServiceResponseAsync(resourceGroupName, containerGroupName).map(new Func1<ServiceResponse<ContainerGroupInner>, ContainerGroupInner>() {
@@ -779,7 +783,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ContainerGroupInner object
+     * @return the observable for the request
      */
     public Observable<ServiceResponse<ContainerGroupInner>> deleteWithServiceResponseAsync(String resourceGroupName, String containerGroupName) {
         if (this.client.subscriptionId() == null) {
@@ -794,12 +798,85 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.delete(this.client.subscriptionId(), resourceGroupName, containerGroupName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, containerGroupName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ContainerGroupInner>() { }.getType());
+    }
+
+    /**
+     * Delete the specified container group.
+     * Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ContainerGroupInner object if successful.
+     */
+    public ContainerGroupInner beginDelete(String resourceGroupName, String containerGroupName) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, containerGroupName).toBlocking().single().body();
+    }
+
+    /**
+     * Delete the specified container group.
+     * Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ContainerGroupInner> beginDeleteAsync(String resourceGroupName, String containerGroupName, final ServiceCallback<ContainerGroupInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDeleteWithServiceResponseAsync(resourceGroupName, containerGroupName), serviceCallback);
+    }
+
+    /**
+     * Delete the specified container group.
+     * Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ContainerGroupInner object
+     */
+    public Observable<ContainerGroupInner> beginDeleteAsync(String resourceGroupName, String containerGroupName) {
+        return beginDeleteWithServiceResponseAsync(resourceGroupName, containerGroupName).map(new Func1<ServiceResponse<ContainerGroupInner>, ContainerGroupInner>() {
+            @Override
+            public ContainerGroupInner call(ServiceResponse<ContainerGroupInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Delete the specified container group.
+     * Delete the specified container group in the specified subscription and resource group. The operation does not delete other resources provided by the user, such as volumes.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param containerGroupName The name of the container group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ContainerGroupInner object
+     */
+    public Observable<ServiceResponse<ContainerGroupInner>> beginDeleteWithServiceResponseAsync(String resourceGroupName, String containerGroupName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (containerGroupName == null) {
+            throw new IllegalArgumentException("Parameter containerGroupName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.beginDelete(this.client.subscriptionId(), resourceGroupName, containerGroupName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ContainerGroupInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ContainerGroupInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ContainerGroupInner> clientResponse = deleteDelegate(response);
+                        ServiceResponse<ContainerGroupInner> clientResponse = beginDeleteDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -808,9 +885,10 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
             });
     }
 
-    private ServiceResponse<ContainerGroupInner> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<ContainerGroupInner> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ContainerGroupInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ContainerGroupInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -1068,7 +1146,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Starts all containers in a container group.
-     * Starts all containers in a container group.
+     * Starts all containers in a container group. Compute resources will be allocated and billing will start.
      *
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
@@ -1082,7 +1160,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Starts all containers in a container group.
-     * Starts all containers in a container group.
+     * Starts all containers in a container group. Compute resources will be allocated and billing will start.
      *
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
@@ -1096,7 +1174,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Starts all containers in a container group.
-     * Starts all containers in a container group.
+     * Starts all containers in a container group. Compute resources will be allocated and billing will start.
      *
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
@@ -1114,7 +1192,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Starts all containers in a container group.
-     * Starts all containers in a container group.
+     * Starts all containers in a container group. Compute resources will be allocated and billing will start.
      *
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
@@ -1140,7 +1218,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Starts all containers in a container group.
-     * Starts all containers in a container group.
+     * Starts all containers in a container group. Compute resources will be allocated and billing will start.
      *
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
@@ -1154,7 +1232,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Starts all containers in a container group.
-     * Starts all containers in a container group.
+     * Starts all containers in a container group. Compute resources will be allocated and billing will start.
      *
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
@@ -1168,7 +1246,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Starts all containers in a container group.
-     * Starts all containers in a container group.
+     * Starts all containers in a container group. Compute resources will be allocated and billing will start.
      *
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
@@ -1186,7 +1264,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     /**
      * Starts all containers in a container group.
-     * Starts all containers in a container group.
+     * Starts all containers in a container group. Compute resources will be allocated and billing will start.
      *
      * @param resourceGroupName The name of the resource group.
      * @param containerGroupName The name of the container group.
@@ -1222,7 +1300,7 @@ public class ContainerGroupsInner implements InnerSupportsGet<ContainerGroupInne
 
     private ServiceResponse<Void> beginStartDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

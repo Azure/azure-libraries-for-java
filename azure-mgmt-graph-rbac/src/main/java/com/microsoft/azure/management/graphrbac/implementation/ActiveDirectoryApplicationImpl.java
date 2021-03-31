@@ -81,6 +81,12 @@ class ActiveDirectoryApplicationImpl
                 });
     }
 
+    @Override
+    public ActiveDirectoryApplicationImpl update() {
+        this.updateParameters = new ApplicationUpdateParametersInner().withDisplayName(this.inner().displayName());
+        return super.update();
+    }
+
     Observable<ActiveDirectoryApplication> refreshCredentialsAsync() {
         final Observable<ActiveDirectoryApplication> keyCredentials = manager.inner().applications().listKeyCredentialsAsync(id())
                 .flatMapIterable(new Func1<List<KeyCredentialInner>, Iterable<KeyCredentialInner>>() {

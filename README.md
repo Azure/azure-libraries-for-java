@@ -635,7 +635,7 @@ For instance, if you only need azure-mgmt-appservice library from 1.41.0, and wi
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure-client-authentication</artifactId>
-    <version>1.7.0</version>
+    <version>1.7.12</version>
 </dependency>
 ```
 

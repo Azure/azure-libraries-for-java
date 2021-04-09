@@ -9,6 +9,7 @@ package com.microsoft.azure.management.containerservice;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import com.google.common.base.Charsets;
@@ -59,13 +60,12 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
             .withServicePrincipalSecret(servicePrincipalSecret)
             .defineAgentPool(agentPoolName)
                 .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2)
-                .withAgentPoolVirtualMachineCount(1)
                 .withAgentPoolType(AgentPoolType.VIRTUAL_MACHINE_SCALE_SETS)
                 .withMode(AgentPoolMode.SYSTEM)
                 .attach()
             .defineAgentPool(agentPoolName1)
                 .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_A2_V2)
-                .withAgentPoolVirtualMachineCount(1)
+                .withAgentPoolVirtualMachineCount(2)
                 .attach()
             .withDnsPrefix("mp1" + dnsPrefix)
             .withTag("tag1", "value1")
@@ -86,7 +86,7 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
 
         agentPool = kubernetesCluster.agentPools().get(agentPoolName1);
         Assert.assertNotNull(agentPool);
-        Assert.assertEquals(1, agentPool.count());
+        Assert.assertEquals(2, agentPool.count());
         Assert.assertEquals(ContainerServiceVMSizeTypes.STANDARD_A2_V2, agentPool.vmSize());
         Assert.assertEquals(AgentPoolType.VIRTUAL_MACHINE_SCALE_SETS, agentPool.type());
 
@@ -96,7 +96,7 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
         kubernetesCluster = kubernetesCluster.update()
             .updateAgentPool(agentPoolName1)
                 .withAgentPoolMode(AgentPoolMode.SYSTEM)
-                .withAgentPoolVirtualMachineCount(5)
+                .withAgentPoolVirtualMachineCount(3)
                 .parent()
             .defineAgentPool(agentPoolName2)
                 .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_A2_V2)
@@ -110,7 +110,7 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
         Assert.assertEquals(3, kubernetesCluster.agentPools().size());
 
         agentPool = kubernetesCluster.agentPools().get(agentPoolName1);
-        Assert.assertEquals(5, agentPool.count());
+        Assert.assertEquals(3, agentPool.count());
         Assert.assertEquals(AgentPoolMode.SYSTEM, agentPool.mode());
 
         agentPool = kubernetesCluster.agentPools().get(agentPoolName2);
@@ -119,7 +119,27 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
         Assert.assertEquals(1, agentPool.count());
 
         Assert.assertNotNull(kubernetesCluster.tags().get("tag2"));
-        Assert.assertTrue(!kubernetesCluster.tags().containsKey("tag1"));
+        Assert.assertFalse(kubernetesCluster.tags().containsKey("tag1"));
+
+        // deprecated method
+        kubernetesCluster.update()
+                .withAgentPoolVirtualMachineCount(1)
+                .apply();
+
+        Assert.assertEquals(3, kubernetesCluster.agentPools().size());
+        for (KubernetesClusterAgentPool pool : kubernetesCluster.agentPools().values()) {
+            Assert.assertEquals(1, pool.count());
+        }
+
+        kubernetesCluster.update()
+                .withAgentPoolVirtualMachineCount(agentPoolName1, 2)
+                .apply();
+
+        for (Map.Entry<String, KubernetesClusterAgentPool> entry : kubernetesCluster.agentPools().entrySet()) {
+            String name = entry.getKey();
+            int count = entry.getValue().count();
+            Assert.assertEquals(agentPoolName1.equals(name) ? 2 : 1, count);
+        }
     }
 
     /**

@@ -312,6 +312,29 @@ public class KubernetesClusterImpl extends
     }
 
     @Override
+    public KubernetesClusterImpl withAgentPoolVirtualMachineCount(String agentPoolName, int agentCount) {
+        if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
+            for (ManagedClusterAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+                if (agentPoolProfile.name().equals(agentPoolName)) {
+                    agentPoolProfile.withCount(agentCount);
+                    break;
+                }
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterImpl withAgentPoolVirtualMachineCount(int agentCount) {
+        if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
+            for (ManagedClusterAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
+                agentPoolProfile.withCount(agentCount);
+            }
+        }
+        return this;
+    }
+
+    @Override
     public KubernetesClusterAgentPoolImpl updateAgentPool(String name) {
         for (ManagedClusterAgentPoolProfile agentPoolProfile : inner().agentPoolProfiles()) {
             if (agentPoolProfile.name().equals(name)) {

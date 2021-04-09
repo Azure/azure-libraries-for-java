@@ -91,6 +91,10 @@ public class KubernetesClusterAgentPoolImpl
     @Override
     public KubernetesClusterAgentPoolImpl withVirtualMachineSize(ContainerServiceVMSizeTypes param0) {
         this.inner().withVmSize(param0);
+        if (this.inner().count() == null) {
+            // default VM count
+            this.inner().withCount(1);
+        }
         return this;
     }
 

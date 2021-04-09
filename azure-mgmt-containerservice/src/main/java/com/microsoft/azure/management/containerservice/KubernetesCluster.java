@@ -476,6 +476,30 @@ public interface KubernetesCluster extends
          */
         interface WithAgentPool {
             /**
+             * Updates the agent pool virtual machine count.
+             *
+             * Recommended to use `updateAgentPool` method.
+             *
+             * @param agentPoolName the name of the agent pool to be updated
+             * @param agentCount the number of agents (virtual machines) to host docker containers.
+             * @return the stage representing configuration for the agent pool profile
+             */
+            @Beta(SinceVersion.V1_15_0)
+            KubernetesCluster.Update withAgentPoolVirtualMachineCount(String agentPoolName, int agentCount);
+
+            /**
+             * Updates the virtual machine count for all agent pools.
+             *
+             * @deprecated use `updateAgentPool` method to update a specific agent pool.
+             *
+             * @param agentCount the number of agents (virtual machines) to host docker containers.
+             * @return the stage representing configuration for the agent pool profile
+             */
+            @Beta(SinceVersion.V1_15_0)
+            @Deprecated
+            KubernetesCluster.Update withAgentPoolVirtualMachineCount(int agentCount);
+
+            /**
              * Begins the definition of an agent pool profile to be attached to the Kubernetes cluster.
              *
              * @param name the name for the agent pool profile

@@ -11,6 +11,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
 /**
  * A client-side representation for a Kubernetes cluster agent pool.
@@ -101,7 +102,7 @@ public interface KubernetesClusterAgentPool
              * @param vmSize the size of each virtual machine in the agent pool
              * @return the next stage of the definition
              */
-            WithAttach<ParentT> withVirtualMachineSize(ContainerServiceVMSizeTypes vmSize);
+            WithAgentPoolVirtualMachineCount<ParentT> withVirtualMachineSize(ContainerServiceVMSizeTypes vmSize);
         }
 
         /**
@@ -249,6 +250,52 @@ public interface KubernetesClusterAgentPool
             WithMode<ParentT>,
             Attachable.InDefinition<ParentT> {
         }
+    }
 
+    /**
+     * The template for an update operation, containing all the settings that can be modified.
+     *
+     * @param <ParentT>  the stage of the container service definition to return to
+     */
+    interface Update<ParentT>
+            extends Settable<ParentT>,
+            UpdateStages.WithAgentPoolVirtualMachineCount<ParentT>,
+            UpdateStages.WithAgentPoolMode<ParentT> { }
+
+    /** Grouping of agent pool update stages. */
+    interface UpdateStages {
+        /**
+         * The stage of a container service agent pool update allowing to specify the number of agents (Virtual
+         * Machines) to host docker containers.
+         *
+         * <p>Allowed values must be in the range of 1 to 100 (inclusive); the default value is 1.
+         *
+         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         */
+        interface WithAgentPoolVirtualMachineCount<ParentT> {
+            /**
+             * Specifies the number of agents (Virtual Machines) to host docker containers.
+             *
+             * @param count the number of agents (VMs) to host docker containers. Allowed values must be in the range of
+             *     1 to 100 (inclusive); the default value is 1.
+             * @return the next stage of the update
+             */
+            Update<ParentT> withAgentPoolVirtualMachineCount(int count);
+        }
+
+        /**
+         * The stage of a container service agent pool update allowing to specify the agent pool mode.
+         *
+         * @param <ParentT> the stage of the container service definition to return to after attaching this definition
+         */
+        interface WithAgentPoolMode<ParentT> {
+            /**
+             * Specifies the agent pool mode for the agents.
+             *
+             * @param agentPoolMode the agent pool mode
+             * @return the next stage of the update
+             */
+            Update<ParentT> withAgentPoolMode(AgentPoolMode agentPoolMode);
+        }
     }
 }

@@ -9,7 +9,6 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerservice.AgentPoolMode;
 import com.microsoft.azure.management.containerservice.AgentPoolType;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
-import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
 import com.microsoft.azure.management.containerservice.ManagedClusterAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.OSType;
@@ -28,7 +27,8 @@ public class KubernetesClusterAgentPoolImpl
             OrchestratorServiceBase>
     implements
         KubernetesClusterAgentPool,
-        KubernetesClusterAgentPool.Definition {
+        KubernetesClusterAgentPool.Definition<KubernetesClusterImpl>,
+        KubernetesClusterAgentPool.Update<KubernetesClusterImpl> {
 
     private String subnetName;
 
@@ -119,7 +119,7 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public DefinitionStages.WithAttach withAgentPoolVirtualMachineCount(int count) {
+    public KubernetesClusterAgentPoolImpl withAgentPoolVirtualMachineCount(int count) {
         this.inner().withCount(count);
         return this;
     }
@@ -145,8 +145,41 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public KubernetesCluster.Definition attach() {
-        this.parent().inner().agentPoolProfiles().add(this.inner());
-        return this.parent();
+    public KubernetesClusterImpl attach() {
+        return this.parent().addNewAgentPool(this);
+    }
+
+    @Override
+    public KubernetesClusterAgentPoolImpl withAgentPoolMode(AgentPoolMode agentPoolMode) {
+        inner().withMode(agentPoolMode);
+        return this;
+    }
+
+    AgentPoolInner getAgentPoolInner() {
+        AgentPoolInner agentPoolInner = new AgentPoolInner();
+        agentPoolInner.withCount(inner().count());
+        agentPoolInner.withVmSize(inner().vmSize());
+        agentPoolInner.withOsDiskSizeGB(inner().osDiskSizeGB());
+        agentPoolInner.withVnetSubnetID(inner().vnetSubnetID());
+        agentPoolInner.withMaxPods(inner().maxPods());
+        agentPoolInner.withOsType(inner().osType());
+        agentPoolInner.withMaxCount(inner().maxCount());
+        agentPoolInner.withMinCount(inner().minCount());
+        agentPoolInner.withEnableAutoScaling(inner().enableAutoScaling());
+        agentPoolInner.withAgentPoolType(inner().type());
+        agentPoolInner.withMode(inner().mode());
+        agentPoolInner.withOrchestratorVersion(inner().orchestratorVersion());
+//        agentPoolInner.withNodeImageVersion(inner().nodeImageVersion());
+        agentPoolInner.withUpgradeSettings(inner().upgradeSettings());
+        agentPoolInner.withAvailabilityZones(inner().availabilityZones());
+        agentPoolInner.withEnableNodePublicIP(inner().enableNodePublicIP());
+        agentPoolInner.withScaleSetPriority(inner().scaleSetPriority());
+        agentPoolInner.withScaleSetEvictionPolicy(inner().scaleSetEvictionPolicy());
+        agentPoolInner.withSpotMaxPrice(inner().spotMaxPrice());
+        agentPoolInner.withTags(inner().tags());
+        agentPoolInner.withNodeLabels(inner().nodeLabels());
+        agentPoolInner.withNodeTaints(inner().nodeTaints());
+        agentPoolInner.withProximityPlacementGroupID(inner().proximityPlacementGroupID());
+        return agentPoolInner;
     }
 }

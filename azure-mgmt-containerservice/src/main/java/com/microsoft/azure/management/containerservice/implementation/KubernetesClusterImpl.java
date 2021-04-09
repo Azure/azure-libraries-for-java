@@ -18,6 +18,8 @@ import com.microsoft.azure.management.containerservice.ManagedClusterAgentPoolPr
 import com.microsoft.azure.management.containerservice.ManagedClusterSKU;
 import com.microsoft.azure.management.containerservice.ManagedClusterServicePrincipalProfile;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -310,26 +312,14 @@ public class KubernetesClusterImpl extends
     }
 
     @Override
-    public KubernetesClusterImpl withAgentPoolVirtualMachineCount(String agentPoolName, int agentCount) {
-        if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
-            for (ManagedClusterAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
-                if (agentPoolProfile.name().equals(agentPoolName)) {
-                    agentPoolProfile.withCount(agentCount);
-                    break;
-                }
+    public KubernetesClusterAgentPoolImpl updateAgentPool(String name) {
+        for (ManagedClusterAgentPoolProfile agentPoolProfile : inner().agentPoolProfiles()) {
+            if (agentPoolProfile.name().equals(name)) {
+                return new KubernetesClusterAgentPoolImpl(agentPoolProfile, this);
             }
         }
-        return this;
-    }
-
-    @Override
-    public KubernetesClusterImpl withAgentPoolVirtualMachineCount(int agentCount) {
-        if (this.inner().agentPoolProfiles() != null && this.inner().agentPoolProfiles().size() > 0) {
-            for (ManagedClusterAgentPoolProfile agentPoolProfile : this.inner().agentPoolProfiles()) {
-                agentPoolProfile.withCount(agentCount);
-            }
-        }
-        return this;
+        throw new IllegalArgumentException(String.format(
+                "Cannot get agent pool named %s", name));
     }
 
     @Override
@@ -364,6 +354,27 @@ public class KubernetesClusterImpl extends
     @Override
     public KubernetesCluster.DefinitionStages.WithCreate withSku(ManagedClusterSKU sku) {
         this.inner().withSku(sku);
+        return this;
+    }
+
+    KubernetesClusterImpl addNewAgentPool(final KubernetesClusterAgentPoolImpl agentPool) {
+        if (!isInCreateMode()) {
+            this.addDependency(
+                    new FunctionalTaskItem() {
+                        @Override
+                        public Observable<Indexable> call(final Context context) {
+                            return manager().inner().agentPools().createOrUpdateAsync(
+                                    resourceGroupName(), name(), agentPool.name(), agentPool.getAgentPoolInner()
+                            ).flatMap(new Func1<AgentPoolInner, Observable<Indexable>>() {
+                                @Override
+                                public Observable<Indexable> call(AgentPoolInner agentPoolInner) {
+                                    return context.voidObservable();
+                                }
+                            });
+                        }
+                    });
+        }
+        inner().agentPoolProfiles().add(agentPool.inner());
         return this;
     }
 }

@@ -104,7 +104,7 @@ class KuduClient {
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps zipDeploy", "x-ms-body-logging: false" })
         @POST("api/zipdeploy")
-        Observable<Response<ResponseBody>> zipDeploy(@Body RequestBody zipFile, @Query("isAsync") Boolean isAsync);
+        Observable<Response<ResponseBody>> zipDeploy(@Body RequestBody zipFile, @Query("isAsync") Boolean isAsync, @Query("trackDeploymentProgress") Boolean trackDeploymentProgress);
 
         @Headers({ "Content-Type: application/octet-stream", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps publish", "x-ms-body-logging: false" })
         @POST("api/publish")
@@ -205,7 +205,7 @@ class KuduClient {
         try {
             RequestBody body = RequestBody.create(MediaType.parse("application/octet-stream"), ByteStreams.toByteArray(zipFile));
             Observable<ServiceResponse<Void>> response =
-                    retryOnError(handleResponse(service.zipDeploy(body, false)));
+                    retryOnError(handleResponse(service.zipDeploy(body, false, false)));
             return response.toCompletable();
         } catch (IOException e) {
             return Completable.error(e);
@@ -234,7 +234,7 @@ class KuduClient {
 
             // service returns 404 on deploymentStatus, if deployment ID is get from SCM-DEPLOYMENT-ID
             Observable<AsyncDeploymentResult> result =
-                    retryOnError(handleResponse(service.zipDeploy(body, true), new Func1<Response<ResponseBody>, AsyncDeploymentResult>() {
+                    retryOnError(handleResponse(service.zipDeploy(body, true, true), new Func1<Response<ResponseBody>, AsyncDeploymentResult>() {
                         @Override
                         public AsyncDeploymentResult call(Response<ResponseBody> responseBodyResponse) {
                             String deploymentId = responseBodyResponse.headers().get("SCM-DEPLOYMENT-ID");

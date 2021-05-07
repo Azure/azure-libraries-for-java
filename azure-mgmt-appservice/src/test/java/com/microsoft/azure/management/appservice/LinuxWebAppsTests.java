@@ -47,7 +47,7 @@ public class LinuxWebAppsTests extends AppServiceTest {
     @Test
     @Ignore
     public void canGetDeploymentStatus() throws InterruptedException {
-        //WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu", "wa1weidxu");
+        //WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu1", "wa1weidxu");
         WebApp wa = appServiceManager.webApps().define("wa1weidxu")
                 .withRegion("centraluseuap")
                 .withNewResourceGroup("rg-weidxu1")

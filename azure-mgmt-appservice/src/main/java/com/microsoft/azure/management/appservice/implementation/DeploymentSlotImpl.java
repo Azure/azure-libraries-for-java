@@ -11,7 +11,6 @@ import com.microsoft.azure.management.appservice.AsyncDeploymentResult;
 import com.microsoft.azure.management.appservice.DeployOptions;
 import com.microsoft.azure.management.appservice.DeployType;
 import com.microsoft.azure.management.appservice.DeploymentSlot;
-import com.microsoft.azure.management.appservice.DeploymentStatus;
 import com.microsoft.azure.management.appservice.WebApp;
 import rx.Completable;
 import rx.Observable;
@@ -243,15 +242,5 @@ class DeploymentSlotImpl
             deployOptions = new DeployOptions();
         }
         return kuduClient.pushDeployAsync(type, file, deployOptions.path(), deployOptions.restartSite(), deployOptions.cleanDeployment());
-    }
-
-    @Override
-    public Observable<DeploymentStatus> getDeploymentStatusAsync(String deploymentId) {
-        return this.manager().inner().webApps().getDeploymentStatusAsync(this.resourceGroupName(), this.name(), deploymentId);
-    }
-
-    @Override
-    public DeploymentStatus getDeploymentStatus(String deploymentId) {
-        return this.manager().inner().webApps().getDeploymentStatus(this.resourceGroupName(), this.name(), deploymentId);
     }
 }

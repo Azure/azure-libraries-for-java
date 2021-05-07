@@ -6,13 +6,13 @@
 
 package com.microsoft.azure.management.compute.samples;
 
-import com.jcraft.jsch.JSchException;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.management.compute.Snapshot;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
@@ -26,12 +26,11 @@ import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.TransportProtocol;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.samples.SSHShell;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.rest.LogLevel;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -406,7 +405,7 @@ public final class ManageManagedDisks {
                 .create();
 
         // De-provision the virtual machine
-        deprovisionAgentInLinuxVM(linuxVM.getPrimaryPublicIPAddress().fqdn(), 22, userName, password);
+        deprovisionAgentInLinuxVM(linuxVM);
         System.out.println("Deallocate VM: " + linuxVM.id());
         linuxVM.deallocate();
         System.out.println("Deallocated VM: " + linuxVM.id() + "; state = " + linuxVM.powerState());
@@ -438,7 +437,7 @@ public final class ManageManagedDisks {
                 .create();
 
         // De-provision the virtual machine
-        deprovisionAgentInLinuxVM(linuxVM.getPrimaryPublicIPAddress().fqdn(), 22, userName, password);
+        deprovisionAgentInLinuxVM(linuxVM);
         System.out.println("Deallocate VM: " + linuxVM.id());
         linuxVM.deallocate();
         System.out.println("Deallocated VM: " + linuxVM.id() + "; state = " + linuxVM.powerState());
@@ -448,26 +447,15 @@ public final class ManageManagedDisks {
         return linuxVM;
     }
 
-    private static void deprovisionAgentInLinuxVM(String host, int port, String userName, String password) {
-        SSHShell shell = null;
-        try {
-            System.out.println("Trying to de-provision: " + host);
-            shell = SSHShell.open(host, port, userName, password);
-            List<String> deprovisionCommand = new ArrayList<>();
-            deprovisionCommand.add("sudo waagent -deprovision+user --force");
-            String output = shell.runCommands(deprovisionCommand);
-            System.out.println(output);
-        } catch (JSchException jSchException) {
-            System.out.println(jSchException.getMessage());
-        } catch (IOException ioException) {
-            System.out.println(ioException.getMessage());
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        } finally {
-            if (shell != null) {
-                shell.close();
-            }
-        }
+    private static void deprovisionAgentInLinuxVM(VirtualMachine virtualMachine) {
+        System.out.println("Trying to de-provision");
+        virtualMachine.manager().inner().virtualMachines().beginRunCommand(
+                virtualMachine.resourceGroupName(), virtualMachine.name(),
+                new RunCommandInput()
+                        .withCommandId("RunShellScript")
+                        .withScript(Collections.singletonList("sudo waagent -deprovision+user --force")));
+
+        SdkContext.sleep(60000);
     }
 
     private static Network prepareNetwork(Azure azure, Region region, String rgName) {

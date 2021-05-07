@@ -81,6 +81,12 @@ class ActiveDirectoryApplicationImpl
                 });
     }
 
+    @Override
+    public ActiveDirectoryApplicationImpl update() {
+        this.updateParameters = new ApplicationUpdateParametersInner().withDisplayName(this.inner().displayName());
+        return super.update();
+    }
+
     Observable<ActiveDirectoryApplication> refreshCredentialsAsync() {
         final Observable<ActiveDirectoryApplication> keyCredentials = manager.inner().applications().listKeyCredentialsAsync(id())
                 .flatMapIterable(new Func1<List<KeyCredentialInner>, Iterable<KeyCredentialInner>>() {
@@ -244,6 +250,9 @@ class ActiveDirectoryApplicationImpl
 
     @Override
     public ActiveDirectoryApplicationImpl withoutReplyUrl(String replyUrl) {
+        if (updateParameters.replyUrls() == null) {
+            updateParameters.withReplyUrls(new ArrayList<>(replyUrls()));
+        }
         if (updateParameters.replyUrls() != null) {
             updateParameters.replyUrls().remove(replyUrl);
         }
@@ -267,7 +276,10 @@ class ActiveDirectoryApplicationImpl
     }
 
     @Override
-    public Update withoutIdentifierUrl(String identifierUrl) {
+    public ActiveDirectoryApplicationImpl withoutIdentifierUrl(String identifierUrl) {
+        if (updateParameters.identifierUris() == null) {
+            updateParameters.withIdentifierUris(new ArrayList<>(identifierUris()));
+        }
         if (updateParameters.identifierUris() != null) {
             updateParameters.identifierUris().remove(identifierUrl);
         }

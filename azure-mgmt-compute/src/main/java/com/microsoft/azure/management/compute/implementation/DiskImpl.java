@@ -376,6 +376,28 @@ class DiskImpl
 
     @Override
     public Observable<Disk> createResourceAsync() {
+        final String resourceGroupName = resourceGroupName();
+        final String resourceName = name();
+        final DiskInner createParameters = this.inner();
+        final DiskImpl self = this;
+        return manager().inner().disks().createOrUpdateAsync(resourceGroupName, resourceName, createParameters)
+                .flatMap(new Func1<DiskInner, Observable<Disk>>() {
+                    @Override
+                    public Observable<Disk> call(DiskInner diskInner) {
+                        if (diskInner == null || diskInner.id() == null) {
+                            // retry once
+                            return manager().inner().disks()
+                                    .createOrUpdateAsync(resourceGroupName, resourceName, createParameters)
+                                    .map(innerToFluentMap(self));
+                        } else {
+                            return Observable.just(innerToFluentMap(self).call(diskInner));
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public Observable<Disk> updateResourceAsync() {
         return manager().inner().disks().createOrUpdateAsync(resourceGroupName(), name(), this.inner())
                 .map(innerToFluentMap(this));
     }

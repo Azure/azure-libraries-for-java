@@ -257,10 +257,10 @@ class WebAppImpl
     }
 
     @Override
-    public Observable<AsyncDeploymentResult> pushZipDeployAsync(File zipFile) {
+    public Observable<AsyncDeploymentResult> pushZipDeployAsync(File zipFile, boolean trackDeployment) {
         try {
             final InputStream is = new FileInputStream(zipFile);
-            return pushZipDeployAsync(new FileInputStream(zipFile)).doAfterTerminate(new Action0() {
+            return pushZipDeployAsync(new FileInputStream(zipFile), trackDeployment).doAfterTerminate(new Action0() {
                 @Override
                 public void call() {
                     try {
@@ -276,18 +276,18 @@ class WebAppImpl
     }
 
     @Override
-    public Observable<AsyncDeploymentResult> pushZipDeployAsync(InputStream zipFile) {
-        return kuduClient.pushZipDeployAsync(zipFile);
+    public Observable<AsyncDeploymentResult> pushZipDeployAsync(InputStream zipFile, boolean trackDeployment) {
+        return kuduClient.pushZipDeployAsync(zipFile, trackDeployment);
     }
 
     @Override
-    public AsyncDeploymentResult pushZipDeploy(File zipFile) {
-        return pushZipDeployAsync(zipFile).toBlocking().last();
+    public AsyncDeploymentResult pushZipDeploy(File zipFile, boolean trackDeployment) {
+        return pushZipDeployAsync(zipFile, trackDeployment).toBlocking().last();
     }
 
     @Override
-    public AsyncDeploymentResult pushZipDeploy(InputStream zipFile) {
-        return pushZipDeployAsync(zipFile).toBlocking().last();
+    public AsyncDeploymentResult pushZipDeploy(InputStream zipFile, boolean trackDeployment) {
+        return pushZipDeployAsync(zipFile, trackDeployment).toBlocking().last();
     }
 
     @Override
@@ -397,7 +397,7 @@ class WebAppImpl
         if (deployOptions == null) {
             deployOptions = new DeployOptions();
         }
-        return kuduClient.pushDeployAsync(type, file, deployOptions.path(), deployOptions.restartSite(), deployOptions.cleanDeployment());
+        return kuduClient.pushDeployAsync(type, file, deployOptions.path(), deployOptions.restartSite(), deployOptions.cleanDeployment(), deployOptions.trackDeployment());
     }
 
     @Override

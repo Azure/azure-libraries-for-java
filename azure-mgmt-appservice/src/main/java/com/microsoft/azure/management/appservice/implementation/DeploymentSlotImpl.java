@@ -241,6 +241,6 @@ class DeploymentSlotImpl
         if (deployOptions == null) {
             deployOptions = new DeployOptions();
         }
-        return kuduClient.pushDeployAsync(type, file, deployOptions.path(), deployOptions.restartSite(), deployOptions.cleanDeployment());
+        return kuduClient.pushDeployAsync(type, file, deployOptions.path(), deployOptions.restartSite(), deployOptions.cleanDeployment(), deployOptions.trackDeployment());
     }
 }

@@ -215,7 +215,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
         //
         SdkContext.sleep(40 * 1000);
 
-        deprovisionAgentInLinuxVM(vm.getPrimaryPublicIPAddress().fqdn(), 22, userName, password);
+        deprovisionAgentInLinuxVM(vm);
         vm.deallocate();
         vm.generalize();
 

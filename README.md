@@ -1,8 +1,10 @@
 [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/fluentJava/Azure.azure-libraries-for-java?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=608&branchName=master)
 
-# Try the Next-Generation Azure Management SDK for Java now
+# This Repo is in Maintenance Mode
 
-A new set of management libraries are now Generally Available (GA) and ready for production uses. These new libraries provide a higher-level, object-oriented API for _managing_ Azure resources, that is optimized for ease of use, succinctness and consistency. You can find the list of new packages **[on this page](https://azure.github.io/azure-sdk/releases/latest/java.html)**.
+As our development focus has shifted to our next-generation Azure management libraries, this repository is currently in a maintenance mode. We will continue to monitor this repository and make our best to effort to support any feature asks / bug fixes, however, please expect that this repository will **gradually be phased out (and eventually deprecated)** and work will be more focused on the [new libraries](https://aka.ms/azsdk/java/mgmt).
+
+Going forward, We highly encourage you to [try out those new management libraries](http://aka.ms/azsdk/java/mgmt) as they are now Generally Available (GA) and ready for production uses. These new libraries provide a higher-level, object-oriented API for managing Azure resources, that is optimized for ease of use, succinctness and consistency. You can find the list of new packages **[on this page](https://azure.github.io/azure-sdk/releases/latest/java.html)**.
 
 **If you are interested in learning how to use the new libraries for Azure resource management, please [visit here](https://aka.ms/azsdk/java/mgmt)**. We have also prepared **[plenty of code samples](https://github.com/Azure/azure-sdk-for-java/blob/master/sdk/resourcemanager/docs/SAMPLE.md)** as well as **[migraton guide](https://github.com/Azure/azure-sdk-for-java/blob/master/sdk/resourcemanager/docs/MIGRATION_GUIDE.md)** in case you are upgrading.
 

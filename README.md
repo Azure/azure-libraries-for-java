@@ -2,7 +2,7 @@
 
 # This Repo is in Maintenance Mode
 
-As our development focus has shifted to our next-generation Azure management libraries, this repository is currently in a maintenance mode. We will continue to monitor this repository and make our best to effort to support any feature asks / bug fixes, however, please expect that this repository will **gradually be phased out (and eventually deprecated)** and work will be more focused on the [new libraries](https://aka.ms/azsdk/java/mgmt).
+As our development focus has shifted to our next-generation Azure management libraries, this repository is currently in **maintenance mode**. We will continue to monitor this repository and make our best to effort to support any feature asks / bug fixes, however, please expect that this repository will **gradually be phased out (and eventually deprecated)** and work will be more focused on the [new libraries](https://aka.ms/azsdk/java/mgmt).
 
 Going forward, We highly encourage you to [try out those new management libraries](http://aka.ms/azsdk/java/mgmt) as they are now Generally Available (GA) and ready for production uses. These new libraries provide a higher-level, object-oriented API for managing Azure resources, that is optimized for ease of use, succinctness and consistency. You can find the list of new packages **[on this page](https://azure.github.io/azure-sdk/releases/latest/java.html)**.
 

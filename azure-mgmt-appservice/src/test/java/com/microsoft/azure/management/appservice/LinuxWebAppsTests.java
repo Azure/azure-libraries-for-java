@@ -13,9 +13,11 @@ import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipInputStream;
 
@@ -40,6 +42,36 @@ public class LinuxWebAppsTests extends AppServiceTest {
     protected void cleanUpResources() {
         resourceManager.resourceGroups().beginDeleteByName(RG_NAME_2);
         resourceManager.resourceGroups().beginDeleteByName(RG_NAME_1);
+    }
+
+    @Test
+    @Ignore
+    public void canGetDeploymentStatus() throws InterruptedException {
+        WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu1", "wa1weidxu");
+//        WebApp wa = appServiceManager.webApps().define("wa1weidxu")
+//                .withRegion("centraluseuap")
+//                .withNewResourceGroup("rg-weidxu1")
+//                .withNewLinuxPlan(PricingTier.STANDARD_S1)
+//                .withBuiltInImage(RuntimeStack.JAVA_11_JAVA11)
+//                .create();
+        AsyncDeploymentResult result = wa.pushDeploy(DeployType.ZIP, new File("C:/github/app.zip"), null);
+//        AsyncDeploymentResult result = wa.pushZipDeploy(new File("C:/github/app.zip"));
+        DeploymentStatus status = wa.getDeploymentStatus(result.deploymentId());
+        while (status == null) {
+            System.out.println("status not ready");
+            Thread.sleep(10 * 1000);
+            // try again
+            status = wa.getDeploymentStatus(result.deploymentId());
+        }
+        BuildStatus buildStatus = status.buildStatus();
+        System.out.println("build status: " + buildStatus);
+        while (buildStatus != BuildStatus.BUILD_SUCCESSFUL) {
+            Thread.sleep(10 * 1000);
+            // poll again
+            status = wa.getDeploymentStatus(result.deploymentId());
+            buildStatus = status.buildStatus();
+            System.out.println("build status: " + buildStatus);
+        }
     }
 
     @Test

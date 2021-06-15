@@ -16,6 +16,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import rx.Completable;
+import rx.Observable;
 
 import java.io.File;
 import java.io.InputStream;
@@ -525,4 +526,60 @@ public interface WebApp extends
             WebAppBase.Update<WebApp>,
             UpdateStages.WithDockerContainerImage {
     }
+
+    /**
+     * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     *
+     * @see #getDeploymentStatusAsync(String)
+     * @param zipFile the ZIP file to upload
+     * @param trackDeployment whether to have {@link AsyncDeploymentResult#deploymentId()} to track deployment progress
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    Observable<AsyncDeploymentResult> pushZipDeployAsync(File zipFile, boolean trackDeployment);
+
+    /**
+     * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     *
+     * @see #getDeploymentStatusAsync(String)
+     * @param zipFile the ZIP file to upload
+     * @param trackDeployment whether to have {@link AsyncDeploymentResult#deploymentId()} to track deployment progress
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    AsyncDeploymentResult pushZipDeploy(File zipFile, boolean trackDeployment);
+
+    /**
+     * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     *
+     * @see #getDeploymentStatus(String)
+     * @param zipFile the ZIP file to upload
+     * @param trackDeployment whether to have {@link AsyncDeploymentResult#deploymentId()} to track deployment progress
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    AsyncDeploymentResult pushZipDeploy(InputStream zipFile, boolean trackDeployment);
+
+    /**
+     * Asynchronous deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     *
+     * @see #getDeploymentStatusAsync(String)
+     * @param zipFile the ZIP file to upload
+     * @param trackDeployment whether to have {@link AsyncDeploymentResult#deploymentId()} to track deployment progress
+     * @return the result of the deployment, which contains the deployment ID for query on the deployment status.
+     */
+    Observable<AsyncDeploymentResult> pushZipDeployAsync(InputStream zipFile, boolean trackDeployment);
+
+    /**
+     * Gets the deployment status of the web app.
+     *
+     * @param deploymentId the deployment ID of the web app.
+     * @return the deployment status.
+     */
+    Observable<DeploymentStatus> getDeploymentStatusAsync(String deploymentId);
+
+    /**
+     * Gets the deployment status of the web app.
+     *
+     * @param deploymentId the deployment ID of the web app.
+     * @return the deployment status.
+     */
+    DeploymentStatus getDeploymentStatus(String deploymentId);
 }

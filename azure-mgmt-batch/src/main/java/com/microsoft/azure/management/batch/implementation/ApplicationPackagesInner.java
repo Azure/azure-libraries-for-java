@@ -276,7 +276,7 @@ public class ApplicationPackagesInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.create(resourceGroupName, accountName, applicationName, versionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.create(resourceGroupName, accountName, applicationName, versionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), new ApplicationPackageInner(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationPackageInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ApplicationPackageInner>> call(Response<ResponseBody> response) {

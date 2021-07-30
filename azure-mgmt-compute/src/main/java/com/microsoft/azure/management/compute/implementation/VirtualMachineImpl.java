@@ -2000,7 +2000,7 @@ class VirtualMachineImpl
     }
 
     private void copyInnerToUpdateParameter(VirtualMachineUpdate updateParameter) {
-        updateParameter.withPlan(this.inner().plan());
+        //updateParameter.withPlan(this.inner().plan());    // update cannot change plan
         updateParameter.withHardwareProfile(this.inner().hardwareProfile());
         updateParameter.withStorageProfile(this.inner().storageProfile());
         updateParameter.withOsProfile(this.inner().osProfile());

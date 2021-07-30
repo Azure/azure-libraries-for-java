@@ -11,7 +11,7 @@ package com.microsoft.azure.management.batch;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The CertificateBaseProperties model.
+ * Base certificate properties.
  */
 public class CertificateBaseProperties {
     /**

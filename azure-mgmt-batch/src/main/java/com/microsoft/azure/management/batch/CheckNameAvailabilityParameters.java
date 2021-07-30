@@ -28,6 +28,7 @@ public class CheckNameAvailabilityParameters {
 
     /**
      * Creates an instance of CheckNameAvailabilityParameters class.
+     * @param name the name to check for availability.
      */
     public CheckNameAvailabilityParameters() {
         type = "Microsoft.Batch/batchAccounts";

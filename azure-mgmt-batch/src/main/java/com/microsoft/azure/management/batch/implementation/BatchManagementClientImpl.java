@@ -280,7 +280,7 @@ public class BatchManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2021-01-01";
+        this.apiVersion = "2021-06-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -303,6 +303,6 @@ public class BatchManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "BatchManagementClient", "2021-01-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "BatchManagementClient", "2021-06-01");
     }
 }

@@ -25,12 +25,10 @@ public class BatchPoolIdentity {
     private PoolIdentityType type;
 
     /**
-     * The list of user identities associated with the Batch pool. The user
-     * identity dictionary key references will be ARM resource ids in the form:
-     * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * The list of user identities associated with the Batch pool.
      */
     @JsonProperty(value = "userAssignedIdentities")
-    private Map<String, BatchPoolIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
+    private Map<String, UserAssignedIdentities> userAssignedIdentities;
 
     /**
      * Get the type of identity used for the Batch Pool. Possible values include: 'UserAssigned', 'None'.
@@ -53,21 +51,21 @@ public class BatchPoolIdentity {
     }
 
     /**
-     * Get the list of user identities associated with the Batch pool. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * Get the list of user identities associated with the Batch pool.
      *
      * @return the userAssignedIdentities value
      */
-    public Map<String, BatchPoolIdentityUserAssignedIdentitiesValue> userAssignedIdentities() {
+    public Map<String, UserAssignedIdentities> userAssignedIdentities() {
         return this.userAssignedIdentities;
     }
 
     /**
-     * Set the list of user identities associated with the Batch pool. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * Set the list of user identities associated with the Batch pool.
      *
      * @param userAssignedIdentities the userAssignedIdentities value to set
      * @return the BatchPoolIdentity object itself.
      */
-    public BatchPoolIdentity withUserAssignedIdentities(Map<String, BatchPoolIdentityUserAssignedIdentitiesValue> userAssignedIdentities) {
+    public BatchPoolIdentity withUserAssignedIdentities(Map<String, UserAssignedIdentities> userAssignedIdentities) {
         this.userAssignedIdentities = userAssignedIdentities;
         return this;
     }

@@ -117,6 +117,10 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/listKeys")
         Observable<Response<ResponseBody>> getKeys(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.BatchAccounts listOutboundNetworkDependenciesEndpoints" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/outboundNetworkDependenciesEndpoints")
+        Observable<Response<ResponseBody>> listOutboundNetworkDependenciesEndpoints(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.BatchAccounts listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -124,6 +128,10 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.BatchAccounts listByResourceGroupNext" })
         @GET
         Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.BatchAccounts listOutboundNetworkDependenciesEndpointsNext" })
+        @GET
+        Observable<Response<ResponseBody>> listOutboundNetworkDependenciesEndpointsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -857,7 +865,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
     }
 
     /**
-     * Synchronizes access keys for the auto-storage account configured for the specified Batch account.
+     * Synchronizes access keys for the auto-storage account configured for the specified Batch account, only if storage key authentication is being used.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -870,7 +878,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
     }
 
     /**
-     * Synchronizes access keys for the auto-storage account configured for the specified Batch account.
+     * Synchronizes access keys for the auto-storage account configured for the specified Batch account, only if storage key authentication is being used.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -883,7 +891,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
     }
 
     /**
-     * Synchronizes access keys for the auto-storage account configured for the specified Batch account.
+     * Synchronizes access keys for the auto-storage account configured for the specified Batch account, only if storage key authentication is being used.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -900,7 +908,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
     }
 
     /**
-     * Synchronizes access keys for the auto-storage account configured for the specified Batch account.
+     * Synchronizes access keys for the auto-storage account configured for the specified Batch account, only if storage key authentication is being used.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -943,6 +951,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
 
     /**
      * Regenerates the specified account key for the Batch account.
+     * This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, regenerating the keys will fail.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -958,6 +967,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
 
     /**
      * Regenerates the specified account key for the Batch account.
+     * This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, regenerating the keys will fail.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -972,6 +982,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
 
     /**
      * Regenerates the specified account key for the Batch account.
+     * This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, regenerating the keys will fail.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -990,6 +1001,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
 
     /**
      * Regenerates the specified account key for the Batch account.
+     * This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, regenerating the keys will fail.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -1038,7 +1050,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
 
     /**
      * Gets the account keys for the specified Batch account.
-     * This operation applies only to Batch accounts created with a poolAllocationMode of 'BatchService'. If the Batch account was created with a poolAllocationMode of 'UserSubscription', clients cannot use access to keys to authenticate, and must use Azure Active Directory instead. In this case, getting the keys will fail.
+     * This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, getting the keys will fail.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -1053,7 +1065,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
 
     /**
      * Gets the account keys for the specified Batch account.
-     * This operation applies only to Batch accounts created with a poolAllocationMode of 'BatchService'. If the Batch account was created with a poolAllocationMode of 'UserSubscription', clients cannot use access to keys to authenticate, and must use Azure Active Directory instead. In this case, getting the keys will fail.
+     * This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, getting the keys will fail.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -1067,7 +1079,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
 
     /**
      * Gets the account keys for the specified Batch account.
-     * This operation applies only to Batch accounts created with a poolAllocationMode of 'BatchService'. If the Batch account was created with a poolAllocationMode of 'UserSubscription', clients cannot use access to keys to authenticate, and must use Azure Active Directory instead. In this case, getting the keys will fail.
+     * This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, getting the keys will fail.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -1085,7 +1097,7 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
 
     /**
      * Gets the account keys for the specified Batch account.
-     * This operation applies only to Batch accounts created with a poolAllocationMode of 'BatchService'. If the Batch account was created with a poolAllocationMode of 'UserSubscription', clients cannot use access to keys to authenticate, and must use Azure Active Directory instead. In this case, getting the keys will fail.
+     * This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, getting the keys will fail.
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
@@ -1122,6 +1134,129 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
     private ServiceResponse<BatchAccountKeysInner> getKeysDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BatchAccountKeysInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<BatchAccountKeysInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;OutboundEnvironmentEndpointInner&gt; object if successful.
+     */
+    public PagedList<OutboundEnvironmentEndpointInner> listOutboundNetworkDependenciesEndpoints(final String resourceGroupName, final String accountName) {
+        ServiceResponse<Page<OutboundEnvironmentEndpointInner>> response = listOutboundNetworkDependenciesEndpointsSinglePageAsync(resourceGroupName, accountName).toBlocking().single();
+        return new PagedList<OutboundEnvironmentEndpointInner>(response.body()) {
+            @Override
+            public Page<OutboundEnvironmentEndpointInner> nextPage(String nextPageLink) {
+                return listOutboundNetworkDependenciesEndpointsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<OutboundEnvironmentEndpointInner>> listOutboundNetworkDependenciesEndpointsAsync(final String resourceGroupName, final String accountName, final ListOperationCallback<OutboundEnvironmentEndpointInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listOutboundNetworkDependenciesEndpointsSinglePageAsync(resourceGroupName, accountName),
+            new Func1<String, Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> call(String nextPageLink) {
+                    return listOutboundNetworkDependenciesEndpointsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;OutboundEnvironmentEndpointInner&gt; object
+     */
+    public Observable<Page<OutboundEnvironmentEndpointInner>> listOutboundNetworkDependenciesEndpointsAsync(final String resourceGroupName, final String accountName) {
+        return listOutboundNetworkDependenciesEndpointsWithServiceResponseAsync(resourceGroupName, accountName)
+            .map(new Func1<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>, Page<OutboundEnvironmentEndpointInner>>() {
+                @Override
+                public Page<OutboundEnvironmentEndpointInner> call(ServiceResponse<Page<OutboundEnvironmentEndpointInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;OutboundEnvironmentEndpointInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> listOutboundNetworkDependenciesEndpointsWithServiceResponseAsync(final String resourceGroupName, final String accountName) {
+        return listOutboundNetworkDependenciesEndpointsSinglePageAsync(resourceGroupName, accountName)
+            .concatMap(new Func1<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>, Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> call(ServiceResponse<Page<OutboundEnvironmentEndpointInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listOutboundNetworkDependenciesEndpointsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+    ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> * @param resourceGroupName The name of the resource group that contains the Batch account.
+    ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> * @param accountName The name of the Batch account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;OutboundEnvironmentEndpointInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> listOutboundNetworkDependenciesEndpointsSinglePageAsync(final String resourceGroupName, final String accountName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listOutboundNetworkDependenciesEndpoints(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> result = listOutboundNetworkDependenciesEndpointsDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<OutboundEnvironmentEndpointInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> listOutboundNetworkDependenciesEndpointsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<OutboundEnvironmentEndpointInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<OutboundEnvironmentEndpointInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1344,6 +1479,117 @@ public class BatchAccountsInner implements InnerSupportsGet<BatchAccountInner>, 
     private ServiceResponse<PageImpl<BatchAccountInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<BatchAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<BatchAccountInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;OutboundEnvironmentEndpointInner&gt; object if successful.
+     */
+    public PagedList<OutboundEnvironmentEndpointInner> listOutboundNetworkDependenciesEndpointsNext(final String nextPageLink) {
+        ServiceResponse<Page<OutboundEnvironmentEndpointInner>> response = listOutboundNetworkDependenciesEndpointsNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<OutboundEnvironmentEndpointInner>(response.body()) {
+            @Override
+            public Page<OutboundEnvironmentEndpointInner> nextPage(String nextPageLink) {
+                return listOutboundNetworkDependenciesEndpointsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<OutboundEnvironmentEndpointInner>> listOutboundNetworkDependenciesEndpointsNextAsync(final String nextPageLink, final ServiceFuture<List<OutboundEnvironmentEndpointInner>> serviceFuture, final ListOperationCallback<OutboundEnvironmentEndpointInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listOutboundNetworkDependenciesEndpointsNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> call(String nextPageLink) {
+                    return listOutboundNetworkDependenciesEndpointsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;OutboundEnvironmentEndpointInner&gt; object
+     */
+    public Observable<Page<OutboundEnvironmentEndpointInner>> listOutboundNetworkDependenciesEndpointsNextAsync(final String nextPageLink) {
+        return listOutboundNetworkDependenciesEndpointsNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>, Page<OutboundEnvironmentEndpointInner>>() {
+                @Override
+                public Page<OutboundEnvironmentEndpointInner> call(ServiceResponse<Page<OutboundEnvironmentEndpointInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;OutboundEnvironmentEndpointInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> listOutboundNetworkDependenciesEndpointsNextWithServiceResponseAsync(final String nextPageLink) {
+        return listOutboundNetworkDependenciesEndpointsNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>, Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> call(ServiceResponse<Page<OutboundEnvironmentEndpointInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listOutboundNetworkDependenciesEndpointsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch service administration. If you are deploying a Pool inside of a virtual network that you specify, you must make sure your network allows outbound access to these endpoints. Failure to allow access to these endpoints may cause Batch to mark the affected nodes as unusable. For more information about creating a pool inside of a virtual network, see https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+     *
+    ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;OutboundEnvironmentEndpointInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> listOutboundNetworkDependenciesEndpointsNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listOutboundNetworkDependenciesEndpointsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<OutboundEnvironmentEndpointInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> result = listOutboundNetworkDependenciesEndpointsNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<OutboundEnvironmentEndpointInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> listOutboundNetworkDependenciesEndpointsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<OutboundEnvironmentEndpointInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<OutboundEnvironmentEndpointInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

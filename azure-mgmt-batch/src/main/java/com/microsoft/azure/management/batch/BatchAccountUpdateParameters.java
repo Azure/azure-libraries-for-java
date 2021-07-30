@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.batch;
 
 import java.util.Map;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -37,6 +38,14 @@ public class BatchAccountUpdateParameters {
      */
     @JsonProperty(value = "properties.encryption")
     private EncryptionProperties encryption;
+
+    /**
+     * List of allowed authentication modes for the Batch account that can be
+     * used to authenticate with the data plane. This does not affect
+     * authentication with the control plane.
+     */
+    @JsonProperty(value = "properties.allowedAuthenticationModes")
+    private List<AuthenticationMode> allowedAuthenticationModes;
 
     /**
      * The identity of the Batch account.
@@ -101,6 +110,26 @@ public class BatchAccountUpdateParameters {
      */
     public BatchAccountUpdateParameters withEncryption(EncryptionProperties encryption) {
         this.encryption = encryption;
+        return this;
+    }
+
+    /**
+     * Get list of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane.
+     *
+     * @return the allowedAuthenticationModes value
+     */
+    public List<AuthenticationMode> allowedAuthenticationModes() {
+        return this.allowedAuthenticationModes;
+    }
+
+    /**
+     * Set list of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane.
+     *
+     * @param allowedAuthenticationModes the allowedAuthenticationModes value to set
+     * @return the BatchAccountUpdateParameters object itself.
+     */
+    public BatchAccountUpdateParameters withAllowedAuthenticationModes(List<AuthenticationMode> allowedAuthenticationModes) {
+        this.allowedAuthenticationModes = allowedAuthenticationModes;
         return this;
     }
 

@@ -16,6 +16,7 @@ import java.util.List;
 import com.microsoft.azure.management.batch.AutoStorageProperties;
 import com.microsoft.azure.management.batch.EncryptionProperties;
 import com.microsoft.azure.management.batch.VirtualMachineFamilyCoreQuota;
+import com.microsoft.azure.management.batch.AuthenticationMode;
 import com.microsoft.azure.management.batch.BatchAccountIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -94,7 +95,7 @@ public class BatchAccountInner extends Resource {
     private Integer dedicatedCoreQuota;
 
     /**
-     * The low priority core quota for the Batch account.
+     * The low-priority core quota for the Batch account.
      * For accounts with PoolAllocationMode set to UserSubscription, quota is
      * managed on the subscription so this value is not returned.
      */
@@ -136,6 +137,14 @@ public class BatchAccountInner extends Resource {
      */
     @JsonProperty(value = "properties.activeJobAndJobScheduleQuota", access = JsonProperty.Access.WRITE_ONLY)
     private int activeJobAndJobScheduleQuota;
+
+    /**
+     * List of allowed authentication modes for the Batch account that can be
+     * used to authenticate with the data plane. This does not affect
+     * authentication with the control plane.
+     */
+    @JsonProperty(value = "properties.allowedAuthenticationModes", access = JsonProperty.Access.WRITE_ONLY)
+    private List<AuthenticationMode> allowedAuthenticationModes;
 
     /**
      * The identity of the Batch account.
@@ -267,6 +276,15 @@ public class BatchAccountInner extends Resource {
      */
     public int activeJobAndJobScheduleQuota() {
         return this.activeJobAndJobScheduleQuota;
+    }
+
+    /**
+     * Get list of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane.
+     *
+     * @return the allowedAuthenticationModes value
+     */
+    public List<AuthenticationMode> allowedAuthenticationModes() {
+        return this.allowedAuthenticationModes;
     }
 
     /**

@@ -121,7 +121,7 @@ public class PoolInner extends ProxyResource {
     private Integer currentDedicatedNodes;
 
     /**
-     * The number of low priority compute nodes currently in the pool.
+     * The number of low-priority compute nodes currently in the pool.
      */
     @JsonProperty(value = "properties.currentLowPriorityNodes", access = JsonProperty.Access.WRITE_ONLY)
     private Integer currentLowPriorityNodes;

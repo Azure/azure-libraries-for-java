@@ -10,12 +10,17 @@ package com.microsoft.azure.management.batch.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.batch.CheckNameAvailabilityParameters;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
+import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -24,6 +29,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
@@ -58,9 +64,25 @@ public class LocationsInner {
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/quotas")
         Observable<Response<ResponseBody>> getQuotas(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Locations listSupportedVirtualMachineSkus" })
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/virtualMachineSkus")
+        Observable<Response<ResponseBody>> listSupportedVirtualMachineSkus(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("maxresults") Integer maxresults, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Locations listSupportedCloudServiceSkus" })
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/cloudServiceSkus")
+        Observable<Response<ResponseBody>> listSupportedCloudServiceSkus(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("maxresults") Integer maxresults, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Locations checkNameAvailability" })
         @POST("subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability")
         Observable<Response<ResponseBody>> checkNameAvailability(@Path("locationName") String locationName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CheckNameAvailabilityParameters parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Locations listSupportedVirtualMachineSkusNext" })
+        @GET
+        Observable<Response<ResponseBody>> listSupportedVirtualMachineSkusNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Locations listSupportedCloudServiceSkusNext" })
+        @GET
+        Observable<Response<ResponseBody>> listSupportedCloudServiceSkusNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -139,6 +161,476 @@ public class LocationsInner {
     private ServiceResponse<BatchLocationQuotaInner> getQuotasDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<BatchLocationQuotaInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<BatchLocationQuotaInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SupportedSkuInner&gt; object if successful.
+     */
+    public PagedList<SupportedSkuInner> listSupportedVirtualMachineSkus(final String locationName) {
+        ServiceResponse<Page<SupportedSkuInner>> response = listSupportedVirtualMachineSkusSinglePageAsync(locationName).toBlocking().single();
+        return new PagedList<SupportedSkuInner>(response.body()) {
+            @Override
+            public Page<SupportedSkuInner> nextPage(String nextPageLink) {
+                return listSupportedVirtualMachineSkusNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SupportedSkuInner>> listSupportedVirtualMachineSkusAsync(final String locationName, final ListOperationCallback<SupportedSkuInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSupportedVirtualMachineSkusSinglePageAsync(locationName),
+            new Func1<String, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(String nextPageLink) {
+                    return listSupportedVirtualMachineSkusNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<Page<SupportedSkuInner>> listSupportedVirtualMachineSkusAsync(final String locationName) {
+        return listSupportedVirtualMachineSkusWithServiceResponseAsync(locationName)
+            .map(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Page<SupportedSkuInner>>() {
+                @Override
+                public Page<SupportedSkuInner> call(ServiceResponse<Page<SupportedSkuInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedVirtualMachineSkusWithServiceResponseAsync(final String locationName) {
+        return listSupportedVirtualMachineSkusSinglePageAsync(locationName)
+            .concatMap(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(ServiceResponse<Page<SupportedSkuInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSupportedVirtualMachineSkusNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SupportedSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedVirtualMachineSkusSinglePageAsync(final String locationName) {
+        if (locationName == null) {
+            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Integer maxresults = null;
+        final String filter = null;
+        return service.listSupportedVirtualMachineSkus(locationName, this.client.subscriptionId(), maxresults, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SupportedSkuInner>> result = listSupportedVirtualMachineSkusDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SupportedSkuInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param maxresults The maximum number of items to return in the response.
+     * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SupportedSkuInner&gt; object if successful.
+     */
+    public PagedList<SupportedSkuInner> listSupportedVirtualMachineSkus(final String locationName, final Integer maxresults, final String filter) {
+        ServiceResponse<Page<SupportedSkuInner>> response = listSupportedVirtualMachineSkusSinglePageAsync(locationName, maxresults, filter).toBlocking().single();
+        return new PagedList<SupportedSkuInner>(response.body()) {
+            @Override
+            public Page<SupportedSkuInner> nextPage(String nextPageLink) {
+                return listSupportedVirtualMachineSkusNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param maxresults The maximum number of items to return in the response.
+     * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SupportedSkuInner>> listSupportedVirtualMachineSkusAsync(final String locationName, final Integer maxresults, final String filter, final ListOperationCallback<SupportedSkuInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSupportedVirtualMachineSkusSinglePageAsync(locationName, maxresults, filter),
+            new Func1<String, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(String nextPageLink) {
+                    return listSupportedVirtualMachineSkusNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param maxresults The maximum number of items to return in the response.
+     * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<Page<SupportedSkuInner>> listSupportedVirtualMachineSkusAsync(final String locationName, final Integer maxresults, final String filter) {
+        return listSupportedVirtualMachineSkusWithServiceResponseAsync(locationName, maxresults, filter)
+            .map(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Page<SupportedSkuInner>>() {
+                @Override
+                public Page<SupportedSkuInner> call(ServiceResponse<Page<SupportedSkuInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param maxresults The maximum number of items to return in the response.
+     * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedVirtualMachineSkusWithServiceResponseAsync(final String locationName, final Integer maxresults, final String filter) {
+        return listSupportedVirtualMachineSkusSinglePageAsync(locationName, maxresults, filter)
+            .concatMap(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(ServiceResponse<Page<SupportedSkuInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSupportedVirtualMachineSkusNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+    ServiceResponse<PageImpl<SupportedSkuInner>> * @param locationName The region for which to retrieve Batch service supported SKUs.
+    ServiceResponse<PageImpl<SupportedSkuInner>> * @param maxresults The maximum number of items to return in the response.
+    ServiceResponse<PageImpl<SupportedSkuInner>> * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SupportedSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedVirtualMachineSkusSinglePageAsync(final String locationName, final Integer maxresults, final String filter) {
+        if (locationName == null) {
+            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSupportedVirtualMachineSkus(locationName, this.client.subscriptionId(), maxresults, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SupportedSkuInner>> result = listSupportedVirtualMachineSkusDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SupportedSkuInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<SupportedSkuInner>> listSupportedVirtualMachineSkusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SupportedSkuInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<SupportedSkuInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SupportedSkuInner&gt; object if successful.
+     */
+    public PagedList<SupportedSkuInner> listSupportedCloudServiceSkus(final String locationName) {
+        ServiceResponse<Page<SupportedSkuInner>> response = listSupportedCloudServiceSkusSinglePageAsync(locationName).toBlocking().single();
+        return new PagedList<SupportedSkuInner>(response.body()) {
+            @Override
+            public Page<SupportedSkuInner> nextPage(String nextPageLink) {
+                return listSupportedCloudServiceSkusNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SupportedSkuInner>> listSupportedCloudServiceSkusAsync(final String locationName, final ListOperationCallback<SupportedSkuInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSupportedCloudServiceSkusSinglePageAsync(locationName),
+            new Func1<String, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(String nextPageLink) {
+                    return listSupportedCloudServiceSkusNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<Page<SupportedSkuInner>> listSupportedCloudServiceSkusAsync(final String locationName) {
+        return listSupportedCloudServiceSkusWithServiceResponseAsync(locationName)
+            .map(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Page<SupportedSkuInner>>() {
+                @Override
+                public Page<SupportedSkuInner> call(ServiceResponse<Page<SupportedSkuInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedCloudServiceSkusWithServiceResponseAsync(final String locationName) {
+        return listSupportedCloudServiceSkusSinglePageAsync(locationName)
+            .concatMap(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(ServiceResponse<Page<SupportedSkuInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSupportedCloudServiceSkusNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SupportedSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedCloudServiceSkusSinglePageAsync(final String locationName) {
+        if (locationName == null) {
+            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Integer maxresults = null;
+        final String filter = null;
+        return service.listSupportedCloudServiceSkus(locationName, this.client.subscriptionId(), maxresults, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SupportedSkuInner>> result = listSupportedCloudServiceSkusDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SupportedSkuInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param maxresults The maximum number of items to return in the response.
+     * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SupportedSkuInner&gt; object if successful.
+     */
+    public PagedList<SupportedSkuInner> listSupportedCloudServiceSkus(final String locationName, final Integer maxresults, final String filter) {
+        ServiceResponse<Page<SupportedSkuInner>> response = listSupportedCloudServiceSkusSinglePageAsync(locationName, maxresults, filter).toBlocking().single();
+        return new PagedList<SupportedSkuInner>(response.body()) {
+            @Override
+            public Page<SupportedSkuInner> nextPage(String nextPageLink) {
+                return listSupportedCloudServiceSkusNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param maxresults The maximum number of items to return in the response.
+     * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SupportedSkuInner>> listSupportedCloudServiceSkusAsync(final String locationName, final Integer maxresults, final String filter, final ListOperationCallback<SupportedSkuInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSupportedCloudServiceSkusSinglePageAsync(locationName, maxresults, filter),
+            new Func1<String, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(String nextPageLink) {
+                    return listSupportedCloudServiceSkusNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param maxresults The maximum number of items to return in the response.
+     * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<Page<SupportedSkuInner>> listSupportedCloudServiceSkusAsync(final String locationName, final Integer maxresults, final String filter) {
+        return listSupportedCloudServiceSkusWithServiceResponseAsync(locationName, maxresults, filter)
+            .map(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Page<SupportedSkuInner>>() {
+                @Override
+                public Page<SupportedSkuInner> call(ServiceResponse<Page<SupportedSkuInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param locationName The region for which to retrieve Batch service supported SKUs.
+     * @param maxresults The maximum number of items to return in the response.
+     * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedCloudServiceSkusWithServiceResponseAsync(final String locationName, final Integer maxresults, final String filter) {
+        return listSupportedCloudServiceSkusSinglePageAsync(locationName, maxresults, filter)
+            .concatMap(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(ServiceResponse<Page<SupportedSkuInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSupportedCloudServiceSkusNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+    ServiceResponse<PageImpl<SupportedSkuInner>> * @param locationName The region for which to retrieve Batch service supported SKUs.
+    ServiceResponse<PageImpl<SupportedSkuInner>> * @param maxresults The maximum number of items to return in the response.
+    ServiceResponse<PageImpl<SupportedSkuInner>> * @param filter OData filter expression. Valid properties for filtering are "familyName".
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SupportedSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedCloudServiceSkusSinglePageAsync(final String locationName, final Integer maxresults, final String filter) {
+        if (locationName == null) {
+            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSupportedCloudServiceSkus(locationName, this.client.subscriptionId(), maxresults, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SupportedSkuInner>> result = listSupportedCloudServiceSkusDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SupportedSkuInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<SupportedSkuInner>> listSupportedCloudServiceSkusDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SupportedSkuInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<SupportedSkuInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -227,6 +719,228 @@ public class LocationsInner {
     private ServiceResponse<CheckNameAvailabilityResultInner> checkNameAvailabilityDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<CheckNameAvailabilityResultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<CheckNameAvailabilityResultInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SupportedSkuInner&gt; object if successful.
+     */
+    public PagedList<SupportedSkuInner> listSupportedVirtualMachineSkusNext(final String nextPageLink) {
+        ServiceResponse<Page<SupportedSkuInner>> response = listSupportedVirtualMachineSkusNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<SupportedSkuInner>(response.body()) {
+            @Override
+            public Page<SupportedSkuInner> nextPage(String nextPageLink) {
+                return listSupportedVirtualMachineSkusNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SupportedSkuInner>> listSupportedVirtualMachineSkusNextAsync(final String nextPageLink, final ServiceFuture<List<SupportedSkuInner>> serviceFuture, final ListOperationCallback<SupportedSkuInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSupportedVirtualMachineSkusNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(String nextPageLink) {
+                    return listSupportedVirtualMachineSkusNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<Page<SupportedSkuInner>> listSupportedVirtualMachineSkusNextAsync(final String nextPageLink) {
+        return listSupportedVirtualMachineSkusNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Page<SupportedSkuInner>>() {
+                @Override
+                public Page<SupportedSkuInner> call(ServiceResponse<Page<SupportedSkuInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedVirtualMachineSkusNextWithServiceResponseAsync(final String nextPageLink) {
+        return listSupportedVirtualMachineSkusNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(ServiceResponse<Page<SupportedSkuInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSupportedVirtualMachineSkusNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Virtual Machine VM sizes available at the given location.
+     *
+    ServiceResponse<PageImpl<SupportedSkuInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SupportedSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedVirtualMachineSkusNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listSupportedVirtualMachineSkusNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SupportedSkuInner>> result = listSupportedVirtualMachineSkusNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SupportedSkuInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<SupportedSkuInner>> listSupportedVirtualMachineSkusNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SupportedSkuInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<SupportedSkuInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SupportedSkuInner&gt; object if successful.
+     */
+    public PagedList<SupportedSkuInner> listSupportedCloudServiceSkusNext(final String nextPageLink) {
+        ServiceResponse<Page<SupportedSkuInner>> response = listSupportedCloudServiceSkusNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<SupportedSkuInner>(response.body()) {
+            @Override
+            public Page<SupportedSkuInner> nextPage(String nextPageLink) {
+                return listSupportedCloudServiceSkusNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SupportedSkuInner>> listSupportedCloudServiceSkusNextAsync(final String nextPageLink, final ServiceFuture<List<SupportedSkuInner>> serviceFuture, final ListOperationCallback<SupportedSkuInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSupportedCloudServiceSkusNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(String nextPageLink) {
+                    return listSupportedCloudServiceSkusNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<Page<SupportedSkuInner>> listSupportedCloudServiceSkusNextAsync(final String nextPageLink) {
+        return listSupportedCloudServiceSkusNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Page<SupportedSkuInner>>() {
+                @Override
+                public Page<SupportedSkuInner> call(ServiceResponse<Page<SupportedSkuInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SupportedSkuInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedCloudServiceSkusNextWithServiceResponseAsync(final String nextPageLink) {
+        return listSupportedCloudServiceSkusNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<SupportedSkuInner>>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(ServiceResponse<Page<SupportedSkuInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSupportedCloudServiceSkusNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+     *
+    ServiceResponse<PageImpl<SupportedSkuInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SupportedSkuInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SupportedSkuInner>>> listSupportedCloudServiceSkusNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listSupportedCloudServiceSkusNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SupportedSkuInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SupportedSkuInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<SupportedSkuInner>> result = listSupportedCloudServiceSkusNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SupportedSkuInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<SupportedSkuInner>> listSupportedCloudServiceSkusNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<SupportedSkuInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<SupportedSkuInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

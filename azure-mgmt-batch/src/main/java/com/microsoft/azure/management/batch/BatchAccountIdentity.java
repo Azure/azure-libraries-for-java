@@ -12,9 +12,10 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The identity of the Batch account, if configured. This is only used when the
- * user specifies 'Microsoft.KeyVault' as their Batch account encryption
- * configuration.
+ * The identity of the Batch account, if configured. This is used when the user
+ * specifies 'Microsoft.KeyVault' as their Batch account encryption
+ * configuration or when `ManagedIdentity` is selected as the auto-storage
+ * authentication mode.
  */
 public class BatchAccountIdentity {
     /**
@@ -39,12 +40,10 @@ public class BatchAccountIdentity {
     private ResourceIdentityType type;
 
     /**
-     * The list of user identities associated with the Batch account. The user
-     * identity dictionary key references will be ARM resource ids in the form:
-     * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * The list of user identities associated with the Batch account.
      */
     @JsonProperty(value = "userAssignedIdentities")
-    private Map<String, BatchAccountIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
+    private Map<String, UserAssignedIdentities> userAssignedIdentities;
 
     /**
      * Get the principal id of the Batch account. This property will only be provided for a system assigned identity.
@@ -85,21 +84,21 @@ public class BatchAccountIdentity {
     }
 
     /**
-     * Get the list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * Get the list of user identities associated with the Batch account.
      *
      * @return the userAssignedIdentities value
      */
-    public Map<String, BatchAccountIdentityUserAssignedIdentitiesValue> userAssignedIdentities() {
+    public Map<String, UserAssignedIdentities> userAssignedIdentities() {
         return this.userAssignedIdentities;
     }
 
     /**
-     * Set the list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     * Set the list of user identities associated with the Batch account.
      *
      * @param userAssignedIdentities the userAssignedIdentities value to set
      * @return the BatchAccountIdentity object itself.
      */
-    public BatchAccountIdentity withUserAssignedIdentities(Map<String, BatchAccountIdentityUserAssignedIdentitiesValue> userAssignedIdentities) {
+    public BatchAccountIdentity withUserAssignedIdentities(Map<String, UserAssignedIdentities> userAssignedIdentities) {
         this.userAssignedIdentities = userAssignedIdentities;
         return this;
     }

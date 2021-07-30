@@ -103,6 +103,13 @@ public class VirtualMachineConfiguration {
     private List<VMExtension> extensions;
 
     /**
+     * Settings for the operating system disk of the Virtual Machine.
+     * Contains configuration for ephemeral OSDisk settings.
+     */
+    @JsonProperty(value = "osDisk")
+    private OSDisk osDisk;
+
+    /**
      * Get the imageReference value.
      *
      * @return the imageReference value
@@ -283,6 +290,26 @@ public class VirtualMachineConfiguration {
      */
     public VirtualMachineConfiguration withExtensions(List<VMExtension> extensions) {
         this.extensions = extensions;
+        return this;
+    }
+
+    /**
+     * Get contains configuration for ephemeral OSDisk settings.
+     *
+     * @return the osDisk value
+     */
+    public OSDisk osDisk() {
+        return this.osDisk;
+    }
+
+    /**
+     * Set contains configuration for ephemeral OSDisk settings.
+     *
+     * @param osDisk the osDisk value to set
+     * @return the VirtualMachineConfiguration object itself.
+     */
+    public VirtualMachineConfiguration withOsDisk(OSDisk osDisk) {
+        this.osDisk = osDisk;
         return this;
     }
 

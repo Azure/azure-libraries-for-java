@@ -6,5 +6,6 @@
 
 /**
  * This package contains the implementation classes for BatchManagementClient.
+ * Batch Client.
  */
 package com.microsoft.azure.management.batch.implementation;

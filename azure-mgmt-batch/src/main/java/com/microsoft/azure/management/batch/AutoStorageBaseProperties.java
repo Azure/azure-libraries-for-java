@@ -22,6 +22,23 @@ public class AutoStorageBaseProperties {
     private String storageAccountId;
 
     /**
+     * The authentication mode which the Batch service will use to manage the
+     * auto-storage account. Possible values include: 'StorageKeys',
+     * 'BatchAccountManagedIdentity'.
+     */
+    @JsonProperty(value = "authenticationMode")
+    private AutoStorageAuthenticationMode authenticationMode;
+
+    /**
+     * The reference to the user assigned identity which compute nodes will use
+     * to access auto-storage.
+     * The identity referenced here must be assigned to pools which have
+     * compute nodes that need access to auto-storage.
+     */
+    @JsonProperty(value = "nodeIdentityReference")
+    private ComputeNodeIdentityReference nodeIdentityReference;
+
+    /**
      * Get the resource ID of the storage account to be used for auto-storage account.
      *
      * @return the storageAccountId value
@@ -38,6 +55,46 @@ public class AutoStorageBaseProperties {
      */
     public AutoStorageBaseProperties withStorageAccountId(String storageAccountId) {
         this.storageAccountId = storageAccountId;
+        return this;
+    }
+
+    /**
+     * Get the authentication mode which the Batch service will use to manage the auto-storage account. Possible values include: 'StorageKeys', 'BatchAccountManagedIdentity'.
+     *
+     * @return the authenticationMode value
+     */
+    public AutoStorageAuthenticationMode authenticationMode() {
+        return this.authenticationMode;
+    }
+
+    /**
+     * Set the authentication mode which the Batch service will use to manage the auto-storage account. Possible values include: 'StorageKeys', 'BatchAccountManagedIdentity'.
+     *
+     * @param authenticationMode the authenticationMode value to set
+     * @return the AutoStorageBaseProperties object itself.
+     */
+    public AutoStorageBaseProperties withAuthenticationMode(AutoStorageAuthenticationMode authenticationMode) {
+        this.authenticationMode = authenticationMode;
+        return this;
+    }
+
+    /**
+     * Get the identity referenced here must be assigned to pools which have compute nodes that need access to auto-storage.
+     *
+     * @return the nodeIdentityReference value
+     */
+    public ComputeNodeIdentityReference nodeIdentityReference() {
+        return this.nodeIdentityReference;
+    }
+
+    /**
+     * Set the identity referenced here must be assigned to pools which have compute nodes that need access to auto-storage.
+     *
+     * @param nodeIdentityReference the nodeIdentityReference value to set
+     * @return the AutoStorageBaseProperties object itself.
+     */
+    public AutoStorageBaseProperties withNodeIdentityReference(ComputeNodeIdentityReference nodeIdentityReference) {
+        this.nodeIdentityReference = nodeIdentityReference;
         return this;
     }
 

@@ -11,9 +11,9 @@ package com.microsoft.azure.management.batch;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The BatchPoolIdentityUserAssignedIdentitiesValue model.
+ * The list of associated user identities.
  */
-public class BatchPoolIdentityUserAssignedIdentitiesValue {
+public class UserAssignedIdentities {
     /**
      * The principal id of user assigned identity.
      */

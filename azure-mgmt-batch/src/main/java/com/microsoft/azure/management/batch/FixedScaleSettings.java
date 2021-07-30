@@ -35,7 +35,7 @@ public class FixedScaleSettings {
     private Integer targetDedicatedNodes;
 
     /**
-     * The desired number of low priority compute nodes in the pool.
+     * The desired number of low-priority compute nodes in the pool.
      * At least one of targetDedicatedNodes, targetLowPriorityNodes must be
      * set.
      */

@@ -28,7 +28,7 @@ class VMSSPatchPayload {
         //
         updateParameter.withIdentity(scaleSet.inner().identity());
         updateParameter.withOverprovision(scaleSet.inner().overprovision());
-        updateParameter.withPlan(scaleSet.inner().plan());
+        //updateParameter.withPlan(scaleSet.inner().plan());    // update cannot change plan
         updateParameter.withSinglePlacementGroup(scaleSet.inner().singlePlacementGroup());
         updateParameter.withSku(scaleSet.inner().sku());
         updateParameter.withTags(scaleSet.inner().getTags());

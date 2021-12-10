@@ -47,13 +47,13 @@ public class LinuxWebAppsTests extends AppServiceTest {
     @Test
     @Ignore
     public void canGetDeploymentStatus() throws InterruptedException {
-        WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu1", "wa1weidxu");
-//        WebApp wa = appServiceManager.webApps().define("wa1weidxu")
-//                .withRegion("centraluseuap")
-//                .withNewResourceGroup("rg-weidxu1")
-//                .withNewLinuxPlan(PricingTier.STANDARD_S1)
-//                .withBuiltInImage(RuntimeStack.JAVA_11_JAVA11)
-//                .create();
+//        WebApp wa = appServiceManager.webApps().getByResourceGroup("rg-weidxu1", "wa1weidxu");
+        WebApp wa = appServiceManager.webApps().define("wa1weidxu")
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup("rg-weidxu1")
+                .withNewLinuxPlan(PricingTier.STANDARD_S1)
+                .withBuiltInImage(RuntimeStack.JAVA_11_JAVA11)
+                .create();
         AsyncDeploymentResult result = wa.pushDeploy(DeployType.ZIP, new File("C:/github/app.zip"), null);
 //        AsyncDeploymentResult result = wa.pushZipDeploy(new File("C:/github/app.zip"));
         DeploymentStatus status = wa.getDeploymentStatus(result.deploymentId());
@@ -65,7 +65,7 @@ public class LinuxWebAppsTests extends AppServiceTest {
         }
         BuildStatus buildStatus = status.buildStatus();
         System.out.println("build status: " + buildStatus);
-        while (buildStatus != BuildStatus.BUILD_SUCCESSFUL) {
+        while (buildStatus != BuildStatus.RUNTIME_SUCCESSFUL) {
             Thread.sleep(10 * 1000);
             // poll again
             status = wa.getDeploymentStatus(result.deploymentId());

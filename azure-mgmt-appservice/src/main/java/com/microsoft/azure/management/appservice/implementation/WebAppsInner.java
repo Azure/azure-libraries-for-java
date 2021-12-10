@@ -49855,7 +49855,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.getDeploymentStatus(resourceGroupName, name, deploymentId, this.client.subscriptionId(), "2020-10-01", this.client.acceptLanguage(), this.client.userAgent())
+        return service.getDeploymentStatus(resourceGroupName, name, deploymentId, this.client.subscriptionId(), "2021-03-01", this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentStatus>>>() {
                     @Override
                     public Observable<ServiceResponse<DeploymentStatus>> call(Response<ResponseBody> response) {

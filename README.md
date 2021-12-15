@@ -1,5 +1,6 @@
 [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/fluentJava/Azure.azure-libraries-for-java?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=608&branchName=master)
 
+
 # This Repo is in Maintenance Mode
 
 As our development focus has shifted to our next-generation Azure management libraries, this repository is currently in **maintenance mode**. We will continue to monitor this repository and make critical bug fixes for a period of time. Work will be be focused on the [new libraries](https://aka.ms/azsdk/java/mgmt).

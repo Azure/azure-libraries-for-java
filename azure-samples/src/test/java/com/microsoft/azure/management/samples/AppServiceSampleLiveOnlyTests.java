@@ -50,7 +50,9 @@ public class AppServiceSampleLiveOnlyTests extends SamplesTestBase {
 
     @Test
     public void testManageLinuxWebAppWithContainerRegistry() {
-        Assert.assertTrue(ManageLinuxWebAppWithContainerRegistry.runSample(azure));
+        if (!isPlaybackMode()) {
+            Assert.assertTrue(ManageLinuxWebAppWithContainerRegistry.runSample(azure));
+        }
     }
 
     @Test

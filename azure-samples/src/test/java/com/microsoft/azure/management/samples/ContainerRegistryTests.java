@@ -24,6 +24,8 @@ public class ContainerRegistryTests extends SamplesTestBase {
 
     @Test
     public void testManageContainerRegistryWithWebhooks() {
-        Assert.assertTrue(ManageContainerRegistryWithWebhooks.runSample(azure));
+        if (!isPlaybackMode()) {
+            Assert.assertTrue(ManageContainerRegistryWithWebhooks.runSample(azure));
+        }
     }
 }

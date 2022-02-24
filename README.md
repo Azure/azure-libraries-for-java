@@ -6,7 +6,7 @@
 The deprecation means, it starts the end of support for that library.
 You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided.
 We strongly recommend you upgrade your SDK version to the latest version of `com.azure.resourcemanager:azure-resourcemanager` as soon as possible.
-A detailed migration guidance can be found [here](https://aka.ms/azsdk/java/t2/migration).
+A detailed migration guidance can be found [here](https://aka.ms/java-track2-migration-guide).
 
 We highly encourage you to [try out those new management libraries](http://aka.ms/azsdk/java/mgmt) as they are now Generally Available (GA) and ready for production use. These new libraries provide a higher-level, object-oriented API for managing Azure resources, that is optimized for ease of use, succinctness and consistency. You can find the list of new packages **[on this page](https://azure.github.io/azure-sdk/releases/latest/java.html)**.
 

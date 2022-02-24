@@ -1296,7 +1296,7 @@ public class AzureTests extends TestBase {
     }
 
     @Test
-    @Ignore
+    @Ignore("Credential in JSON")
     public void testContainerRegistry() throws Exception {
         new TestContainerRegistry()
                 .runTest(azure.containerRegistries(), azure.resourceGroups());

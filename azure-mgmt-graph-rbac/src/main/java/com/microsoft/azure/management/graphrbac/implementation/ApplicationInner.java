@@ -62,12 +62,6 @@ public class ApplicationInner extends DirectoryObjectInner {
     private String homepage;
 
     /**
-     * Whether to allow implicit grant flow for OAuth2.
-     */
-    @JsonProperty(value = "oauth2AllowImplicitFlow")
-    private Boolean oauth2AllowImplicitFlow;
-
-    /**
      * Get the appId value.
      *
      * @return the appId value
@@ -206,25 +200,4 @@ public class ApplicationInner extends DirectoryObjectInner {
         this.homepage = homepage;
         return this;
     }
-
-    /**
-     * Get the oauth2AllowImplicitFlow value.
-     *
-     * @return the oauth2AllowImplicitFlow value
-     */
-    public Boolean oauth2AllowImplicitFlow() {
-        return this.oauth2AllowImplicitFlow;
-    }
-
-    /**
-     * Set the oauth2AllowImplicitFlow value.
-     *
-     * @param oauth2AllowImplicitFlow the oauth2AllowImplicitFlow value to set
-     * @return the ApplicationInner object itself.
-     */
-    public ApplicationInner withOauth2AllowImplicitFlow(Boolean oauth2AllowImplicitFlow) {
-        this.oauth2AllowImplicitFlow = oauth2AllowImplicitFlow;
-        return this;
-    }
-
 }

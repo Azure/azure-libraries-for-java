@@ -27,6 +27,7 @@ function credcheck(dir) {
     redactDict.set(/&sig=(.*?)(&|\\")/g, '&sig=MGMT_PLACEHOLDER&');
     redactDict.set(/\\"primary\\":\\"(.*?)\\"/g, '\\"primary\\":\\"MGMT_PLACEHOLDER\\"');
     redactDict.set(/\\"secondary\\":\\"(.*?)\\"/g, '\\"secondary\\":\\"MGMT_PLACEHOLDER\\"');
+    redactDict.set(/userPWD=\\"(.*?)\\"/g, 'userPWD=\\"MGMT_PLACEHOLDER\\"');
 
     credcheckRecursive(dir, redactDict);
 }

@@ -21,6 +21,7 @@ import com.microsoft.azure.management.appservice.samples.ManageWebAppSourceContr
 import com.microsoft.azure.management.appservice.samples.ManageWebAppStorageAccountConnection;
 import com.microsoft.azure.management.resources.core.TestBase;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class AppServiceSampleLiveOnlyTests extends SamplesTestBase {
@@ -49,6 +50,7 @@ public class AppServiceSampleLiveOnlyTests extends SamplesTestBase {
     }
 
     @Test
+    @Ignore("Credential in JSON")
     public void testManageLinuxWebAppWithContainerRegistry() {
         Assert.assertTrue(ManageLinuxWebAppWithContainerRegistry.runSample(azure));
     }

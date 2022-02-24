@@ -66,12 +66,6 @@ public class ApplicationCreateParametersInner {
     private List<PasswordCredentialInner> passwordCredentials;
 
     /**
-     * Whether to allow implicit grant flow for OAuth2.
-     */
-    @JsonProperty(value = "oauth2AllowImplicitFlow")
-    private Boolean oauth2AllowImplicitFlow;
-
-    /**
      * Specifies resources that this application requires access to and the set
      * of OAuth permission scopes and application roles that it needs under
      * each of those resources. This pre-configuration of required resource
@@ -237,26 +231,6 @@ public class ApplicationCreateParametersInner {
      */
     public ApplicationCreateParametersInner withPasswordCredentials(List<PasswordCredentialInner> passwordCredentials) {
         this.passwordCredentials = passwordCredentials;
-        return this;
-    }
-
-    /**
-     * Get the oauth2AllowImplicitFlow value.
-     *
-     * @return the oauth2AllowImplicitFlow value
-     */
-    public Boolean oauth2AllowImplicitFlow() {
-        return this.oauth2AllowImplicitFlow;
-    }
-
-    /**
-     * Set the oauth2AllowImplicitFlow value.
-     *
-     * @param oauth2AllowImplicitFlow the oauth2AllowImplicitFlow value to set
-     * @return the ApplicationCreateParametersInner object itself.
-     */
-    public ApplicationCreateParametersInner withOauth2AllowImplicitFlow(Boolean oauth2AllowImplicitFlow) {
-        this.oauth2AllowImplicitFlow = oauth2AllowImplicitFlow;
         return this;
     }
 

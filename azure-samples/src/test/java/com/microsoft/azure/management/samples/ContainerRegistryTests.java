@@ -9,6 +9,7 @@ import com.microsoft.azure.management.containerregistry.samples.ManageContainerR
 import com.microsoft.azure.management.containerregistry.samples.ManageContainerRegistryWithWebhooks;
 import com.microsoft.azure.management.resources.core.TestBase;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ContainerRegistryTests extends SamplesTestBase {
@@ -23,7 +24,10 @@ public class ContainerRegistryTests extends SamplesTestBase {
     }
 
     @Test
+    @Ignore("Credential in JSON")
     public void testManageContainerRegistryWithWebhooks() {
-        Assert.assertTrue(ManageContainerRegistryWithWebhooks.runSample(azure));
+        if (!isPlaybackMode()) {
+            Assert.assertTrue(ManageContainerRegistryWithWebhooks.runSample(azure));
+        }
     }
 }

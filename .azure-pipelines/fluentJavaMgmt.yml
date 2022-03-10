@@ -18,7 +18,7 @@ jobs:
       matrix:
         Windows - Java 8:
           OSName: 'Windows'
-          OSVmImage: 'vs2017-win2016'
+          OSVmImage: 'windows-latest'
           JavaVersion: '1.8'
           ProfileFlag: ''
     
@@ -55,7 +55,7 @@ jobs:
       matrix:
         Windows - Java 8:
           OSName: 'Windows'
-          OSVmImage: 'vs2017-win2016'
+          OSVmImage: 'windows-latest'
           JavaVersion: '1.8'
           ProfileFlag: ''
     
@@ -101,12 +101,12 @@ jobs:
 
         Windows - Java 8:
           OSName: 'Windows'
-          OSVmImage: 'vs2017-win2016'
+          OSVmImage: 'windows-latest'
           JavaVersion: '1.8'
           ProfileFlag: ''
         Linux - Java 8:
           OSName: 'Linux'
-          OSVmImage: 'ubuntu-20.04'
+          OSVmImage: 'ubuntu-latest'
           JavaVersion: '1.8'
           ProfileFlag: ''
 

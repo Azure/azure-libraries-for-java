@@ -1,16 +1,14 @@
 [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/fluentJava/Azure.azure-libraries-for-java?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=608&branchName=master)
 
-# This Repository is Planned to be Deprecated in March 2022
+# This Repository has been Deprecated
 
-**This version of `com.microsoft.azure:azure` is planned to be deprecated in March 2022.**
-The deprecation means, it starts the end of support for that library.
-You can continue to use the libraries indefinitely (as long as the service is running), but after 1 year, no further bug fixes or security fixes will be provided.
-We strongly recommend you upgrade your SDK version to the latest version of `com.azure.resourcemanager:azure-resourcemanager` as soon as possible.
-A detailed migration guidance can be found [here](https://aka.ms/java-track2-migration-guide).
+Please note, all packages in this repository have been deprecated. Replacement packages are available [azure-resourcemanager](http://aka.ms/azsdk/java/mgmt) as of 31-March-2022.
 
-We highly encourage you to [try out those new management libraries](http://aka.ms/azsdk/java/mgmt) as they are now Generally Available (GA) and ready for production use. These new libraries provide a higher-level, object-oriented API for managing Azure resources, that is optimized for ease of use, succinctness and consistency. You can find the list of new packages **[on this page](https://azure.github.io/azure-sdk/releases/latest/java.html)**.
+While these packages will continue to receive critical bug fixes through 31-March-2023, we strongly encourage you to upgrade.
 
-**If you are interested in learning how to use the new libraries for Azure resource management, please [visit here](https://aka.ms/azsdk/java/mgmt)**. We have also prepared **[plenty of code samples](https://github.com/Azure/azure-sdk-for-java/blob/master/sdk/resourcemanager/docs/SAMPLE.md)**.
+See [Migration Guide](https://azure.github.io/azure-sdk/policies_support.html) for more details.
+
+**If you are interested in learning how to use the new libraries for Azure resource management, please [visit here](https://aka.ms/azsdk/java/mgmt)**. We have also prepared **[plenty of code samples](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/resourcemanager/docs/SAMPLE.md)**.
 
 New Management libraries can be identified by namespaces `com.azure.resourcemanager` and artifact that start with `azure-resourcemanager`, e.g. `azure-resourcemanager-compute`. They follow the [Azure SDK Design Guidelines for Java](https://azure.github.io/azure-sdk/java/guidelines/) which aims to provide consistent, approachable, idiomatic, diagnosable, and dependable experience for developers.
 

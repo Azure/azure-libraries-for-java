@@ -26,6 +26,7 @@ import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -289,7 +290,7 @@ class VirtualMachinesImpl
 
     @Override
     public Completable deleteByResourceGroupAsync(String resourceGroupName, String name, boolean forceDeletion) {
-        return this.inner().deleteAsync(resourceGroupName, name, forceDeletion).toCompletable();
+        return this.inner().deleteAsync(resourceGroupName, name, forceDeletion).toCompletable().subscribeOn(SdkContext.getRxScheduler());
     }
 
     // Getters

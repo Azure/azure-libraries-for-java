@@ -496,6 +496,17 @@ public interface Disk extends
             WithCreate withSku(DiskSkuTypes sku);
         }
 
+        /** The stage of the managed disk definition allowing to configure disk encryption. */
+        interface WithDiskEncryption {
+            /**
+             * Specifies the disk encryption set.
+             *
+             * @param diskEncryptionSetId the ID of disk encryption set.
+             * @return the next stage of the definition
+             */
+            WithCreate withDiskEncryptionSet(String diskEncryptionSetId);
+        }
+
         /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
@@ -505,7 +516,8 @@ public interface Disk extends
                 Creatable<Disk>,
                 Resource.DefinitionWithTags<Disk.DefinitionStages.WithCreate>,
                 WithSku,
-                WithAvailabilityZone {
+                WithAvailabilityZone,
+                WithDiskEncryption {
         }
     }
 
@@ -551,6 +563,18 @@ public interface Disk extends
              */
             Update withOSType(OperatingSystemTypes osType);
         }
+
+        /** The stage of the managed disk definition allowing to configure disk encryption. */
+        interface WithDiskEncryption {
+            /**
+             * Specifies the disk encryption set.
+             *
+             * @param diskEncryptionSetId the ID of disk encryption set.
+             * @param encryptionType the encryption type.
+             * @return the next stage of the definition
+             */
+            Update withDiskEncryptionSet(String diskEncryptionSetId, EncryptionType encryptionType);
+        }
     }
 
     /**
@@ -562,6 +586,7 @@ public interface Disk extends
             Resource.UpdateWithTags<Disk.Update>,
             UpdateStages.WithSku,
             UpdateStages.WithSize,
-            UpdateStages.WithOSSettings {
+            UpdateStages.WithOSSettings,
+            UpdateStages.WithDiskEncryption {
     }
 }

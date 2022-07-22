@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVM;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMs;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -82,8 +83,8 @@ class VirtualMachineScaleSetVMsImpl
 
     @Override
     public Completable deleteInstancesAsync(Collection<String> instanceIds, boolean forceDeletion) {
-        return this.scaleSet.manager().virtualMachineScaleSets().deleteInstancesAsync(this.scaleSet.resourceGroupName(),
-                this.scaleSet.name(), instanceIds, forceDeletion);
+        return this.scaleSet.manager().virtualMachineScaleSets().deleteInstancesAsync(
+                this.scaleSet.resourceGroupName(), this.scaleSet.name(), instanceIds, forceDeletion);
     }
 
     @Override

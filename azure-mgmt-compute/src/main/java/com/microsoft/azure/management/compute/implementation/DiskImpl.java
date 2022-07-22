@@ -14,7 +14,9 @@ import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.DiskCreateOption;
 import com.microsoft.azure.management.compute.DiskSku;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
+import com.microsoft.azure.management.compute.Encryption;
 import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
+import com.microsoft.azure.management.compute.EncryptionType;
 import com.microsoft.azure.management.compute.GrantAccessData;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Snapshot;
@@ -371,6 +373,29 @@ class DiskImpl
             this.inner().withZones(new ArrayList<String>());
         }
         this.inner().zones().add(zoneId.toString());
+        return this;
+    }
+
+    @Override
+    public DiskImpl withDiskEncryptionSet(String diskEncryptionSetId) {
+        Encryption encryption = this.inner().encryption();
+        if (encryption == null) {
+            encryption = new Encryption();
+            this.inner().withEncryption(encryption);
+        }
+        encryption.withDiskEncryptionSetId(diskEncryptionSetId);
+        return this;
+    }
+
+    @Override
+    public DiskImpl withDiskEncryptionSet(String diskEncryptionSetId, EncryptionType encryptionType) {
+        Encryption encryption = this.inner().encryption();
+        if (encryption == null) {
+            encryption = new Encryption();
+            this.inner().withEncryption(encryption);
+        }
+        encryption.withType(encryptionType);
+        encryption.withDiskEncryptionSetId(diskEncryptionSetId);
         return this;
     }
 

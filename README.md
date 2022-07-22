@@ -16,7 +16,7 @@ New Management libraries can be identified by namespaces `com.azure.resourcemana
 
 # Azure Management Libraries for Java
 
-This README is based on the released stable version (1.41.3). If you are looking for other releases, see [More Information](#more-information).
+This README is based on the released stable version (1.41.4). If you are looking for other releases, see [More Information](#more-information).
 
 The Azure Management Libraries for Java is a higher-level, object-oriented API for *managing* Azure resources, that is optimized for ease of use, succinctness and consistency.
 
@@ -38,7 +38,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 * [More information](#more-information)
 
 ## Feature Availability and Road Map
-:triangular_flag_on_post: *as of Version 1.41.3*
+:triangular_flag_on_post: *as of Version 1.41.4*
 
 <table>
   <tr>
@@ -630,13 +630,13 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 
 ### Use single library
 
-For instance, if you only need azure-mgmt-appservice library from 1.41.3, and wish to limit the dependencies, using following dependency instead in POM.
+For instance, if you only need azure-mgmt-appservice library from 1.41.4, and wish to limit the dependencies, using following dependency instead in POM.
 
 ```xml
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure-mgmt-appservice</artifactId>
-    <version>1.41.3</version>
+    <version>1.41.4</version>
 </dependency>
 <dependency>
     <groupId>com.microsoft.azure</groupId>
@@ -667,13 +667,13 @@ WebApp webApp = appServiceClient.webApps()
 
 ### Latest stable release
 
-If you are using released builds from 1.41.3, add the following to your POM file:
+If you are using released builds from 1.41.4, add the following to your POM file:
 
 ```xml
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.41.3</version>
+    <version>1.41.4</version>
 </dependency>
 ```
 
@@ -700,7 +700,7 @@ If you are using snapshots builds for this repo, add the following repository an
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.41.4-SNAPSHOT</version>
+    <version>1.41.5-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -712,7 +712,7 @@ If you are using snapshots builds for this repo, add the following repository an
 
 ## Upgrading from older versions
 
-If you are migrating your code from 1.41.2 to 1.41.3, you can use these release notes for [preparing your code for 1.41.3 from 1.41.2](./notes/prepare-for-1.41.3.md).
+If you are migrating your code from 1.41.3 to 1.41.4, you can use these release notes for [preparing your code for 1.41.4 from 1.41.3](./notes/prepare-for-1.41.4.md).
 
 In general, Azure Libraries for Java follow [semantic versioning](http://semver.org/), so user code should continue working in a compatible fashion between minor versions of the same major version release train, with the following caveats:
 
@@ -745,6 +745,7 @@ If you would like to become an active contributor to this project please follow 
 
 | Version           | SHA1                                                                                      | Remarks                                               |
 |-------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| 1.41.4       | [1.41.4](https://github.com/Azure/azure-libraries-for-java/tree/v1.41.4)               | Tagged release for 1.41.4 version of Azure management libraries |
 | 1.41.3       | [1.41.3](https://github.com/Azure/azure-libraries-for-java/tree/v1.41.3)               | Tagged release for 1.41.3 version of Azure management libraries |
 | 1.41.2       | [1.41.2](https://github.com/Azure/azure-libraries-for-java/tree/v1.41.2)               | Tagged release for 1.41.2 version of Azure management libraries |
 | 1.41.1       | [1.41.1](https://github.com/Azure/azure-libraries-for-java/tree/v1.41.1)               | Tagged release for 1.41.1 version of Azure management libraries |

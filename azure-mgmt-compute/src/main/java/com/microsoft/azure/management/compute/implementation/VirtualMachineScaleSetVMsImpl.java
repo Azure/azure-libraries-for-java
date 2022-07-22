@@ -82,8 +82,8 @@ class VirtualMachineScaleSetVMsImpl
 
     @Override
     public Completable deleteInstancesAsync(Collection<String> instanceIds, boolean forceDeletion) {
-        return this.scaleSet.manager().virtualMachineScaleSets().deleteInstancesAsync(this.scaleSet.resourceGroupName(),
-                this.scaleSet.name(), instanceIds, forceDeletion);
+        return this.scaleSet.manager().virtualMachineScaleSets().deleteInstancesAsync(
+                this.scaleSet.resourceGroupName(), this.scaleSet.name(), instanceIds, forceDeletion);
     }
 
     @Override

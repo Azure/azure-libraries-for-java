@@ -13,6 +13,7 @@ import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.ResourceGroups;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceCallback;
@@ -102,7 +103,7 @@ final class ResourceGroupsImpl
 
     @Override
     public Completable deleteByNameAsync(String name, Collection<ForceDeletionResourceType> forceDeletionResourceTypes) {
-        return client.deleteAsync(name, forceDeletionTypes(forceDeletionResourceTypes)).toCompletable();
+        return client.deleteAsync(name, forceDeletionTypes(forceDeletionResourceTypes)).toCompletable().subscribeOn(SdkContext.getRxScheduler());
     }
 
     private static String forceDeletionTypes(Collection<ForceDeletionResourceType> forceDeletionResourceTypes) {

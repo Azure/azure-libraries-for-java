@@ -25,6 +25,8 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import org.junit.Assert;
 import org.junit.Test;
 import rx.functions.Func1;
@@ -35,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class VirtualMachineOperationsTests extends ComputeManagementTest {
@@ -737,7 +740,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
     }
 
     @Test
-    public void canForceDeleteVirtualMachine() {
+    public void canForceDeleteVirtualMachine() throws ExecutionException, InterruptedException {
         // Create
         computeManager.virtualMachines()
                 .define(VMNAME)
@@ -759,7 +762,22 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         String nicId = virtualMachine.primaryNetworkInterfaceId();
 
         // Force delete
-        computeManager.virtualMachines().deleteById(virtualMachine.id(), true);
+        final long ts1 = System.nanoTime();
+        ServiceFuture<Void> future = computeManager.virtualMachines().deleteByIdAsync(virtualMachine.id(), true, new ServiceCallback<Void>() {
+            @Override
+            public void failure(Throwable throwable) {
+            }
+
+            @Override
+            public void success(Void unused) {
+            }
+        });
+        long ts2 = System.nanoTime();
+        future.get();
+        long ts3 = System.nanoTime();
+        // for the correct timing, disable the line of "SdkContext.setRxScheduler(Schedulers.trampoline());" in InterceptorManager
+        System.out.println("time to call ends: " + (ts2 - ts1) / 1E6);
+        System.out.println("time to delete success: " + (ts3 - ts1) / 1E6);
 
         virtualMachine = computeManager.virtualMachines().getById(virtualMachine.id());
         Assert.assertNull(virtualMachine);

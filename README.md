@@ -6,6 +6,8 @@ Please note, all packages in this repository have been deprecated. Replacement p
 
 While these packages will continue to receive critical bug fixes through 31-March-2023, we strongly encourage you to upgrade.
 
+Refer to our [deprecation policy](https://azure.github.io/azure-sdk/policies_support.html) for more details.
+
 See [Migration Guide](https://azure.github.io/azure-sdk/policies_support.html) for more details.
 
 **If you are interested in learning how to use the new libraries for Azure resource management, please [visit here](https://aka.ms/azsdk/java/mgmt)**. We have also prepared **[plenty of code samples](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/resourcemanager/docs/SAMPLE.md)**.

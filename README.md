@@ -2,13 +2,11 @@
 
 # This Repository has been Deprecated
 
-Please note, all packages in this repository have been deprecated. Replacement packages are available [azure-resourcemanager](http://aka.ms/azsdk/java/mgmt) as of 31-March-2022.
-
-While these packages will continue to receive critical bug fixes through 31-March-2023, we strongly encourage you to upgrade.
-
-Refer to our [deprecation policy](https://azure.github.io/azure-sdk/policies_support.html) for more details.
-
-See [Migration Guide](https://azure.github.io/azure-sdk/policies_support.html) for more details.
+Please note, all packages in this repository have been deprecated. 
+- New [azure-resourcemanager](http://aka.ms/azsdk/java/mgmt) replacement packages are available as of 31-March-2022.
+- See [Guide for migrating to `com.azure.resourcemanager` from `com.microsoft.azure.management`](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/resourcemanager/docs/MIGRATION_GUIDE.md) for more details on upgrading.
+- While existing packages will continue to receive critical bug fixes through 31-March-2023, we strongly encourage you to upgrade.
+- Refer to our [Azure SDK lifecycle and support policy](https://azure.github.io/azure-sdk/policies_support.html) for more details.
 
 **If you are interested in learning how to use the new libraries for Azure resource management, please [visit here](https://aka.ms/azsdk/java/mgmt)**. We have also prepared **[plenty of code samples](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/resourcemanager/docs/SAMPLE.md)**.
 
